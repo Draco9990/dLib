@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2SAXi7eSqltgdMAWk4ldneOtoJb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JAR Application.Slay the Spire.executor": "Debug",
+    "Maven.dLib [package].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "1.8",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Marino/Projects/StS DLib/DLib/Source/pom.xml",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Marino\Projects\StS DLib\DLib\theDefault\src\main\java\dLib" />
+    </key>
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="dLib.modcompat.ModManager.SayTheSpire" />
+      <recent name="dLib.util.Help.Input" />
+      <recent name="dLib.util.Help.Util" />
+      <recent name="dLib.util.Help.Dev" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="dLib.ui" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.plugin.intellij.commands" />
+      <recent name="dLib.plugin.intellij" />
+      <recent name="dLib.util" />
+      <recent name="dLib.commands.objects" />
+      <recent name="dLib.commands" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Slay the Spire" type="JarApplication">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/../../../../Games/Slay The Spire/Game/ModTheSpire_Patched.jar" />
+      <option name="WORKING_DIRECTORY" value="D:\Marino\Games\Slay The Spire\Game" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-1.8.0_392-corretto-1.8.0_392-3183f394aec4-cb300fc7" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="" />
+      <created>1688590486881</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1688590486881</updated>
+      <workItem from="1688590487994" duration="2359000" />
+      <workItem from="1693066989132" duration="13216000" />
+      <workItem from="1693166292925" duration="1148000" />
+      <workItem from="1693212854907" duration="36107000" />
+      <workItem from="1693303431206" duration="1829000" />
+      <workItem from="1693432241120" duration="9000" />
+      <workItem from="1696078861694" duration="5745000" />
+      <workItem from="1696176844814" duration="1142000" />
+      <workItem from="1697135222384" duration="30341000" />
+      <workItem from="1698184078959" duration="2553000" />
+      <workItem from="1698424512890" duration="3014000" />
+      <workItem from="1698706038318" duration="828000" />
+      <workItem from="1698754071815" duration="6537000" />
+      <workItem from="1699294719561" duration="3663000" />
+      <workItem from="1699743647057" duration="12250000" />
+      <workItem from="1701459690993" duration="11000" />
+      <workItem from="1702991474094" duration="3898000" />
+      <workItem from="1703076220413" duration="946000" />
+      <workItem from="1703079153463" duration="193000" />
+      <workItem from="1703079516272" duration="393000" />
+      <workItem from="1703084790731" duration="724000" />
+      <workItem from="1703105712924" duration="5578000" />
+      <workItem from="1703111531787" duration="1723000" />
+      <workItem from="1703115020025" duration="3327000" />
+      <workItem from="1703155520037" duration="693000" />
+      <workItem from="1703156279679" duration="594000" />
+      <workItem from="1703239507009" duration="2604000" />
+      <workItem from="1703329252185" duration="1546000" />
+      <workItem from="1703419869715" duration="1191000" />
+      <workItem from="1703683587691" duration="592000" />
+      <workItem from="1703761080427" duration="589000" />
+      <workItem from="1703847420513" duration="594000" />
+      <workItem from="1703953083221" duration="812000" />
+      <workItem from="1704380995406" duration="586000" />
+      <workItem from="1704641357934" duration="1188000" />
+      <workItem from="1705004850554" duration="7526000" />
+      <workItem from="1705925400783" duration="165000" />
+      <workItem from="1705925618486" duration="77000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
