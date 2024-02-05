@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
-import dLib.ui.elements.ElementGroup;
+import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.ElementGroupManager;
 import dLib.ui.elements.implementations.Interactable;
@@ -85,10 +85,10 @@ public abstract class AbstractScreen {
     public void update(){
         updateInput();
 
-        if(background != null) background.update();
-        backgroundElements.forEach(UIElement::update);
-        interactableElements.update();
         foregroundElements.forEach(UIElement::update);
+        interactableElements.update();
+        backgroundElements.forEach(UIElement::update);
+        if(background != null) background.update();
 
         if(pendingRefresh) {
             refreshScreen();
@@ -106,24 +106,36 @@ public abstract class AbstractScreen {
         backgroundElements.add(element);
     }
     protected void addInteractableElement(UIElement element){
-        ElementGroup elementGroup = new ElementGroup();
-        elementGroup.middle = element;
-        interactableElements.addElement(elementGroup);
+        CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY());
+        compositeUIElement.middle = element;
+        interactableElements.addElement(compositeUIElement);
     }
     protected void addInteractableElement(UIElement element, boolean temporary){
-        ElementGroup elementGroup = new ElementGroup();
-        elementGroup.middle = element;
-        elementGroup.temporary = temporary;
-        interactableElements.addElement(elementGroup);
+        CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY());
+        compositeUIElement.middle = element;
+        compositeUIElement.temporary = temporary;
+        interactableElements.addElement(compositeUIElement);
     }
-    protected void addInteractableElement(ElementGroup elementGroup){
-        interactableElements.addElement(elementGroup);
+    protected void addInteractableElement(CompositeUIElement compositeUIElement){
+        interactableElements.addElement(compositeUIElement);
     }
     protected void addElementToForeground(UIElement element){
         foregroundElements.add(element);
     }
 
-    protected void registerGenericBackground(){
+    protected void removeElementFromBackground(UIElement element){
+        backgroundElements.remove(element);
+    }
+    protected void removeInteractableElement(UIElement element){
+        for(CompositeUIElement interactableElement : interactableElements.getElements()){
+            interactableElement.removeUIElement(element);
+        }
+    }
+    protected void removeElementFromForeground(UIElement element){
+        foregroundElements.remove(element);
+    }
+
+    protected void addGenericBackground(){
         this.background = new Image(theme.background, 0, 0, 1920, 1080);
     }
     protected void registerCancelElement(Interactable interactable){

@@ -32,6 +32,9 @@ public class UITheme {
 
     public Color textColor;
 
+    /** Statics */
+    public static Texture whitePixel = TextureManager.getTexture("dLibResources/images/ui/themes/WhitePixel.png");
+
     public UITheme(String themeID, String themeFolderLoc){
         this.ID = themeID;
 

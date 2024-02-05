@@ -26,6 +26,9 @@ public class TextBox extends Hoverable {
 
     private String onTextChangedLine;
 
+    private float marginPercX = 0.0f;
+    private float marginPercY = 0.0f;
+
     /** Constructors */
     public TextBox(String text, int xPos, int yPos, int width, int height){
         this(text, xPos, yPos, width, height, 0.07f, 0.33f);
@@ -33,13 +36,8 @@ public class TextBox extends Hoverable {
     public TextBox(String text, int xPos, int yPos, int width, int height, float xMarginPerc, float yMarginPerc){
         super(null, xPos, yPos, width, height);
 
-        float xMargin = xMarginPerc * width;
-        float yMargin = yMarginPerc * height;
-        x += (int) xMargin;
-        y += (int) yMargin;
-
-        this.width -= (int) xMargin * 2;
-        this.height -= (int) yMargin * 2;
+        this.marginPercX = xMarginPerc;
+        this.marginPercY = yMarginPerc;
 
         horizontalAlignment = HorizontalAlignment.CENTER;
         verticalAlignment = VerticalAlignment.CENTER;
@@ -64,8 +62,16 @@ public class TextBox extends Hoverable {
 
         font.getData().setScale(fontScale);
 
-        float halfWidth = (float) width / 2;
-        float halfHeight = (float) height / 2;
+        float xMargin = marginPercX * width;
+        float yMargin = marginPercY * height;
+
+        int renderX = x + (int) xMargin;
+        int renderY = y + (int) yMargin;
+        int renderWidth = width - (int) xMargin * 2;
+        int renderHeight = height - (int) yMargin * 2;
+
+        float halfWidth = (float) renderWidth / 2;
+        float halfHeight = (float) renderHeight / 2;
 
         FontHelper.layout.setText(font, "lL");
         if(horizontalAlignment == HorizontalAlignment.LEFT){
@@ -74,8 +80,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        x * Settings.xScale,
-                        (y + height) * Settings.yScale,
+                        renderX * Settings.xScale,
+                        (renderY + renderHeight) * Settings.yScale,
                         renderColor);
             }
             if(verticalAlignment == VerticalAlignment.CENTER){
@@ -83,8 +89,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        x * Settings.xScale,
-                        (y + halfHeight) * Settings.yScale,
+                        renderX * Settings.xScale,
+                        (renderY + halfHeight) * Settings.yScale,
                         renderColor);
             }
             if(verticalAlignment == VerticalAlignment.BOTTOM){
@@ -92,8 +98,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        x * Settings.xScale,
-                        (y) * Settings.yScale,
+                        renderX * Settings.xScale,
+                        (renderY) * Settings.yScale,
                         renderColor);
             }
         }
@@ -103,8 +109,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        (x + halfWidth) * Settings.xScale,
-                        (y + height) * Settings.yScale - FontHelper.layout.height / 2,
+                        (renderX + halfWidth) * Settings.xScale,
+                        (renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2,
                         renderColor);
             }
             if(verticalAlignment == VerticalAlignment.CENTER){
@@ -112,8 +118,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        (x + halfWidth) * Settings.xScale,
-                        (y + halfHeight) * Settings.yScale,
+                        (renderX + halfWidth) * Settings.xScale,
+                        (renderY + halfHeight) * Settings.yScale,
                         renderColor);
             }
             if(verticalAlignment == VerticalAlignment.BOTTOM){
@@ -121,8 +127,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        (x + halfWidth) * Settings.xScale,
-                        (y) * Settings.yScale + FontHelper.layout.height / 2,
+                        (renderX + halfWidth) * Settings.xScale,
+                        (renderY) * Settings.yScale + FontHelper.layout.height / 2,
                         renderColor);
             }
         }
@@ -132,8 +138,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        (x + width) * Settings.xScale,
-                        (y + height) * Settings.yScale,
+                        (renderX + renderWidth) * Settings.xScale,
+                        (renderY + renderHeight) * Settings.yScale,
                         renderColor);
             }
             if(verticalAlignment == VerticalAlignment.CENTER){
@@ -141,8 +147,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        (x + width) * Settings.xScale,
-                        (y + halfHeight) * Settings.yScale,
+                        (renderX + renderWidth) * Settings.xScale,
+                        (renderY + halfHeight) * Settings.yScale,
                         renderColor);
             }
             if(verticalAlignment == VerticalAlignment.BOTTOM){
@@ -150,8 +156,8 @@ public class TextBox extends Hoverable {
                         sb,
                         font,
                         text,
-                        (x + width) * Settings.xScale,
-                        (y) * Settings.yScale + FontHelper.layout.height / 2,
+                        (renderX + renderWidth) * Settings.xScale,
+                        (renderY) * Settings.yScale + FontHelper.layout.height / 2,
                         renderColor);
             }
         }
@@ -235,10 +241,17 @@ public class TextBox extends Hoverable {
     /** Misc methods */
     protected void recalculateFontScale(){
         float fontScale = 0.1F;
+
+        float xMargin = marginPercX * width;
+        float yMargin = marginPercY * height;
+
+        int renderWidth = width - (int) xMargin * 2;
+        int renderHeight = height - (int) yMargin * 2;
+
         while(true){
             font.getData().setScale(fontScale);
             FontHelper.layout.setText(font, text);
-            if(FontHelper.layout.height > height * Settings.yScale || (!wrap && FontHelper.layout.width > width * Settings.xScale)) {
+            if(FontHelper.layout.height > renderHeight * Settings.yScale || (!wrap && FontHelper.layout.width > renderWidth * Settings.xScale)) {
                 font.getData().setScale(1);
                 this.fontScale =  fontScale - 0.1F;
                 return;

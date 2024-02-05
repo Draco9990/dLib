@@ -19,7 +19,10 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -32,26 +35,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JAR Application.Slay the Spire.executor": "Debug",
-    "Maven.dLib [package].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "1.8",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Marino/Projects/StS DLib/DLib/Source/pom.xml",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JAR Application.Slay the Spire.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven.dLib [package].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Marino/Projects/StS DLib/DLib/Source/dLib/pom.xml&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Marino\Projects\StS DLib\DLib\theDefault\src\main\java\dLib" />
@@ -66,27 +70,20 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.tools.screeneditor.ui.items.preview" />
+      <recent name="dLib.tools.screeneditor" />
       <recent name="dLib.plugin.intellij.commands" />
       <recent name="dLib.plugin.intellij" />
       <recent name="dLib.util" />
-      <recent name="dLib.commands.objects" />
-      <recent name="dLib.commands" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="Slay the Spire" type="JarApplication">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/../../../../Games/Slay The Spire/Game/ModTheSpire_Patched.jar" />
-      <option name="WORKING_DIRECTORY" value="D:\Marino\Games\Slay The Spire\Game" />
+      <option name="JAR_PATH" value="$PROJECT_DIR$/../../../../../Games/Slay The Spire/Game/ModTheSpire_Patched.jar" />
+      <option name="WORKING_DIRECTORY" value="E:\Marino\Games\Slay The Spire\Game\" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
     </configuration>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-1.8.0_392-corretto-1.8.0_392-3183f394aec4-cb300fc7" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -134,6 +131,11 @@
       <workItem from="1705004850554" duration="7526000" />
       <workItem from="1705925400783" duration="165000" />
       <workItem from="1705925618486" duration="77000" />
+      <workItem from="1706472264226" duration="678000" />
+      <workItem from="1706475129228" duration="169000" />
+      <workItem from="1706614876705" duration="614000" />
+      <workItem from="1706996322754" duration="3661000" />
+      <workItem from="1707055454006" duration="26939000" />
     </task>
     <servers />
   </component>

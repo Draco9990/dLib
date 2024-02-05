@@ -7,10 +7,8 @@ import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.elements.UIElement;
 
 public class Renderable extends UIElement {
-    protected int x;
-    protected int y;
-    protected int width;
-    protected int height;
+        protected int width = 0;
+    protected int height = 0;
 
     protected Texture image;
 
@@ -27,32 +25,15 @@ public class Renderable extends UIElement {
     }
 
     public Renderable(Texture image, int xPos, int yPos, int width, int height){
+        super(xPos, yPos);
+
         this.image = image;
-        this.x = xPos;
-        this.y = yPos;
         this.width = width;
         this.height = height;
         this.renderColor = Color.WHITE.cpy();
     }
 
     /** Builder methods */
-
-    public Renderable setPositionX(int newPosX){
-        this.x = newPosX;
-        return this;
-    }
-
-    public Renderable setPositionY(int newPosY){
-        this.y = newPosY;
-        return this;
-    }
-
-    public Renderable setPosition(int newPosX, int newPosY){
-        setPositionX(newPosX);
-        setPositionY(newPosY);
-        return this;
-    }
-
     public Renderable setWidth(int newWidth){
         this.width = newWidth;
         return this;
@@ -91,7 +72,12 @@ public class Renderable extends UIElement {
         if(!shouldRender()) return;
 
         sb.setColor(getColorForRender());
-        sb.draw(getTextureForRender(), x * Settings.xScale, y * Settings.yScale, width * Settings.xScale, height * Settings.yScale);
+
+        Texture textureToRender = getTextureForRender();
+        if(textureToRender != null){
+            sb.draw(textureToRender, x * Settings.xScale, y * Settings.yScale, width * Settings.xScale, height * Settings.yScale);
+        }
+
         sb.setColor(Color.WHITE);
     }
 
@@ -103,9 +89,6 @@ public class Renderable extends UIElement {
     }
 
     /** Misc methods */
-
-    public int getPositionX() { return x; }
-    public int getPositionY() { return y; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 

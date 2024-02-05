@@ -14,6 +14,9 @@ public class Interactable extends Hoverable{
     public Texture hoveredTexture;
     public Texture disabledTexture;
 
+    private Color hoveredColor = Color.LIGHT_GRAY;
+    private Color disabledColor = Color.LIGHT_GRAY;
+
     private boolean consumeClickEvent = true;
     protected boolean selected = false;
 
@@ -50,7 +53,6 @@ public class Interactable extends Hoverable{
     }
 
     /** Builder methods */
-
     public Interactable setConsumeClickEvent(boolean newValue){
         consumeClickEvent = newValue;
         return this;
@@ -89,7 +91,6 @@ public class Interactable extends Hoverable{
         return this;
     }
 
-
     public Interactable setOnSelectLine(String newLine){
         this.onSelectLine = newLine;
         return this;
@@ -106,7 +107,6 @@ public class Interactable extends Hoverable{
     }
 
     /** Update and render */
-
     @Override
     public void update() {
         super.update();
@@ -118,17 +118,18 @@ public class Interactable extends Hoverable{
                     clickLeft();
                     if(consumeClickEvent) InputHelper.justClickedLeft = false;
                 }
-                else if(InputHelper.justReleasedClickLeft){
-                    onLeftClickRelease();
-                }
-
                 if(InputHelper.justClickedRight){
                     clickRight();
                     if(consumeClickEvent) InputHelper.justClickedRight = false;
                 }
-                else if(InputHelper.justReleasedClickRight){
-                    onRightButtonRelease();
-                }
+
+            }
+
+            if(InputHelper.justReleasedClickLeft){
+                onLeftClickRelease();
+            }
+            if(InputHelper.justReleasedClickRight){
+                onRightButtonRelease();
             }
 
             if(holdingLeft){
@@ -159,19 +160,35 @@ public class Interactable extends Hoverable{
     protected Color getColorForRender() {
         if(!isEnabled()){
             if(disabledTexture == null){
-                return Color.LIGHT_GRAY;
+                return getDisabledColor();
             }
         }
         else if(isHovered()){
             if(hoveredTexture == null){
-                return Color.LIGHT_GRAY;
+                return getHoveredColor();
             }
         }
         return super.getColorForRender();
     }
 
-    /** Misc methods */
+    /** Hovered & Disabled */
+    public Interactable setHoveredColor(Color hoveredColor){
+        this.hoveredColor = hoveredColor;
+        return this;
+    }
+    public Color getHoveredColor(){
+        return hoveredColor;
+    }
 
+    public Interactable setDisabledColor(Color disabledColor){
+        this.disabledColor = disabledColor;
+        return this;
+    }
+    public Color getDisabledColor(){
+        return disabledColor;
+    }
+
+    /** Misc methods */
     @Override
     protected void onHovered() {
         super.onHovered();

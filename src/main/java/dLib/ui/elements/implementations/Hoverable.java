@@ -42,16 +42,9 @@ public class Hoverable extends Renderable{
     }
 
     @Override
-    public Hoverable setPositionX(int newPosX) {
-        super.setPositionX(newPosX);
+    public Hoverable setPosition(int newPosX, int newPosY) {
+        super.setPosition(newPosX, newPosY);
         hb.x = newPosX * Settings.xScale;
-
-        return this;
-    }
-
-    @Override
-    public Hoverable setPositionY(int newPosY) {
-        super.setPositionY(newPosY);
         hb.y = newPosY * Settings.yScale;
 
         return this;

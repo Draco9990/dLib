@@ -5,15 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.HorizontalAlignment;
-import dLib.ui.elements.ElementGroup;
+import dLib.ui.elements.CompositeUIElement;
+import dLib.ui.themes.UIThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inputfield extends ElementGroup {
+public class Inputfield extends CompositeUIElement {
     private Button background;
     private TextBox textBox;
 
@@ -26,7 +26,9 @@ public class Inputfield extends ElementGroup {
     private boolean holdingDelete = false;
     private float deleteTimerCount = 0;
 
-    public Inputfield(Texture background, int posX, int posY, int width, int height){
+    public Inputfield(int posX, int posY, int width, int height){
+        super(posX, posY);
+
         cachedInputProcessor = Gdx.input.getInputProcessor();
         Inputfield self = this;
         this.textBox = new TextBox("", posX, posY, width, height){
@@ -37,7 +39,7 @@ public class Inputfield extends ElementGroup {
         }.setHorizontalAlignment(HorizontalAlignment.LEFT);
         this.other.add(textBox);
 
-        this.background = new Button(background, posX, posY, width, height){
+        this.background = new Button(posX, posY, width, height){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
@@ -56,7 +58,7 @@ public class Inputfield extends ElementGroup {
                 self.deselect();
                 resetInputProcessor();
             }
-        };
+        }.setImage(UIThemeManager.getDefaultTheme().inputfield);
         this.middle = this.background;
 
         inputProcessor = new InputAdapter(){
