@@ -1,0 +1,3 @@
+-> remove foreground and background elements from screen and add render priority to element groups
+-> add background and foreground to composites
+-> add boolean to list composite to render all?

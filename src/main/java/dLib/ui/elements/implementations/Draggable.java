@@ -13,11 +13,11 @@ public class Draggable extends Interactable{
     private int xDragOffset;
     private int yDragOffset;
 
-    private Integer lowerBoundX;
-    private Integer upperBoundX;
+    protected Integer lowerBoundX;
+    protected Integer upperBoundX;
 
-    private Integer lowerBoundY;
-    private Integer upperBoundY;
+    protected Integer lowerBoundY;
+    protected Integer upperBoundY;
 
     /** Constructor */
     public Draggable(Texture image) {
@@ -82,6 +82,26 @@ public class Draggable extends Interactable{
         return this;
     }
 
+    /** Position & Width/Height */
+    @Override
+    public Hoverable setPosition(int newPosX, int newPosY) {
+        if(lowerBoundX != null && newPosX < lowerBoundX){
+            newPosX = lowerBoundX;
+        }
+        if(upperBoundX != null && newPosX + width > upperBoundX){
+            newPosX = upperBoundX - width;
+        }
+
+        if(lowerBoundY != null && newPosY < lowerBoundY){
+            newPosY = lowerBoundY;
+        }
+        if(upperBoundY != null && newPosY + height > upperBoundY){
+            newPosY = upperBoundY - height;
+        }
+
+        return super.setPosition(newPosX, newPosY);
+    }
+
     /** Dragging */
     @Override
     protected void onLeftClick() {
@@ -96,20 +116,6 @@ public class Draggable extends Interactable{
 
         int xPos = canDragX ? (int) ((InputHelper.mX - xDragOffset) / Settings.xScale) : x;
         int yPos = canDragY ? (int) ((InputHelper.mY - yDragOffset) / Settings.yScale) : y;
-
-        if(lowerBoundX != null && xPos < lowerBoundX){
-            xPos = lowerBoundX;
-        }
-        if(upperBoundX != null && xPos > upperBoundX){
-            xPos = upperBoundX;
-        }
-
-        if(lowerBoundY != null && yPos < lowerBoundY){
-            yPos = lowerBoundY;
-        }
-        if(upperBoundY != null && yPos > upperBoundY){
-            yPos = upperBoundY;
-        }
 
         setPosition(xPos, yPos);
     }

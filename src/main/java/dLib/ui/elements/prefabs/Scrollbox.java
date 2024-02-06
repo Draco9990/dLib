@@ -1,10 +1,12 @@
-package dLib.ui.elements.misc;
+package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.ui.data.prefabs.ScrollboxData;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 
+// Scrollboxes can inherit from renderable as they should not be controlled by controllers
 public abstract class Scrollbox extends Renderable {
     /** Class Variables */
     private Draggable slider;
@@ -27,6 +29,18 @@ public abstract class Scrollbox extends Renderable {
             }
         }.setCanDragX(false);
 
+        initialize();
+    }
+
+    public Scrollbox(ScrollboxData data){
+        super(data);
+
+        slider = data.slider.makeLiveInstance(null);
+
+        initialize();
+    }
+
+    public void initialize(){
         currentPage = 0;
         recalculateScrollbar();
     }

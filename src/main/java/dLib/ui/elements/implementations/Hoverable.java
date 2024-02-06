@@ -149,17 +149,11 @@ public class Hoverable extends Renderable{
 
     /** Width and Height */
     @Override
-    public Hoverable setWidth(int newWidth) {
-        super.setWidth(newWidth);
-        hb.width = newWidth * Settings.xScale;
+    public Hoverable setDimensions(int newWidth, int newHeight) {
+        super.setDimensions(newWidth, newHeight);
 
-        return this;
-    }
-
-    @Override
-    public Hoverable setHeight(int newHeight) {
-        super.setHeight(newHeight);
-        hb.height = newHeight * Settings.yScale;
+        hb.width = width * Settings.xScale;
+        hb.height = height * Settings.yScale;
 
         return this;
     }

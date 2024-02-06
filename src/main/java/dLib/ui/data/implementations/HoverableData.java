@@ -6,7 +6,7 @@ import dLib.ui.elements.implementations.Hoverable;
 public class HoverableData extends RenderableData{
 
     @Override
-    public UIElement makeLiveInstance() {
+    public UIElement makeLiveInstance(Object... params) {
         return new Hoverable(this);
     }
 }

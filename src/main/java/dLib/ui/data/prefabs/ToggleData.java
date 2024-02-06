@@ -1,7 +1,6 @@
 package dLib.ui.data.prefabs;
 
 import dLib.ui.data.implementations.InteractableData;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Toggle;
 
 public class ToggleData extends InteractableData {
@@ -12,7 +11,7 @@ public class ToggleData extends InteractableData {
     public String toggledDisabledTexturePath;
 
     @Override
-    public Toggle makeLiveInstance() {
+    public Toggle makeLiveInstance(Object... params) {
         return new Toggle(this);
     }
 }

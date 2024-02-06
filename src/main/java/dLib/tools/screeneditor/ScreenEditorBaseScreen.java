@@ -63,9 +63,9 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     public void render(SpriteBatch sb) {
         super.render(sb);
 
-        menu.render(sb);
-
         preview.render(sb);
+
+        menu.render(sb);
 
         toolbar.render(sb);
     }

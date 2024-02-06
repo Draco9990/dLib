@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Draggable;
+import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.ui.themes.UITheme;
 
@@ -18,6 +19,4 @@ public class ResizeNode extends Draggable {
         this.resizeableElement = resizeableElement;
         this.renderColor = Color.RED;
     }
-
-    /** Methods */
 }

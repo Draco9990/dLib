@@ -8,5 +8,5 @@ public abstract class UIElementData {
     public int x;
     public int y;
 
-    public abstract UIElement makeLiveInstance();
+    public abstract UIElement makeLiveInstance(Object... params);
 }

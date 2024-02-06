@@ -3,7 +3,6 @@ package dLib.ui.data.prefabs;
 import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.Inputfield;
-import dLib.ui.elements.prefabs.TextBox;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class InputfieldData extends CompositeUIElementData {
     public int characterLimit;
 
     @Override
-    public CompositeUIElement makeLiveInstance() {
+    public CompositeUIElement makeLiveInstance(Object... params) {
         return new Inputfield(this);
     }
 }

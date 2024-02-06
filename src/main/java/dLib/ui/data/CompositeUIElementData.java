@@ -1,7 +1,6 @@
 package dLib.ui.data;
 
 import dLib.ui.elements.CompositeUIElement;
-import dLib.ui.elements.UIElement;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ public class CompositeUIElementData extends UIElementData{
     public boolean isTemporary;
 
     @Override
-    public CompositeUIElement makeLiveInstance() {
+    public CompositeUIElement makeLiveInstance(Object... params) {
         return new CompositeUIElement(this);
     }
 }

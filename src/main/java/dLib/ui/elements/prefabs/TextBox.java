@@ -185,6 +185,14 @@ public class TextBox extends Hoverable {
         }
     }
 
+    /** Dimensions */
+    @Override
+    public TextBox setDimensions(int newWidth, int newHeight) {
+        super.setDimensions(newWidth, newHeight);
+        recalculateFontScale();
+        return this;
+    }
+
     /** Getters and Setters */
     public TextBox setHorizontalAlignment(HorizontalAlignment alignment){
         this.horizontalAlignment = alignment;

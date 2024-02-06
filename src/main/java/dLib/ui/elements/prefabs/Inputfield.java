@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.HorizontalAlignment;
 import dLib.ui.data.prefabs.InputfieldData;
 import dLib.ui.elements.CompositeUIElement;

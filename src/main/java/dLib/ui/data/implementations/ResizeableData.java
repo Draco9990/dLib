@@ -5,7 +5,7 @@ import dLib.ui.elements.implementations.Resizeable;
 
 public class ResizeableData extends DraggableData{
     @Override
-    public UIElement makeLiveInstance() {
+    public Resizeable makeLiveInstance(Object... params) {
         return new Resizeable(this);
     }
 }

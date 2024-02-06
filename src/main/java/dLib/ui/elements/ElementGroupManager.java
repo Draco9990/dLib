@@ -64,8 +64,19 @@ public class ElementGroupManager {
 
     public void onDownInteraction(AbstractScreen screen){
         if(elements.isEmpty()) return;
+
         CompositeUIElement currentGroup = getSelectedElementGroup();
-        if(currentGroup != null) currentGroup.deselect();
+        if(currentGroup != null) {
+            if(currentGroup instanceof ListCompositeUIElement){
+                boolean hadNext = ((ListCompositeUIElement) currentGroup).iteratePrevious();
+                if(hadNext){
+                    return;
+                }
+            }
+            else{
+                currentGroup.deselect();
+            }
+        }
 
         currentElement--;
         if(currentElement < 0){
@@ -78,8 +89,19 @@ public class ElementGroupManager {
     }
     public void onUpInteraction(AbstractScreen screen){
         if(elements.isEmpty()) return;
+
         CompositeUIElement currentGroup = getSelectedElementGroup();
-        if(currentGroup != null) currentGroup.deselect();
+        if(currentGroup != null) {
+            if(currentGroup instanceof ListCompositeUIElement){
+                boolean hadNext = ((ListCompositeUIElement) currentGroup).iterateNext();
+                if(hadNext){
+                    return;
+                }
+            }
+            else{
+                currentGroup.deselect();
+            }
+        }
 
         currentElement++;
         if(currentElement >= elements.size()){

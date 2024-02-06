@@ -46,11 +46,18 @@ public class Renderable extends UIElement {
 
     /** Builder methods */
     public Renderable setWidth(int newWidth){
-        this.width = newWidth;
-        return this;
+        return setDimensions(newWidth, height);
     }
 
     public Renderable setHeight(int newHeight){
+        return setDimensions(width, newHeight);
+    }
+
+    public Renderable setDimensions(int newWidth, int newHeight){
+        if(newWidth < 1) newWidth = 1;
+        if(newHeight < 1) newHeight = 1;
+
+        this.width = newWidth;
         this.height = newHeight;
         return this;
     }

@@ -14,7 +14,7 @@ public class DraggableData extends InteractableData{
     public Integer upperBoundY;
 
     @Override
-    public UIElement makeLiveInstance() {
+    public Draggable makeLiveInstance(Object... params) {
         return new Draggable(this);
     }
 }

@@ -1,5 +1,8 @@
 package dLib.ui.elements;
 
+import dLib.ui.data.CompositeUIElementData;
+import dLib.ui.data.ListCompositeUIElementData;
+
 import java.util.ArrayList;
 
 public class ListCompositeUIElement extends CompositeUIElement{
@@ -12,8 +15,44 @@ public class ListCompositeUIElement extends CompositeUIElement{
         super(xPos, yPos);
     }
 
+    public ListCompositeUIElement(ListCompositeUIElementData data){
+        super(data);
+        for(CompositeUIElementData elementData : data.dataList){
+            addElement(elementData.makeLiveInstance());
+        }
+    }
+
+    /** Iterating */
+    public boolean iterateNext(){
+        deselect();
+
+        currentIndex++;
+        if(currentIndex >= elements.size()){
+            currentIndex = -1;
+            return false;
+        }
+
+        onCurrentIndexChanged();
+        select();
+        return true;
+    }
+
+    public boolean iteratePrevious(){
+        deselect();
+
+        currentIndex--;
+        if(currentIndex < 0){
+            currentIndex = -1;
+            return false;
+        }
+
+        onCurrentIndexChanged();
+        select();
+        return true;
+    }
+
     /** List */
-    public ListCompositeUIElement addElement(CompositeUIElement element){
+    protected ListCompositeUIElement addElement(CompositeUIElement element){
         elements.add(element);
 
         if(currentIndex == null){
@@ -24,7 +63,7 @@ public class ListCompositeUIElement extends CompositeUIElement{
         return this;
     }
 
-    public void clearElements(){
+    protected void clearElements(){
         elements.clear();
     }
 

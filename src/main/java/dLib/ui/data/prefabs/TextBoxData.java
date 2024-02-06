@@ -1,7 +1,6 @@
 package dLib.ui.data.prefabs;
 
 import dLib.ui.data.implementations.HoverableData;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextBox;
 
 public class TextBoxData extends HoverableData {
@@ -16,7 +15,7 @@ public class TextBoxData extends HoverableData {
     public float marginPercY;
 
     @Override
-    public TextBox makeLiveInstance() {
+    public TextBox makeLiveInstance(Object... params) {
         return new TextBox(this);
     }
 }
