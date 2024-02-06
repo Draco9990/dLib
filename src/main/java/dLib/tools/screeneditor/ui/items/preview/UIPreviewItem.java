@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.tools.screeneditor.ScreenEditorBaseScreen;
 import dLib.ui.elements.implementations.Draggable;
+import dLib.ui.elements.implementations.Resizeable;
 
-public abstract class UIPreviewItem extends Draggable {
+public abstract class UIPreviewItem extends Resizeable {
     /** Variables */
     private boolean proxyDragged;
 

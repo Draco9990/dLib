@@ -24,7 +24,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
     /** Class methods */
     public void makeNewPreviewItem(UIPreviewItem template){
         UIPreviewItem copy = template.makeCopy();
-        copy.setBoundsX(10, 1490 - copy.getHeight());
+        copy.setBoundsX(10, 1490 - copy.getWidth());
         copy.setBoundsY(10, 840 - copy.getHeight());
 
 

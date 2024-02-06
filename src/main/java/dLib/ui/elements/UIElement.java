@@ -1,9 +1,13 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import dLib.ui.data.UIElementData;
 import dLib.ui.elements.implementations.Renderable;
 
 import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public abstract class UIElement {
     /** Variables */
@@ -12,11 +16,19 @@ public abstract class UIElement {
     protected int x = 0;
     protected int y = 0;
 
+    private BiConsumer<Integer, Integer> positionChangedConsumer;
+
     /** Constructors */
     public UIElement(int xPos, int yPos){
         this.ID = "UIElement_" + UUID.randomUUID();
         this.x = xPos;
         this.y = yPos;
+    }
+
+    public UIElement(UIElementData data){
+        this.ID = data.name;
+        this.x = data.x;
+        this.y = data.y;
     }
 
     /** Update and render */
@@ -52,6 +64,19 @@ public abstract class UIElement {
         return this;
     }
 
+    public UIElement setCenterPositionX(int newPosX){
+        setPositionX(newPosX - ((int)(float)getWidth() / 2));
+        return this;
+    }
+    public UIElement setCenterPositionY(int newPosY){
+        setPositionY(newPosY - ((int)(float)getHeight() / 2));
+        return this;
+    }
+    public UIElement setCenterPosition(int newPosX, int newPosY){
+        setPosition(newPosX - ((int)(float)getWidth() / 2), newPosY - ((int)(float)getHeight() / 2));
+        return this;
+    }
+
     public int getPositionX() { return x; }
     public int getPositionY() { return y; }
 
@@ -68,7 +93,15 @@ public abstract class UIElement {
         return this;
     }
 
-    public void onPositionChanged(int newPosX, int newPosY){ } //* Callback
+    public void onPositionChanged(int newPosX, int newPosY){
+        if(positionChangedConsumer != null){
+            positionChangedConsumer.accept(newPosX, newPosY);
+        }
+    } //* Callback
+    public UIElement setOnPositionChangedConsumer(BiConsumer<Integer, Integer> consumer){
+        positionChangedConsumer = consumer;
+        return this;
+    }
 
     /** ID */
     public void setID(String newId){

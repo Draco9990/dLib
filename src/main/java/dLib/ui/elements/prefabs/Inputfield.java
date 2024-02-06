@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.HorizontalAlignment;
+import dLib.ui.data.prefabs.InputfieldData;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.themes.UIThemeManager;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Inputfield extends CompositeUIElement {
+    /** Variables */
     private Button background;
     private TextBox textBox;
 
@@ -26,40 +28,49 @@ public class Inputfield extends CompositeUIElement {
     private boolean holdingDelete = false;
     private float deleteTimerCount = 0;
 
+    /** Constructor */
     public Inputfield(int posX, int posY, int width, int height){
         super(posX, posY);
 
-        cachedInputProcessor = Gdx.input.getInputProcessor();
-        Inputfield self = this;
-        this.textBox = new TextBox("", posX, posY, width, height){
-            @Override
-            public String getOnTextChangedLine(String newText) {
-                return self.getOnTextChangedLine(newText);
-            }
-        }.setHorizontalAlignment(HorizontalAlignment.LEFT);
+        preInitialize();
+
+        this.textBox = new TextBox("", posX, posY, width, height).setHorizontalAlignment(HorizontalAlignment.LEFT);
+        textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         this.other.add(textBox);
 
         this.background = new Button(posX, posY, width, height){
             @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
+            protected void onSelected() {
+                super.onSelected();
                 Gdx.input.setInputProcessor(inputProcessor);
             }
 
             @Override
-            public void select() {
-                super.select();
-                self.onHovered();
-            }
-
-            @Override
-            public void deselect() {
-                super.deselect();
-                self.deselect();
+            protected void onUnselected() {
+                super.onUnselected();
                 resetInputProcessor();
             }
         }.setImage(UIThemeManager.getDefaultTheme().inputfield);
         this.middle = this.background;
+    }
+
+    public Inputfield(InputfieldData data){
+        super(data);
+
+        preInitialize();
+
+        this.textBox = data.textboxData.makeLiveInstance();
+        this.other.add(textBox);
+
+        this.background = data.buttonData.makeLiveInstance();
+        this.middle = background;
+
+        characterFilter = data.characterFilter;
+        characterLimit = data.characterLimit;
+    }
+
+    public void preInitialize(){
+        cachedInputProcessor = Gdx.input.getInputProcessor();
 
         inputProcessor = new InputAdapter(){
             @Override
@@ -94,13 +105,17 @@ public class Inputfield extends CompositeUIElement {
         };
     }
 
-    /** Builder methods */
-
-    public Inputfield setText(String text){
-        this.textBox.setText(text);
-        return this;
+    /** Button */
+    public Button getButton(){
+        return background;
     }
 
+    /** Label */
+    public TextBox getTextBox(){
+        return textBox;
+    }
+
+    /** Builder methods */
     public Inputfield filterAddNumerical(){
         for(char c = '0'; c <= '9'; c++){
             characterFilter.add(c);
@@ -126,18 +141,10 @@ public class Inputfield extends CompositeUIElement {
         return this;
     }
 
-    public Inputfield setOnTextChangedLine(String newLine){
-        textBox.setOnTextChangedLine(newLine);
-        return this;
-    }
-    public String getOnTextChangedLine(String newText){return "";}
-
     /** Update and render */
-
     @Override
     public void update() {
-        this.background.update();
-        this.textBox.update();
+        super.update();
 
         if(holdingDelete){
             float delta = Gdx.graphics.getDeltaTime();
@@ -148,52 +155,14 @@ public class Inputfield extends CompositeUIElement {
         }
     }
 
-    @Override
-    public void render(SpriteBatch sb) {
-        this.background.render(sb);
-        this.textBox.render(sb);
-    }
-
     /** Misc methods */
-
     private void addCharacter(char character){
         this.textBox.setText(this.textBox.getText() + character);
-        onTextChanged(this.textBox.getText());
     }
     private void removeLastCharacter(){
         if(this.textBox.getText().isEmpty()) return;
 
         this.textBox.setText(this.textBox.getText().substring(0, this.textBox.getText().length()-1));
-        onTextChanged(this.textBox.getText());
-    }
-
-    private void onHovered(){}
-    private void onUnhovered(){}
-
-    public String getText() { return textBox.getText(); }
-    protected void onTextChanged(String newText){}
-    public void setTextColor(Color color){
-        this.textBox.setRenderColor(color);
-    }
-
-    protected void setVisibility(boolean visible) {
-        background.setVisibility(visible);
-        textBox.setVisibility(visible);
-    }
-    public boolean isVisible() {
-        return background.isVisible() || textBox.isVisible();
-    }
-
-    protected void setEnabled(boolean enabled) {
-        background.setEnabled(enabled);
-        textBox.setEnabled(enabled);
-    }
-    public boolean isEnabled() {
-        return background.isEnabled() || textBox.isEnabled();
-    }
-
-    public boolean isActive() {
-        return isEnabled() && isActive();
     }
 
     public void resetInputProcessor(){

@@ -3,7 +3,9 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.modcompat.ModManager;
+import dLib.ui.data.prefabs.ToggleData;
 import dLib.ui.elements.implementations.Interactable;
+import dLib.util.TextureManager;
 import sayTheSpire.Output;
 
 public class Toggle extends Interactable {
@@ -26,6 +28,16 @@ public class Toggle extends Interactable {
     public Toggle(Texture image, Texture toggledTexture, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
         this.toggledTexture = toggledTexture;
+    }
+
+    public Toggle(ToggleData data){
+        super(data);
+
+        this.toggledTexture = TextureManager.getTexture(data.toggledTexturePath);
+        this.toggledHoveredTexture = TextureManager.getTexture(data.toggledHoveredTexturePath);
+        this.toggledDisabledTexture = TextureManager.getTexture(data.toggledDisabledTexturePath);
+
+        this.toggled = data.isToggled;
     }
 
     /** Builders */

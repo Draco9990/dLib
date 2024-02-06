@@ -1,6 +1,7 @@
 package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Texture;
+import dLib.ui.data.prefabs.ImageData;
 import dLib.ui.elements.implementations.Renderable;
 
 public class Image extends Renderable {
@@ -14,5 +15,9 @@ public class Image extends Renderable {
 
     public Image(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
+    }
+
+    public Image(ImageData data){
+        super(data);
     }
 }

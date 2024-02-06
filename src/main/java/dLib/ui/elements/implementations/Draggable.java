@@ -3,6 +3,7 @@ package dLib.ui.elements.implementations;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.ui.data.implementations.DraggableData;
 
 public class Draggable extends Interactable{
     /** Variables */
@@ -12,11 +13,11 @@ public class Draggable extends Interactable{
     private int xDragOffset;
     private int yDragOffset;
 
-    private Integer lowerXBound;
-    private Integer upperXBound;
+    private Integer lowerBoundX;
+    private Integer upperBoundX;
 
-    private Integer lowerYBound;
-    private Integer upperYBound;
+    private Integer lowerBoundY;
+    private Integer upperBoundY;
 
     /** Constructor */
     public Draggable(Texture image) {
@@ -31,6 +32,19 @@ public class Draggable extends Interactable{
         super(image, xPos, yPos, width, height);
     }
 
+    public Draggable(DraggableData data){
+        super(data);
+
+        this.canDragX = data.canDragX;
+        this.canDragY = data.canDragY;
+
+        this.lowerBoundX = data.lowerBoundX;
+        this.upperBoundX = data.upperBoundX;
+
+        this.lowerBoundY = data.lowerBoundY;
+        this.upperBoundY = data.upperBoundY;
+    }
+
     /** Getters and Setters */
     public Draggable setCanDragX(boolean canDragX){
         this.canDragX = canDragX;
@@ -42,26 +56,26 @@ public class Draggable extends Interactable{
     }
 
     public Draggable setBoundsX(Integer lowerBound, Integer upperBound){
-        lowerXBound = lowerBound;
-        upperXBound = upperBound;
+        lowerBoundX = lowerBound;
+        upperBoundX = upperBound;
 
-        if(lowerXBound != null && x < lowerXBound){
-            setPositionX(lowerXBound);
+        if(lowerBoundX != null && x < lowerBoundX){
+            setPositionX(lowerBoundX);
         }
-        if(upperXBound != null && x > upperXBound){
-            setPositionX(upperXBound);
+        if(upperBoundX != null && x > upperBoundX){
+            setPositionX(upperBoundX);
         }
 
         return this;
     }
     public Draggable setBoundsY(Integer lowerBound, Integer upperBound){
-        lowerYBound = lowerBound;
-        upperYBound = upperBound;
+        lowerBoundY = lowerBound;
+        upperBoundY = upperBound;
 
-        if(lowerYBound != null && y < lowerYBound){
+        if(lowerBoundY != null && y < lowerBoundY){
             setPositionY(lowerBound);
         }
-        if(upperYBound != null && y > upperYBound){
+        if(upperBoundY != null && y > upperBoundY){
             setPositionY(upperBound);
         }
 
@@ -83,18 +97,18 @@ public class Draggable extends Interactable{
         int xPos = canDragX ? (int) ((InputHelper.mX - xDragOffset) / Settings.xScale) : x;
         int yPos = canDragY ? (int) ((InputHelper.mY - yDragOffset) / Settings.yScale) : y;
 
-        if(lowerXBound != null && xPos < lowerXBound){
-            xPos = lowerXBound;
+        if(lowerBoundX != null && xPos < lowerBoundX){
+            xPos = lowerBoundX;
         }
-        if(upperXBound != null && xPos > upperXBound){
-            xPos = upperXBound;
+        if(upperBoundX != null && xPos > upperBoundX){
+            xPos = upperBoundX;
         }
 
-        if(lowerYBound != null && yPos < lowerYBound){
-            yPos = lowerYBound;
+        if(lowerBoundY != null && yPos < lowerBoundY){
+            yPos = lowerBoundY;
         }
-        if(upperYBound != null && yPos > upperYBound){
-            yPos = upperYBound;
+        if(upperBoundY != null && yPos > upperBoundY){
+            yPos = upperBoundY;
         }
 
         setPosition(xPos, yPos);

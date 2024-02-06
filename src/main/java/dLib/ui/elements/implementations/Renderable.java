@@ -4,10 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
+import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.UIElement;
+import dLib.util.TextureManager;
 
 public class Renderable extends UIElement {
-        protected int width = 0;
+    protected int width = 0;
     protected int height = 0;
 
     protected Texture image;
@@ -31,6 +33,15 @@ public class Renderable extends UIElement {
         this.width = width;
         this.height = height;
         this.renderColor = Color.WHITE.cpy();
+    }
+
+    public Renderable(RenderableData renderableData){
+        super(renderableData);
+
+        this.image = TextureManager.getTexture(renderableData.texturePath);
+        this.width = renderableData.width;
+        this.height = renderableData.height;
+        this.renderColor = Color.valueOf(renderableData.color);
     }
 
     /** Builder methods */
@@ -61,7 +72,6 @@ public class Renderable extends UIElement {
     }
 
     /** Update and render */
-
     @Override
     public void update() {
 

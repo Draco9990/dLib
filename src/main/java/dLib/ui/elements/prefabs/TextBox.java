@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.modcompat.ModManager;
 import dLib.ui.HorizontalAlignment;
 import dLib.ui.VerticalAlignment;
+import dLib.ui.data.prefabs.TextBoxData;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
@@ -48,6 +49,21 @@ public class TextBox extends Hoverable {
         setFont(FontManager.genericFont);
 
         this.renderColor = UIThemeManager.getDefaultTheme().textColor;
+    }
+
+    public TextBox(TextBoxData data){
+        super(data);
+
+        this.marginPercX = data.marginPercX;
+        this.marginPercY = data.marginPercY;
+
+        horizontalAlignment = HorizontalAlignment.valueOf(data.horizontalAlignment);
+        verticalAlignment = VerticalAlignment.valueOf(data.verticalAlignment);
+        wrap = data.wrap;
+
+        this.text = data.text;
+
+        setFont(FontManager.genericFont);
     }
 
     /** Update and render */

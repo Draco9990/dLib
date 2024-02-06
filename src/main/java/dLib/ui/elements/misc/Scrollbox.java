@@ -1,4 +1,4 @@
-package dLib.ui.elements.prefabs;
+package dLib.ui.elements.misc;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.elements.implementations.Draggable;

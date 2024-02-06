@@ -2,6 +2,8 @@ package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.modcompat.ModManager;
+import dLib.ui.data.CompositeUIElementData;
+import dLib.ui.data.UIElementData;
 import dLib.ui.elements.implementations.Interactable;
 import sayTheSpire.Output;
 
@@ -25,6 +27,19 @@ public class CompositeUIElement extends UIElement {
     /** Constructors */
     public CompositeUIElement(int xPos, int yPos){
         super(xPos, yPos);
+    }
+
+    public CompositeUIElement(CompositeUIElementData data){
+        super(data);
+
+        if(data.left != null) left = data.left.makeLiveInstance();
+        if(data.middle != null) middle = data.middle.makeLiveInstance();
+        if(data.right != null) right = data.right.makeLiveInstance();
+        for(UIElementData otherData : data.other){
+            other.add(otherData.makeLiveInstance());
+        }
+
+        temporary = data.isTemporary;
     }
 
     /** Update */

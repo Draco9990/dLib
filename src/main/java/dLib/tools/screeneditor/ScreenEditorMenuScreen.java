@@ -7,8 +7,11 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.AbstractScreen;
+import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
+
+import java.util.function.Consumer;
 
 public class ScreenEditorMenuScreen extends AbstractScreen {
     /** Variables */
@@ -22,7 +25,9 @@ public class ScreenEditorMenuScreen extends AbstractScreen {
     }
 
     public void registerFileControls(){
-        addInteractableElement(new TextButton("Close", 20, 1080-92, 236, 64));
+        TextButton closeButton = new TextButton("Close", 20, 1080-92, 236, 64);
+        closeButton.getButton().setOnLeftClickConsumer(ScreenManager::closeScreen);
+        addInteractableElement(closeButton);
     }
 
     public void registerToolbarControls(){
