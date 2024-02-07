@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
@@ -17,6 +18,7 @@ public class TextBox extends Hoverable {
     /** Variables */
     private String text;
 
+    private Color textRenderColor;
     private BitmapFont font;
     private boolean wrap;
 
@@ -48,9 +50,8 @@ public class TextBox extends Hoverable {
 
         setFont(FontManager.genericFont);
 
-        this.renderColor = UIThemeManager.getDefaultTheme().textColor;
+        textRenderColor = UIThemeManager.getDefaultTheme().textColor;
     }
-
     public TextBox(TextBoxData data){
         super(data);
 
@@ -75,6 +76,7 @@ public class TextBox extends Hoverable {
     @Override
     public void render(SpriteBatch sb) {
         if(!shouldRender()) return;
+        super.render(sb);
 
         font.getData().setScale(fontScale);
 
@@ -98,7 +100,7 @@ public class TextBox extends Hoverable {
                         text,
                         renderX * Settings.xScale,
                         (renderY + renderHeight) * Settings.yScale,
-                        renderColor);
+                        textRenderColor);
             }
             if(verticalAlignment == VerticalAlignment.CENTER){
                 FontHelper.renderFontLeft(
@@ -107,7 +109,7 @@ public class TextBox extends Hoverable {
                         text,
                         renderX * Settings.xScale,
                         (renderY + halfHeight) * Settings.yScale,
-                        renderColor);
+                        textRenderColor);
             }
             if(verticalAlignment == VerticalAlignment.BOTTOM){
                 FontHelper.renderFontLeftDownAligned(
@@ -116,7 +118,7 @@ public class TextBox extends Hoverable {
                         text,
                         renderX * Settings.xScale,
                         (renderY) * Settings.yScale,
-                        renderColor);
+                        textRenderColor);
             }
         }
         if(horizontalAlignment == HorizontalAlignment.CENTER){
@@ -127,7 +129,7 @@ public class TextBox extends Hoverable {
                         text,
                         (renderX + halfWidth) * Settings.xScale,
                         (renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2,
-                        renderColor);
+                        textRenderColor);
             }
             if(verticalAlignment == VerticalAlignment.CENTER){
                 FontHelper.renderFontCentered(
@@ -136,7 +138,7 @@ public class TextBox extends Hoverable {
                         text,
                         (renderX + halfWidth) * Settings.xScale,
                         (renderY + halfHeight) * Settings.yScale,
-                        renderColor);
+                        textRenderColor);
             }
             if(verticalAlignment == VerticalAlignment.BOTTOM){
                 FontHelper.renderFontCentered(
@@ -145,7 +147,7 @@ public class TextBox extends Hoverable {
                         text,
                         (renderX + halfWidth) * Settings.xScale,
                         (renderY) * Settings.yScale + FontHelper.layout.height / 2,
-                        renderColor);
+                        textRenderColor);
             }
         }
         if(horizontalAlignment == HorizontalAlignment.RIGHT){
@@ -156,7 +158,7 @@ public class TextBox extends Hoverable {
                         text,
                         (renderX + renderWidth) * Settings.xScale,
                         (renderY + renderHeight) * Settings.yScale,
-                        renderColor);
+                        textRenderColor);
             }
             if(verticalAlignment == VerticalAlignment.CENTER){
                 FontHelper.renderFontRightAligned(
@@ -165,7 +167,7 @@ public class TextBox extends Hoverable {
                         text,
                         (renderX + renderWidth) * Settings.xScale,
                         (renderY + halfHeight) * Settings.yScale,
-                        renderColor);
+                        textRenderColor);
             }
             if(verticalAlignment == VerticalAlignment.BOTTOM){
                 FontHelper.renderFontRightAligned(
@@ -174,7 +176,7 @@ public class TextBox extends Hoverable {
                         text,
                         (renderX + renderWidth) * Settings.xScale,
                         (renderY) * Settings.yScale + FontHelper.layout.height / 2,
-                        renderColor);
+                        textRenderColor);
             }
         }
 
@@ -183,6 +185,33 @@ public class TextBox extends Hoverable {
         if(hb != null){
             hb.render(sb);
         }
+    }
+
+    /** Text */
+    public void setText(String text){
+        if(!this.text.equals(text)){
+            this.text = text;
+
+            if(IsNonASCII()){
+                setFont(FontManager.nonASCIIFont);
+            }
+
+            recalculateFontScale();
+
+            if(ModManager.SayTheSpire.isActive()){
+                if(getOnTextChangedLine(text) != null){
+                    Output.text(getOnTextChangedLine(text), true);
+                }
+            }
+        }
+    }
+    public String getText(){
+        return text;
+    }
+
+    public TextBox setTextRenderColor(Color renderColor){
+        textRenderColor = renderColor;
+        return this;
     }
 
     /** Dimensions */
@@ -244,26 +273,6 @@ public class TextBox extends Hoverable {
         return this;
     }
 
-    public void setText(String text){
-        if(!this.text.equals(text)){
-            this.text = text;
-
-            if(IsNonASCII()){
-                setFont(FontManager.nonASCIIFont);
-            }
-
-            recalculateFontScale();
-
-            if(ModManager.SayTheSpire.isActive()){
-                if(getOnTextChangedLine(text) != null){
-                    Output.text(getOnTextChangedLine(text), true);
-                }
-            }
-        }
-    }
-    public String getText(){
-        return text;
-    }
 
     /** Say the Spire - Getters and Setters */
     public TextBox setOnTextChangedLine(String newLine) {

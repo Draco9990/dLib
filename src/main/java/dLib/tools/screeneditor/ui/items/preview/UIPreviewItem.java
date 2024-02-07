@@ -73,7 +73,9 @@ public abstract class UIPreviewItem extends Resizeable {
     protected void onLeftClickHeld(float totalDuration) {
         super.onLeftClickHeld(totalDuration);
 
-        if(!proxyDragged) ScreenEditorBaseScreen.instance.getActiveItemsManager().markAllForDragUpdate(totalDuration);
+        if(!proxyDragged){
+            ScreenEditorBaseScreen.instance.getActiveItemsManager().markAllForDragUpdate(totalDuration);
+        }
     }
 
     /** Highlighting */

@@ -24,21 +24,26 @@ public class ListCompositeUIElement extends CompositeUIElement{
 
     /** Iterating */
     public boolean iterateNext(){
-        deselect();
+        if(currentIndex == -1) select();
+        if(currentIndex > 0 && currentIndex < elements.size()) elements.get(currentIndex).deselect();
 
         currentIndex++;
         if(currentIndex >= elements.size()){
             currentIndex = -1;
+            deselect();
             return false;
         }
 
-        onCurrentIndexChanged();
-        select();
+        elements.get(currentIndex).select();
         return true;
     }
 
     public boolean iteratePrevious(){
-        deselect();
+        if(currentIndex == -1) {
+            select();
+            currentIndex = elements.size();
+        }
+        if(currentIndex > 0 && currentIndex < elements.size()) elements.get(currentIndex).deselect();
 
         currentIndex--;
         if(currentIndex < 0){
@@ -46,8 +51,7 @@ public class ListCompositeUIElement extends CompositeUIElement{
             return false;
         }
 
-        onCurrentIndexChanged();
-        select();
+        elements.get(currentIndex).select();
         return true;
     }
 
@@ -55,23 +59,10 @@ public class ListCompositeUIElement extends CompositeUIElement{
     protected ListCompositeUIElement addElement(CompositeUIElement element){
         elements.add(element);
 
-        if(currentIndex == null){
-            currentIndex = 0;
-            onCurrentIndexChanged();
-        }
-
         return this;
     }
 
     protected void clearElements(){
         elements.clear();
-    }
-
-    private void onCurrentIndexChanged(){
-        CompositeUIElement toCopy = elements.get(currentIndex);
-        this.left = toCopy.left;
-        this.middle = toCopy.middle;
-        this.right = toCopy.right;
-        this.other = toCopy.other;
     }
 }

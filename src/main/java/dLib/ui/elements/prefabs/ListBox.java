@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 public class ListBox<ItemType> extends ListCompositeUIElement {
     /** Variables */
+    private TextBox titleBox;
+    private String title;
+
     private Image itemBoxBackground;
     private ArrayList<ListBoxItem> items = new ArrayList<>();
 
@@ -24,20 +27,52 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     public ListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
-        Color bgColor = Color.BLACK.cpy();
-        bgColor.a = 0.4f;
-        itemBoxBackground = new Image(UIThemeManager.getDefaultTheme().listbox, xPos, yPos, width, height);
-        itemBoxBackground.setRenderColor(bgColor);
-        other.add(itemBoxBackground);
+        reinitializeElements();
+    }
+
+    private void reinitializeElements(){
+        other.clear();
+        if(title != null && !title.isEmpty()){
+            int titleboxHeight = 50;
+            if(titleBox == null){
+                titleBox = new TextBox(title, x, y + height - titleboxHeight, width, titleboxHeight);
+                titleBox.setImage(UITheme.whitePixel);
+                titleBox.setRenderColor(Color.valueOf("#151515FF"));
+                titleBox.setTextRenderColor(Color.WHITE);
+                titleBox.setHorizontalAlignment(HorizontalAlignment.LEFT);
+                titleBox.setMarginPercX(0.005f);
+                other.add(titleBox);
+            }
+            titleBox.setText(title);
+            titleBox.setPosition(x, y + height - titleboxHeight);
+            titleBox.setDimensions(width, titleboxHeight);
+        }
+
+        int remainingHeight = height;
+        if(titleBox != null) remainingHeight -= titleBox.getHeight();
+
+        if(itemBoxBackground == null){
+            Color bgColor = Color.BLACK.cpy();
+            bgColor.a = 0.4f;
+            itemBoxBackground = new Image(UIThemeManager.getDefaultTheme().listbox, x, y, width, remainingHeight);
+            itemBoxBackground.setRenderColor(bgColor);
+            other.add(itemBoxBackground);
+        }
+        itemBoxBackground.setPosition(x, y);
+        itemBoxBackground.setDimensions(width, remainingHeight);
 
         int scrollbarWidth = 100;
-        scrollbar = new Scrollbox(xPos + width - scrollbarWidth, yPos, scrollbarWidth, height) {
-            @Override
-            public int getPageCount() {
-                return calculatePageCount();
-            }
-        };
-        other.add(scrollbar);
+        if(scrollbar == null){
+            scrollbar = new Scrollbox(x + width - scrollbarWidth, y, scrollbarWidth, remainingHeight) {
+                @Override
+                public int getPageCount() {
+                    return calculatePageCount();
+                }
+            };
+            other.add(scrollbar);
+        }
+        scrollbar.setPosition(x + width - scrollbarWidth, y);
+        scrollbar.setDimensions(scrollbarWidth, remainingHeight);
     }
 
     public ListBox(ListBoxData<ItemType> data){
@@ -52,11 +87,13 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     /** Update and Render */
     @Override
     public void update() {
+        if(titleBox != null) titleBox.update();
         itemBoxBackground.update();
 
         int currentYPos = y + itemBoxBackground.getHeight();
         for(CompositeUIElement item : getActiveItems()){
             item.setPositionY(currentYPos - item.getTrueHeight());
+            item.setWidth(itemBoxBackground.getWidth());
 
             item.update();
 
@@ -68,6 +105,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
 
     @Override
     public void render(SpriteBatch sb) {
+        if(titleBox != null) titleBox.render(sb);
         itemBoxBackground.render(sb);
 
         for(CompositeUIElement item : getActiveItems()){
@@ -95,6 +133,22 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     }
 
     /** Title */
+    public ListBox<ItemType> setTitle(String title){
+        if(this.title != null && (title == null || title.isEmpty())){
+            removeTitle();
+            return this;
+        }
+
+        this.title = title;
+        reinitializeElements();
+        return this;
+    }
+
+    public void removeTitle(){
+        this.title = null;
+
+        reinitializeElements();
+    }
 
     /** Background */
     public Image getBackground(){
@@ -142,7 +196,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     }
 
     public UIElement getRenderElementForItem(ItemType item){
-        TextBox label = new TextBox(item.toString(), x, y, itemBoxBackground.getWidth(), 50, 0.025f, 0.05f);
+        TextBox label = new TextBox(item.toString(), x, y, itemBoxBackground.getWidth(), 30, 0.025f, 0.05f);
         label.setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
         return label;
     }

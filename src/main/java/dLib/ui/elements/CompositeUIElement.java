@@ -133,9 +133,9 @@ public class CompositeUIElement extends UIElement {
         int diffY = newHeight - height;
 
         if(left != null) left.setDimensions(left.getWidth() + diffX, left.getHeight() + diffY);
-        if(middle != null) middle.offset(middle.getWidth() + diffX, middle.getHeight() + diffY);
-        if(right != null) right.offset(right.getWidth() + diffX, right.getHeight() + diffY);
-        for(UIElement otherElement : other) otherElement.offset(otherElement.getWidth() + diffX, otherElement.getHeight() + diffY);
+        if(middle != null) middle.setDimensions(middle.getWidth() + diffX, middle.getHeight() + diffY);
+        if(right != null) right.setDimensions(right.getWidth() + diffX, right.getHeight() + diffY);
+        for(UIElement otherElement : other) otherElement.setDimensions(otherElement.getWidth() + diffX, otherElement.getHeight() + diffY);
 
         return super.setDimensions(newWidth, newHeight);
     }

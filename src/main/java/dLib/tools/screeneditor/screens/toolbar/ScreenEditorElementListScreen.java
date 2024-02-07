@@ -21,7 +21,7 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
     public ScreenEditorElementListScreen(){
         super();
 
-        previewItemList = new ListBox<UIPreviewItem>(1508, 10, 404, 1013){
+        previewItemList = new ListBox<UIPreviewItem>(1508, 10, 404, 1060){
             @Override
             public void onItemSelected(UIPreviewItem item) {
                 super.onItemSelected(item);
@@ -36,7 +36,7 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
                 button.setOnHoveredConsumer(() -> item.setHighlight(true));
                 button.setOnUnhoveredConsumer(() -> item.setHighlight(false));
             }
-        };
+        }.setTitle("Scene Elements:");
         previewItemList.getBackground().setImage(null);
         addInteractableElement(previewItemList);
 

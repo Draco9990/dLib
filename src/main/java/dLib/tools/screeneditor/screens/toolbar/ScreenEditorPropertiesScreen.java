@@ -7,7 +7,7 @@ import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
 
 public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScreen {
-
+    /** Constructor */
     public ScreenEditorPropertiesScreen(){
         super();
 

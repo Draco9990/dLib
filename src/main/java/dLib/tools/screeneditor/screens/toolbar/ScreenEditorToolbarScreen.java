@@ -24,15 +24,13 @@ public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen
         super();
         initializeElementMap();
 
-        addElementToForeground(new TextBox("Tools:", 1508, 1080-52, 404, 43, 0, 0).setHorizontalAlignment(HorizontalAlignment.LEFT).setRenderColor(Color.WHITE));
-
-        ListBox<String> toolElements = new ListBox<String>(1508, 10, 404, 1013){
+        ListBox<String> toolElements = new ListBox<String>(1508, 10, 404, 1060){
             @Override
             public void onItemSelected(String item) {
                 super.onItemSelected(item);
                 onElementToAddChosen(elementMap.get(item));
             }
-        }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray())));
+        }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray()))).setTitle("Tools:");
         toolElements.getBackground().setImage(null);
         addInteractableElement(toolElements);
     }
