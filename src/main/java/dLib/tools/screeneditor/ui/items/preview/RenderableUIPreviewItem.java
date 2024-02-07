@@ -1,9 +1,7 @@
 package dLib.tools.screeneditor.ui.items.preview;
 
 import com.badlogic.gdx.graphics.Texture;
-import dLib.ui.data.UIElementData;
 import dLib.ui.data.implementations.RenderableData;
-import dLib.ui.elements.implementations.Resizeable;
 
 public abstract class RenderableUIPreviewItem extends UIPreviewItem{
     /** Constructors */
@@ -23,8 +21,11 @@ public abstract class RenderableUIPreviewItem extends UIPreviewItem{
     @Override
     public RenderableData makeElementData() {
         RenderableData data = new RenderableData();
+        data.ID = getId();
         data.x = x;
         data.y = y;
+        data.width = width;
+        data.height = height;
         return data;
     }
 

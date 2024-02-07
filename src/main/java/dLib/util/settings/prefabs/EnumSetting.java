@@ -1,5 +1,7 @@
 package dLib.util.settings.prefabs;
 
+import dLib.ui.elements.settings.AbstractUISetting;
+import dLib.ui.elements.settings.EnumUISetting;
 import dLib.util.EnumHelpers;
 import dLib.util.settings.Setting;
 
@@ -46,5 +48,11 @@ public class EnumSetting<T extends Enum<T>> extends Setting<Enum<T>> implements 
     public enum EControlType{
         ARROWS,
         CLICK
+    }
+
+    /** UI */
+    @Override
+    public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
+        return new EnumUISetting(this, xPos, yPos, width, height);
     }
 }

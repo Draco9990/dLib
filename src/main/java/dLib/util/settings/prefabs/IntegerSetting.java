@@ -1,5 +1,7 @@
 package dLib.util.settings.prefabs;
 
+import dLib.ui.elements.settings.AbstractUISetting;
+import dLib.ui.elements.settings.IntegerArrowUISetting;
 import dLib.util.settings.NumberSetting;
 import dLib.util.settings.Setting;
 
@@ -24,28 +26,30 @@ public class IntegerSetting extends NumberSetting<Integer> implements Serializab
     /** Methods */
     @Override
     public Setting<Integer> setCurrentValue(Integer currentValue) {
-        if(currentValue > maximumValue) currentValue = maximumValue;
-        if(currentValue < minimumValue) currentValue = minimumValue;
+        if(maximumValue != null && currentValue > maximumValue) currentValue = maximumValue;
+        if(minimumValue != null && currentValue < minimumValue) currentValue = minimumValue;
         return super.setCurrentValue(currentValue);
     }
 
     @Override
     public void increment() {
         currentValue += incrementAmount;
-        if(currentValue > maximumValue){
+        if(maximumValue != null && currentValue > maximumValue){
             currentValue = maximumValue;
         }
-
-        onValueChanged();
     }
 
     @Override
     public void decrement() {
         currentValue -= decrementAmount;
-        if(currentValue < minimumValue){
+        if(minimumValue != null && currentValue < minimumValue){
             currentValue = minimumValue;
         }
+    }
 
-        onValueChanged();
+    /** UI */
+    @Override
+    public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
+        return new IntegerArrowUISetting(this, xPos, yPos, width, height, false);
     }
 }

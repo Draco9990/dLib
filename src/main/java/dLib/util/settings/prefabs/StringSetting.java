@@ -1,5 +1,7 @@
 package dLib.util.settings.prefabs;
 
+import dLib.ui.elements.settings.AbstractUISetting;
+import dLib.ui.elements.settings.StringUISetting;
 import dLib.util.settings.Setting;
 
 import java.io.Serializable;
@@ -22,4 +24,10 @@ public class StringSetting extends Setting<String> implements Serializable {
 
     /** Methods */
     public void sanitize(String text){ }
+
+    /** UI */
+    @Override
+    public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
+        return new StringUISetting(this, xPos, yPos, width, height);
+    }
 }

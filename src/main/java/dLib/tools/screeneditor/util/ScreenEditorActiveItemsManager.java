@@ -3,6 +3,7 @@ package dLib.tools.screeneditor.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
+import dLib.tools.screeneditor.screens.toolbar.ScreenEditorPropertiesScreen;
 import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
 import dLib.util.Reflection;
 
@@ -19,13 +20,21 @@ public class ScreenEditorActiveItemsManager {
 
     /** Active items management */
     public void addActiveItem(UIPreviewItem item){
+        ScreenEditorBaseScreen.instance.getPropertiesScreen().clearScreen();
         if(!Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)){
-            activeItems.clear();
+            clearActiveItems();
         }
 
-        if(!activeItems.contains(item)) activeItems.add(item);
+        if(!activeItems.contains(item)) {
+            activeItems.add(item);
+
+            if(activeItems.size() == 1){
+                ScreenEditorBaseScreen.instance.getPropertiesScreen().createPropertiesFor(item);
+            }
+        }
     }
     public void clearActiveItems(){
+        ScreenEditorBaseScreen.instance.getPropertiesScreen().clearScreen();
         activeItems.clear();
     }
 
@@ -51,11 +60,11 @@ public class ScreenEditorActiveItemsManager {
     }
 
     public void update(){
-        if(Gdx.input.isKeyJustPressed(Input.Keys.DEL)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL)){
             for(UIPreviewItem item : activeItems){
                 ScreenEditorBaseScreen.instance.getPreviewScreen().deletePreviewItem(item);
             }
-            activeItems.clear();
+            clearActiveItems();
         }
     }
 }

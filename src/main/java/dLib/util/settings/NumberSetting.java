@@ -23,6 +23,11 @@ public abstract class NumberSetting<T extends Number> extends Setting<T> impleme
         this.decrementAmount = decrementAmount;
     }
 
+    /** Bounds */
+    public void setBounds(T minimumValue, T maximumValue){
+        this.minimumValue = minimumValue;
+        this.maximumValue = maximumValue;
+    }
     /** Getters and Setters */
     public T getMinimumValue(){
         return minimumValue;

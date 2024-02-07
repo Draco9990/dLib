@@ -6,6 +6,7 @@ import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.elements.prefabs.TextButton;
+import dLib.ui.elements.prefabs.Toggle;
 import dLib.ui.screens.ScreenManager;
 import dLib.ui.screens.util.AbstractObjectListPickerScreen;
 import dLib.ui.themes.UIThemeManager;
@@ -26,14 +27,14 @@ public class EnumUISetting extends AbstractUISetting {
                 hOffset = (int)((height-arrowDim) / 2);
             }
 
-            left = new Button((int)(xPos + width * 0.75f), yPos + hOffset, arrowDim, arrowDim){
+            left = new Button((int)(xPos + width * textPerc), yPos + hOffset, arrowDim, arrowDim){
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
                     setting.previous();
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_left);
-            right = new Button((int)(xPos + width * 0.975f), yPos + hOffset, arrowDim, arrowDim){
+            right = new Button((int)(xPos + width * (1-arrowPerc)), yPos + hOffset, arrowDim, arrowDim){
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
@@ -41,12 +42,21 @@ public class EnumUISetting extends AbstractUISetting {
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
 
-            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * 0.775f)), yPos, ((int)(width * 0.2f)), height);
+            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * (textPerc+arrowPerc))), yPos, ((int)(width * ((1-textPerc)-arrowPerc*2))), height);
         }
         else if(setting.getControlType() == EnumSetting.EControlType.CLICK){
-            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * 0.75f)), yPos, ((int)(width * 0.25f)), height);
+            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * (textPerc+arrowPerc))), yPos, ((int)(width * (1-textPerc))), height);
             ((TextButton)middle).getButton().setOnLeftClickConsumer(setting::next);
         }
 
+        setting.setOnValueChangedConsumer(new Runnable() {
+            @Override
+            public void run() {
+                TextButton element = (TextButton) middle;
+                if(!element.getLabel().getText().equals(setting.getValueForDisplay())){
+                    element.getLabel().setText(setting.getValueForDisplay());
+                }
+            }
+        });
     }
 }

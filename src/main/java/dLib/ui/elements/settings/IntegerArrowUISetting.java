@@ -37,22 +37,40 @@ public class IntegerArrowUISetting extends AbstractUISetting {
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
 
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * 0.775f)), yPos, ((int)(width * 0.2f)), height).filterAddNumerical();
+            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (textPerc+arrowPerc))), yPos, ((int)(width * (1-textPerc-2*arrowPerc))), height).filterAddNumerical();
             ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
+                    if(s.isEmpty()){
+                        ((Inputfield)middle).getTextBox().setText("0");
+                        return;
+                    }
                     setting.setCurrentValue(Integer.valueOf(s));
                 }
             });
         }
         else{
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * 0.75f)), yPos, ((int)(width * 0.25f)), height).filterAddNumerical();
+            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * textPerc)), yPos, ((int)(width * (1-textPerc))), height).filterAddNumerical();
             ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
+                    if(s.isEmpty()) {
+                        ((Inputfield)middle).getTextBox().setText("0");
+                        return;
+                    }
                     setting.setCurrentValue(Integer.valueOf(s));
                 }
             });
         }
+
+        setting.setOnValueChangedConsumer(new Runnable() {
+            @Override
+            public void run() {
+                Inputfield inputfield = (Inputfield) middle;
+                if(!inputfield.getTextBox().getText().equals(setting.getCurrentValue().toString())){
+                    inputfield.getTextBox().setText(setting.getCurrentValue().toString());
+                }
+            }
+        });
     }
 }

@@ -128,7 +128,7 @@ public class CompositeUIElement extends UIElement {
 
     /** Width and Height */
     @Override
-    public UIElement setDimensions(int newWidth, int newHeight) {
+    public UIElement setDimensions(Integer newWidth, Integer newHeight) {
         int diffX = newWidth - width;
         int diffY = newHeight - height;
 

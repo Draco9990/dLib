@@ -1,6 +1,7 @@
 package dLib.ui.elements.settings;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.ui.HorizontalAlignment;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.TextBox;
@@ -11,7 +12,8 @@ public abstract class AbstractUISetting extends CompositeUIElement {
     /** Variables */
     private TextBox label;
 
-    private float textPerc = 0.75f;
+    protected float textPerc = 0.25f;
+    protected float arrowPerc = 0.025f;
 
     protected Setting<?> setting;
 
@@ -26,8 +28,8 @@ public abstract class AbstractUISetting extends CompositeUIElement {
         this.xPos = xPos;
         this.yPos = yPos;
 
-        this.label = new TextBox(setting.getTitle(), xPos, yPos, (int)(width * textPerc), height);
-        this.middle = label;
+        this.label = new TextBox(setting.getTitle(), xPos, yPos, (int)(width * textPerc), height).setHorizontalAlignment(HorizontalAlignment.LEFT);
+        this.other.add(label);
     }
 
     /* AbstractUISetting markAsSubsetting(){

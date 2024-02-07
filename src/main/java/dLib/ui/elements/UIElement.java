@@ -1,13 +1,10 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import dLib.ui.data.UIElementData;
-import dLib.ui.elements.implementations.Renderable;
 
 import java.util.UUID;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public abstract class UIElement {
     /** Variables */
@@ -31,7 +28,7 @@ public abstract class UIElement {
     }
 
     public UIElement(UIElementData data){
-        this.ID = data.name.getCurrentValue();
+        this.ID = data.ID;
         this.x = data.x;
         this.y = data.y;
         this.width = data.width;
@@ -125,7 +122,7 @@ public abstract class UIElement {
     public UIElement setHeight(int newHeight){
         return setDimensions(width, newHeight);
     }
-    public UIElement setDimensions(int newWidth, int newHeight){
+    public UIElement setDimensions(Integer newWidth, Integer newHeight){
         if(newWidth < 1) newWidth = 1;
         if(newHeight < 1) newHeight = 1;
 

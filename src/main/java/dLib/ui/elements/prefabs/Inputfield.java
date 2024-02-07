@@ -32,7 +32,7 @@ public class Inputfield extends CompositeUIElement {
 
         preInitialize();
 
-        this.textBox = new TextBox(initialValue, posX, posY, width, height).setHorizontalAlignment(HorizontalAlignment.LEFT);
+        this.textBox = new TextBox(initialValue, posX, posY, width, height, 0.025f, 0.025f).setHorizontalAlignment(HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         this.other.add(textBox);
 
@@ -164,6 +164,8 @@ public class Inputfield extends CompositeUIElement {
     }
 
     public void resetInputProcessor(){
-        Gdx.input.setInputProcessor(cachedInputProcessor);
+        if(Gdx.input.getInputProcessor() == inputProcessor){
+            Gdx.input.setInputProcessor(cachedInputProcessor);
+        }
     }
 }

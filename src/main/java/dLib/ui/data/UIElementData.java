@@ -1,10 +1,9 @@
 package dLib.ui.data;
 
 import dLib.ui.elements.UIElement;
-import dLib.util.settings.prefabs.StringSetting;
 
 public abstract class UIElementData {
-    public StringSetting name;
+    public String ID;
 
     public int x;
     public int y;

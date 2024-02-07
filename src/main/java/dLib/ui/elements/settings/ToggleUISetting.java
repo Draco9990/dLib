@@ -2,6 +2,7 @@ package dLib.ui.elements.settings;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.Toggle;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.settings.prefabs.BooleanSetting;
@@ -12,7 +13,7 @@ public class ToggleUISetting extends AbstractUISetting {
     public ToggleUISetting(BooleanSetting setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
 
-        int buttonDim = Math.min((int)(width * 0.25f), height);
+        int buttonDim = Math.min((int)(width * (1-textPerc)), height);
 
         middle = new Toggle(UIThemeManager.getDefaultTheme().button_small, UIThemeManager.getDefaultTheme().button_small_confirm, xPos + width - buttonDim, yPos, buttonDim, buttonDim){
             @Override
@@ -21,5 +22,15 @@ public class ToggleUISetting extends AbstractUISetting {
                 setting.toggle();
             }
         }.setToggled(setting.getCurrentValue());
+
+        setting.setOnValueChangedConsumer(new Runnable() {
+            @Override
+            public void run() {
+                Toggle element = (Toggle) middle;
+                if(element.isToggled() != setting.getCurrentValue()){
+                    element.setToggled(setting.getCurrentValue());
+                }
+            }
+        });
     }
 }

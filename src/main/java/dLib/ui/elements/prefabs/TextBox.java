@@ -230,7 +230,7 @@ public class TextBox extends Hoverable {
 
     /** Dimensions */
     @Override
-    public TextBox setDimensions(int newWidth, int newHeight) {
+    public TextBox setDimensions(Integer newWidth, Integer newHeight) {
         super.setDimensions(newWidth, newHeight);
         recalculateFontScale();
         return this;
@@ -310,7 +310,7 @@ public class TextBox extends Hoverable {
             FontHelper.layout.setText(font, text);
             if(FontHelper.layout.height > renderHeight * Settings.yScale || (!wrap && FontHelper.layout.width > renderWidth * Settings.xScale)) {
                 font.getData().setScale(1);
-                this.fontScale =  fontScale - 0.1F;
+                this.fontScale = Math.max(fontScale - 0.1F, 0.1f);
                 return;
             }
             fontScale+=0.1F;

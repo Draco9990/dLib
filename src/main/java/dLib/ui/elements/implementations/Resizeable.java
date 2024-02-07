@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.data.implementations.ResizeableData;
 import dLib.ui.elements.misc.ResizeNode;
 
@@ -188,7 +187,7 @@ public class Resizeable extends Draggable{
     }
 
     @Override
-    public Resizeable setDimensions(int newWidth, int newHeight) {
+    public Resizeable setDimensions(Integer newWidth, Integer newHeight) {
         if(upperBoundX != null && x + newWidth > upperBoundX){
             newWidth = upperBoundX - x;
         }

@@ -2,8 +2,6 @@ package dLib.tools.screeneditor.ui.items.preview;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.data.CompositeUIElementData;
-import dLib.ui.data.UIElementData;
-import dLib.ui.elements.implementations.Resizeable;
 
 public abstract class CompositeUIPreviewItem extends UIPreviewItem{
     /** Constructors */
@@ -28,7 +26,7 @@ public abstract class CompositeUIPreviewItem extends UIPreviewItem{
     }
 
     @Override
-    public CompositeUIPreviewItem setDimensions(int newWidth, int newHeight) {
+    public CompositeUIPreviewItem setDimensions(Integer newWidth, Integer newHeight) {
         super.setDimensions(newWidth, newHeight);
         // if composites are ever available for user adding, implement this with properties
         return this;
@@ -38,8 +36,11 @@ public abstract class CompositeUIPreviewItem extends UIPreviewItem{
     @Override
     public CompositeUIElementData makeElementData() {
         CompositeUIElementData data = new CompositeUIElementData();
+        data.ID = getId();
         data.x = x;
         data.y = y;
+        data.width = width;
+        data.height = height;
         return data;
     }
 

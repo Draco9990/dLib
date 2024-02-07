@@ -1,6 +1,10 @@
 package dLib.util.settings;
 
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.settings.AbstractUISetting;
+
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 public abstract class Setting<T> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -12,6 +16,8 @@ public abstract class Setting<T> implements Serializable {
     protected T currentValue;
 
     private String title;
+
+    private Runnable onValueChangedConsumer;
 
     /** Constructors */
     public Setting(T value){
@@ -37,6 +43,7 @@ public abstract class Setting<T> implements Serializable {
 
     public Setting<T> setCurrentValue(T currentValue){
         this.currentValue = currentValue;
+        onValueChanged();
         return this;
     }
     public Setting<T> setCurrentValueFromObject(Object currentValue){
@@ -53,10 +60,20 @@ public abstract class Setting<T> implements Serializable {
 
     /** Methods */
     public final void reset(){
-        currentValue = defaultValue;
-        onValueChanged();
+        setCurrentValue(defaultValue);
     }
 
     /** Callbacks */
-    public void onValueChanged(){}
+    public void onValueChanged(){
+        if(onValueChangedConsumer != null){
+            onValueChangedConsumer.run();
+        }
+    }
+    public Setting<T> setOnValueChangedConsumer(Runnable consumer){
+        onValueChangedConsumer = consumer;
+        return this;
+    }
+
+    /** UI */
+    public abstract AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height);
 }
