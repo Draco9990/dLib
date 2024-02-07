@@ -2,7 +2,7 @@ package dLib.tools.screeneditor.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import dLib.tools.screeneditor.ScreenEditorBaseScreen;
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
 import dLib.util.Reflection;
 

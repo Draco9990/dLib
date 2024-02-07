@@ -24,13 +24,8 @@ import java.util.UUID;
 
 // Abstract version of a screen
 public abstract class AbstractScreen {
-
+    /** Variables */
     private String ID;
-
-    protected static UIStrings globalStrings;
-    protected UIStrings localStrings;
-
-    private InputProcessor cachedInputProcessor;
 
     protected Renderable background;
     protected Interactable cancelElement;
@@ -41,17 +36,52 @@ public abstract class AbstractScreen {
 
     protected UITheme theme;
 
+    protected static UIStrings globalStrings;
+    protected UIStrings localStrings;
+
+    private InputProcessor cachedInputProcessor;
+
     private boolean pendingRefresh = false;
     private boolean pendingTempPurge = false;
 
     private AbstractScreen screenToOpenOnClose;
 
+    private boolean hidden = false;
+
+    /** Constructors */
     public AbstractScreen(){
         localStrings = CardCrawlGame.languagePack.getUIString(getModId() + ":" + this.getClass().getSimpleName());
         this.ID = "Screen_" + UUID.randomUUID();
+        hidden = false;
         theme = UIThemeManager.getDefaultTheme();
     }
 
+    /** Update & Render */
+    public void update(){
+        if(hidden) return;
+
+        updateInput();
+
+        foregroundElements.forEach(UIElement::update);
+        interactableElements.update();
+        backgroundElements.forEach(UIElement::update);
+        if(background != null) background.update();
+
+        if(pendingRefresh) {
+            refreshScreen();
+            pendingRefresh = false;
+        }
+    }
+    public void render(SpriteBatch sb){
+        if(hidden) return;
+
+        if(background != null) background.render(sb);
+        backgroundElements.forEach(element -> element.render(sb));
+        interactableElements.render(sb);
+        foregroundElements.forEach(element -> element.render(sb));
+    }
+
+    /** ID */
     public void setId(String newID){
         this.ID = newID;
     }
@@ -59,11 +89,13 @@ public abstract class AbstractScreen {
         return ID;
     }
 
+    /** Theme */
     public AbstractScreen setThemeOverride(UITheme theme){
         this.theme = theme;
         return this;
     }
 
+    /** Open & Close*/
     public void close(){
         ScreenManager.closeScreen();
     }
@@ -82,26 +114,20 @@ public abstract class AbstractScreen {
         resetInputProcessor();
     }
 
-    public void update(){
-        updateInput();
-
-        foregroundElements.forEach(UIElement::update);
-        interactableElements.update();
-        backgroundElements.forEach(UIElement::update);
-        if(background != null) background.update();
-
-        if(pendingRefresh) {
-            refreshScreen();
-            pendingRefresh = false;
-        }
+    public void setScreenToOpenOnClose(AbstractScreen screen){
+        this.screenToOpenOnClose = screen;
     }
-    public void render(SpriteBatch sb){
-        if(background != null) background.render(sb);
-        backgroundElements.forEach(element -> element.render(sb));
-        interactableElements.render(sb);
-        foregroundElements.forEach(element -> element.render(sb));
+    public AbstractScreen getScreenToOpenOnClose(){ return this.screenToOpenOnClose;}
+
+    /** Show & Hide */
+    public void hide(){
+        hidden = true;
+    }
+    public void show(){
+        hidden = false;
     }
 
+    /** Elements */
     protected void addElementToBackground(UIElement element){
         backgroundElements.add(element);
     }
@@ -143,6 +169,7 @@ public abstract class AbstractScreen {
         addInteractableElement(cancelElement);
     }
 
+    /** Input */
     private void updateInput(){
         if(Help.Input.isPressed(CInputActionSet.down, InputActionSet.down)) interactableElements.onDownInteraction(this);
         if(Help.Input.isPressed(CInputActionSet.up, InputActionSet.up)) interactableElements.onUpInteraction(this);
@@ -156,9 +183,15 @@ public abstract class AbstractScreen {
         cancelElement.clickLeft();
     }
 
+    public void resetInputProcessor(){
+        Gdx.input.setInputProcessor(cachedInputProcessor);
+    }
+
+    /** Iteration */
     public void onIterationReachedTop(){}
     public void onIterationReachedBottom(){}
 
+    /** Refresh & Temp Purge*/
     public void markForRefresh(){
         pendingRefresh = true;
     }
@@ -175,19 +208,10 @@ public abstract class AbstractScreen {
             onTempPurge();
         }
     }
-
     protected void onTempPurge(){
     }
 
-    public void resetInputProcessor(){
-        Gdx.input.setInputProcessor(cachedInputProcessor);
-    }
-
-    public void setScreenToOpenOnClose(AbstractScreen screen){
-        this.screenToOpenOnClose = screen;
-    }
-    public AbstractScreen getScreenToOpenOnClose(){ return this.screenToOpenOnClose;}
-
+    /** Say the Spire */
     public abstract String getModId();
     public String getOnScreenOpenLine(){ return null; }
 }

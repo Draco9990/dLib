@@ -152,8 +152,10 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
             }
         }.setImage(UITheme.whitePixel).setRenderColor(Color.DARK_GRAY);
 
+        postMakeRenderElementForItem(item, composite);
         return composite;
     }
+    public void postMakeRenderElementForItem(ItemType item, CompositeUIElement compositeUIElement){ }
 
     public void onItemSelected(ItemType item){}
 

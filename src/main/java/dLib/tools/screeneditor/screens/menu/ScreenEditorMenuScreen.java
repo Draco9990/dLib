@@ -1,0 +1,61 @@
+package dLib.tools.screeneditor.screens.menu;
+
+import com.badlogic.gdx.graphics.Color;
+import dLib.DLib;
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.elements.prefabs.Button;
+import dLib.ui.elements.prefabs.TextButton;
+import dLib.ui.screens.AbstractScreen;
+import dLib.ui.screens.ScreenManager;
+import dLib.ui.themes.UITheme;
+import dLib.ui.themes.UIThemeManager;
+
+import java.util.function.Consumer;
+
+public class ScreenEditorMenuScreen extends AbstractScreen {
+    /** Variables */
+
+    /** Constructors */
+    public ScreenEditorMenuScreen(){
+        background = new Renderable(UITheme.whitePixel, 10, 1080 - 218, 1489, 209).setRenderColor(Color.valueOf("#242424FF"));
+
+        registerFileControls();
+        registerToolbarControls();
+    }
+
+    public void registerFileControls(){
+        TextButton closeButton = new TextButton("Close", 20, 1080-60, 200, 40);
+        closeButton.getButton().setOnLeftClickConsumer(ScreenManager::closeScreen);
+        addInteractableElement(closeButton);
+    }
+
+    public void registerToolbarControls(){
+        TextButton toolbarButton = new TextButton("Toolbar", 265, 1080-60, 200, 40);
+        toolbarButton.getButton().setOnLeftClickConsumer(() -> {
+            ScreenEditorBaseScreen.instance.hideAllToolbarItems();
+            ScreenEditorBaseScreen.instance.getToolbarScreen().show();
+        });
+        addInteractableElement(toolbarButton);
+
+        TextButton propertiesButton = new TextButton("Properties", 265, 1080-110, 200, 40);
+        propertiesButton.getButton().setOnLeftClickConsumer(() -> {
+            ScreenEditorBaseScreen.instance.hideAllToolbarItems();
+        });
+        addInteractableElement(propertiesButton);
+
+        TextButton elementsButton = new TextButton("Elements", 265, 1080-160, 200, 40);
+        elementsButton.getButton().setOnLeftClickConsumer(() -> {
+            ScreenEditorBaseScreen.instance.hideAllToolbarItems();
+            ScreenEditorBaseScreen.instance.getElementListScreen().show();
+        });
+        addInteractableElement(elementsButton);
+    }
+
+    /** ModID */
+    @Override
+    public String getModId() {
+        return DLib.getModID();
+    }
+}

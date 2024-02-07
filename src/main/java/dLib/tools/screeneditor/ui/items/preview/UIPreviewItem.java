@@ -1,15 +1,23 @@
 package dLib.tools.screeneditor.ui.items.preview;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
-import dLib.tools.screeneditor.ScreenEditorBaseScreen;
-import dLib.ui.elements.implementations.Draggable;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
+import dLib.ui.data.UIElementData;
 import dLib.ui.elements.implementations.Resizeable;
+
+import java.util.ArrayList;
 
 public abstract class UIPreviewItem extends Resizeable {
     /** Variables */
+    private UIElementData elementData;
+
     private boolean proxyDragged;
+
+    private boolean highlight;
 
     /** Constructors */
     public UIPreviewItem(Texture image) {
@@ -24,6 +32,10 @@ public abstract class UIPreviewItem extends Resizeable {
         super(image, xPos, yPos, width, height);
     }
 
+    public void postInitialize(){
+        elementData = makeElementData();
+    }
+
     /** Update and render */
     @Override
     public void render(SpriteBatch sb) {
@@ -34,6 +46,11 @@ public abstract class UIPreviewItem extends Resizeable {
         }
         else{
             super.render(sb);
+        }
+
+        if(highlight){
+            sb.setColor(Color.BLUE);
+            sb.draw(ImageMaster.DEBUG_HITBOX_IMG, this.x * Settings.xScale, this.y * Settings.yScale, this.width * Settings.xScale, this.height * Settings.yScale);
         }
     }
 
@@ -59,6 +76,34 @@ public abstract class UIPreviewItem extends Resizeable {
         if(!proxyDragged) ScreenEditorBaseScreen.instance.getActiveItemsManager().markAllForDragUpdate(totalDuration);
     }
 
+    /** Highlighting */
+    public UIPreviewItem setHighlight(boolean highlight){
+        this.highlight = highlight;
+        return this;
+    }
+
+    /** Position and dimensions */
+    @Override
+    public UIPreviewItem setPosition(int newPosX, int newPosY) {
+        super.setPosition(newPosX, newPosY);
+
+        getElementData().x = newPosX;
+        getElementData().y = newPosY;
+
+        return this;
+    }
+
     /** Copy */
     public abstract UIPreviewItem makeCopy();
+
+    /** Data */
+    public abstract UIElementData makeElementData();
+    public UIElementData getElementData(){
+        return elementData;
+    }
+
+    /** Properties */
+    public ArrayList<Object> getEditProperties(){
+        return new ArrayList<>();
+    }
 }

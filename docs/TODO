@@ -1,3 +1,9 @@
 -> remove foreground and background elements from screen and add render priority to element groups
 -> add background and foreground to composites
 -> add boolean to list composite to render all?
+-> remove temporary field from composites
+
+--> settings initializer for first time running intellij plugin with project
+
+-> abstract class custom child named GeneratedAbstractScreen with constructor that initializes based on the provided AbstractScreenData
+-> abstractScreenData contains list of items with names that get set throughr eflection to the actual ones

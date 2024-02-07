@@ -1,12 +1,15 @@
-package dLib.tools.screeneditor;
+package dLib.tools.screeneditor.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.DLib;
+import dLib.tools.screeneditor.screens.menu.ScreenEditorMenuScreen;
+import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
+import dLib.tools.screeneditor.screens.toolbar.ScreenEditorElementListScreen;
+import dLib.tools.screeneditor.screens.toolbar.ScreenEditorToolbarScreen;
 import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
+import dLib.ui.data.screens.GeneratedScreenData;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
@@ -21,8 +24,10 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     private ScreenEditorPreviewScreen preview;
 
     private ScreenEditorToolbarScreen toolbar;
+    private ScreenEditorElementListScreen elementListScreen;
 
     private ScreenEditorActiveItemsManager activeItemsManager;
+    private GeneratedScreenData generatedData;
 
     /** Constructors */
     public ScreenEditorBaseScreen(){
@@ -39,8 +44,10 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
                 preview.makeNewPreviewItem(previewItem);
             }
         };
+        elementListScreen = new ScreenEditorElementListScreen();
 
         activeItemsManager = new ScreenEditorActiveItemsManager();
+        generatedData = new GeneratedScreenData();
 
         instance = this;
     }
@@ -55,6 +62,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         preview.update();
 
         toolbar.update();
+        elementListScreen.update();
 
         activeItemsManager.update();
     }
@@ -68,16 +76,36 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         menu.render(sb);
 
         toolbar.render(sb);
+        elementListScreen.render(sb);
     }
 
-    /** Active Item Manager */
+    /** Managers */
     public ScreenEditorActiveItemsManager getActiveItemsManager(){
         return activeItemsManager;
+    }
+
+    public GeneratedScreenData getGeneratedData(){
+        return generatedData;
     }
 
     /** Preview */
     public ScreenEditorPreviewScreen getPreviewScreen(){
         return preview;
+    }
+
+    /** Toolbar */
+    public ScreenEditorToolbarScreen getToolbarScreen(){
+        return toolbar;
+    }
+
+    public ScreenEditorElementListScreen getElementListScreen(){
+        return elementListScreen;
+    }
+
+    /** Management */
+    public void hideAllToolbarItems(){
+        toolbar.hide();
+        elementListScreen.hide();
     }
 
     @Override

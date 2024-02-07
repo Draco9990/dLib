@@ -1,9 +1,14 @@
-package dLib.tools.screeneditor;
+package dLib.tools.screeneditor.screens.toolbar;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.OrderedMap;
 import dLib.DLib;
 import dLib.tools.screeneditor.ui.items.preview.*;
+import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldUIPreview;
+import dLib.tools.screeneditor.ui.items.preview.composite.ListBoxUIPreview;
+import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonUIPreviewItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.ImageUIPreviewItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxUIPreview;
 import dLib.ui.HorizontalAlignment;
 import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.elements.prefabs.TextBox;

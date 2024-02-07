@@ -193,6 +193,16 @@ public class TextBox extends Hoverable {
         return this;
     }
 
+    /** Margin */
+    public TextBox setMarginPercX(float value){
+        marginPercX = value;
+        return this;
+    }
+    public TextBox setMarginPercY(float value){
+        marginPercY = value;
+        return this;
+    }
+
     /** Getters and Setters */
     public TextBox setHorizontalAlignment(HorizontalAlignment alignment){
         this.horizontalAlignment = alignment;
