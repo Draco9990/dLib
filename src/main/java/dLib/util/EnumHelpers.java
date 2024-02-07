@@ -1,5 +1,6 @@
 package dLib.util;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class EnumHelpers {
@@ -33,5 +34,16 @@ public class EnumHelpers {
         }
 
         return null;
+    }
+
+    public static <T extends Enum<T>> ArrayList<Enum<T>> getAllEntries(Enum<T> currentValue){
+        ArrayList<Enum<T>> allEntries = new ArrayList<>();
+
+        Object[] enums = currentValue.getDeclaringClass().getEnumConstants();
+        for(Object enumInstance : enums){
+            allEntries.add((Enum<T>) enumInstance);
+        }
+
+        return allEntries;
     }
 }

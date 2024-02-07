@@ -31,7 +31,7 @@ public abstract class UIElement {
     }
 
     public UIElement(UIElementData data){
-        this.ID = data.name;
+        this.ID = data.name.getCurrentValue();
         this.x = data.x;
         this.y = data.y;
         this.width = data.width;

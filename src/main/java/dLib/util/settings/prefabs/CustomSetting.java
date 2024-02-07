@@ -3,6 +3,7 @@ package dLib.util.settings.prefabs;
 import dLib.util.settings.Setting;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public abstract class CustomSetting<T> extends Setting<T> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -14,6 +15,6 @@ public abstract class CustomSetting<T> extends Setting<T> implements Serializabl
         super(defaultValue);
     }
 
-    /** Methods */
-    public abstract void requestChange();
+    /** Value */
+    public abstract ArrayList<T> getAllOptions();
 }

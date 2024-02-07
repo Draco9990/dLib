@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.data.UIElementData;
 import dLib.ui.elements.implementations.Resizeable;
+import dLib.util.settings.Setting;
 
 import java.util.ArrayList;
 
@@ -115,8 +116,11 @@ public abstract class UIPreviewItem extends Resizeable {
     }
 
     /** Properties */
-    public ArrayList<Object> getEditProperties(){
-        return new ArrayList<>();
+    public ArrayList<Setting<?>> getPropertiesForItem(){
+        ArrayList<Setting<?>> propertiesList = new ArrayList<>();
+        propertiesList.add(getElementData().name);
+
+        return propertiesList;
     }
 
     /** Misc */

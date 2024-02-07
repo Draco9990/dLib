@@ -1,6 +1,7 @@
 package dLib.util.settings.prefabs;
 
 import dLib.util.settings.NumberSetting;
+import dLib.util.settings.Setting;
 
 import java.io.Serializable;
 
@@ -21,6 +22,13 @@ public class IntegerSetting extends NumberSetting<Integer> implements Serializab
     }
 
     /** Methods */
+    @Override
+    public Setting<Integer> setCurrentValue(Integer currentValue) {
+        if(currentValue > maximumValue) currentValue = maximumValue;
+        if(currentValue < minimumValue) currentValue = minimumValue;
+        return super.setCurrentValue(currentValue);
+    }
+
     @Override
     public void increment() {
         currentValue += incrementAmount;

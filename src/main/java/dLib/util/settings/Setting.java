@@ -12,11 +12,6 @@ public abstract class Setting<T> implements Serializable {
     protected T currentValue;
 
     private String title;
-    private SettingCategory category = SettingCategory.NONE;
-    private int priority = 0;
-    private boolean spacedOut = false;
-
-    private boolean isSubSetting;
 
     /** Constructors */
     public Setting(T value){
@@ -25,27 +20,7 @@ public abstract class Setting<T> implements Serializable {
         defaultValue = value;
     }
 
-    /** Getters and Setters */
-    public Class<? extends Object> getValueClass(){
-        return valueClass;
-    }
-
-    public final Setting<T> setCurrentValue(T currentValue){
-        this.currentValue = currentValue;
-        return this;
-    }
-    public final Setting<T> setCurrentValueFromObject(Object currentValue){
-        T val = (T) currentValue;
-        if(val != null) this.currentValue = val;
-        return this;
-    }
-    public final T getCurrentValue(){
-        return currentValue;
-    }
-    public String getValueForDisplay(){
-        return currentValue.toString();
-    }
-
+    /** Title */
     public Setting<T> setTitle(String newTitle){
         this.title = newTitle;
         return this;
@@ -54,36 +29,26 @@ public abstract class Setting<T> implements Serializable {
         return title;
     }
 
-    public Setting<T> setCategory(SettingCategory category){
-        this.category = category;
-        return this;
-    }
-    public SettingCategory getCategory(){
-        return category;
+    /** Value */
+    /** Getters and Setters */
+    public Class<? extends Object> getValueClass(){
+        return valueClass;
     }
 
-    public Setting<T> setPriority(int priority){
-        this.priority = priority;
+    public Setting<T> setCurrentValue(T currentValue){
+        this.currentValue = currentValue;
         return this;
     }
-    public int getPriority(){
-        return priority;
-    }
-
-    public Setting<T> markForSpaceOut(){
-        this.spacedOut = true;
+    public Setting<T> setCurrentValueFromObject(Object currentValue){
+        T val = (T) currentValue;
+        if(val != null) this.currentValue = val;
         return this;
     }
-    public boolean isSpacedOut(){
-        return this.spacedOut;
+    public T getCurrentValue(){
+        return currentValue;
     }
-
-    public Setting<T> markAsSubSetting(){
-        isSubSetting = true;
-        return this;
-    }
-    public boolean isSubSetting(){
-        return isSubSetting;
+    public String getValueForDisplay(){
+        return currentValue.toString();
     }
 
     /** Methods */
@@ -94,13 +59,4 @@ public abstract class Setting<T> implements Serializable {
 
     /** Callbacks */
     public void onValueChanged(){}
-
-    /** Enums */
-    public enum SettingCategory{
-        NONE,
-        GAME,
-        MULTIPLAYER,
-        RESURRECTING,
-        MONSTER
-    }
 }

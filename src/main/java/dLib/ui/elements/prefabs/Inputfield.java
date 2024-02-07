@@ -27,12 +27,12 @@ public class Inputfield extends CompositeUIElement {
     private float deleteTimerCount = 0;
 
     /** Constructor */
-    public Inputfield(int posX, int posY, int width, int height){
+    public Inputfield(String initialValue, int posX, int posY, int width, int height){
         super(posX, posY);
 
         preInitialize();
 
-        this.textBox = new TextBox("", posX, posY, width, height).setHorizontalAlignment(HorizontalAlignment.LEFT);
+        this.textBox = new TextBox(initialValue, posX, posY, width, height).setHorizontalAlignment(HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         this.other.add(textBox);
 

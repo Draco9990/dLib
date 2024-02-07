@@ -92,6 +92,10 @@ public class ScreenManager {
         }
     }
 
+    public static AbstractScreen getCurrentScreen(){
+        return screen;
+    }
+
     /** Misc methods */
     public static void initializeGlobalStrings(){
         AbstractScreen.globalStrings = CardCrawlGame.languagePack.getUIString(DLib.getModID() + ":AbstractScreen");

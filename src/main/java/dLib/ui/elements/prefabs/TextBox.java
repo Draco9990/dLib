@@ -14,6 +14,8 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
 import sayTheSpire.Output;
 
+import java.util.function.Consumer;
+
 public class TextBox extends Hoverable {
     /** Variables */
     private String text;
@@ -31,6 +33,8 @@ public class TextBox extends Hoverable {
 
     private float marginPercX = 0.0f;
     private float marginPercY = 0.0f;
+
+    private Consumer<String> onTextChangedConsumer;
 
     /** Constructors */
     public TextBox(String text, int xPos, int yPos, int width, int height){
@@ -198,15 +202,25 @@ public class TextBox extends Hoverable {
 
             recalculateFontScale();
 
-            if(ModManager.SayTheSpire.isActive()){
-                if(getOnTextChangedLine(text) != null){
-                    Output.text(getOnTextChangedLine(text), true);
-                }
-            }
+            onTextChanged(text);
         }
     }
     public String getText(){
         return text;
+    }
+
+    public void onTextChanged(String newText){
+        if(ModManager.SayTheSpire.isActive()){
+            if(getOnTextChangedLine(text) != null){
+                Output.text(getOnTextChangedLine(text), true);
+            }
+        }
+
+        if(onTextChangedConsumer != null) onTextChangedConsumer.accept(newText);
+    }
+    public TextBox setOnTextChangedConsumer(Consumer<String> consumer){
+        onTextChangedConsumer = consumer;
+        return this;
     }
 
     public TextBox setTextRenderColor(Color renderColor){

@@ -14,8 +14,12 @@ public class StringSetting extends Setting<String> implements Serializable {
         super(defaultValue);
     }
 
-    /** Methods */
-    public void sterilize(String text){
-
+    @Override
+    public Setting<String> setCurrentValue(String currentValue) {
+        sanitize(currentValue);
+        return super.setCurrentValue(currentValue);
     }
+
+    /** Methods */
+    public void sanitize(String text){ }
 }

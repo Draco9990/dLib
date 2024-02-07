@@ -4,15 +4,20 @@ import dLib.util.EnumHelpers;
 import dLib.util.settings.Setting;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EnumSetting<T extends Enum<T>> extends Setting<Enum<T>> implements Serializable {
     static final long serialVersionUID = 1L;
 
     /** Variables */
+    EControlType controlType;
 
     /** Constructors */
-    public EnumSetting(Enum<T> value) {
+    public EnumSetting(Enum<T> value, EControlType controlType) {
         super(value);
+
+        this.controlType = controlType;
     }
 
     /** Methods */
@@ -24,8 +29,22 @@ public class EnumSetting<T extends Enum<T>> extends Setting<Enum<T>> implements 
         currentValue = EnumHelpers.nextEnum(currentValue);
     }
 
+    public final ArrayList<T> getAllPossibleValues(){
+        return new ArrayList<>(Arrays.asList(currentValue.getDeclaringClass().getEnumConstants()));
+    }
+
     @Override
     public String getValueForDisplay() {
         return super.getValueForDisplay().replace("_", " ");
+    }
+
+    /** Control type*/
+    public EControlType getControlType(){
+        return controlType;
+    }
+
+    public enum EControlType{
+        ARROWS,
+        CLICK
     }
 }

@@ -1,0 +1,25 @@
+package dLib.ui.elements.settings;
+
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.ui.elements.prefabs.Toggle;
+import dLib.ui.themes.UIThemeManager;
+import dLib.util.settings.prefabs.BooleanSetting;
+
+public class ToggleUISetting extends AbstractUISetting {
+    /** Variables */
+    /** Constructors */
+    public ToggleUISetting(BooleanSetting setting, Integer xPos, Integer yPos, int width, int height){
+        super(setting, xPos, yPos, width, height);
+
+        int buttonDim = Math.min((int)(width * 0.25f), height);
+
+        middle = new Toggle(UIThemeManager.getDefaultTheme().button_small, UIThemeManager.getDefaultTheme().button_small_confirm, xPos + width - buttonDim, yPos, buttonDim, buttonDim){
+            @Override
+            public void toggle() {
+                super.toggle();
+                setting.toggle();
+            }
+        }.setToggled(setting.getCurrentValue());
+    }
+}
