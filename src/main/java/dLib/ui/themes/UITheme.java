@@ -29,6 +29,7 @@ public class UITheme {
     public Texture arrow_down;
 
     public Texture inputfield;
+    public Texture listbox = UITheme.whitePixel;
 
     public Color textColor;
 

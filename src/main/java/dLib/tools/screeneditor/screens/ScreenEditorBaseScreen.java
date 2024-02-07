@@ -6,6 +6,7 @@ import dLib.DLib;
 import dLib.tools.screeneditor.screens.menu.ScreenEditorMenuScreen;
 import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
 import dLib.tools.screeneditor.screens.toolbar.ScreenEditorElementListScreen;
+import dLib.tools.screeneditor.screens.toolbar.ScreenEditorPropertiesScreen;
 import dLib.tools.screeneditor.screens.toolbar.ScreenEditorToolbarScreen;
 import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
@@ -24,6 +25,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     private ScreenEditorPreviewScreen preview;
 
     private ScreenEditorToolbarScreen toolbar;
+    private ScreenEditorPropertiesScreen properties;
     private ScreenEditorElementListScreen elementListScreen;
 
     private ScreenEditorActiveItemsManager activeItemsManager;
@@ -44,6 +46,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
                 preview.makeNewPreviewItem(previewItem);
             }
         };
+        properties = new ScreenEditorPropertiesScreen();
         elementListScreen = new ScreenEditorElementListScreen();
 
         activeItemsManager = new ScreenEditorActiveItemsManager();
@@ -62,6 +65,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         preview.update();
 
         toolbar.update();
+        properties.update();
         elementListScreen.update();
 
         activeItemsManager.update();
@@ -76,6 +80,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         menu.render(sb);
 
         toolbar.render(sb);
+        properties.render(sb);
         elementListScreen.render(sb);
     }
 
@@ -97,7 +102,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     public ScreenEditorToolbarScreen getToolbarScreen(){
         return toolbar;
     }
-
+    public ScreenEditorPropertiesScreen getPropertiesScreen() { return properties; }
     public ScreenEditorElementListScreen getElementListScreen(){
         return elementListScreen;
     }
@@ -105,6 +110,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     /** Management */
     public void hideAllToolbarItems(){
         toolbar.hide();
+        properties.hide();
         elementListScreen.hide();
     }
 

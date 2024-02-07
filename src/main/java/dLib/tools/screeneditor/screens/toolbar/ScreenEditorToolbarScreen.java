@@ -17,21 +17,24 @@ import dLib.ui.screens.AbstractScreen;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ScreenEditorToolbarScreen extends AbstractScreen {
+public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen {
     public OrderedMap<String, UIPreviewItem> elementMap = new OrderedMap<>();
 
     public ScreenEditorToolbarScreen(){
+        super();
         initializeElementMap();
 
-        addElementToForeground(new TextBox("Elements:", 1508, 1080-52, 404, 43, 0, 0).setHorizontalAlignment(HorizontalAlignment.LEFT).setRenderColor(Color.WHITE));
+        addElementToForeground(new TextBox("Tools:", 1508, 1080-52, 404, 43, 0, 0).setHorizontalAlignment(HorizontalAlignment.LEFT).setRenderColor(Color.WHITE));
 
-        addInteractableElement(new ListBox<String>(1508, 10, 404, 1013){
+        ListBox<String> toolElements = new ListBox<String>(1508, 10, 404, 1013){
             @Override
             public void onItemSelected(String item) {
                 super.onItemSelected(item);
                 onElementToAddChosen(elementMap.get(item));
             }
-        }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray()))));
+        }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray())));
+        toolElements.getBackground().setImage(null);
+        addInteractableElement(toolElements);
     }
 
     /** Utility methods */
@@ -44,9 +47,4 @@ public class ScreenEditorToolbarScreen extends AbstractScreen {
     }
 
     public void onElementToAddChosen(UIPreviewItem previewItem){}
-
-    @Override
-    public String getModId() {
-        return DLib.getModID();
-    }
 }

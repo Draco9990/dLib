@@ -3,6 +3,7 @@ package dLib.tools.screeneditor.screens.menu;
 import com.badlogic.gdx.graphics.Color;
 import dLib.DLib;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
+import dLib.tools.screeneditor.screens.toolbar.ScreenEditorPropertiesScreen;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.Button;
@@ -42,6 +43,7 @@ public class ScreenEditorMenuScreen extends AbstractScreen {
         TextButton propertiesButton = new TextButton("Properties", 265, 1080-110, 200, 40);
         propertiesButton.getButton().setOnLeftClickConsumer(() -> {
             ScreenEditorBaseScreen.instance.hideAllToolbarItems();
+            ScreenEditorBaseScreen.instance.getPropertiesScreen().show();
         });
         addInteractableElement(propertiesButton);
 

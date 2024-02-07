@@ -11,8 +11,8 @@ public class ListCompositeUIElement extends CompositeUIElement{
     private Integer currentIndex;
 
     /** Constructors */
-    public ListCompositeUIElement(int xPos, int yPos){
-        super(xPos, yPos);
+    public ListCompositeUIElement(int xPos, int yPos, int width, int height){
+        super(xPos, yPos, width, height);
     }
 
     public ListCompositeUIElement(ListCompositeUIElementData data){

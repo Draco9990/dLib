@@ -9,6 +9,7 @@ import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.ListCompositeUIElement;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
+import dLib.ui.themes.UIThemeManager;
 
 import java.util.ArrayList;
 
@@ -21,11 +22,11 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
 
     /** Constructors */
     public ListBox(int xPos, int yPos, int width, int height){
-        super(xPos, yPos);
+        super(xPos, yPos, width, height);
 
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
-        itemBoxBackground = new Image(UITheme.whitePixel, xPos, yPos, width, height);
+        itemBoxBackground = new Image(UIThemeManager.getDefaultTheme().listbox, xPos, yPos, width, height);
         itemBoxBackground.setRenderColor(bgColor);
         other.add(itemBoxBackground);
 
@@ -54,12 +55,12 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         itemBoxBackground.update();
 
         int currentYPos = y + itemBoxBackground.getHeight();
-        for(UIElement item : getActiveItems()){
-            item.setPositionY(currentYPos - item.getHeight());
+        for(CompositeUIElement item : getActiveItems()){
+            item.setPositionY(currentYPos - item.getTrueHeight());
 
             item.update();
 
-            currentYPos -= item.getHeight();
+            currentYPos -= item.getTrueHeight();
         }
 
         if(calculatePageCount() > 1) scrollbar.update();
@@ -69,19 +70,19 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     public void render(SpriteBatch sb) {
         itemBoxBackground.render(sb);
 
-        for(UIElement item : getActiveItems()){
+        for(CompositeUIElement item : getActiveItems()){
             item.render(sb);
         }
 
         if(calculatePageCount() > 1) scrollbar.render(sb);
     }
 
-    public ArrayList<UIElement> getActiveItems(){
-        ArrayList<UIElement> activeItems = new ArrayList<>();
+    public ArrayList<CompositeUIElement> getActiveItems(){
+        ArrayList<CompositeUIElement> activeItems = new ArrayList<>();
 
         int currentPageHeight = 0;
         for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
-            UIElement item = items.get(i).renderForItem;
+            CompositeUIElement item = items.get(i).renderForItem;
             if(currentPageHeight + item.getHeight() > itemBoxBackground.getHeight()){
                 break;
             }
@@ -91,6 +92,13 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         }
 
         return activeItems;
+    }
+
+    /** Title */
+
+    /** Background */
+    public Image getBackground(){
+        return itemBoxBackground;
     }
 
     /** Scrollbar */
@@ -141,7 +149,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     private CompositeUIElement makeRenderElementForItem(ItemType item){
         UIElement elementRender = getRenderElementForItem(item);
 
-        CompositeUIElement composite = new CompositeUIElement(elementRender.getPositionX(), elementRender.getPositionY());
+        CompositeUIElement composite = new CompositeUIElement(elementRender.getPositionX(), elementRender.getPositionY(), elementRender.getWidth(), elementRender.getHeight());
         composite.other.add(elementRender);
 
         composite.middle = new Button(elementRender.getPositionX(), elementRender.getPositionY(), itemBoxBackground.getWidth(), elementRender.getHeight()){
@@ -162,10 +170,10 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     public class ListBoxItem{
         /** Variables */
         public ItemType item;
-        public UIElement renderForItem;
+        public CompositeUIElement renderForItem;
 
         /** Constructors */
-        public ListBoxItem(ItemType item, UIElement renderElement){
+        public ListBoxItem(ItemType item, CompositeUIElement renderElement){
             this.item = item;
             this.renderForItem = renderElement;
         }

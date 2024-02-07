@@ -7,3 +7,5 @@
 
 -> abstract class custom child named GeneratedAbstractScreen with constructor that initializes based on the provided AbstractScreenData
 -> abstractScreenData contains list of items with names that get set throughr eflection to the actual ones
+
+--> add width and height to ui element

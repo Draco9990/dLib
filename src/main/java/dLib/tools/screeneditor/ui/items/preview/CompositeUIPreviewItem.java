@@ -37,7 +37,10 @@ public abstract class CompositeUIPreviewItem extends UIPreviewItem{
     /** Data */
     @Override
     public CompositeUIElementData makeElementData() {
-        return new CompositeUIElementData();
+        CompositeUIElementData data = new CompositeUIElementData();
+        data.x = x;
+        data.y = y;
+        return data;
     }
 
     @Override

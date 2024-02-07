@@ -16,19 +16,26 @@ public abstract class UIElement {
     protected int x = 0;
     protected int y = 0;
 
+    protected int width = 0;
+    protected int height = 0;
+
     private BiConsumer<Integer, Integer> positionChangedConsumer;
 
     /** Constructors */
-    public UIElement(int xPos, int yPos){
+    public UIElement(int xPos, int yPos, int width, int height){
         this.ID = "UIElement_" + UUID.randomUUID();
         this.x = xPos;
         this.y = yPos;
+        this.width = width;
+        this.height = height;
     }
 
     public UIElement(UIElementData data){
         this.ID = data.name;
         this.x = data.x;
         this.y = data.y;
+        this.width = data.width;
+        this.height = data.height;
     }
 
     /** Update and render */
@@ -112,8 +119,27 @@ public abstract class UIElement {
     }
 
     /** Width and height */
-    public abstract int getWidth();
-    public abstract int getHeight();
+    public UIElement setWidth(int newWidth){
+        return setDimensions(newWidth, height);
+    }
+    public UIElement setHeight(int newHeight){
+        return setDimensions(width, newHeight);
+    }
+    public UIElement setDimensions(int newWidth, int newHeight){
+        if(newWidth < 1) newWidth = 1;
+        if(newHeight < 1) newHeight = 1;
+
+        this.width = newWidth;
+        this.height = newHeight;
+        return this;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+    public int getHeight(){
+        return height;
+    }
 
     /** Visibility */
     public void hide(){

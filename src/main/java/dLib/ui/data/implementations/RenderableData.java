@@ -5,9 +5,6 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 
 public class RenderableData extends UIElementData {
-    public int width;
-    public int height;
-
     public String texturePath;
 
     public String color;

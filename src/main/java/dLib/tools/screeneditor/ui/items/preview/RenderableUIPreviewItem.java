@@ -19,21 +19,13 @@ public abstract class RenderableUIPreviewItem extends UIPreviewItem{
         super(image, xPos, yPos, width, height);
     }
 
-    /** Dimensions */
-    @Override
-    public RenderableUIPreviewItem setDimensions(int newWidth, int newHeight) {
-        super.setDimensions(newWidth, newHeight);
-
-        getElementData().width = newWidth;
-        getElementData().height = newHeight;
-
-        return this;
-    }
-
     /** Data */
     @Override
     public RenderableData makeElementData() {
-        return new RenderableData();
+        RenderableData data = new RenderableData();
+        data.x = x;
+        data.y = y;
+        return data;
     }
 
     @Override

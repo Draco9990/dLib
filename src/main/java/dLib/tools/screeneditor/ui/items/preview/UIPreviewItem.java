@@ -93,6 +93,16 @@ public abstract class UIPreviewItem extends Resizeable {
         return this;
     }
 
+    @Override
+    public UIPreviewItem setDimensions(int newWidth, int newHeight) {
+        super.setDimensions(newWidth, newHeight);
+
+        getElementData().width = newWidth;
+        getElementData().height = newHeight;
+
+        return this;
+    }
+
     /** Copy */
     public abstract UIPreviewItem makeCopy();
 
@@ -105,5 +115,11 @@ public abstract class UIPreviewItem extends Resizeable {
     /** Properties */
     public ArrayList<Object> getEditProperties(){
         return new ArrayList<>();
+    }
+
+    /** Misc */
+    @Override
+    public String toString() {
+        return getId();
     }
 }

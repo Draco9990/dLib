@@ -14,13 +14,12 @@ import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
 
-public class ScreenEditorElementListScreen extends AbstractScreen {
+public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarScreen {
     private ListBox<UIPreviewItem> previewItemList;
 
     /** Constructors */
     public ScreenEditorElementListScreen(){
-        background = new Renderable(UITheme.whitePixel, 1508, 10, 404, 1070);
-        background.setRenderColor(Color.valueOf("#242424FF"));
+        super();
 
         previewItemList = new ListBox<UIPreviewItem>(1508, 10, 404, 1013){
             @Override
@@ -38,6 +37,7 @@ public class ScreenEditorElementListScreen extends AbstractScreen {
                 button.setOnUnhoveredConsumer(() -> item.setHighlight(false));
             }
         };
+        previewItemList.getBackground().setImage(null);
         addInteractableElement(previewItemList);
 
         hide();
@@ -51,10 +51,5 @@ public class ScreenEditorElementListScreen extends AbstractScreen {
         for(UIPreviewItem item : ScreenEditorBaseScreen.instance.getPreviewScreen().getPreviewItems()){
             previewItemList.addItem(item);
         }
-    }
-
-    @Override
-    public String getModId() {
-        return DLib.getModID();
     }
 }

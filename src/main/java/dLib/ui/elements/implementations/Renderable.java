@@ -9,9 +9,6 @@ import dLib.ui.elements.UIElement;
 import dLib.util.TextureManager;
 
 public class Renderable extends UIElement {
-    protected int width = 0;
-    protected int height = 0;
-
     protected Texture image;
 
     protected Color renderColor;
@@ -27,11 +24,9 @@ public class Renderable extends UIElement {
     }
 
     public Renderable(Texture image, int xPos, int yPos, int width, int height){
-        super(xPos, yPos);
+        super(xPos, yPos, width, height);
 
         this.image = image;
-        this.width = width;
-        this.height = height;
         this.renderColor = Color.WHITE.cpy();
     }
 
@@ -39,43 +34,7 @@ public class Renderable extends UIElement {
         super(renderableData);
 
         this.image = TextureManager.getTexture(renderableData.texturePath);
-        this.width = renderableData.width;
-        this.height = renderableData.height;
         this.renderColor = Color.valueOf(renderableData.color);
-    }
-
-    /** Builder methods */
-    public Renderable setWidth(int newWidth){
-        return setDimensions(newWidth, height);
-    }
-
-    public Renderable setHeight(int newHeight){
-        return setDimensions(width, newHeight);
-    }
-
-    public Renderable setDimensions(int newWidth, int newHeight){
-        if(newWidth < 1) newWidth = 1;
-        if(newHeight < 1) newHeight = 1;
-
-        this.width = newWidth;
-        this.height = newHeight;
-        return this;
-    }
-
-    public Renderable setSize(int newWidth, int newHeight){
-        setWidth(newWidth);
-        setHeight(newHeight);
-        return this;
-    }
-
-    public Renderable setImage(Texture image){
-        this.image = image;
-        return this;
-    }
-
-    public Renderable setRenderColor(Color color){
-        this.renderColor = color;
-        return this;
     }
 
     /** Update and render */
@@ -105,12 +64,20 @@ public class Renderable extends UIElement {
         return renderColor;
     }
 
-    /** Misc methods */
-    public int getWidth() { return width; }
-    public int getHeight() { return height; }
-
+    /** Image */
+    public Renderable setImage(Texture image){
+        this.image = image;
+        return this;
+    }
     public Texture getImage() { return image; }
 
+    /** Color */
+    public Renderable setRenderColor(Color color){
+        this.renderColor = color;
+        return this;
+    }
+
+    /** Enabled/Visible/Active */
     @Override
     public void setVisibility(boolean visible) {
         this.visible = visible;

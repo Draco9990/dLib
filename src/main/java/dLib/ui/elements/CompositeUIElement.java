@@ -26,7 +26,11 @@ public class CompositeUIElement extends UIElement {
 
     /** Constructors */
     public CompositeUIElement(int xPos, int yPos){
-        super(xPos, yPos);
+        super(xPos, yPos, 9999, 9999);
+    }
+
+    public CompositeUIElement(int xPos, int yPos, int width, int height){
+        super(xPos, yPos, width, height);
     }
 
     public CompositeUIElement(CompositeUIElementData data){
@@ -121,9 +125,22 @@ public class CompositeUIElement extends UIElement {
         return yPos;
     }
 
+
     /** Width and Height */
     @Override
-    public int getWidth() {
+    public UIElement setDimensions(int newWidth, int newHeight) {
+        int diffX = newWidth - width;
+        int diffY = newHeight - height;
+
+        if(left != null) left.setDimensions(left.getWidth() + diffX, left.getHeight() + diffY);
+        if(middle != null) middle.offset(middle.getWidth() + diffX, middle.getHeight() + diffY);
+        if(right != null) right.offset(right.getWidth() + diffX, right.getHeight() + diffY);
+        for(UIElement otherElement : other) otherElement.offset(otherElement.getWidth() + diffX, otherElement.getHeight() + diffY);
+
+        return super.setDimensions(newWidth, newHeight);
+    }
+
+    public int getTrueWidth() {
         int leftMostX = -1;
         int rightMostX = -1;
 
@@ -158,8 +175,7 @@ public class CompositeUIElement extends UIElement {
 
         return rightMostX - leftMostX;
     }
-    @Override
-    public int getHeight() {
+    public int getTrueHeight() {
         int bottomY = -1;
         int topY = -1;
 
