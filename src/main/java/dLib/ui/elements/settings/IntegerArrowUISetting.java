@@ -37,7 +37,7 @@ public class IntegerArrowUISetting extends AbstractUISetting {
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
 
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (textPerc+arrowPerc))), yPos, ((int)(width * (1-textPerc-2*arrowPerc))), height).filterAddNumerical();
+            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (textPerc+arrowPerc))), yPos, ((int)(width * (1-textPerc-2*arrowPerc))), height).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
             ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
@@ -50,14 +50,15 @@ public class IntegerArrowUISetting extends AbstractUISetting {
             });
         }
         else{
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * textPerc)), yPos, ((int)(width * (1-textPerc))), height).filterAddNumerical();
+            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * textPerc)), yPos, ((int)(width * (1-textPerc))), height).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
             ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
                     if(s.isEmpty()) {
-                        ((Inputfield)middle).getTextBox().setText("0");
+                        setting.setCurrentValue(0);
                         return;
                     }
+
                     setting.setCurrentValue(Integer.valueOf(s));
                 }
             });

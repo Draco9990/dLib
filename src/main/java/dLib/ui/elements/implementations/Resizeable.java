@@ -198,7 +198,7 @@ public class Resizeable extends Draggable{
     }
 
     @Override
-    public Resizeable setPosition(int newPosX, int newPosY) {
+    public Resizeable setPosition(Integer newPosX, Integer newPosY) {
         super.setPosition(newPosX, newPosY);
         refreshResizeNodePositions();
         return this;

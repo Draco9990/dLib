@@ -55,7 +55,7 @@ public abstract class UIElement {
         setPosition(x, newPosY);
         return this;
     }
-    public UIElement setPosition(int newPosX, int newPosY){
+    public UIElement setPosition(Integer newPosX, Integer newPosY){
         boolean positionDifferent = x != newPosX || y != newPosY;
 
         x = newPosX;

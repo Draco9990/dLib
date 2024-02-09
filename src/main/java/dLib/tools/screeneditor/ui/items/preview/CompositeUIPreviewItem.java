@@ -19,7 +19,7 @@ public abstract class CompositeUIPreviewItem extends UIPreviewItem{
 
     /** Position & Dimensions */
     @Override
-    public CompositeUIPreviewItem setPosition(int newPosX, int newPosY) {
+    public CompositeUIPreviewItem setPosition(Integer newPosX, Integer newPosY) {
         super.setPosition(newPosX, newPosY);
         // if composites are ever available for user adding, implement this with properties
         return this;

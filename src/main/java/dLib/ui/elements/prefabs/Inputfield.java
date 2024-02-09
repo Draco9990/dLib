@@ -11,6 +11,7 @@ import dLib.ui.themes.UIThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Inputfield extends CompositeUIElement {
     /** Variables */
@@ -26,13 +27,25 @@ public class Inputfield extends CompositeUIElement {
     private boolean holdingDelete = false;
     private float deleteTimerCount = 0;
 
+    private EInputfieldType type;
+
     /** Constructor */
     public Inputfield(String initialValue, int posX, int posY, int width, int height){
         super(posX, posY);
 
         preInitialize();
 
-        this.textBox = new TextBox(initialValue, posX, posY, width, height, 0.025f, 0.025f).setHorizontalAlignment(HorizontalAlignment.LEFT);
+        this.textBox = new TextBox(initialValue, posX, posY, width, height, 0.025f, 0.025f){
+            @Override
+            public void setText(String text) {
+                if(type == EInputfieldType.NUMERICAL_DECIMAL || type == EInputfieldType.NUMERICAL_WHOLE){
+                    if(Objects.equals(this.getText(), "1") && text.length() > 1){
+                        text = text.substring(1);
+                    }
+                }
+                super.setText(text);
+            }
+        }.setHorizontalAlignment(HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         this.other.add(textBox);
 
@@ -103,6 +116,20 @@ public class Inputfield extends CompositeUIElement {
         };
     }
 
+    /** Update and render */
+    @Override
+    public void update() {
+        super.update();
+
+        if(holdingDelete){
+            float delta = Gdx.graphics.getDeltaTime();
+            deleteTimerCount += delta;
+            if(deleteTimerCount > 1){
+                removeLastCharacter();
+            }
+        }
+    }
+
     /** Button */
     public Button getButton(){
         return background;
@@ -113,7 +140,23 @@ public class Inputfield extends CompositeUIElement {
         return textBox;
     }
 
-    /** Builder methods */
+    /** Typing */
+    public Inputfield setType(EInputfieldType type){
+        characterFilter.clear();
+        this.type = type;
+
+        if(type == EInputfieldType.NUMERICAL_WHOLE || type == EInputfieldType.NUMERICAL_DECIMAL){
+            filterAddNumerical();
+        }
+
+        if(type == EInputfieldType.NUMERICAL_DECIMAL){
+            characterFilter.add('.');
+        }
+
+        return this;
+    }
+
+    /** Filters */
     public Inputfield filterAddNumerical(){
         for(char c = '0'; c <= '9'; c++){
             characterFilter.add(c);
@@ -139,19 +182,7 @@ public class Inputfield extends CompositeUIElement {
         return this;
     }
 
-    /** Update and render */
-    @Override
-    public void update() {
-        super.update();
 
-        if(holdingDelete){
-            float delta = Gdx.graphics.getDeltaTime();
-            deleteTimerCount += delta;
-            if(deleteTimerCount > 1){
-                removeLastCharacter();
-            }
-        }
-    }
 
     /** Misc methods */
     private void addCharacter(char character){
@@ -167,5 +198,11 @@ public class Inputfield extends CompositeUIElement {
         if(Gdx.input.getInputProcessor() == inputProcessor){
             Gdx.input.setInputProcessor(cachedInputProcessor);
         }
+    }
+
+    public enum EInputfieldType{
+        GENERIC,
+        NUMERICAL_WHOLE,
+        NUMERICAL_DECIMAL
     }
 }

@@ -88,7 +88,7 @@ public class CompositeUIElement extends UIElement {
 
     /** Position */
     @Override
-    public UIElement setPosition(int newPosX, int newPosY) {
+    public UIElement setPosition(Integer newPosX, Integer newPosY) {
         int xOffset = newPosX - x;
         int yOffset = newPosY - y;
 

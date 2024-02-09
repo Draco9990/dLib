@@ -6,32 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/toolbar/ScreenEditorPropertiesScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/toolbar/ScreenEditorPropertiesScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/CompositeUIPreviewItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/CompositeUIPreviewItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/RenderableUIPreviewItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/RenderableUIPreviewItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/UIPreviewItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/UIPreviewItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/util/ScreenEditorActiveItemsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/util/ScreenEditorActiveItemsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/data/UIElementData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/data/UIElementData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/CompositeUIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/CompositeUIElement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Draggable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Draggable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Hoverable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Hoverable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Resizeable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Resizeable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Inputfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/TextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/TextBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/AbstractUISetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/AbstractUISetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/ButtonUISetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/CustomUISetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/EnumUISetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/EnumUISetting.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/IntegerArrowUISetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/IntegerArrowUISetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/StringUISetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/StringUISetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/ToggleUISetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/ToggleUISetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/NumberSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/NumberSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/Setting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/Setting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/ArraySetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/ArraySetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/BooleanSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/BooleanSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/CustomSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/CustomSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/EnumSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/EnumSetting.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/IntegerSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/IntegerSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/StringSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/StringSetting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,28 +47,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JAR Application.Slay the Spire.executor": "Debug",
-    "Maven.dLib [package].executor": "Run",
-    "Maven.dLib [test].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "1.8",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Marino/Projects/StS DLib/DLib/Source/dLib/src/main/java/dLib/ui/elements",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JAR Application.Slay the Spire.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven.dLib [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.dLib [test].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Marino/Projects/StS DLib/DLib/Source/dLib/src/main/java/dLib/ui/elements&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Marino\Projects\StS DLib\DLib\Source\dLib\src\main\java\dLib\ui\elements" />
@@ -101,11 +85,11 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.ui.elements.prefabs" />
       <recent name="dLib.tools.screeneditor.ui.items.preview" />
       <recent name="dLib.tools.screeneditor" />
       <recent name="dLib.plugin.intellij.commands" />
       <recent name="dLib.plugin.intellij" />
-      <recent name="dLib.util" />
     </key>
   </component>
   <component name="RunManager">
@@ -174,7 +158,10 @@
       <workItem from="1707252223837" duration="23000" />
       <workItem from="1707252254530" duration="574000" />
       <workItem from="1707252844660" duration="5859000" />
-      <workItem from="1707300851980" duration="30738000" />
+      <workItem from="1707300851980" duration="32076000" />
+      <workItem from="1707435539014" duration="6000" />
+      <workItem from="1707437221506" duration="1000" />
+      <workItem from="1707507065421" duration="3887000" />
     </task>
     <servers />
   </component>

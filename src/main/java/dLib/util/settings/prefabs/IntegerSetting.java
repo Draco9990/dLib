@@ -13,6 +13,9 @@ public class IntegerSetting extends NumberSetting<Integer> implements Serializab
     /** Variables */
 
     /** Constructors */
+    public IntegerSetting(Integer currentValue){
+        this(currentValue, null, null);
+    }
     public IntegerSetting(Integer currentValue, Integer minimumValue, Integer maximumValue){
         this(currentValue, minimumValue, maximumValue, 1);
     }

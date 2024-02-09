@@ -7,7 +7,6 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.data.UIElementData;
-import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.IntegerSetting;
@@ -35,14 +34,14 @@ public abstract class UIPreviewItem extends Resizeable {
         }
     }.setTitle("ID:");
 
-    private IntegerSetting sPosX = (IntegerSetting) new IntegerSetting(getPositionX(), 0, upperBoundX){
+    private IntegerSetting sPosX = (IntegerSetting) new IntegerSetting(getPositionX()){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
             setPositionX(currentValue);
         }
     }.setTitle("X Position:");
-    private IntegerSetting sPosY = (IntegerSetting) new IntegerSetting(getPositionY(), 0, upperBoundY){
+    private IntegerSetting sPosY = (IntegerSetting) new IntegerSetting(getPositionY()){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
@@ -50,14 +49,14 @@ public abstract class UIPreviewItem extends Resizeable {
         }
     }.setTitle("Y Position:");
 
-    private IntegerSetting sWidth = (IntegerSetting) new IntegerSetting(getWidth(), 1, null){
+    private IntegerSetting sWidth = (IntegerSetting) new IntegerSetting(getWidth(), null, null){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
             setWidth(currentValue);
         }
     }.setTitle("Width:");
-    private IntegerSetting sHeight = (IntegerSetting) new IntegerSetting(getHeight(), 1, null){
+    private IntegerSetting sHeight = (IntegerSetting) new IntegerSetting(getHeight(), null, null){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
@@ -132,33 +131,19 @@ public abstract class UIPreviewItem extends Resizeable {
 
     /** Position and dimensions */
     @Override
-    public UIPreviewItem setPosition(int newPosX, int newPosY) {
+    public UIPreviewItem setPosition(Integer newPosX, Integer newPosY) {
         super.setPosition(newPosX, newPosY);
 
-        getElementData().x = newPosX;
-        getElementData().y = newPosY;
+        getElementData().x = x;
+        getElementData().y = y;
 
-        if(sPosX.getCurrentValue() != newPosX){
-            sPosX.setCurrentValue(newPosX);
+        if(sPosX.getCurrentValue() != x){
+            sPosX.setCurrentValue(x);
         }
-        if(sPosY.getCurrentValue() != newPosY){
-            sPosY.setCurrentValue(newPosY);
+        if(sPosY.getCurrentValue() != y){
+            sPosY.setCurrentValue(y);
         }
 
-        return this;
-    }
-
-    @Override
-    public Draggable setBoundsX(Integer lowerBound, Integer upperBound) {
-        super.setBoundsX(lowerBound, upperBound);
-        sPosX.setBounds(lowerBound, upperBound);
-        return this;
-    }
-
-    @Override
-    public Draggable setBoundsY(Integer lowerBound, Integer upperBound) {
-        super.setBoundsY(lowerBound, upperBound);
-        sPosY.setBounds(lowerBound, upperBound);
         return this;
     }
 
