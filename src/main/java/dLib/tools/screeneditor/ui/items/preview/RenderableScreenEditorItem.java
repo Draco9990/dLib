@@ -2,7 +2,7 @@ package dLib.tools.screeneditor.ui.items.preview;
 
 import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.implementations.Renderable;
-import dLib.util.bindings.image.TextureBinding;
+import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.TextureSetting;
 
@@ -14,6 +14,9 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
         @Override
         public void onValueChanged() {
             super.onValueChanged();
+            if(getElementData() != null){
+                getElementData().textureBinding = getCurrentValue();
+            }
             if(getCurrentValue().isValid()){
                 setImage(getCurrentValue().getBoundTexture());
             }

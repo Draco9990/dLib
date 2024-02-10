@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractUISetting;
-import dLib.ui.elements.settings.ToggleUISetting;
+import dLib.ui.elements.settings.AbstractSettingUI;
+import dLib.ui.elements.settings.ToggleSettingUI;
 import dLib.util.settings.Setting;
 import java.io.Serializable;
 
@@ -22,7 +22,7 @@ public class BooleanSetting extends Setting<Boolean> implements Serializable {
 
     /** UI */
     @Override
-    public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
-        return new ToggleUISetting(this, xPos, yPos, width, height);
+    public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
+        return new ToggleSettingUI(this, xPos, yPos, width, height);
     }
 }

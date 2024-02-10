@@ -1,4 +1,4 @@
-package dLib.util.bindings.image;
+package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.util.TextureManager;

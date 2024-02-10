@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractUISetting;
-import dLib.ui.elements.settings.CustomUISetting;
+import dLib.ui.elements.settings.AbstractSettingUI;
+import dLib.ui.elements.settings.CustomSettingUI;
 import dLib.util.settings.Setting;
 
 import java.io.Serializable;
@@ -26,7 +26,7 @@ public abstract class CustomSetting<T> extends Setting<T> implements Serializabl
 
     /** UI */
     @Override
-    public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
-        return new CustomUISetting<T>(this, xPos, yPos, width, height);
+    public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
+        return new CustomSettingUI<T>(this, xPos, yPos, width, height);
     }
 }

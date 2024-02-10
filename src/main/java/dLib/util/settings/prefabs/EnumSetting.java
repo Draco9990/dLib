@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractUISetting;
-import dLib.ui.elements.settings.EnumUISetting;
+import dLib.ui.elements.settings.AbstractSettingUI;
+import dLib.ui.elements.settings.EnumSettingUI;
 import dLib.util.EnumHelpers;
 import dLib.util.settings.Setting;
 
@@ -52,7 +52,7 @@ public class EnumSetting<T extends Enum<T>> extends Setting<Enum<T>> implements 
 
     /** UI */
     @Override
-    public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
-        return new EnumUISetting(this, xPos, yPos, width, height);
+    public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
+        return new EnumSettingUI(this, xPos, yPos, width, height);
     }
 }

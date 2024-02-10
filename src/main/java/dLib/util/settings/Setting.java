@@ -1,10 +1,8 @@
 package dLib.util.settings;
 
-import dLib.ui.elements.UIElement;
-import dLib.ui.elements.settings.AbstractUISetting;
+import dLib.ui.elements.settings.AbstractSettingUI;
 
 import java.io.Serializable;
-import java.util.function.Consumer;
 
 public abstract class Setting<T> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -81,5 +79,5 @@ public abstract class Setting<T> implements Serializable {
     }
 
     /** UI */
-    public abstract AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height);
+    public abstract AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height);
 }

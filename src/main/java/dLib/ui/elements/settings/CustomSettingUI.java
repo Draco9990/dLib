@@ -6,12 +6,12 @@ import dLib.ui.screens.ScreenManager;
 import dLib.ui.screens.util.AbstractObjectListPickerScreen;
 import dLib.util.settings.prefabs.CustomSetting;
 
-public class CustomUISetting<ItemType> extends AbstractUISetting {
+public class CustomSettingUI<ItemType> extends AbstractSettingUI {
     /** Constructor */
-    public CustomUISetting(CustomSetting<ItemType> setting, Integer xPos, Integer yPos, int width, int height){
+    public CustomSettingUI(CustomSetting<ItemType> setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
 
-        this.middle = new TextButton(setting.getValueForDisplay(), xPos + ((int)(width * textPerc)), yPos, (int)(width * (1-textPerc)), height);
+        this.middle = new TextButton(setting.getValueForDisplay(), xPos + ((int)(width - width * valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
         ((TextButton)middle).getButton().setOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {

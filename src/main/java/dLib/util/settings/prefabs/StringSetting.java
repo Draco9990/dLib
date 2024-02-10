@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractUISetting;
-import dLib.ui.elements.settings.StringUISetting;
+import dLib.ui.elements.settings.AbstractSettingUI;
+import dLib.ui.elements.settings.StringSettingUI;
 import dLib.util.settings.Setting;
 
 import java.io.Serializable;
@@ -27,7 +27,7 @@ public class StringSetting extends Setting<String> implements Serializable {
 
     /** UI */
     @Override
-    public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
-        return new StringUISetting(this, xPos, yPos, width, height);
+    public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
+        return new StringSettingUI(this, xPos, yPos, width, height);
     }
 }

@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.util.TextureBindingHelpers;
-import dLib.util.bindings.image.TextureBinding;
+import dLib.util.bindings.texture.TextureBindingHelpers;
+import dLib.util.bindings.texture.TextureBinding;
 
 import java.util.ArrayList;
 

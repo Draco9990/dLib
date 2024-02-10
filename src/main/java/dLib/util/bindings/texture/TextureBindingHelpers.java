@@ -1,9 +1,11 @@
-package dLib.util;
+package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.themes.UITheme;
-import dLib.util.bindings.image.TextureBinding;
-import dLib.util.bindings.image.TextureThemeBinding;
+import dLib.util.DLibLogger;
+import dLib.util.Reflection;
+import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.TextureThemeBinding;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class TextureBindingHelpers {
         ArrayList<TextureBinding> bindings = new ArrayList<>();
         try{
             for(Field f : Reflection.getFieldsByClass(Texture.class, UITheme.class)){
-                bindings.add(new TextureThemeBinding(f));
+                bindings.add(new TextureThemeBinding(f.getName()));
             }
         }catch (Exception e){
             DLibLogger.log("Failed to collect all theme bindings. Please contact Draco to fix this issue. " + e.getLocalizedMessage());

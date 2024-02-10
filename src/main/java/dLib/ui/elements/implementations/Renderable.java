@@ -32,7 +32,7 @@ public class Renderable extends UIElement {
     public Renderable(RenderableData renderableData){
         super(renderableData);
 
-        this.image = renderableData.textureBinding.getCurrentValue().getBoundTexture();
+        this.image = renderableData.textureBinding.getBoundTexture();
         this.renderColor = Color.valueOf(renderableData.color);
     }
 

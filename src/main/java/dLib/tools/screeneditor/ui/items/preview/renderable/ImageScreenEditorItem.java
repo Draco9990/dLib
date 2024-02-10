@@ -4,13 +4,13 @@ import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.ImageData;
 import dLib.ui.themes.UITheme;
-import dLib.util.bindings.image.TextureBinding;
-import dLib.util.bindings.image.TextureThemeBinding;
+import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.TextureThemeBinding;
 
 public class ImageScreenEditorItem extends RenderableScreenEditorItem {
     /** Constructors */
     public ImageScreenEditorItem(){
-        super(new TextureThemeBinding("whitePixel", UITheme.class), 0, 0, 75, 75);
+        super(new TextureThemeBinding("whitePixel"), 0, 0, 75, 75);
     }
 
     public ImageScreenEditorItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {

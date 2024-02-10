@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractUISetting;
-import dLib.ui.elements.settings.IntegerArrowUISetting;
+import dLib.ui.elements.settings.AbstractSettingUI;
+import dLib.ui.elements.settings.IntegerArrowSettingUI;
 import dLib.util.settings.NumberSetting;
 import dLib.util.settings.Setting;
 
@@ -52,7 +52,7 @@ public class IntegerSetting extends NumberSetting<Integer> implements Serializab
 
     /** UI */
     @Override
-    public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
-        return new IntegerArrowUISetting(this, xPos, yPos, width, height, false);
+    public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
+        return new IntegerArrowSettingUI(this, xPos, yPos, width, height, false);
     }
 }

@@ -3,10 +3,11 @@ package dLib.ui.data.implementations;
 import dLib.ui.data.UIElementData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.prefabs.TextureSetting;
 
 public class RenderableData extends UIElementData {
-    public TextureSetting textureBinding;
+    public TextureBinding textureBinding;
 
     public String color;
 

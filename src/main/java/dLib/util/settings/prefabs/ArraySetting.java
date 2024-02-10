@@ -1,8 +1,5 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractUISetting;
-import dLib.ui.elements.settings.CustomUISetting;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

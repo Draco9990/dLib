@@ -14,8 +14,8 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
     public void createPropertiesFor(ScreenEditorItem item){
         clearScreen();
 
-        int elementHeight = 50;
-        int elementSpacing = 10;
+        int elementHeight = 100;
+        int elementSpacing = 5;
         int yPos = 1060 - elementHeight - elementSpacing;
         for(Setting<?> setting : item.getPropertiesForItem()){
             addInteractableElement(setting.makeUIFor(1508, yPos, 404, elementHeight));

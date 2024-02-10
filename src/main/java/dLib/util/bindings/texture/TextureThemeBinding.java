@@ -1,4 +1,4 @@
-package dLib.util.bindings.image;
+package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.themes.UIThemeManager;
@@ -9,22 +9,18 @@ import java.lang.reflect.Field;
 
 public class TextureThemeBinding extends TextureBinding {
     /** Variables */
-    private Field field;
+    private String themeFieldName = "";
 
     /** Constructors */
-    public TextureThemeBinding(Field themeField){
-        this.field = themeField;
-    }
-
-    public TextureThemeBinding(String fieldName, Class<?> fieldClass){
-        this(Reflection.getFieldByName(fieldName, fieldClass));
+    public TextureThemeBinding(String fieldName){
+        themeFieldName = fieldName;
     }
 
     /** Bindings */
     @Override
     public Texture getBoundTexture() {
         try{
-            return (Texture) field.get(UIThemeManager.getDefaultTheme());
+            return Reflection.getFieldValue(themeFieldName, UIThemeManager.getDefaultTheme());
         }catch (Exception e){
             DLibLogger.log("Failed to get bound image due to " + e.getLocalizedMessage());
             return null;
@@ -33,17 +29,17 @@ public class TextureThemeBinding extends TextureBinding {
 
     @Override
     public boolean isValid() {
-        return field != null && getBoundTexture() != null;
+        return themeFieldName != null && !themeFieldName.isEmpty() && getBoundTexture() != null;
     }
 
     /** Name */
     @Override
     public String getShortDisplayName() {
-        return field.getName();
+        return themeFieldName;
     }
 
     @Override
     public String getFullDisplayName() {
-        return "theme/" + field.getName();
+        return "theme/" + themeFieldName;
     }
 }

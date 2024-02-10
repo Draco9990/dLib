@@ -1,12 +1,8 @@
-package dLib.util.bindings.image;
+package dLib.util.bindings;
 
-import com.badlogic.gdx.graphics.Texture;
-
-public abstract class TextureBinding {
-
+public abstract class Binding {
     /** Binding */
     public abstract boolean isValid();
-    public abstract Texture getBoundTexture();
 
     /** To String */
     @Override
@@ -17,4 +13,5 @@ public abstract class TextureBinding {
     /** Display */
     public abstract String getShortDisplayName();
     public abstract String getFullDisplayName();
+
 }

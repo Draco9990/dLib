@@ -1,17 +1,15 @@
 package dLib.ui.elements.settings;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.Inputfield;
-import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.settings.prefabs.IntegerSetting;
 
 import java.util.function.Consumer;
 
-public class IntegerArrowUISetting extends AbstractUISetting {
+public class IntegerArrowSettingUI extends AbstractSettingUI {
     /** Constructors */
-    public IntegerArrowUISetting(IntegerSetting setting, Integer xPos, Integer yPos, Integer width, int height, boolean showArrows){
+    public IntegerArrowSettingUI(IntegerSetting setting, Integer xPos, Integer yPos, Integer width, int height, boolean showArrows){
         super(setting, xPos, yPos, width, height);
 
         if(showArrows){
@@ -37,7 +35,7 @@ public class IntegerArrowUISetting extends AbstractUISetting {
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
 
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (textPerc+arrowPerc))), yPos, ((int)(width * (1-textPerc-2*arrowPerc))), height).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
+            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (textPercX + arrowPercX))), yPos, ((int)(width * (valuePercX -2* arrowPercX))), height).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
             ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
@@ -50,7 +48,7 @@ public class IntegerArrowUISetting extends AbstractUISetting {
             });
         }
         else{
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * textPerc)), yPos, ((int)(width * (1-textPerc))), height).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
+            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * textPercX)), yPos, ((int)(width * valuePercX)), height).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
             ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
