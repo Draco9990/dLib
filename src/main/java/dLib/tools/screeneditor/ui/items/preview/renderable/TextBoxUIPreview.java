@@ -1,21 +1,20 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
-import com.badlogic.gdx.graphics.Texture;
 import dLib.tools.screeneditor.ui.items.preview.RenderableUIPreviewItem;
 import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
-import dLib.ui.data.UIElementData;
-import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.data.prefabs.TextBoxData;
-import dLib.ui.themes.UIThemeManager;
+import dLib.ui.themes.UITheme;
+import dLib.util.bindings.image.TextureBinding;
+import dLib.util.bindings.image.TextureThemeBinding;
 
 public class TextBoxUIPreview extends RenderableUIPreviewItem {
     /** Constructors */
     public TextBoxUIPreview(){
-        super(UIThemeManager.getDefaultTheme().button_large_outline_empty, 0, 0, 300, 75);
+        super(new TextureThemeBinding("button_large_outline_empty", UITheme.class), 0, 0, 300, 75);
     }
 
-    public TextBoxUIPreview(Texture image, int xPos, int yPos, int width, int height) {
-        super(image, xPos, yPos, width, height);
+    public TextBoxUIPreview(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
+        super(textureBinding, xPos, yPos, width, height);
     }
 
     /** Data */
@@ -32,6 +31,6 @@ public class TextBoxUIPreview extends RenderableUIPreviewItem {
     /** Copy */
     @Override
     public UIPreviewItem makeCopy() {
-        return new TextBoxUIPreview(image, x, y, width, height);
+        return new TextBoxUIPreview(sTexture.getCurrentValue(), x, y, width, height);
     }
 }

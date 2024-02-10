@@ -38,7 +38,7 @@ public class Reflection {
             Field field = getFieldByName(fieldName, (source instanceof Class<?> ? (Class<?>) source : source.getClass()));
             field.setAccessible(true);
             return (T) field.get(source);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (Exception e) {
             DLib.logError("Could not get field " + fieldName + " due to " + e.getLocalizedMessage());
             e.printStackTrace();
             return null;
@@ -110,7 +110,7 @@ public class Reflection {
         }
     }
 
-    public static Field getFieldByName(String fieldName, Class<?> objectClass) throws NoSuchFieldException{
+    public static Field getFieldByName(String fieldName, Class<?> objectClass){
         for(Map<String, Field> objectFields : getAllFields(objectClass)){
             if(objectFields != null){
                 Field f = objectFields.get(fieldName);
@@ -118,7 +118,7 @@ public class Reflection {
             }
         }
 
-        throw new NoSuchFieldException();
+        return null;
     }
     public static ArrayList<Field> getFieldsByClass(Class<?> fieldClass, Class<?> objectClass){
         ArrayList<Field> fields = new ArrayList<>();

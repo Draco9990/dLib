@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.UIElement;
-import dLib.util.TextureManager;
 
 public class Renderable extends UIElement {
     protected Texture image;
@@ -33,7 +32,7 @@ public class Renderable extends UIElement {
     public Renderable(RenderableData renderableData){
         super(renderableData);
 
-        this.image = TextureManager.getTexture(renderableData.texturePath);
+        this.image = renderableData.textureBinding.getCurrentValue().getBoundTexture();
         this.renderColor = Color.valueOf(renderableData.color);
     }
 

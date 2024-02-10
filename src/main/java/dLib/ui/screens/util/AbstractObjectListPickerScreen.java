@@ -2,6 +2,7 @@ package dLib.ui.screens.util;
 
 import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.screens.AbstractScreen;
+import dLib.ui.screens.ScreenManager;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -17,11 +18,12 @@ public abstract class AbstractObjectListPickerScreen<ItemPickType> extends Abstr
         setScreenToOpenOnClose(caller);
 
         addGenericBackground();
-        addInteractableElement(new ListBox<ItemPickType>(40, 915, 1850, 875){
+        addInteractableElement(new ListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
             @Override
             public void onItemSelected(ItemPickType item) {
                 instance.onItemSelected(item);
                 super.onItemSelected(item);
+                ScreenManager.closeScreen();
             }
         }.setItems(itemsToPick));
     }

@@ -1,25 +1,28 @@
 package dLib.util.bindings.image;
 
 import com.badlogic.gdx.graphics.Texture;
-import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 
 import java.lang.reflect.Field;
 
-public class ImageThemeBinding extends ImageBinding{
+public class TextureThemeBinding extends TextureBinding {
     /** Variables */
     private Field field;
 
     /** Constructors */
-    public ImageThemeBinding(Field themeField){
+    public TextureThemeBinding(Field themeField){
         this.field = themeField;
+    }
+
+    public TextureThemeBinding(String fieldName, Class<?> fieldClass){
+        this(Reflection.getFieldByName(fieldName, fieldClass));
     }
 
     /** Bindings */
     @Override
-    public Texture getBoundImage() {
+    public Texture getBoundTexture() {
         try{
             return (Texture) field.get(UIThemeManager.getDefaultTheme());
         }catch (Exception e){
@@ -29,8 +32,8 @@ public class ImageThemeBinding extends ImageBinding{
     }
 
     @Override
-    public boolean isBindingValid() {
-        return field != null && getBoundImage() != null;
+    public boolean isValid() {
+        return field != null && getBoundTexture() != null;
     }
 
     /** Name */

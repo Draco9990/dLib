@@ -3,24 +3,24 @@ package dLib.util.bindings.image;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.util.TextureManager;
 
-public class ImagePathBinding extends ImageBinding{
+public class TexturePathBinding extends TextureBinding {
     /** Variables */
     private String imagePath = "";
 
     /** Constructors */
-    public ImagePathBinding(String imagePath){
+    public TexturePathBinding(String imagePath){
         this.imagePath = imagePath;
     }
 
     /** Bindings */
     @Override
-    public Texture getBoundImage() {
+    public Texture getBoundTexture() {
         return TextureManager.getTexture(imagePath);
     }
 
     @Override
-    public boolean isBindingValid() {
-        return getBoundImage() != null;
+    public boolean isValid() {
+        return getBoundTexture() != null;
     }
 
     /** Name */

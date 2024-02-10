@@ -1,19 +1,21 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
-import com.badlogic.gdx.graphics.Texture;
+import dLib.tools.screeneditor.ui.items.preview.RenderableUIPreviewItem;
 import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
-import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.ButtonData;
-import dLib.ui.themes.UIThemeManager;
+import dLib.ui.themes.UITheme;
+import dLib.util.Reflection;
+import dLib.util.bindings.image.TextureBinding;
+import dLib.util.bindings.image.TextureThemeBinding;
 
-public class ButtonUIPreviewItem extends UIPreviewItem {
+public class ButtonUIPreviewItem extends RenderableUIPreviewItem {
     /** Constructors */
     public ButtonUIPreviewItem(){
-        super(UIThemeManager.getDefaultTheme().button_small, 0, 0, 75, 75);
+        super(new TextureThemeBinding(Reflection.getFieldByName("button_small", UITheme.class)), 0, 0, 75, 75);
     }
 
-    public ButtonUIPreviewItem(Texture image, int xPos, int yPos, int width, int height) {
-        super(image, xPos, yPos, width, height);
+    public ButtonUIPreviewItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
+        super(textureBinding, xPos, yPos, width, height);
     }
 
     /** Data */
@@ -30,7 +32,7 @@ public class ButtonUIPreviewItem extends UIPreviewItem {
     /** Copy */
     @Override
     public UIPreviewItem makeCopy() {
-        return new ButtonUIPreviewItem(image, x, y, width, height);
+        return new ButtonUIPreviewItem(sTexture.getCurrentValue(), x, y, width, height);
     }
 
 }

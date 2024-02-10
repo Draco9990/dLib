@@ -26,6 +26,12 @@ public abstract class Setting<T> implements Serializable {
         defaultValue = value;
     }
 
+    public Setting(Class<T> valClass){
+        valueClass = valClass;
+        currentValue = null;
+        defaultValue = null;
+    }
+
     /** Title */
     public Setting<T> setTitle(String newTitle){
         this.title = newTitle;
