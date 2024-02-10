@@ -15,7 +15,7 @@ import dLib.util.settings.prefabs.StringSetting;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class UIPreviewItem extends Resizeable {
+public abstract class ScreenEditorItem extends Resizeable {
     /** Variables */
     private UIElementData elementData;
 
@@ -65,15 +65,15 @@ public abstract class UIPreviewItem extends Resizeable {
     }.setTitle("Height:");
 
     /** Constructors */
-    public UIPreviewItem(Texture image) {
+    public ScreenEditorItem(Texture image) {
         super(image);
     }
 
-    public UIPreviewItem(Texture image, int xPos, int yPos) {
+    public ScreenEditorItem(Texture image, int xPos, int yPos) {
         super(image, xPos, yPos);
     }
 
-    public UIPreviewItem(Texture image, int xPos, int yPos, int width, int height) {
+    public ScreenEditorItem(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
     }
 
@@ -124,14 +124,14 @@ public abstract class UIPreviewItem extends Resizeable {
     }
 
     /** Highlighting */
-    public UIPreviewItem setHighlight(boolean highlight){
+    public ScreenEditorItem setHighlight(boolean highlight){
         this.highlight = highlight;
         return this;
     }
 
     /** Position and dimensions */
     @Override
-    public UIPreviewItem setPosition(Integer newPosX, Integer newPosY) {
+    public ScreenEditorItem setPosition(Integer newPosX, Integer newPosY) {
         super.setPosition(newPosX, newPosY);
 
         getElementData().x = x;
@@ -148,7 +148,7 @@ public abstract class UIPreviewItem extends Resizeable {
     }
 
     @Override
-    public UIPreviewItem setDimensions(Integer newWidth, Integer newHeight) {
+    public ScreenEditorItem setDimensions(Integer newWidth, Integer newHeight) {
         super.setDimensions(newWidth, newHeight);
 
         getElementData().width = width;
@@ -165,7 +165,7 @@ public abstract class UIPreviewItem extends Resizeable {
     }
 
     /** Copy */
-    public abstract UIPreviewItem makeCopy();
+    public abstract ScreenEditorItem makeCopy();
 
     /** Data */
     public abstract UIElementData makeElementData();

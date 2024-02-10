@@ -1,24 +1,19 @@
 package dLib.tools.screeneditor.screens.toolbar;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.OrderedMap;
-import dLib.DLib;
 import dLib.tools.screeneditor.ui.items.preview.*;
-import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldUIPreview;
-import dLib.tools.screeneditor.ui.items.preview.composite.ListBoxUIPreview;
-import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonUIPreviewItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.ImageUIPreviewItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxUIPreview;
-import dLib.ui.HorizontalAlignment;
+import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldScreenEditor;
+import dLib.tools.screeneditor.ui.items.preview.composite.ListBoxScreenEditor;
+import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditor;
 import dLib.ui.elements.prefabs.ListBox;
-import dLib.ui.elements.prefabs.TextBox;
-import dLib.ui.screens.AbstractScreen;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen {
-    public OrderedMap<String, UIPreviewItem> elementMap = new OrderedMap<>();
+    public OrderedMap<String, ScreenEditorItem> elementMap = new OrderedMap<>();
 
     public ScreenEditorToolbarScreen(){
         super();
@@ -37,12 +32,12 @@ public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen
 
     /** Utility methods */
     public void initializeElementMap(){
-        elementMap.put("Button", new ButtonUIPreviewItem()); // Should include a property for becoming a toggle instead & a text field property
-        elementMap.put("Image", new ImageUIPreviewItem());
-        elementMap.put("Inputfield", new InputfieldUIPreview());
-        elementMap.put("ListBox", new ListBoxUIPreview());
-        elementMap.put("TextBox", new TextBoxUIPreview());
+        elementMap.put("Button", new ButtonScreenEditorItem()); // Should include a property for becoming a toggle instead & a text field property
+        elementMap.put("Image", new ImageScreenEditorItem());
+        elementMap.put("Inputfield", new InputfieldScreenEditor());
+        elementMap.put("ListBox", new ListBoxScreenEditor());
+        elementMap.put("TextBox", new TextBoxScreenEditor());
     }
 
-    public void onElementToAddChosen(UIPreviewItem previewItem){}
+    public void onElementToAddChosen(ScreenEditorItem previewItem){}
 }

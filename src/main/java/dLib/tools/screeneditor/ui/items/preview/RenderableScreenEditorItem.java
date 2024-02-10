@@ -8,7 +8,7 @@ import dLib.util.settings.prefabs.TextureSetting;
 
 import java.util.ArrayList;
 
-public abstract class RenderableUIPreviewItem extends UIPreviewItem{
+public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
     /** Variables */
     protected TextureSetting sTexture = (TextureSetting) new TextureSetting(){
         @Override
@@ -21,17 +21,17 @@ public abstract class RenderableUIPreviewItem extends UIPreviewItem{
     }.setTitle("Image:");
 
     /** Constructors */
-    public RenderableUIPreviewItem(TextureBinding image) {
+    public RenderableScreenEditorItem(TextureBinding image) {
         super(image.getBoundTexture());
         sTexture.setCurrentValue(image);
     }
 
-    public RenderableUIPreviewItem(TextureBinding image, int xPos, int yPos) {
+    public RenderableScreenEditorItem(TextureBinding image, int xPos, int yPos) {
         super(image.getBoundTexture(), xPos, yPos);
         sTexture.setCurrentValue(image);
     }
 
-    public RenderableUIPreviewItem(TextureBinding image, int xPos, int yPos, int width, int height) {
+    public RenderableScreenEditorItem(TextureBinding image, int xPos, int yPos, int width, int height) {
         super(image.getBoundTexture(), xPos, yPos, width, height);
         sTexture.setCurrentValue(image);
     }

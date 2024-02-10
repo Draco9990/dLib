@@ -1,19 +1,19 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
-import dLib.tools.screeneditor.ui.items.preview.RenderableUIPreviewItem;
-import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
+import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.TextBoxData;
 import dLib.ui.themes.UITheme;
 import dLib.util.bindings.image.TextureBinding;
 import dLib.util.bindings.image.TextureThemeBinding;
 
-public class TextBoxUIPreview extends RenderableUIPreviewItem {
+public class TextBoxScreenEditor extends RenderableScreenEditorItem {
     /** Constructors */
-    public TextBoxUIPreview(){
+    public TextBoxScreenEditor(){
         super(new TextureThemeBinding("button_large_outline_empty", UITheme.class), 0, 0, 300, 75);
     }
 
-    public TextBoxUIPreview(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
+    public TextBoxScreenEditor(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
         super(textureBinding, xPos, yPos, width, height);
     }
 
@@ -30,7 +30,7 @@ public class TextBoxUIPreview extends RenderableUIPreviewItem {
 
     /** Copy */
     @Override
-    public UIPreviewItem makeCopy() {
-        return new TextBoxUIPreview(sTexture.getCurrentValue(), x, y, width, height);
+    public ScreenEditorItem makeCopy() {
+        return new TextBoxScreenEditor(sTexture.getCurrentValue(), x, y, width, height);
     }
 }

@@ -1,20 +1,18 @@
 package dLib.tools.screeneditor.ui.items.preview.composite;
 
 import com.badlogic.gdx.graphics.Texture;
-import dLib.tools.screeneditor.ui.items.preview.CompositeUIPreviewItem;
-import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
-import dLib.ui.data.CompositeUIElementData;
-import dLib.ui.data.UIElementData;
+import dLib.tools.screeneditor.ui.items.preview.CompositeScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.InputfieldData;
 import dLib.ui.themes.UIThemeManager;
 
-public class InputfieldUIPreview extends CompositeUIPreviewItem {
+public class InputfieldScreenEditor extends CompositeScreenEditorItem {
     /** Constructors */
-    public InputfieldUIPreview(){
+    public InputfieldScreenEditor(){
         super(UIThemeManager.getDefaultTheme().inputfield, 0, 0, 500, 75);
     }
 
-    public InputfieldUIPreview(Texture image, int xPos, int yPos, int width, int height) {
+    public InputfieldScreenEditor(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
     }
 
@@ -31,7 +29,7 @@ public class InputfieldUIPreview extends CompositeUIPreviewItem {
 
     /** Copy */
     @Override
-    public UIPreviewItem makeCopy() {
-        return new InputfieldUIPreview(image, x, y, width, height);
+    public ScreenEditorItem makeCopy() {
+        return new InputfieldScreenEditor(image, x, y, width, height);
     }
 }

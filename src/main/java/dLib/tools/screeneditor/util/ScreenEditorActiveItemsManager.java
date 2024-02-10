@@ -3,15 +3,14 @@ package dLib.tools.screeneditor.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.tools.screeneditor.screens.toolbar.ScreenEditorPropertiesScreen;
-import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.util.Reflection;
 
 import java.util.ArrayList;
 
 public class ScreenEditorActiveItemsManager {
     /** Variables */
-    private ArrayList<UIPreviewItem> activeItems = new ArrayList<>();
+    private ArrayList<ScreenEditorItem> activeItems = new ArrayList<>();
 
     /** Constructors */
     public ScreenEditorActiveItemsManager(){
@@ -19,7 +18,7 @@ public class ScreenEditorActiveItemsManager {
     }
 
     /** Active items management */
-    public void addActiveItem(UIPreviewItem item){
+    public void addActiveItem(ScreenEditorItem item){
         ScreenEditorBaseScreen.instance.getPropertiesScreen().clearScreen();
         if(!Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)){
             clearActiveItems();
@@ -38,13 +37,13 @@ public class ScreenEditorActiveItemsManager {
         activeItems.clear();
     }
 
-    public boolean isItemActive(UIPreviewItem item){
+    public boolean isItemActive(ScreenEditorItem item){
         return activeItems.contains(item);
     }
 
     /** Group Drag functionality */
     public void markAllForDrag(){
-        for(UIPreviewItem item : activeItems){
+        for(ScreenEditorItem item : activeItems){
             item.setProxyDragged(true);
             Reflection.invokeMethod("onLeftClick", item);
             item.setProxyDragged(false);
@@ -52,7 +51,7 @@ public class ScreenEditorActiveItemsManager {
     }
 
     public void markAllForDragUpdate(float totalDuration){
-        for(UIPreviewItem item : activeItems){
+        for(ScreenEditorItem item : activeItems){
             item.setProxyDragged(true);
             Reflection.invokeMethod("onLeftClickHeld", item, totalDuration);
             item.setProxyDragged(false);
@@ -61,7 +60,7 @@ public class ScreenEditorActiveItemsManager {
 
     public void update(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL)){
-            for(UIPreviewItem item : activeItems){
+            for(ScreenEditorItem item : activeItems){
                 ScreenEditorBaseScreen.instance.getPreviewScreen().deletePreviewItem(item);
             }
             clearActiveItems();

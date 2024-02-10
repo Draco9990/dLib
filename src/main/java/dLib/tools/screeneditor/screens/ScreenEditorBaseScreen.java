@@ -8,7 +8,7 @@ import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
 import dLib.tools.screeneditor.screens.toolbar.ScreenEditorElementListScreen;
 import dLib.tools.screeneditor.screens.toolbar.ScreenEditorPropertiesScreen;
 import dLib.tools.screeneditor.screens.toolbar.ScreenEditorToolbarScreen;
-import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
 import dLib.ui.data.screens.GeneratedScreenData;
 import dLib.ui.elements.implementations.Renderable;
@@ -41,7 +41,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
         toolbar = new ScreenEditorToolbarScreen(){
             @Override
-            public void onElementToAddChosen(UIPreviewItem previewItem) {
+            public void onElementToAddChosen(ScreenEditorItem previewItem) {
                 super.onElementToAddChosen(previewItem);
                 preview.makeNewPreviewItem(previewItem);
             }

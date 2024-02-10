@@ -3,7 +3,7 @@ package dLib.tools.screeneditor.screens.preview;
 import com.badlogic.gdx.graphics.Color;
 import dLib.DLib;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UIThemeManager;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ScreenEditorPreviewScreen extends AbstractScreen {
     /** Variables */
-    private ArrayList<UIPreviewItem> previewItems = new ArrayList<>();
+    private ArrayList<ScreenEditorItem> previewItems = new ArrayList<>();
 
     /** Constructors */
     public ScreenEditorPreviewScreen(){
@@ -26,8 +26,8 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
     }
 
     /** Preview Item Management */
-    public void makeNewPreviewItem(UIPreviewItem template){
-        UIPreviewItem copy = template.makeCopy();
+    public void makeNewPreviewItem(ScreenEditorItem template){
+        ScreenEditorItem copy = template.makeCopy();
         copy.postInitialize();
         copy.setBoundsX(10, 1490);
         copy.setBoundsY(10, 840);
@@ -39,14 +39,14 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
         ScreenEditorBaseScreen.instance.getGeneratedData().addElement(copy.getId(), copy.getElementData());
     }
 
-    public void deletePreviewItem(UIPreviewItem itemToDelete){
+    public void deletePreviewItem(ScreenEditorItem itemToDelete){
         removeInteractableElement(itemToDelete);
         previewItems.remove(itemToDelete);
 
         ScreenEditorBaseScreen.instance.getGeneratedData().removeElement(itemToDelete.getId());
     }
 
-    public ArrayList<UIPreviewItem> getPreviewItems(){
+    public ArrayList<ScreenEditorItem> getPreviewItems(){
         return previewItems;
     }
 

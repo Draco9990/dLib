@@ -8,7 +8,7 @@ import dLib.util.bindings.image.TextureThemeBinding;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class ImageBindingHelpers {
+public class TextureBindingHelpers {
     public static ArrayList<TextureBinding> getAllImageBindings(){
         ArrayList<TextureBinding> bindings = new ArrayList<>();
         bindings.addAll(getThemeBindings());

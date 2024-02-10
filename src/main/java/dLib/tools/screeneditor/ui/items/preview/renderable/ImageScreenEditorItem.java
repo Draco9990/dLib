@@ -1,19 +1,19 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
-import dLib.tools.screeneditor.ui.items.preview.RenderableUIPreviewItem;
-import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
+import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.ImageData;
 import dLib.ui.themes.UITheme;
 import dLib.util.bindings.image.TextureBinding;
 import dLib.util.bindings.image.TextureThemeBinding;
 
-public class ImageUIPreviewItem extends RenderableUIPreviewItem {
+public class ImageScreenEditorItem extends RenderableScreenEditorItem {
     /** Constructors */
-    public ImageUIPreviewItem(){
+    public ImageScreenEditorItem(){
         super(new TextureThemeBinding("whitePixel", UITheme.class), 0, 0, 75, 75);
     }
 
-    public ImageUIPreviewItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
+    public ImageScreenEditorItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
         super(textureBinding, xPos, yPos, width, height);
     }
 
@@ -30,7 +30,7 @@ public class ImageUIPreviewItem extends RenderableUIPreviewItem {
 
     /** Copy */
     @Override
-    public UIPreviewItem makeCopy() {
-        return new ImageUIPreviewItem(sTexture.getCurrentValue(), x, y, width, height);
+    public ScreenEditorItem makeCopy() {
+        return new ImageScreenEditorItem(sTexture.getCurrentValue(), x, y, width, height);
     }
 }

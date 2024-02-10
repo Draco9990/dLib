@@ -30,5 +30,12 @@ public class CustomUISetting<ItemType> extends AbstractUISetting {
                 ScreenManager.openScreen(pickerScreen);
             }
         });
+
+        setting.setOnValueChangedConsumer(new Runnable() {
+            @Override
+            public void run() {
+                ((TextButton)middle).getLabel().setText(setting.getValueForDisplay());
+            }
+        });
     }
 }

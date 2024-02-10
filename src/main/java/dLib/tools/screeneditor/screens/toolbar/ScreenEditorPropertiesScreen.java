@@ -1,13 +1,7 @@
 package dLib.tools.screeneditor.screens.toolbar;
 
-import com.badlogic.gdx.graphics.Color;
-import dLib.DLib;
-import dLib.tools.screeneditor.ui.items.preview.UIPreviewItem;
-import dLib.ui.elements.implementations.Renderable;
-import dLib.ui.screens.AbstractScreen;
-import dLib.ui.themes.UITheme;
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.StringSetting;
 
 public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScreen {
     /** Constructor */
@@ -17,7 +11,7 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
         hide();
     }
 
-    public void createPropertiesFor(UIPreviewItem item){
+    public void createPropertiesFor(ScreenEditorItem item){
         clearScreen();
 
         int elementHeight = 50;
