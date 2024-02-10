@@ -23,6 +23,6 @@ public abstract class CustomSetting<T> extends Setting<T> implements Serializabl
     /** UI */
     @Override
     public AbstractUISetting makeUIFor(int xPos, int yPos, int width, int height) {
-        return new CustomUISetting((CustomSetting<Object>) this, xPos, yPos, width, height);
+        return new CustomUISetting<T>(this, xPos, yPos, width, height);
     }
 }
