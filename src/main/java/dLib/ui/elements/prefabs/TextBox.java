@@ -36,6 +36,11 @@ public class TextBox extends Hoverable {
 
     private Consumer<String> onTextChangedConsumer;
 
+    private int paddingLeft = 0;
+    private int paddingTop = 0;
+    private int paddingRight = 0;
+    private int paddingBottom = 0;
+
     /** Constructors */
     public TextBox(String text, int xPos, int yPos, int width, int height){
         this(text, xPos, yPos, width, height, 0.07f, 0.33f);
@@ -91,6 +96,13 @@ public class TextBox extends Hoverable {
         int renderY = y + (int) yMargin;
         int renderWidth = width - (int) xMargin * 2;
         int renderHeight = height - (int) yMargin * 2;
+
+        renderX += (int)(paddingLeft * Settings.xScale);
+        renderY += (int)(paddingBottom * Settings.yScale);
+        renderWidth -= paddingLeft;
+        renderWidth -= paddingRight;
+        renderHeight -= paddingTop;
+        renderHeight -= paddingBottom;
 
         float halfWidth = (float) renderWidth / 2;
         float halfHeight = (float) renderHeight / 2;
@@ -246,12 +258,27 @@ public class TextBox extends Hoverable {
         return this;
     }
 
+    /** Padding */
+    public TextBox setPadding(int value){
+        return setPadding(value, value);
+    }
+    public TextBox setPadding(int horizontal, int vertical){
+        return setPadding(horizontal, vertical, horizontal, vertical);
+    }
+    public TextBox setPadding(int left, int top, int right, int bottom){
+        paddingLeft = left;
+        paddingTop = top;
+        paddingRight = right;
+        paddingBottom = bottom;
+
+        return this;
+    }
+
     /** Getters and Setters */
     public TextBox setHorizontalAlignment(HorizontalAlignment alignment){
         this.horizontalAlignment = alignment;
         return this;
     }
-
     public TextBox setVerticalAlignment(VerticalAlignment alignment){
         this.verticalAlignment = alignment;
         return this;
@@ -304,6 +331,11 @@ public class TextBox extends Hoverable {
 
         int renderWidth = width - (int) xMargin * 2;
         int renderHeight = height - (int) yMargin * 2;
+
+        renderWidth -= paddingLeft;
+        renderWidth -= paddingRight;
+        renderHeight -= paddingTop;
+        renderHeight -= paddingBottom;
 
         while(true){
             font.getData().setScale(fontScale);

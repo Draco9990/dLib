@@ -1,5 +1,6 @@
 package dLib.ui.elements.settings;
 
+import com.badlogic.gdx.graphics.Color;
 import dLib.ui.HorizontalAlignment;
 import dLib.ui.VerticalAlignment;
 import dLib.ui.elements.CompositeUIElement;
@@ -48,7 +49,7 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
         this.xPos = xPos;
         this.yPos = yPos;
 
-        this.label = new TextBox(setting.getTitle(), xPos, textPosY, (int)(width * textPercX), textHeight).setHorizontalAlignment(HorizontalAlignment.LEFT).setMarginPercX(0.01f).setMarginPercY(0.01f);
+        this.label = new TextBox(setting.getTitle(), xPos, textPosY, (int)(width * textPercX), textHeight).setHorizontalAlignment(HorizontalAlignment.LEFT).setMarginPercX(0.01f).setMarginPercY(0.01f).setVerticalAlignment(VerticalAlignment.BOTTOM).setPadding(0, 0, 0, 10).setTextRenderColor(Color.WHITE);
         this.other.add(label);
     }
 

@@ -10,7 +10,7 @@ public class StringSettingUI extends AbstractSettingUI {
     public StringSettingUI(StringSetting setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
 
-        middle = new Inputfield(setting.getCurrentValue(), (int)(xPos + width * textPercX), yPos, (int)(width * valuePercX), height);
+        middle = new Inputfield(setting.getCurrentValue(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
         ((Inputfield)(middle)).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {

@@ -10,9 +10,9 @@ public class ToggleSettingUI extends AbstractSettingUI {
     public ToggleSettingUI(BooleanSetting setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
 
-        int buttonDim = Math.min((int)(width * valuePercX), height);
+        int buttonDim = Math.min((int)(width * valuePercX), valueHeight);
 
-        middle = new Toggle(UIThemeManager.getDefaultTheme().button_small, UIThemeManager.getDefaultTheme().button_small_confirm, xPos + width - buttonDim, yPos, buttonDim, buttonDim){
+        middle = new Toggle(UIThemeManager.getDefaultTheme().button_small, UIThemeManager.getDefaultTheme().button_small_confirm, xPos + width - buttonDim, valuePosY, buttonDim, buttonDim){
             @Override
             public void toggle() {
                 super.toggle();

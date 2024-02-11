@@ -12,22 +12,24 @@ public class IntegerArrowSettingUI extends AbstractSettingUI {
     public IntegerArrowSettingUI(IntegerSetting setting, Integer xPos, Integer yPos, Integer width, int height, boolean showArrows){
         super(setting, xPos, yPos, width, height);
 
+        int startingX = (int) (xPos + width * (1-valuePercX));
+
         if(showArrows){
-            int arrowDim = Math.min((int)(2.5f * width), height);
+            int arrowDim = Math.min((int)(arrowPercX * width), valueHeight);
 
             int hOffset = 0;
             if(arrowDim != height){
                 hOffset = (int)((height-arrowDim) / 2);
             }
 
-            left = new Button((int)(xPos + width * 0.75f), yPos + hOffset, arrowDim, arrowDim){
+            left = new Button(startingX, valuePosY + hOffset, arrowDim, arrowDim){
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
                     setting.increment();
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_left);
-            right = new Button((int)(xPos + width * 0.975f), yPos + hOffset, arrowDim, arrowDim){
+            right = new Button((int)(xPos + width * (1-arrowPercX)), valuePosY + hOffset, arrowDim, arrowDim){
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
@@ -35,7 +37,7 @@ public class IntegerArrowSettingUI extends AbstractSettingUI {
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
 
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (textPercX + arrowPercX))), yPos, ((int)(width * (valuePercX -2* arrowPercX))), height).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
+            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * ((1 - valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX -2* arrowPercX))), valueHeight).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
             ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
@@ -48,7 +50,7 @@ public class IntegerArrowSettingUI extends AbstractSettingUI {
             });
         }
         else{
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * textPercX)), yPos, ((int)(width * valuePercX)), height).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
+            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (1 - valuePercX))), valuePosY, ((int)(width * valuePercX)), valueHeight).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
             ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {

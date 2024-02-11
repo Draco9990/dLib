@@ -12,22 +12,24 @@ public class EnumSettingUI extends AbstractSettingUI {
     public EnumSettingUI(EnumSetting<?> setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
 
+        int startingX = (int) (xPos + width * (1 - valuePercX));
+
         if(setting.getControlType() == EnumSetting.EControlType.ARROWS){
-            int arrowDim = Math.min((int)(2.5f * width), height);
+            int arrowDim = Math.min((int)(arrowPercX * width), valueHeight);
 
             int hOffset = 0;
             if(arrowDim != height){
                 hOffset = (int)((height-arrowDim) / 2);
             }
 
-            left = new Button((int)(xPos + width * textPercX), yPos + hOffset, arrowDim, arrowDim){
+            left = new Button(startingX, valuePosY + hOffset, arrowDim, arrowDim){
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
                     setting.previous();
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_left);
-            right = new Button((int)(xPos + width * (1- arrowPercX)), yPos + hOffset, arrowDim, arrowDim){
+            right = new Button((int)(xPos + width * (1- arrowPercX)), valuePosY + hOffset, arrowDim, arrowDim){
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
@@ -35,10 +37,10 @@ public class EnumSettingUI extends AbstractSettingUI {
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
 
-            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * (textPercX + arrowPercX))), yPos, ((int)(width * (valuePercX - arrowPercX *2))), height);
+            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX - arrowPercX *2))), valueHeight);
         }
         else if(setting.getControlType() == EnumSetting.EControlType.CLICK){
-            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * (textPercX + arrowPercX))), yPos, ((int)(width * (valuePercX - textPercX))), height);
+            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX)))), valuePosY, ((int)(width * (valuePercX - textPercX))), valueHeight);
             ((TextButton)middle).getButton().setOnLeftClickConsumer(setting::next);
         }
 
