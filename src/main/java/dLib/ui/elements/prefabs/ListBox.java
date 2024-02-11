@@ -61,7 +61,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         itemBoxBackground.setPosition(x, y);
         itemBoxBackground.setDimensions(width, remainingHeight);
 
-        int scrollbarWidth = 100;
+        int scrollbarWidth = 50;
         if(scrollbar == null){
             scrollbar = new Scrollbox(x + width - scrollbarWidth, y, scrollbarWidth, remainingHeight) {
                 @Override
@@ -90,17 +90,19 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         if(titleBox != null) titleBox.update();
         itemBoxBackground.update();
 
+        boolean renderScrollbar = calculatePageCount() > 1;
         int currentYPos = y + itemBoxBackground.getHeight();
         for(CompositeUIElement item : getActiveItems()){
+            item.setPositionX(itemBoxBackground.getPositionX());
             item.setPositionY(currentYPos - item.getTrueHeight());
-            item.setWidth(itemBoxBackground.getWidth());
+            item.setWidth(itemBoxBackground.getWidth() + (renderScrollbar ? -scrollbar.getWidth() : 0));
 
             item.update();
 
             currentYPos -= item.getTrueHeight();
         }
 
-        if(calculatePageCount() > 1) scrollbar.update();
+        if(renderScrollbar) scrollbar.update();
     }
 
     @Override
@@ -195,18 +197,14 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         clearElements();
     }
 
-    public UIElement getRenderElementForItem(ItemType item){
+    public CompositeUIElement makeRenderElementForItem(ItemType item){
         TextBox label = new TextBox(item.toString(), x, y, itemBoxBackground.getWidth(), 30, 0.025f, 0.05f);
         label.setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
-        return label;
-    }
-    private CompositeUIElement makeRenderElementForItem(ItemType item){
-        UIElement elementRender = getRenderElementForItem(item);
 
-        CompositeUIElement composite = new CompositeUIElement(elementRender.getPositionX(), elementRender.getPositionY(), elementRender.getWidth(), elementRender.getHeight());
-        composite.other.add(elementRender);
+        CompositeUIElement composite = new CompositeUIElement(label.getPositionX(), label.getPositionY(), label.getWidth(), label.getHeight());
+        composite.other.add(label);
 
-        composite.middle = new Button(elementRender.getPositionX(), elementRender.getPositionY(), itemBoxBackground.getWidth(), elementRender.getHeight()){
+        composite.middle = new Button(label.getPositionX(), label.getPositionY(), itemBoxBackground.getWidth(), label.getHeight()){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();

@@ -11,7 +11,7 @@ public abstract class Scrollbox extends Renderable {
     /** Class Variables */
     private Draggable slider;
 
-    private int currentPage = 0;
+    private int currentPage = 1;
 
     private int pageCount = 0;
     private int heightPerState = 0;
@@ -41,7 +41,7 @@ public abstract class Scrollbox extends Renderable {
     }
 
     public void initialize(){
-        currentPage = 0;
+        currentPage = 1;
         recalculateScrollbar();
     }
 
@@ -69,7 +69,7 @@ public abstract class Scrollbox extends Renderable {
 
         if(slider != null){
             slider.setHeight(heightPerState);
-            slider.setBoundsY(y, y + height - heightPerState);
+            slider.setBoundsY(y, y + height);
         }
     }
 
@@ -87,6 +87,7 @@ public abstract class Scrollbox extends Renderable {
         }
 
         currentPage = getPageCount() - state;
+        if(currentPage < 1) currentPage = 1;
         onPageChanged(currentPage);
     }
 

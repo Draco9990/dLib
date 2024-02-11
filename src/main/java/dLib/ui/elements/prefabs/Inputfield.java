@@ -31,7 +31,7 @@ public class Inputfield extends CompositeUIElement {
 
     /** Constructor */
     public Inputfield(String initialValue, int posX, int posY, int width, int height){
-        super(posX, posY);
+        super(posX, posY, width, height);
 
         preInitialize();
 

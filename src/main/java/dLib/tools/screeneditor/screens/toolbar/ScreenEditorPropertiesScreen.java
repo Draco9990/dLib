@@ -1,29 +1,35 @@
 package dLib.tools.screeneditor.screens.toolbar;
 
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.ui.elements.CompositeUIElement;
+import dLib.ui.elements.prefabs.ListBox;
 import dLib.util.settings.Setting;
 
 public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScreen {
+    /** Variables */
+    private ListBox<Setting<?>> propertiesItemList;
+
     /** Constructor */
     public ScreenEditorPropertiesScreen(){
         super();
+
+        propertiesItemList = new ListBox<Setting<?>>(1508, 10, 404, 1060){
+            @Override
+            public CompositeUIElement makeRenderElementForItem(Setting<?> item) {
+                return item.makeUIFor(0, 0, width, 100);
+            }
+        }.setTitle("Properties:");
+        propertiesItemList.getBackground().setImage(null);
+        addInteractableElement(propertiesItemList);
 
         hide();
     }
 
     public void createPropertiesFor(ScreenEditorItem item){
-        clearScreen();
-
-        int elementHeight = 100;
-        int elementSpacing = 5;
-        int yPos = 1080 - elementHeight - elementSpacing;
-        for(Setting<?> setting : item.getPropertiesForItem()){
-            addInteractableElement(setting.makeUIFor(1508, yPos, 404, elementHeight));
-            yPos -= (elementHeight + elementSpacing);
-        }
+        propertiesItemList.setItems(item.getPropertiesForItem());
     }
 
     public void clearScreen(){
-        interactableElements.getElements().clear();
+        propertiesItemList.clearItems();
     }
 }

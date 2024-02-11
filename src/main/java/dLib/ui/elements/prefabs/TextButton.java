@@ -10,7 +10,7 @@ public class TextButton extends CompositeUIElement {
 
     /** Constructors */
     public TextButton(String text, int xPos, int yPos, int width, int height){
-        super(xPos, yPos);
+        super(xPos, yPos, width, height);
 
         middle = new Button(xPos, yPos, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
 

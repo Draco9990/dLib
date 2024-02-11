@@ -132,12 +132,12 @@ public abstract class AbstractScreen {
         backgroundElements.add(element);
     }
     protected void addInteractableElement(UIElement element){
-        CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY());
+        CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY(), element.getWidth(), element.getHeight());
         compositeUIElement.middle = element;
         interactableElements.addElement(compositeUIElement);
     }
     protected void addInteractableElement(UIElement element, boolean temporary){
-        CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY());
+        CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY(), element.getWidth(), element.getHeight());
         compositeUIElement.middle = element;
         compositeUIElement.temporary = temporary;
         interactableElements.addElement(compositeUIElement);
