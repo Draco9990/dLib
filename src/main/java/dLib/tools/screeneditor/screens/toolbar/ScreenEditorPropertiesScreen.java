@@ -21,7 +21,7 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
             }
         }.setTitle("Properties:");
         propertiesItemList.getBackground().setImage(null);
-        propertiesItemList.setItemSpacing(30);
+        propertiesItemList.setItemSpacing(25);
         addInteractableElement(propertiesItemList);
 
         hide();

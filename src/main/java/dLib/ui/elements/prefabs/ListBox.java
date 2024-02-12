@@ -118,12 +118,12 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         int currentYPos = y + itemBoxBackground.getHeight();
         for(CompositeUIElement item : getActiveItems()){
             item.setPositionX(itemBoxBackground.getPositionX());
-            item.setPositionY(currentYPos - item.getTrueHeight());
+            item.setPositionY(currentYPos - item.getBoundingHeight());
             item.setWidth(itemBoxBackground.getWidth() + (renderScrollbar ? -scrollbar.getWidth() : 0));
 
             item.update();
 
-            currentYPos -= item.getTrueHeight();
+            currentYPos -= item.getBoundingHeight();
             currentYPos -= itemSpacing;
         }
 
@@ -148,11 +148,11 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         int currentPageHeight = 0;
         for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
             CompositeUIElement item = items.get(i).renderForItem;
-            if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
+            if(currentPageHeight + item.getBoundingHeight() + itemSpacing > itemBoxBackground.getHeight()){
                 break;
             }
 
-            currentPageHeight += item.getHeight() + itemSpacing;
+            currentPageHeight += item.getBoundingHeight() + itemSpacing;
             activeItems.add(item);
         }
 
@@ -186,7 +186,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     public int calculatePageCount(){
         int totalItemHeight = 0;
         for(int i = 0; i < items.size(); i++){
-            totalItemHeight += items.get(i).renderForItem.getHeight() + itemSpacing;
+            totalItemHeight += items.get(i).renderForItem.getBoundingHeight() + itemSpacing;
             if(totalItemHeight > itemBoxBackground.getHeight()){
                 int pageCount = items.size() - i;
                 if(pageCount < 1) pageCount = 1;

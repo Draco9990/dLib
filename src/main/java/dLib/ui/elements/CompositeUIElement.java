@@ -160,7 +160,7 @@ public class CompositeUIElement extends UIElement {
         }
     }
 
-    public int getTrueWidth() {
+    public int getBoundingWidth() {
         int leftMostX = -1;
         int rightMostX = -1;
 
@@ -195,7 +195,7 @@ public class CompositeUIElement extends UIElement {
 
         return rightMostX - leftMostX;
     }
-    public int getTrueHeight() {
+    public int getBoundingHeight() {
         int bottomY = -1;
         int topY = -1;
 
