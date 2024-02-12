@@ -396,4 +396,15 @@ public class CompositeUIElement extends UIElement {
             }
         }
     }
+
+    /** Interactable? */
+    public boolean isUserInteractable(){
+        boolean isUserInteractable;
+
+        isUserInteractable = left instanceof Interactable || left instanceof CompositeUIElement && ((CompositeUIElement) left).isUserInteractable();
+        isUserInteractable = isUserInteractable || middle instanceof Interactable || ((middle instanceof CompositeUIElement) && ((CompositeUIElement) middle).isUserInteractable());
+        isUserInteractable = isUserInteractable || right instanceof Interactable || ((right instanceof CompositeUIElement) && ((CompositeUIElement) right).isUserInteractable());
+
+        return isUserInteractable;
+    }
 }

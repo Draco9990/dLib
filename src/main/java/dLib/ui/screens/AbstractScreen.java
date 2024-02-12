@@ -31,7 +31,7 @@ public abstract class AbstractScreen {
     protected Interactable cancelElement;
 
     private ArrayList<UIElement> backgroundElements = new ArrayList<>();
-    protected ElementManager interactableElements = new ElementManager();
+    protected ElementManager elementManager = new ElementManager();
     private ArrayList<UIElement> foregroundElements = new ArrayList<>();
 
     protected UITheme theme;
@@ -63,7 +63,7 @@ public abstract class AbstractScreen {
         updateInput();
 
         foregroundElements.forEach(UIElement::update);
-        interactableElements.update();
+        elementManager.update();
         backgroundElements.forEach(UIElement::update);
         if(background != null) background.update();
 
@@ -77,7 +77,7 @@ public abstract class AbstractScreen {
 
         if(background != null) background.render(sb);
         backgroundElements.forEach(element -> element.render(sb));
-        interactableElements.render(sb);
+        elementManager.render(sb);
         foregroundElements.forEach(element -> element.render(sb));
     }
 
@@ -134,16 +134,16 @@ public abstract class AbstractScreen {
     protected void addInteractableElement(UIElement element){
         CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY(), element.getWidth(), element.getHeight());
         compositeUIElement.middle = element;
-        interactableElements.addElement(compositeUIElement);
+        elementManager.addElement(compositeUIElement);
     }
     protected void addInteractableElement(UIElement element, boolean temporary){
         CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY(), element.getWidth(), element.getHeight());
         compositeUIElement.middle = element;
         compositeUIElement.temporary = temporary;
-        interactableElements.addElement(compositeUIElement);
+        elementManager.addElement(compositeUIElement);
     }
     protected void addInteractableElement(CompositeUIElement compositeUIElement){
-        interactableElements.addElement(compositeUIElement);
+        elementManager.addElement(compositeUIElement);
     }
     protected void addElementToForeground(UIElement element){
         foregroundElements.add(element);
@@ -153,7 +153,7 @@ public abstract class AbstractScreen {
         backgroundElements.remove(element);
     }
     protected void removeInteractableElement(UIElement element){
-        for(CompositeUIElement interactableElement : interactableElements.getElements()){
+        for(CompositeUIElement interactableElement : elementManager.getElements()){
             interactableElement.removeUIElement(element);
         }
     }
@@ -171,11 +171,11 @@ public abstract class AbstractScreen {
 
     /** Input */
     private void updateInput(){
-        if(Help.Input.isPressed(CInputActionSet.down, InputActionSet.down)) interactableElements.onDownInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.up, InputActionSet.up)) interactableElements.onUpInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.left, InputActionSet.left)) interactableElements.onLeftInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.right, InputActionSet.right)) interactableElements.onRightInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.proceed, InputActionSet.confirm)) interactableElements.onConfirmInteraction(this);
+        if(Help.Input.isPressed(CInputActionSet.down, InputActionSet.down)) elementManager.onDownInteraction(this);
+        if(Help.Input.isPressed(CInputActionSet.up, InputActionSet.up)) elementManager.onUpInteraction(this);
+        if(Help.Input.isPressed(CInputActionSet.left, InputActionSet.left)) elementManager.onLeftInteraction(this);
+        if(Help.Input.isPressed(CInputActionSet.right, InputActionSet.right)) elementManager.onRightInteraction(this);
+        if(Help.Input.isPressed(CInputActionSet.proceed, InputActionSet.confirm)) elementManager.onConfirmInteraction(this);
         if(Help.Input.isPressed(CInputActionSet.cancel, InputActionSet.cancel)) onCancelButtonPressed();
     }
 
@@ -202,7 +202,7 @@ public abstract class AbstractScreen {
 
     protected void refreshScreen(){
         if(pendingTempPurge){
-            interactableElements.purgeTempElements();
+            elementManager.purgeTempElements();
             pendingTempPurge = false;
 
             onTempPurge();

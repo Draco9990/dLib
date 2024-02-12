@@ -65,4 +65,10 @@ public class ListCompositeUIElement extends CompositeUIElement{
     protected void clearElements(){
         elements.clear();
     }
+
+    /** Interactable? */
+    @Override
+    public boolean isUserInteractable() {
+        return true;
+    }
 }

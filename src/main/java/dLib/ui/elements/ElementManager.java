@@ -78,11 +78,13 @@ public class ElementManager {
             }
         }
 
-        currentElement--;
-        if(currentElement < 0){
-            currentElement = elements.size() - 1;
-            screen.onIterationReachedBottom();
-        }
+        do{
+            currentElement--;
+            if(currentElement < 0){
+                currentElement = elements.size() - 1;
+                screen.onIterationReachedBottom();
+            }
+        }while (!elements.get(currentElement).isUserInteractable());
 
         CompositeUIElement newGroup = getSelectedElementGroup();
         if(newGroup != null) newGroup.select();
@@ -103,11 +105,13 @@ public class ElementManager {
             }
         }
 
-        currentElement++;
-        if(currentElement >= elements.size()){
-            currentElement = 0;
-            screen.onIterationReachedTop();
-        }
+        do{
+            currentElement++;
+            if(currentElement >= elements.size()){
+                currentElement = 0;
+                screen.onIterationReachedTop();
+            }
+        }while (!elements.get(currentElement).isUserInteractable());
 
         CompositeUIElement newGroup = getSelectedElementGroup();
         if(newGroup != null) newGroup.select();
