@@ -25,6 +25,8 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
 
     private boolean trackScrollWheelScroll = false;
 
+    private int itemSpacing = 0;
+
     /** Constructors */
     public ListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
@@ -122,6 +124,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
             item.update();
 
             currentYPos -= item.getTrueHeight();
+            currentYPos -= itemSpacing;
         }
 
         if(renderScrollbar) scrollbar.update();
@@ -145,11 +148,11 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         int currentPageHeight = 0;
         for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
             CompositeUIElement item = items.get(i).renderForItem;
-            if(currentPageHeight + item.getHeight() > itemBoxBackground.getHeight()){
+            if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
                 break;
             }
 
-            currentPageHeight += item.getHeight();
+            currentPageHeight += item.getHeight() + itemSpacing;
             activeItems.add(item);
         }
 
@@ -183,7 +186,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     public int calculatePageCount(){
         int totalItemHeight = 0;
         for(int i = 0; i < items.size(); i++){
-            totalItemHeight += items.get(i).renderForItem.getHeight();
+            totalItemHeight += items.get(i).renderForItem.getHeight() + itemSpacing;
             if(totalItemHeight > itemBoxBackground.getHeight()){
                 int pageCount = items.size() - i;
                 if(pageCount < 1) pageCount = 1;
@@ -195,12 +198,12 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     }
 
     /** Item Spacing */
-    public ListBox<ItemType> setItemSpacing(){
+    public ListBox<ItemType> setItemSpacing(int spacing){
+        this.itemSpacing = spacing;
         return this;
     }
-
     public int getItemSpacing(){
-        reutrn 0;
+        return itemSpacing;
     }
 
     /** Items */
