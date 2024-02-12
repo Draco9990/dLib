@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class CompositeUIElement extends UIElement {
+    public ArrayList<UIElement> background = new ArrayList<>();
     public UIElement left;
     public UIElement right;
     public UIElement middle;
-    public ArrayList<UIElement> other = new ArrayList<>();
+    public ArrayList<UIElement> foreground = new ArrayList<>();
 
     public String onSelectedLine = ""; // Say the Spire mod compatibility
     public String onTriggeredLine = ""; // Say the Spire mod compatibility
@@ -33,11 +34,14 @@ public class CompositeUIElement extends UIElement {
     public CompositeUIElement(CompositeUIElementData data){
         super(data);
 
+        for(UIElementData otherData : data.background){
+            background.add(otherData.makeLiveInstance());
+        }
         if(data.left != null) left = data.left.makeLiveInstance();
         if(data.middle != null) middle = data.middle.makeLiveInstance();
         if(data.right != null) right = data.right.makeLiveInstance();
-        for(UIElementData otherData : data.other){
-            other.add(otherData.makeLiveInstance());
+        for(UIElementData otherData : data.foreground){
+            foreground.add(otherData.makeLiveInstance());
         }
 
         temporary = data.isTemporary;
@@ -45,18 +49,20 @@ public class CompositeUIElement extends UIElement {
 
     /** Update */
     public void update(){
+        for(UIElement u : background) u.update();
         if(left != null) left.update();
         if(right != null) right.update();
         if(middle != null) middle.update();
-        for(UIElement u : other) u.update();
+        for(UIElement u : foreground) u.update();
     }
 
     /** Render */
     public void render(SpriteBatch sb){
+        for(UIElement u : background) u.render(sb);
         if(left != null) left.render(sb);
         if(right != null) right.render(sb);
         if(middle != null) middle.render(sb);
-        for(UIElement u : other) u.render(sb);
+        for(UIElement u : foreground) u.render(sb);
     }
 
     /** Getters and Setters */
@@ -74,13 +80,14 @@ public class CompositeUIElement extends UIElement {
 
     /** Bindings */
     public void removeUIElement(UIElement elementToRemove){
+        background.remove(elementToRemove);
         if(Objects.equals(left, elementToRemove)) left = null;
         if(Objects.equals(middle, elementToRemove)) middle = null;
         if(Objects.equals(right, elementToRemove)) right = null;
-        other.remove(elementToRemove);
+        foreground.remove(elementToRemove);
     }
     public boolean isEmpty(){
-        return left == null && middle == null && right == null && other.isEmpty();
+        return background.isEmpty() && left == null && middle == null && right == null && foreground.isEmpty();
     }
 
     /** Position */
@@ -89,39 +96,45 @@ public class CompositeUIElement extends UIElement {
         int xOffset = newPosX - x;
         int yOffset = newPosY - y;
 
+        for(UIElement otherElement : background) otherElement.offset(xOffset, yOffset);
         if(left != null) left.offset(xOffset, yOffset);
         if(middle != null) middle.offset(xOffset, yOffset);
         if(right != null) right.offset(xOffset, yOffset);
-        for(UIElement otherElement : other) otherElement.offset(xOffset, yOffset);
+        for(UIElement otherElement : foreground) otherElement.offset(xOffset, yOffset);
 
         return super.setPosition(newPosX, newPosY);
     }
 
-    public int getBoundX() {
+    public int getBoundingX() {
         int xPos = -1;
 
+        for(UIElement otherElement : background){
+            if((otherElement.getPositionX() < xPos || xPos == -1)) xPos = otherElement.getPositionX();
+        }
         if(left != null) xPos = left.getPositionX();
         if(middle != null && (middle.getPositionX() < xPos || xPos == -1)) xPos = middle.getPositionX();
         if(right != null && (right.getPositionX() < xPos || xPos == -1)) xPos = right.getPositionX();
-        for(UIElement otherElement : other){
+        for(UIElement otherElement : foreground){
             if((otherElement.getPositionX() < xPos || xPos == -1)) xPos = otherElement.getPositionX();
         }
 
         return xPos;
     }
-    public int getBoundY() {
+    public int getBoundingY() {
         int yPos = -1;
 
+        for(UIElement otherElement : background){
+            if((otherElement.getPositionY() < yPos || yPos == -1)) yPos = otherElement.getPositionY();
+        }
         if(left != null) yPos = left.getPositionY();
         if(middle != null && (middle.getPositionY() < yPos || yPos == -1)) yPos = middle.getPositionY();
         if(right != null && (right.getPositionY() < yPos || yPos == -1)) yPos = right.getPositionY();
-        for(UIElement otherElement : other){
+        for(UIElement otherElement : foreground){
             if((otherElement.getPositionY() < yPos || yPos == -1)) yPos = otherElement.getPositionY();
         }
 
         return yPos;
     }
-
 
     /** Width and Height */
     @Override
@@ -129,6 +142,9 @@ public class CompositeUIElement extends UIElement {
         float diffXPerc = (float)newWidth / width;
         float diffYPerc = (float)newHeight / height;
 
+        for(UIElement otherElement : background){
+            shiftItemDimensions(otherElement, diffXPerc, diffYPerc);
+        }
         if(left != null) {
             shiftItemDimensions(left, diffXPerc, diffYPerc);
         }
@@ -138,7 +154,7 @@ public class CompositeUIElement extends UIElement {
         if(right != null){
             shiftItemDimensions(right, diffXPerc, diffYPerc);
         }
-        for(UIElement otherElement : other){
+        for(UIElement otherElement : foreground){
             shiftItemDimensions(otherElement, diffXPerc, diffYPerc);
         }
 
@@ -161,6 +177,14 @@ public class CompositeUIElement extends UIElement {
         int leftMostX = -1;
         int rightMostX = -1;
 
+        for(UIElement otherElement : background){
+            if(otherElement.getPositionX() < leftMostX || leftMostX == -1){
+                leftMostX = otherElement.getPositionX();
+            }
+            if(otherElement.getPositionX() + otherElement.getWidth() > rightMostX){
+                rightMostX = otherElement.getPositionX() + otherElement.getWidth();
+            }
+        }
         if(left != null){
             leftMostX = left.getPositionX();
             rightMostX += leftMostX + left.getWidth();
@@ -181,7 +205,7 @@ public class CompositeUIElement extends UIElement {
                 rightMostX = right.getPositionX() + right.getWidth();
             }
         }
-        for(UIElement otherElement : other){
+        for(UIElement otherElement : foreground){
             if(otherElement.getPositionX() < leftMostX || leftMostX == -1){
                 leftMostX = otherElement.getPositionX();
             }
@@ -196,6 +220,14 @@ public class CompositeUIElement extends UIElement {
         int bottomY = -1;
         int topY = -1;
 
+        for(UIElement otherElement : background){
+            if(otherElement.getPositionY() < bottomY || bottomY == -1){
+                bottomY = otherElement.getPositionY();
+            }
+            if(otherElement.getPositionY() + otherElement.getHeight() > topY){
+                topY = otherElement.getPositionY() + otherElement.getHeight();
+            }
+        }
         if(left != null){
             bottomY = left.getPositionY();
             topY += bottomY + left.getHeight();
@@ -216,7 +248,7 @@ public class CompositeUIElement extends UIElement {
                 topY = right.getPositionY() + right.getHeight();
             }
         }
-        for(UIElement otherElement : other){
+        for(UIElement otherElement : foreground){
             if(otherElement.getPositionY() < bottomY || bottomY == -1){
                 bottomY = otherElement.getPositionY();
             }
@@ -233,10 +265,13 @@ public class CompositeUIElement extends UIElement {
     protected void setVisibility(boolean visible) {
         super.setVisibility(visible);
 
+        for(UIElement otherElement : background){
+            otherElement.setVisibility(visible);
+        }
         left.setVisibility(visible);
         right.setVisibility(visible);
         middle.setVisibility(visible);
-        for(UIElement otherElement : other){
+        for(UIElement otherElement : foreground){
             otherElement.setVisibility(visible);
         }
     }
@@ -245,10 +280,13 @@ public class CompositeUIElement extends UIElement {
     protected void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
+        for(UIElement otherElement : background){
+            otherElement.setEnabled(enabled);
+        }
         left.setEnabled(enabled);
         right.setEnabled(enabled);
         middle.setEnabled(enabled);
-        for(UIElement otherElement : other){
+        for(UIElement otherElement : foreground){
             otherElement.setEnabled(enabled);
         }
     }
@@ -261,6 +299,11 @@ public class CompositeUIElement extends UIElement {
             }
         }
 
+        for(UIElement otherElement : background) {
+            if(otherElement instanceof Interactable){
+                ((Interactable) otherElement).select();
+            }
+        }
         if(left != null){
             if(left instanceof Interactable){
                 ((Interactable) left).select();
@@ -276,13 +319,18 @@ public class CompositeUIElement extends UIElement {
                 ((Interactable) right).select();
             }
         }
-        for(UIElement otherElement : other) {
+        for(UIElement otherElement : foreground) {
             if(otherElement instanceof Interactable){
                 ((Interactable) otherElement).select();
             }
         }
     }
     public void deselect(){
+        for(UIElement otherElement : background) {
+            if(otherElement instanceof Interactable){
+                ((Interactable) otherElement).deselect();
+            }
+        }
         if(left != null){
             if(left instanceof Interactable){
                 ((Interactable) left).deselect();
@@ -298,7 +346,7 @@ public class CompositeUIElement extends UIElement {
                 ((Interactable) right).deselect();
             }
         }
-        for(UIElement otherElement : other) {
+        for(UIElement otherElement : foreground) {
             if(otherElement instanceof Interactable){
                 ((Interactable) otherElement).deselect();
             }
@@ -335,12 +383,6 @@ public class CompositeUIElement extends UIElement {
         if(middle != null){
             if(middle instanceof Interactable){
                 ((Interactable) middle).clickLeft();
-            }
-        }
-
-        for(UIElement element : other){
-            if(element instanceof Interactable){
-                ((Interactable) element).clickLeft();
             }
         }
 

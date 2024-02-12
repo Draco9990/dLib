@@ -6,7 +6,6 @@ import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.prefabs.MethodSetting;
-import dLib.util.settings.prefabs.StringSetting;
 
 import java.util.function.Consumer;
 
@@ -27,14 +26,14 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
             }
         });
 
-        other.add(new Button((int)(xPos + middle.getWidth()), valuePosY, buttonDim, buttonDim){
+        foreground.add(new Button((int)(xPos + middle.getWidth()), valuePosY, buttonDim, buttonDim){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
                 //TODO
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/BindButton.png")));
-        other.add(new Button(xPos + middle.getWidth() + buttonDim, valuePosY, buttonDim, buttonDim){
+        foreground.add(new Button(xPos + middle.getWidth() + buttonDim, valuePosY, buttonDim, buttonDim){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();

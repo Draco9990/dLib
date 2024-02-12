@@ -49,7 +49,7 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
         this.yPos = yPos;
 
         this.label = new TextBox(setting.getTitle(), xPos, textPosY, (int)(width * textPercX), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0.05f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
-        this.other.add(label);
+        this.foreground.add(label);
     }
 
 }

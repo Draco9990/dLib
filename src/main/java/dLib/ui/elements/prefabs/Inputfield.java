@@ -47,7 +47,7 @@ public class Inputfield extends CompositeUIElement {
             }
         }.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
-        this.other.add(textBox);
+        this.foreground.add(textBox);
 
         this.background = new Button(posX, posY, width, height){
             @Override
@@ -71,7 +71,7 @@ public class Inputfield extends CompositeUIElement {
         preInitialize();
 
         this.textBox = data.textboxData.makeLiveInstance();
-        this.other.add(textBox);
+        this.foreground.add(textBox);
 
         this.background = data.buttonData.makeLiveInstance();
         this.middle = background;

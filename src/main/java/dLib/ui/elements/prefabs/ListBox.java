@@ -38,13 +38,13 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         super(data);
 
         itemBoxBackground = data.itemBoxBackground.makeLiveInstance();
-        other.add(itemBoxBackground);
+        foreground.add(itemBoxBackground);
 
         scrollbar = data.scrollboxData.makeLiveInstance();
     }
 
     private void reinitializeElements(){
-        other.clear();
+        foreground.clear();
         if(title != null && !title.isEmpty()){
             int titleboxHeight = 50;
             if(titleBox == null){
@@ -54,7 +54,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
                 titleBox.setTextRenderColor(Color.WHITE);
                 titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
                 titleBox.setMarginPercX(0.005f);
-                other.add(titleBox);
+                foreground.add(titleBox);
             }
             titleBox.setText(title);
             titleBox.setPosition(x, y + height - titleboxHeight);
@@ -81,7 +81,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
                 }
             };
             itemBoxBackground.setRenderColor(bgColor);
-            other.add(itemBoxBackground);
+            foreground.add(itemBoxBackground);
         }
         itemBoxBackground.setPosition(x, y);
         itemBoxBackground.setDimensions(width, remainingHeight);
@@ -94,7 +94,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
                     return calculatePageCount();
                 }
             };
-            other.add(scrollbar);
+            foreground.add(scrollbar);
         }
         scrollbar.setPosition(x + width - scrollbarWidth, y);
         scrollbar.setDimensions(scrollbarWidth, remainingHeight);
@@ -232,7 +232,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         label.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
 
         CompositeUIElement composite = new CompositeUIElement(label.getPositionX(), label.getPositionY(), label.getWidth(), label.getHeight());
-        composite.other.add(label);
+        composite.foreground.add(label);
 
         composite.middle = new Button(label.getPositionX(), label.getPositionY(), itemBoxBackground.getWidth(), label.getHeight()){
             @Override

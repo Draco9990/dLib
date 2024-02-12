@@ -15,7 +15,7 @@ public class TextButton extends CompositeUIElement {
         middle = new Button(xPos, yPos, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
 
         label = new TextBox(text, xPos, yPos, width, height);
-        other.add(label);
+        foreground.add(label);
     }
 
     public TextButton(TextButtonData data){
@@ -24,7 +24,7 @@ public class TextButton extends CompositeUIElement {
         middle = data.buttonData.makeLiveInstance();
 
         label = data.textBoxData.makeLiveInstance();
-        other.add(label);
+        foreground.add(label);
     }
 
     /** Button */
