@@ -7,9 +7,10 @@ import dLib.ui.VerticalAlignment;
 import dLib.ui.data.prefabs.ListBoxData;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.ListCompositeUIElement;
-import dLib.ui.elements.UIElement;
+import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
+import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 
@@ -18,16 +19,27 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     private TextBox titleBox;
     private String title;
 
-    private Image itemBoxBackground;
+    private Hoverable itemBoxBackground;
     private ArrayList<ListBoxItem> items = new ArrayList<>();
 
     private Scrollbox scrollbar;
+
+    private boolean trackScrollWheelScroll = false;
 
     /** Constructors */
     public ListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
         reinitializeElements();
+    }
+
+    public ListBox(ListBoxData<ItemType> data){
+        super(data);
+
+        itemBoxBackground = data.itemBoxBackground.makeLiveInstance();
+        other.add(itemBoxBackground);
+
+        scrollbar = data.scrollboxData.makeLiveInstance();
     }
 
     private void reinitializeElements(){
@@ -54,7 +66,19 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         if(itemBoxBackground == null){
             Color bgColor = Color.BLACK.cpy();
             bgColor.a = 0.4f;
-            itemBoxBackground = new Image(UIThemeManager.getDefaultTheme().listbox, x, y, width, remainingHeight);
+            itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, x, y, width, remainingHeight){
+                @Override
+                protected void onHovered() {
+                    super.onHovered();
+                    trackScrollWheelScroll = true;
+                }
+
+                @Override
+                protected void onUnhovered() {
+                    super.onUnhovered();
+                    trackScrollWheelScroll = false;
+                }
+            };
             itemBoxBackground.setRenderColor(bgColor);
             other.add(itemBoxBackground);
         }
@@ -75,19 +99,18 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         scrollbar.setDimensions(scrollbarWidth, remainingHeight);
     }
 
-    public ListBox(ListBoxData<ItemType> data){
-        super(data);
-
-        itemBoxBackground = data.itemBoxBackground.makeLiveInstance();
-        other.add(itemBoxBackground);
-
-        scrollbar = data.scrollboxData.makeLiveInstance();
-    }
-
     /** Update and Render */
     @Override
     public void update() {
-        if(titleBox != null) titleBox.update();
+        if(trackScrollWheelScroll){
+            int scrollDelta = (int)(Math.signum((float)Mouse.getDWheel()));
+            scrollbar.getSlider().setPositionY(scrollbar.getSlider().getPositionY() + scrollDelta * 10);
+        }
+
+        if(titleBox != null) {
+            titleBox.update();
+        }
+
         itemBoxBackground.update();
 
         boolean renderScrollbar = calculatePageCount() > 1;
@@ -153,7 +176,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     }
 
     /** Background */
-    public Image getBackground(){
+    public Hoverable getBackground(){
         return itemBoxBackground;
     }
 

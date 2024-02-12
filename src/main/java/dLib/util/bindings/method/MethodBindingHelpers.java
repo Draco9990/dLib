@@ -14,6 +14,8 @@ public class MethodBindingHelpers {
     public static ArrayList<MethodBinding> getPremadeMethodBindings(){
         ArrayList<MethodBinding> bindings = new ArrayList<>();
         bindings.add(new CloseScreenMethodBinding());
+        bindings.add(new DynamicMethodBinding(""));
+        bindings.add(new NoneMethodBinding());
         return bindings;
     }
 }

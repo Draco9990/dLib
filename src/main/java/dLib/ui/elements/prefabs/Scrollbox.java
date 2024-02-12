@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.prefabs.ScrollboxData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
@@ -73,6 +74,11 @@ public abstract class Scrollbox extends Renderable {
         }
     }
 
+    /** Slider */
+    public Draggable getSlider(){
+        return slider;
+    }
+
     /** Pages */
     public abstract int getPageCount();
 
@@ -82,13 +88,24 @@ public abstract class Scrollbox extends Renderable {
 
     private void setPageForSliderHeight(int sliderHeight){
         int state = 0;
-        while(sliderHeight > y + heightPerState * state){
+        while(sliderHeight > y + heightPerState * state - 1){
             state++;
         }
 
         currentPage = getPageCount() - state;
         if(currentPage < 1) currentPage = 1;
         onPageChanged(currentPage);
+    }
+
+    public void nextPage(){
+        if(currentPage < pageCount){
+            slider.setPositionY(slider.getPositionY() - heightPerState);
+        }
+    }
+    public void previousPage(){
+        if(currentPage > 0){
+            slider.setPositionY(slider.getPositionY() + heightPerState);
+        }
     }
 
     public void onPageChanged(int newPage){}

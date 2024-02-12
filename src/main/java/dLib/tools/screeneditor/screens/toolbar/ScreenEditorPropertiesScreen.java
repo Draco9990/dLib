@@ -8,6 +8,7 @@ import dLib.util.settings.Setting;
 public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScreen {
     /** Variables */
     private ListBox<Setting<?>> propertiesItemList;
+    private ScreenEditorItem propertiesFor;
 
     /** Constructor */
     public ScreenEditorPropertiesScreen(){
@@ -26,10 +27,18 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
     }
 
     public void createPropertiesFor(ScreenEditorItem item){
+        propertiesFor = item;
         propertiesItemList.setItems(item.getPropertiesForItem());
     }
 
     public void clearScreen(){
+        propertiesFor = null;
         propertiesItemList.clearItems();
+    }
+
+    public void refreshProperties(){
+        if(propertiesFor != null){
+            createPropertiesFor(propertiesFor);
+        }
     }
 }

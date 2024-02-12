@@ -129,15 +129,35 @@ public class CompositeUIElement extends UIElement {
     /** Width and Height */
     @Override
     public UIElement setDimensions(Integer newWidth, Integer newHeight) {
-        int diffX = newWidth - width;
-        int diffY = newHeight - height;
+        float diffXPerc = (float)newWidth / width;
+        float diffYPerc = (float)newHeight / height;
 
-        if(left != null) left.setDimensions(left.getWidth() + diffX, left.getHeight() + diffY);
-        if(middle != null) middle.setDimensions(middle.getWidth() + diffX, middle.getHeight() + diffY);
-        if(right != null) right.setDimensions(right.getWidth() + diffX, right.getHeight() + diffY);
-        for(UIElement otherElement : other) otherElement.setDimensions(otherElement.getWidth() + diffX, otherElement.getHeight() + diffY);
+        if(left != null) {
+            shiftItemDimensions(left, diffXPerc, diffYPerc);
+        }
+        if(middle != null) {
+            shiftItemDimensions(middle, diffXPerc, diffYPerc);
+        }
+        if(right != null){
+            shiftItemDimensions(right, diffXPerc, diffYPerc);
+        }
+        for(UIElement otherElement : other){
+            shiftItemDimensions(otherElement, diffXPerc, diffYPerc);
+        }
 
         return super.setDimensions(newWidth, newHeight);
+    }
+
+    private void shiftItemDimensions(UIElement item, float diffXPerc, float diffYPerc){
+        item.setDimensions((int) (item.getWidth() * diffXPerc), (int) (item.getHeight() * diffYPerc));
+        int diffPosX = item.getPositionX() - getPositionX();
+        if(diffPosX != 0){
+            item.setPositionX(getPositionX() + (int)(diffPosX * diffXPerc));
+        }
+        int diffPosY = item.getPositionY() - getPositionY();
+        if(diffPosY != 0){
+            item.setPositionY(getPositionY() + (int)(diffPosY * diffYPerc));
+        }
     }
 
     public int getTrueWidth() {

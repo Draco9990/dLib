@@ -1,10 +1,12 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.ButtonData;
 import dLib.ui.themes.UITheme;
 import dLib.util.Reflection;
+import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.settings.Setting;
@@ -14,13 +16,55 @@ import java.util.ArrayList;
 
 public class ButtonScreenEditorItem extends RenderableScreenEditorItem {
     /** Settings */
-    private MethodSetting sOnLeftClick = new MethodSetting().setTitle("On Left Click:");
-    private MethodSetting sOnLeftClickHeld = new MethodSetting().declareParams(Float.class).setTitle("On Left Click Held:");
-    private MethodSetting sOnLeftClickRelease = new MethodSetting().setTitle("On Left Click Release:");
+    private MethodSetting sOnLeftClick = new MethodSetting(){
+        @Override
+        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
+            super.setCurrentValue(currentValue);
+            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            return this;
+        }
+    }.setTitle("On Left Click:");
+    private MethodSetting sOnLeftClickHeld = new MethodSetting(){
+        @Override
+        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
+            super.setCurrentValue(currentValue);
+            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            return this;
+        }
+    }.declareParams(Float.class).setTitle("On Left Click Held:");
+    private MethodSetting sOnLeftClickRelease = new MethodSetting(){
+        @Override
+        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
+            super.setCurrentValue(currentValue);
+            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            return this;
+        }
+    }.setTitle("On Left Click Release:");
 
-    private MethodSetting sOnRightClick = new MethodSetting().setTitle("On Right Click:");
-    private MethodSetting sOnRightClickHeld = new MethodSetting().declareParams(Float.class).setTitle("On Right Click Held:");
-    private MethodSetting sOnRightClickRelease = new MethodSetting().setTitle("On Right Click Release:");
+    private MethodSetting sOnRightClick = new MethodSetting(){
+        @Override
+        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
+            super.setCurrentValue(currentValue);
+            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            return this;
+        }
+    }.setTitle("On Right Click:");
+    private MethodSetting sOnRightClickHeld = new MethodSetting(){
+        @Override
+        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
+            super.setCurrentValue(currentValue);
+            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            return this;
+        }
+    }.declareParams(Float.class).setTitle("On Right Click Held:");
+    private MethodSetting sOnRightClickRelease = new MethodSetting(){
+        @Override
+        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
+            super.setCurrentValue(currentValue);
+            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            return this;
+        }
+    }.setTitle("On Right Click Release:");
 
     /** Constructors */
     public ButtonScreenEditorItem(){

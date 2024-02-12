@@ -11,6 +11,16 @@ public class DynamicMethodBinding extends MethodBinding{
         this.methodToExecute = methodName;
     }
 
+    /** Binding */
+    public String getBoundMethod(){
+        return  methodToExecute;
+    }
+
+    public DynamicMethodBinding setBoundMethod(String s){
+        methodToExecute = s;
+        return this;
+    }
+
     @Override
     public boolean isValid() {
         return methodToExecute != null && !methodToExecute.isEmpty();
@@ -18,12 +28,12 @@ public class DynamicMethodBinding extends MethodBinding{
 
     @Override
     public String getShortDisplayName() {
-        return null;
+        return methodToExecute.isEmpty() ? "CUSTOM" : methodToExecute;
     }
 
     @Override
     public String getFullDisplayName() {
-        return null;
+        return getShortDisplayName();
     }
 
     @Override

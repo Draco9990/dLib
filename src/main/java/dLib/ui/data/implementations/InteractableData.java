@@ -13,7 +13,7 @@ public class InteractableData extends HoverableData{
     public boolean consumeTriggerEvent;
 
     @Override
-    public UIElement makeLiveInstance(Object... params) {
+    public Interactable makeLiveInstance(Object... params) {
         return new Interactable(this);
     }
 }
