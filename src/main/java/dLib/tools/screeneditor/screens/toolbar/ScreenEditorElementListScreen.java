@@ -30,7 +30,7 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
             }
         }.setTitle("Scene Elements:");
         previewItemList.getBackground().setImage(null);
-        addInteractableElement(previewItemList);
+        addElement(previewItemList);
 
         hide();
     }

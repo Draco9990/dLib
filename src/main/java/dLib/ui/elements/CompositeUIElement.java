@@ -49,11 +49,15 @@ public class CompositeUIElement extends UIElement {
 
     /** Update */
     public void update(){
-        for(UIElement u : background) u.update();
-        if(left != null) left.update();
+        for(int i = foreground.size() - 1; i >= 0; i--){
+            foreground.get(i).update();
+        }
         if(right != null) right.update();
         if(middle != null) middle.update();
-        for(UIElement u : foreground) u.update();
+        if(left != null) left.update();
+        for(int i = background.size() - 1; i >= 0; i--){
+            background.get(i).update();
+        }
     }
 
     /** Render */

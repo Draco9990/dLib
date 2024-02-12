@@ -16,7 +16,9 @@ public class ElementManager {
     }
 
     public void update(){
-        elements.forEach(CompositeUIElement::update);
+        for(int i = elements.size() - 1; i >= 0; i--){
+            elements.get(i).update();
+        }
     }
 
     public void render(SpriteBatch sb){

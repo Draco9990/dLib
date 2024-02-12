@@ -12,8 +12,6 @@ import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
 import dLib.ui.data.screens.GeneratedScreenData;
 import dLib.ui.elements.implementations.Renderable;
-import dLib.ui.elements.prefabs.ColorPicker;
-import dLib.ui.elements.prefabs.ColorPickerPopup;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
 
@@ -35,7 +33,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
     /** Constructors */
     public ScreenEditorBaseScreen(){
-        addElementToBackground(new Renderable(UITheme.whitePixel, 0, 0, 1920, 1080).setRenderColor(Color.valueOf("#151515FF")));
+        addElement(new Renderable(UITheme.whitePixel, 0, 0, 1920, 1080).setRenderColor(Color.valueOf("#151515FF")));
 
         menu = new ScreenEditorMenuScreen();
 
@@ -60,8 +58,6 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     /** Update and Render */
     @Override
     public void update() {
-        super.update();
-
         menu.update();
 
         preview.update();
@@ -72,6 +68,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
         activeItemsManager.update();
 
+        super.update();
     }
 
     @Override

@@ -18,7 +18,7 @@ public abstract class AbstractObjectListPickerScreen<ItemPickType> extends Abstr
         setScreenToOpenOnClose(caller);
 
         addGenericBackground();
-        addInteractableElement(new ListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
+        addElement(new ListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
             @Override
             public void onItemSelected(ItemPickType item) {
                 instance.onItemSelected(item);

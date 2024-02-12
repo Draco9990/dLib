@@ -16,7 +16,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
 
     /** Constructors */
     public ScreenEditorPreviewScreen(){
-        addElementToBackground(new Interactable(UIThemeManager.getDefaultTheme().background, 10, 10, 1490, 840){
+        addElement(new Interactable(UIThemeManager.getDefaultTheme().background, 10, 10, 1490, 840){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
@@ -32,7 +32,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
         copy.setBoundsX(10, 1490);
         copy.setBoundsY(10, 840);
 
-        addInteractableElement(copy);
+        addElement(copy);
         previewItems.add(copy);
 
         ScreenEditorBaseScreen.instance.getActiveItemsManager().addActiveItem(copy);
@@ -40,7 +40,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
     }
 
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
-        removeInteractableElement(itemToDelete);
+        removeElement(itemToDelete);
         previewItems.remove(itemToDelete);
 
         ScreenEditorBaseScreen.instance.getGeneratedData().removeElement(itemToDelete.getId());

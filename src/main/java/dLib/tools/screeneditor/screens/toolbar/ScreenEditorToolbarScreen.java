@@ -27,7 +27,7 @@ public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen
             }
         }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray()))).setTitle("Tools:");
         toolElements.getBackground().setImage(null);
-        addInteractableElement(toolElements);
+        addElement(toolElements);
     }
 
     /** Utility methods */

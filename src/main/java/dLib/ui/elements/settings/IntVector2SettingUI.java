@@ -22,7 +22,7 @@ public class IntVector2SettingUI extends AbstractSettingUI{
         int inputfieldWidth = (int)(0.25f * renderWidth);
 
         this.foreground.add(new TextBox(setting.getXAxisName(), startingX, valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
-        this.foreground.add(new TextBox(setting.getYAxisName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0, 0).setTextRenderColor(Color.WHITE));
+        this.foreground.add(new TextBox(setting.getYAxisName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
 
         this.left = new Inputfield(String.valueOf(setting.getCurrentValue().x), startingX + textWidth, valuePosY, inputfieldWidth, valueHeight).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
         ((Inputfield)left).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {

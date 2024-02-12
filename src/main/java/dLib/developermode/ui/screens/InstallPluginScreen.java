@@ -9,7 +9,7 @@ public class InstallPluginScreen extends AbstractScreen {
     public InstallPluginScreen(){
         addGenericBackground();
 
-        addElementToForeground(new TextBox("This feature requires IntelliJ Idea and the 'IntelliJ For StS' plugin to be installed in order to continue.", 240, 1080-624, 1400, 432).setWrap(true));
+        addElement(new TextBox("This feature requires IntelliJ Idea and the 'IntelliJ For StS' plugin to be installed in order to continue.", 240, 1080-624, 1400, 432).setWrap(true));
     }
 
     /** ID */
