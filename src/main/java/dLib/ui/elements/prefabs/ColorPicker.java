@@ -67,6 +67,8 @@ public class ColorPicker extends UIElement {
         pixmap.dispose();
     }
 
+    //TODO ON COLOR PICKED
+
     /*@Override
     public void dispose() {
         batch.dispose();

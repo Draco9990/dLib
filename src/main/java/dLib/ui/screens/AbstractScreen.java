@@ -10,7 +10,7 @@ import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.ElementGroupManager;
+import dLib.ui.elements.ElementManager;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.Image;
@@ -31,7 +31,7 @@ public abstract class AbstractScreen {
     protected Interactable cancelElement;
 
     private ArrayList<UIElement> backgroundElements = new ArrayList<>();
-    protected ElementGroupManager interactableElements = new ElementGroupManager();
+    protected ElementManager interactableElements = new ElementManager();
     private ArrayList<UIElement> foregroundElements = new ArrayList<>();
 
     protected UITheme theme;

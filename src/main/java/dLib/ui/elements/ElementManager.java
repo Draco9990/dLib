@@ -6,7 +6,7 @@ import dLib.ui.screens.AbstractScreen;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ElementGroupManager {
+public class ElementManager {
 
     private int currentElement = -1;
     private ArrayList<CompositeUIElement> elements = new ArrayList<>();

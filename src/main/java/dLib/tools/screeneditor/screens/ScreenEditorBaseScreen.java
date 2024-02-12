@@ -13,6 +13,7 @@ import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
 import dLib.ui.data.screens.GeneratedScreenData;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.ColorPicker;
+import dLib.ui.elements.prefabs.ColorPickerPopup;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
 
@@ -70,6 +71,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         elementListScreen.update();
 
         activeItemsManager.update();
+
     }
 
     @Override

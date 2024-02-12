@@ -96,13 +96,17 @@ public class CompositeUIElement extends UIElement {
         int xOffset = newPosX - x;
         int yOffset = newPosY - y;
 
+        if(xOffset == 0 && yOffset == 0) return this;
+
+        super.setPosition(newPosX, newPosY);
+
         for(UIElement otherElement : background) otherElement.offset(xOffset, yOffset);
         if(left != null) left.offset(xOffset, yOffset);
         if(middle != null) middle.offset(xOffset, yOffset);
         if(right != null) right.offset(xOffset, yOffset);
         for(UIElement otherElement : foreground) otherElement.offset(xOffset, yOffset);
 
-        return super.setPosition(newPosX, newPosY);
+        return this;
     }
 
     public int getBoundingX() {
