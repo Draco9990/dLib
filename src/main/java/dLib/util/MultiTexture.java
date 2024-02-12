@@ -3,6 +3,7 @@ package dLib.util;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+// DO NOT USE!!
 public class MultiTexture extends Texture {
     /** Variables */
     private Texture topLeft;

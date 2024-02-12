@@ -28,6 +28,8 @@ public class UITheme {
     public Texture arrow_up;
     public Texture arrow_down;
 
+    public Texture scroll_button;
+
     public Texture inputfield;
     public Texture listbox = UITheme.whitePixel;
 
@@ -75,6 +77,8 @@ public class UITheme {
         this.arrow_up =  loadItem("arrow_up.png");
         this.arrow_down =  loadItem("arrow_down.png");
 
+        this.scroll_button =  loadItem("scroll_button.png");
+
         this.inputfield =  loadItem("inputfield.png");
     }
 
@@ -97,6 +101,8 @@ public class UITheme {
         this.arrow_right_double.dispose();
         this.arrow_up.dispose();
         this.arrow_down.dispose();
+
+        this.scroll_button.dispose();
     }
 
     protected Texture loadItem(String itemName){
