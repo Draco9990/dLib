@@ -16,9 +16,6 @@ public class CompositeUIElement extends UIElement {
     public UIElement middle;
     public ArrayList<UIElement> other = new ArrayList<>();
 
-    private boolean isVisible = true;
-    private boolean isEnabled = true;
-
     public String onSelectedLine = ""; // Say the Spire mod compatibility
     public String onTriggeredLine = ""; // Say the Spire mod compatibility
 

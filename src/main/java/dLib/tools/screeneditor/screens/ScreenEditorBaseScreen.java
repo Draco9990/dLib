@@ -52,7 +52,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
         activeItemsManager = new ScreenEditorActiveItemsManager();
         generatedData = new GeneratedScreenData();
-        
+
         instance = this;
     }
 
