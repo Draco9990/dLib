@@ -12,8 +12,6 @@ public class Renderable extends UIElement {
 
     protected Color renderColor;
 
-    protected boolean visible = true;
-
     public Renderable(Texture image){
         this(image, 0, 0);
     }
@@ -78,24 +76,10 @@ public class Renderable extends UIElement {
 
     /** Enabled/Visible/Active */
     @Override
-    public void setVisibility(boolean visible) {
-        this.visible = visible;
-    }
-    @Override
-    public boolean isVisible() {
-        return visible;
-    }
-
-    @Override
     public void setEnabled(boolean enabled) {
     }
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public boolean isActive() {
-        return isVisible() || isEnabled();
     }
 }

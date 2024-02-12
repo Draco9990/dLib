@@ -234,39 +234,26 @@ public class CompositeUIElement extends UIElement {
     /** Visible & Enabled*/
     @Override
     protected void setVisibility(boolean visible) {
+        super.setVisibility(visible);
+
         left.setVisibility(visible);
         right.setVisibility(visible);
         middle.setVisibility(visible);
         for(UIElement otherElement : other){
             otherElement.setVisibility(visible);
         }
-
-        isVisible = visible;
-    }
-    @Override
-    public boolean isVisible() {
-        return isVisible;
     }
 
     @Override
     protected void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+
         left.setEnabled(enabled);
         right.setEnabled(enabled);
         middle.setEnabled(enabled);
         for(UIElement otherElement : other){
             otherElement.setEnabled(enabled);
         }
-
-        isVisible = enabled;
-    }
-    @Override
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    @Override
-    public boolean isActive() {
-        return isVisible || isEnabled;
     }
 
     /** Fired whenever the current element group comes into focus */

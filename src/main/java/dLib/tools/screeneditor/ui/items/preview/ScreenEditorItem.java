@@ -152,6 +152,7 @@ public abstract class ScreenEditorItem extends Resizeable {
             sDimensions.setCurrentValue(currentDimensions);
         }
         if(height != currentDimensions.y){
+            currentDimensions.y = height;
             sDimensions.setCurrentValue(currentDimensions);
         }
 

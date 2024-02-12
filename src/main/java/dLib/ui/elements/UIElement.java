@@ -16,6 +16,9 @@ public abstract class UIElement {
     protected int width = 0;
     protected int height = 0;
 
+    protected boolean isVisible = true;
+    protected boolean isEnabled = true;
+
     private BiConsumer<Integer, Integer> positionChangedConsumer;
 
     /** Constructors */
@@ -145,8 +148,12 @@ public abstract class UIElement {
     public void show(){
         setVisibility(true);
     }
-    protected abstract void setVisibility(boolean visible);
-    public abstract boolean isVisible();
+    protected void setVisibility(boolean visible){
+        isVisible = visible;
+    }
+    public boolean isVisible(){
+        return isVisible;
+    }
 
     /** Enabled */
     public void disable(){
@@ -155,8 +162,12 @@ public abstract class UIElement {
     public void enable(){
         setEnabled(true);
     }
-    protected abstract void setEnabled(boolean enabled);
-    public abstract boolean isEnabled();
+    protected void setEnabled(boolean enabled){
+        isEnabled = enabled;
+    }
+    public boolean isEnabled(){
+        return isEnabled;
+    }
 
     /** Active */
     public void hideAndDisable(){
@@ -167,5 +178,7 @@ public abstract class UIElement {
         show();
         enable();
     }
-    public abstract boolean isActive();
+    public boolean isActive(){
+        return isVisible() || isEnabled();
+    }
 }

@@ -3,11 +3,13 @@ package dLib.tools.screeneditor.ui.items.preview.renderable;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.ui.Alignment;
 import dLib.ui.data.prefabs.TextBoxData;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.settings.Setting;
+import dLib.util.settings.prefabs.AlignmentSetting;
 import dLib.util.settings.prefabs.StringSetting;
 
 import java.util.ArrayList;
@@ -25,6 +27,16 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
             textBox.setText(getCurrentValue());
         }
     }.setTitle("Text:");
+
+    private AlignmentSetting sAlignment = (AlignmentSetting) new AlignmentSetting(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER)){
+        @Override
+        public void onValueChanged() {
+            super.onValueChanged();
+            getElementData().horizontalAlignment = getCurrentValue().horizontalAlignment.name();
+            getElementData().verticalAlignment = getCurrentValue().verticalAlignment.name();
+            textBox.setAlignment(getCurrentValue().horizontalAlignment, getCurrentValue().verticalAlignment);
+        }
+    }.setTitle("Alignment:");
 
     /** Constructors */
     public TextBoxScreenEditorItem(){
@@ -47,14 +59,14 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     @Override
     public ScreenEditorItem setPosition(Integer newPosX, Integer newPosY) {
         super.setPosition(newPosX, newPosY);
-        this.textBox.setPosition(newPosX, newPosY);
+        this.textBox.setPosition(x, y);
         return this;
     }
 
     @Override
     public ScreenEditorItem setDimensions(Integer newWidth, Integer newHeight) {
         super.setDimensions(newWidth, newHeight);
-        this.textBox.setDimensions(newWidth, newHeight);
+        this.textBox.setDimensions(width, height);
         return this;
     }
 
@@ -89,6 +101,7 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     public ArrayList<Setting<?>> getPropertiesForItem() {
         ArrayList<Setting<?>> settings = super.getPropertiesForItem();
         settings.add(sText);
+        settings.add(sAlignment);
         return settings;
     }
 
