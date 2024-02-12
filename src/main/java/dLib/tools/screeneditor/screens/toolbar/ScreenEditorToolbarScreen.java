@@ -6,7 +6,7 @@ import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldScreenEditor
 import dLib.tools.screeneditor.ui.items.preview.composite.ListBoxScreenEditor;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditor;
+import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorItem;
 import dLib.ui.elements.prefabs.ListBox;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen
         elementMap.put("Image", new ImageScreenEditorItem());
         elementMap.put("Inputfield", new InputfieldScreenEditor());
         elementMap.put("ListBox", new ListBoxScreenEditor());
-        elementMap.put("TextBox", new TextBoxScreenEditor());
+        elementMap.put("TextBox", new TextBoxScreenEditorItem());
     }
 
     public void onElementToAddChosen(ScreenEditorItem previewItem){}

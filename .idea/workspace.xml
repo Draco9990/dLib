@@ -5,21 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/DynamicMethodSettingUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/developermode/commands/DeveloperModeCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/developermode/ui/screens/DeveloperModeLaunchScreen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/developermode/ui/screens/InstallPluginScreen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/DLibConfigManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/toolbar/ScreenEditorPropertiesScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/toolbar/ScreenEditorPropertiesScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/ButtonScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/ButtonScreenEditorItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/data/implementations/HoverableData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/data/implementations/HoverableData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/data/implementations/InteractableData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/data/implementations/InteractableData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/data/prefabs/ListBoxData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/data/prefabs/ListBoxData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/CompositeUIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/CompositeUIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/commands/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/commands/CommandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/toolbar/ScreenEditorToolbarScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/toolbar/ScreenEditorToolbarScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/TextBoxScreenEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/TextBoxScreenEditorItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ListBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ListBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Scrollbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Scrollbox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/DynamicMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/DynamicMethodBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/MethodBindingHelpers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/MethodBindingHelpers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/MethodSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/MethodSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/images/ui/screeneditor/sizeeditorpopupbg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/images/ui/screeneditor/toolbarbackground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/TextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/TextBox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,11 +86,11 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.patches" />
+      <recent name="dLib.commands.objects" />
       <recent name="dLib.ui.elements.settings" />
       <recent name="dLib.util.bindings.method" />
       <recent name="dLib.util.settings.prefabs" />
-      <recent name="dLib.ui.elements.prefabs" />
-      <recent name="dLib.tools.screeneditor.ui.items.preview" />
     </key>
   </component>
   <component name="RunManager">
@@ -167,7 +164,8 @@
       <workItem from="1707437221506" duration="1000" />
       <workItem from="1707507065421" duration="5812000" />
       <workItem from="1707568515721" duration="19439000" />
-      <workItem from="1707652889386" duration="15932000" />
+      <workItem from="1707652889386" duration="16609000" />
+      <workItem from="1707733428056" duration="14848000" />
     </task>
     <servers />
   </component>

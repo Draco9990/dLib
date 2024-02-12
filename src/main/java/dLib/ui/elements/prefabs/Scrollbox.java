@@ -88,7 +88,7 @@ public abstract class Scrollbox extends Renderable {
 
     private void setPageForSliderHeight(int sliderHeight){
         int state = 0;
-        while(sliderHeight > y + heightPerState * state - 1){
+        while(sliderHeight > y + heightPerState * state){
             state++;
         }
 

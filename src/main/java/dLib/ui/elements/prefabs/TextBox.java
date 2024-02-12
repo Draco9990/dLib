@@ -3,6 +3,7 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Align;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.modcompat.ModManager;
@@ -107,93 +108,111 @@ public class TextBox extends Hoverable {
         float halfWidth = (float) renderWidth / 2;
         float halfHeight = (float) renderHeight / 2;
 
-        FontHelper.layout.setText(font, "lL");
-        if(horizontalAlignment == HorizontalAlignment.LEFT){
-            if(verticalAlignment == VerticalAlignment.TOP){
-                FontHelper.renderFontLeftTopAligned(
-                        sb,
-                        font,
-                        text,
-                        renderX * Settings.xScale,
-                        (renderY + renderHeight) * Settings.yScale,
-                        textRenderColor);
+        if(!wrap){
+            FontHelper.layout.setText(font, "lL");
+            if(horizontalAlignment == HorizontalAlignment.LEFT){
+                if(verticalAlignment == VerticalAlignment.TOP){
+                    FontHelper.renderFontLeftTopAligned(
+                            sb,
+                            font,
+                            text,
+                            renderX * Settings.xScale,
+                            (renderY + renderHeight) * Settings.yScale,
+                            textRenderColor);
+                }
+                if(verticalAlignment == VerticalAlignment.CENTER){
+                    FontHelper.renderFontLeft(
+                            sb,
+                            font,
+                            text,
+                            renderX * Settings.xScale,
+                            (renderY + halfHeight) * Settings.yScale,
+                            textRenderColor);
+                }
+                if(verticalAlignment == VerticalAlignment.BOTTOM){
+                    FontHelper.renderFontLeftDownAligned(
+                            sb,
+                            font,
+                            text,
+                            renderX * Settings.xScale,
+                            (renderY) * Settings.yScale,
+                            textRenderColor);
+                }
             }
-            if(verticalAlignment == VerticalAlignment.CENTER){
-                FontHelper.renderFontLeft(
-                        sb,
-                        font,
-                        text,
-                        renderX * Settings.xScale,
-                        (renderY + halfHeight) * Settings.yScale,
-                        textRenderColor);
+            if(horizontalAlignment == HorizontalAlignment.CENTER){
+                if(verticalAlignment == VerticalAlignment.TOP){
+                    FontHelper.renderFontCenteredTopAligned(
+                            sb,
+                            font,
+                            text,
+                            (renderX + halfWidth) * Settings.xScale,
+                            (renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2,
+                            textRenderColor);
+                }
+                if(verticalAlignment == VerticalAlignment.CENTER){
+                    FontHelper.renderFontCentered(
+                            sb,
+                            font,
+                            text,
+                            (renderX + halfWidth) * Settings.xScale,
+                            (renderY + halfHeight) * Settings.yScale,
+                            textRenderColor);
+                }
+                if(verticalAlignment == VerticalAlignment.BOTTOM){
+                    FontHelper.renderFontCentered(
+                            sb,
+                            font,
+                            text,
+                            (renderX + halfWidth) * Settings.xScale,
+                            (renderY) * Settings.yScale + FontHelper.layout.height / 2,
+                            textRenderColor);
+                }
             }
-            if(verticalAlignment == VerticalAlignment.BOTTOM){
-                FontHelper.renderFontLeftDownAligned(
-                        sb,
-                        font,
-                        text,
-                        renderX * Settings.xScale,
-                        (renderY) * Settings.yScale,
-                        textRenderColor);
+            if(horizontalAlignment == HorizontalAlignment.RIGHT){
+                if(verticalAlignment == VerticalAlignment.TOP){
+                    FontHelper.renderFontRightTopAligned(
+                            sb,
+                            font,
+                            text,
+                            (renderX + renderWidth) * Settings.xScale,
+                            (renderY + renderHeight) * Settings.yScale,
+                            textRenderColor);
+                }
+                if(verticalAlignment == VerticalAlignment.CENTER){
+                    FontHelper.renderFontRightAligned(
+                            sb,
+                            font,
+                            text,
+                            (renderX + renderWidth) * Settings.xScale,
+                            (renderY + halfHeight) * Settings.yScale,
+                            textRenderColor);
+                }
+                if(verticalAlignment == VerticalAlignment.BOTTOM){
+                    FontHelper.renderFontRightAligned(
+                            sb,
+                            font,
+                            text,
+                            (renderX + renderWidth) * Settings.xScale,
+                            (renderY) * Settings.yScale + FontHelper.layout.height / 2,
+                            textRenderColor);
+                }
             }
         }
-        if(horizontalAlignment == HorizontalAlignment.CENTER){
-            if(verticalAlignment == VerticalAlignment.TOP){
-                FontHelper.renderFontCenteredTopAligned(
-                        sb,
-                        font,
-                        text,
-                        (renderX + halfWidth) * Settings.xScale,
-                        (renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2,
-                        textRenderColor);
-            }
-            if(verticalAlignment == VerticalAlignment.CENTER){
-                FontHelper.renderFontCentered(
-                        sb,
-                        font,
-                        text,
-                        (renderX + halfWidth) * Settings.xScale,
-                        (renderY + halfHeight) * Settings.yScale,
-                        textRenderColor);
-            }
-            if(verticalAlignment == VerticalAlignment.BOTTOM){
-                FontHelper.renderFontCentered(
-                        sb,
-                        font,
-                        text,
-                        (renderX + halfWidth) * Settings.xScale,
-                        (renderY) * Settings.yScale + FontHelper.layout.height / 2,
-                        textRenderColor);
-            }
-        }
-        if(horizontalAlignment == HorizontalAlignment.RIGHT){
-            if(verticalAlignment == VerticalAlignment.TOP){
-                FontHelper.renderFontRightTopAligned(
-                        sb,
-                        font,
-                        text,
-                        (renderX + renderWidth) * Settings.xScale,
-                        (renderY + renderHeight) * Settings.yScale,
-                        textRenderColor);
-            }
-            if(verticalAlignment == VerticalAlignment.CENTER){
-                FontHelper.renderFontRightAligned(
-                        sb,
-                        font,
-                        text,
-                        (renderX + renderWidth) * Settings.xScale,
-                        (renderY + halfHeight) * Settings.yScale,
-                        textRenderColor);
-            }
-            if(verticalAlignment == VerticalAlignment.BOTTOM){
-                FontHelper.renderFontRightAligned(
-                        sb,
-                        font,
-                        text,
-                        (renderX + renderWidth) * Settings.xScale,
-                        (renderY) * Settings.yScale + FontHelper.layout.height / 2,
-                        textRenderColor);
-            }
+        else{
+            font.getData().setScale(fontScale);
+            font.setColor(textRenderColor);
+
+            int align = 0;
+            if(horizontalAlignment == HorizontalAlignment.LEFT) align = Align.left;
+            else if(horizontalAlignment == HorizontalAlignment.CENTER) align = Align.center;
+            else if(horizontalAlignment == HorizontalAlignment.RIGHT) align = Align.right;
+
+            if(verticalAlignment == VerticalAlignment.TOP) renderY += renderHeight;
+            else if(verticalAlignment == VerticalAlignment.CENTER) renderY += (int) halfHeight;
+
+            FontHelper.layout.setText(font, text, Color.WHITE, renderWidth * Settings.xScale, align, true);
+            font.draw(sb, text, renderX * Settings.xScale, (renderY + FontHelper.layout.height / 2f) * Settings.yScale, renderWidth * Settings.xScale, align, true);
+            font.getData().setScale(1.0F);
         }
 
         font.getData().setScale(1.f);
@@ -292,6 +311,7 @@ public class TextBox extends Hoverable {
 
     public TextBox setWrap(boolean wrap){
         this.wrap = wrap;
+        recalculateFontScale();
         return this;
     }
 
@@ -339,7 +359,7 @@ public class TextBox extends Hoverable {
 
         while(true){
             font.getData().setScale(fontScale);
-            FontHelper.layout.setText(font, text);
+            FontHelper.layout.setText(font, text, Color.BLACK, renderWidth * Settings.xScale, 0, wrap);
             if(FontHelper.layout.height > renderHeight * Settings.yScale || (!wrap && FontHelper.layout.width > renderWidth * Settings.xScale)) {
                 font.getData().setScale(1);
                 this.fontScale = Math.max(fontScale - 0.1F, 0.1f);

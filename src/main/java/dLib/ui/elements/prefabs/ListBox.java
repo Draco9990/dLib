@@ -182,35 +182,17 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
 
     /** Scrollbar */
     public int calculatePageCount(){
-        int pageCount = items.size();
-        while(true){
-            pageCount--;
-            if(pageCount <= 1) return 1;
-
-            int totalItemHeight = 0;
-            for(int i = pageCount; i <= items.size(); i++){
-                totalItemHeight += items.get(i - 1).renderForItem.getHeight();
-                if(totalItemHeight > itemBoxBackground.getHeight()){
-                    return pageCount + 1;
-                }
+        int totalItemHeight = 0;
+        for(int i = 0; i < items.size(); i++){
+            totalItemHeight += items.get(i).renderForItem.getHeight();
+            if(totalItemHeight > itemBoxBackground.getHeight()){
+                int pageCount = items.size() - i;
+                if(pageCount < 1) pageCount = 1;
+                return pageCount + 1;
             }
         }
 
-        /*int pageCount = 1;
-
-        for(int i = items.size() - 1; i >= 0; i--){
-            pageCount = i;
-
-            int totalItemHeight = 0;
-            for(int j = pageCount; j < items.size(); j++){
-                totalItemHeight += items.get(j).renderForItem.getHeight();
-                if(totalItemHeight > itemBoxBackground.getHeight()){
-                    return pageCount + 1;
-                }
-            }
-        }
-
-        return pageCount;*/
+        return 1;
     }
 
     /** Items */
