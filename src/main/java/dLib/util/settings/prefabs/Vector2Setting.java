@@ -18,9 +18,15 @@ public class Vector2Setting extends Setting<Vector2> {
     public Vector2Setting setXAxisName(String name){
         return setAxisNames(name, yAxisName);
     }
+    public String getXAxisName(){
+        return xAxisName;
+    }
 
     public Vector2Setting setYAxisName(String name){
         return setAxisNames(xAxisName, name);
+    }
+    public String getYAxisName(){
+        return yAxisName;
     }
 
     public Vector2Setting setAxisNames(String xName, String yName){
