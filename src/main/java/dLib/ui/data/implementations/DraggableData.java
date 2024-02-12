@@ -3,7 +3,11 @@ package dLib.ui.data.implementations;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Draggable;
 
-public class DraggableData extends InteractableData{
+import java.io.Serializable;
+
+public class DraggableData extends InteractableData implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public boolean canDragX;
     public boolean canDragY;
 

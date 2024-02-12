@@ -2,9 +2,12 @@ package dLib.ui.data;
 
 import dLib.ui.elements.CompositeUIElement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CompositeUIElementData extends UIElementData{
+public class CompositeUIElementData extends UIElementData implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public ArrayList<UIElementData> background = new ArrayList<>();
     public UIElementData left;
     public UIElementData middle;

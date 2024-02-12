@@ -4,7 +4,11 @@ import dLib.ui.data.ListCompositeUIElementData;
 import dLib.ui.data.implementations.HoverableData;
 import dLib.ui.elements.prefabs.ListBox;
 
-public class ListBoxData<ItemType> extends ListCompositeUIElementData {
+import java.io.Serializable;
+
+public class ListBoxData<ItemType> extends ListCompositeUIElementData  implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public HoverableData itemBoxBackground;
     public ScrollboxData scrollboxData;
 

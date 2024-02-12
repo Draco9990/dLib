@@ -5,9 +5,12 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 
-public class TextureThemeBinding extends TextureBinding {
+public class TextureThemeBinding extends TextureBinding implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /** Variables */
     private String themeFieldName = "";
 

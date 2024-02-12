@@ -1,6 +1,10 @@
 package dLib.util.bindings.method;
 
-public class NoneMethodBinding extends MethodBinding{
+import java.io.Serializable;
+
+public class NoneMethodBinding extends MethodBinding implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /** Binding */
     @Override
     public boolean isValid() {

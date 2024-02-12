@@ -2,7 +2,11 @@ package dLib.util.bindings.method;
 
 import dLib.ui.screens.ScreenManager;
 
-public class CloseScreenMethodBinding extends MethodBinding{
+import java.io.Serializable;
+
+public class CloseScreenMethodBinding extends MethodBinding implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /** Binding */
     @Override
     public boolean isValid() {

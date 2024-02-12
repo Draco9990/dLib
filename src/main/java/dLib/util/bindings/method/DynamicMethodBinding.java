@@ -2,7 +2,11 @@ package dLib.util.bindings.method;
 
 import dLib.util.Reflection;
 
-public class DynamicMethodBinding extends MethodBinding{
+import java.io.Serializable;
+
+public class DynamicMethodBinding extends MethodBinding implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /** Variables */
     private String methodToExecute = "";
 

@@ -3,7 +3,11 @@ package dLib.ui.data.implementations;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 
-public class InteractableData extends HoverableData{
+import java.io.Serializable;
+
+public class InteractableData extends HoverableData implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public String hoveredTexture;
     public String disabledTexture;
 

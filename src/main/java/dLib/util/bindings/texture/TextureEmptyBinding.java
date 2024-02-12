@@ -3,7 +3,11 @@ package dLib.util.bindings.texture;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.util.TextureManager;
 
-public class TextureEmptyBinding extends TextureBinding{
+import java.io.Serializable;
+
+public class TextureEmptyBinding extends TextureBinding implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /** Bindings */
     @Override
     public String getShortDisplayName() {

@@ -2,7 +2,11 @@ package dLib.ui.data;
 
 import dLib.ui.elements.UIElement;
 
-public abstract class UIElementData {
+import java.io.Serializable;
+
+public abstract class UIElementData implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public String ID;
 
     public int x;

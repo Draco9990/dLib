@@ -5,7 +5,11 @@ import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.prefabs.Scrollbox;
 import dLib.util.Reflection;
 
-public class ScrollboxData extends RenderableData {
+import java.io.Serializable;
+
+public class ScrollboxData extends RenderableData  implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public DraggableData slider;
 
     @Override

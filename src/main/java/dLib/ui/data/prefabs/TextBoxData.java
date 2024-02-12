@@ -3,7 +3,11 @@ package dLib.ui.data.prefabs;
 import dLib.ui.data.implementations.HoverableData;
 import dLib.ui.elements.prefabs.TextBox;
 
-public class TextBoxData extends HoverableData {
+import java.io.Serializable;
+
+public class TextBoxData extends HoverableData  implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public String text;
 
     public boolean wrap;
