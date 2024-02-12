@@ -3,14 +3,17 @@ package dLib.tools.screeneditor.ui.items.preview;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.data.UIElementData;
 import dLib.ui.elements.implementations.Resizeable;
+import dLib.util.IntVector2;
 import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.IntegerSetting;
 import dLib.util.settings.prefabs.StringSetting;
+import dLib.util.settings.prefabs.IntVector2Setting;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -34,35 +37,21 @@ public abstract class ScreenEditorItem extends Resizeable {
         }
     }.setTitle("ID:");
 
-    private IntegerSetting sPosX = (IntegerSetting) new IntegerSetting(getPositionX()){
+    private IntVector2Setting sPosition = (IntVector2Setting) new IntVector2Setting(new IntVector2(getPositionX(), getPositionY())){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            setPositionX(currentValue);
+            setPosition((int) getCurrentValue().x, (int) getCurrentValue().y);
         }
-    }.setTitle("X Position:");
-    private IntegerSetting sPosY = (IntegerSetting) new IntegerSetting(getPositionY()){
-        @Override
-        public void onValueChanged() {
-            super.onValueChanged();
-            setPositionY(currentValue);
-        }
-    }.setTitle("Y Position:");
+    }.setAxisNames("X:", "Y:").setTitle("Position:");
 
-    private IntegerSetting sWidth = (IntegerSetting) new IntegerSetting(getWidth(), null, null){
+    private IntVector2Setting sDimensions = (IntVector2Setting) new IntVector2Setting(new IntVector2(getWidth(), getHeight())){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            setWidth(currentValue);
+            setDimensions(getCurrentValue().x, getCurrentValue().y);
         }
-    }.setTitle("Width:");
-    private IntegerSetting sHeight = (IntegerSetting) new IntegerSetting(getHeight(), null, null){
-        @Override
-        public void onValueChanged() {
-            super.onValueChanged();
-            setHeight(currentValue);
-        }
-    }.setTitle("Height:");
+    }.setAxisNames("W:", "H:").setTitle("Dimensions");
 
     /** Constructors */
     public ScreenEditorItem(Texture image) {
@@ -137,11 +126,14 @@ public abstract class ScreenEditorItem extends Resizeable {
         getElementData().x = x;
         getElementData().y = y;
 
-        if(sPosX.getCurrentValue() != x){
-            sPosX.setCurrentValue(x);
+        IntVector2 currentVal = sPosition.getCurrentValue();
+        if(sPosition.getCurrentValue().x != x){
+            currentVal.x = x;
+            sPosition.setCurrentValue(currentVal);
         }
-        if(sPosY.getCurrentValue() != y){
-            sPosY.setCurrentValue(y);
+        if(sPosition.getCurrentValue().y != y){
+            currentVal.y = y;
+            sPosition.setCurrentValue(currentVal);
         }
 
         return this;
@@ -154,11 +146,13 @@ public abstract class ScreenEditorItem extends Resizeable {
         getElementData().width = width;
         getElementData().height = height;
 
-        if(width != sWidth.getCurrentValue()){
-            sWidth.setCurrentValue(width);
+        IntVector2 currentDimensions = sDimensions.getCurrentValue();
+        if(width != currentDimensions.x){
+            currentDimensions.x = width;
+            sDimensions.setCurrentValue(currentDimensions);
         }
-        if(height != sHeight.getCurrentValue()){
-            sHeight.setCurrentValue(height);
+        if(height != currentDimensions.y){
+            sDimensions.setCurrentValue(currentDimensions);
         }
 
         return this;
@@ -190,11 +184,8 @@ public abstract class ScreenEditorItem extends Resizeable {
         ArrayList<Setting<?>> propertiesList = new ArrayList<>();
         propertiesList.add(sID);
 
-        propertiesList.add(sPosX);
-        propertiesList.add(sPosY);
-
-        propertiesList.add(sWidth);
-        propertiesList.add(sHeight);
+        propertiesList.add(sPosition);
+        propertiesList.add(sDimensions);
 
         return propertiesList;
     }

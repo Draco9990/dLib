@@ -194,6 +194,15 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         return 1;
     }
 
+    /** Item Spacing */
+    public ListBox<ItemType> setItemSpacing(){
+        return this;
+    }
+
+    public int getItemSpacing(){
+        reutrn 0;
+    }
+
     /** Items */
     public ListBox<ItemType> addItem(ItemType item){
         CompositeUIElement compositeItem = makeRenderElementForItem(item);

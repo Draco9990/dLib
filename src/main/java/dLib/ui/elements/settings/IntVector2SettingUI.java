@@ -1,34 +1,35 @@
 package dLib.ui.elements.settings;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.TextBox;
-import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.Vector2Setting;
+import dLib.util.IntVector2;
+import dLib.util.settings.prefabs.IntVector2Setting;
 
 import java.util.function.Consumer;
 
-public class Vector2SettingUI extends AbstractSettingUI{
+public class IntVector2SettingUI extends AbstractSettingUI{
     /** Variables */
 
     /** Constructors */
-    public Vector2SettingUI(Vector2Setting setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public IntVector2SettingUI(IntVector2Setting setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
 
-        int renderWidth = (int) (width * (1-valuePercX));
-        int startingX = xPos + renderWidth;
+        int renderWidth = (int) (width * valuePercX);
+        int startingX = xPos + (width - renderWidth);
 
-        int textWidth = (int) (0.2 * renderWidth);
-        int inputfieldWidth = (int)(0.25 * renderWidth);
+        int textWidth = (int) (0.2f * renderWidth);
+        int inputfieldWidth = (int)(0.25f * renderWidth);
 
-        this.other.add(new TextBox(setting.getXAxisName(), startingX, valuePosY, textWidth, valueHeight));
-        this.other.add(new TextBox(setting.getYAxisName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight));
+        this.other.add(new TextBox(setting.getXAxisName(), startingX, valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        this.other.add(new TextBox(setting.getYAxisName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0, 0).setTextRenderColor(Color.WHITE));
 
         this.left = new Inputfield(String.valueOf(setting.getCurrentValue().x), startingX + textWidth, valuePosY, inputfieldWidth, valueHeight).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE);
         ((Inputfield)left).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
-                Vector2 currentVal = setting.getCurrentValue();
+                IntVector2 currentVal = setting.getCurrentValue();
                 if(s.isEmpty()) {
                     currentVal.x = 0;
                 }
@@ -44,12 +45,12 @@ public class Vector2SettingUI extends AbstractSettingUI{
         ((Inputfield)right).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
-                Vector2 currentVal = setting.getCurrentValue();
+                IntVector2 currentVal = setting.getCurrentValue();
                 if(s.isEmpty()) {
                     currentVal.y = 0;
                 }
                 else{
-                    currentVal.y = Integer.valueOf(s);
+                    currentVal.y = Integer.parseInt(s);
                 }
 
                 setting.setCurrentValue(currentVal);
