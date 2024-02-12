@@ -12,7 +12,7 @@ public class ToggleSettingUI extends AbstractSettingUI {
 
         int buttonDim = Math.min((int)(width * valuePercX), valueHeight);
 
-        middle = new Toggle(UIThemeManager.getDefaultTheme().button_small, UIThemeManager.getDefaultTheme().button_small_confirm, xPos + width - buttonDim, valuePosY, buttonDim, buttonDim){
+        middle = new Toggle(UIThemeManager.getDefaultTheme().button_small, UIThemeManager.getDefaultTheme().button_small_confirm, xPos + width - buttonDim, textPosY, buttonDim, buttonDim){
             @Override
             public void toggle() {
                 super.toggle();
@@ -29,5 +29,15 @@ public class ToggleSettingUI extends AbstractSettingUI {
                 }
             }
         });
+    }
+
+    @Override
+    public int getBoundingHeight() {
+        return textHeight + valueHeight;
+    }
+
+    @Override
+    public int getHeight() {
+        return textHeight + valueHeight;
     }
 }

@@ -17,7 +17,7 @@ public class BooleanSetting extends Setting<Boolean> implements Serializable {
 
     /** Methods */
     public void toggle(){
-        currentValue = !currentValue;
+        setCurrentValue(!getCurrentValue());
     }
 
     /** UI */

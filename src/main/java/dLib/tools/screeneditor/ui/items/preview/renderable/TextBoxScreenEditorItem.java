@@ -10,6 +10,7 @@ import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.AlignmentSetting;
+import dLib.util.settings.prefabs.BooleanSetting;
 import dLib.util.settings.prefabs.StringSetting;
 
 import java.util.ArrayList;
@@ -37,6 +38,15 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
             textBox.setAlignment(getCurrentValue().horizontalAlignment, getCurrentValue().verticalAlignment);
         }
     }.setTitle("Alignment:");
+
+    private BooleanSetting sWrap = (BooleanSetting) new BooleanSetting(false){
+        @Override
+        public void onValueChanged() {
+            super.onValueChanged();
+            getElementData().wrap = getCurrentValue();
+            textBox.setWrap(getCurrentValue());
+        }
+    }.setTitle("Wrap:");
 
     /** Constructors */
     public TextBoxScreenEditorItem(){
@@ -102,6 +112,7 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         ArrayList<Setting<?>> settings = super.getPropertiesForItem();
         settings.add(sText);
         settings.add(sAlignment);
+        settings.add(sWrap);
         return settings;
     }
 
