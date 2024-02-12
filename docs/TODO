@@ -9,3 +9,5 @@
 -> abstractScreenData contains list of items with names that get set throughr eflection to the actual ones
 
 -> subsetting should be an interface and a variable inside of the main class?
+
+-> make position, dimensions, and alignment two in one row properties

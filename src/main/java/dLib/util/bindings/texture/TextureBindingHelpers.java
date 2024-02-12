@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.themes.UITheme;
 import dLib.util.DLibLogger;
 import dLib.util.Reflection;
-import dLib.util.bindings.texture.TextureBinding;
-import dLib.util.bindings.texture.TextureThemeBinding;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -32,7 +30,8 @@ public class TextureBindingHelpers {
     }
 
     public static ArrayList<TextureBinding> getCustomBindings(){
-        //TODO
-        return new ArrayList<>();
+        ArrayList<TextureBinding> bindings = new ArrayList<>();
+        bindings.add(new TextureEmptyBinding());
+        return bindings;
     }
 }

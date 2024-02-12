@@ -1,8 +1,7 @@
 package dLib.ui.elements.settings;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.ui.HorizontalAlignment;
-import dLib.ui.VerticalAlignment;
+import dLib.ui.Alignment;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.settings.Setting;
@@ -49,15 +48,8 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
         this.xPos = xPos;
         this.yPos = yPos;
 
-        this.label = new TextBox(setting.getTitle(), xPos, textPosY, (int)(width * textPercX), textHeight).setHorizontalAlignment(HorizontalAlignment.LEFT).setVerticalAlignment(VerticalAlignment.BOTTOM).setMarginPercX(0.05f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
+        this.label = new TextBox(setting.getTitle(), xPos, textPosY, (int)(width * textPercX), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0.05f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
         this.other.add(label);
     }
 
-    /* AbstractUISetting markAsSubsetting(){
-        other.add(new Renderable(UIThemeManager.getDefaultTheme().arrow_right, xPos, yPos, height, height));
-
-        label.offset(height, 0);
-        label.setWidth(label.getWidth() - height);
-        return this;
-    }*/
 }

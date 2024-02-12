@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
-import dLib.ui.HorizontalAlignment;
+import dLib.ui.Alignment;
 import dLib.ui.data.prefabs.InputfieldData;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.themes.UIThemeManager;
@@ -45,7 +45,7 @@ public class Inputfield extends CompositeUIElement {
                 }
                 super.setText(text);
             }
-        }.setHorizontalAlignment(HorizontalAlignment.LEFT);
+        }.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         this.other.add(textBox);
 

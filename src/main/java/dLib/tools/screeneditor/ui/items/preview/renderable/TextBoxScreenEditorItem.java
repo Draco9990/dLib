@@ -1,12 +1,16 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.TextBoxData;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.StringSetting;
+
+import java.util.ArrayList;
 
 public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     /** Variables */
@@ -18,6 +22,7 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         public void onValueChanged() {
             super.onValueChanged();
             getElementData().text = getCurrentValue();
+            textBox.setText(getCurrentValue());
         }
     }.setTitle("Text:");
 
@@ -38,6 +43,36 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         getElementData().text = text;
     }
 
+    /** Position & Dimensions */
+    @Override
+    public ScreenEditorItem setPosition(Integer newPosX, Integer newPosY) {
+        super.setPosition(newPosX, newPosY);
+        this.textBox.setPosition(newPosX, newPosY);
+        return this;
+    }
+
+    @Override
+    public ScreenEditorItem setDimensions(Integer newWidth, Integer newHeight) {
+        super.setDimensions(newWidth, newHeight);
+        this.textBox.setDimensions(newWidth, newHeight);
+        return this;
+    }
+
+    /** Update & render */
+    @Override
+    public void update() {
+        super.update();
+
+        textBox.update();
+    }
+
+    @Override
+    public void render(SpriteBatch sb) {
+        super.render(sb);
+
+        textBox.render(sb);
+    }
+
     /** Data */
     @Override
     public TextBoxData makeElementData() {
@@ -47,6 +82,14 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     @Override
     public TextBoxData getElementData() {
         return (TextBoxData) super.getElementData();
+    }
+
+    /** Properties */
+    @Override
+    public ArrayList<Setting<?>> getPropertiesForItem() {
+        ArrayList<Setting<?>> settings = super.getPropertiesForItem();
+        settings.add(sText);
+        return settings;
     }
 
     /** Copy */

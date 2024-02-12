@@ -2,8 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dLib.ui.HorizontalAlignment;
-import dLib.ui.VerticalAlignment;
+import dLib.ui.Alignment;
 import dLib.ui.data.prefabs.ListBoxData;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.ListCompositeUIElement;
@@ -51,7 +50,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
                 titleBox.setImage(UITheme.whitePixel);
                 titleBox.setRenderColor(Color.valueOf("#151515FF"));
                 titleBox.setTextRenderColor(Color.WHITE);
-                titleBox.setHorizontalAlignment(HorizontalAlignment.LEFT);
+                titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
                 titleBox.setMarginPercX(0.005f);
                 other.add(titleBox);
             }
@@ -218,7 +217,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
 
     public CompositeUIElement makeRenderElementForItem(ItemType item){
         TextBox label = new TextBox(item.toString(), x, y, itemBoxBackground.getWidth(), 30, 0.025f, 0.05f);
-        label.setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
+        label.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
 
         CompositeUIElement composite = new CompositeUIElement(label.getPositionX(), label.getPositionY(), label.getWidth(), label.getHeight());
         composite.other.add(label);

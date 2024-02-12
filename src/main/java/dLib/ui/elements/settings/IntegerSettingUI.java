@@ -7,9 +7,9 @@ import dLib.util.settings.prefabs.IntegerSetting;
 
 import java.util.function.Consumer;
 
-public class IntegerArrowSettingUI extends AbstractSettingUI {
+public class IntegerSettingUI extends AbstractSettingUI {
     /** Constructors */
-    public IntegerArrowSettingUI(IntegerSetting setting, Integer xPos, Integer yPos, Integer width, int height, boolean showArrows){
+    public IntegerSettingUI(IntegerSetting setting, Integer xPos, Integer yPos, Integer width, int height, boolean showArrows){
         super(setting, xPos, yPos, width, height);
 
         int startingX = (int) (xPos + width * (1-valuePercX));
