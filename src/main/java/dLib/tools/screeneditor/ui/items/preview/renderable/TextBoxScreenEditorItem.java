@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.Alignment;
+import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.TextBoxData;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.bindings.texture.TextureBinding;
@@ -59,6 +60,16 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         textBox = new TextBox("", xPos, yPos, width, height);
     }
 
+    public TextBoxScreenEditorItem(TextBoxData data){
+        super(data);
+
+        textBox = new TextBox(data.text, data.x, data.y, data.width, data.height);
+
+        sText.setCurrentValue(data.text);
+        sAlignment.setCurrentValue(new Alignment(Alignment.HorizontalAlignment.valueOf(data.horizontalAlignment), Alignment.VerticalAlignment.valueOf(data.verticalAlignment)));
+        sWrap.setCurrentValue(data.wrap);
+    }
+
     /** Text */
     public void setText(String text){
         this.textBox.setText(text);
@@ -99,6 +110,16 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     @Override
     public TextBoxData makeElementData() {
         return new TextBoxData();
+    }
+
+    @Override
+    public void initializeElementData(UIElementData data) {
+        super.initializeElementData(data);
+        TextBoxData textBoxData = (TextBoxData) data;
+        textBoxData.text = sText.getCurrentValue();
+        textBoxData.horizontalAlignment = sAlignment.getCurrentValue().horizontalAlignment.name();
+        textBoxData.verticalAlignment = sAlignment.getCurrentValue().verticalAlignment.name();
+        textBoxData.wrap = sWrap.getCurrentValue();
     }
 
     @Override

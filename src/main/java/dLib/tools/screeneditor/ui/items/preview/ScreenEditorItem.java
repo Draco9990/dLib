@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public abstract class ScreenEditorItem extends Resizeable {
     /** Variables */
-    private UIElementData elementData;
+    private UIElementData elementData = makeElementData();
 
     private boolean proxyDragged;
 
@@ -66,8 +66,13 @@ public abstract class ScreenEditorItem extends Resizeable {
         super(image, xPos, yPos, width, height);
     }
 
+    public ScreenEditorItem(UIElementData data){
+        super(null, data.x, data.y, data.width, data.height);
+        this.elementData = data;
+    }
+
     public void postInitialize(){
-        elementData = makeElementData();
+        initializeElementData(elementData);
     }
 
     /** Update and render */
@@ -164,6 +169,13 @@ public abstract class ScreenEditorItem extends Resizeable {
 
     /** Data */
     public abstract UIElementData makeElementData();
+    public void initializeElementData(UIElementData data){
+        data.ID = getId();
+        data.x = x;
+        data.y = y;
+        data.width = width;
+        data.height = height;
+    }
     public UIElementData getElementData(){
         return elementData;
     }

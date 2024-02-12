@@ -17,10 +17,6 @@ public abstract class CustomSetting<T> extends Setting<T> implements Serializabl
         super(defaultValue);
     }
 
-    public CustomSetting(Class<T> valClass) {
-        super(valClass);
-    }
-
     /** Value */
     public abstract ArrayList<T> getAllOptions();
 

@@ -1,5 +1,6 @@
 package dLib.tools.screeneditor.ui.items.preview;
 
+import dLib.ui.data.UIElementData;
 import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.bindings.texture.TextureBinding;
@@ -39,6 +40,11 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
         sTexture.setCurrentValue(image);
     }
 
+    public RenderableScreenEditorItem(RenderableData data){
+        super(data);
+        sTexture.setCurrentValue(data.textureBinding);
+    }
+
     /** Image */
     public Renderable setImage(TextureBinding binding){
         if(sTexture.getCurrentValue() != binding){
@@ -56,13 +62,14 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
     /** Data */
     @Override
     public RenderableData makeElementData() {
-        RenderableData data = new RenderableData();
-        data.ID = getId();
-        data.x = x;
-        data.y = y;
-        data.width = width;
-        data.height = height;
-        return data;
+        return new RenderableData();
+    }
+
+    @Override
+    public void initializeElementData(UIElementData data) {
+        super.initializeElementData(data);
+        RenderableData renderableData = (RenderableData) data;
+        renderableData.textureBinding = sTexture.getCurrentValue();
     }
 
     @Override

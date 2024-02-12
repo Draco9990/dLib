@@ -7,15 +7,19 @@ import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.ListBoxData;
 import dLib.ui.themes.UITheme;
 
-public class ListBoxScreenEditor extends CompositeScreenEditorItem {
+public class ListBoxScreenEditorItem extends CompositeScreenEditorItem {
     /** Constructors */
-    public ListBoxScreenEditor(){
+    public ListBoxScreenEditorItem(){
         super(UITheme.whitePixel, 0, 0, 500, 500);
         setRenderColor(Color.LIGHT_GRAY);
     }
 
-    public ListBoxScreenEditor(Texture image, int xPos, int yPos, int width, int height) {
+    public ListBoxScreenEditorItem(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
+    }
+
+    public ListBoxScreenEditorItem(ListBoxData<?> data){
+        super(data);
     }
 
     /** Data */
@@ -32,6 +36,6 @@ public class ListBoxScreenEditor extends CompositeScreenEditorItem {
     /** Copy */
     @Override
     public ScreenEditorItem makeCopy() {
-        return (ScreenEditorItem) new ListBoxScreenEditor(image, x, y, width, height).setRenderColor(getColorForRender());
+        return (ScreenEditorItem) new ListBoxScreenEditorItem(image, x, y, width, height).setRenderColor(getColorForRender());
     }
 }

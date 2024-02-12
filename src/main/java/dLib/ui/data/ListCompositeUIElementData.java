@@ -1,5 +1,6 @@
 package dLib.ui.data;
 
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.ListCompositeUIElement;
 
 import java.io.Serializable;

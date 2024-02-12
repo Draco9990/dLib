@@ -40,8 +40,8 @@ public class Resizeable extends Draggable{
 
     public Resizeable(ResizeableData data){
         super(data);
-
         initialize();
+        refreshResizeNodePositions();
     }
 
     private void initialize(){

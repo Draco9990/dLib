@@ -10,7 +10,10 @@ import dLib.tools.screeneditor.screens.toolbar.ScreenEditorPropertiesScreen;
 import dLib.tools.screeneditor.screens.toolbar.ScreenEditorToolbarScreen;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
-import dLib.ui.data.screens.GeneratedScreenData;
+import dLib.tools.screeneditor.util.ScreenEditorSaveManager;
+import dLib.ui.data.AbstractScreenData;
+import dLib.ui.data.UIElementData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
@@ -28,11 +31,28 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     private ScreenEditorPropertiesScreen properties;
     private ScreenEditorElementListScreen elementListScreen;
 
+    private ScreenEditorSaveManager saveManager;
     private ScreenEditorActiveItemsManager activeItemsManager;
-    private GeneratedScreenData generatedData;
 
     /** Constructors */
     public ScreenEditorBaseScreen(){
+        initialize();
+    }
+
+    public ScreenEditorBaseScreen(AbstractScreenData dataToLoad){
+        initialize();
+
+        for(UIElementData elementToLoad : dataToLoad.data){
+            ScreenEditorItem item = elementToLoad.makeEditorInstance();
+            if(item != null){
+                preview.addPreviewItem(item);
+            }
+        }
+
+        activeItemsManager.clearActiveItems();
+    }
+
+    private void initialize(){
         addElement(new Renderable(UITheme.whitePixel, 0, 0, 1920, 1080).setRenderColor(Color.valueOf("#151515FF")));
 
         menu = new ScreenEditorMenuScreen();
@@ -49,8 +69,8 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         properties = new ScreenEditorPropertiesScreen();
         elementListScreen = new ScreenEditorElementListScreen();
 
+        saveManager = new ScreenEditorSaveManager();
         activeItemsManager = new ScreenEditorActiveItemsManager();
-        generatedData = new GeneratedScreenData();
 
         instance = this;
     }
@@ -85,12 +105,11 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     }
 
     /** Managers */
+    public ScreenEditorSaveManager getSaveManager(){
+        return saveManager;
+    }
     public ScreenEditorActiveItemsManager getActiveItemsManager(){
         return activeItemsManager;
-    }
-
-    public GeneratedScreenData getGeneratedData(){
-        return generatedData;
     }
 
     /** Preview */

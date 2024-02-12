@@ -1,5 +1,7 @@
 package dLib.ui.data.prefabs;
 
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
 import dLib.ui.data.implementations.InteractableData;
 import dLib.ui.elements.prefabs.Button;
 
@@ -11,5 +13,10 @@ public class ButtonData extends InteractableData  implements Serializable {
     @Override
     public Button makeLiveInstance(Object... params) {
         return new Button(this);
+    }
+
+    @Override
+    public ScreenEditorItem makeEditorInstance() {
+        return new ButtonScreenEditorItem(this);
     }
 }

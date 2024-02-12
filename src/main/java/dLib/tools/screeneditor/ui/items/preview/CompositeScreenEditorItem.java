@@ -17,6 +17,10 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
         super(image, xPos, yPos, width, height);
     }
 
+    public CompositeScreenEditorItem(CompositeUIElementData data){
+        super(data);
+    }
+
     /** Position & Dimensions */
     @Override
     public CompositeScreenEditorItem setPosition(Integer newPosX, Integer newPosY) {
@@ -35,13 +39,7 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
     /** Data */
     @Override
     public CompositeUIElementData makeElementData() {
-        CompositeUIElementData data = new CompositeUIElementData();
-        data.ID = getId();
-        data.x = x;
-        data.y = y;
-        data.width = width;
-        data.height = height;
-        return data;
+        return new CompositeUIElementData();
     }
 
     @Override

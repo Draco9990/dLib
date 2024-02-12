@@ -3,7 +3,7 @@ package dLib.commands;
 import basemod.devcommands.ConsoleCommand;
 import dLib.developermode.commands.DeveloperModeCommand;
 import dLib.commands.objects.OpenScreenCommand;
-import dLib.commands.objects.OpenScreenEditorCommand;
+import dLib.tools.screeneditor.commands.OpenScreenEditorCommand;
 import dLib.plugin.intellij.commands.IntelliJCommand;
 import dLib.plugin.intellij.commands.TestCommand;
 

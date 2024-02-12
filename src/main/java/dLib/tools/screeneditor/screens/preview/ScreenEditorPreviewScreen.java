@@ -26,24 +26,24 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
     }
 
     /** Preview Item Management */
+    public void addPreviewItem(ScreenEditorItem item){
+        addElement(item);
+        previewItems.add(item);
+
+        ScreenEditorBaseScreen.instance.getActiveItemsManager().addActiveItem(item);
+    }
     public void makeNewPreviewItem(ScreenEditorItem template){
         ScreenEditorItem copy = template.makeCopy();
         copy.postInitialize();
         copy.setBoundsX(10, 1490);
         copy.setBoundsY(10, 840);
 
-        addElement(copy);
-        previewItems.add(copy);
-
-        ScreenEditorBaseScreen.instance.getActiveItemsManager().addActiveItem(copy);
-        ScreenEditorBaseScreen.instance.getGeneratedData().addElement(copy.getId(), copy.getElementData());
+        addPreviewItem(copy);
     }
 
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         removeElement(itemToDelete);
         previewItems.remove(itemToDelete);
-
-        ScreenEditorBaseScreen.instance.getGeneratedData().removeElement(itemToDelete.getId());
     }
 
     public ArrayList<ScreenEditorItem> getPreviewItems(){

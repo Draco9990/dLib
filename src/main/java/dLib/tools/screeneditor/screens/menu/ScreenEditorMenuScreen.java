@@ -24,6 +24,10 @@ public class ScreenEditorMenuScreen extends AbstractScreen {
         TextButton closeButton = new TextButton("Close", 20, 1080-60, 200, 40);
         closeButton.getButton().setOnLeftClickConsumer(ScreenManager::closeScreen);
         addElement(closeButton);
+
+        TextButton saveButton = new TextButton("Save", 20, 1080-110, 200, 40);
+        saveButton.getButton().setOnLeftClickConsumer(() -> {ScreenEditorBaseScreen.instance.getSaveManager().save();});
+        addElement(saveButton);
     }
 
     public void registerToolbarControls(){

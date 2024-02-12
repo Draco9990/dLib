@@ -1,5 +1,7 @@
 package dLib.ui.data.prefabs;
 
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldScreenEditorItem;
 import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.Inputfield;
@@ -19,5 +21,10 @@ public class InputfieldData extends CompositeUIElementData  implements Serializa
     @Override
     public CompositeUIElement makeLiveInstance(Object... params) {
         return new Inputfield(this);
+    }
+
+    @Override
+    public ScreenEditorItem makeEditorInstance() {
+        return new InputfieldScreenEditorItem(this);
     }
 }

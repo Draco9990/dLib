@@ -2,6 +2,7 @@ package dLib.util.settings.prefabs;
 
 import dLib.util.bindings.texture.TextureBindingHelpers;
 import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.TextureEmptyBinding;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class TextureSetting extends CustomSetting<TextureBinding> {
     }
 
     public TextureSetting() {
-        super(TextureBinding.class);
+        super(new TextureEmptyBinding());
     }
 
     /** All options */

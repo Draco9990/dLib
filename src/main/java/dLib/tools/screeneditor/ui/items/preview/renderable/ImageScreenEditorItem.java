@@ -2,6 +2,7 @@ package dLib.tools.screeneditor.ui.items.preview.renderable;
 
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.ImageData;
 import dLib.ui.themes.UITheme;
 import dLib.util.bindings.texture.TextureBinding;
@@ -17,10 +18,20 @@ public class ImageScreenEditorItem extends RenderableScreenEditorItem {
         super(textureBinding, xPos, yPos, width, height);
     }
 
+    public ImageScreenEditorItem(ImageData data){
+        super(data);
+    }
+
     /** Data */
     @Override
     public ImageData makeElementData() {
         return new ImageData();
+    }
+
+    @Override
+    public void initializeElementData(UIElementData data) {
+        super.initializeElementData(data);
+        ImageData imageData = (ImageData) data;
     }
 
     @Override
