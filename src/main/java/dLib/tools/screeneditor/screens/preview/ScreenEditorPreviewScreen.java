@@ -42,8 +42,8 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
     public void makeNewPreviewItem(ScreenEditorItem template){
         ScreenEditorItem copy = template.makeCopy();
         copy.postInitialize();
-        copy.setBoundsX(10, 1490);
-        copy.setBoundsY(10, 840);
+        copy.setBoundsX(ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.xOffset + ScreenEditorPreviewScreen.width);
+        copy.setBoundsY(ScreenEditorPreviewScreen.yOffset, ScreenEditorPreviewScreen.yOffset + ScreenEditorPreviewScreen.height);
 
         addPreviewItem(copy);
     }

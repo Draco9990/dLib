@@ -8,7 +8,7 @@ import dLib.util.settings.Setting;
 
 public abstract class AbstractSettingUI extends CompositeUIElement {
     /** Variables */
-    private TextBox label;
+    protected TextBox label;
 
     protected float textPercX = 0.25f;
     protected float valuePercX = 1 - textPercX;

@@ -33,14 +33,14 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         }
     }.setTitle("Text:");
 
-    private ColorSetting sTextColor = new ColorSetting(Color.BLACK){
+    private ColorSetting sTextColor = (ColorSetting) new ColorSetting(Color.BLACK){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
             getElementData().textColor = getCurrentValue().toString();
             textBox.setTextRenderColor(getCurrentValue());
         }
-    };
+    }.setTitle("Text Color:");
 
     private AlignmentSetting sAlignment = (AlignmentSetting) new AlignmentSetting(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER)){
         @Override
