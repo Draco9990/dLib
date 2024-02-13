@@ -3,8 +3,7 @@ package dLib.util.screens;
 import com.badlogic.gdx.graphics.Color;
 import dLib.DLib;
 import dLib.ui.elements.implementations.Renderable;
-import dLib.ui.elements.prefabs.ColorWheel;
-import dLib.ui.elements.prefabs.ColorWheelWithLightness;
+import dLib.ui.elements.prefabs.ColorPicker;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.screens.ScreenManager;
@@ -25,7 +24,7 @@ public class ColorPickerScreen extends AbstractScreen {
 
         addGenericBackground();
 
-        ColorWheelWithLightness colorWheel = new ColorWheelWithLightness(235, 1080-654, 550, 550);
+        ColorPicker colorWheel = new ColorPicker(235, 1080-654, 550, 550);
         colorWheel.getColorWheel().setColorHoveredConsumer(new Consumer<Color>() {
             @Override
             public void accept(Color color) {
