@@ -1,5 +1,6 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
@@ -8,10 +9,12 @@ import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.TextBoxData;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.AlignmentSetting;
 import dLib.util.settings.prefabs.BooleanSetting;
+import dLib.util.settings.prefabs.ColorSetting;
 import dLib.util.settings.prefabs.StringSetting;
 
 import java.util.ArrayList;
@@ -29,6 +32,15 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
             textBox.setText(getCurrentValue());
         }
     }.setTitle("Text:");
+
+    private ColorSetting sTextColor = new ColorSetting(Color.BLACK){
+        @Override
+        public void onValueChanged() {
+            super.onValueChanged();
+            getElementData().textColor = getCurrentValue().toString();
+            textBox.setTextRenderColor(getCurrentValue());
+        }
+    };
 
     private AlignmentSetting sAlignment = (AlignmentSetting) new AlignmentSetting(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER)){
         @Override
@@ -51,13 +63,13 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
 
     /** Constructors */
     public TextBoxScreenEditorItem(){
-        this(new TextureThemeBinding("button_large_outline_empty"), 0, 0, 300, 75);
+        this(new TextureEmptyBinding(), 0, 0, 300, 75);
     }
 
     public TextBoxScreenEditorItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
         super(textureBinding, xPos, yPos, width, height);
 
-        textBox = new TextBox("", xPos, yPos, width, height);
+        textBox = new TextBox("TEXT", xPos, yPos, width, height);
     }
 
     public TextBoxScreenEditorItem(TextBoxData data){
@@ -66,6 +78,8 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         textBox = new TextBox(data.text, data.x, data.y, data.width, data.height);
 
         sText.setCurrentValue(data.text);
+        sTextColor.setCurrentValue(Color.valueOf(data.textColor));
+
         sAlignment.setCurrentValue(new Alignment(Alignment.HorizontalAlignment.valueOf(data.horizontalAlignment), Alignment.VerticalAlignment.valueOf(data.verticalAlignment)));
         sWrap.setCurrentValue(data.wrap);
     }
@@ -120,6 +134,7 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         textBoxData.horizontalAlignment = sAlignment.getCurrentValue().horizontalAlignment.name();
         textBoxData.verticalAlignment = sAlignment.getCurrentValue().verticalAlignment.name();
         textBoxData.wrap = sWrap.getCurrentValue();
+        textBoxData.textColor = sTextColor.getCurrentValue().toString();
     }
 
     @Override
@@ -134,6 +149,7 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         settings.add(sText);
         settings.add(sAlignment);
         settings.add(sWrap);
+        settings.add(sTextColor);
         return settings;
     }
 

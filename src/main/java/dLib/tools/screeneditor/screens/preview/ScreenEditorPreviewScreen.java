@@ -7,6 +7,7 @@ import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.TextureManager;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
 
     /** Constructors */
     public ScreenEditorPreviewScreen(){
-        addElement(new Interactable(UIThemeManager.getDefaultTheme().background, xOffset, yOffset, width, height){
+        addElement(new Interactable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), xOffset, yOffset, width, height){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();

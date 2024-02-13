@@ -11,6 +11,7 @@ public class TextBoxData extends HoverableData  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public String text;
+    public String textColor;
 
     public boolean wrap;
 

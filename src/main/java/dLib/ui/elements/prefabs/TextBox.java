@@ -72,6 +72,7 @@ public class TextBox extends Hoverable {
         wrap = data.wrap;
 
         this.text = data.text;
+        this.textRenderColor = Color.valueOf(data.textColor);
 
         setFont(FontManager.genericFont);
     }
