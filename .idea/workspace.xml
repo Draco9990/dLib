@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorWheel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/ColorSettingUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/screens/ColorPickerScreen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/ColorSetting.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorWheelWithLightness.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/RenderableScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/RenderableScreenEditorItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/data/implementations/RenderableData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/data/implementations/RenderableData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Renderable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorPicker.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorPickerPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorPickerPopup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/CustomSettingUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/settings/CustomSettingUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/util/AbstractObjectListPickerScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/screens/AbstractObjectListPickerScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorWheel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorWheel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ColorHelpers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ColorHelpers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/screens/ColorPickerScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/screens/ColorPickerScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +160,7 @@
       <workItem from="1707652889386" duration="16609000" />
       <workItem from="1707733428056" duration="36334000" />
       <workItem from="1707822150246" duration="3542000" />
-      <workItem from="1707827573146" duration="9693000" />
+      <workItem from="1707827573146" duration="13366000" />
     </task>
     <servers />
   </component>

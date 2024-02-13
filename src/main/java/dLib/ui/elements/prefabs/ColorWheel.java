@@ -18,6 +18,8 @@ public class ColorWheel extends Interactable {
     private Consumer<Color> colorHoveredConsumer;
     private Consumer<Color> colorSelectedConsumer;
 
+    private float lightness = 0.5f;
+
     /** Constructors */
     public ColorWheel(int x, int y, int width, int height) {
         super(null, x, y, width, height);
@@ -45,6 +47,13 @@ public class ColorWheel extends Interactable {
         super.render(sb);
         sb.setColor(Color.WHITE.cpy());
         sb.draw(colorWheelTexture, x * Settings.xScale, y * Settings.yScale, width * Settings.xScale, height * Settings.yScale);
+    }
+
+    /** Lightness */
+    public ColorWheel setLightness(float newLightness){
+        lightness = newLightness;
+        recreateTexture();
+        return this;
     }
 
     /** Left Click */
@@ -78,7 +87,7 @@ public class ColorWheel extends Interactable {
         float hue = (float) ((Math.atan2(-dy, dx) / Math.PI / 2 + 1) % 1);
 
         if (dx * dx + dy * dy <= radius * radius) {
-            return ColorHelpers.fromHSL(hue, 1, 0.5f);
+            return ColorHelpers.fromHSL(hue, 1, lightness);
         }
 
         return null;
@@ -92,7 +101,7 @@ public class ColorWheel extends Interactable {
             for (int dx = -radius; dx < radius; dx++) {
                 if (dx * dx + dy * dy <= radius * radius) {
                     float hue = (float) ((Math.atan2(dy, dx) / Math.PI / 2 + 1) % 1); // Ensure hue is within [0, 1)
-                    pixmap.setColor(ColorHelpers.fromHSL(hue, 1, 0.5f));
+                    pixmap.setColor(ColorHelpers.fromHSL(hue, 1, lightness));
                     pixmap.drawPixel(dx + radius, dy + radius);
                 }
             }

@@ -43,6 +43,34 @@ public class ColorHelpers {
         return new Color(r, g, b, 1.0f);
     }
 
+    public static float[] toHSL(Color color) {
+        float r = color.r;
+        float g = color.g;
+        float b = color.b;
+
+        float max = Math.max(r, Math.max(g, b));
+        float min = Math.min(r, Math.min(g, b));
+        float h, s, l;
+        l = (max + min) / 2.0f;
+
+        if (max == min) {
+            h = s = 0; // achromatic
+        } else {
+            float diff = max - min;
+            s = l > 0.5 ? diff / (2.0f - max - min) : diff / (max + min);
+            if (max == r) {
+                h = (g - b) / diff + (g < b ? 6 : 0);
+            } else if (max == g) {
+                h = (b - r) / diff + 2;
+            } else {
+                h = (r - g) / diff + 4;
+            }
+            h /= 6;
+        }
+
+        return new float[]{h, s, l};
+    }
+
     public static Color fromHSL(float hue, float saturation, float lightness) {
         float r, g, b;
 
