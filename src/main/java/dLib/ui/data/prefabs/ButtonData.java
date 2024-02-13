@@ -16,7 +16,7 @@ public class ButtonData extends InteractableData  implements Serializable {
     }
 
     @Override
-    public ScreenEditorItem makeEditorInstance() {
+    public ButtonScreenEditorItem makeEditorInstance() {
         return new ButtonScreenEditorItem(this);
     }
 }

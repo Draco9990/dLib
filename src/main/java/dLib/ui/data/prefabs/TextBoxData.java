@@ -26,7 +26,7 @@ public class TextBoxData extends HoverableData  implements Serializable {
     }
 
     @Override
-    public ScreenEditorItem makeEditorInstance() {
+    public TextBoxScreenEditorItem makeEditorInstance() {
         return new TextBoxScreenEditorItem(this);
     }
 }

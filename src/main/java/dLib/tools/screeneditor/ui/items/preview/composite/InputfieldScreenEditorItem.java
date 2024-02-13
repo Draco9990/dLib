@@ -3,27 +3,56 @@ package dLib.tools.screeneditor.ui.items.preview.composite;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.tools.screeneditor.ui.items.preview.CompositeScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorItem;
+import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.InputfieldData;
-import dLib.ui.themes.UIThemeManager;
+import dLib.util.bindings.texture.TextureEmptyBinding;
+import dLib.util.bindings.texture.TextureThemeBinding;
 
 public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
+    /** Variables */
+    private ButtonScreenEditorItem background;
+    private TextBoxScreenEditorItem textBox;
+
     /** Constructors */
     public InputfieldScreenEditorItem(){
-        super(UIThemeManager.getDefaultTheme().inputfield, 0, 0, 500, 75);
+        super(0, 0, 500, 75);
+        initialize(0, 0, 500, 75);
     }
 
-    public InputfieldScreenEditorItem(Texture image, int xPos, int yPos, int width, int height) {
-        super(image, xPos, yPos, width, height);
+    public InputfieldScreenEditorItem(int xPos, int yPos, int width, int height) {
+        super(xPos, yPos, width, height);
+        initialize(xPos, yPos, width, height);
     }
 
     public InputfieldScreenEditorItem(InputfieldData data){
         super(data);
+
+        this.background = data.buttonData.makeEditorInstance();
+        this.textBox = data.textboxData.makeEditorInstance();
+    }
+
+    private void initialize(int xPos, int yPos, int width, int height){
+        background = new ButtonScreenEditorItem(new TextureThemeBinding("inputfield"), xPos, yPos, width, height);
+        textBox = new TextBoxScreenEditorItem(new TextureEmptyBinding(), xPos, yPos, width, height);
+
+        addItemToComposite(background);
+        addItemToComposite(textBox);
     }
 
     /** Data */
     @Override
     public InputfieldData makeElementData() {
         return new InputfieldData();
+    }
+
+    @Override
+    public void initializeElementData(UIElementData data) {
+        super.initializeElementData(data);
+        InputfieldData inputfieldData = (InputfieldData) data;
+        inputfieldData.buttonData = background.getElementData();
+        inputfieldData.textboxData = textBox.getElementData();
     }
 
     @Override
@@ -34,6 +63,6 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
     /** Copy */
     @Override
     public ScreenEditorItem makeCopy() {
-        return new InputfieldScreenEditorItem(image, x, y, width, height);
+        return new InputfieldScreenEditorItem(x, y, width, height);
     }
 }

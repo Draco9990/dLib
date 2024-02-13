@@ -38,7 +38,7 @@ public class Inputfield extends CompositeUIElement {
         this.textBox = new TextBox(initialValue, posX, posY, width, height, 0.025f, 0.025f){
             @Override
             public void setText(String text) {
-                if(type == EInputfieldType.NUMERICAL_DECIMAL || type == EInputfieldType.NUMERICAL_WHOLE){
+                if(type == EInputfieldType.NUMERICAL_DECIMAL || type == EInputfieldType.NUMERICAL_WHOLE_POSITIVE){
                     if(Objects.equals(this.getText(), "1") && text.length() > 1){
                         text = text.substring(1);
                     }
@@ -145,7 +145,7 @@ public class Inputfield extends CompositeUIElement {
         characterFilter.clear();
         this.type = type;
 
-        if(type == EInputfieldType.NUMERICAL_WHOLE || type == EInputfieldType.NUMERICAL_DECIMAL){
+        if(type == EInputfieldType.NUMERICAL_WHOLE_POSITIVE || type == EInputfieldType.NUMERICAL_DECIMAL){
             filterAddNumerical();
         }
 
@@ -202,7 +202,7 @@ public class Inputfield extends CompositeUIElement {
 
     public enum EInputfieldType{
         GENERIC,
-        NUMERICAL_WHOLE,
+        NUMERICAL_WHOLE_POSITIVE,
         NUMERICAL_DECIMAL
     }
 }

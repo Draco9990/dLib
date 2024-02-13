@@ -34,16 +34,6 @@ public class CompositeUIElement extends UIElement {
     public CompositeUIElement(CompositeUIElementData data){
         super(data);
 
-        for(UIElementData otherData : data.background){
-            background.add(otherData.makeLiveInstance());
-        }
-        if(data.left != null) left = data.left.makeLiveInstance();
-        if(data.middle != null) middle = data.middle.makeLiveInstance();
-        if(data.right != null) right = data.right.makeLiveInstance();
-        for(UIElementData otherData : data.foreground){
-            foreground.add(otherData.makeLiveInstance());
-        }
-
         temporary = data.isTemporary;
     }
 

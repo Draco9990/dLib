@@ -96,7 +96,7 @@ public abstract class UIElement {
         return this;
     }
     public UIElement offset(int xOffset, int yOffset){
-        setPosition(x + xOffset, y+yOffset);
+        setPosition(x + xOffset, y + yOffset);
         return this;
     }
 
