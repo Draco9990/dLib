@@ -4,6 +4,7 @@ import basemod.DevConsole;
 import basemod.devcommands.ConsoleCommand;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.util.ScreenEditorSaveManager;
+import dLib.ui.data.AbstractScreenData;
 import dLib.ui.screens.ScreenManager;
 
 import java.util.Objects;
@@ -21,6 +22,10 @@ public class OpenScreenEditorCommand extends ConsoleCommand {
         }
         else if(Objects.equals(tokens[1], "load")){
             ScreenManager.openScreen(ScreenEditorSaveManager.load());
+        }
+        else if(Objects.equals(tokens[1], "screen")){
+            AbstractScreenData data = AbstractScreenData.deserialize("D:/savedata.dscreen");
+            ScreenManager.openScreen(data.makeLiveInstance());
         }
     }
 

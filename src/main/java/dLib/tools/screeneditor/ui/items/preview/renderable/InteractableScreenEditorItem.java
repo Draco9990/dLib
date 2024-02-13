@@ -8,6 +8,7 @@ import dLib.ui.data.implementations.InteractableData;
 import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.data.prefabs.ButtonData;
 import dLib.ui.elements.implementations.Interactable;
+import dLib.ui.screens.ScreenManager;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Setting;
@@ -22,7 +23,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
             getElementData().onLeftClick = getCurrentValue();
-            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            if(ScreenEditorBaseScreen.instance != null) ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
             return this;
         }
     }.setTitle("On Left Click:");
@@ -31,7 +32,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
             getElementData().onLeftClickHeld = getCurrentValue();
-            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            if(ScreenEditorBaseScreen.instance != null) ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
             return this;
         }
     }.declareParams(Float.class).setTitle("On Left Click Held:");
@@ -40,7 +41,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
             getElementData().onLeftClickRelease = getCurrentValue();
-            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            if(ScreenEditorBaseScreen.instance != null) ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
             return this;
         }
     }.setTitle("On Left Click Release:");
@@ -50,7 +51,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
             getElementData().onRightClick = getCurrentValue();
-            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            if(ScreenEditorBaseScreen.instance != null) ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
             return this;
         }
     }.setTitle("On Right Click:");
@@ -59,7 +60,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
             getElementData().onRightClickHeld = getCurrentValue();
-            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            if(ScreenEditorBaseScreen.instance != null) ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
             return this;
         }
     }.declareParams(Float.class).setTitle("On Right Click Held:");
@@ -68,7 +69,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
             getElementData().onRightClickRelease = getCurrentValue();
-            ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+            if(ScreenEditorBaseScreen.instance != null) ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
             return this;
         }
     }.setTitle("On Right Click Release:");

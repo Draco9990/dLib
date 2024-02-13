@@ -121,18 +121,18 @@ public abstract class AbstractScreen {
     }
 
     /** Elements */
-    protected void addElement(UIElement element){
+    public void addElement(UIElement element){
         CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY(), element.getWidth(), element.getHeight());
         compositeUIElement.middle = element;
         elementManager.addElement(compositeUIElement);
     }
-    protected void addElement(UIElement element, boolean temporary){
+    public void addElement(UIElement element, boolean temporary){
         CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY(), element.getWidth(), element.getHeight());
         compositeUIElement.middle = element;
         compositeUIElement.temporary = temporary;
         elementManager.addElement(compositeUIElement);
     }
-    protected void addElement(CompositeUIElement compositeUIElement){
+    public void addElement(CompositeUIElement compositeUIElement){
         elementManager.addElement(compositeUIElement);
     }
 

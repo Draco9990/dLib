@@ -17,6 +17,7 @@ public class ScreenEditorSaveManager {
     }
 
     public static ScreenEditorBaseScreen load(){
-        return new ScreenEditorBaseScreen(AbstractScreenData.deserialize("D:/savedata.dscreen"));
+        AbstractScreenData data = AbstractScreenData.deserialize("D:/savedata.dscreen");
+        return data.makeEditorInstance();
     }
 }

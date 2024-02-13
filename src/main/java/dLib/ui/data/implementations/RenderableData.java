@@ -13,8 +13,6 @@ public class RenderableData extends UIElementData implements Serializable {
 
     public TextureBinding textureBinding;
 
-    public String color;
-
     @Override
     public UIElement makeLiveInstance(Object... params) {
         return new Renderable(this);

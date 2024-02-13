@@ -14,9 +14,15 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
     /** Variables */
     private ArrayList<ScreenEditorItem> previewItems = new ArrayList<>();
 
+    public static int xOffset = 10;
+    public static int yOffset = 10;
+
+    public static int width = 1490;
+    public static int height = 840;
+
     /** Constructors */
     public ScreenEditorPreviewScreen(){
-        addElement(new Interactable(UIThemeManager.getDefaultTheme().background, 10, 10, 1490, 840){
+        addElement(new Interactable(UIThemeManager.getDefaultTheme().background, xOffset, yOffset, width, height){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();

@@ -18,6 +18,8 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
 
+import java.util.ArrayList;
+
 public class ScreenEditorBaseScreen extends AbstractScreen {
     /** Singleton */
     public static ScreenEditorBaseScreen instance;
@@ -36,17 +38,14 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
     /** Constructors */
     public ScreenEditorBaseScreen(){
-        initialize();
+        this(new ArrayList<>());
     }
 
-    public ScreenEditorBaseScreen(AbstractScreenData dataToLoad){
+    public ScreenEditorBaseScreen(ArrayList<ScreenEditorItem> initialData){
         initialize();
 
-        for(UIElementData elementToLoad : dataToLoad.data){
-            ScreenEditorItem item = elementToLoad.makeEditorInstance();
-            if(item != null){
-                preview.addPreviewItem(item);
-            }
+        for(ScreenEditorItem item : initialData){
+            preview.addPreviewItem(item);
         }
 
         activeItemsManager.clearActiveItems();

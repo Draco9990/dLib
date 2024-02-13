@@ -65,14 +65,6 @@ public class Interactable extends Hoverable{
 
     public Interactable(InteractableData data){
         super(data);
-
-        this.hoveredTexture = TextureManager.getTexture(data.hoveredTexture);
-        this.disabledTexture = TextureManager.getTexture(data.disabledTexture);
-
-        this.hoveredColor = Color.valueOf(data.hoveredColor);
-        this.disabledColor = Color.valueOf(data.disabledColor);
-
-        this.consumeTriggerEvent = data.consumeTriggerEvent;
     }
 
     private void initialize(){
