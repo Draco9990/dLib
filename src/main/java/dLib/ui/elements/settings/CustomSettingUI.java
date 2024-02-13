@@ -3,7 +3,7 @@ package dLib.ui.elements.settings;
 import dLib.DLib;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.ScreenManager;
-import dLib.ui.screens.util.AbstractObjectListPickerScreen;
+import dLib.util.screens.AbstractObjectListPickerScreen;
 import dLib.util.settings.prefabs.CustomSetting;
 
 public class CustomSettingUI<ItemType> extends AbstractSettingUI {

@@ -42,4 +42,29 @@ public class ColorHelpers {
 
         return new Color(r, g, b, 1.0f);
     }
+
+    public static Color fromHSL(float hue, float saturation, float lightness) {
+        float r, g, b;
+
+        if (saturation == 0) {
+            r = g = b = lightness; // achromatic
+        } else {
+            float q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation;
+            float p = 2 * lightness - q;
+            r = hue2rgb(p, q, hue + 1/3f);
+            g = hue2rgb(p, q, hue);
+            b = hue2rgb(p, q, hue - 1/3f);
+        }
+
+        return new Color(r, g, b, 1.0f);
+    }
+
+    private static float hue2rgb(float p, float q, float t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1/6f) return p + (q - p) * 6 * t;
+        if (t < 1/2f) return q;
+        if (t < 2/3f) return p + (q - p) * (2/3f - t) * 6;
+        return p;
+    }
 }

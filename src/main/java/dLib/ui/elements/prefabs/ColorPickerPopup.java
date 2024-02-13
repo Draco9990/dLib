@@ -28,7 +28,7 @@ public class ColorPickerPopup extends CompositeUIElement {
         int marginY = (int) (height * 0.1f);
         int margin = Math.min(marginY, marginX);
 
-        middle = new ColorPicker(xPos, yPos, width - 2*margin, height - 2*margin);
+        middle = new ColorWheel(xPos, yPos, width - 2*margin, height - 2*margin);
         middle.setCenterPosition((int) (xPos + width *0.5f), (int) (yPos + height * 0.5f));
     }
 }

@@ -1,4 +1,4 @@
-package dLib.ui.screens.util;
+package dLib.util.screens;
 
 import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.screens.AbstractScreen;

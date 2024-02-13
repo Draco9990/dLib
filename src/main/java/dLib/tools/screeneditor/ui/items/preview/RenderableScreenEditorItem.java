@@ -6,6 +6,7 @@ import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Setting;
+import dLib.util.settings.prefabs.ColorSetting;
 import dLib.util.settings.prefabs.TextureSetting;
 
 import java.util.ArrayList;
@@ -25,25 +26,40 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
         }
     }.setTitle("Image:");
 
+    protected ColorSetting sRenderColor = (ColorSetting) new ColorSetting(Color.WHITE){
+        @Override
+        public void onValueChanged() {
+            super.onValueChanged();
+            getElementData().renderColor = getCurrentValue().toString();
+            setRenderColor(getCurrentValue());
+        }
+    }.setTitle("Render color:");
+
     /** Constructors */
     public RenderableScreenEditorItem(TextureBinding image) {
         super(image.getBoundTexture());
-        sTexture.setCurrentValue(image);
+        initialize(image);
     }
 
     public RenderableScreenEditorItem(TextureBinding image, int xPos, int yPos) {
         super(image.getBoundTexture(), xPos, yPos);
-        sTexture.setCurrentValue(image);
+        initialize(image);
     }
 
     public RenderableScreenEditorItem(TextureBinding image, int xPos, int yPos, int width, int height) {
         super(image.getBoundTexture(), xPos, yPos, width, height);
-        sTexture.setCurrentValue(image);
+        initialize(image);
     }
 
     public RenderableScreenEditorItem(RenderableData data){
         super(data);
         sTexture.setCurrentValue(data.textureBinding);
+        sRenderColor.setCurrentValue(Color.valueOf(data.renderColor));
+    }
+
+    private void initialize(TextureBinding binding){
+        sTexture.setCurrentValue(binding);
+        sRenderColor.setCurrentValue(getColorForRender());
     }
 
     /** Image */
@@ -71,6 +87,7 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
         super.initializeElementData(data);
         RenderableData renderableData = (RenderableData) data;
         renderableData.textureBinding = sTexture.getCurrentValue();
+        renderableData.renderColor = sRenderColor.getCurrentValue().toString();
     }
 
     @Override
@@ -83,6 +100,7 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
     public ArrayList<Setting<?>> getPropertiesForItem() {
         ArrayList<Setting<?>> allProperties = super.getPropertiesForItem();
         allProperties.add(sTexture);
+        allProperties.add(sRenderColor);
         return allProperties;
     }
 }
