@@ -153,6 +153,16 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
         return settings;
     }
 
+    /** Settings */
+    @Override
+    public void initializeSettingsData() {
+        super.initializeSettingsData();
+        sText.setCurrentValue(textBox.getText());
+        sTextColor.setCurrentValue(textBox.getTextRenderColor());
+        sAlignment.setCurrentValue(new Alignment(textBox.getHorizontalAlignment(), textBox.getVerticalAlignment()));
+        sWrap.setCurrentValue(textBox.getWrap());
+    }
+
     /** Copy */
     @Override
     public ScreenEditorItem makeCopy() {

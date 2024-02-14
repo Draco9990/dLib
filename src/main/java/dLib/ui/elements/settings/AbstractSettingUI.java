@@ -27,13 +27,18 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
     public AbstractSettingUI(Setting<?> setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(xPos, yPos, width, height);
 
+        if(width < 500 && !canDisplayMultiline()){
+            height = (int)(height * 0.5f);
+            setHeight(height);
+        }
+
         textPosY = yPos;
         valuePosY = yPos;
 
         textHeight = height;
         valueHeight = height;
 
-        if(width < 500){
+        if(width < 500 && canDisplayMultiline()){
             textPercX = 1;
             valuePercX = 1;
 
@@ -52,4 +57,7 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
         this.foreground.add(label);
     }
 
+    public boolean canDisplayMultiline(){
+        return true;
+    }
 }

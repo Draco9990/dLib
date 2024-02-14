@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
 import dLib.ui.Alignment;
 import dLib.ui.data.prefabs.TextBoxData;
@@ -40,6 +41,8 @@ public class TextBox extends Hoverable {
     private int paddingTop = 0;
     private int paddingRight = 0;
     private int paddingBottom = 0;
+
+    private Hitbox textRenderHitbox;
 
     /** Constructors */
     public TextBox(String text, int xPos, int yPos, int width, int height){
@@ -254,9 +257,14 @@ public class TextBox extends Hoverable {
         return this;
     }
 
+    /** Render color */
     public TextBox setTextRenderColor(Color renderColor){
         textRenderColor = renderColor;
         return this;
+    }
+
+    public Color getTextRenderColor(){
+        return textRenderColor;
     }
 
     /** Dimensions */
@@ -293,14 +301,21 @@ public class TextBox extends Hoverable {
         return this;
     }
 
-    /** Getters and Setters */
+    /** Alignment */
     public TextBox setHorizontalAlignment(Alignment.HorizontalAlignment alignment){
         this.horizontalAlignment = alignment;
         return this;
     }
+    public Alignment.HorizontalAlignment getHorizontalAlignment(){
+        return horizontalAlignment;
+    }
+
     public TextBox setVerticalAlignment(Alignment.VerticalAlignment alignment){
         this.verticalAlignment = alignment;
         return this;
+    }
+    public Alignment.VerticalAlignment getVerticalAlignment(){
+        return verticalAlignment;
     }
 
     public TextBox setAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
@@ -309,12 +324,18 @@ public class TextBox extends Hoverable {
         return this;
     }
 
+    /** Wrap */
     public TextBox setWrap(boolean wrap){
         this.wrap = wrap;
         recalculateFontScale();
         return this;
     }
 
+    public boolean getWrap(){
+        return wrap;
+    }
+
+    /** Getters and Setters */
     public TextBox setFont(BitmapFont font){
         this.font = font;
         recalculateFontScale();

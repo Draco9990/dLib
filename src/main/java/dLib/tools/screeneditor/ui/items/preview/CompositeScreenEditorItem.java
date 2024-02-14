@@ -132,4 +132,11 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
     public CompositeUIElementData getElementData() {
         return (CompositeUIElementData) super.getElementData();
     }
+
+    /** Settings */
+    @Override
+    public void initializeSettingsData() {
+        super.initializeSettingsData();
+        for(ScreenEditorItem item : items) item.initializeSettingsData();
+    }
 }

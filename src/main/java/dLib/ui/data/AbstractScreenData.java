@@ -51,7 +51,7 @@ public class AbstractScreenData implements Serializable {
 
             repositionElement(liveInstance, new IntVector2(0, 0));
             rescaleElement(liveInstance, new IntVector2(1920, 1080));
-            elements.add(elementData.makeLiveInstance());
+            elements.add(liveInstance);
         }
 
         for(UIElement element : elements){

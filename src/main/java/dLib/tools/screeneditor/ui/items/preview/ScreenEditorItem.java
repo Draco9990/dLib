@@ -72,6 +72,7 @@ public abstract class ScreenEditorItem extends Resizeable {
     }
 
     public void postInitialize(){
+        initializeSettingsData();
         initializeElementData(elementData);
     }
 
@@ -178,6 +179,13 @@ public abstract class ScreenEditorItem extends Resizeable {
     }
     public UIElementData getElementData(){
         return elementData;
+    }
+
+    /** Settings */
+    public void initializeSettingsData(){
+        sID.setCurrentValue(getId());
+        sPosition.setCurrentValue(new IntVector2(getPositionX(), getPositionY()));
+        sDimensions.setCurrentValue(new IntVector2(getWidth(), getHeight()));
     }
 
     /** ID */

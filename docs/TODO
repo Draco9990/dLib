@@ -12,6 +12,7 @@
 
 -> make position, dimensions, and alignment two in one row properties
 
--> inputfield finish shit
-¸-> fix wrap
--> text not loading?
+-> inputfield finish y pos
+-> fix wrap position
+--> Allow text
+--> Listbox have scrollbar start at top after loading pages?
