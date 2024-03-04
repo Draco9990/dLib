@@ -26,6 +26,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     private boolean trackScrollWheelScroll = false;
 
     private int itemSpacing = 0;
+    private boolean invertedItemOrder = false;
 
     /** Constructors */
     public ListBox(int xPos, int yPos, int width, int height){
@@ -45,6 +46,8 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
 
     private void reinitializeElements(){
         foreground.clear();
+
+        //* Build titlebox
         if(title != null && !title.isEmpty()){
             int titleboxHeight = 50;
             if(titleBox == null){
@@ -64,6 +67,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         int remainingHeight = height;
         if(titleBox != null) remainingHeight -= titleBox.getHeight();
 
+        //* Build backgroundBox
         if(itemBoxBackground == null){
             Color bgColor = Color.BLACK.cpy();
             bgColor.a = 0.4f;
@@ -86,6 +90,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         itemBoxBackground.setPosition(x, y);
         itemBoxBackground.setDimensions(width, remainingHeight);
 
+        //* Build scrollBox
         int scrollbarWidth = 50;
         if(scrollbar == null){
             scrollbar = new Scrollbox(x + width - scrollbarWidth, y, scrollbarWidth, remainingHeight) {
@@ -146,64 +151,30 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         ArrayList<CompositeUIElement> activeItems = new ArrayList<>();
 
         int currentPageHeight = 0;
-        for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
-            CompositeUIElement item = items.get(i).renderForItem;
-            if(currentPageHeight + item.getBoundingHeight() + itemSpacing > itemBoxBackground.getHeight()){
-                break;
-            }
+        if(!invertedItemOrder){
+            for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
+                CompositeUIElement item = items.get(i).renderForItem;
+                if(currentPageHeight + item.getBoundingHeight() + itemSpacing > itemBoxBackground.getHeight()){
+                    break;
+                }
 
-            currentPageHeight += item.getBoundingHeight() + itemSpacing;
-            activeItems.add(item);
+                currentPageHeight += item.getBoundingHeight() + itemSpacing;
+                activeItems.add(item);
+            }
+        }
+        else{
+            for(int i = items.size() - (scrollbar.getCurrentPage() - 1) - 1; i >= 0; i--){
+                CompositeUIElement item = items.get(i).renderForItem;
+                if(currentPageHeight + item.getBoundingHeight() + itemSpacing > itemBoxBackground.getHeight()){
+                    break;
+                }
+
+                currentPageHeight += item.getBoundingHeight() + itemSpacing;
+                activeItems.add(item);
+            }
         }
 
         return activeItems;
-    }
-
-    /** Title */
-    public ListBox<ItemType> setTitle(String title){
-        if(this.title != null && (title == null || title.isEmpty())){
-            removeTitle();
-            return this;
-        }
-
-        this.title = title;
-        reinitializeElements();
-        return this;
-    }
-
-    public void removeTitle(){
-        this.title = null;
-
-        reinitializeElements();
-    }
-
-    /** Background */
-    public Hoverable getBackground(){
-        return itemBoxBackground;
-    }
-
-    /** Scrollbar */
-    public int calculatePageCount(){
-        int totalItemHeight = 0;
-        for(int i = 0; i < items.size(); i++){
-            totalItemHeight += items.get(i).renderForItem.getBoundingHeight() + itemSpacing;
-            if(totalItemHeight > itemBoxBackground.getHeight()){
-                int pageCount = items.size() - i;
-                if(pageCount < 1) pageCount = 1;
-                return pageCount + 1;
-            }
-        }
-
-        return 1;
-    }
-
-    /** Item Spacing */
-    public ListBox<ItemType> setItemSpacing(int spacing){
-        this.itemSpacing = spacing;
-        return this;
-    }
-    public int getItemSpacing(){
-        return itemSpacing;
     }
 
     /** Items */
@@ -259,5 +230,67 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
             this.item = item;
             this.renderForItem = renderElement;
         }
+    }
+
+    /** Item Spacing */
+    public ListBox<ItemType> setItemSpacing(int spacing){
+        this.itemSpacing = spacing;
+        return this;
+    }
+    public int getItemSpacing(){
+        return itemSpacing;
+    }
+
+    /** Item Inversion */
+    public ListBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
+        this.invertedItemOrder = invertedItemOrder;
+        return this;
+    }
+
+    /** Background */
+    public Hoverable getBackground(){
+        return itemBoxBackground;
+    }
+
+    /** Title */
+    public ListBox<ItemType> setTitle(String title){
+        if(this.title != null && (title == null || title.isEmpty())){
+            removeTitle();
+            return this;
+        }
+
+        this.title = title;
+        reinitializeElements();
+        return this;
+    }
+
+    public void removeTitle(){
+        this.title = null;
+        this.titleBox = null;
+
+        reinitializeElements();
+    }
+
+    /** Scrollbar */
+    public int calculatePageCount(){
+        int totalItemHeight = 0;
+        if(!invertedItemOrder){
+            for(int i = 0; i < items.size(); i++){
+                totalItemHeight += items.get(i).renderForItem.getBoundingHeight() + itemSpacing;
+                if(totalItemHeight > itemBoxBackground.getHeight()){
+                    int pageCount = items.size() - i;
+                    return pageCount + 1;
+                }
+            }
+        }
+        else{
+            for(int i = items.size() - 1; i >= 0; i--){
+                totalItemHeight += items.get(i).renderForItem.getBoundingHeight() + itemSpacing;
+                if(totalItemHeight > itemBoxBackground.getHeight()){
+                    return i + 2;
+                }
+            }
+        }
+        return 1;
     }
 }

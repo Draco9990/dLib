@@ -28,7 +28,7 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
                 button.setOnHoveredConsumer(() -> item.setHighlight(true));
                 button.setOnUnhoveredConsumer(() -> item.setHighlight(false));
             }
-        }.setTitle("Scene Elements:");
+        }.setTitle("Scene Elements:").setInvertedItemOrder(true);
         previewItemList.getBackground().setImage(null);
         addElement(previewItemList);
 

@@ -15,3 +15,14 @@
 -> inputfield finish y pos
 --> Allow text
 --> Listbox have scrollbar start at top after loading pages?
+
+Gridbox with parent itemsbox, isolate listbox stuff like scrollbar
+Radio button with linkedlist
+Current listbox is selectable, make view only ones too
+Add inverse bool to listbox to show latest elements on top
+Add arrows for up and down to the make preview method, and split it again so users can edit if they want
+Add selection mode with on selection changed
+Buy tarot cards and chair and drainer and brush and camera
+Screen settings tab for background settings plus say the spire
+Add a merge to composite button to merge few components together, when on composite allow aasigning to left middle and right, add a composite element to the drop-down
+--> inputfield on selected and deselected events too
