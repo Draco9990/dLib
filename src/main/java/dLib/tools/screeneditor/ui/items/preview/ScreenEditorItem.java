@@ -3,15 +3,14 @@ package dLib.tools.screeneditor.ui.items.preview;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.data.UIElementData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.IntVector2;
 import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.IntegerSetting;
 import dLib.util.settings.prefabs.StringSetting;
 import dLib.util.settings.prefabs.IntVector2Setting;
 
@@ -190,7 +189,7 @@ public abstract class ScreenEditorItem extends Resizeable {
 
     /** ID */
     @Override
-    public void setID(String newId) {
+    public ScreenEditorItem setID(String newId) {
         super.setID(newId);
 
         getElementData().ID = newId;
@@ -198,6 +197,8 @@ public abstract class ScreenEditorItem extends Resizeable {
         if(!Objects.equals(newId, sID.getCurrentValue())){
             sID.setCurrentValue(newId);
         }
+
+        return this;
     }
 
     /** Properties */

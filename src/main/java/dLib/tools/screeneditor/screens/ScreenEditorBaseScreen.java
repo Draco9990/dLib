@@ -9,6 +9,7 @@ import dLib.tools.screeneditor.screens.toolbar.ScreenEditorElementListScreen;
 import dLib.tools.screeneditor.screens.toolbar.ScreenEditorPropertiesScreen;
 import dLib.tools.screeneditor.screens.toolbar.ScreenEditorToolbarScreen;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.BackgroundScreenEditorItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
 import dLib.tools.screeneditor.util.ScreenEditorSaveManager;
 import dLib.ui.data.AbstractScreenData;
@@ -17,6 +18,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
+import dLib.util.bindings.texture.TextureEmptyBinding;
 
 import java.util.ArrayList;
 
@@ -72,6 +74,8 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         activeItemsManager = new ScreenEditorActiveItemsManager();
 
         instance = this;
+
+        preview.makeNewPreviewItem(new BackgroundScreenEditorItem()).setID("Background");
     }
 
     /** Update and Render */

@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.OrderedMap;
 import dLib.tools.screeneditor.ui.items.preview.*;
 import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.composite.ListBoxScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.BackgroundScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorItem;
@@ -33,6 +34,7 @@ public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen
     /** Utility methods */
     public void initializeElementMap(){
         elementMap.put("Button", new ButtonScreenEditorItem()); // Should include a property for becoming a toggle instead & a text field property
+        elementMap.put("Background", new BackgroundScreenEditorItem());
         elementMap.put("Image", new ImageScreenEditorItem());
         elementMap.put("Inputfield", new InputfieldScreenEditorItem());
         elementMap.put("ListBox", new ListBoxScreenEditorItem());

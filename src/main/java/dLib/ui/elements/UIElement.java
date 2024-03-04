@@ -111,8 +111,9 @@ public abstract class UIElement {
     }
 
     /** ID */
-    public void setID(String newId){
+    public UIElement setID(String newId){
         this.ID = newId;
+        return this;
     }
     public String getId(){
         return ID;

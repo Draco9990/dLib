@@ -39,13 +39,15 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
 
         ScreenEditorBaseScreen.instance.getActiveItemsManager().addActiveItem(item);
     }
-    public void makeNewPreviewItem(ScreenEditorItem template){
+    public ScreenEditorItem makeNewPreviewItem(ScreenEditorItem template){
         ScreenEditorItem copy = template.makeCopy();
         copy.postInitialize();
         copy.setBoundsX(ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.xOffset + ScreenEditorPreviewScreen.width);
         copy.setBoundsY(ScreenEditorPreviewScreen.yOffset, ScreenEditorPreviewScreen.yOffset + ScreenEditorPreviewScreen.height);
 
         addPreviewItem(copy);
+
+        return copy;
     }
 
     public void deletePreviewItem(ScreenEditorItem itemToDelete){

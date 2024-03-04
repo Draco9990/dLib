@@ -4,7 +4,9 @@ import dLib.DLib;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.ui.data.prefabs.BackgroundData;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.util.DLibLogger;
 import dLib.util.IntVector2;
@@ -47,6 +49,10 @@ public class AbstractScreenData implements Serializable {
             if(liveInstance == null){
                 DLibLogger.log("Failed to create a live instance of an element!");
                 continue;
+            }
+
+            if(elementData instanceof BackgroundData){
+                newScreen.background = (Renderable) liveInstance;
             }
 
             repositionElement(liveInstance, new IntVector2(0, 0));

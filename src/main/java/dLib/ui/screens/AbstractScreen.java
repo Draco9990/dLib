@@ -26,7 +26,7 @@ public abstract class AbstractScreen {
     /** Variables */
     private String ID;
 
-    protected Renderable background;
+    public Renderable background;
     protected Interactable cancelElement;
 
     protected ElementManager elementManager = new ElementManager();
