@@ -11,7 +11,7 @@ import dLib.util.settings.Setting;
 import java.util.ArrayList;
 
 public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
-    /** */
+    /** Variables */
     private ArrayList<ScreenEditorItem> items = new ArrayList<>();
 
     /** Constructors */
