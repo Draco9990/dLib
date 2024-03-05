@@ -54,9 +54,11 @@ public class PluginClient {
                                 receivedMessage = in.readObject();
                             }
 
-                            if(receivedMessage != null){
-                                if(receivedMessage instanceof NetworkMessage){
-                                    PluginManager.addMessage((NetworkMessage) receivedMessage);
+                            if(receivedMessage instanceof String){
+                                NetworkMessage networkMessage = NetworkMessage.fromString((String) receivedMessage);
+
+                                if(networkMessage != null){
+                                    PluginManager.addMessage(networkMessage);
                                 }
                             }
                         }

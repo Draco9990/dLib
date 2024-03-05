@@ -27,6 +27,8 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     public static ScreenEditorBaseScreen instance;
 
     /** Variables */
+    private String editingScreen;
+
     private ScreenEditorMenuScreen menu;
 
     private ScreenEditorPreviewScreen preview;
@@ -105,6 +107,12 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         toolbar.render(sb);
         properties.render(sb);
         elementListScreen.render(sb);
+    }
+
+    /** Editing Screen cache */
+    public ScreenEditorBaseScreen setEditingScreen(String screen){
+        editingScreen = screen;
+        return this;
     }
 
     /** Managers */

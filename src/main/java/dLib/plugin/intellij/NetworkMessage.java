@@ -4,7 +4,8 @@ import com.google.gson.Gson;
 
 import java.io.Serializable;
 
-public class NetworkMessage {
+public class NetworkMessage implements Serializable {
+    private static final long serialVersionUID = 1L;
     /** Variables */
     private String request;
     private String data;

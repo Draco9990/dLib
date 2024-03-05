@@ -7,6 +7,8 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import dLib.developermode.ui.screens.InstallPluginScreen;
+import dLib.plugin.intellij.PluginManager;
+import dLib.tools.screeneditor.screens.preeditor.ScreenEditorNewScreenScreen;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.DLibConfigManager;
 import dLib.util.Reflection;
@@ -41,7 +43,12 @@ public class MainMenuButtonPatches {
     public static class EffectPatcher{
         public static SpireReturn Prefix(MenuButton __instance){
             if(__instance.result == Enums.DEVELOPER){
-                ScreenManager.openScreen(new InstallPluginScreen());
+                if(!PluginManager.isEnabled()) PluginManager.enable();
+                if(!PluginManager.isRunning()) PluginManager.start();
+
+                if(PluginManager.isRunning()){
+                    ScreenManager.openScreen(new ScreenEditorNewScreenScreen());
+                }
                 return SpireReturn.Return();
             }
             return SpireReturn.Continue();

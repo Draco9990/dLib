@@ -1,5 +1,9 @@
 package dLib.plugin.intellij;
 
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +25,20 @@ public class PluginManager {
 
         client = new PluginClient();
         client.initialize();
+    }
+
+    @SpirePatch(clz = CardCrawlGame.class, method = "update")
+    public static class ClientUpdater{
+        public static void Postfix(){
+            if(isRunning()){
+                if(!pendingMessages.isEmpty()){
+                    NetworkMessage pendingMessage = pendingMessages.remove(0);
+                    if(pendingMessage != null){
+                        MessageAnalyzer.analyzeMessage(pendingMessage);
+                    }
+                }
+            }
+        }
     }
 
     public static void shutdown(){

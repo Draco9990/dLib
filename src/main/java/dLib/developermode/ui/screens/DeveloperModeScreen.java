@@ -3,11 +3,10 @@ package dLib.developermode.ui.screens;
 import dLib.DLib;
 import dLib.ui.screens.AbstractScreen;
 
-public class DeveloperModeLaunchScreen extends AbstractScreen {
-    public DeveloperModeLaunchScreen(){
+public class DeveloperModeScreen extends AbstractScreen {
+    public DeveloperModeScreen(){
         addGenericBackground();
     }
-
 
     /** ID */
     @Override
