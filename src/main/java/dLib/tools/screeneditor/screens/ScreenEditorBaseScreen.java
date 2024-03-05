@@ -62,7 +62,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
         toolbar = new ScreenEditorToolbarScreen(){
             @Override
-            public void onElementToAddChosen(ScreenEditorItem previewItem) {
+            public void onElementToAddChosen(Class<? extends ScreenEditorItem> previewItem) {
                 super.onElementToAddChosen(previewItem);
                 preview.makeNewPreviewItem(previewItem);
             }
@@ -75,7 +75,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
         instance = this;
 
-        preview.makeNewPreviewItem(new BackgroundScreenEditorItem()).setID("Background");
+        preview.makeNewPreviewItem(BackgroundScreenEditorItem.class).setID("Background");
     }
 
     /** Update and Render */

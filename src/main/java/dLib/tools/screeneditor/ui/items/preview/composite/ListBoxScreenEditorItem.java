@@ -9,11 +9,6 @@ import dLib.ui.themes.UITheme;
 
 public class ListBoxScreenEditorItem extends CompositeScreenEditorItem {
     /** Constructors */
-    public ListBoxScreenEditorItem(){
-        super(0, 0, 500, 500);
-        setRenderColor(Color.LIGHT_GRAY);
-    }
-
     public ListBoxScreenEditorItem(int xPos, int yPos, int width, int height) {
         super(xPos, yPos, width, height);
     }
@@ -34,8 +29,7 @@ public class ListBoxScreenEditorItem extends CompositeScreenEditorItem {
     }
 
     /** Copy */
-    @Override
-    public ScreenEditorItem makeCopy() {
-        return (ScreenEditorItem) new ListBoxScreenEditorItem(x, y, width, height).setRenderColor(getColorForRender());
+    public static ScreenEditorItem makeNewInstance(){
+        return (ScreenEditorItem) new ListBoxScreenEditorItem(0, 0, 500, 500).setRenderColor(Color.LIGHT_GRAY);
     }
 }

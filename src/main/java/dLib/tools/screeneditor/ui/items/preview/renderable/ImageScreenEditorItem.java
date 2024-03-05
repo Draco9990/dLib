@@ -10,10 +10,6 @@ import dLib.util.bindings.texture.TextureThemeBinding;
 
 public class ImageScreenEditorItem extends RenderableScreenEditorItem {
     /** Constructors */
-    public ImageScreenEditorItem(){
-        super(new TextureThemeBinding("whitePixel"), 0, 0, 75, 75);
-    }
-
     public ImageScreenEditorItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
         super(textureBinding, xPos, yPos, width, height);
     }
@@ -40,8 +36,7 @@ public class ImageScreenEditorItem extends RenderableScreenEditorItem {
     }
 
     /** Copy */
-    @Override
-    public ScreenEditorItem makeCopy() {
-        return new ImageScreenEditorItem(sTexture.getCurrentValue(), x, y, width, height);
+    public static ScreenEditorItem makeNewInstance(){
+        return new ImageScreenEditorItem(new TextureThemeBinding("whitePixel"), 0, 0, 75, 75);
     }
 }

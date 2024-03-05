@@ -164,9 +164,6 @@ public abstract class ScreenEditorItem extends Resizeable {
         return this;
     }
 
-    /** Copy */
-    public abstract ScreenEditorItem makeCopy();
-
     /** Data */
     public abstract UIElementData makeElementData();
     public void initializeElementData(UIElementData data){

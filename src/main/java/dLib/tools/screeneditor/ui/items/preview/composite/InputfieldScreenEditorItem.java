@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import dLib.tools.screeneditor.ui.items.preview.CompositeScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.InputfieldData;
@@ -16,11 +17,6 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
     private TextBoxScreenEditorItem textBox;
 
     /** Constructors */
-    public InputfieldScreenEditorItem(){
-        super(0, 0, 500, 75);
-        initialize(0, 0, 500, 75);
-    }
-
     public InputfieldScreenEditorItem(int xPos, int yPos, int width, int height) {
         super(xPos, yPos, width, height);
         initialize(xPos, yPos, width, height);
@@ -61,8 +57,7 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
     }
 
     /** Copy */
-    @Override
-    public ScreenEditorItem makeCopy() {
-        return new InputfieldScreenEditorItem(x, y, width, height);
+    public static ScreenEditorItem makeNewInstance(){
+        return new InputfieldScreenEditorItem(0, 0, 500, 75);
     }
 }

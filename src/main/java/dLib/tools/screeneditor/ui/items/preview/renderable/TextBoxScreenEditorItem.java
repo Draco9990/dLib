@@ -62,10 +62,6 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     }.setTitle("Wrap:");
 
     /** Constructors */
-    public TextBoxScreenEditorItem(){
-        this(new TextureEmptyBinding(), 0, 0, 300, 75);
-    }
-
     public TextBoxScreenEditorItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
         super(textureBinding, xPos, yPos, width, height);
 
@@ -164,8 +160,7 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     }
 
     /** Copy */
-    @Override
-    public ScreenEditorItem makeCopy() {
-        return new TextBoxScreenEditorItem(sTexture.getCurrentValue(), x, y, width, height);
+    public static ScreenEditorItem makeNewInstance(){
+        return new TextBoxScreenEditorItem(new TextureEmptyBinding(), 0, 0, 300, 75);
     }
 }

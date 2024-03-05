@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen {
-    public OrderedMap<String, ScreenEditorItem> elementMap = new OrderedMap<>();
+    public OrderedMap<String, Class<? extends ScreenEditorItem>> elementMap = new OrderedMap<>();
 
     public ScreenEditorToolbarScreen(){
         super();
@@ -33,13 +33,13 @@ public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen
 
     /** Utility methods */
     public void initializeElementMap(){
-        elementMap.put("Button", new ButtonScreenEditorItem()); // Should include a property for becoming a toggle instead & a text field property
-        elementMap.put("Background", new BackgroundScreenEditorItem());
-        elementMap.put("Image", new ImageScreenEditorItem());
-        elementMap.put("Inputfield", new InputfieldScreenEditorItem());
-        elementMap.put("ListBox", new ListBoxScreenEditorItem());
-        elementMap.put("TextBox", new TextBoxScreenEditorItem());
+        elementMap.put("Button", ButtonScreenEditorItem.class); //TODO Should include a property for becoming a toggle instead & a text field property
+        elementMap.put("Background", BackgroundScreenEditorItem.class);
+        elementMap.put("Image", ImageScreenEditorItem.class);
+        elementMap.put("Inputfield", InputfieldScreenEditorItem.class);
+        elementMap.put("ListBox", ListBoxScreenEditorItem.class);
+        elementMap.put("TextBox", TextBoxScreenEditorItem.class);
     }
 
-    public void onElementToAddChosen(ScreenEditorItem previewItem){}
+    public void onElementToAddChosen(Class<? extends ScreenEditorItem> previewItem){}
 }

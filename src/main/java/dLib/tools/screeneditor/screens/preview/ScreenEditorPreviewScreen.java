@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.DLib;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.renderable.BackgroundScreenEditorItem;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.Reflection;
 import dLib.util.TextureManager;
 
 import java.util.ArrayList;
@@ -39,8 +41,12 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
 
         ScreenEditorBaseScreen.instance.getActiveItemsManager().addActiveItem(item);
     }
-    public ScreenEditorItem makeNewPreviewItem(ScreenEditorItem template){
-        ScreenEditorItem copy = template.makeCopy();
+    public ScreenEditorItem makeNewPreviewItem(Class<? extends ScreenEditorItem> template){
+        ScreenEditorItem copy = (ScreenEditorItem) Reflection.invokeMethod("makeNewInstance", template);
+        if(copy == null){
+            return null;
+        }
+
         copy.postInitialize();
         copy.setBoundsX(ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.xOffset + ScreenEditorPreviewScreen.width);
         copy.setBoundsY(ScreenEditorPreviewScreen.yOffset, ScreenEditorPreviewScreen.yOffset + ScreenEditorPreviewScreen.height);
