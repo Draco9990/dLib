@@ -29,6 +29,15 @@ public abstract class ScreenEditorItem extends Resizeable {
     private StringSetting sID = (StringSetting) new StringSetting(getId()){
         @Override
         public Setting<String> setCurrentValue(String currentValue) {
+            for(ScreenEditorItem item : ScreenEditorBaseScreen.instance.getPreviewScreen().getPreviewItems()){
+                if(item.getId().equals(currentValue) && !Objects.equals(this, item.sID)){
+                    if(!currentValue.equals(getCurrentValue())){
+                        setCurrentValue(getCurrentValue());
+                    }
+                    return this;
+                }
+            }
+
             super.setCurrentValue(currentValue);
             setID(currentValue);
             getElementData().ID = currentValue;
