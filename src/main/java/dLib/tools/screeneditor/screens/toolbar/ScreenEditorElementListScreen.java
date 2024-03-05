@@ -39,6 +39,10 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
     public void show() {
         super.show();
 
+        refreshItemList();
+    }
+
+    public void refreshItemList(){
         previewItemList.clearItems();
         for(ScreenEditorItem item : ScreenEditorBaseScreen.instance.getPreviewScreen().getPreviewItems()){
             previewItemList.addItem(item);

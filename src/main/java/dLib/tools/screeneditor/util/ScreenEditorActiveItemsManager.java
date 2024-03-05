@@ -34,6 +34,7 @@ public class ScreenEditorActiveItemsManager {
     }
     public void clearActiveItems(){
         ScreenEditorBaseScreen.instance.getPropertiesScreen().clearScreen();
+        ScreenEditorBaseScreen.instance.getElementListScreen().refreshItemList();
         activeItems.clear();
     }
 
