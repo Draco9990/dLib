@@ -4,6 +4,8 @@ import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.ImageData;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.Image;
 import dLib.ui.themes.UITheme;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
@@ -38,5 +40,10 @@ public class ImageScreenEditorItem extends RenderableScreenEditorItem {
     /** Copy */
     public static ScreenEditorItem makeNewInstance(){
         return new ImageScreenEditorItem(new TextureThemeBinding("whitePixel"), 0, 0, 75, 75);
+    }
+
+    @Override
+    public Class<? extends UIElement> getLiveInstanceType() {
+        return Image.class;
     }
 }

@@ -8,6 +8,8 @@ import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem
 import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.InputfieldData;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.Inputfield;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
 
@@ -59,5 +61,10 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
     /** Copy */
     public static ScreenEditorItem makeNewInstance(){
         return new InputfieldScreenEditorItem(0, 0, 500, 75);
+    }
+
+    @Override
+    public Class<? extends UIElement> getLiveInstanceType() {
+        return Inputfield.class;
     }
 }

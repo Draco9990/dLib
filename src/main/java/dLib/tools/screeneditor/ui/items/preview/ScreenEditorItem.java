@@ -223,4 +223,7 @@ public abstract class ScreenEditorItem extends Resizeable {
     public String toString() {
         return getId();
     }
+
+    /** Get Live Instance Type */
+    public abstract Class<? extends UIElement> getLiveInstanceType();
 }

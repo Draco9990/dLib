@@ -5,19 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/MessageAnalyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/preeditor/ScreenEditorNewScreenScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/commands/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/commands/CommandManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/developermode/ui/screens/DeveloperModeLaunchScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/developermode/ui/screens/DeveloperModeScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/NetworkMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/NetworkMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/commands/IntelliJCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/commands/TestCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/commands/OpenScreenEditorCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/ScreenEditorBaseScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/ScreenEditorBaseScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/ScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/ScreenEditorItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/composite/InputfieldScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/composite/InputfieldScreenEditorItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/composite/ListBoxScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/composite/ListBoxScreenEditorItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/BackgroundScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/BackgroundScreenEditorItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/ButtonScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/ButtonScreenEditorItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/ImageScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/ImageScreenEditorItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/TextBoxScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/renderable/TextBoxScreenEditorItem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +172,8 @@
       <workItem from="1708512406441" duration="1215000" />
       <workItem from="1708957843322" duration="1191000" />
       <workItem from="1709388203189" duration="16769000" />
-      <workItem from="1709658474222" duration="6849000" />
+      <workItem from="1709658474222" duration="7445000" />
+      <workItem from="1709721222683" duration="1588000" />
     </task>
     <servers />
   </component>

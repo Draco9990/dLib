@@ -7,6 +7,8 @@ import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.ButtonData;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.Button;
 import dLib.ui.themes.UITheme;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
@@ -42,5 +44,10 @@ public class ButtonScreenEditorItem extends InteractableScreenEditorItem {
     /** Copy */
     public static ScreenEditorItem makeNewInstance(){
         return new ButtonScreenEditorItem(new TextureThemeBinding("button_small"), 0, 0, 75, 75);
+    }
+
+    @Override
+    public Class<? extends UIElement> getLiveInstanceType() {
+        return Button.class;
     }
 }

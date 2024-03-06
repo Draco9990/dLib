@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import dLib.tools.screeneditor.ui.items.preview.CompositeScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.ListBoxData;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.themes.UITheme;
 
 public class ListBoxScreenEditorItem extends CompositeScreenEditorItem {
@@ -31,5 +33,10 @@ public class ListBoxScreenEditorItem extends CompositeScreenEditorItem {
     /** Copy */
     public static ScreenEditorItem makeNewInstance(){
         return (ScreenEditorItem) new ListBoxScreenEditorItem(0, 0, 500, 500).setRenderColor(Color.LIGHT_GRAY);
+    }
+
+    @Override
+    public Class<? extends UIElement> getLiveInstanceType() {
+        return ListBox.class;
     }
 }

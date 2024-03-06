@@ -7,6 +7,8 @@ import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.BackgroundData;
 import dLib.ui.data.prefabs.ImageData;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.Image;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
@@ -41,5 +43,10 @@ public class BackgroundScreenEditorItem extends RenderableScreenEditorItem {
     /** Copy */
     public static ScreenEditorItem makeNewInstance(){
         return (ScreenEditorItem) new BackgroundScreenEditorItem(new TextureEmptyBinding(), ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.yOffset, ScreenEditorPreviewScreen.width, ScreenEditorPreviewScreen.height).setHoveredColor(Color.WHITE);
+    }
+
+    @Override
+    public Class<? extends UIElement> getLiveInstanceType() {
+        return Image.class;
     }
 }

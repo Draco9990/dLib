@@ -7,6 +7,7 @@ import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.Alignment;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.TextBoxData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
@@ -162,5 +163,10 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     /** Copy */
     public static ScreenEditorItem makeNewInstance(){
         return new TextBoxScreenEditorItem(new TextureEmptyBinding(), 0, 0, 300, 75);
+    }
+
+    @Override
+    public Class<? extends UIElement> getLiveInstanceType() {
+        return TextBox.class;
     }
 }
