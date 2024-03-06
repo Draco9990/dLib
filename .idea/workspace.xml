@@ -9,8 +9,10 @@
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/util/ScreenEditorSaveManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/util/ScreenEditorSaveManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/data/AbstractScreenData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/data/AbstractScreenData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/GeneratedAbstractScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/GeneratedAbstractScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,30 +44,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JAR Application.Slay the Spire.executor": "Debug",
-    "Maven.dLib [clean].executor": "Run",
-    "Maven.dLib [package].executor": "Run",
-    "Maven.dLib [test].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "1.8",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Marino/Projects/StS DLib/DLib/Source/dLib/src/main/java/dLib/ui/elements",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JAR Application.Slay the Spire.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven.dLib [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.dLib [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.dLib [test].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Marino/Projects/StS DLib/DLib/Source/dLib/pom.xml&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Marino\Projects\StS DLib\DLib\Source\dLib\src\main\java\dLib\ui\elements" />
@@ -77,6 +79,9 @@
       <recent name="dLib.util.Help.Input" />
       <recent name="dLib.util.Help.Util" />
       <recent name="dLib.util.Help.Dev" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Marino\Projects\StS DLib\DLib\Source\dLib\src\main\resources\dLibResources" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="dLib.ui" />
@@ -95,6 +100,17 @@
       <option name="WORKING_DIRECTORY" value="E:\Marino\Games\Slay The Spire\Game\" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -172,7 +188,7 @@
       <workItem from="1708957843322" duration="1191000" />
       <workItem from="1709388203189" duration="16769000" />
       <workItem from="1709658474222" duration="7445000" />
-      <workItem from="1709721222683" duration="24835000" />
+      <workItem from="1709721222683" duration="30452000" />
     </task>
     <servers />
   </component>
@@ -207,15 +223,6 @@
     </ignored-roots>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/MessageAnalyzer.java</url>
-          <line>12</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="JarApplication">
         <watch expression="this.this$0" custom="java.lang.Runnable" />

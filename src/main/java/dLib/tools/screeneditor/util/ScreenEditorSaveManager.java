@@ -13,12 +13,6 @@ public class ScreenEditorSaveManager {
 
         String[] scrName = screenData.screenClass.split("\\.");
 
-        PluginManager.sendMessage("saveScreen", scrName[scrName.length - 1], screenData);
-        screenData.serialize("D:/saveData.dscreen");
-    }
-
-    public static ScreenEditorBaseScreen load(){
-        AbstractScreenData data = AbstractScreenData.deserialize("D:/savedata.dscreen");
-        return data.makeEditorInstance();
+        PluginManager.sendMessage("saveScreen", scrName[scrName.length - 1], screenData.serializeToString());
     }
 }

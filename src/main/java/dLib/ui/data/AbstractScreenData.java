@@ -1,5 +1,6 @@
 package dLib.ui.data;
 
+import com.badlogic.gdx.files.FileHandle;
 import dLib.DLib;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
@@ -14,6 +15,7 @@ import dLib.util.Reflection;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class AbstractScreenData implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -78,6 +80,23 @@ public class AbstractScreenData implements Serializable {
         return new ScreenEditorBaseScreen(this);
     }
 
+    public ArrayList<UIElement> makeLiveItems(){
+        ArrayList<UIElement> elements = new ArrayList<>();
+        for(UIElementData elementData : data){
+            UIElement liveInstance = elementData.makeLiveInstance();
+            if(liveInstance == null){
+                DLibLogger.log("Failed to create a live instance of an element!");
+                continue;
+            }
+
+            repositionElement(liveInstance, new IntVector2(0, 0));
+            rescaleElement(liveInstance, new IntVector2(1920, 1080));
+            elements.add(liveInstance);
+        }
+
+        return elements;
+    }
+
     public ArrayList<ScreenEditorItem> getEditorItems(){
         ArrayList<ScreenEditorItem> items = new ArrayList<>();
         for(UIElementData itemData : data){
@@ -112,21 +131,27 @@ public class AbstractScreenData implements Serializable {
     }
 
     /** Serialization */
-    public void serialize(String filePath){
-        try (FileOutputStream file = new FileOutputStream(filePath);
-            ObjectOutputStream out = new ObjectOutputStream(file)) {
-            out.writeObject(this);
-        }catch (Exception e){
-            DLibLogger.log("Failed to serialize screen data due to " + e.getLocalizedMessage());
+    // Method to serialize the object to a string
+    public String serializeToString(){
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+            oos.writeObject(this);
+            return Base64.getEncoder().encodeToString(baos.toByteArray());
+        }
+        catch (Exception e){
+            DLibLogger.logError("Failed to serialize AbstractScreenData due to "+ e.getLocalizedMessage());
             e.printStackTrace();
         }
+
+        return "";
     }
-    public static AbstractScreenData deserialize(String filePath) {
-        try (FileInputStream file = new FileInputStream(filePath);
-            ObjectInputStream in = new ObjectInputStream(file)) {
-            return (AbstractScreenData) in.readObject();
+
+    // Method to deserialize the object from a string
+    public static AbstractScreenData deserializeFromString(String s){
+        byte[] data = Base64.getDecoder().decode(s);
+        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
+            return (AbstractScreenData) ois.readObject();
         }catch (Exception e){
-            DLibLogger.log("Failed to deserialize screen data due to " + e.getLocalizedMessage());
+            DLibLogger.log("Failed to deserialize AbstractScreenData due to " + e.getLocalizedMessage());
             e.printStackTrace();
         }
 
