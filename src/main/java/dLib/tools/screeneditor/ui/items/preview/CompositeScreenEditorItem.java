@@ -68,12 +68,12 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
 
         super.setDimensions(newWidth, newHeight);
 
-        int diffX = width - oldWidth;
-        int diffY = height - oldHeight;
+        float diffXPerc = (float)width / oldWidth;
+        float diffYPerc = (float)height / oldHeight;
 
         for(int i = 0; i < items.size(); i++){
             ScreenEditorItem item = items.get(i);
-            item.setDimensions(item.getWidth() + diffX, item.getHeight() + diffY);
+            item.setDimensions((int) (item.getWidth() * diffXPerc), (int) (item.getHeight() * diffYPerc));
         }
 
         return this;
