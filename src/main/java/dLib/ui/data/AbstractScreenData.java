@@ -28,11 +28,17 @@ public class AbstractScreenData implements Serializable {
 
     public ArrayList<UIElementData> data = new ArrayList<>();
 
-    public AbstractScreenData(){
+    public AbstractScreenData(ScreenEditorBaseScreen instance){
         offsetX = ScreenEditorPreviewScreen.xOffset;
         offsetY = ScreenEditorPreviewScreen.yOffset;
         referenceWidth = ScreenEditorPreviewScreen.width;
         referenceHeight = ScreenEditorPreviewScreen.height;
+
+        screenClass = instance.getEditingScreen();
+
+        for(ScreenEditorItem item : instance.getPreviewScreen().getPreviewItems()){
+            data.add(item.getElementData());
+        }
     }
 
     /** Converters */
@@ -108,7 +114,7 @@ public class AbstractScreenData implements Serializable {
     /** Serialization */
     public void serialize(String filePath){
         try (FileOutputStream file = new FileOutputStream(filePath);
-             ObjectOutputStream out = new ObjectOutputStream(file)) {
+            ObjectOutputStream out = new ObjectOutputStream(file)) {
             out.writeObject(this);
         }catch (Exception e){
             DLibLogger.log("Failed to serialize screen data due to " + e.getLocalizedMessage());
@@ -117,7 +123,7 @@ public class AbstractScreenData implements Serializable {
     }
     public static AbstractScreenData deserialize(String filePath) {
         try (FileInputStream file = new FileInputStream(filePath);
-             ObjectInputStream in = new ObjectInputStream(file)) {
+            ObjectInputStream in = new ObjectInputStream(file)) {
             return (AbstractScreenData) in.readObject();
         }catch (Exception e){
             DLibLogger.log("Failed to deserialize screen data due to " + e.getLocalizedMessage());

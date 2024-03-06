@@ -21,13 +21,13 @@ public class ListBoxScreenEditorItem extends CompositeScreenEditorItem {
 
     /** Data */
     @Override
-    public ListBoxData makeElementData() {
-        return null;//return new ListBoxData<>()
+    public ListBoxData<Object> makeElementData() {
+        return new ListBoxData<Object>();
     }
 
     @Override
-    public ListBoxData getElementData() {
-        return (ListBoxData) super.getElementData();
+    public ListBoxData<Object> getElementData() {
+        return (ListBoxData<Object>) super.getElementData();
     }
 
     /** Copy */
