@@ -10,7 +10,7 @@ public class MessageAnalyzer {
         if(request.equals("openScreenEditor")){
             String screenClass = message.getData(String.class);
 
-            ScreenManager.openScreen(new ScreenEditorBaseScreen().setEditingScreen(screenClass));
+            ScreenManager.openScreen(new ScreenEditorBaseScreen(screenClass));
         }
     }
 }

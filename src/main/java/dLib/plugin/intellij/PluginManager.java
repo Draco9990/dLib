@@ -69,8 +69,14 @@ public class PluginManager {
         isEnabled = false;
     }
 
-    public static void sendMessage(String request, Object data){
+    public static void sendMessage(String request, Object... data){
         if(!isRunning()) return;
+
+        if(data.length == 1){
+            client.sendMessage(new NetworkMessage(request, data[0]));
+            return;
+        }
+
         client.sendMessage(new NetworkMessage(request, data));
     }
 }

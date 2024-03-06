@@ -23,7 +23,7 @@ public abstract class UIElement {
 
     /** Constructors */
     public UIElement(int xPos, int yPos, int width, int height){
-        this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID();
+        this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         this.x = xPos;
         this.y = yPos;
         this.width = width;

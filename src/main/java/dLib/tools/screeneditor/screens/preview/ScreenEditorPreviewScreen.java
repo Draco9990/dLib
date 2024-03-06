@@ -2,6 +2,7 @@ package dLib.tools.screeneditor.screens.preview;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.DLib;
+import dLib.plugin.intellij.PluginManager;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.BackgroundScreenEditorItem;
@@ -50,6 +51,8 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
         copy.postInitialize();
         copy.setBoundsX(ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.xOffset + ScreenEditorPreviewScreen.width);
         copy.setBoundsY(ScreenEditorPreviewScreen.yOffset, ScreenEditorPreviewScreen.yOffset + ScreenEditorPreviewScreen.height);
+
+        PluginManager.sendMessage("screenElementAdd", ScreenEditorBaseScreen.instance.getEditingScreen(), copy.getId(), copy.getLiveInstanceType().getName());
 
         addPreviewItem(copy);
 

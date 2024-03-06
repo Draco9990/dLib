@@ -18,6 +18,8 @@ import java.util.ArrayList;
 public class AbstractScreenData implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public String screenClass;
+
     public int offsetX;
     public int offsetY;
 
@@ -67,6 +69,10 @@ public class AbstractScreenData implements Serializable {
         return newScreen;
     }
     public ScreenEditorBaseScreen makeEditorInstance(){
+        return new ScreenEditorBaseScreen(this);
+    }
+
+    public ArrayList<ScreenEditorItem> getEditorItems(){
         ArrayList<ScreenEditorItem> items = new ArrayList<>();
         for(UIElementData itemData : data){
             ScreenEditorItem editorInstance = itemData.makeEditorInstance();
@@ -77,10 +83,11 @@ public class AbstractScreenData implements Serializable {
 
             repositionElement(editorInstance, new IntVector2(ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.yOffset));
             rescaleElement(editorInstance, new IntVector2(ScreenEditorPreviewScreen.width, ScreenEditorPreviewScreen.height));
+
             items.add(editorInstance);
         }
 
-        return new ScreenEditorBaseScreen(items);
+        return items;
     }
 
     private void repositionElement(UIElement element, IntVector2 targetOffset){

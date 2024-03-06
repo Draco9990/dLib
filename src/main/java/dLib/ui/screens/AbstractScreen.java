@@ -48,7 +48,7 @@ public abstract class AbstractScreen {
     /** Constructors */
     public AbstractScreen(){
         localStrings = CardCrawlGame.languagePack.getUIString(getModId() + ":" + this.getClass().getSimpleName());
-        this.ID = "Screen_" + UUID.randomUUID();
+        this.ID = "Screen_" + UUID.randomUUID().toString().replace("-", "");
         hidden = false;
         theme = UIThemeManager.getDefaultTheme();
     }

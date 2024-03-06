@@ -41,21 +41,23 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     private ScreenEditorActiveItemsManager activeItemsManager;
 
     /** Constructors */
-    public ScreenEditorBaseScreen(){
-        this(new ArrayList<>());
+    public ScreenEditorBaseScreen(String editingClass){
+        initialize(editingClass);
     }
 
-    public ScreenEditorBaseScreen(ArrayList<ScreenEditorItem> initialData){
-        initialize();
+    public ScreenEditorBaseScreen(AbstractScreenData initialData){
+        initialize(editingScreen);
 
-        for(ScreenEditorItem item : initialData){
+        for(ScreenEditorItem item : initialData.getEditorItems()){
             preview.addPreviewItem(item);
         }
 
         activeItemsManager.clearActiveItems();
     }
 
-    private void initialize(){
+    private void initialize(String editingClass){
+        this.editingScreen = editingClass;
+
         addElement(new Renderable(UITheme.whitePixel, 0, 0, 1920, 1080).setRenderColor(Color.valueOf("#151515FF")));
 
         menu = new ScreenEditorMenuScreen();
@@ -113,6 +115,10 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     public ScreenEditorBaseScreen setEditingScreen(String screen){
         editingScreen = screen;
         return this;
+    }
+
+    public String getEditingScreen(){
+        return editingScreen;
     }
 
     /** Managers */
