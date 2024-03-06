@@ -21,7 +21,12 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
     /** Constructors */
     public InputfieldScreenEditorItem(int xPos, int yPos, int width, int height) {
         super(xPos, yPos, width, height);
-        initialize(xPos, yPos, width, height);
+
+        background = new ButtonScreenEditorItem(new TextureThemeBinding("inputfield"), xPos, yPos, width, height);
+        textBox = new TextBoxScreenEditorItem(new TextureEmptyBinding(), xPos, yPos, width, height);
+
+        addItemToComposite(background);
+        addItemToComposite(textBox);
     }
 
     public InputfieldScreenEditorItem(InputfieldData data){
@@ -29,14 +34,6 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
 
         this.background = data.buttonData.makeEditorInstance();
         this.textBox = data.textboxData.makeEditorInstance();
-    }
-
-    private void initialize(int xPos, int yPos, int width, int height){
-        background = new ButtonScreenEditorItem(new TextureThemeBinding("inputfield"), xPos, yPos, width, height);
-        textBox = new TextBoxScreenEditorItem(new TextureEmptyBinding(), xPos, yPos, width, height);
-
-        addItemToComposite(background);
-        addItemToComposite(textBox);
     }
 
     /** Data */
