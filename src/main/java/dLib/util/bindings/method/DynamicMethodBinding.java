@@ -4,8 +4,8 @@ import dLib.util.Reflection;
 import dLib.util.settings.prefabs.StringSetting;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class DynamicMethodBinding extends MethodBinding implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -19,7 +19,7 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
         }
     };
 
-    private BiConsumer<String, String> onBoundMethodChangedConsumer;
+    private ArrayList<BiConsumer<String, String>> onBoundMethodChangedConsumers = new ArrayList<>();
 
     /** Constructors */
     public DynamicMethodBinding(String methodName){
@@ -39,13 +39,13 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
         String oldMethodToExecute = methodToExecute.getCurrentValue();
         if(!methodToExecute.trySetValue(s)) return this;
 
-        if(onBoundMethodChangedConsumer != null) onBoundMethodChangedConsumer.accept(oldMethodToExecute, methodToExecute.getCurrentValue());
+        for(BiConsumer<String, String> consumer : onBoundMethodChangedConsumers) consumer.accept(oldMethodToExecute, methodToExecute.getCurrentValue());
 
         return this;
     }
 
-    public DynamicMethodBinding setOnBoundMethodChangedConsumer(BiConsumer<String, String> consumer){
-        this.onBoundMethodChangedConsumer = consumer;
+    public DynamicMethodBinding addOnBoundMethodChangedConsumer(BiConsumer<String, String> consumer){
+        this.onBoundMethodChangedConsumers.add(consumer);
         return this;
     }
 

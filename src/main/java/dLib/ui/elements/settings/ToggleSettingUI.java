@@ -20,7 +20,7 @@ public class ToggleSettingUI extends AbstractSettingUI {
             }
         }.setToggled(setting.getCurrentValue());
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 Toggle element = (Toggle) middle;

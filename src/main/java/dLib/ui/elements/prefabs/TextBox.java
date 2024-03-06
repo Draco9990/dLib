@@ -15,6 +15,7 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
 import sayTheSpire.Output;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class TextBox extends Hoverable {
@@ -35,7 +36,7 @@ public class TextBox extends Hoverable {
     private float marginPercX = 0.0f;
     private float marginPercY = 0.0f;
 
-    private Consumer<String> onTextChangedConsumer;
+    private ArrayList<Consumer<String>> onTextChangedConsumers = new ArrayList<>();
 
     private int paddingLeft = 0;
     private int paddingTop = 0;
@@ -250,10 +251,10 @@ public class TextBox extends Hoverable {
             }
         }
 
-        if(onTextChangedConsumer != null) onTextChangedConsumer.accept(newText);
+        for(Consumer<String> consumer : onTextChangedConsumers) consumer.accept(newText);
     }
-    public TextBox setOnTextChangedConsumer(Consumer<String> consumer){
-        onTextChangedConsumer = consumer;
+    public TextBox addOnTextChangedConsumer(Consumer<String> consumer){
+        onTextChangedConsumers.add(consumer);
         return this;
     }
 

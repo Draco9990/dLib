@@ -12,7 +12,7 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI {
         super(setting, xPos, yPos, width, height);
 
         this.middle = new TextButton(setting.getValueForDisplay(), xPos + ((int)(width - width * valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
-        ((TextButton)middle).getButton().setOnLeftClickConsumer(new Runnable() {
+        ((TextButton)middle).getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
                 AbstractObjectListPickerScreen<ItemType> pickerScreen = new AbstractObjectListPickerScreen<ItemType>(ScreenManager.getCurrentScreen(), setting.getAllOptions()) {
@@ -31,7 +31,7 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI {
             }
         });
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 ((TextButton)middle).getTextBox().setText(setting.getValueForDisplay());

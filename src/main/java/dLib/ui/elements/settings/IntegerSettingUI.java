@@ -38,7 +38,7 @@ public class IntegerSettingUI extends AbstractSettingUI {
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
 
             middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * ((1 - valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX -2* arrowPercX))), valueHeight).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE_POSITIVE);
-            ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
+            ((Inputfield)middle).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
                     if(s.isEmpty()){
@@ -51,7 +51,7 @@ public class IntegerSettingUI extends AbstractSettingUI {
         }
         else{
             middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (1 - valuePercX))), valuePosY, ((int)(width * valuePercX)), valueHeight).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE_POSITIVE);
-            ((Inputfield)middle).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
+            ((Inputfield)middle).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
                     if(s.isEmpty()) {
@@ -64,7 +64,7 @@ public class IntegerSettingUI extends AbstractSettingUI {
             });
         }
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 Inputfield inputfield = (Inputfield) middle;

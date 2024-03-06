@@ -11,7 +11,7 @@ public class StringSettingUI extends AbstractSettingUI {
         super(setting, xPos, yPos, width, height);
 
         middle = new Inputfield(setting.getCurrentValue(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
-        ((Inputfield)(middle)).getButton().setOnDeselectedConsumer(new Runnable() {
+        ((Inputfield)(middle)).getButton().addOnDeselectedConsumer(new Runnable() {
             @Override
             public void run() {
                 if(setting.getConfirmationMode().equals(StringSetting.InputConfirmationMode.SELECTION_MANAGED)) {
@@ -22,14 +22,14 @@ public class StringSettingUI extends AbstractSettingUI {
                 }
             }
         });
-        ((Inputfield)(middle)).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
+        ((Inputfield)(middle)).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
                 if(setting.getConfirmationMode().equals(StringSetting.InputConfirmationMode.ON_TEXT_CHANGED)) setting.trySetValue(s);
             }
         });
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 Inputfield element = (Inputfield) middle;

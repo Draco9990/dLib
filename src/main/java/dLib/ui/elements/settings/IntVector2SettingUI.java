@@ -25,7 +25,7 @@ public class IntVector2SettingUI extends AbstractSettingUI{
         this.foreground.add(new TextBox(setting.getYAxisName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
 
         this.left = new Inputfield(String.valueOf(setting.getCurrentValue().x), startingX + textWidth, valuePosY, inputfieldWidth, valueHeight).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE_POSITIVE);
-        ((Inputfield)left).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
+        ((Inputfield)left).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
                 IntVector2 currentVal = setting.getCurrentValue();
@@ -41,7 +41,7 @@ public class IntVector2SettingUI extends AbstractSettingUI{
         });
 
         this.right = new Inputfield(String.valueOf(setting.getCurrentValue().y), startingX + (int)(renderWidth * 0.55f) + textWidth, valuePosY, inputfieldWidth, valueHeight).setType(Inputfield.EInputfieldType.NUMERICAL_WHOLE_POSITIVE);
-        ((Inputfield)right).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
+        ((Inputfield)right).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
                 IntVector2 currentVal = setting.getCurrentValue();
@@ -56,7 +56,7 @@ public class IntVector2SettingUI extends AbstractSettingUI{
             }
         });
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 Inputfield leftI = ((Inputfield)left);

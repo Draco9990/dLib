@@ -1,6 +1,5 @@
 package dLib.ui.elements.settings;
 
-import dLib.plugin.intellij.PluginManager;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.util.TextureManager;
@@ -9,8 +8,6 @@ import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.prefabs.MethodBindingSetting;
 
 import java.util.UUID;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class DynamicMethodSettingUI extends AbstractSettingUI {
     /** Variables */
@@ -22,7 +19,7 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
         DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) setting.getCurrentValue();
 
         middle = new Inputfield(dynamicMethodBinding.getBoundMethod(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX) - buttonDim * 2, valueHeight);
-        ((Inputfield)(middle)).getButton().setOnDeselectedConsumer(new Runnable() {
+        ((Inputfield)(middle)).getButton().addOnDeselectedConsumer(new Runnable() {
             @Override
             public void run() {
                 dynamicMethodBinding.setBoundMethod(((Inputfield)middle).getTextBox().getText());
@@ -53,7 +50,7 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ResetButton.png")));
 
-        dynamicMethodBinding.getBoundMethodSetting().setOnValueChangedConsumer(new Runnable() {
+        dynamicMethodBinding.getBoundMethodSetting().addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 Inputfield element = (Inputfield) middle;

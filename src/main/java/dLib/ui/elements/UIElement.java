@@ -3,6 +3,7 @@ package dLib.ui.elements;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.UIElementData;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
@@ -19,7 +20,7 @@ public abstract class UIElement {
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
 
-    private BiConsumer<Integer, Integer> positionChangedConsumer;
+    private ArrayList<BiConsumer<Integer, Integer>> positionChangedConsumers = new ArrayList<>();
 
     /** Constructors */
     public UIElement(int xPos, int yPos, int width, int height){
@@ -101,12 +102,10 @@ public abstract class UIElement {
     }
 
     public void onPositionChanged(int newPosX, int newPosY){
-        if(positionChangedConsumer != null){
-            positionChangedConsumer.accept(newPosX, newPosY);
-        }
+        for(BiConsumer<Integer, Integer> consumer : positionChangedConsumers) consumer.accept(newPosX, newPosY);
     } //* Callback
-    public UIElement setOnPositionChangedConsumer(BiConsumer<Integer, Integer> consumer){
-        positionChangedConsumer = consumer;
+    public UIElement addOnPositionChangedConsumer(BiConsumer<Integer, Integer> consumer){
+        positionChangedConsumers.add(consumer);
         return this;
     }
 

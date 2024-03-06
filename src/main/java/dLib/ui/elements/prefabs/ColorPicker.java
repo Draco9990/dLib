@@ -13,6 +13,7 @@ import dLib.ui.themes.UITheme;
 import dLib.util.ColorHelpers;
 import dLib.util.TextureManager;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class ColorPicker extends CompositeUIElement {
@@ -73,8 +74,8 @@ public class ColorPicker extends CompositeUIElement {
         /** Variables */
         private Texture colorWheelTexture;
 
-        private Consumer<Color> colorHoveredConsumer;
-        private Consumer<Color> colorSelectedConsumer;
+        private ArrayList<Consumer<Color>> colorHoveredConsumers = new ArrayList<>();
+        private ArrayList<Consumer<Color>> colorSelectedConsumers = new ArrayList<>();
 
         private float lightness = 0.5f;
 
@@ -170,22 +171,18 @@ public class ColorPicker extends CompositeUIElement {
 
         /** Color Selection */
         public void onColorHovered(Color color){
-            if(colorHoveredConsumer != null){
-                colorHoveredConsumer.accept(color);
-            }
+            for(Consumer<Color> consumer : colorHoveredConsumers) consumer.accept(color);
         }
-        public ColorWheel setColorHoveredConsumer(Consumer<Color> consumer){
-            this.colorHoveredConsumer = consumer;
+        public ColorWheel addColorHoveredConsumer(Consumer<Color> consumer){
+            this.colorHoveredConsumers.add(consumer);
             return this;
         }
 
         public void onColorSelected(Color color){
-            if(colorSelectedConsumer != null){
-                colorSelectedConsumer.accept(color);
-            }
+            for(Consumer<Color> consumer : colorSelectedConsumers) consumer.accept(color);
         }
-        public ColorWheel setColorSelectedConsumer(Consumer<Color> consumer) {
-            this.colorSelectedConsumer = consumer;
+        public ColorWheel addColorSelectedConsumer(Consumer<Color> consumer) {
+            this.colorSelectedConsumers.add(consumer);
             return this;
         }
     }

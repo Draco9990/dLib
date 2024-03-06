@@ -22,34 +22,34 @@ public class ScreenEditorMenuScreen extends AbstractScreen {
 
     public void registerFileControls(){
         TextButton closeButton = new TextButton("Close", 20, 1080-60, 200, 40);
-        closeButton.getButton().setOnLeftClickConsumer(() -> {
+        closeButton.getButton().addOnLeftClickConsumer(() -> {
             ScreenManager.closeScreen();
             ScreenEditorBaseScreen.instance = null;
         });
         addElement(closeButton);
 
         TextButton saveButton = new TextButton("Save", 20, 1080-110, 200, 40);
-        saveButton.getButton().setOnLeftClickConsumer(() -> {ScreenEditorBaseScreen.instance.getSaveManager().save();});
+        saveButton.getButton().addOnLeftClickConsumer(() -> {ScreenEditorBaseScreen.instance.getSaveManager().save();});
         addElement(saveButton);
     }
 
     public void registerToolbarControls(){
         TextButton toolbarButton = new TextButton("Toolbar", 265, 1080-60, 200, 40);
-        toolbarButton.getButton().setOnLeftClickConsumer(() -> {
+        toolbarButton.getButton().addOnLeftClickConsumer(() -> {
             ScreenEditorBaseScreen.instance.hideAllToolbarItems();
             ScreenEditorBaseScreen.instance.getToolbarScreen().show();
         });
         addElement(toolbarButton);
 
         TextButton propertiesButton = new TextButton("Properties", 265, 1080-110, 200, 40);
-        propertiesButton.getButton().setOnLeftClickConsumer(() -> {
+        propertiesButton.getButton().addOnLeftClickConsumer(() -> {
             ScreenEditorBaseScreen.instance.hideAllToolbarItems();
             ScreenEditorBaseScreen.instance.getPropertiesScreen().show();
         });
         addElement(propertiesButton);
 
         TextButton elementsButton = new TextButton("Elements", 265, 1080-160, 200, 40);
-        elementsButton.getButton().setOnLeftClickConsumer(() -> {
+        elementsButton.getButton().addOnLeftClickConsumer(() -> {
             ScreenEditorBaseScreen.instance.hideAllToolbarItems();
             ScreenEditorBaseScreen.instance.getElementListScreen().show();
         });

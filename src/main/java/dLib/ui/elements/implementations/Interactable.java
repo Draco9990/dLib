@@ -11,6 +11,7 @@ import dLib.ui.data.implementations.InteractableData;
 import dLib.util.GlobalEvents;
 import sayTheSpire.Output;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class Interactable extends Hoverable{
@@ -37,16 +38,16 @@ public class Interactable extends Hoverable{
     private boolean holdingLeft;
     private boolean holdingRight;
 
-    private Runnable onLeftClickConsumer;
-    private Consumer<Float> onLeftClickHeldConsumer;
-    private Runnable onLeftClickReleaseConsumer;
+    private ArrayList<Runnable> onLeftClickConsumers = new ArrayList<>();
+    private ArrayList<Consumer<Float>> onLeftClickHeldConsumers = new ArrayList<>();
+    private ArrayList<Runnable> onLeftClickReleaseConsumers = new ArrayList<>();
 
-    private Runnable onRightClickConsumer;
-    private Consumer<Float> onRightClickHeldConsumer;
-    private Runnable onRightClickReleaseConsumer;
+    private ArrayList<Runnable> onRightClickConsumers = new ArrayList<>();
+    private ArrayList<Consumer<Float>> onRightClickHeldConsumers = new ArrayList<>();
+    private ArrayList<Runnable> onRightClickReleaseConsumers = new ArrayList<>();
 
-    private Runnable onSelectedConsumer;
-    private Runnable onUnselectedConsumer;
+    private ArrayList<Runnable> onSelectedConsumers = new ArrayList<>();
+    private ArrayList<Runnable> onUnselectedConsumers = new ArrayList<>();
 
     /** Constructors */
     public Interactable(Texture image) {
@@ -164,31 +165,31 @@ public class Interactable extends Hoverable{
 
         select();
 
-        if(onLeftClickConsumer != null) onLeftClickConsumer.run();
+        for(Runnable consumer : onLeftClickConsumers) consumer.run();
     }
     protected void onLeftClickHeld(float totalDuration){
         if(onHoldSoundKey != null){
             CardCrawlGame.sound.playA(onHoldSoundKey, -0.1F);
         }
 
-        if(onLeftClickHeldConsumer != null) onLeftClickHeldConsumer.accept(totalDuration);
+        for(Consumer<Float> consumer : onLeftClickHeldConsumers) consumer.accept(totalDuration);
     }
     protected void onLeftClickRelease(){
         holdingLeft = false;
 
-        if(onLeftClickReleaseConsumer != null) onLeftClickReleaseConsumer.run();
+        for(Runnable consumer : onLeftClickReleaseConsumers) consumer.run();
     }
 
-    public Interactable setOnLeftClickConsumer(Runnable consumer){
-        onLeftClickConsumer = consumer;
+    public Interactable addOnLeftClickConsumer(Runnable consumer){
+        onLeftClickConsumers.add(consumer);
         return this;
     }
-    public Interactable setOnLeftClickHeldConsumer(Consumer<Float> consumer){
-        onLeftClickHeldConsumer = consumer;
+    public Interactable addOnLeftClickHeldConsumer(Consumer<Float> consumer){
+        onLeftClickHeldConsumers.add(consumer);
         return this;
     }
-    public Interactable setOnLeftClickReleaseConsumer(Runnable consumer){
-        onLeftClickReleaseConsumer = consumer;
+    public Interactable addOnLeftClickReleaseConsumer(Runnable consumer){
+        onLeftClickReleaseConsumers.add(consumer);
         return this;
     }
 
@@ -209,27 +210,27 @@ public class Interactable extends Hoverable{
             }
         }
 
-        if(onRightClickConsumer != null) onRightClickConsumer.run();
+        for(Runnable consumer : onRightClickConsumers) consumer.run();
     }
     protected void onRightClickHeld(float totalDuration){
-        if(onRightClickHeldConsumer != null) onRightClickHeldConsumer.accept(totalDuration);
+        for(Consumer<Float> consumer : onRightClickHeldConsumers) consumer.accept(totalDuration);
     }
     protected void onRightButtonRelease(){
         holdingRight = false;
 
-        if(onRightClickReleaseConsumer != null) onRightClickReleaseConsumer.run();
+        for(Runnable consumer : onRightClickReleaseConsumers) consumer.run();
     }
 
-    public Interactable setOnRightClickConsumer(Runnable consumer){
-        onRightClickConsumer = consumer;
+    public Interactable addOnRightClickConsumer(Runnable consumer){
+        onRightClickConsumers.add(consumer);
         return this;
     }
-    public Interactable setOnRightClickHeldConsumer(Consumer<Float> consumer){
-        onRightClickHeldConsumer = consumer;
+    public Interactable addOnRightClickHeldConsumer(Consumer<Float> consumer){
+        onRightClickHeldConsumers.add(consumer);
         return this;
     }
-    public Interactable setOnRightClickReleaseConsumer(Runnable consumer){
-        onRightClickReleaseConsumer = consumer;
+    public Interactable addOnRightClickReleaseConsumer(Runnable consumer){
+        onRightClickReleaseConsumers.add(consumer);
         return this;
     }
 
@@ -273,18 +274,18 @@ public class Interactable extends Hoverable{
     }
 
     protected void onSelected(){
-        if(onSelectedConsumer != null) onSelectedConsumer.run();
+        for(Runnable consumer : onSelectedConsumers) consumer.run();
     }
     protected void onDeselected(){
-        if(onUnselectedConsumer != null) onUnselectedConsumer.run();
+        for(Runnable consumer : onUnselectedConsumers) consumer.run();
     }
 
-    public Interactable setOnSelectedConsumer(Runnable consumer){
-        onSelectedConsumer = consumer;
+    public Interactable addOnSelectedConsumer(Runnable consumer){
+        onSelectedConsumers.add(consumer);
         return this;
     }
-    public Interactable setOnDeselectedConsumer(Runnable consumer){
-        onUnselectedConsumer = consumer;
+    public Interactable addOnDeselectedConsumer(Runnable consumer){
+        onUnselectedConsumers.add(consumer);
         return this;
     }
 

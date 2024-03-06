@@ -1,9 +1,7 @@
 package dLib.ui.elements.settings;
 
 import com.badlogic.gdx.graphics.Color;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import dLib.ui.elements.prefabs.Button;
-import dLib.ui.screens.AbstractScreen;
 import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
@@ -28,7 +26,7 @@ public class ColorSettingUI extends AbstractSettingUI {
             }
         }.setImage(UITheme.whitePixel).setRenderColor(setting.getCurrentValue());
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 ((Button)middle).setRenderColor(setting.getCurrentValue());

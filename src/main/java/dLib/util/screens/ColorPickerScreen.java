@@ -25,13 +25,13 @@ public class ColorPickerScreen extends AbstractScreen {
         addGenericBackground();
 
         ColorPicker colorWheel = new ColorPicker(235, 1080-654, 550, 550);
-        colorWheel.getColorWheel().setColorHoveredConsumer(new Consumer<Color>() {
+        colorWheel.getColorWheel().addColorHoveredConsumer(new Consumer<Color>() {
             @Override
             public void accept(Color color) {
                 hoverPreview.setRenderColor(color);
             }
         });
-        colorWheel.getColorWheel().setColorSelectedConsumer(new Consumer<Color>() {
+        colorWheel.getColorWheel().addColorSelectedConsumer(new Consumer<Color>() {
             @Override
             public void accept(Color color) {
                 onColorSelectedChanged(color);
@@ -46,7 +46,7 @@ public class ColorPickerScreen extends AbstractScreen {
         addElement(selectedPreview);
 
         TextButton confirmButton = new TextButton("CONFIRM", 685, 1080-1015, 550, 150);
-        confirmButton.getButton().setOnLeftClickConsumer(new Runnable() {
+        confirmButton.getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
                 onColorChosen(currentColor);

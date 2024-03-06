@@ -18,7 +18,7 @@ public class AlignmentSettingUI extends AbstractSettingUI{
         int buttonWidth = (int)(0.45f * renderWidth);
 
         this.left = new TextButton(setting.getCurrentValue().horizontalAlignment.name(), startingX, valuePosY, buttonWidth, valueHeight);
-        ((TextButton)left).getButton().setOnLeftClickConsumer(new Runnable() {
+        ((TextButton)left).getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
                 Alignment alignment = setting.getCurrentValue();
@@ -28,7 +28,7 @@ public class AlignmentSettingUI extends AbstractSettingUI{
         });
 
         this.right = new TextButton(setting.getCurrentValue().verticalAlignment.name(), (int) (startingX + (renderWidth * 0.55f)), valuePosY, buttonWidth, valueHeight);
-        ((TextButton)right).getButton().setOnLeftClickConsumer(new Runnable() {
+        ((TextButton)right).getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
                 Alignment alignment = setting.getCurrentValue();
@@ -37,7 +37,7 @@ public class AlignmentSettingUI extends AbstractSettingUI{
             }
         });
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 TextButton leftI = ((TextButton)left);

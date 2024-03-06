@@ -1,6 +1,5 @@
 package dLib.plugin.intellij.util.settings;
 
-import dLib.plugin.intellij.PluginManager;
 import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.util.bindings.method.DynamicMethodBinding;
@@ -8,7 +7,6 @@ import dLib.util.bindings.method.MethodBinding;
 import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.MethodBindingSetting;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.function.BiConsumer;
 
@@ -20,7 +18,7 @@ public class IntelliJMethodBindingSetting extends MethodBindingSetting {
         super.setCurrentValue(currentValue);
 
         if(currentValue instanceof DynamicMethodBinding){
-            ((DynamicMethodBinding) currentValue).setOnBoundMethodChangedConsumer(new BiConsumer<String, String>() {
+            ((DynamicMethodBinding) currentValue).addOnBoundMethodChangedConsumer(new BiConsumer<String, String>() {
                 @Override
                 public void accept(String oldVal, String newVal) {
                     if(!newVal.isEmpty()){

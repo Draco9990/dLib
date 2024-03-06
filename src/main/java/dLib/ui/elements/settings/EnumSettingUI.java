@@ -41,10 +41,10 @@ public class EnumSettingUI extends AbstractSettingUI {
         }
         else if(setting.getControlType() == EnumSetting.EControlType.CLICK){
             middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX)))), valuePosY, ((int)(width * (valuePercX - textPercX))), valueHeight);
-            ((TextButton)middle).getButton().setOnLeftClickConsumer(setting::next);
+            ((TextButton)middle).getButton().addOnLeftClickConsumer(setting::next);
         }
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 TextButton element = (TextButton) middle;

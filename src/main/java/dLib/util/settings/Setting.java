@@ -3,6 +3,7 @@ package dLib.util.settings;
 import dLib.ui.elements.settings.AbstractSettingUI;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public abstract class Setting<T> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -15,7 +16,7 @@ public abstract class Setting<T> implements Serializable {
 
     private String title;
 
-    private Runnable onValueChangedConsumer;
+    private ArrayList<Runnable> onValueChangedConsumers = new ArrayList<>();
 
     /** Constructors */
     public Setting(T value){
@@ -81,12 +82,10 @@ public abstract class Setting<T> implements Serializable {
 
     /** Callbacks */
     public void onValueChanged(){
-        if(onValueChangedConsumer != null){
-            onValueChangedConsumer.run();
-        }
+        for(Runnable consumer : onValueChangedConsumers) consumer.run();
     }
-    public Setting<T> setOnValueChangedConsumer(Runnable consumer){
-        onValueChangedConsumer = consumer;
+    public Setting<T> addOnValueChangedConsumer(Runnable consumer){
+        onValueChangedConsumers.add(consumer);
         return this;
     }
 

@@ -9,6 +9,7 @@ import dLib.modcompat.ModManager;
 import dLib.ui.data.implementations.HoverableData;
 import sayTheSpire.Output;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class Hoverable extends Renderable{
@@ -21,9 +22,9 @@ public class Hoverable extends Renderable{
 
     private String onHoverLine; // Say the Spire mod compatibility
 
-    private Runnable onHoveredConsumer;
-    private Consumer<Float> onHoverTickConsumer;
-    private Runnable onUnhoveredConsumer;
+    private ArrayList<Runnable> onHoveredConsumers = new ArrayList<>();
+    private ArrayList<Consumer<Float>> onHoverTickConsumers = new ArrayList<>();
+    private ArrayList<Runnable> onUnhoveredConsumers = new ArrayList<>();
 
     /** Constructors */
     public Hoverable(Texture image) {
@@ -66,8 +67,7 @@ public class Hoverable extends Renderable{
                 }
             }
 
-            if(hbHoveredCache &&
-                    (!this.hb.hovered && !this.hb.justHovered)){
+            if(hbHoveredCache && (!this.hb.hovered && !this.hb.justHovered)){
                 onUnhovered();
             }
         }
@@ -92,35 +92,29 @@ public class Hoverable extends Renderable{
                 Output.text(getOnHoverLine(), true);
             }
         }
-        if(onHoveredConsumer != null){
-            onHoveredConsumer.run();
-        }
+        for(Runnable consumer : onHoveredConsumers) consumer.run();
     }
     protected void onHoverTick(float totalTickDuration){
-        if(onHoverTickConsumer != null){
-            onHoverTickConsumer.accept(totalTickDuration);
-        }
+        for(Consumer<Float> consumer : onHoverTickConsumers) consumer.accept(totalTickDuration);
     }
     protected void onUnhovered(){
         totalHoverDuration = 0.f;
 
-        if(onUnhoveredConsumer != null){
-            onUnhoveredConsumer.run();
-        }
+        for(Runnable consumer : onUnhoveredConsumers) consumer.run();
     }
 
     public boolean isHovered(){ return hb.hovered || hb.justHovered; }
 
-    public Hoverable setOnHoveredConsumer(Runnable consumer){
-        onHoveredConsumer = consumer;
+    public Hoverable addOnHoveredConsumer(Runnable consumer){
+        onHoveredConsumers.add(consumer);
         return this;
     }
-    public Hoverable setOnHoverTickConsumer(Consumer<Float> consumer){
-        onHoverTickConsumer = consumer;
+    public Hoverable addOnHoverTickConsumer(Consumer<Float> consumer){
+        onHoverTickConsumers.add(consumer);
         return this;
     }
-    public Hoverable setOnUnhoveredConsumer(Runnable consumer){
-        onUnhoveredConsumer = consumer;
+    public Hoverable addOnUnhoveredConsumer(Runnable consumer){
+        onUnhoveredConsumers.add(consumer);
         return this;
     }
 
