@@ -48,8 +48,8 @@ public class EnumSettingUI extends AbstractSettingUI {
             @Override
             public void run() {
                 TextButton element = (TextButton) middle;
-                if(!element.getLabel().getText().equals(setting.getValueForDisplay())){
-                    element.getLabel().setText(setting.getValueForDisplay());
+                if(!element.getTextBox().getText().equals(setting.getValueForDisplay())){
+                    element.getTextBox().setText(setting.getValueForDisplay());
                 }
             }
         });

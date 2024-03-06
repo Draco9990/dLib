@@ -1,6 +1,7 @@
 package dLib.util.bindings.method;
 
 import dLib.util.Reflection;
+import dLib.util.settings.prefabs.StringSetting;
 
 import java.io.Serializable;
 import java.util.function.BiConsumer;
@@ -10,25 +11,35 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
     private static final long serialVersionUID = 1L;
 
     /** Variables */
-    private String methodToExecute = "";
+    private StringSetting methodToExecute = new StringSetting(""){
+        @Override
+        public boolean isValidValue(String value) {
+            if(value.isEmpty() && !getCurrentValue().isEmpty()) return false;
+            return super.isValidValue(value);
+        }
+    };
 
     private BiConsumer<String, String> onBoundMethodChangedConsumer;
 
     /** Constructors */
     public DynamicMethodBinding(String methodName){
-        this.methodToExecute = methodName;
+        this.methodToExecute.trySetValue(methodName);
     }
 
     /** Binding */
     public String getBoundMethod(){
-        return  methodToExecute;
+        return methodToExecute.getCurrentValue();
+    }
+
+    public StringSetting getBoundMethodSetting(){
+        return methodToExecute;
     }
 
     public DynamicMethodBinding setBoundMethod(String s){
-        String oldMethodToExecute = methodToExecute;
-        methodToExecute = s;
+        String oldMethodToExecute = methodToExecute.getCurrentValue();
+        if(!methodToExecute.trySetValue(s)) return this;
 
-        if(onBoundMethodChangedConsumer != null) onBoundMethodChangedConsumer.accept(oldMethodToExecute, methodToExecute);
+        if(onBoundMethodChangedConsumer != null) onBoundMethodChangedConsumer.accept(oldMethodToExecute, methodToExecute.getCurrentValue());
 
         return this;
     }
@@ -42,12 +53,12 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
 
     @Override
     public boolean isValid() {
-        return methodToExecute != null && !methodToExecute.isEmpty();
+        return methodToExecute != null && !methodToExecute.getCurrentValue().isEmpty();
     }
 
     @Override
     public String getShortDisplayName() {
-        return methodToExecute.isEmpty() ? "CUSTOM" : methodToExecute;
+        return methodToExecute.getCurrentValue().isEmpty() ? "CUSTOM" : methodToExecute.getCurrentValue();
     }
 
     @Override
@@ -58,7 +69,7 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
     @Override
     public Object executeBinding(Object invoker, Object... args) {
         if(isValid()){
-            return Reflection.invokeMethod(methodToExecute, invoker, args);
+            return Reflection.invokeMethod(methodToExecute.getCurrentValue(), invoker, args);
         }
         return null;
     }

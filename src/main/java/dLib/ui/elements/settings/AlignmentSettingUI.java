@@ -1,17 +1,9 @@
 package dLib.ui.elements.settings;
 
-import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
-import dLib.ui.elements.prefabs.Button;
-import dLib.ui.elements.prefabs.Inputfield;
-import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.util.EnumHelpers;
-import dLib.util.IntVector2;
 import dLib.util.settings.prefabs.AlignmentSetting;
-import dLib.util.settings.prefabs.IntVector2Setting;
-
-import java.util.function.Consumer;
 
 public class AlignmentSettingUI extends AbstractSettingUI{
     /** Variables */
@@ -49,13 +41,13 @@ public class AlignmentSettingUI extends AbstractSettingUI{
             @Override
             public void run() {
                 TextButton leftI = ((TextButton)left);
-                if(!leftI.getLabel().getText().equals(setting.getCurrentValue().horizontalAlignment.name())){
-                    leftI.getLabel().setText(setting.getCurrentValue().horizontalAlignment.name());
+                if(!leftI.getTextBox().getText().equals(setting.getCurrentValue().horizontalAlignment.name())){
+                    leftI.getTextBox().setText(setting.getCurrentValue().horizontalAlignment.name());
                 }
 
                 TextButton rightI = ((TextButton)right);
-                if(!rightI.getLabel().getText().equals(setting.getCurrentValue().verticalAlignment.name())){
-                    rightI.getLabel().setText(setting.getCurrentValue().verticalAlignment.name());
+                if(!rightI.getTextBox().getText().equals(setting.getCurrentValue().verticalAlignment.name())){
+                    rightI.getTextBox().setText(setting.getCurrentValue().verticalAlignment.name());
                 }
             }
         });

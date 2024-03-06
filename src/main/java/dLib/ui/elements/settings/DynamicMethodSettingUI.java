@@ -9,6 +9,7 @@ import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.prefabs.MethodBindingSetting;
 
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class DynamicMethodSettingUI extends AbstractSettingUI {
@@ -21,10 +22,13 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
         DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) setting.getCurrentValue();
 
         middle = new Inputfield(dynamicMethodBinding.getBoundMethod(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX) - buttonDim * 2, valueHeight);
-        ((Inputfield)(middle)).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
+        ((Inputfield)(middle)).getButton().setOnDeselectedConsumer(new Runnable() {
             @Override
-            public void accept(String s) {
-                dynamicMethodBinding.setBoundMethod(s);
+            public void run() {
+                dynamicMethodBinding.setBoundMethod(((Inputfield)middle).getTextBox().getText());
+                if(!dynamicMethodBinding.getBoundMethod().equals(((Inputfield)middle).getTextBox().getText())){
+                    ((Inputfield)middle).getTextBox().setText(dynamicMethodBinding.getBoundMethod());
+                }
             }
         });
 
@@ -34,6 +38,10 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
                 super.onLeftClick();
                 if(((Inputfield) middle).getTextBox().getText().isEmpty()){
                     ((Inputfield)middle).getTextBox().setText("MethodBinding_" + UUID.randomUUID().toString().replace("-", ""));
+                    dynamicMethodBinding.setBoundMethod(((Inputfield)middle).getTextBox().getText());
+                    if(!dynamicMethodBinding.getBoundMethod().equals(((Inputfield)middle).getTextBox().getText())){
+                        ((Inputfield)middle).getTextBox().setText(dynamicMethodBinding.getBoundMethod());
+                    }
                 }
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/BindButton.png")));
@@ -45,7 +53,7 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ResetButton.png")));
 
-        setting.setOnValueChangedConsumer(new Runnable() {
+        dynamicMethodBinding.getBoundMethodSetting().setOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
                 Inputfield element = (Inputfield) middle;

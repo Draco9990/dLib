@@ -39,21 +39,22 @@ public abstract class Setting<T> implements Serializable {
         return valueClass;
     }
 
-    public Setting<T> trySetValue(T newValue){
+    public boolean trySetValue(T newValue){
         T sanitized = sanitizeValue(newValue);
         if(isValidValue(sanitized)){
             setCurrentValue(sanitized);
+            return true;
         }
 
-        return this;
+        return false;
     }
-    public Setting<T> trySetValueFromObject(Object newValue){
+    public boolean trySetValueFromObject(Object newValue){
         T val = (T) newValue;
         if(newValue != null){
-            trySetValue(val);
+            return trySetValue(val);
         }
 
-        return this;
+        return false;
     }
 
     protected Setting<T> setCurrentValue(T currentValue){

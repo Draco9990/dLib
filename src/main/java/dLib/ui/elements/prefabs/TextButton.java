@@ -33,7 +33,7 @@ public class TextButton extends CompositeUIElement {
     }
 
     /** Label */
-    public TextBox getLabel(){
+    public TextBox getTextBox(){
         return label;
     }
 }

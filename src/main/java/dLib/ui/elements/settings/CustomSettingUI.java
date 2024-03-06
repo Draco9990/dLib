@@ -34,7 +34,7 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI {
         setting.setOnValueChangedConsumer(new Runnable() {
             @Override
             public void run() {
-                ((TextButton)middle).getLabel().setText(setting.getValueForDisplay());
+                ((TextButton)middle).getTextBox().setText(setting.getValueForDisplay());
             }
         });
     }
