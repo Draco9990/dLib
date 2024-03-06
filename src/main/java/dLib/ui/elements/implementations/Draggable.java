@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.data.implementations.DraggableData;
+import dLib.util.DLibLogger;
 
 public class Draggable extends Interactable{
     /** Variables */

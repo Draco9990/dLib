@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.util.DLibLogger;
 import dLib.util.IntVector2;
 import dLib.util.settings.Setting;
 
@@ -43,12 +44,6 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
     /** Position & Dimensions */
     @Override
     public CompositeScreenEditorItem setPosition(Integer newPosX, Integer newPosY) {
-        //Set position can get called within set position, so we have to do this.
-        ArrayList<IntVector2> itemPositions = new ArrayList<>();
-        for(ScreenEditorItem item : items){
-            itemPositions.add(new IntVector2(item.getPositionX(), item.getPositionY()));
-        }
-
         int oldX = x;
         int oldY = y;
 
@@ -59,7 +54,8 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
 
         for (int i = 0; i < items.size(); i++) {
             ScreenEditorItem item = items.get(i);
-            item.setPosition(itemPositions.get(i).x + diffX, itemPositions.get(i).y + diffY);
+            //item.offset(diffX, diffY); //TODO: IDFK know what the problem is here, it should work but y axis doesn't. Fuck this. I'll just set it manually for now and come back to this when I have more will to do it.
+            item.setPosition(x, y);
         }
 
         return this;
@@ -67,8 +63,19 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
 
     @Override
     public CompositeScreenEditorItem setDimensions(Integer newWidth, Integer newHeight) {
+        int oldWidth = width;
+        int oldHeight = height;
+
         super.setDimensions(newWidth, newHeight);
-        // if composite elements are ever available for user adding, implement this with properties
+
+        int diffX = width - oldWidth;
+        int diffY = height - oldHeight;
+
+        for(int i = 0; i < items.size(); i++){
+            ScreenEditorItem item = items.get(i);
+            item.setDimensions(item.getWidth() + diffX, item.getHeight() + diffY);
+        }
+
         return this;
     }
 

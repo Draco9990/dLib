@@ -107,6 +107,9 @@ public abstract class Scrollbox extends Renderable {
             slider.setPositionY(slider.getPositionY() + heightPerState);
         }
     }
+    public void reset(){
+        slider.setPositionY(slider.getPositionY() + height - slider.getHeight());
+    }
 
     public void onPageChanged(int newPage){}
 }

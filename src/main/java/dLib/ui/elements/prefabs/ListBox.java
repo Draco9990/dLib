@@ -195,6 +195,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     }
     public void clearItems(){
         items.clear();
+        scrollbar.reset();
         clearElements();
     }
 
