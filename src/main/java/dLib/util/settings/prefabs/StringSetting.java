@@ -17,15 +17,6 @@ public class StringSetting extends Setting<String> implements Serializable {
         super(defaultValue);
     }
 
-    @Override
-    public Setting<String> setCurrentValue(String currentValue) {
-        sanitize(currentValue);
-        return super.setCurrentValue(currentValue);
-    }
-
-    /** Methods */
-    public void sanitize(String text){ }
-
     /** UI */
     @Override
     public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {

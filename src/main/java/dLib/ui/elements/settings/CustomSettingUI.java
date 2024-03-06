@@ -19,7 +19,7 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI {
                     @Override
                     public void onItemSelected(ItemType item) {
                         super.onItemSelected(item);
-                        setting.setCurrentValue(item);
+                        setting.trySetValue(item);
                     }
 
                     @Override

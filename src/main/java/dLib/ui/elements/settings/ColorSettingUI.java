@@ -22,7 +22,7 @@ public class ColorSettingUI extends AbstractSettingUI {
                     @Override
                     public void onColorChosen(Color color) {
                         super.onColorChosen(color);
-                        setting.setCurrentValue(color);
+                        setting.trySetValue(color);
                     }
                 });
             }

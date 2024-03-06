@@ -14,13 +14,18 @@ public class StringSettingUI extends AbstractSettingUI {
         ((Inputfield)(middle)).getButton().setOnDeselectedConsumer(new Runnable() {
             @Override
             public void run() {
-                if(setting.getConfirmationMode().equals(StringSetting.InputConfirmationMode.SELECTION_MANAGED)) setting.setCurrentValue(((Inputfield) middle).getTextBox().getText());
+                if(setting.getConfirmationMode().equals(StringSetting.InputConfirmationMode.SELECTION_MANAGED)) {
+                    setting.trySetValue(((Inputfield) middle).getTextBox().getText());
+                    if(!((Inputfield)(middle)).getTextBox().getText().equals(setting.getCurrentValue())){
+                        ((Inputfield)(middle)).getTextBox().setText(setting.getCurrentValue());
+                    }
+                }
             }
         });
         ((Inputfield)(middle)).getTextBox().setOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
-                if(setting.getConfirmationMode().equals(StringSetting.InputConfirmationMode.ON_TEXT_CHANGED)) setting.setCurrentValue(s);
+                if(setting.getConfirmationMode().equals(StringSetting.InputConfirmationMode.ON_TEXT_CHANGED)) setting.trySetValue(s);
             }
         });
 

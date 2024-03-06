@@ -30,23 +30,26 @@ public abstract class ScreenEditorItem extends Resizeable {
     private StringSetting sID = (StringSetting) new StringSetting(getId()){
         @Override
         public Setting<String> setCurrentValue(String currentValue) {
-            if(currentValue.isEmpty()){
-                setCurrentValue(getCurrentValue());
-            }
-
-            for(ScreenEditorItem item : ScreenEditorBaseScreen.instance.getPreviewScreen().getPreviewItems()){
-                if(item.getId().equals(currentValue) && !Objects.equals(this, item.sID)){
-                    if(!currentValue.equals(getCurrentValue())){
-                        setCurrentValue(getCurrentValue());
-                    }
-                    return this;
-                }
-            }
-
             super.setCurrentValue(currentValue);
             setID(currentValue);
             getElementData().ID = currentValue;
+
             return this;
+        }
+
+        @Override
+        public boolean isValidValue(String value) {
+            if(value.isEmpty()){
+                return false;
+            }
+
+            for(ScreenEditorItem item : ScreenEditorBaseScreen.instance.getPreviewScreen().getPreviewItems()){
+                if(item.getId().equals(value) && !Objects.equals(this, item.sID)){
+                    return false;
+                }
+            }
+
+            return super.isValidValue(value);
         }
     }.setConfirmationMode(StringSetting.InputConfirmationMode.SELECTION_MANAGED).setTitle("ID:");
 
@@ -148,11 +151,11 @@ public abstract class ScreenEditorItem extends Resizeable {
         IntVector2 currentVal = sPosition.getCurrentValue();
         if(sPosition.getCurrentValue().x != x){
             currentVal.x = x;
-            sPosition.setCurrentValue(currentVal);
+            sPosition.trySetValue(currentVal);
         }
         if(sPosition.getCurrentValue().y != y){
             currentVal.y = y;
-            sPosition.setCurrentValue(currentVal);
+            sPosition.trySetValue(currentVal);
         }
 
         return this;
@@ -168,11 +171,11 @@ public abstract class ScreenEditorItem extends Resizeable {
         IntVector2 currentDimensions = sDimensions.getCurrentValue();
         if(width != currentDimensions.x){
             currentDimensions.x = width;
-            sDimensions.setCurrentValue(currentDimensions);
+            sDimensions.trySetValue(currentDimensions);
         }
         if(height != currentDimensions.y){
             currentDimensions.y = height;
-            sDimensions.setCurrentValue(currentDimensions);
+            sDimensions.trySetValue(currentDimensions);
         }
 
         return this;
@@ -193,9 +196,9 @@ public abstract class ScreenEditorItem extends Resizeable {
 
     /** Settings */
     public void initializeSettingsData(){
-        sID.setCurrentValue(getId());
-        sPosition.setCurrentValue(new IntVector2(getPositionX(), getPositionY()));
-        sDimensions.setCurrentValue(new IntVector2(getWidth(), getHeight()));
+        sID.trySetValue(getId());
+        sPosition.trySetValue(new IntVector2(getPositionX(), getPositionY()));
+        sDimensions.trySetValue(new IntVector2(getWidth(), getHeight()));
     }
 
     /** ID */
@@ -208,7 +211,7 @@ public abstract class ScreenEditorItem extends Resizeable {
         getElementData().ID = newId;
 
         if(!Objects.equals(newId, sID.getCurrentValue())){
-            sID.setCurrentValue(newId);
+            sID.trySetValue(newId);
         }
 
         if(!Objects.equals(oldName, newId)){

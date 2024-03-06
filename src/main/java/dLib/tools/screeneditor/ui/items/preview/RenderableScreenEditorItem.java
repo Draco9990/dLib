@@ -53,19 +53,19 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
 
     public RenderableScreenEditorItem(RenderableData data){
         super(data);
-        sTexture.setCurrentValue(data.textureBinding);
-        sRenderColor.setCurrentValue(Color.valueOf(data.renderColor));
+        sTexture.trySetValue(data.textureBinding);
+        sRenderColor.trySetValue(Color.valueOf(data.renderColor));
     }
 
     private void initialize(TextureBinding binding){
-        sTexture.setCurrentValue(binding);
-        sRenderColor.setCurrentValue(getColorForRender());
+        sTexture.trySetValue(binding);
+        sRenderColor.trySetValue(getColorForRender());
     }
 
     /** Image */
     public Renderable setImage(TextureBinding binding){
         if(sTexture.getCurrentValue() != binding){
-            sTexture.setCurrentValue(binding);
+            sTexture.trySetValue(binding);
         }
 
         if(!binding.isValid()){

@@ -37,7 +37,7 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
-                setting.setCurrentValue(new NoneMethodBinding());
+                setting.trySetValue(new NoneMethodBinding());
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ResetButton.png")));
 

@@ -45,7 +45,7 @@ public class IntegerSettingUI extends AbstractSettingUI {
                         ((Inputfield)middle).getTextBox().setText("0");
                         return;
                     }
-                    setting.setCurrentValue(Integer.valueOf(s));
+                    setting.trySetValue(Integer.valueOf(s));
                 }
             });
         }
@@ -55,11 +55,11 @@ public class IntegerSettingUI extends AbstractSettingUI {
                 @Override
                 public void accept(String s) {
                     if(s.isEmpty()) {
-                        setting.setCurrentValue(0);
+                        setting.trySetValue(0);
                         return;
                     }
 
-                    setting.setCurrentValue(Integer.valueOf(s));
+                    setting.trySetValue(Integer.valueOf(s));
                 }
             });
         }

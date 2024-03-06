@@ -90,13 +90,13 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
     public InteractableScreenEditorItem(InteractableData data) {
         super(data);
 
-        sOnLeftClick.setCurrentValue(data.onLeftClick);
-        sOnLeftClickHeld.setCurrentValue(data.onLeftClickHeld);
-        sOnLeftClickRelease.setCurrentValue(data.onLeftClickRelease);
+        sOnLeftClick.trySetValue(data.onLeftClick);
+        sOnLeftClickHeld.trySetValue(data.onLeftClickHeld);
+        sOnLeftClickRelease.trySetValue(data.onLeftClickRelease);
 
-        sOnRightClick.setCurrentValue(data.onRightClick);
-        sOnRightClickHeld.setCurrentValue(data.onRightClickHeld);
-        sOnRightClickRelease.setCurrentValue(data.onRightClickRelease);
+        sOnRightClick.trySetValue(data.onRightClick);
+        sOnRightClickHeld.trySetValue(data.onRightClickHeld);
+        sOnRightClickRelease.trySetValue(data.onRightClickRelease);
     }
 
     /** Data */

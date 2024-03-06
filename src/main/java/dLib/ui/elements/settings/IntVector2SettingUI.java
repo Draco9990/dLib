@@ -36,7 +36,7 @@ public class IntVector2SettingUI extends AbstractSettingUI{
                     currentVal.x = Integer.valueOf(s);
                 }
 
-                setting.setCurrentValue(currentVal);
+                setting.trySetValue(currentVal);
             }
         });
 
@@ -52,7 +52,7 @@ public class IntVector2SettingUI extends AbstractSettingUI{
                     currentVal.y = Integer.parseInt(s);
                 }
 
-                setting.setCurrentValue(currentVal);
+                setting.trySetValue(currentVal);
             }
         });
 

@@ -39,14 +39,26 @@ public abstract class Setting<T> implements Serializable {
         return valueClass;
     }
 
-    public Setting<T> setCurrentValue(T currentValue){
-        this.currentValue = currentValue;
-        onValueChanged();
+    public Setting<T> trySetValue(T newValue){
+        T sanitized = sanitizeValue(newValue);
+        if(isValidValue(sanitized)){
+            setCurrentValue(sanitized);
+        }
+
         return this;
     }
-    public Setting<T> setCurrentValueFromObject(Object currentValue){
-        T val = (T) currentValue;
-        if(val != null) this.currentValue = val;
+    public Setting<T> trySetValueFromObject(Object newValue){
+        T val = (T) newValue;
+        if(newValue != null){
+            trySetValue(val);
+        }
+
+        return this;
+    }
+
+    protected Setting<T> setCurrentValue(T currentValue){
+        this.currentValue = currentValue;
+        onValueChanged();
         return this;
     }
     public T getCurrentValue(){
@@ -54,6 +66,11 @@ public abstract class Setting<T> implements Serializable {
     }
     public String getValueForDisplay(){
         return currentValue.toString();
+    }
+
+    public T sanitizeValue(T newValue){ return newValue; }
+    public boolean isValidValue(T value){
+        return true;
     }
 
     /** Methods */

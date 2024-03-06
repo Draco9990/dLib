@@ -31,7 +31,7 @@ public class AlignmentSettingUI extends AbstractSettingUI{
             public void run() {
                 Alignment alignment = setting.getCurrentValue();
                 alignment.horizontalAlignment = (Alignment.HorizontalAlignment) EnumHelpers.nextEnum(alignment.horizontalAlignment);
-                setting.setCurrentValue(alignment);
+                setting.trySetValue(alignment);
             }
         });
 
@@ -41,7 +41,7 @@ public class AlignmentSettingUI extends AbstractSettingUI{
             public void run() {
                 Alignment alignment = setting.getCurrentValue();
                 alignment.verticalAlignment = (Alignment.VerticalAlignment) EnumHelpers.nextEnum(alignment.verticalAlignment);
-                setting.setCurrentValue(alignment);
+                setting.trySetValue(alignment);
             }
         });
 

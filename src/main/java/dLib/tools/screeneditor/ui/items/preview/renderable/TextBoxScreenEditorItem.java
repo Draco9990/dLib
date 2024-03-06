@@ -74,11 +74,11 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
 
         textBox = new TextBox(data.text, data.x, data.y, data.width, data.height);
 
-        sText.setCurrentValue(data.text);
-        sTextColor.setCurrentValue(Color.valueOf(data.textColor));
+        sText.trySetValue(data.text);
+        sTextColor.trySetValue(Color.valueOf(data.textColor));
 
-        sAlignment.setCurrentValue(new Alignment(Alignment.HorizontalAlignment.valueOf(data.horizontalAlignment), Alignment.VerticalAlignment.valueOf(data.verticalAlignment)));
-        sWrap.setCurrentValue(data.wrap);
+        sAlignment.trySetValue(new Alignment(Alignment.HorizontalAlignment.valueOf(data.horizontalAlignment), Alignment.VerticalAlignment.valueOf(data.verticalAlignment)));
+        sWrap.trySetValue(data.wrap);
     }
 
     /** Text */
@@ -154,10 +154,10 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     @Override
     public void initializeSettingsData() {
         super.initializeSettingsData();
-        sText.setCurrentValue(textBox.getText());
-        sTextColor.setCurrentValue(textBox.getTextRenderColor());
-        sAlignment.setCurrentValue(new Alignment(textBox.getHorizontalAlignment(), textBox.getVerticalAlignment()));
-        sWrap.setCurrentValue(textBox.getWrap());
+        sText.trySetValue(textBox.getText());
+        sTextColor.trySetValue(textBox.getTextRenderColor());
+        sAlignment.trySetValue(new Alignment(textBox.getHorizontalAlignment(), textBox.getVerticalAlignment()));
+        sWrap.trySetValue(textBox.getWrap());
     }
 
     /** Copy */
