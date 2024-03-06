@@ -37,4 +37,9 @@ public class NetworkMessage implements Serializable {
     public <T> T getData(Class<T> dataClass){
         return new Gson().fromJson(data, dataClass);
     }
+
+    public <T> T getDataFromObjectArr(Class<T> dataClass, int index){
+        Object[] params = getData(Object[].class);
+        return new Gson().fromJson((String) params[index], dataClass);
+    }
 }

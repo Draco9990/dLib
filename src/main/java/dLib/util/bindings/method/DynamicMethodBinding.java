@@ -3,12 +3,16 @@ package dLib.util.bindings.method;
 import dLib.util.Reflection;
 
 import java.io.Serializable;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class DynamicMethodBinding extends MethodBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Variables */
     private String methodToExecute = "";
+
+    private BiConsumer<String, String> onBoundMethodChangedConsumer;
 
     /** Constructors */
     public DynamicMethodBinding(String methodName){
@@ -21,9 +25,20 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
     }
 
     public DynamicMethodBinding setBoundMethod(String s){
+        String oldMethodToExecute = methodToExecute;
         methodToExecute = s;
+
+        if(onBoundMethodChangedConsumer != null) onBoundMethodChangedConsumer.accept(oldMethodToExecute, methodToExecute);
+
         return this;
     }
+
+    public DynamicMethodBinding setOnBoundMethodChangedConsumer(BiConsumer<String, String> consumer){
+        this.onBoundMethodChangedConsumer = consumer;
+        return this;
+    }
+
+    /** Validity */
 
     @Override
     public boolean isValid() {

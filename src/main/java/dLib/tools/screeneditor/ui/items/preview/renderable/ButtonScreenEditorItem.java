@@ -1,24 +1,11 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
-import com.badlogic.gdx.graphics.Color;
-import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
-import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
-import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.ButtonData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
-import dLib.ui.themes.UITheme;
-import dLib.util.Reflection;
-import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
-import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
-import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.MethodSetting;
-
-import java.util.ArrayList;
 
 public class ButtonScreenEditorItem extends InteractableScreenEditorItem {
     /** Constructors */

@@ -1,24 +1,20 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
+import dLib.plugin.intellij.util.settings.IntelliJMethodBindingSetting;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.implementations.InteractableData;
-import dLib.ui.data.implementations.RenderableData;
-import dLib.ui.data.prefabs.ButtonData;
-import dLib.ui.elements.implementations.Interactable;
-import dLib.ui.screens.ScreenManager;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.MethodSetting;
+import dLib.util.settings.prefabs.MethodBindingSetting;
 
 import java.util.ArrayList;
 
 public abstract class InteractableScreenEditorItem extends RenderableScreenEditorItem {
     /** Settings */
-    private MethodSetting sOnLeftClick = new MethodSetting(){
+    private IntelliJMethodBindingSetting sOnLeftClick = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(){
         @Override
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
@@ -27,7 +23,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
             return this;
         }
     }.setTitle("On Left Click:");
-    private MethodSetting sOnLeftClickHeld = new MethodSetting(){
+    private IntelliJMethodBindingSetting sOnLeftClickHeld = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(){
         @Override
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
@@ -36,7 +32,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
             return this;
         }
     }.declareParams(Float.class).setTitle("On Left Click Held:");
-    private MethodSetting sOnLeftClickRelease = new MethodSetting(){
+    private IntelliJMethodBindingSetting sOnLeftClickRelease = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(){
         @Override
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
@@ -46,7 +42,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
         }
     }.setTitle("On Left Click Release:");
 
-    private MethodSetting sOnRightClick = new MethodSetting(){
+    private IntelliJMethodBindingSetting sOnRightClick = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(){
         @Override
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
@@ -55,7 +51,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
             return this;
         }
     }.setTitle("On Right Click:");
-    private MethodSetting sOnRightClickHeld = new MethodSetting(){
+    private IntelliJMethodBindingSetting sOnRightClickHeld = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(){
         @Override
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);
@@ -64,7 +60,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
             return this;
         }
     }.declareParams(Float.class).setTitle("On Right Click Held:");
-    private MethodSetting sOnRightClickRelease = new MethodSetting(){
+    private IntelliJMethodBindingSetting sOnRightClickRelease = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(){
         @Override
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
             super.setCurrentValue(currentValue);

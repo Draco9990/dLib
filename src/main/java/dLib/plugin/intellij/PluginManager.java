@@ -1,12 +1,14 @@
 package dLib.plugin.intellij;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.google.gson.Gson;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class PluginManager {
     /** Variables */
@@ -77,6 +79,11 @@ public class PluginManager {
             return;
         }
 
-        client.sendMessage(new NetworkMessage(request, data));
+        String[] messageArr = new String[data.length];
+        for (int i = 0; i < data.length; i++) {
+            Object dataObj = data[i];
+            messageArr[i] = new Gson().toJson(dataObj);
+        }
+        client.sendMessage(new NetworkMessage(request, messageArr));
     }
 }
