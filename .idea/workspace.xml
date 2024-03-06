@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/MessageAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/MessageAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/ScreenEditorBaseScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/ScreenEditorBaseScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/preview/ScreenEditorPreviewScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/preview/ScreenEditorPreviewScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/data/AbstractScreenData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/data/AbstractScreenData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/AbstractScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/AbstractScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/ScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/ScreenEditorItem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +168,7 @@
       <workItem from="1708957843322" duration="1191000" />
       <workItem from="1709388203189" duration="16769000" />
       <workItem from="1709658474222" duration="7445000" />
-      <workItem from="1709721222683" duration="4071000" />
+      <workItem from="1709721222683" duration="4788000" />
     </task>
     <servers />
   </component>

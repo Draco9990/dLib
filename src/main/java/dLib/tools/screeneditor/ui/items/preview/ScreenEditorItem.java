@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import dLib.plugin.intellij.PluginManager;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.data.UIElementData;
 import dLib.ui.elements.UIElement;
@@ -196,12 +197,18 @@ public abstract class ScreenEditorItem extends Resizeable {
     /** ID */
     @Override
     public ScreenEditorItem setID(String newId) {
+        String oldName = getId();
+
         super.setID(newId);
 
         getElementData().ID = newId;
 
         if(!Objects.equals(newId, sID.getCurrentValue())){
             sID.setCurrentValue(newId);
+        }
+
+        if(!Objects.equals(oldName, newId)){
+            PluginManager.sendMessage("screenElementRename", ScreenEditorBaseScreen.instance.getEditingScreen(), oldName, newId);
         }
 
         return this;

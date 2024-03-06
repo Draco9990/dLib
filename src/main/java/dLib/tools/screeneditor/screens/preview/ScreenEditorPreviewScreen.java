@@ -62,6 +62,8 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         removeElement(itemToDelete);
         previewItems.remove(itemToDelete);
+
+        PluginManager.sendMessage("screenElementRemove", ScreenEditorBaseScreen.instance.getEditingScreen(), itemToDelete.getId());
     }
 
     public ArrayList<ScreenEditorItem> getPreviewItems(){
