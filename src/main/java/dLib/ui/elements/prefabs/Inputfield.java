@@ -57,8 +57,8 @@ public class Inputfield extends CompositeUIElement {
             }
 
             @Override
-            protected void onUnselected() {
-                super.onUnselected();
+            protected void onDeselected() {
+                super.onDeselected();
                 resetInputProcessor();
             }
         }.setImage(UIThemeManager.getDefaultTheme().inputfield);

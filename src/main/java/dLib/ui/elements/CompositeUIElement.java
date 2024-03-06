@@ -324,6 +324,7 @@ public class CompositeUIElement extends UIElement {
         }
     }
     public void deselect(){
+        //TODO fix to support composites maybe create SelectableItemInterface?
         for(UIElement otherElement : background) {
             if(otherElement instanceof Interactable){
                 ((Interactable) otherElement).deselect();

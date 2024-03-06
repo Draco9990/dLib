@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import dLib.developermode.ui.screens.InstallPluginScreen;
 import dLib.plugin.intellij.PluginManager;
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.screens.preeditor.ScreenEditorNewScreenScreen;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.DLibConfigManager;
@@ -48,6 +49,9 @@ public class MainMenuButtonPatches {
 
                 if(PluginManager.isRunning()){
                     ScreenManager.openScreen(new ScreenEditorNewScreenScreen());
+                }
+                else{ //TODO Remove on live
+                    ScreenManager.openScreen(new ScreenEditorBaseScreen("NONE"));
                 }
                 return SpireReturn.Return();
             }

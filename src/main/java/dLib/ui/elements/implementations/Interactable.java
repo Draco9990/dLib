@@ -9,7 +9,6 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.modcompat.ModManager;
 import dLib.ui.data.implementations.InteractableData;
 import dLib.util.GlobalEvents;
-import dLib.util.TextureManager;
 import sayTheSpire.Output;
 
 import java.util.function.Consumer;
@@ -71,7 +70,7 @@ public class Interactable extends Hoverable{
         this.onHoverSoundKey = "UI_HOVER";
         this.onTriggerSoundKey = "UI_CLICK_1";
 
-        GlobalEvents.subscribe(Events.OnLeftClickEvent.class, (event) -> {
+        GlobalEvents.subscribe(Events.PreLeftClickEvent.class, (event) -> {
             if(event.source != this && isSelected()){
                 deselect();
             }
@@ -149,6 +148,8 @@ public class Interactable extends Hoverable{
     }
 
     protected void onLeftClick(){
+        GlobalEvents.sendMessage(new Events.PreLeftClickEvent(this));
+
         totalLeftClickDuration = 0.f;
         holdingLeft = true;
 
@@ -164,7 +165,6 @@ public class Interactable extends Hoverable{
         select();
 
         if(onLeftClickConsumer != null) onLeftClickConsumer.run();
-        GlobalEvents.sendMessage(new Events.OnLeftClickEvent(this));
     }
     protected void onLeftClickHeld(float totalDuration){
         if(onHoldSoundKey != null){
@@ -275,7 +275,7 @@ public class Interactable extends Hoverable{
     protected void onSelected(){
         if(onSelectedConsumer != null) onSelectedConsumer.run();
     }
-    protected void onUnselected(){
+    protected void onDeselected(){
         if(onUnselectedConsumer != null) onUnselectedConsumer.run();
     }
 
@@ -283,7 +283,7 @@ public class Interactable extends Hoverable{
         onSelectedConsumer = consumer;
         return this;
     }
-    public Interactable setOnUnselectedConsumer(Runnable consumer){
+    public Interactable setOnDeselectedConsumer(Runnable consumer){
         onUnselectedConsumer = consumer;
         return this;
     }
@@ -302,7 +302,7 @@ public class Interactable extends Hoverable{
             }
         }
         else{
-            onUnselected();
+            onDeselected();
         }
     }
     public boolean isSelected(){
@@ -364,10 +364,10 @@ public class Interactable extends Hoverable{
 
     /** Events */
     public static class Events{
-        public static class OnLeftClickEvent{
+        public static class PreLeftClickEvent {
             public Interactable source;
 
-            public OnLeftClickEvent(Interactable source){
+            public PreLeftClickEvent(Interactable source){
                 this.source = source;
             }
         }

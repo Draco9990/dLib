@@ -30,6 +30,10 @@ public abstract class ScreenEditorItem extends Resizeable {
     private StringSetting sID = (StringSetting) new StringSetting(getId()){
         @Override
         public Setting<String> setCurrentValue(String currentValue) {
+            if(currentValue.isEmpty()){
+                setCurrentValue(getCurrentValue());
+            }
+
             for(ScreenEditorItem item : ScreenEditorBaseScreen.instance.getPreviewScreen().getPreviewItems()){
                 if(item.getId().equals(currentValue) && !Objects.equals(this, item.sID)){
                     if(!currentValue.equals(getCurrentValue())){
@@ -44,7 +48,7 @@ public abstract class ScreenEditorItem extends Resizeable {
             getElementData().ID = currentValue;
             return this;
         }
-    }.setTitle("ID:");
+    }.setConfirmationMode(StringSetting.InputConfirmationMode.SELECTION_MANAGED).setTitle("ID:");
 
     private IntVector2Setting sPosition = (IntVector2Setting) new IntVector2Setting(new IntVector2(getPositionX(), getPositionY())){
         @Override
