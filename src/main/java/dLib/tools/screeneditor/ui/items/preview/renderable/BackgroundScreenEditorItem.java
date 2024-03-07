@@ -13,7 +13,7 @@ import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
 
-public class BackgroundScreenEditorItem extends RenderableScreenEditorItem {
+public class BackgroundScreenEditorItem extends ImageScreenEditorItem {
     /** Constructors */
     public BackgroundScreenEditorItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
         super(textureBinding, xPos, yPos, width, height);

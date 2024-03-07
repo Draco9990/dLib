@@ -11,8 +11,15 @@ import java.io.Serializable;
 public class ListBoxData<ItemType> extends ListCompositeUIElementData  implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public HoverableData itemBoxBackground;
-    public ScrollboxData scrollboxData;
+    public String titleBoxText = "";
+    public int titleBoxHeight = 50;
+
+    public int itemSpacing = 0;
+    public boolean invertedItemOrder = false;
+
+    public int scrollbarWidth = 50;
+
+    //Add make element bindings, on clicked bingsins, and canclick
 
     @Override
     public ListBox<ItemType> makeLiveInstance(Object... params) {

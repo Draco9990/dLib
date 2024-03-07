@@ -15,18 +15,25 @@ import java.util.ArrayList;
 
 public class ListBox<ItemType> extends ListCompositeUIElement {
     /** Variables */
+    // Elements
     private TextBox titleBox;
-    private String title;
 
     private Hoverable itemBoxBackground;
     private ArrayList<ListBoxItem> items = new ArrayList<>();
 
     private Scrollbox scrollbar;
 
-    private boolean trackScrollWheelScroll = false;
+    // Properties
+    private String title;
+    private int titleBoxHeight = 50;
 
     private int itemSpacing = 0;
     private boolean invertedItemOrder = false;
+
+    private int scrollbarWidth = 50;
+
+    // Locals
+    private boolean trackScrollWheelScroll = false;
 
     /** Constructors */
     public ListBox(int xPos, int yPos, int width, int height){
@@ -38,71 +45,21 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     public ListBox(ListBoxData<ItemType> data){
         super(data);
 
-        itemBoxBackground = data.itemBoxBackground.makeLiveInstance();
-        foreground.add(itemBoxBackground);
+        this.title = data.titleBoxText;
+        this.titleBoxHeight = data.height;
 
-        scrollbar = data.scrollboxData.makeLiveInstance();
+        this.itemSpacing = data.itemSpacing;
+        this.invertedItemOrder = data.invertedItemOrder;
+
+        this.scrollbarWidth = data.scrollbarWidth;
+
+        reinitializeElements();
     }
 
     private void reinitializeElements(){
-        foreground.clear();
-
-        //* Build titlebox
-        if(title != null && !title.isEmpty()){
-            int titleboxHeight = 50;
-            if(titleBox == null){
-                titleBox = new TextBox(title, x, y + height - titleboxHeight, width, titleboxHeight);
-                titleBox.setImage(UITheme.whitePixel);
-                titleBox.setRenderColor(Color.valueOf("#151515FF"));
-                titleBox.setTextRenderColor(Color.WHITE);
-                titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
-                titleBox.setMarginPercX(0.005f);
-                foreground.add(titleBox);
-            }
-            titleBox.setText(title);
-            titleBox.setPosition(x, y + height - titleboxHeight);
-            titleBox.setDimensions(width, titleboxHeight);
-        }
-
-        int remainingHeight = height;
-        if(titleBox != null) remainingHeight -= titleBox.getHeight();
-
-        //* Build backgroundBox
-        if(itemBoxBackground == null){
-            Color bgColor = Color.BLACK.cpy();
-            bgColor.a = 0.4f;
-            itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, x, y, width, remainingHeight){
-                @Override
-                protected void onHovered() {
-                    super.onHovered();
-                    trackScrollWheelScroll = true;
-                }
-
-                @Override
-                protected void onUnhovered() {
-                    super.onUnhovered();
-                    trackScrollWheelScroll = false;
-                }
-            };
-            itemBoxBackground.setRenderColor(bgColor);
-            foreground.add(itemBoxBackground);
-        }
-        itemBoxBackground.setPosition(x, y);
-        itemBoxBackground.setDimensions(width, remainingHeight);
-
-        //* Build scrollBox
-        int scrollbarWidth = 50;
-        if(scrollbar == null){
-            scrollbar = new Scrollbox(x + width - scrollbarWidth, y, scrollbarWidth, remainingHeight) {
-                @Override
-                public int getPageCount() {
-                    return calculatePageCount();
-                }
-            };
-            foreground.add(scrollbar);
-        }
-        scrollbar.setPosition(x + width - scrollbarWidth, y);
-        scrollbar.setDimensions(scrollbarWidth, remainingHeight);
+        updateTitleBox();
+        updateItemBox();
+        updateScrollBar();
     }
 
     /** Update and Render */
@@ -233,27 +190,9 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         }
     }
 
-    /** Item Spacing */
-    public ListBox<ItemType> setItemSpacing(int spacing){
-        this.itemSpacing = spacing;
-        return this;
-    }
-    public int getItemSpacing(){
-        return itemSpacing;
-    }
+    /** LAYOUT */
 
-    /** Item Inversion */
-    public ListBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
-        this.invertedItemOrder = invertedItemOrder;
-        return this;
-    }
-
-    /** Background */
-    public Hoverable getBackground(){
-        return itemBoxBackground;
-    }
-
-    /** Title */
+    /** Title & TitleBox */
     public ListBox<ItemType> setTitle(String title){
         if(this.title != null && (title == null || title.isEmpty())){
             removeTitle();
@@ -264,12 +203,130 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         reinitializeElements();
         return this;
     }
-
     public void removeTitle(){
         this.title = null;
         this.titleBox = null;
 
         reinitializeElements();
+    }
+
+    public ListBox<ItemType> setTitleHeight(int titleHeight){
+        if(titleHeight <= 0) return this;
+
+        this.titleBoxHeight = titleHeight;
+        return this;
+    }
+
+    private void updateTitleBox(){
+        if(title != null && !title.isEmpty()){
+            if(titleBox == null){
+                buildTitleBox();
+            }
+            titleBox.setText(title);
+            titleBox.setPosition(x, y + height - titleBoxHeight);
+            titleBox.setDimensions(width, titleBoxHeight);
+
+            if(!foreground.contains(titleBox)){
+                foreground.add(titleBox);
+            }
+        }
+        else if(titleBox != null){
+            foreground.remove(titleBox);
+            titleBox = null;
+        }
+    }
+    private void buildTitleBox(){
+        titleBox = new TextBox(title, x, y + height - titleBoxHeight, width, titleBoxHeight);
+        titleBox.setImage(UITheme.whitePixel);
+        titleBox.setRenderColor(Color.valueOf("#151515FF"));
+        titleBox.setTextRenderColor(Color.WHITE);
+        titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        titleBox.setMarginPercX(0.005f);
+        foreground.add(titleBox);
+    }
+
+    /** Item Box */
+    private void updateItemBox(){
+        int updateHeight = height;
+        if(titleBox != null) updateHeight -= titleBox.getHeight();
+
+        // We can span entire width since elements will get shrunk if Scrollbox is present
+
+        if(itemBoxBackground == null){
+            buildItemBox(x, y, width, updateHeight);
+        }
+
+        itemBoxBackground.setPosition(x, y);
+        itemBoxBackground.setDimensions(width, updateHeight);
+
+        this.middle = itemBoxBackground;
+    }
+    private void buildItemBox(int x, int y, int width, int height){
+        Color bgColor = Color.BLACK.cpy();
+        bgColor.a = 0.4f;
+        itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, x, y, width, height){
+            @Override
+            protected void onHovered() {
+                super.onHovered();
+                trackScrollWheelScroll = true;
+            }
+
+            @Override
+            protected void onUnhovered() {
+                super.onUnhovered();
+                trackScrollWheelScroll = false;
+            }
+        };
+        itemBoxBackground.setRenderColor(bgColor);
+    }
+
+    /** Scroll Box */
+    public ListBox<ItemType> setScrollbarWidth(int width){
+        this.scrollbarWidth = width;
+        return this;
+    }
+
+    private void updateScrollBar(){
+        int updatePosX = x + width - scrollbarWidth;
+
+        int updateHeight = height;
+        if(titleBox != null) updateHeight -= titleBox.getHeight();
+
+        if(scrollbar == null){
+            buildScrollBar(updatePosX, y, scrollbarWidth, updateHeight);
+        }
+        scrollbar.setPosition(updatePosX, y);
+        scrollbar.setDimensions(scrollbarWidth, updateHeight);
+
+        if(!foreground.contains(scrollbar)) foreground.add(scrollbar);
+    }
+    private void buildScrollBar(int x, int y, int width, int height){
+        scrollbar = new Scrollbox(x, y, width, height) {
+            @Override
+            public int getPageCount() {
+                return calculatePageCount();
+            }
+        };
+    }
+
+    /** Item Spacing */
+    public ListBox<ItemType> setItemSpacing(int spacing){
+        this.itemSpacing = spacing;
+        return this;
+    }
+    public int getItemSpacing(){
+        return itemSpacing;
+    }
+
+    /** Item Order */
+    public ListBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
+        this.invertedItemOrder = invertedItemOrder;
+        return this;
+    }
+
+    /** Background */
+    public Hoverable getBackground(){
+        return itemBoxBackground;
     }
 
     /** Scrollbar */

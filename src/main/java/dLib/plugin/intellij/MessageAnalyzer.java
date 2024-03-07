@@ -17,9 +17,9 @@ public class MessageAnalyzer {
 
         if(request.equals("screenListCallback")){
             List<String> screens = message.getData(List.class);
-            if(ScreenManager.getCurrentScreen() instanceof ScreenEditorScreenPickerScreen){
+            /*if(ScreenManager.getCurrentScreen() instanceof ScreenEditorScreenPickerScreen){
                 ((ScreenEditorScreenPickerScreen) ScreenManager.getCurrentScreen()).setScreenOptions(screens);
-            }
+            }*/
         }
     }
 }

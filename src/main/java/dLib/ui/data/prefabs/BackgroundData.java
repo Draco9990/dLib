@@ -17,7 +17,7 @@ public class BackgroundData extends ImageData implements Serializable {
     }
 
     @Override
-    public ScreenEditorItem makeEditorInstance() {
+    public BackgroundScreenEditorItem makeEditorInstance() {
         return new BackgroundScreenEditorItem(this);
     }
 }

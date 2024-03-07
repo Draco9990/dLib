@@ -18,6 +18,8 @@
 -- add consumers and other shit to listbox, add settings to listbox element
 -- add duplication, grid snapping, etc.
 
+--> rewrite composites
+
 Gridbox with parent itemsbox, isolate listbox stuff like scrollbar
 Radio button with linkedlist
 Current listbox is selectable, make view only ones too
@@ -27,3 +29,6 @@ Add selection mode with on selection changed
 Buy tarot cards and chair and drainer and brush and camera
 Screen settings tab for background settings plus say the spire
 Add a merge to composite button to merge few components together, when on composite allow aasigning to left middle and right, add a composite element to the drop-down
+
+-- fix listbox theme
+--> make screen editor a custom theme

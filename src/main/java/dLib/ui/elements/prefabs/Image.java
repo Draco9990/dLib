@@ -2,9 +2,10 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.data.prefabs.ImageData;
+import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.implementations.Renderable;
 
-public class Image extends Renderable {
+public class Image extends Hoverable {
     public Image(Texture image) {
         super(image);
     }
