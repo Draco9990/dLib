@@ -19,7 +19,7 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
         }
     };
 
-    private ArrayList<BiConsumer<String, String>> onBoundMethodChangedConsumers = new ArrayList<>();
+    private transient ArrayList<BiConsumer<String, String>> onBoundMethodChangedConsumers = new ArrayList<>();
 
     /** Constructors */
     public DynamicMethodBinding(String methodName){
@@ -67,9 +67,9 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
     }
 
     @Override
-    public Object executeBinding(Object invoker, Object... args) {
+    public Object executeBinding(Object target, Object... args) {
         if(isValid()){
-            return Reflection.invokeMethod(methodToExecute.getCurrentValue(), invoker, args);
+            return Reflection.invokeMethod(methodToExecute.getCurrentValue(), target, args);
         }
         return null;
     }

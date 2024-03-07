@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.modcompat.ModManager;
 import dLib.ui.data.implementations.InteractableData;
+import dLib.ui.screens.ScreenManager;
 import dLib.util.GlobalEvents;
 import sayTheSpire.Output;
 
@@ -65,6 +67,14 @@ public class Interactable extends Hoverable{
 
     public Interactable(InteractableData data){
         super(data);
+
+        if(data.onLeftClick != null) addOnLeftClickConsumer(() -> data.onLeftClick.executeBinding(ScreenManager.getCurrentScreen()));
+        if(data.onLeftClickHeld != null) addOnLeftClickHeldConsumer(deltaTime -> data.onLeftClickHeld.executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
+        if(data.onLeftClickRelease != null) addOnLeftClickReleaseConsumer(() -> data.onLeftClickRelease.executeBinding(ScreenManager.getCurrentScreen()));
+
+        if(data.onRightClick != null) addOnRightClickConsumer(() -> data.onRightClick.executeBinding(ScreenManager.getCurrentScreen()));
+        if(data.onRightClickHeld != null) addOnRightClickHeldConsumer(deltaTime -> data.onRightClickHeld.executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
+        if(data.onRightClickRelease != null) addOnRightClickReleaseConsumer(() -> data.onRightClickRelease.executeBinding(ScreenManager.getCurrentScreen()));
     }
 
     private void initialize(){

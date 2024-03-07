@@ -7,7 +7,6 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import dLib.plugin.intellij.PluginManager;
-import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.screens.preeditor.ScreenEditorNewScreenScreen;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.DLibConfigManager;
@@ -50,8 +49,8 @@ public class MainMenuButtonPatches {
                     ScreenManager.openScreen(new ScreenEditorNewScreenScreen());
                 }
                 else{ //TODO Remove on live
-                    //ScreenManager.openScreen(new TestScreen());
-                    ScreenManager.openScreen(new ScreenEditorBaseScreen("NONE"));
+                    //ScreenManager.openScreen(new CaptPuppetScreen());
+                    //ScreenManager.openScreen(new ScreenEditorBaseScreen("NONE"));
                 }
                 return SpireReturn.Return();
             }

@@ -16,7 +16,7 @@ public abstract class Setting<T> implements Serializable {
 
     private String title;
 
-    private ArrayList<Runnable> onValueChangedConsumers = new ArrayList<>();
+    private transient ArrayList<Runnable> onValueChangedConsumers = new ArrayList<>();
 
     /** Constructors */
     public Setting(T value){
