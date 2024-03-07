@@ -8,10 +8,15 @@ import dLib.util.bindings.method.MethodBindingHelpers;
 import dLib.util.bindings.method.NoneMethodBinding;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.UUID;
 
 public class MethodBindingSetting extends CustomSetting<MethodBinding> {
     /** Variables */
-    private Class<?>[] params = null;
+    // Dynamic Binding Settings
+    private LinkedHashMap<String, Class<?>> params = new LinkedHashMap<>();
+    private Class<?> returnType = void.class;
+    private String preferredMethodName = "MethodBinding_" + UUID.randomUUID().toString().replace("-", "");
 
     /** Constructors */
     public MethodBindingSetting(MethodBinding value) {
@@ -29,10 +34,35 @@ public class MethodBindingSetting extends CustomSetting<MethodBinding> {
         return this;
     }
 
+    /** Method name */
+    public MethodBindingSetting setPreferredMethodName(String methodName){
+        this.preferredMethodName = methodName;
+        return this;
+    }
+    public String getPreferredMethodName(){
+        return preferredMethodName;
+    }
+
     /** Params */
-    public MethodBindingSetting declareParams(Class<?>... paramsIn){
+    public MethodBindingSetting addParameter(String paramName, Class<?> paramType){
+        params.put(paramName, paramType);
+        return this;
+    }
+    public MethodBindingSetting setParameters(LinkedHashMap<String, Class<?>> paramsIn){
         this.params = paramsIn;
         return this;
+    }
+    public LinkedHashMap<String, Class<?>> getParameters(){
+        return params;
+    }
+
+    /** Return type */
+    public MethodBindingSetting setReturnType(Class<?> returnType){
+        this.returnType = returnType;
+        return this;
+    }
+    public Class<?> getReturnType(){
+        return returnType;
     }
 
     /** All options */

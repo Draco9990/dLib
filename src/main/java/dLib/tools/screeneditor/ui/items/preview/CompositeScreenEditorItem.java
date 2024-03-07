@@ -114,6 +114,18 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
         return this; // Composites should NOT have images. It will only lead to visual errors in the editor.
     }
 
+    /** ID */
+    @Override
+    public ScreenEditorItem setID(String newId) {
+        super.setID(newId);
+        for (int i = 0; i < items.size(); i++) {
+            ScreenEditorItem item = items.get(i);
+            item.setID(getId() + "_" + item.getClass().getSimpleName() + "_" + i);
+        }
+
+        return this;
+    }
+
     /** Items */
     public void addItemToComposite(ScreenEditorItem item){
         items.add(item);
@@ -124,7 +136,9 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
     public ArrayList<Setting<?>> getPropertiesForItem() {
         ArrayList<Setting<?>> settings = super.getPropertiesForItem();
         for(ScreenEditorItem editorItem : items){
-            settings.addAll(editorItem.getPropertiesForItem());
+            ArrayList<Setting<?>> itemSettings = editorItem.getPropertiesForItem();
+            itemSettings.removeIf(element -> element.getTitle().equals("ID:")); //Remove all ID fields
+            settings.addAll(itemSettings);
         }
         return settings;
     }

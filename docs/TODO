@@ -32,3 +32,5 @@ Add a merge to composite button to merge few components together, when on compos
 
 -- fix listbox theme
 --> make screen editor a custom theme
+
+-> methodbindingsetting add parameters and returntype

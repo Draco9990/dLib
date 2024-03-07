@@ -8,6 +8,7 @@ import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.MethodBindingSetting;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class IntelliJMethodBindingSetting extends MethodBindingSetting {
@@ -17,25 +18,35 @@ public class IntelliJMethodBindingSetting extends MethodBindingSetting {
 
         super.setCurrentValue(currentValue);
 
+        LinkedHashMap<String, String> parameters = getConvertedParameters();
+
         if(currentValue instanceof DynamicMethodBinding){
             ((DynamicMethodBinding) currentValue).addOnBoundMethodChangedConsumer(new BiConsumer<String, String>() {
                 @Override
                 public void accept(String oldVal, String newVal) {
                     if(!newVal.isEmpty()){
                         if(oldVal.isEmpty() ){
-                            PluginMessageSender.Send_AddMethodToClass(ScreenEditorBaseScreen.instance.getEditingScreen(), "void", newVal, new LinkedHashMap<>(), "{\n\t// TODO: Method implementation here\n}");
+                            PluginMessageSender.Send_AddMethodToClass(ScreenEditorBaseScreen.instance.getEditingScreen(), getReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
                         }
                         else{
-                            PluginMessageSender.Send_RenameMethodInClass(ScreenEditorBaseScreen.instance.getEditingScreen(), oldVal, newVal, new LinkedHashMap<>());
+                            PluginMessageSender.Send_RenameMethodInClass(ScreenEditorBaseScreen.instance.getEditingScreen(), oldVal, newVal, parameters);
                         }
                     }
                 }
             });
         }
         else if(previousValue instanceof DynamicMethodBinding && !((DynamicMethodBinding) previousValue).getBoundMethod().isEmpty()){
-            PluginMessageSender.Send_RemoveMethodInClass(ScreenEditorBaseScreen.instance.getEditingScreen(), ((DynamicMethodBinding) previousValue).getBoundMethod(), new LinkedHashMap<>());
+            PluginMessageSender.Send_RemoveMethodInClass(ScreenEditorBaseScreen.instance.getEditingScreen(), ((DynamicMethodBinding) previousValue).getBoundMethod(), parameters);
         }
 
          return this;
+    }
+
+    private LinkedHashMap<String, String> getConvertedParameters(){
+        LinkedHashMap<String, String> convertedParameters = new LinkedHashMap<>();
+        for(Map.Entry<String, Class<?>> param : getParameters().entrySet()){
+            convertedParameters.put(param.getKey(), param.getValue().getName());
+        }
+        return convertedParameters;
     }
 }

@@ -3,12 +3,12 @@ package dLib.tools.screeneditor.ui.items.preview.renderable;
 import dLib.plugin.intellij.util.settings.IntelliJMethodBindingSetting;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.implementations.InteractableData;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.MethodBindingSetting;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
             if(ScreenEditorBaseScreen.instance != null) ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
             return this;
         }
-    }.declareParams(Float.class).setTitle("On Left Click Held:");
+    }.addParameter("timeElapsed", Float.class).setTitle("On Left Click Held:");
     private IntelliJMethodBindingSetting sOnLeftClickRelease = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(){
         @Override
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
@@ -59,7 +59,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
             if(ScreenEditorBaseScreen.instance != null) ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
             return this;
         }
-    }.declareParams(Float.class).setTitle("On Right Click Held:");
+    }.addParameter("timeElapsed", Float.class).setTitle("On Right Click Held:");
     private IntelliJMethodBindingSetting sOnRightClickRelease = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(){
         @Override
         public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
@@ -117,6 +117,22 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
     @Override
     public InteractableData getElementData() {
         return (InteractableData) super.getElementData();
+    }
+
+    /** ID */
+    @Override
+    public ScreenEditorItem setID(String newId) {
+        super.setID(newId);
+
+        sOnLeftClick.setPreferredMethodName(newId + "_onLeftClick");
+        sOnLeftClickHeld.setPreferredMethodName(newId + "_onLeftClickHeld");
+        sOnLeftClickRelease.setPreferredMethodName(newId + "_onLeftClickRelease");
+
+        sOnRightClick.setPreferredMethodName(newId + "_onRightClick");
+        sOnRightClickHeld.setPreferredMethodName(newId + "_onRightClickHeld");
+        sOnRightClickRelease.setPreferredMethodName(newId + "_onRightClickRelease");
+
+        return this;
     }
 
     /** Properties */

@@ -34,7 +34,7 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
             protected void onLeftClick() {
                 super.onLeftClick();
                 if(((Inputfield) middle).getTextBox().getText().isEmpty()){
-                    ((Inputfield)middle).getTextBox().setText("MethodBinding_" + UUID.randomUUID().toString().replace("-", ""));
+                    ((Inputfield)middle).getTextBox().setText(setting.getPreferredMethodName());
                     dynamicMethodBinding.setBoundMethod(((Inputfield)middle).getTextBox().getText());
                     if(!dynamicMethodBinding.getBoundMethod().equals(((Inputfield)middle).getTextBox().getText())){
                         ((Inputfield)middle).getTextBox().setText(dynamicMethodBinding.getBoundMethod());
