@@ -120,7 +120,7 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
         super.setID(newId);
         for (int i = 0; i < items.size(); i++) {
             ScreenEditorItem item = items.get(i);
-            item.setID(getId() + "_" + item.getClass().getSimpleName() + "_" + i);
+            item.setID(getId() + "_" + item.getClass().getSimpleName().replace("ScreenEditorItem", "") + "_" + i);
         }
 
         return this;

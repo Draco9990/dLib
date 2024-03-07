@@ -49,6 +49,14 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
         }
 
         copy.postInitialize();
+
+        String idPrefix = copy.getClass().getSimpleName().replace("ScreenEditorItem", "") + "_";
+        int i = 1;
+        while(findPreviewItemById(idPrefix + i) != null){
+            i++;
+        }
+        copy.setID(idPrefix + i);
+
         copy.setBoundsX(ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.xOffset + ScreenEditorPreviewScreen.width);
         copy.setBoundsY(ScreenEditorPreviewScreen.yOffset, ScreenEditorPreviewScreen.yOffset + ScreenEditorPreviewScreen.height);
 
@@ -68,6 +76,15 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
 
     public ArrayList<ScreenEditorItem> getPreviewItems(){
         return previewItems;
+    }
+
+    public ScreenEditorItem findPreviewItemById(String id){
+        for(ScreenEditorItem item : previewItems){
+            if(item.getId().equals(id)){
+                return item;
+            }
+        }
+        return null;
     }
 
     @Override
