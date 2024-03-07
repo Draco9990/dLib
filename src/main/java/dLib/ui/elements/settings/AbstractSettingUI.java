@@ -10,8 +10,7 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
     /** Variables */
     protected TextBox label;
 
-    protected float textPercX = 0.25f;
-    protected float valuePercX = 1 - textPercX;
+    protected float valuePercX = 1 - getTextPercX();
     protected float arrowPercX = 0.025f;
 
     protected Integer textPosY;
@@ -39,7 +38,6 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
         valueHeight = height;
 
         if(width < 500 && canDisplayMultiline()){
-            textPercX = 1;
             valuePercX = 1;
 
             float textHeaderPerc = 0.5f;
@@ -53,11 +51,15 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
         this.xPos = xPos;
         this.yPos = yPos;
 
-        this.label = new TextBox(setting.getTitle(), xPos, textPosY, (int)(width * textPercX), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
+        this.label = new TextBox(setting.getTitle(), xPos, textPosY, (int)(width * getTextPercX()), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
         this.foreground.add(label);
     }
 
     public boolean canDisplayMultiline(){
         return true;
+    }
+
+    protected float getTextPercX(){
+        return (width < 500 && canDisplayMultiline() ? 1 : 0.25f);
     }
 }

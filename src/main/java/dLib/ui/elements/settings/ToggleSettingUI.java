@@ -35,4 +35,9 @@ public class ToggleSettingUI extends AbstractSettingUI {
     public boolean canDisplayMultiline() {
         return false;
     }
+
+    @Override
+    protected float getTextPercX() {
+        return 0.75f;
+    }
 }

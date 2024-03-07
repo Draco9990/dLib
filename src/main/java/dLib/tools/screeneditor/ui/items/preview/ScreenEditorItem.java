@@ -238,6 +238,10 @@ public abstract class ScreenEditorItem extends Resizeable {
         return getId();
     }
 
+    protected void refreshPropertiesScreen(){
+        ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+    }
+
     /** Get Live Instance Type */
     public abstract Class<? extends UIElement> getLiveInstanceType();
 }

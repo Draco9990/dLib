@@ -40,7 +40,7 @@ public class EnumSettingUI extends AbstractSettingUI {
             middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX - arrowPercX *2))), valueHeight);
         }
         else if(setting.getControlType() == EnumSetting.EControlType.CLICK){
-            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX)))), valuePosY, ((int)(width * (valuePercX - textPercX))), valueHeight);
+            middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX)))), valuePosY, ((int)(width * (valuePercX - getTextPercX()))), valueHeight);
             ((TextButton)middle).getButton().addOnLeftClickConsumer(setting::next);
         }
 

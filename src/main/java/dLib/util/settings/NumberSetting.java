@@ -24,9 +24,10 @@ public abstract class NumberSetting<T extends Number> extends Setting<T> impleme
     }
 
     /** Bounds */
-    public void setBounds(T minimumValue, T maximumValue){
+    public NumberSetting<T> setBounds(T minimumValue, T maximumValue){
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
+        return this;
     }
     /** Getters and Setters */
     public T getMinimumValue(){

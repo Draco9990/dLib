@@ -46,7 +46,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         super(data);
 
         this.title = data.titleBoxText;
-        this.titleBoxHeight = data.height;
+        this.titleBoxHeight = data.titleBoxHeight;
 
         this.itemSpacing = data.itemSpacing;
         this.invertedItemOrder = data.invertedItemOrder;

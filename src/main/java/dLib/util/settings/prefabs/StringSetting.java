@@ -23,6 +23,12 @@ public class StringSetting extends Setting<String> implements Serializable {
         return new StringSettingUI(this, xPos, yPos, width, height);
     }
 
+    /** Title */
+    @Override
+    public StringSetting setTitle(String newTitle) {
+        return (StringSetting) super.setTitle(newTitle);
+    }
+
     /** Input confirmation mode */
     public StringSetting setConfirmationMode(InputConfirmationMode confirmationMode){
         this.confirmationMode = confirmationMode;

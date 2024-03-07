@@ -38,6 +38,12 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
     }
 
     public void refreshProperties(){
+        markForRefresh();
+    }
+
+    @Override
+    protected void refreshScreen() {
+        super.refreshScreen();
         if(propertiesFor != null){
             createPropertiesFor(propertiesFor);
         }

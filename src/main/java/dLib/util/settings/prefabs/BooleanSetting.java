@@ -20,6 +20,12 @@ public class BooleanSetting extends Setting<Boolean> implements Serializable {
         setCurrentValue(!getCurrentValue());
     }
 
+    /** Title */
+    @Override
+    public BooleanSetting setTitle(String newTitle) {
+        return (BooleanSetting) super.setTitle(newTitle);
+    }
+
     /** UI */
     @Override
     public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {

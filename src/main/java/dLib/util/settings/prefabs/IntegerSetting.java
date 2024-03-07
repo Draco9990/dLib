@@ -50,6 +50,12 @@ public class IntegerSetting extends NumberSetting<Integer> implements Serializab
         }
     }
 
+    /** Title */
+    @Override
+    public IntegerSetting setTitle(String newTitle) {
+        return (IntegerSetting) super.setTitle(newTitle);
+    }
+
     /** UI */
     @Override
     public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
