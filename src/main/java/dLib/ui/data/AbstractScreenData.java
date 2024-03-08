@@ -1,17 +1,11 @@
 package dLib.ui.data;
 
-import com.badlogic.gdx.files.FileHandle;
-import dLib.DLib;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
+import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
-import dLib.ui.data.prefabs.BackgroundData;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Renderable;
-import dLib.ui.screens.AbstractScreen;
 import dLib.util.DLibLogger;
 import dLib.util.IntVector2;
-import dLib.util.Reflection;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -31,10 +25,10 @@ public class AbstractScreenData implements Serializable {
     public ArrayList<UIElementData> data = new ArrayList<>();
 
     public AbstractScreenData(ScreenEditorBaseScreen instance){
-        offsetX = ScreenEditorPreviewScreen.xOffset;
-        offsetY = ScreenEditorPreviewScreen.yOffset;
-        referenceWidth = ScreenEditorPreviewScreen.width;
-        referenceHeight = ScreenEditorPreviewScreen.height;
+        offsetX = ScreenEditorPreview.xOffset;
+        offsetY = ScreenEditorPreview.yOffset;
+        referenceWidth = ScreenEditorPreview.width;
+        referenceHeight = ScreenEditorPreview.height;
 
         screenClass = instance.getEditingScreen();
 
@@ -70,8 +64,8 @@ public class AbstractScreenData implements Serializable {
                 continue;
             }
 
-            repositionElement(editorInstance, new IntVector2(ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.yOffset));
-            rescaleElement(editorInstance, new IntVector2(ScreenEditorPreviewScreen.width, ScreenEditorPreviewScreen.height));
+            repositionElement(editorInstance, new IntVector2(ScreenEditorPreview.xOffset, ScreenEditorPreview.yOffset));
+            rescaleElement(editorInstance, new IntVector2(ScreenEditorPreview.width, ScreenEditorPreview.height));
 
             items.add(editorInstance);
         }

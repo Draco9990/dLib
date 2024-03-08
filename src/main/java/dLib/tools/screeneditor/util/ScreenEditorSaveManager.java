@@ -7,12 +7,29 @@ import dLib.ui.data.AbstractScreenData;
 import dLib.ui.screens.AbstractScreen;
 
 public class ScreenEditorSaveManager {
-    /** Save */
+    //region Variables
+
+    private ScreenEditorBaseScreen screenEditor;
+
+    //endregion
+
+    //region Constructors
+
+    public ScreenEditorSaveManager(ScreenEditorBaseScreen screenEditor){
+        this.screenEditor = screenEditor;
+    }
+
+    //endregion
+
+    //region Methods
+
     public void save(){
-        AbstractScreenData screenData = new AbstractScreenData(ScreenEditorBaseScreen.instance);
+        AbstractScreenData screenData = new AbstractScreenData(screenEditor);
 
         String[] scrName = screenData.screenClass.split("\\.");
 
         PluginManager.sendMessage("saveScreen", scrName[scrName.length - 1], screenData.serializeToString());
     }
+
+    //endregion
 }

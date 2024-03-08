@@ -3,50 +3,47 @@ package dLib.tools.screeneditor.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.DLib;
-import dLib.tools.screeneditor.screens.menu.ScreenEditorMenuScreen;
-import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
-import dLib.tools.screeneditor.screens.toolbar.ScreenEditorElementListScreen;
-import dLib.tools.screeneditor.screens.toolbar.ScreenEditorPropertiesScreen;
-import dLib.tools.screeneditor.screens.toolbar.ScreenEditorToolbarScreen;
+import dLib.tools.screeneditor.ui.items.implementations.menu.ScreenEditorMenu;
+import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
+import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorElementList;
+import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorElementProperties;
+import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorToolbox;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.BackgroundScreenEditorItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
 import dLib.tools.screeneditor.util.ScreenEditorSaveManager;
 import dLib.ui.data.AbstractScreenData;
-import dLib.ui.data.UIElementData;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.themes.UITheme;
-import dLib.util.bindings.texture.TextureEmptyBinding;
-
-import java.util.ArrayList;
 
 public class ScreenEditorBaseScreen extends AbstractScreen {
-    /** Singleton */
-    public static ScreenEditorBaseScreen instance;
+    //region Variables
 
-    /** Variables */
     private String editingScreen;
 
-    private ScreenEditorMenuScreen menu;
+    private ScreenEditorMenu menu;
 
-    private ScreenEditorPreviewScreen preview;
+    private ScreenEditorPreview preview;
 
-    private ScreenEditorToolbarScreen toolbar;
-    private ScreenEditorPropertiesScreen properties;
-    private ScreenEditorElementListScreen elementListScreen;
+    private ScreenEditorToolbox toolbar;
+    private ScreenEditorElementProperties properties;
+    private ScreenEditorElementList elementListScreen;
 
     private ScreenEditorSaveManager saveManager;
     private ScreenEditorActiveItemsManager activeItemsManager;
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public ScreenEditorBaseScreen(String editingClass){
+        super();
         initialize(editingClass);
     }
-
     public ScreenEditorBaseScreen(AbstractScreenData initialData){
-        initialize(editingScreen);
+        super();
+        initialize(initialData.screenClass);
 
         for(ScreenEditorItem item : initialData.getEditorItems()){
             preview.addPreviewItem(item);
@@ -60,27 +57,34 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
         addChildNCS(new Renderable(UITheme.whitePixel, 0, 0, getWidth(), getHeight()).setRenderColor(Color.valueOf("#151515FF")));
 
-        menu = new ScreenEditorMenuScreen();
+        menu = new ScreenEditorMenu();
+        addChildNCS(menu);
 
-        preview = new ScreenEditorPreviewScreen();
+        preview = new ScreenEditorPreview();
+        addChildNCS(preview);
 
-        toolbar = new ScreenEditorToolbarScreen(){
-            @Override
-            public void onElementToAddChosen(Class<? extends ScreenEditorItem> previewItem) {
-                super.onElementToAddChosen(previewItem);
-                preview.makeNewPreviewItem(previewItem);
-            }
-        };
-        properties = new ScreenEditorPropertiesScreen();
-        elementListScreen = new ScreenEditorElementListScreen();
+        toolbar = new ScreenEditorToolbox();
+        addChildNCS(toolbar);
+        properties = new ScreenEditorElementProperties();
+        addChildNCS(properties);
+        elementListScreen = new ScreenEditorElementList();
+        addChildNCS(elementListScreen);
 
-        saveManager = new ScreenEditorSaveManager();
-        activeItemsManager = new ScreenEditorActiveItemsManager();
-
-        instance = this;
+        saveManager = new ScreenEditorSaveManager(this);
+        activeItemsManager = new ScreenEditorActiveItemsManager(this);
 
         preview.makeNewPreviewItem(BackgroundScreenEditorItem.class).setID("Background");
     }
+
+
+    //endregion
+
+    //region Methods
+    //endregion
+
+    /** Variables */
+
+    /** Constructors */
 
     /** Update and Render */
     @Override
@@ -130,16 +134,16 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     }
 
     /** Preview */
-    public ScreenEditorPreviewScreen getPreviewScreen(){
+    public ScreenEditorPreview getPreviewScreen(){
         return preview;
     }
 
     /** Toolbar */
-    public ScreenEditorToolbarScreen getToolbarScreen(){
+    public ScreenEditorToolbox getToolbarScreen(){
         return toolbar;
     }
-    public ScreenEditorPropertiesScreen getPropertiesScreen() { return properties; }
-    public ScreenEditorElementListScreen getElementListScreen(){
+    public ScreenEditorElementProperties getPropertiesScreen() { return properties; }
+    public ScreenEditorElementList getElementListScreen(){
         return elementListScreen;
     }
 

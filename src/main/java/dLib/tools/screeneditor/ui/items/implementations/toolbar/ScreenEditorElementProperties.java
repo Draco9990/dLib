@@ -1,4 +1,4 @@
-package dLib.tools.screeneditor.screens.toolbar;
+package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.CompositeUIElement;
@@ -6,16 +6,20 @@ import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.settings.Setting;
 
-public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScreen {
-    /** Variables */
+public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
+    //region Variables
+
     private ListBox<Setting<?>> propertiesItemList;
     private ScreenEditorItem propertiesFor;
 
-    /** Constructor */
-    public ScreenEditorPropertiesScreen(){
+    //endregion
+
+    //region Constructors
+
+    public ScreenEditorElementProperties(){
         super();
 
-        propertiesItemList = new ListBox<Setting<?>>(1508, 10, 404, 1060){
+        propertiesItemList = new ListBox<Setting<?>>(0, 0, getWidth(), getHeight()){
             @Override
             public CompositeUIElement makeUIForItem(Setting<?> item) {
                 return item.makeUIFor(0, 0, width, 100);
@@ -28,6 +32,10 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
         hide();
     }
 
+    //endregion
+
+    //region Methods
+
     public void createPropertiesFor(ScreenEditorItem item){
         propertiesFor = item;
         propertiesItemList.setItems(item.getPropertiesForItem());
@@ -38,15 +46,13 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
         propertiesItemList.clearItems();
     }
 
-    public void refreshProperties(){
-        markForRefresh();
-    }
-
     @Override
-    protected void refreshScreen() {
-        super.refreshScreen();
+    protected void onRefreshElement() {
+        super.onRefreshElement();
         if(propertiesFor != null){
             createPropertiesFor(propertiesFor);
         }
     }
+
+    //endregion
 }

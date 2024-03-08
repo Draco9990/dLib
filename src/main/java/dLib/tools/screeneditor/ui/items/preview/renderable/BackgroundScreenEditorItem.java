@@ -1,17 +1,14 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.tools.screeneditor.screens.preview.ScreenEditorPreviewScreen;
-import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.BackgroundData;
-import dLib.ui.data.prefabs.ImageData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Image;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
-import dLib.util.bindings.texture.TextureThemeBinding;
 
 public class BackgroundScreenEditorItem extends ImageScreenEditorItem {
     /** Constructors */
@@ -42,7 +39,7 @@ public class BackgroundScreenEditorItem extends ImageScreenEditorItem {
 
     /** Copy */
     public static ScreenEditorItem makeNewInstance(){
-        return (ScreenEditorItem) new BackgroundScreenEditorItem(new TextureEmptyBinding(), ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.yOffset, ScreenEditorPreviewScreen.width, ScreenEditorPreviewScreen.height).setHoveredColor(Color.WHITE);
+        return (ScreenEditorItem) new BackgroundScreenEditorItem(new TextureEmptyBinding(), ScreenEditorPreview.xOffset, ScreenEditorPreview.yOffset, ScreenEditorPreview.width, ScreenEditorPreview.height).setHoveredColor(Color.WHITE);
     }
 
     @Override

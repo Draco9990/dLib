@@ -26,6 +26,8 @@ public abstract class ScreenEditorItem extends Resizeable {
 
     private boolean highlight;
 
+    public ScreenEditorBaseScreen screenEditor;
+
     /** Settings */
     private StringSetting sID = (StringSetting) new StringSetting(getId()){
         @Override
@@ -43,7 +45,7 @@ public abstract class ScreenEditorItem extends Resizeable {
                 return false;
             }
 
-            for(ScreenEditorItem item : ScreenEditorBaseScreen.instance.getPreviewScreen().getPreviewItems()){
+            for(ScreenEditorItem item : screenEditor.getPreviewScreen().getPreviewItems()){
                 if(item.getId().equals(value) && !Objects.equals(this, item.sID)){
                     return false;
                 }
@@ -95,7 +97,7 @@ public abstract class ScreenEditorItem extends Resizeable {
     /** Update and render */
     @Override
     public void render(SpriteBatch sb) {
-        if(ScreenEditorBaseScreen.instance.getActiveItemsManager().isItemActive(this) && !Settings.isDebug){
+        if(screenEditor.getActiveItemsManager().isItemActive(this) && !Settings.isDebug){
             Settings.isDebug = true;
             super.render(sb);
             Settings.isDebug = false;
@@ -120,8 +122,8 @@ public abstract class ScreenEditorItem extends Resizeable {
     protected void onLeftClick() {
         super.onLeftClick();
         if(!proxyDragged){
-            ScreenEditorBaseScreen.instance.getActiveItemsManager().addActiveItem(this);
-            ScreenEditorBaseScreen.instance.getActiveItemsManager().markAllForDrag();
+            screenEditor.getActiveItemsManager().addActiveItem(this);
+            screenEditor.getActiveItemsManager().markAllForDrag();
         }
     }
 
@@ -130,7 +132,7 @@ public abstract class ScreenEditorItem extends Resizeable {
         super.onLeftClickHeld(totalDuration);
 
         if(!proxyDragged){
-            ScreenEditorBaseScreen.instance.getActiveItemsManager().markAllForDragUpdate(totalDuration);
+            screenEditor.getActiveItemsManager().markAllForDragUpdate(totalDuration);
         }
     }
 
@@ -215,7 +217,7 @@ public abstract class ScreenEditorItem extends Resizeable {
         }
 
         if(!Objects.equals(oldName, newId)){
-            PluginManager.sendMessage("screenElementRename", ScreenEditorBaseScreen.instance.getEditingScreen(), oldName, newId);
+            PluginManager.sendMessage("screenElementRename", screenEditor.getEditingScreen(), oldName, newId);
         }
 
         return this;
@@ -239,7 +241,7 @@ public abstract class ScreenEditorItem extends Resizeable {
     }
 
     protected void refreshPropertiesScreen(){
-        ScreenEditorBaseScreen.instance.getPropertiesScreen().refreshProperties();
+        screenEditor.getPropertiesScreen().markForRefresh();
     }
 
     /** Get Live Instance Type */

@@ -1,6 +1,5 @@
-package dLib.tools.screeneditor.screens.toolbar;
+package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
-import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.Button;
@@ -8,20 +7,27 @@ import dLib.ui.elements.prefabs.ListBox;
 
 import java.util.ArrayList;
 
-public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarScreen {
+public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
+    //region Variables
+
     private ListBox<ScreenEditorItem> previewItemList;
 
-    /** Constructors */
-    public ScreenEditorElementListScreen(){
+    //endregion
+
+    //region Constructors
+
+    public ScreenEditorElementList(){
         super();
 
-        previewItemList = new ListBox<ScreenEditorItem>(1508, 10, 404, 1060){
+        ScreenEditorElementList self = this;
+
+        previewItemList = new ListBox<ScreenEditorItem>(0, 0, getWidth(), getHeight()){
             @Override
             public void onItemSelectionChanged(ArrayList<ScreenEditorItem> items) {
                 super.onItemSelectionChanged(items);
 
                 if(items.isEmpty()) return;
-                ScreenEditorBaseScreen.instance.getActiveItemsManager().addActiveItem(items.get(0));
+                self.getParent().getActiveItemsManager().addActiveItem(items.get(0));
             }
 
             @Override
@@ -39,6 +45,10 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
         hide();
     }
 
+    //endregion
+
+    //region Methods
+
     @Override
     public void setVisibility(boolean isVisible) {
         super.setVisibility(isVisible);
@@ -48,8 +58,10 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
 
     public void refreshItemList(){
         previewItemList.clearItems();
-        for(ScreenEditorItem item : ScreenEditorBaseScreen.instance.getPreviewScreen().getPreviewItems()){
+        for(ScreenEditorItem item : getParent().getPreviewScreen().getPreviewItems()){
             previewItemList.addItem(item);
         }
     }
+
+    //endregion
 }

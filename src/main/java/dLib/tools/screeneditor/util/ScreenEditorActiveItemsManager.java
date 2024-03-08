@@ -9,17 +9,41 @@ import dLib.util.Reflection;
 import java.util.ArrayList;
 
 public class ScreenEditorActiveItemsManager {
-    /** Variables */
+    //region Variables
+    private ScreenEditorBaseScreen screenEditor;
+
     private ArrayList<ScreenEditorItem> activeItems = new ArrayList<>();
 
-    /** Constructors */
-    public ScreenEditorActiveItemsManager(){
 
+    //endregion
+
+    //region Constructors
+
+    public ScreenEditorActiveItemsManager(ScreenEditorBaseScreen screenEditor){
+        this.screenEditor = screenEditor;
     }
 
-    /** Active items management */
+    //endregion
+
+    //region Methods
+
+    //region Update & Render
+
+    public void update(){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL)){
+            for(ScreenEditorItem item : activeItems){
+                screenEditor.getPreviewScreen().deletePreviewItem(item);
+            }
+            clearActiveItems();
+        }
+    }
+
+    //endregion
+
+    //region Active Item Management
+
     public void addActiveItem(ScreenEditorItem item){
-        ScreenEditorBaseScreen.instance.getPropertiesScreen().clearScreen();
+        screenEditor.getPropertiesScreen().clearScreen();
         if(!Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)){
             clearActiveItems();
         }
@@ -28,13 +52,13 @@ public class ScreenEditorActiveItemsManager {
             activeItems.add(item);
 
             if(activeItems.size() == 1){
-                ScreenEditorBaseScreen.instance.getPropertiesScreen().createPropertiesFor(item);
+                screenEditor.getPropertiesScreen().createPropertiesFor(item);
             }
         }
     }
     public void clearActiveItems(){
-        ScreenEditorBaseScreen.instance.getPropertiesScreen().clearScreen();
-        ScreenEditorBaseScreen.instance.getElementListScreen().refreshItemList();
+        screenEditor.getPropertiesScreen().clearScreen();
+        screenEditor.getElementListScreen().refreshItemList();
         activeItems.clear();
     }
 
@@ -42,7 +66,10 @@ public class ScreenEditorActiveItemsManager {
         return activeItems.contains(item);
     }
 
-    /** Group Drag functionality */
+    //endregion
+
+    //region Group Drag
+
     public void markAllForDrag(){
         for(ScreenEditorItem item : activeItems){
             item.setProxyDragged(true);
@@ -59,12 +86,7 @@ public class ScreenEditorActiveItemsManager {
         }
     }
 
-    public void update(){
-        if(Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL)){
-            for(ScreenEditorItem item : activeItems){
-                ScreenEditorBaseScreen.instance.getPreviewScreen().deletePreviewItem(item);
-            }
-            clearActiveItems();
-        }
-    }
+    //endregion
+
+    //endregion
 }

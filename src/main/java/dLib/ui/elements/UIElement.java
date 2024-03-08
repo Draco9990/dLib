@@ -1,7 +1,6 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import dLib.ui.data.UIElementData;
 import dLib.util.IntVector2;
 import dLib.util.IntegerVector2;
@@ -33,6 +32,8 @@ public abstract class UIElement {
 
     private boolean selected;
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
+
+    private boolean pendingRefresh = false;
 
     //endregion
 
@@ -77,6 +78,11 @@ public abstract class UIElement {
 
         for(int i = children.size() - 1; i >= 0; i--){
             children.get(i).element.update();
+        }
+
+        if(pendingRefresh){
+            pendingRefresh = false;
+            onRefreshElement();
         }
     }
     public void render(SpriteBatch sb){
@@ -167,6 +173,24 @@ public abstract class UIElement {
         if(children.isEmpty()) return null;
         return children.get(children.size() - 1);
     }
+    public ArrayList<UIElement> getChildren(){
+        ArrayList<UIElement> childElements = new ArrayList<>();
+        for(UIElementChild child : children){
+            childElements.add(child.element);
+        }
+        return childElements;
+    }
+
+    public UIElement findChildById(String elementId){
+        for(UIElementChild child : children){
+            if(child.element.getId().equals(elementId)){
+                return child.element;
+            }
+        }
+
+        return null;
+    }
+
     //endregion
 
     //endregion
@@ -768,6 +792,15 @@ public abstract class UIElement {
         if(hasParent() && !parent.isActive()) return false;
         return isVisible() || isEnabled();
     }
+
+    //endregion
+
+    //region Refresh
+
+    public void markForRefresh(){
+        pendingRefresh = true;
+    }
+    protected void onRefreshElement(){}
 
     //endregion
 

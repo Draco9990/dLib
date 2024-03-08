@@ -32,8 +32,6 @@ public abstract class AbstractScreen extends UIElement {
     private InputProcessor cachedInputProcessor;
     private AbstractScreen screenToOpenOnClose;
 
-    private boolean pendingRefresh = false;
-
     //endregion
 
     //region Constructors
@@ -52,16 +50,6 @@ public abstract class AbstractScreen extends UIElement {
     //region Methods
 
     //region Update & Render
-
-    public void update(){
-        if(!shouldUpdate()) return;
-        super.update();
-
-        if(pendingRefresh) {
-            refreshScreen();
-            pendingRefresh = false;
-        }
-    }
 
     //endregion
 
@@ -111,15 +99,6 @@ public abstract class AbstractScreen extends UIElement {
         selectNextChild();
         return true;
     }
-
-    //endregion
-
-    //region Refresh
-
-    public void markForRefresh(){
-        pendingRefresh = true;
-    }
-    protected void refreshScreen(){}
 
     //endregion
 

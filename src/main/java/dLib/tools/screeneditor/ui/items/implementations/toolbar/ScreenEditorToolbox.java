@@ -1,4 +1,4 @@
-package dLib.tools.screeneditor.screens.toolbar;
+package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
 import com.badlogic.gdx.utils.OrderedMap;
 import dLib.tools.screeneditor.ui.items.preview.*;
@@ -13,27 +13,38 @@ import dLib.ui.elements.prefabs.ListBox;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen {
+public class ScreenEditorToolbox extends AbstractScreenEditorToolbar {
+    //region Variables
+
     public OrderedMap<String, Class<? extends ScreenEditorItem>> elementMap = new OrderedMap<>();
 
-    public ScreenEditorToolbarScreen(){
+    //endregion
+
+    //region Constructors
+
+    public ScreenEditorToolbox(){
         super();
         initializeElementMap();
 
-        ListBox<String> toolElements = new ListBox<String>(1508, 10, 404, 1060){
+        ScreenEditorToolbox self =this;
+
+        ListBox<String> toolElements = new ListBox<String>(0, 0, getWidth(), getHeight()){
             @Override
             public void onItemSelectionChanged(ArrayList<String> items) {
                 super.onItemSelectionChanged(items);
 
                 if(items.isEmpty()) return;
-                onElementToAddChosen(elementMap.get(items.get(0)));
+                self.getParent().getPreviewScreen().makeNewPreviewItem(elementMap.get(items.get(0)));
             }
         }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray()))).setTitle("Tools:");
         toolElements.getBackground().setImage(null);
         addChildNCS(toolElements);
     }
 
-    /** Utility methods */
+    //endregion
+
+    //region Methods
+
     public void initializeElementMap(){
         elementMap.put("Button", TextButtonScreenEditorItem.class); //TODO Should include a property for becoming a toggle instead & a text field property
         elementMap.put("Background", BackgroundScreenEditorItem.class);
@@ -43,5 +54,5 @@ public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen
         elementMap.put("TextBox", TextBoxScreenEditorItem.class);
     }
 
-    public void onElementToAddChosen(Class<? extends ScreenEditorItem> previewItem){}
+    //endregion
 }

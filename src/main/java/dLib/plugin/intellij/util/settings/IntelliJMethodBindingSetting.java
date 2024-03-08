@@ -12,6 +12,12 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class IntelliJMethodBindingSetting extends MethodBindingSetting {
+    private ScreenEditorBaseScreen screenEditor;
+
+    public IntelliJMethodBindingSetting(ScreenEditorBaseScreen screenEditor){
+        this.screenEditor = screenEditor;
+    }
+
     @Override
     protected Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
         MethodBinding previousValue = getCurrentValue();
@@ -26,17 +32,17 @@ public class IntelliJMethodBindingSetting extends MethodBindingSetting {
                 public void accept(String oldVal, String newVal) {
                     if(!newVal.isEmpty()){
                         if(oldVal.isEmpty() ){
-                            PluginMessageSender.Send_AddMethodToClass(ScreenEditorBaseScreen.instance.getEditingScreen(), getReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
+                            PluginMessageSender.Send_AddMethodToClass(screenEditor.getEditingScreen(), getReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
                         }
                         else{
-                            PluginMessageSender.Send_RenameMethodInClass(ScreenEditorBaseScreen.instance.getEditingScreen(), oldVal, newVal, parameters);
+                            PluginMessageSender.Send_RenameMethodInClass(screenEditor.getEditingScreen(), oldVal, newVal, parameters);
                         }
                     }
                 }
             });
         }
         else if(previousValue instanceof DynamicMethodBinding && !((DynamicMethodBinding) previousValue).getBoundMethod().isEmpty()){
-            PluginMessageSender.Send_RemoveMethodInClass(ScreenEditorBaseScreen.instance.getEditingScreen(), ((DynamicMethodBinding) previousValue).getBoundMethod(), parameters);
+            PluginMessageSender.Send_RemoveMethodInClass(screenEditor.getEditingScreen(), ((DynamicMethodBinding) previousValue).getBoundMethod(), parameters);
         }
 
          return this;
