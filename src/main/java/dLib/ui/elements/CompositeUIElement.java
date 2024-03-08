@@ -3,7 +3,6 @@ package dLib.ui.elements;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.modcompat.ModManager;
 import dLib.ui.data.CompositeUIElementData;
-import dLib.ui.data.UIElementData;
 import dLib.ui.elements.implementations.Interactable;
 import sayTheSpire.Output;
 
@@ -51,12 +50,12 @@ public class CompositeUIElement extends UIElement {
     }
 
     /** Render */
-    public void render(SpriteBatch sb){
-        for(UIElement u : background) u.render(sb);
-        if(left != null) left.render(sb);
-        if(right != null) right.render(sb);
-        if(middle != null) middle.render(sb);
-        for(UIElement u : foreground) u.render(sb);
+    public void renderSelf(SpriteBatch sb){
+        for(UIElement u : background) u.renderSelf(sb);
+        if(left != null) left.renderSelf(sb);
+        if(right != null) right.renderSelf(sb);
+        if(middle != null) middle.renderSelf(sb);
+        for(UIElement u : foreground) u.renderSelf(sb);
     }
 
     /** Getters and Setters */

@@ -11,7 +11,6 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
-import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.AlignmentSetting;
 import dLib.util.settings.prefabs.BooleanSetting;
@@ -111,10 +110,9 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     }
 
     @Override
-    public void render(SpriteBatch sb) {
-        super.render(sb);
-
-        textBox.render(sb);
+    public void renderSelf(SpriteBatch sb) {
+        super.renderSelf(sb);
+        textBox.renderSelf(sb);
     }
 
     /** Data */

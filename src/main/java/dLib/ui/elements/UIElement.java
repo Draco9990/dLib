@@ -85,9 +85,17 @@ public class UIElement {
             onRefreshElement();
         }
     }
-    public void render(SpriteBatch sb){
+    public final void render(SpriteBatch sb){
         if(!shouldRender()) return;
+        renderSelf(sb);
+        renderChildren(sb);
+    }
 
+    protected void renderSelf(SpriteBatch sb){
+
+    }
+
+    protected void renderChildren(SpriteBatch sb){
         for(UIElementChild child : children){
             child.element.render(sb);
         }

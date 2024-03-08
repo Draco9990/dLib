@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
-import dLib.util.DLibLogger;
-import dLib.util.IntVector2;
 import dLib.util.settings.Setting;
 
 import java.util.ArrayList;
@@ -35,10 +33,9 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
     }
 
     @Override
-    public void render(SpriteBatch sb) {
-        for(ScreenEditorItem item : items) item.render(sb);
-
-        super.render(sb);
+    public void renderSelf(SpriteBatch sb) {
+        super.renderSelf(sb);
+        for(ScreenEditorItem item : items) item.renderSelf(sb);
     }
 
     /** Position & Dimensions */

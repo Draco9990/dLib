@@ -89,30 +89,9 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     /** Update and Render */
     @Override
     public void update() {
-        menu.update();
-
-        preview.update();
-
-        toolbar.update();
-        properties.update();
-        elementListScreen.update();
-
         activeItemsManager.update();
 
         super.update();
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-        super.render(sb);
-
-        preview.render(sb);
-
-        menu.render(sb);
-
-        toolbar.render(sb);
-        properties.render(sb);
-        elementListScreen.render(sb);
     }
 
     /** Editing Screen cache */

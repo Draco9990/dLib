@@ -45,8 +45,8 @@ public class Renderable extends UIElement {
     //region Update & Render
 
     @Override
-    public void render(SpriteBatch sb) {
-        if(!shouldRender()) return;
+    public void renderSelf(SpriteBatch sb) {
+        super.renderSelf(sb);
 
         sb.setColor(getColorForRender());
 
@@ -56,8 +56,6 @@ public class Renderable extends UIElement {
         }
 
         sb.setColor(Color.WHITE);
-
-        super.render(sb);
     }
 
     //endregion

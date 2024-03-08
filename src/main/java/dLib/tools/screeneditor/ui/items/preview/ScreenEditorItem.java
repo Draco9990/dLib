@@ -96,14 +96,14 @@ public abstract class ScreenEditorItem extends Resizeable {
 
     /** Update and render */
     @Override
-    public void render(SpriteBatch sb) {
+    public void renderSelf(SpriteBatch sb) {
         if(screenEditor.getActiveItemsManager().isItemActive(this) && !Settings.isDebug){
             Settings.isDebug = true;
-            super.render(sb);
+            super.renderSelf(sb);
             Settings.isDebug = false;
         }
         else{
-            super.render(sb);
+            super.renderSelf(sb);
         }
 
         if(highlight){

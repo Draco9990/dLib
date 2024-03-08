@@ -83,14 +83,12 @@ public class Hoverable extends Renderable{
     }
 
     @Override
-    public void render(SpriteBatch sb) {
-        if(!shouldRender()) return;
+    public void renderSelf(SpriteBatch sb) {
+        super.renderSelf(sb);
 
         if(hb != null){
             hb.render(sb);
         }
-
-        super.render(sb);
     }
 
     //endregion

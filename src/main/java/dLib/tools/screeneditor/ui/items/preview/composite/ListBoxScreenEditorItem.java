@@ -1,22 +1,12 @@
 package dLib.tools.screeneditor.ui.items.preview.composite;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.tools.screeneditor.ui.items.preview.CompositeScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.ListBoxData;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Hoverable;
-import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.ListBox;
-import dLib.ui.elements.prefabs.TextBox;
-import dLib.ui.themes.UITheme;
-import dLib.ui.themes.UIThemeManager;
-import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.settings.Setting;
 import dLib.util.settings.prefabs.BooleanSetting;
 import dLib.util.settings.prefabs.IntegerSetting;
@@ -107,9 +97,9 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem {
     }
 
     @Override
-    public void render(SpriteBatch sb) {
+    public void renderSelf(SpriteBatch sb) {
+        super.renderSelf(sb);
         previewListBox.render(sb);
-        super.render(sb);
     }
 
     /** Data */
