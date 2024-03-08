@@ -1,13 +1,11 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import dLib.ui.data.UIElementData;
 import dLib.util.IntVector2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -19,8 +17,10 @@ public abstract class UIElement {
     protected UIElement parent;
     protected List<UIElementChild> children = new ArrayList<>();
 
-    protected IntVector2 localPosition = new IntVector2(0, 0);
+    private IntVector2 localPosition = new IntVector2(0, 0);
     private boolean dockedToParent = true;
+
+    private IntegerVe
 
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
