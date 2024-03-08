@@ -3,6 +3,7 @@ package dLib.tools.screeneditor.screens.toolbar;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.ListBox;
+import dLib.ui.util.ESelectionMode;
 import dLib.util.settings.Setting;
 
 public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScreen {
@@ -16,10 +17,10 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
 
         propertiesItemList = new ListBox<Setting<?>>(1508, 10, 404, 1060){
             @Override
-            public CompositeUIElement makeRenderElementForItem(Setting<?> item) {
+            public CompositeUIElement makeUIForItem(Setting<?> item) {
                 return item.makeUIFor(0, 0, width, 100);
             }
-        }.setTitle("Properties:");
+        }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:");
         propertiesItemList.getBackground().setImage(null);
         propertiesItemList.setItemSpacing(25);
         addElement(propertiesItemList);

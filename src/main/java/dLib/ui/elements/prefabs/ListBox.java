@@ -6,12 +6,15 @@ import dLib.ui.Alignment;
 import dLib.ui.data.prefabs.ListBoxData;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.ListCompositeUIElement;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
+import dLib.ui.util.ESelectionMode;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ListBox<ItemType> extends ListCompositeUIElement {
     /** Variables */
@@ -31,6 +34,9 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
     private boolean invertedItemOrder = false;
 
     private int scrollbarWidth = 50;
+
+    private ESelectionMode selectionMode = ESelectionMode.SINGLE;
+    private int selectionCountLimit = 1;
 
     // Locals
     private boolean trackScrollWheelScroll = false;
@@ -136,7 +142,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
 
     /** Items */
     public ListBox<ItemType> addItem(ItemType item){
-        CompositeUIElement compositeItem = makeRenderElementForItem(item);
+        CompositeUIElement compositeItem = makeCompositeForItem(item);
         items.add(new ListBoxItem(item, compositeItem));
         addElement(compositeItem);
 
@@ -156,38 +162,103 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         clearElements();
     }
 
-    public CompositeUIElement makeRenderElementForItem(ItemType item){
-        TextBox label = new TextBox(item.toString(), x, y, itemBoxBackground.getWidth(), 30, 0.025f, 0.05f);
-        label.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
-
-        CompositeUIElement composite = new CompositeUIElement(label.getPositionX(), label.getPositionY(), label.getWidth(), label.getHeight());
-        composite.foreground.add(label);
-
-        composite.middle = new Button(label.getPositionX(), label.getPositionY(), itemBoxBackground.getWidth(), label.getHeight()){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                onItemSelected(item);
-            }
-        }.setImage(UITheme.whitePixel).setRenderColor(Color.DARK_GRAY);
-
-        postMakeRenderElementForItem(item, composite);
-        return composite;
-    }
-    public void postMakeRenderElementForItem(ItemType item, CompositeUIElement compositeUIElement){ }
-
-    public void onItemSelected(ItemType item){}
-
     public class ListBoxItem{
         /** Variables */
         public ItemType item;
         public CompositeUIElement renderForItem;
+        public boolean selected;
 
         /** Constructors */
         public ListBoxItem(ItemType item, CompositeUIElement renderElement){
             this.item = item;
             this.renderForItem = renderElement;
         }
+    }
+
+    /** Item Render */
+    public UIElement makeUIForItem(ItemType item){
+        TextBox box = new TextBox(item.toString(), x, y, itemBoxBackground.getWidth(), 30);
+        box.setImage(UIThemeManager.getDefaultTheme().button_large);
+        box.setMarginPercX(0.025f).setMarginPercY(0.05f);
+        box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
+        return box;
+    } //TODO expose
+
+    public CompositeUIElement makeCompositeForItem(ItemType item){
+        UIElement itemUI = makeUIForItem(item);
+
+        CompositeUIElement composite = new CompositeUIElement(itemUI.getPositionX(), itemUI.getPositionY(), itemUI.getWidth(), itemUI.getHeight());
+        composite.background.add(itemUI);
+
+        Color transparent = Color.WHITE.cpy();
+        transparent.a = 0f;
+        composite.middle = new Button(itemUI.getPositionX(), itemUI.getPositionY(), itemUI.getWidth(), itemUI.getHeight()){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                trySelectItem(item);
+            }
+
+            @Override
+            public boolean isActive() {
+                return getSelectionCountLimit() != 0;
+            }
+        }.setImage(UITheme.whitePixel).setRenderColor(transparent);
+
+        Color hoverColor = ((Button) composite.middle).getHoveredColor().cpy();
+        hoverColor.a = 0.4f;
+        ((Button) composite.middle).setHoveredColor(hoverColor);
+
+        postMakeCompositeForItem(item, composite);
+
+        return composite;
+    } //TODO expose
+    public void postMakeCompositeForItem(ItemType item, CompositeUIElement compositeUIElement){ } //TODO expose
+
+    /** Item Selection */
+    private void trySelectItem(ItemType selectedItem){
+        if(getCurrentlySelectedItems().size() + 1 > getSelectionCountLimit()) return;
+
+        for(ListBoxItem item : items){
+            if(item.item.equals(selectedItem)){
+                if(selectionMode.equals(ESelectionMode.SINGLE)){
+                    onItemSelectionChanged(new ArrayList<>(Arrays.asList(item.item)));
+                    return;
+                }
+
+                item.selected = true;
+            }
+        }
+
+        onItemSelectionChanged(getCurrentlySelectedItems());
+    }
+    public void onItemSelectionChanged(ArrayList<ItemType> item){} //TODO expose
+
+    public ArrayList<ItemType> getCurrentlySelectedItems(){
+        ArrayList<ItemType> selectedItems = new ArrayList<>();
+        for(ListBoxItem item : items){
+            if(item.selected) selectedItems.add(item.item);
+        }
+
+        return selectedItems;
+    }
+
+    public ListBox<ItemType> setSelectionMode(ESelectionMode selectionMode){
+        this.selectionMode = selectionMode;
+        return this;
+    } //TODO expose
+    public ESelectionMode getSelectionMode(){
+        return selectionMode;
+    }
+
+    public ListBox<ItemType> setSelectionCountLimit(int selectionCount){
+        this.selectionCountLimit = selectionCount;
+        return this;
+    } //TODO expose
+    public int getSelectionCountLimit(){
+        if(selectionMode.equals(ESelectionMode.NONE)) return 0;
+        else if(selectionMode.equals(ESelectionMode.SINGLE)) return 1;
+        else return selectionCountLimit;
     }
 
     /** LAYOUT */

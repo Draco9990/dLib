@@ -6,7 +6,6 @@ import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldScreenEditor
 import dLib.tools.screeneditor.ui.items.preview.composite.ListBoxScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.composite.TextButtonScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.BackgroundScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorItem;
 import dLib.ui.elements.prefabs.ListBox;
@@ -23,9 +22,11 @@ public class ScreenEditorToolbarScreen extends AbstractScreenEditorToolbarScreen
 
         ListBox<String> toolElements = new ListBox<String>(1508, 10, 404, 1060){
             @Override
-            public void onItemSelected(String item) {
-                super.onItemSelected(item);
-                onElementToAddChosen(elementMap.get(item));
+            public void onItemSelectionChanged(ArrayList<String> items) {
+                super.onItemSelectionChanged(items);
+
+                if(items.isEmpty()) return;
+                onElementToAddChosen(elementMap.get(items.get(0)));
             }
         }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray()))).setTitle("Tools:");
         toolElements.getBackground().setImage(null);

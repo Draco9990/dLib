@@ -32,3 +32,10 @@ Add a merge to composite button to merge few components together, when on compos
 
 -- fix listbox theme
 --> make screen editor a custom theme
+
+-- sync configs
+
+--> cursor hide between acts
+-> composites delete button override
+--> add themes
+-> listbox textbox expose as textlable

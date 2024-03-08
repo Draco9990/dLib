@@ -66,6 +66,16 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem {
         }
     }.setTitle("Inverted Item Order:");
 
+    private IntegerSetting sScrollbarWidth = new IntegerSetting(50, 0, null){
+        @Override
+        public Setting<Integer> setCurrentValue(Integer currentValue) {
+            super.setCurrentValue(currentValue);
+            getElementData().scrollbarWidth = getCurrentValue();
+            reinitializePreviewItems();
+            return this;
+        }
+    }.setTitle("Scrollbar Width:");
+
     /** Variables */
     private ListBox<Object> previewListBox;
 
@@ -84,23 +94,22 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem {
 
     private void reinitializePreviewItems(){
         previewListBox = new ListBox<Object>(getElementData());
-        previewListBox.addItem("Row 1");
-        previewListBox.addItem("Row 2");
-        previewListBox.addItem("Row 3");
+        for(int i = 0; i < 20; i++){
+            previewListBox.addItem("PREVIEW ROW " + (i + 1));
+        }
     }
 
     /** Update & Render */
     @Override
     public void update() {
-        previewListBox.update();
         super.update();
+        previewListBox.update();
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        super.render(sb);
-
         previewListBox.render(sb);
+        super.render(sb);
     }
 
     /** Data */
@@ -118,8 +127,13 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem {
     public void initializeElementData(UIElementData data) {
         super.initializeElementData(data);
         ListBoxData<Object> listBoxData = (ListBoxData<Object>) data;
+        listBoxData.titleBoxText = sTitle.getCurrentValue();
+        listBoxData.titleBoxHeight = sTitleBoxHeight.getCurrentValue();
+
         listBoxData.itemSpacing = sItemSpacing.getCurrentValue();
         listBoxData.invertedItemOrder = sInvertedItemOrder.getCurrentValue();
+
+        listBoxData.scrollbarWidth = sScrollbarWidth.getCurrentValue();
     }
 
     /** Settings */
@@ -128,8 +142,11 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem {
         ArrayList<Setting<?>> settings = super.getPropertiesForItem();
         settings.add(sTitle);
         if(!sTitle.getCurrentValue().isEmpty()) settings.add(sTitleBoxHeight);
+
         settings.add(sItemSpacing);
         settings.add(sInvertedItemOrder);
+
+        settings.add(sScrollbarWidth);
         return settings;
     }
 
