@@ -17,4 +17,8 @@ public class IntVector2 {
 
         return other.x == x && other.y == y;
     }
+
+    public IntVector2 copy(){
+        return new IntVector2(x, y);
+    }
 }
