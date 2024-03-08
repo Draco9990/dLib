@@ -14,7 +14,7 @@ public class TextButton extends CompositeUIElement {
 
         middle = new Button(xPos, yPos, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
 
-        label = new TextBox(text, xPos, yPos, width, height);
+        label = new TextBox(text, 0, 0, width, height);
         foreground.add(label);
     }
 

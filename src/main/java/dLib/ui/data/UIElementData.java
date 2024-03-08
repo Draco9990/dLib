@@ -11,7 +11,7 @@ public abstract class UIElementData implements Serializable {
 
     public String ID;
 
-    public int x;
+    public int x; //TODO RF
     public int y;
 
     public int width;

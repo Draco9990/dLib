@@ -16,7 +16,7 @@ public class IntVector2SettingUI extends AbstractSettingUI{
         super(setting, xPos, yPos, width, height);
 
         int renderWidth = (int) (width * valuePercX);
-        int startingX = xPos + (width - renderWidth);
+        int startingX = (width - renderWidth);
 
         int textWidth = (int) (0.2f * renderWidth);
         int inputfieldWidth = (int)(0.25f * renderWidth);

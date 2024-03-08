@@ -19,14 +19,13 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class TextBox extends Hoverable {
-    /** Variables */
+    //region Variables
+
     private String text;
 
     private Color textRenderColor;
     private BitmapFont font;
     private boolean wrap;
-
-    private float fontScale;
 
     private Alignment.HorizontalAlignment horizontalAlignment;
     private Alignment.VerticalAlignment verticalAlignment;
@@ -45,7 +44,10 @@ public class TextBox extends Hoverable {
 
     private Hitbox textRenderHitbox;
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public TextBox(String text, int xPos, int yPos, int width, int height){
         this(text, xPos, yPos, width, height, 0.07f, 0.33f);
     }
@@ -65,6 +67,7 @@ public class TextBox extends Hoverable {
 
         textRenderColor = UIThemeManager.getDefaultTheme().textColor;
     }
+
     public TextBox(TextBoxData data){
         super(data);
 
@@ -81,33 +84,27 @@ public class TextBox extends Hoverable {
         setFont(FontManager.genericFont);
     }
 
-    /** Update and render */
-    @Override
-    public void update() {
-        super.update();
-    }
+    //endregion
+
+    //region Methods
+
+    //region Update & Render
 
     @Override
     public void render(SpriteBatch sb) {
         if(!shouldRender()) return;
         super.render(sb);
 
+        float fontScale = calculateFontScale();
         font.getData().setScale(fontScale);
 
-        float xMargin = marginPercX * width;
-        float yMargin = marginPercY * height;
+        float xMargin = marginPercX * getWidth();
+        float yMargin = marginPercY * getHeight();
 
-        int renderX = x + (int) xMargin;
-        int renderY = y + (int) yMargin;
-        int renderWidth = width - (int) xMargin * 2;
-        int renderHeight = height - (int) yMargin * 2;
-
-        renderX += (int)(paddingLeft * Settings.xScale);
-        renderY += (int)(paddingBottom * Settings.yScale);
-        renderWidth -= paddingLeft;
-        renderWidth -= paddingRight;
-        renderHeight -= paddingTop;
-        renderHeight -= paddingBottom;
+        int renderX = getWorldPositionX() + (int) xMargin + (int)(paddingLeft * Settings.xScale);
+        int renderY = getWorldPositionY() + (int) yMargin + (int)(paddingBottom * Settings.yScale);
+        int renderWidth = getWidth() - (int) xMargin * 2 - paddingLeft - paddingRight;
+        int renderHeight = getHeight() - (int) yMargin * 2 - paddingTop - paddingBottom;
 
         float halfWidth = (float) renderWidth / 2;
         float halfHeight = (float) renderHeight / 2;
@@ -226,16 +223,17 @@ public class TextBox extends Hoverable {
         }
     }
 
-    /** Text */
+    //endregion
+
+    //region Text
+
     public void setText(String text){
         if(!this.text.equals(text)){
             this.text = text;
 
-            if(IsNonASCII()){
+            if(containsNonASCIICharacters()){
                 setFont(FontManager.nonASCIIFont);
             }
-
-            recalculateFontScale();
 
             onTextChanged(text);
         }
@@ -258,7 +256,16 @@ public class TextBox extends Hoverable {
         return this;
     }
 
-    /** Render color */
+    public TextBox setOnTextChangedLine(String newLine) {
+        this.onTextChangedLine = newLine;
+        return this;
+    }
+    public String getOnTextChangedLine(String newText){ return this.onTextChangedLine; }
+
+    //endregion
+
+    //region Text Render Color
+
     public TextBox setTextRenderColor(Color renderColor){
         textRenderColor = renderColor;
         return this;
@@ -268,15 +275,10 @@ public class TextBox extends Hoverable {
         return textRenderColor;
     }
 
-    /** Dimensions */
-    @Override
-    public TextBox setDimensions(Integer newWidth, Integer newHeight) {
-        super.setDimensions(newWidth, newHeight);
-        recalculateFontScale();
-        return this;
-    }
+    //endregion
 
-    /** Margin */
+    //region Text Margin
+
     public TextBox setMarginPercX(float value){
         marginPercX = value;
         return this;
@@ -286,7 +288,10 @@ public class TextBox extends Hoverable {
         return this;
     }
 
-    /** Padding */
+    //endregion
+
+    //region Text Padding
+
     public TextBox setPadding(int value){
         return setPadding(value, value);
     }
@@ -302,7 +307,10 @@ public class TextBox extends Hoverable {
         return this;
     }
 
-    /** Alignment */
+    //endregion
+
+    //region Text Alignment
+
     public TextBox setHorizontalAlignment(Alignment.HorizontalAlignment alignment){
         this.horizontalAlignment = alignment;
         return this;
@@ -325,10 +333,12 @@ public class TextBox extends Hoverable {
         return this;
     }
 
-    /** Wrap */
+    //endregion
+
+    //region Text Wrap
+
     public TextBox setWrap(boolean wrap){
         this.wrap = wrap;
-        recalculateFontScale();
         return this;
     }
 
@@ -336,36 +346,18 @@ public class TextBox extends Hoverable {
         return wrap;
     }
 
-    /** Getters and Setters */
+    //endregion
+
+    //region Text Font
+
     public TextBox setFont(BitmapFont font){
         this.font = font;
-        recalculateFontScale();
         return this;
     }
 
-    @Override
-    public TextBox setWidth(int newWidth) {
-        super.setWidth(newWidth);
-        recalculateFontScale();
-        return this;
-    }
-    @Override
-    public TextBox setHeight(int newHeight) {
-        super.setHeight(newHeight);
-        recalculateFontScale();
-        return this;
-    }
+    //endregion
 
-
-    /** Say the Spire - Getters and Setters */
-    public TextBox setOnTextChangedLine(String newLine) {
-        this.onTextChangedLine = newLine;
-        return this;
-    }
-    public String getOnTextChangedLine(String newText){ return this.onTextChangedLine; }
-
-    /** Misc methods */
-    protected void recalculateFontScale(){
+    protected float calculateFontScale(){
         float fontScale = 0.1F;
 
         float xMargin = marginPercX * width;
@@ -384,13 +376,15 @@ public class TextBox extends Hoverable {
             FontHelper.layout.setText(font, text, Color.BLACK, renderWidth * Settings.xScale, 0, wrap);
             if(FontHelper.layout.height > renderHeight * Settings.yScale || (!wrap && FontHelper.layout.width > renderWidth * Settings.xScale)) {
                 font.getData().setScale(1);
-                this.fontScale = Math.max(fontScale - 0.1F, 0.1f);
-                return;
+                return Math.max(fontScale - 0.1F, 0.1f);
             }
             fontScale+=0.1F;
         }
     }
-    public boolean IsNonASCII(){
+    public boolean containsNonASCIICharacters(){
         return this.text != null && !this.text.isEmpty() && !this.text.matches("\\A\\p{ASCII}*\\z");
     }
+
+    //endregion
+
 }

@@ -31,8 +31,8 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
             setHeight(height);
         }
 
-        textPosY = yPos;
-        valuePosY = yPos;
+        textPosY = 0;
+        valuePosY = 0;
 
         textHeight = height;
         valueHeight = height;
@@ -41,7 +41,7 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
             valuePercX = 1;
 
             float textHeaderPerc = 0.5f;
-            textPosY = (int) (yPos + height * (1-textHeaderPerc));
+            textPosY = (int) (height * (1-textHeaderPerc));
             textHeight = (int) (height * textHeaderPerc);
             valueHeight = (int) (height * (1-textHeaderPerc));
         }
@@ -51,7 +51,7 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
         this.xPos = xPos;
         this.yPos = yPos;
 
-        this.label = new TextBox(setting.getTitle(), xPos, textPosY, (int)(width * getTextPercX()), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
+        this.label = new TextBox(setting.getTitle(), 0, textPosY, (int)(width * getTextPercX()), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
         this.foreground.add(label);
     }
 

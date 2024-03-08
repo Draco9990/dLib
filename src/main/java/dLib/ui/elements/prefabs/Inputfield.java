@@ -35,7 +35,7 @@ public class Inputfield extends CompositeUIElement {
 
         preInitialize();
 
-        this.textBox = new TextBox(initialValue, posX, posY, width, height, 0.025f, 0.025f){
+        this.textBox = new TextBox(initialValue, 0, 0, width, height, 0.025f, 0.025f){
             @Override
             public void setText(String text) {
                 if(type == EInputfieldType.NUMERICAL_DECIMAL || type == EInputfieldType.NUMERICAL_WHOLE_POSITIVE){

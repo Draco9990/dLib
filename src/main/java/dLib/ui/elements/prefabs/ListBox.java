@@ -177,7 +177,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
 
     /** Item Render */
     public UIElement makeUIForItem(ItemType item){
-        TextBox box = new TextBox(item.toString(), x, y, itemBoxBackground.getWidth(), 30);
+        TextBox box = new TextBox(item.toString(), 0, 0, itemBoxBackground.getWidth(), 30);
         box.setImage(UIThemeManager.getDefaultTheme().button_large);
         box.setMarginPercX(0.025f).setMarginPercY(0.05f);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
@@ -307,7 +307,7 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         }
     }
     private void buildTitleBox(){
-        titleBox = new TextBox(title, x, y + height - titleBoxHeight, width, titleBoxHeight);
+        titleBox = new TextBox(title, 0, height - titleBoxHeight, width, titleBoxHeight);
         titleBox.setImage(UITheme.whitePixel);
         titleBox.setRenderColor(Color.valueOf("#151515FF"));
         titleBox.setTextRenderColor(Color.WHITE);
