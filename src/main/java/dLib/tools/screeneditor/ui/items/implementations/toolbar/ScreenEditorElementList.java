@@ -2,6 +2,7 @@ package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.CompositeUIElement;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.ListBox;
 
@@ -31,10 +32,10 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
             }
 
             @Override
-            public void postMakeCompositeForItem(ScreenEditorItem item, CompositeUIElement compositeUIElement) {
-                super.postMakeCompositeForItem(item, compositeUIElement);
+            public void postMakeWrapperForItem(ScreenEditorItem item, UIElement itemUI) {
+                super.postMakeWrapperForItem(item, itemUI);
 
-                Button button = (Button) compositeUIElement.middle;
+                Button button = (Button) itemUI.findChildById("MainSection");
                 button.addOnHoveredConsumer(() -> item.setHighlight(true));
                 button.addOnUnhoveredConsumer(() -> item.setHighlight(false));
             }

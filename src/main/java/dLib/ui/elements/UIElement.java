@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public abstract class UIElement {
+public class UIElement {
     //region Variables
 
     protected String ID;
@@ -150,6 +150,14 @@ public abstract class UIElement {
         return this;
     }
 
+    public boolean hasChild(UIElement child){
+        for(UIElementChild childEle : children){
+            if(Objects.equals(childEle.element, child)) return true;
+        }
+
+        return false;
+    }
+
     public UIElement removeChild(UIElement child){
         this.children.remove(child);
         if(Objects.equals(child.getParent(), this)) child.setParent(null);
@@ -205,11 +213,11 @@ public abstract class UIElement {
         return setLocalPosition(x, newPosition);
     }
     public UIElement setLocalPosition(int newPositionX, int newPositionY){
-        int xDiff = newPositionX - x;
-        int yDiff = newPositionY - y;
+        int xDiff = newPositionX - localPosition.x;
+        int yDiff = newPositionY - localPosition.y;
 
-        this.x = newPositionX;
-        this.y = newPositionY;
+        this.localPosition.x = newPositionX;
+        this.localPosition.y = newPositionY;
 
         ensureElementWithinBounds();
 
