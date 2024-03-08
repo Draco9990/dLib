@@ -28,7 +28,7 @@ public abstract class Scrollbox extends Renderable {
             public void onPositionChanged(int newXPos, int newYPos) {
                 super.onPositionChanged(newXPos, newYPos);
 
-                setPageForSliderHeight(newYPos);
+                setPageForSliderHeight(slider.getLocalPositionY());
             }
         }.setCanDragX(false);
 

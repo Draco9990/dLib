@@ -7,7 +7,8 @@ import dLib.ui.data.implementations.DraggableData;
 import dLib.util.DLibLogger;
 
 public class Draggable extends Interactable{
-    /** Variables */
+    //region Variables
+
     private boolean canDragX = true;
     private boolean canDragY = true;
 
@@ -19,6 +20,16 @@ public class Draggable extends Interactable{
 
     protected Integer lowerBoundY;
     protected Integer upperBoundY;
+
+    //endregion
+
+    //region Constructors
+    //endregion
+
+    //region Methods
+    //endregion
+
+    /** Variables */
 
     /** Constructor */
     public Draggable(Texture image) {

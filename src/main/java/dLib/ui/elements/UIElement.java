@@ -28,10 +28,11 @@ public abstract class UIElement {
     protected IntVector2 localPosition = new IntVector2(0, 0);
     //endregion
 
-    //region Selection
+    protected boolean isVisible = true;
+    protected boolean isEnabled = true;
+
     private boolean selected;
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
-    //endregion
 
     //endregion
 
@@ -41,9 +42,6 @@ public abstract class UIElement {
 
     protected int width = 0; //TODO RF replace with scale
     protected int height = 0;
-
-    protected boolean isVisible = true;
-    protected boolean isEnabled = true;
 
     private ArrayList<BiConsumer<Integer, Integer>> positionChangedConsumers = new ArrayList<>();
 
@@ -276,6 +274,14 @@ public abstract class UIElement {
     }
     //endregion
 
+    public void onPositionChanged(int newPosX, int newPosY){
+        for(BiConsumer<Integer, Integer> consumer : positionChangedConsumers) consumer.accept(newPosX, newPosY);
+    }
+    public UIElement addOnPositionChangedConsumer(BiConsumer<Integer, Integer> consumer){
+        positionChangedConsumers.add(consumer);
+        return this;
+    }
+
     //endregion
 
     //region Interactions
@@ -420,6 +426,60 @@ public abstract class UIElement {
     }
     //endregion
 
+    //region Visible & Enabled States
+
+    //region Visibility
+
+    public final void hide(){
+        setVisibility(false);
+    }
+    public final void show(){
+        setVisibility(true);
+    }
+    protected void setVisibility(boolean visible){
+        isVisible = visible;
+    }
+    public boolean isVisible(){
+        if(hasParent() && !parent.isVisible()) return false;
+        return isVisible;
+    }
+
+    //endregion
+
+    //region Enabled State
+
+    public final void disable(){
+        setEnabled(false);
+    }
+    public final void enable(){
+        setEnabled(true);
+    }
+    protected void setEnabled(boolean enabled){
+        isEnabled = enabled;
+    }
+    public boolean isEnabled(){
+        if(hasParent() && !parent.isEnabled()) return false;
+        return isEnabled;
+    }
+
+    //endregion
+
+    public void hideAndDisable(){
+        hide();
+        disable();
+    }
+    public void showAndEnable(){
+        show();
+        enable();
+    }
+
+    public boolean isActive(){
+        if(hasParent() && !parent.isActive()) return false;
+        return isVisible() || isEnabled();
+    }
+
+    //endregion
+
     //endregion
 
     /** DEPRECATED */
@@ -461,14 +521,6 @@ public abstract class UIElement {
     public int getPositionX() { return x; }
     public int getPositionY() { return y; }
 
-    public void onPositionChanged(int newPosX, int newPosY){
-        for(BiConsumer<Integer, Integer> consumer : positionChangedConsumers) consumer.accept(newPosX, newPosY);
-    } //* Callback
-    public UIElement addOnPositionChangedConsumer(BiConsumer<Integer, Integer> consumer){
-        positionChangedConsumers.add(consumer);
-        return this;
-    }
-
     /** Width and height */
     public UIElement setWidth(int newWidth){
         return setDimensions(newWidth, height);
@@ -490,47 +542,6 @@ public abstract class UIElement {
     }
     public int getHeight(){
         return height;
-    }
-
-    /** Visibility */
-    public void hide(){
-        setVisibility(false);
-    }
-    public void show(){
-        setVisibility(true);
-    }
-    protected void setVisibility(boolean visible){
-        isVisible = visible;
-    }
-    public boolean isVisible(){
-        return isVisible;
-    }
-
-    /** Enabled */
-    public void disable(){
-        setEnabled(false);
-    }
-    public void enable(){
-        setEnabled(true);
-    }
-    protected void setEnabled(boolean enabled){
-        isEnabled = enabled;
-    }
-    public boolean isEnabled(){
-        return isEnabled;
-    }
-
-    /** Active */
-    public void hideAndDisable(){
-        hide();
-        disable();
-    }
-    public void showAndEnable(){
-        show();
-        enable();
-    }
-    public boolean isActive(){
-        return isVisible() || isEnabled();
     }
 
     /** CLASS DEFINITIONS */

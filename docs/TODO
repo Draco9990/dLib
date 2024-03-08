@@ -42,3 +42,14 @@ Add a merge to composite button to merge few components together, when on compos
 --> add a consumer pass and rename to listener
 --> say the spire pass
 --> allow elements do delcare themselves as standalone selectables
+
+--composite
+--screens
+--any other uielements
+--screeneditoritems
+
+-- move bounds to UIELement
+-- localBounds, worldBounds & bound within parent
+-- add verifyPositionWithinBounds in update and to setPosition
+-- add unbind from parent position (so that it doesn't move with parent) and same with dimensions, add onParentMoved and onParentResized
+-- add border to border bound mode

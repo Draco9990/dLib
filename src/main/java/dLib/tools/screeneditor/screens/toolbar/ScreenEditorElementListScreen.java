@@ -40,10 +40,10 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
     }
 
     @Override
-    public void show() {
-        super.show();
+    public void setVisibility(boolean isVisible) {
+        super.setVisibility(isVisible);
 
-        refreshItemList();
+        if(isVisible) refreshItemList();
     }
 
     public void refreshItemList(){
