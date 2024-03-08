@@ -6,6 +6,10 @@ import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.implementations.Renderable;
 
 public class Image extends Hoverable {
+    //region Variables
+    //endregion
+
+    //region Constructors
     public Image(Texture image) {
         super(image);
     }
@@ -21,4 +25,8 @@ public class Image extends Hoverable {
     public Image(ImageData data){
         super(data);
     }
+    //endregion
+
+    //region Methods
+    //endregion
 }

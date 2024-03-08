@@ -85,7 +85,7 @@ public class Draggable extends Interactable{
 
     /** Position & Width/Height */
     @Override
-    public Hoverable setPosition(Integer newPosX, Integer newPosY) {
+    public Draggable setPosition(Integer newPosX, Integer newPosY) {
         if(lowerBoundX != null && newPosX < lowerBoundX){
             newPosX = lowerBoundX;
         }
@@ -100,7 +100,7 @@ public class Draggable extends Interactable{
             newPosY = upperBoundY - height;
         }
 
-        return super.setPosition(newPosX, newPosY);
+        return (Draggable) super.setPosition(newPosX, newPosY);
     }
 
     /** Dragging */

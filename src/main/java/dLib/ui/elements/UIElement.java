@@ -51,6 +51,8 @@ public abstract class UIElement {
 
     public UIElement(int xPos, int yPos, int width, int height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
+        this.localPosition.x = xPos;
+        this.localPosition.y = yPos;
         this.x = xPos;
         this.y = yPos;
         this.width = width;
