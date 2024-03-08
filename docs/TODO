@@ -48,8 +48,3 @@ Add a merge to composite button to merge few components together, when on compos
 --any other uielements
 --screeneditoritems
 -- add unbind from parent dimensions, add onParentMoved and onParentResized
-
--- move bounds to UIELement
--- localBounds, worldBounds & bound within parent
--- add verifyPositionWithinBounds in update and to setPosition
--- add border to border bound mode

@@ -6,7 +6,7 @@ public class IntegerVector2 {
     public Integer x;
     public Integer y;
 
-    public IntegerVector2(int xIn, int yIn){
+    public IntegerVector2(Integer xIn, Integer yIn){
         this.x = xIn;
         this.y = yIn;
     }

@@ -8,8 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/IntegerVector2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/docs/TODO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/IntegerVector2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/IntegerVector2.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +177,7 @@
       <workItem from="1709388203189" duration="16769000" />
       <workItem from="1709658474222" duration="7445000" />
       <workItem from="1709721222683" duration="35769000" />
-      <workItem from="1709804668179" duration="41960000" />
+      <workItem from="1709804668179" duration="44059000" />
     </task>
     <servers />
   </component>

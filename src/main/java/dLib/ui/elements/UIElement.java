@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import dLib.ui.data.UIElementData;
 import dLib.util.IntVector2;
+import dLib.util.IntegerVector2;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -20,7 +21,12 @@ public abstract class UIElement {
     private IntVector2 localPosition = new IntVector2(0, 0);
     private boolean dockedToParent = true;
 
-    private IntegerVe
+    private IntegerVector2 lowerLocalBounds = new IntegerVector2(null, null);
+    private IntegerVector2 upperLocalBounds = new IntegerVector2(null, null);
+    private IntegerVector2 lowerWorldBounds = new IntegerVector2(null, null);
+    private IntegerVector2 upperWorldBounds = new IntegerVector2(null, null);
+    private boolean boundWithinParent = false;
+    private boolean borderToBorderBound = false;
 
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
@@ -66,6 +72,8 @@ public abstract class UIElement {
     //region Update & Render
     public void update(){
         if(!shouldUpdate()) return;
+
+        ensureElementWithinBounds();
 
         for(int i = children.size() - 1; i >= 0; i--){
             children.get(i).element.update();
@@ -165,7 +173,7 @@ public abstract class UIElement {
 
     //region Position
 
-    //region Local Position
+    //region World Position
     public UIElement setLocalPositionX(int newPosition){
         return setLocalPosition(newPosition, y);
     }
@@ -178,6 +186,8 @@ public abstract class UIElement {
 
         this.x = newPositionX;
         this.y = newPositionY;
+
+        ensureElementWithinBounds();
 
         if(xDiff != 0 || yDiff != 0){
             onPositionChanged(xDiff, yDiff);
@@ -285,6 +295,49 @@ public abstract class UIElement {
     }
     //endregion
 
+    //region Transforming
+
+    public IntVector2 worldToLocal(IntVector2 worldPosition){
+        IntVector2 localPosition = getLocalPosition();
+        localPosition.x += worldPosition.x - getWorldPositionX();
+        localPosition.y += worldPosition.y - getWorldPositionY();
+        return localPosition;
+    }
+    public IntVector2 localToWorld(IntVector2 localPosition){
+        IntVector2 worldPosition = getWorldPosition();
+        worldPosition.x += localPosition.x - getLocalPositionX();
+        worldPosition.y += localPosition.y - getLocalPositionY();
+        return worldPosition;
+    }
+
+    public IntegerVector2 worldToLocal(IntegerVector2 worldPosition){
+        IntegerVector2 localPosition = new IntegerVector2(null, null);
+        if(worldPosition.x != null) {
+            localPosition.x = getLocalPositionX();
+            localPosition.x += worldPosition.x - getWorldPositionX();
+        }
+        if(worldPosition.y != null){
+            localPosition.y = getLocalPositionY();
+            localPosition.y += worldPosition.y - getWorldPositionY();
+        }
+        return localPosition;
+    }
+    public IntegerVector2 localToWorld(IntegerVector2 localPosition){
+        IntegerVector2 worldPosition = new IntegerVector2(null, null);
+        if(localPosition.x != null) {
+            worldPosition.x = getWorldPositionX();
+            worldPosition.x += localPosition.x - getLocalPositionX();
+        }
+        if(localPosition.y != null){
+            worldPosition.y = getWorldPositionY();
+            worldPosition.y += localPosition.y - getLocalPositionY();
+        }
+        return worldPosition;
+    }
+
+
+    //endregion
+
     public void onPositionChanged(int diffX, int diffY){
         for(BiConsumer<Integer, Integer> consumer : positionChangedConsumers) consumer.accept(diffX, diffY);
 
@@ -300,6 +353,180 @@ public abstract class UIElement {
     protected void onParentPositionChanged(int diffX, int diffY){
         if(!isDockedToParent()){
             offset(-diffX, -diffY);
+        }
+    }
+
+    //endregion
+
+    //region Bounds
+
+    //region Lower Bounds
+
+    public UIElement setLowerLocalBoundX(Integer bound){
+        return setLowerLocalBounds(bound, lowerLocalBounds.y);
+    }
+    public final UIElement unsetLowerLocalBoundX(){
+        return setLowerLocalBoundX(null);
+    }
+    public final UIElement setLowerLocalBoundY(Integer bound){
+        return setLowerLocalBounds(lowerLocalBounds.x, bound);
+    }
+    public final UIElement unsetLowerLocalBoundY(){
+        return setLowerLocalBoundY(null);
+    }
+    public UIElement setLowerLocalBounds(Integer boundX, Integer boundY){
+        lowerLocalBounds.x = boundX;
+        lowerLocalBounds.y = boundY;
+
+        ensureElementWithinBounds();
+
+        return this;
+    }
+
+    public IntegerVector2 getLowerLocalBounds(){
+        IntegerVector2 lowerBound = lowerLocalBounds.copy();
+
+        IntegerVector2 lowerWorldBoundConverted = worldToLocal(lowerWorldBounds);
+        if(lowerBound.x == null || (lowerWorldBoundConverted.x != null && lowerWorldBoundConverted.x < lowerBound.x)) lowerBound.x = lowerWorldBoundConverted.x;
+        if(lowerBound.y == null || (lowerWorldBoundConverted.y != null && lowerWorldBoundConverted.y < lowerBound.y)) lowerBound.y = lowerWorldBoundConverted.y;
+
+        if(boundWithinParent && hasParent()){
+            IntVector2 parentPosition = worldToLocal(parent.getWorldPosition());
+            if(lowerBound.x == null || parentPosition.x < lowerBound.x) lowerBound.x = parentPosition.x;
+            if(lowerBound.y == null || parentPosition.y < lowerBound.y) lowerBound.y = parentPosition.y;
+        }
+
+        return lowerBound;
+    }
+
+    public UIElement setLowerWorldBoundX(Integer bound){
+        return setLowerWorldBounds(bound, lowerWorldBounds.y);
+    }
+    public final UIElement unsetLowerWorldBoundX(){
+        return setLowerWorldBoundX(null);
+    }
+    public final UIElement setLowerWorldBoundY(Integer bound){
+        return setLowerWorldBounds(lowerWorldBounds.x, bound);
+    }
+    public final UIElement unsetLowerWorldBoundY(){
+        return setLowerWorldBoundY(null);
+    }
+    public UIElement setLowerWorldBounds(Integer boundX, Integer boundY){
+        lowerWorldBounds.x = boundX;
+        lowerWorldBounds.y = boundY;
+
+        ensureElementWithinBounds();
+
+        return this;
+    }
+
+    //endregion
+
+    //region Upper Bounds
+
+    public UIElement setUpperLocalBoundX(Integer bound){
+        return setUpperLocalBounds(bound, upperLocalBounds.y);
+    }
+    public final UIElement unsetUpperLocalBoundX(){
+        return setUpperLocalBoundX(null);
+    }
+    public final UIElement setUpperLocalBoundY(Integer bound){
+        return setUpperLocalBounds(upperLocalBounds.x, bound);
+    }
+    public final UIElement unsetUpperLocalBoundY(){
+        return setUpperLocalBoundY(null);
+    }
+    public UIElement setUpperLocalBounds(Integer boundX, Integer boundY){
+        upperLocalBounds.x = boundX;
+        upperLocalBounds.y = boundY;
+
+        ensureElementWithinBounds();
+
+        return this;
+    }
+
+    public IntegerVector2 getUpperLocalBounds(){
+        IntegerVector2 upperBound = upperLocalBounds.copy();
+
+        IntegerVector2 upperWorldBoundsConverted = worldToLocal(upperWorldBounds);
+        if(upperBound.x == null || (upperWorldBoundsConverted.x != null && upperWorldBoundsConverted.x > upperBound.x)) upperBound.x = upperWorldBoundsConverted.x;
+        if(upperBound.y == null || (upperWorldBoundsConverted.y != null && upperWorldBoundsConverted.y > upperBound.y)) upperBound.y = upperWorldBoundsConverted.y;
+
+        if(boundWithinParent && hasParent()){
+            IntVector2 parentPosition = worldToLocal(parent.getWorldPosition());
+            if(upperBound.x == null || parentPosition.x > upperBound.x) upperBound.x = parentPosition.x;
+            if(upperBound.y == null || parentPosition.y > upperBound.y) upperBound.y = parentPosition.y;
+        }
+
+        return upperBound;
+    }
+
+    public UIElement setUpperWorldBoundX(Integer bound){
+        return setUpperWorldBounds(bound, upperWorldBounds.y);
+    }
+    public final UIElement unsetUpperWorldBoundX(){
+        return setUpperWorldBoundX(null);
+    }
+    public final UIElement setUpperWorldBoundY(Integer bound){
+        return setUpperWorldBounds(upperWorldBounds.x, bound);
+    }
+    public final UIElement unsetUpperWorldBoundY(){
+        return setUpperWorldBoundY(null);
+    }
+    public UIElement setUpperWorldBounds(Integer boundX, Integer boundY){
+        upperWorldBounds.x = boundX;
+        upperWorldBounds.y = boundY;
+
+        ensureElementWithinBounds();
+
+        return this;
+    }
+
+    //endregion
+
+    public UIElement setBoundWithinParent(boolean boundWithinParent){
+        this.boundWithinParent = boundWithinParent;
+        return this;
+    }
+    public boolean isBoundWithinParent(){
+        return boundWithinParent;
+    }
+
+    public UIElement setBorderToBorderBound(boolean borderToBorderBound){
+        this.borderToBorderBound = borderToBorderBound;
+        return this;
+    }
+    public boolean isBorderToBorderBound(){
+        return borderToBorderBound;
+    }
+
+    private void ensureElementWithinBounds(){
+        IntegerVector2 lowerLocalBounds = getLowerLocalBounds();
+        IntegerVector2 upperLocalBounds = getUpperLocalBounds();
+
+        int boundBoxUpperPosX = getLocalPositionX() + (borderToBorderBound ? 0 : getWidth());
+        int boundBoxUpperPosY = getLocalPositionY() + (borderToBorderBound ? 0 : getHeight());
+
+        if(upperLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
+            setLocalPositionX(upperLocalBounds.x - (borderToBorderBound ? 0 : getWidth()));
+        }
+        if(upperLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
+            setLocalPositionY(upperLocalBounds.y - (borderToBorderBound ? 0 : getHeight()));
+        }
+
+        if(lowerLocalBounds.x != null && getLocalPositionX() < lowerLocalBounds.x){
+            setLocalPositionX(lowerLocalBounds.x);
+        }
+        if(lowerLocalBounds.y != null && getLocalPositionY() < lowerLocalBounds.y){
+            setLocalPositionY(lowerLocalBounds.y);
+        }
+
+        //If we're still OOB, resize.
+        if(upperLocalBounds.x != null && lowerLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
+            setWidth(upperLocalBounds.x - lowerLocalBounds.x);
+        }
+        if(upperLocalBounds.y != null && lowerLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
+            setHeight(upperLocalBounds.y - lowerLocalBounds.y);
         }
     }
 
@@ -503,7 +730,6 @@ public abstract class UIElement {
 
     //endregion
 
-    /** DEPRECATED */
     /** Position */
     public UIElement setPositionX(int newPosX){
         setPosition(newPosX, y);
