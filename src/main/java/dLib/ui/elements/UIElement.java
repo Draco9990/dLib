@@ -13,7 +13,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public abstract class UIElement {
-    /** Variables */
+    //region Variables
+
     //region Id
     protected String ID;
     //endregion
@@ -32,6 +33,8 @@ public abstract class UIElement {
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
     //endregion
 
+    //endregion
+
     /** DEPRECATED */
     protected int x = 0;
     protected int y = 0;
@@ -44,7 +47,8 @@ public abstract class UIElement {
 
     private ArrayList<BiConsumer<Integer, Integer>> positionChangedConsumers = new ArrayList<>();
 
-    /** Constructors */
+    //region Constructors
+
     public UIElement(int xPos, int yPos, int width, int height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         this.x = xPos;
@@ -61,7 +65,10 @@ public abstract class UIElement {
         this.height = data.height;
     }
 
-    /** Methods */
+    //endregion
+
+    //region Methods
+
     //region Update & Render
     public void update(){
         if(!shouldUpdate()) return;
@@ -217,7 +224,7 @@ public abstract class UIElement {
         return getWorldPosition().y;
     }
     public final IntVector2 getWorldPosition(){
-        if(hasParent()) return getLocalPosition();
+        if(!hasParent()) return getLocalPosition();
         else{
             IntVector2 parentWorld = parent.getWorldPosition();
             parentWorld.x += getLocalPositionX();
@@ -409,6 +416,8 @@ public abstract class UIElement {
             }
         }
     }
+    //endregion
+
     //endregion
 
     /** DEPRECATED */

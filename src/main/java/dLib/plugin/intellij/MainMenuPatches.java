@@ -18,6 +18,7 @@ public class MainMenuPatches {
         public static void Postfix(SpriteBatch sb){
             if(statusIcon == null){
                 statusIcon = new Renderable(pluginStatusIcon, 1841, 1080-1053, 50, 50){
+                    //TODO turn into overlay
                     @Override
                     protected boolean shouldRender() {
                         return PluginManager.isEnabled();

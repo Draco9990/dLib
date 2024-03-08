@@ -2,14 +2,13 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.prefabs.ScrollboxData;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 
-// Scrollboxes can inherit from renderable as they should not be controlled by controllers
 public abstract class Scrollbox extends Renderable {
-    /** Class Variables */
+    //region Variables
+
     private Draggable slider;
 
     private int currentPage = 1;
@@ -17,11 +16,14 @@ public abstract class Scrollbox extends Renderable {
     private int pageCount = 0;
     private int heightPerState = 0;
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public Scrollbox(int x, int y, int width, int height){
         super(UIThemeManager.getDefaultTheme().inputfield, x, y, width, height);
 
-        slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, x, y + height - heightPerState, width, heightPerState){
+        slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, 0, height, width, 0){
             @Override
             public void onPositionChanged(int newXPos, int newYPos) {
                 super.onPositionChanged(newXPos, newYPos);
@@ -46,7 +48,11 @@ public abstract class Scrollbox extends Renderable {
         recalculateScrollbar();
     }
 
-    /** Update and render */
+    //endregion
+
+    //region Methods
+
+    //region Update & Render
     @Override
     public void update() {
         super.update();
@@ -61,34 +67,21 @@ public abstract class Scrollbox extends Renderable {
 
         slider.render(sb);
     }
+    //endregion
 
-    /** Helper methods */
-    private void recalculateScrollbar(){
-        pageCount = getPageCount();
-        if(pageCount == 0) pageCount = 1;
-        heightPerState = (int)((float)height / pageCount);
+    //region Slider
 
-        if(slider != null){
-            slider.setHeight(heightPerState);
-            slider.setBoundsY(y, y + height);
-        }
-    }
-
-    /** Slider */
     public Draggable getSlider(){
         return slider;
     }
 
-    /** Pages */
-    public abstract int getPageCount();
+    //endregion
 
-    public int getCurrentPage(){
-        return currentPage;
-    }
+    //region Pages
 
     private void setPageForSliderHeight(int sliderHeight){
         int state = 0;
-        while(sliderHeight > y + heightPerState * state){
+        while(sliderHeight > heightPerState * state){
             state++;
         }
 
@@ -96,6 +89,11 @@ public abstract class Scrollbox extends Renderable {
         if(currentPage < 1) currentPage = 1;
         onPageChanged(currentPage);
     }
+
+    public int getCurrentPage(){
+        return currentPage;
+    }
+    public abstract int getPageCount();
 
     public void nextPage(){
         if(currentPage < pageCount){
@@ -107,9 +105,24 @@ public abstract class Scrollbox extends Renderable {
             slider.setPositionY(slider.getPositionY() + heightPerState);
         }
     }
-    public void reset(){
+    public void setFirstPage(){
         slider.setPositionY(slider.getPositionY() + height - slider.getHeight());
     }
 
     public void onPageChanged(int newPage){}
+
+    //endregion
+
+    private void recalculateScrollbar(){
+        pageCount = getPageCount();
+        if(pageCount == 0) pageCount = 1;
+        heightPerState = (int)((float)height / pageCount);
+
+        if(slider != null){
+            slider.setHeight(heightPerState);
+            slider.setBoundsY(y, y + height); //TODO RF setLocal and setWorld bounds
+        }
+    }
+
+    //endregion
 }

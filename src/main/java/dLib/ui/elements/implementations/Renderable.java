@@ -8,18 +8,22 @@ import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.UIElement;
 
 public class Renderable extends UIElement {
+    //region Variables
+
     protected Texture image;
 
     protected Color renderColor;
 
+    //endregion
+
+    //region Constructors
+
     public Renderable(Texture image){
         this(image, 0, 0);
     }
-
     public Renderable(Texture image, int xPos, int yPos){
         this(image, xPos, yPos, image.getWidth(), image.getHeight());
     }
-
     public Renderable(Texture image, int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
@@ -34,11 +38,11 @@ public class Renderable extends UIElement {
         this.renderColor = Color.valueOf(renderableData.renderColor);
     }
 
-    /** Update and render */
-    @Override
-    public void update() {
+    //endregion
 
-    }
+    //region Methods
+
+    //region Update & Render
 
     @Override
     public void render(SpriteBatch sb) {
@@ -48,38 +52,45 @@ public class Renderable extends UIElement {
 
         Texture textureToRender = getTextureForRender();
         if(textureToRender != null){
-            sb.draw(textureToRender, x * Settings.xScale, y * Settings.yScale, width * Settings.xScale, height * Settings.yScale);
+            sb.draw(textureToRender, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, width * Settings.xScale, height * Settings.yScale);
         }
 
         sb.setColor(Color.WHITE);
+
+        super.render(sb);
     }
 
-    protected Texture getTextureForRender(){
-        return image;
-    }
-    protected Color getColorForRender(){
-        return renderColor;
-    }
+    //endregion
 
-    /** Image */
+    //region Image
+
     public Renderable setImage(Texture image){
         this.image = image;
         return this;
     }
     public Texture getImage() { return image; }
 
-    /** Color */
+    protected Texture getTextureForRender(){
+        return image;
+    }
+
+    //endregion
+
+    //region Render Color
+
     public Renderable setRenderColor(Color color){
         this.renderColor = color;
         return this;
     }
+    public Color getRenderColor(Color color){
+        return renderColor;
+    }
 
-    /** Enabled/Visible/Active */
-    @Override
-    public void setEnabled(boolean enabled) {
+    protected Color getColorForRender(){
+        return renderColor;
     }
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+
+    //endregion
+
+    //endregion
 }
