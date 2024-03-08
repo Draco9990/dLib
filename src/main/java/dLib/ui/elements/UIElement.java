@@ -504,29 +504,46 @@ public abstract class UIElement {
         IntegerVector2 lowerLocalBounds = getLowerLocalBounds();
         IntegerVector2 upperLocalBounds = getUpperLocalBounds();
 
-        int boundBoxUpperPosX = getLocalPositionX() + (borderToBorderBound ? 0 : getWidth());
-        int boundBoxUpperPosY = getLocalPositionY() + (borderToBorderBound ? 0 : getHeight());
+        int desiredPositionX = getLocalPositionX();
+        int desiredPositionY = getLocalPositionY();
+
+        int boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
+        int boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
 
         if(upperLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
-            setLocalPositionX(upperLocalBounds.x - (borderToBorderBound ? 0 : getWidth()));
+            desiredPositionX = upperLocalBounds.x - (borderToBorderBound ? 0 : getWidth());
+            boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
         }
         if(upperLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
-            setLocalPositionY(upperLocalBounds.y - (borderToBorderBound ? 0 : getHeight()));
+            desiredPositionY = upperLocalBounds.y - (borderToBorderBound ? 0 : getHeight());
+            boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
         }
 
-        if(lowerLocalBounds.x != null && getLocalPositionX() < lowerLocalBounds.x){
-            setLocalPositionX(lowerLocalBounds.x);
+        if(lowerLocalBounds.x != null && desiredPositionX < lowerLocalBounds.x){
+            desiredPositionX = lowerLocalBounds.x;
+            boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
         }
-        if(lowerLocalBounds.y != null && getLocalPositionY() < lowerLocalBounds.y){
-            setLocalPositionY(lowerLocalBounds.y);
+        if(lowerLocalBounds.y != null && desiredPositionY < lowerLocalBounds.y){
+            desiredPositionY = lowerLocalBounds.y;
+            boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
         }
+
+        int desiredWidth = getWidth();
+        int desiredHeight = getHeight();
 
         //If we're still OOB, resize.
         if(upperLocalBounds.x != null && lowerLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
-            setWidth(upperLocalBounds.x - lowerLocalBounds.x);
+            desiredWidth = upperLocalBounds.x - lowerLocalBounds.x;
         }
         if(upperLocalBounds.y != null && lowerLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
-            setHeight(upperLocalBounds.y - lowerLocalBounds.y);
+            desiredHeight = upperLocalBounds.y - lowerLocalBounds.y;
+        }
+
+        if(desiredWidth != getWidth() || desiredHeight != getHeight()){
+            setDimensions(desiredWidth, desiredHeight);
+        }
+        else if(desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
+            setLocalPosition(desiredPositionX, desiredPositionY);
         }
     }
 
