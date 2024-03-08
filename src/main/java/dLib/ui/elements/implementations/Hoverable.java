@@ -60,6 +60,7 @@ public class Hoverable extends Renderable{
     @Override
     public void update() {
         if(!shouldUpdate()) return;
+        super.update();
 
         if(hb != null){
             boolean hbHoveredCache = this.hb.hovered || this.hb.justHovered;
@@ -79,18 +80,17 @@ public class Hoverable extends Renderable{
                 onUnhovered();
             }
         }
-
-        super.update();
     }
 
     @Override
     public void render(SpriteBatch sb) {
         if(!shouldRender()) return;
-        super.render(sb);
 
         if(hb != null){
             hb.render(sb);
         }
+
+        super.render(sb);
     }
 
     //endregion

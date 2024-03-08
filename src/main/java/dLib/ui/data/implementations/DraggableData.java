@@ -11,7 +11,7 @@ public class DraggableData extends InteractableData implements Serializable {
     public boolean canDragX;
     public boolean canDragY;
 
-    public Integer lowerBoundX;
+    public Integer lowerBoundX; //TODO RF
     public Integer upperBoundX;
 
     public Integer lowerBoundY;

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.implementations.ResizeableData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.misc.ResizeNode;
 
 public class Resizeable extends Draggable{
@@ -187,19 +188,15 @@ public class Resizeable extends Draggable{
     }
 
     @Override
-    public Resizeable setDimensions(Integer newWidth, Integer newHeight) {
-        if(upperBoundX != null && x + newWidth > upperBoundX){
-            newWidth = upperBoundX - x;
-        }
-        if(upperBoundY != null && y + newHeight > upperBoundY){
-            newHeight = upperBoundY - y;
-        }
-        return (Resizeable) super.setDimensions(newWidth, newHeight);
+    public Resizeable setPosition(Integer newPosX, Integer newPosY) {
+        super.setPosition(newPosX, newPosY);
+        refreshResizeNodePositions();
+        return this;
     }
 
     @Override
-    public Resizeable setPosition(Integer newPosX, Integer newPosY) {
-        super.setPosition(newPosX, newPosY);
+    public UIElement setDimensions(Integer newWidth, Integer newHeight) {
+        super.setDimensions(newWidth, newHeight);
         refreshResizeNodePositions();
         return this;
     }

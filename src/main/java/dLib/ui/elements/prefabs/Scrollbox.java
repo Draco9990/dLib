@@ -31,6 +31,8 @@ public abstract class Scrollbox extends Renderable {
                 setPageForSliderHeight(slider.getLocalPositionY());
             }
         }.setCanDragX(false);
+        slider.setBoundWithinParent(true);
+        addChildNCS(slider);
 
         initialize();
     }
@@ -55,17 +57,8 @@ public abstract class Scrollbox extends Renderable {
     //region Update & Render
     @Override
     public void update() {
-        super.update();
-
         recalculateScrollbar();
-        slider.update();
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-        super.render(sb);
-
-        slider.render(sb);
+        super.update();
     }
     //endregion
 
@@ -120,7 +113,6 @@ public abstract class Scrollbox extends Renderable {
 
         if(slider != null){
             slider.setHeight(heightPerState);
-            slider.setBoundsY(y, y + height); //TODO RF setLocal and setWorld bounds
         }
     }
 

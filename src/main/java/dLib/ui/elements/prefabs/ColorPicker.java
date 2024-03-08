@@ -104,7 +104,7 @@ public class ColorPicker extends CompositeUIElement {
 
         //endregion
 
-        //region render Texture & Color
+        //region Render Texture & Color
 
         @Override
         protected Texture getTextureForRender() {

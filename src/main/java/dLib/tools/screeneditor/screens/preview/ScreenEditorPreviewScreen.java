@@ -58,8 +58,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
         }
         copy.setID(idPrefix + i);
 
-        copy.setBoundsX(ScreenEditorPreviewScreen.xOffset, ScreenEditorPreviewScreen.xOffset + ScreenEditorPreviewScreen.width);
-        copy.setBoundsY(ScreenEditorPreviewScreen.yOffset, ScreenEditorPreviewScreen.yOffset + ScreenEditorPreviewScreen.height);
+        copy.setBoundWithinParent(true);
 
         PluginManager.sendMessage("screenElementAdd", ScreenEditorBaseScreen.instance.getEditingScreen(), copy.getId(), copy.getLiveInstanceType().getName());
 

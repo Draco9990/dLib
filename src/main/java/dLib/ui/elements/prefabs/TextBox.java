@@ -93,7 +93,6 @@ public class TextBox extends Hoverable {
     @Override
     public void render(SpriteBatch sb) {
         if(!shouldRender()) return;
-        super.render(sb);
 
         float fontScale = calculateFontScale();
         font.getData().setScale(fontScale);
@@ -221,6 +220,8 @@ public class TextBox extends Hoverable {
         if(hb != null){
             hb.render(sb);
         }
+
+        super.render(sb);
     }
 
     //endregion

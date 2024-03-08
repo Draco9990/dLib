@@ -15,31 +15,16 @@ public class Draggable extends Interactable{
     private int xDragOffset;
     private int yDragOffset;
 
-    protected Integer lowerBoundX;
-    protected Integer upperBoundX;
-
-    protected Integer lowerBoundY;
-    protected Integer upperBoundY;
-
     //endregion
 
     //region Constructors
-    //endregion
 
-    //region Methods
-    //endregion
-
-    /** Variables */
-
-    /** Constructor */
     public Draggable(Texture image) {
         super(image);
     }
-
     public Draggable(Texture image, int xPos, int yPos) {
         super(image, xPos, yPos);
     }
-
     public Draggable(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
     }
@@ -49,72 +34,14 @@ public class Draggable extends Interactable{
 
         this.canDragX = data.canDragX;
         this.canDragY = data.canDragY;
-
-        this.lowerBoundX = data.lowerBoundX;
-        this.upperBoundX = data.upperBoundX;
-
-        this.lowerBoundY = data.lowerBoundY;
-        this.upperBoundY = data.upperBoundY;
     }
 
-    /** Getters and Setters */
-    public Draggable setCanDragX(boolean canDragX){
-        this.canDragX = canDragX;
-        return this;
-    }
-    public Draggable setCanDragY(boolean canDragY){
-        this.canDragY = canDragY;
-        return this;
-    }
+    //endregion
 
-    public Draggable setBoundsX(Integer lowerBound, Integer upperBound){
-        lowerBoundX = lowerBound;
-        upperBoundX = upperBound;
+    //region Methods
 
-        if(lowerBoundX != null && x < lowerBoundX){
-            setPositionX(lowerBoundX);
-        }
-        if(upperBoundX != null && x > upperBoundX){
-            setPositionX(upperBoundX);
-        }
+    //region Drag
 
-        return this;
-    }
-    public Draggable setBoundsY(Integer lowerBound, Integer upperBound){
-        lowerBoundY = lowerBound;
-        upperBoundY = upperBound;
-
-        if(lowerBoundY != null && y < lowerBoundY){
-            setPositionY(lowerBound);
-        }
-        if(upperBoundY != null && y > upperBoundY){
-            setPositionY(upperBound);
-        }
-
-        return this;
-    }
-
-    /** Position & Width/Height */
-    @Override
-    public Draggable setPosition(Integer newPosX, Integer newPosY) {
-        if(lowerBoundX != null && newPosX < lowerBoundX){
-            newPosX = lowerBoundX;
-        }
-        if(upperBoundX != null && newPosX + width > upperBoundX){
-            newPosX = upperBoundX - width;
-        }
-
-        if(lowerBoundY != null && newPosY < lowerBoundY){
-            newPosY = lowerBoundY;
-        }
-        if(upperBoundY != null && newPosY + height > upperBoundY){
-            newPosY = upperBoundY - height;
-        }
-
-        return (Draggable) super.setPosition(newPosX, newPosY);
-    }
-
-    /** Dragging */
     @Override
     protected void onLeftClick() {
         super.onLeftClick();
@@ -131,4 +58,17 @@ public class Draggable extends Interactable{
 
         setPosition(xPos, yPos);
     }
+
+    public Draggable setCanDragX(boolean canDragX){
+        this.canDragX = canDragX;
+        return this;
+    }
+    public Draggable setCanDragY(boolean canDragY){
+        this.canDragY = canDragY;
+        return this;
+    }
+
+    //endregion
+
+    //endregion
 }

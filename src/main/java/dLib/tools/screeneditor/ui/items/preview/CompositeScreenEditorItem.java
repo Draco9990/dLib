@@ -94,20 +94,6 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
         return this;
     }
 
-    @Override
-    public Draggable setBoundsX(Integer lowerBound, Integer upperBound) {
-        super.setBoundsX(lowerBound, upperBound);
-        for(ScreenEditorItem item : items) item.setBoundsX(lowerBound, upperBound);
-        return this;
-    }
-
-    @Override
-    public Draggable setBoundsY(Integer lowerBound, Integer upperBound) {
-        super.setBoundsY(lowerBound, upperBound);
-        for(ScreenEditorItem item : items) item.setBoundsY(lowerBound, upperBound);
-        return this;
-    }
-
     /** Image */
     @Override
     public final Renderable setImage(Texture image) {

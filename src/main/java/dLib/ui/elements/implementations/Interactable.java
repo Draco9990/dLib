@@ -96,9 +96,12 @@ public class Interactable extends Hoverable{
 
     //region Methods
 
+    //region Update & Render
+
     @Override
     public void update() {
         if(!shouldUpdate()) return;
+        super.update();
 
         if(isEnabled()){
             if(isHovered()){
@@ -130,11 +133,7 @@ public class Interactable extends Hoverable{
                 onRightClickHeld(totalRightClickDuration);
             }
         }
-
-        super.update();
     }
-
-    //region Update & Render
 
     //endregion
 

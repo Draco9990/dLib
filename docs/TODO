@@ -47,4 +47,10 @@ Add a merge to composite button to merge few components together, when on compos
 --screens
 --any other uielements
 --screeneditoritems
+
+--go over all data
+
 -- add unbind from parent dimensions, add onParentMoved and onParentResized
+
+
+--> add update children first check for scrollboxes
