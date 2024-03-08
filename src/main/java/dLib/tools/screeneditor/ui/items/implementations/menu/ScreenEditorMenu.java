@@ -28,7 +28,7 @@ public class ScreenEditorMenu extends UIElement {
         closeButton.getButton().addOnLeftClickConsumer(ScreenManager::closeScreen);
         addChildNCS(closeButton);
 
-        TextButton saveButton = new TextButton("Save", 10, height - 110, 200, 40);
+        TextButton saveButton = new TextButton("Save", 10, height - 100, 200, 40);
         saveButton.getButton().addOnLeftClickConsumer(() -> {getParent().getSaveManager().save();});
         addChildNCS(saveButton);
     }
@@ -41,14 +41,14 @@ public class ScreenEditorMenu extends UIElement {
         });
         addChildNCS(toolbarButton);
 
-        TextButton propertiesButton = new TextButton("Properties", 255, height - 110, 200, 40);
+        TextButton propertiesButton = new TextButton("Properties", 255, height - 100, 200, 40);
         propertiesButton.getButton().addOnLeftClickConsumer(() -> {
             getParent().hideAllToolbarItems();
             getParent().getPropertiesScreen().show();
         });
         addChildNCS(propertiesButton);
 
-        TextButton elementsButton = new TextButton("Elements", 255, height - 160, 200, 40);
+        TextButton elementsButton = new TextButton("Elements", 255, height - 150, 200, 40);
         elementsButton.getButton().addOnLeftClickConsumer(() -> {
             getParent().hideAllToolbarItems();
             getParent().getElementListScreen().show();
