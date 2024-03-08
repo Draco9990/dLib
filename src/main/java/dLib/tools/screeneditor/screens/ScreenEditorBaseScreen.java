@@ -58,7 +58,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     private void initialize(String editingClass){
         this.editingScreen = editingClass;
 
-        addChildNCS(new Renderable(UITheme.whitePixel, 0, 0, 1920, 1080).setRenderColor(Color.valueOf("#151515FF")));
+        addChildNCS(new Renderable(UITheme.whitePixel, 0, 0, getWidth(), getHeight()).setRenderColor(Color.valueOf("#151515FF")));
 
         menu = new ScreenEditorMenuScreen();
 

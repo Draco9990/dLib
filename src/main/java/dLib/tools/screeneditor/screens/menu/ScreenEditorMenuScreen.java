@@ -14,7 +14,8 @@ public class ScreenEditorMenuScreen extends AbstractScreen {
 
     /** Constructors */
     public ScreenEditorMenuScreen(){
-        addChildNCS(new Renderable(UITheme.whitePixel, 10, 1080 - 218, 1489, 209).setRenderColor(Color.valueOf("#242424FF")));
+        super(); //10, 1080-218, 1489, 209
+        addChildNCS(new Renderable(UITheme.whitePixel, 0, 0, getWidth(), getHeight()).setRenderColor(Color.valueOf("#242424FF")));
 
         registerFileControls();
         registerToolbarControls();

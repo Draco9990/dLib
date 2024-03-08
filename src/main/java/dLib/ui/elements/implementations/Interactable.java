@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class Interactable extends Hoverable{
-    /** Variables */
+    //region Variables
+
     public Texture hoveredTexture;
     public Texture disabledTexture;
 
@@ -51,7 +52,10 @@ public class Interactable extends Hoverable{
     private ArrayList<Runnable> onSelectedConsumers = new ArrayList<>();
     private ArrayList<Runnable> onUnselectedConsumers = new ArrayList<>();
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public Interactable(Texture image) {
         super(image);
         initialize();
@@ -88,10 +92,12 @@ public class Interactable extends Hoverable{
         });
     }
 
-    /** Update and render */
+    //endregion
+
+    //region Methods
+
     @Override
     public void update() {
-        super.update();
         if(!shouldUpdate()) return;
 
         if(isEnabled()){
@@ -124,12 +130,15 @@ public class Interactable extends Hoverable{
                 onRightClickHeld(totalRightClickDuration);
             }
         }
+
+        super.update();
     }
 
-    @Override
-    public void render(SpriteBatch sb) {
-        super.render(sb);
-    }
+    //region Update & Render
+
+    //endregion
+
+    //region Render Texture & Color
 
     @Override
     protected Texture getTextureForRender() {
@@ -153,7 +162,12 @@ public class Interactable extends Hoverable{
         return super.getColorForRender();
     }
 
-    /** Trigger */
+    //endregion
+
+    //region Triggers
+
+    //region Left Click
+
     public void clickLeft(){
         onLeftClick();
     }
@@ -203,6 +217,10 @@ public class Interactable extends Hoverable{
         return this;
     }
 
+    //endregion
+
+    //region Right Click
+
     public void clickRight(){
         onRightClick();
     }
@@ -244,11 +262,18 @@ public class Interactable extends Hoverable{
         return this;
     }
 
+    //endregion
+
     public Interactable setConsumeTriggerEvent(boolean newValue){
         consumeTriggerEvent = newValue;
         return this;
     }
 
+    //endregion
+
+    //region Trigger Sound
+
+    //TODO ADD SPECIFIC FOR LFET AND RIGHT CLICK
     public Interactable setOnTriggerSoundKey(String key){
         onTriggerSoundKey = key;
         return this;
@@ -262,7 +287,7 @@ public class Interactable extends Hoverable{
         onHoldSoundKey = key;
         return this;
     }
-    public Interactable removeOnHoveredSoundKey(){
+    public Interactable removeOnHoldSoundKey(){
         onHoldSoundKey = null;
         return this;
     }
@@ -275,7 +300,11 @@ public class Interactable extends Hoverable{
         return onTriggeredLine;
     }
 
-    /** Hover */
+    //endregion
+
+    //region Hovered
+
+    //TODO MOVE TO HVOERABLE
     @Override
     protected void onHovered() {
         super.onHovered();
@@ -306,7 +335,11 @@ public class Interactable extends Hoverable{
         return this;
     }
 
-    /** Disable */
+    //endregion
+
+    //region Disabled
+
+    //TODO MOVE TO RENDERABLE
     public Interactable setDisabledTexture(Texture disabledTexture){
         this.disabledTexture = disabledTexture;
         return this;
@@ -319,6 +352,10 @@ public class Interactable extends Hoverable{
     public Color getDisabledColor(){
         return disabledColor;
     }
+
+    //endregion
+
+    //endregion
 
     /** Events */
     public static class Events{

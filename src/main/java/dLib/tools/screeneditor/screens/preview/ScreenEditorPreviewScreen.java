@@ -26,7 +26,8 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
 
     /** Constructors */
     public ScreenEditorPreviewScreen(){
-        addChildCS(new Interactable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), xOffset, yOffset, width, height){
+        super();
+        addChildCS(new Interactable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), 0, 0, getWidth(), getHeight()){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
