@@ -9,11 +9,17 @@ import dLib.util.TextureManager;
 import sayTheSpire.Output;
 
 public class Toggle extends Interactable {
+    //region Variables
+
     private boolean toggled = false;
 
     private Texture toggledTexture;
     public Texture toggledHoveredTexture;
     public Texture toggledDisabledTexture;
+
+    //endregion
+
+    //region Constructors
 
     public Toggle(Texture image, Texture toggledTexture) {
         super(image);
@@ -40,24 +46,12 @@ public class Toggle extends Interactable {
         this.toggled = data.isToggled;
     }
 
-    /** Builders */
 
-    public Toggle setToggled(boolean toggled){
-        this.toggled = toggled;
+    //endregion
 
-        return this;
-    }
-    public Interactable setToggledHoveredTexture(Texture hoveredTexture){
-        this.toggledHoveredTexture = hoveredTexture;
-        return this;
-    }
-    public Interactable setToggledDisabledTexture(Texture disabledTexture){
-        this.toggledDisabledTexture = disabledTexture;
-        return this;
-    }
+    //region Methods
 
-
-    /** Update and render */
+    //region Render Texture & Color
 
     @Override
     protected Texture getTextureForRender() {
@@ -85,12 +79,19 @@ public class Toggle extends Interactable {
         return super.getColorForRender();
     }
 
-    /** Misc methods */
+    //endregion
+
+    //region Left Click
 
     @Override
     public void clickLeft() {
         toggle();
     }
+
+    //endregion
+
+    //region Toggled State
+
     public void toggle(){
         this.toggled = !toggled;
 
@@ -103,4 +104,23 @@ public class Toggle extends Interactable {
     public boolean isToggled(){
         return toggled;
     }
+
+
+    public Toggle setToggled(boolean toggled){
+        this.toggled = toggled;
+
+        return this;
+    }
+    public Interactable setToggledHoveredTexture(Texture hoveredTexture){
+        this.toggledHoveredTexture = hoveredTexture;
+        return this;
+    }
+    public Interactable setToggledDisabledTexture(Texture disabledTexture){
+        this.toggledDisabledTexture = disabledTexture;
+        return this;
+    }
+
+    //endregion
+
+    //endregion
 }
