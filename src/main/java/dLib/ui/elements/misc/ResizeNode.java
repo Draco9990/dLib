@@ -9,14 +9,23 @@ import dLib.ui.elements.implementations.Resizeable;
 import dLib.ui.themes.UITheme;
 
 public class ResizeNode extends Draggable {
-    /** Variables  */
+    //region Variables
+
     private Resizeable resizeableElement;
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public ResizeNode(Resizeable resizeableElement, int xPos, int yPos) {
         super(UITheme.whitePixel, xPos, yPos, 20, 20);
 
         this.resizeableElement = resizeableElement;
         this.renderColor = Color.RED;
     }
+
+    //endregion
+
+    //region Methods
+    //endregion
 }
