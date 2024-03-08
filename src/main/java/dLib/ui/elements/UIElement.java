@@ -173,7 +173,7 @@ public abstract class UIElement {
 
     //region Position
 
-    //region World Position
+    //region Local Position
     public UIElement setLocalPositionX(int newPosition){
         return setLocalPosition(newPosition, y);
     }
@@ -205,6 +205,32 @@ public abstract class UIElement {
     public final IntVector2 getLocalPosition(){
         return localPosition.copy();
     }
+
+    public UIElement setLocalPositionCenteredX(int newPos){
+        return setLocalPositionCentered(newPos, getLocalPositionCenteredY());
+    }
+    public UIElement setLocalPositionCenteredY(int newPos){
+        return setLocalPositionCentered(getLocalPositionCenteredX(), newPos);
+    }
+    public UIElement setLocalPositionCentered(int newPosX, int newPosY){
+        int wHalf = (int)(width * 0.5f);
+        int hHalf = (int)(height * 0.5f);
+        return setLocalPosition(newPosX - wHalf, newPosY - hHalf);
+    }
+
+    public final int getLocalPositionCenteredX(){
+        return getLocalPositionCentered().x;
+    }
+    public final int getLocalPositionCenteredY(){
+        return getLocalPositionCentered().y;
+    }
+    public final IntVector2 getLocalPositionCentered(){
+        IntVector2 localPosition = getLocalPosition();
+        localPosition.x += (int)(width * 0.5f);
+        localPosition.y += (int)(height * 0.5f);
+        return localPosition;
+    }
+
     //endregion
 
     //region World Position
