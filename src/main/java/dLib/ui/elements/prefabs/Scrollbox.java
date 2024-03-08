@@ -25,8 +25,8 @@ public abstract class Scrollbox extends Renderable {
 
         slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, 0, height, width, 0){
             @Override
-            public void onPositionChanged(int newXPos, int newYPos) {
-                super.onPositionChanged(newXPos, newYPos);
+            public void onPositionChanged(int diffX, int diffY) {
+                super.onPositionChanged(diffX, diffY);
 
                 setPageForSliderHeight(slider.getLocalPositionY());
             }

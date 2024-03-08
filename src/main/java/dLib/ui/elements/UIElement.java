@@ -2,7 +2,6 @@ package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.UIElementData;
-import dLib.ui.elements.implementations.Interactable;
 import dLib.util.IntVector2;
 
 import java.util.ArrayList;
@@ -15,18 +14,13 @@ import java.util.function.Consumer;
 public abstract class UIElement {
     //region Variables
 
-    //region Id
     protected String ID;
-    //endregion
 
-    //region Parent & Children
     protected UIElement parent;
     protected List<UIElementChild> children = new ArrayList<>();
-    //endregion
 
-    //region Position
     protected IntVector2 localPosition = new IntVector2(0, 0);
-    //endregion
+    private boolean dockedToParent = true;
 
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
@@ -274,12 +268,39 @@ public abstract class UIElement {
     }
     //endregion
 
-    public void onPositionChanged(int newPosX, int newPosY){
-        for(BiConsumer<Integer, Integer> consumer : positionChangedConsumers) consumer.accept(newPosX, newPosY);
+    //region Docking
+    public UIElement dockToParent(){
+        return setDockedToParent(true);
+    }
+    public UIElement undockFromParent(){
+        return setDockedToParent(false);
+    }
+    public UIElement setDockedToParent(boolean dockedToParent){
+        this.dockedToParent = dockedToParent;
+        return this;
+    }
+
+    public boolean isDockedToParent(){
+        return dockedToParent;
+    }
+    //endregion
+
+    public void onPositionChanged(int diffX, int diffY){
+        for(BiConsumer<Integer, Integer> consumer : positionChangedConsumers) consumer.accept(diffX, diffY);
+
+        for(UIElementChild child : children){
+            child.element.onParentPositionChanged(diffX, diffY);
+        }
     }
     public UIElement addOnPositionChangedConsumer(BiConsumer<Integer, Integer> consumer){
         positionChangedConsumers.add(consumer);
         return this;
+    }
+
+    protected void onParentPositionChanged(int diffX, int diffY){
+        if(!isDockedToParent()){
+            offset(-diffX, -diffY);
+        }
     }
 
     //endregion
