@@ -34,7 +34,7 @@ public class ScreenEditorElementListScreen extends AbstractScreenEditorToolbarSc
             }
         }.setTitle("Scene Elements:").setInvertedItemOrder(true);
         previewItemList.getBackground().setImage(null);
-        addElement(previewItemList);
+        addChildNCS(previewItemList);
 
         hide();
     }

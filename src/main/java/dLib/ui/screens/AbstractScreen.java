@@ -22,65 +22,66 @@ import sayTheSpire.Output;
 import java.util.UUID;
 
 // Abstract version of a screen
-public abstract class AbstractScreen {
+public abstract class AbstractScreen extends UIElement {
     /** Variables */
-    private String ID;
-
-    public Renderable background;
-    protected Interactable cancelElement;
-
-    protected ElementManager elementManager = new ElementManager();
-
     protected UITheme theme;
 
     protected static UIStrings globalStrings;
     protected UIStrings localStrings;
 
     private InputProcessor cachedInputProcessor;
-
-    private boolean pendingRefresh = false;
-    private boolean pendingTempPurge = false;
-
     private AbstractScreen screenToOpenOnClose;
 
-    private boolean hidden = false;
+    private boolean pendingRefresh = false;
 
     /** Constructors */
     public AbstractScreen(){
+        super(0, 0, 1920, 1080);
         localStrings = CardCrawlGame.languagePack.getUIString(getModId() + ":" + this.getClass().getSimpleName());
-        this.ID = "Screen_" + UUID.randomUUID().toString().replace("-", "");
-        hidden = false;
         theme = UIThemeManager.getDefaultTheme();
     }
 
-    /** Update & Render */
+    /** Methods */
+    //region Update & Render
     public void update(){
-        if(hidden) return;
-
-        updateInput();
-
-        elementManager.update();
-        if(background != null) background.update();
+        if(!shouldUpdate()) return;
+        super.update();
 
         if(pendingRefresh) {
             refreshScreen();
             pendingRefresh = false;
         }
     }
-    public void render(SpriteBatch sb){
-        if(hidden) return;
+    //endregion
 
-        if(background != null) background.render(sb);
-        elementManager.render(sb);
+    //region Interactions
+
+    @Override
+    public boolean onDownInteraction() {
+        if(parent != null) return super.onDownInteraction();
+
+        selectPreviousChild();
+        return true;
     }
 
-    /** ID */
-    public void setId(String newID){
-        this.ID = newID;
+    @Override
+    public boolean onUpInteraction() {
+        if(parent != null) return super.onUpInteraction();
+
+        selectNextChild();
+        return true;
     }
-    public String getId(){
-        return ID;
+
+    //endregion
+
+    //region Refresh
+    public void markForRefresh(){
+        pendingRefresh = true;
     }
+    protected void refreshScreen(){}
+    //endregion
+
+    /** DEPRECATED */
 
     /** Theme */
     public AbstractScreen setThemeOverride(UITheme theme){
@@ -112,58 +113,11 @@ public abstract class AbstractScreen {
     }
     public AbstractScreen getScreenToOpenOnClose(){ return this.screenToOpenOnClose;}
 
-    /** Show & Hide */
-    public void hide(){
-        hidden = true;
-    }
-    public void show(){
-        hidden = false;
-    }
-
-    /** Elements */
-    public void addElement(UIElement element){
-        CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY(), element.getWidth(), element.getHeight());
-        compositeUIElement.middle = element;
-        elementManager.addElement(compositeUIElement);
-    }
-    public void addElement(UIElement element, boolean temporary){
-        CompositeUIElement compositeUIElement = new CompositeUIElement(element.getPositionX(), element.getPositionY(), element.getWidth(), element.getHeight());
-        compositeUIElement.middle = element;
-        compositeUIElement.temporary = temporary;
-        elementManager.addElement(compositeUIElement);
-    }
-    public void addElement(CompositeUIElement compositeUIElement){
-        elementManager.addElement(compositeUIElement);
-    }
-
-    protected void removeElement(UIElement element){
-        for(CompositeUIElement interactableElement : elementManager.getElements()){
-            interactableElement.removeUIElement(element);
-        }
-    }
-
     protected void addGenericBackground(){
-        this.background = new Image(theme.background, 0, 0, 1920, 1080);
-    }
-    protected void registerCancelElement(Interactable interactable){
-        this.cancelElement = interactable;
-        addElement(cancelElement);
+        addChildNCS(new Image(theme.background, 0, 0, getWidth(), getHeight()));
     }
 
     /** Input */
-    private void updateInput(){
-        if(Help.Input.isPressed(CInputActionSet.down, InputActionSet.down)) elementManager.onDownInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.up, InputActionSet.up)) elementManager.onUpInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.left, InputActionSet.left)) elementManager.onLeftInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.right, InputActionSet.right)) elementManager.onRightInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.proceed, InputActionSet.confirm)) elementManager.onConfirmInteraction(this);
-        if(Help.Input.isPressed(CInputActionSet.cancel, InputActionSet.cancel)) onCancelButtonPressed();
-    }
-
-    private void onCancelButtonPressed(){
-        cancelElement.clickLeft();
-    }
-
     public void resetInputProcessor(){
         Gdx.input.setInputProcessor(cachedInputProcessor);
     }
@@ -171,26 +125,6 @@ public abstract class AbstractScreen {
     /** Iteration */
     public void onIterationReachedTop(){}
     public void onIterationReachedBottom(){}
-
-    /** Refresh & Temp Purge*/
-    public void markForRefresh(){
-        pendingRefresh = true;
-    }
-    public void markForTempPurge(){
-        pendingRefresh = true;
-        pendingTempPurge = true;
-    }
-
-    protected void refreshScreen(){
-        if(pendingTempPurge){
-            elementManager.purgeTempElements();
-            pendingTempPurge = false;
-
-            onTempPurge();
-        }
-    }
-    protected void onTempPurge(){
-    }
 
     /** Say the Spire */
     public abstract String getModId();

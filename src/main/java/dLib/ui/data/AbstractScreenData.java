@@ -44,42 +44,6 @@ public class AbstractScreenData implements Serializable {
     }
 
     /** Converters */
-    public AbstractScreen makeLiveInstance(){
-        //TODO this should use generated screen instead once IntelliJ integration is up
-        AbstractScreen newScreen = new AbstractScreen() {
-            @Override
-            public String getModId() {
-                return DLib.getModID();
-            }
-        };
-
-        ArrayList<UIElement> elements = new ArrayList<>();
-        for(UIElementData elementData : data){
-            UIElement liveInstance = elementData.makeLiveInstance();
-            if(liveInstance == null){
-                DLibLogger.log("Failed to create a live instance of an element!");
-                continue;
-            }
-
-            if(elementData instanceof BackgroundData){
-                newScreen.background = (Renderable) liveInstance;
-            }
-
-            repositionElement(liveInstance, new IntVector2(0, 0));
-            rescaleElement(liveInstance, new IntVector2(1920, 1080));
-            elements.add(liveInstance);
-        }
-
-        for(UIElement element : elements){
-            newScreen.addElement(element);
-        }
-
-        return newScreen;
-    }
-    public ScreenEditorBaseScreen makeEditorInstance(){
-        return new ScreenEditorBaseScreen(this);
-    }
-
     public ArrayList<UIElement> makeLiveItems(){
         ArrayList<UIElement> elements = new ArrayList<>();
         for(UIElementData elementData : data){

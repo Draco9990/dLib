@@ -9,8 +9,7 @@ import dLib.ui.themes.UITheme;
 public class AbstractScreenEditorToolbarScreen extends AbstractScreen {
     /** Constructors */
     public AbstractScreenEditorToolbarScreen(){
-        background = new Renderable(UITheme.whitePixel, 1508, 10, 404, 1060);
-        background.setRenderColor(Color.valueOf("#242424FF"));
+        addChildNCS(new Renderable(UITheme.whitePixel, 1508, 10, 404, 1060).setRenderColor(Color.valueOf("#242424FF")));
     }
 
     /** ID */

@@ -18,7 +18,7 @@ public abstract class AbstractObjectListPickerScreen<ItemPickType> extends Abstr
         setScreenToOpenOnClose(caller);
 
         addGenericBackground();
-        addElement(new ListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
+        addChildCS(new ListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
             @Override
             public void onItemSelectionChanged(ArrayList<ItemPickType> items) {
                 super.onItemSelectionChanged(items);

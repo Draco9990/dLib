@@ -14,10 +14,10 @@ public class ScreenEditorNewScreenScreen extends AbstractScreen {
     public ScreenEditorNewScreenScreen(){
         addGenericBackground();
 
-        addElement(new TextBox("Enter screen name:", 539, 1080-572, 798, 105));
+        addChildNCS(new TextBox("Enter screen name:", 539, 1080-572, 798, 105));
 
         inputfield = new Inputfield("", 538, 1080-713, 800, 121);
-        addElement(inputfield);
+        addChildCS(inputfield);
 
         TextButton proceedButton = new TextButton("CREATE", 683, 1080-896, 532, 101);
         proceedButton.getButton().addOnLeftClickConsumer(new Runnable() {
@@ -26,7 +26,7 @@ public class ScreenEditorNewScreenScreen extends AbstractScreen {
                 PluginManager.sendMessage("createNewScreen", inputfield.getTextBox().getText());
             }
         });
-        addElement(proceedButton);
+        addChildCS(proceedButton);
     }
 
     @Override

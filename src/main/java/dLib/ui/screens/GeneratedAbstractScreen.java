@@ -18,16 +18,10 @@ public abstract class GeneratedAbstractScreen extends AbstractScreen{
     public void initialize(){
         AbstractScreenData screenData = loadDataFromClassname(getClass().getSimpleName());
         ArrayList<UIElement> makeLiveItems = screenData.makeLiveItems();
-        for (int i = 0; i < makeLiveItems.size(); i++) {
-            UIElement element = makeLiveItems.get(i);
-
-            if(screenData.data.get(i) instanceof BackgroundData){
-                background = (Renderable) element;
-            }
-
+        for (UIElement element : makeLiveItems) {
             Reflection.setFieldValue(element.getId(), this, element);
 
-            addElement(element);
+            addChildNCS(element); // TODO elements should have a setting for Controller Selectable
         }
     }
 

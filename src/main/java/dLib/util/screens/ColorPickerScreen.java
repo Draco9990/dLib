@@ -37,13 +37,13 @@ public class ColorPickerScreen extends AbstractScreen {
                 onColorSelectedChanged(color);
             }
         });
-        addElement(colorWheel);
+        addChildNCS(colorWheel);
 
         hoverPreview = new Renderable(UITheme.whitePixel, 273, 1080-596, 475, 33);
-        addElement(hoverPreview);
+        addChildNCS(hoverPreview);
 
         selectedPreview = new Renderable(UITheme.whitePixel, 50, 1080-850, 1810, 80);
-        addElement(selectedPreview);
+        addChildNCS(selectedPreview);
 
         TextButton confirmButton = new TextButton("CONFIRM", 685, 1080-1015, 550, 150);
         confirmButton.getButton().addOnLeftClickConsumer(new Runnable() {
@@ -53,7 +53,7 @@ public class ColorPickerScreen extends AbstractScreen {
                 ScreenManager.closeScreen();
             }
         });
-        addElement(confirmButton);
+        addChildCS(confirmButton);
 
         onColorSelectedChanged(initialColor);
     }

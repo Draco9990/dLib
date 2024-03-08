@@ -51,15 +51,14 @@ public class Inputfield extends CompositeUIElement {
 
         this.background = new Button(posX, posY, width, height){
             @Override
-            protected void onSelected() {
-                super.onSelected();
-                Gdx.input.setInputProcessor(inputProcessor);
-            }
-
-            @Override
-            protected void onDeselected() {
-                super.onDeselected();
-                resetInputProcessor();
+            public void onSelectionStateChanged() {
+                super.onSelectionStateChanged();
+                if(selected){
+                    Gdx.input.setInputProcessor(inputProcessor);
+                }
+                else{
+                    resetInputProcessor();
+                }
             }
         }.setImage(UIThemeManager.getDefaultTheme().inputfield);
         this.middle = this.background;

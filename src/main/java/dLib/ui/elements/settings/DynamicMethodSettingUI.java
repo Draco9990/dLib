@@ -7,7 +7,7 @@ import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.prefabs.MethodBindingSetting;
 
-import java.util.UUID;
+import java.util.function.Consumer;
 
 public class DynamicMethodSettingUI extends AbstractSettingUI {
     /** Variables */
@@ -19,12 +19,14 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
         DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) setting.getCurrentValue();
 
         middle = new Inputfield(dynamicMethodBinding.getBoundMethod(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX) - buttonDim * 2, valueHeight);
-        ((Inputfield)(middle)).getButton().addOnDeselectedConsumer(new Runnable() {
+        ((Inputfield)(middle)).getButton().addOnSelectionStateChangedConsumer(new Consumer<Boolean>() {
             @Override
-            public void run() {
-                dynamicMethodBinding.setBoundMethod(((Inputfield)middle).getTextBox().getText());
-                if(!dynamicMethodBinding.getBoundMethod().equals(((Inputfield)middle).getTextBox().getText())){
-                    ((Inputfield)middle).getTextBox().setText(dynamicMethodBinding.getBoundMethod());
+            public void accept(Boolean selected) {
+                if(!selected){
+                    dynamicMethodBinding.setBoundMethod(((Inputfield)middle).getTextBox().getText());
+                    if(!dynamicMethodBinding.getBoundMethod().equals(((Inputfield)middle).getTextBox().getText())){
+                        ((Inputfield)middle).getTextBox().setText(dynamicMethodBinding.getBoundMethod());
+                    }
                 }
             }
         });

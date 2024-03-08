@@ -26,7 +26,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
 
     /** Constructors */
     public ScreenEditorPreviewScreen(){
-        addElement(new Interactable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), xOffset, yOffset, width, height){
+        addChildCS(new Interactable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), xOffset, yOffset, width, height){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
@@ -37,7 +37,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
 
     /** Preview Item Management */
     public void addPreviewItem(ScreenEditorItem item){
-        addElement(item);
+        addChildNCS(item);
         previewItems.add(item);
 
         ScreenEditorBaseScreen.instance.getActiveItemsManager().addActiveItem(item);
@@ -68,7 +68,7 @@ public class ScreenEditorPreviewScreen extends AbstractScreen {
     }
 
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
-        removeElement(itemToDelete);
+        removeChild(itemToDelete);
         previewItems.remove(itemToDelete);
 
         PluginManager.sendMessage("screenElementRemove", ScreenEditorBaseScreen.instance.getEditingScreen(), itemToDelete.getId());

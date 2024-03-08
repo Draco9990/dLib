@@ -290,67 +290,6 @@ public class CompositeUIElement extends UIElement {
     }
 
     /** Fired whenever the current element group comes into focus */
-    public void select(){
-        if(ModManager.SayTheSpire.isActive()){
-            if(getOnSelectedLine() != null){
-                Output.text(getOnSelectedLine(), true);
-            }
-        }
-
-        for(UIElement otherElement : background) {
-            if(otherElement instanceof Interactable){
-                ((Interactable) otherElement).select();
-            }
-        }
-        if(left != null){
-            if(left instanceof Interactable){
-                ((Interactable) left).select();
-            }
-        }
-        if(middle != null){
-            if(middle instanceof Interactable){
-                ((Interactable) middle).select();
-            }
-        }
-        if(right != null){
-            if(right instanceof Interactable){
-                ((Interactable) right).select();
-            }
-        }
-        for(UIElement otherElement : foreground) {
-            if(otherElement instanceof Interactable){
-                ((Interactable) otherElement).select();
-            }
-        }
-    }
-    public void deselect(){
-        //TODO fix to support composites maybe create SelectableItemInterface?
-        for(UIElement otherElement : background) {
-            if(otherElement instanceof Interactable){
-                ((Interactable) otherElement).deselect();
-            }
-        }
-        if(left != null){
-            if(left instanceof Interactable){
-                ((Interactable) left).deselect();
-            }
-        }
-        if(middle != null){
-            if(middle instanceof Interactable){
-                ((Interactable) middle).deselect();
-            }
-        }
-        if(right != null){
-            if(right instanceof Interactable){
-                ((Interactable) right).deselect();
-            }
-        }
-        for(UIElement otherElement : foreground) {
-            if(otherElement instanceof Interactable){
-                ((Interactable) otherElement).deselect();
-            }
-        }
-    }
 
     public void triggerLeft(){
         if(left != null){

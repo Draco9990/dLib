@@ -83,7 +83,7 @@ public class Interactable extends Hoverable{
 
         GlobalEvents.subscribe(Events.PreLeftClickEvent.class, (event) -> {
             if(event.source != this && isSelected()){
-                deselect();
+                deselect(); //TODO RF Move this to UIElement and deselet if child is not source
             }
         });
     }
@@ -173,7 +173,7 @@ public class Interactable extends Hoverable{
             }
         }
 
-        select();
+        select(); //TODO RF Select parents as well
 
         for(Runnable consumer : onLeftClickConsumers) consumer.run();
     }
@@ -273,59 +273,6 @@ public class Interactable extends Hoverable{
     }
     public String getOnTriggerLine(){
         return onTriggeredLine;
-    }
-
-    /** Select */
-    public void select(){
-        setSelected(true);
-    }
-    public void deselect(){
-        setSelected(false);
-    }
-
-    protected void onSelected(){
-        for(Runnable consumer : onSelectedConsumers) consumer.run();
-    }
-    protected void onDeselected(){
-        for(Runnable consumer : onUnselectedConsumers) consumer.run();
-    }
-
-    public Interactable addOnSelectedConsumer(Runnable consumer){
-        onSelectedConsumers.add(consumer);
-        return this;
-    }
-    public Interactable addOnDeselectedConsumer(Runnable consumer){
-        onUnselectedConsumers.add(consumer);
-        return this;
-    }
-
-    protected void setSelected(boolean selected){
-        if(selected == this.selected) return;
-
-        this.selected = selected;
-
-        if(selected){
-            onSelected();
-            if(ModManager.SayTheSpire.isActive()){
-                if(getOnSelectLine() != null){
-                    Output.text(getOnSelectLine(), true);
-                }
-            }
-        }
-        else{
-            onDeselected();
-        }
-    }
-    public boolean isSelected(){
-        return selected;
-    }
-
-    public Interactable setOnSelectLine(String newLine){
-        this.onSelectLine = newLine;
-        return this;
-    }
-    public String getOnSelectLine(){
-        return onSelectLine;
     }
 
     /** Hover */

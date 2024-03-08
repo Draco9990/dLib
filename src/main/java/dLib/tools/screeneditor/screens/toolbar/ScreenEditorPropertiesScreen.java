@@ -23,7 +23,7 @@ public class ScreenEditorPropertiesScreen extends AbstractScreenEditorToolbarScr
         }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:");
         propertiesItemList.getBackground().setImage(null);
         propertiesItemList.setItemSpacing(25);
-        addElement(propertiesItemList);
+        addChildNCS(propertiesItemList);
 
         hide();
     }

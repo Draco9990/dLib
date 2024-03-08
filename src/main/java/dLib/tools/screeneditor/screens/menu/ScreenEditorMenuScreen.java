@@ -14,7 +14,7 @@ public class ScreenEditorMenuScreen extends AbstractScreen {
 
     /** Constructors */
     public ScreenEditorMenuScreen(){
-        background = new Renderable(UITheme.whitePixel, 10, 1080 - 218, 1489, 209).setRenderColor(Color.valueOf("#242424FF"));
+        addChildNCS(new Renderable(UITheme.whitePixel, 10, 1080 - 218, 1489, 209).setRenderColor(Color.valueOf("#242424FF")));
 
         registerFileControls();
         registerToolbarControls();
@@ -26,11 +26,11 @@ public class ScreenEditorMenuScreen extends AbstractScreen {
             ScreenManager.closeScreen();
             ScreenEditorBaseScreen.instance = null;
         });
-        addElement(closeButton);
+        addChildNCS(closeButton);
 
         TextButton saveButton = new TextButton("Save", 20, 1080-110, 200, 40);
         saveButton.getButton().addOnLeftClickConsumer(() -> {ScreenEditorBaseScreen.instance.getSaveManager().save();});
-        addElement(saveButton);
+        addChildNCS(saveButton);
     }
 
     public void registerToolbarControls(){
@@ -39,21 +39,21 @@ public class ScreenEditorMenuScreen extends AbstractScreen {
             ScreenEditorBaseScreen.instance.hideAllToolbarItems();
             ScreenEditorBaseScreen.instance.getToolbarScreen().show();
         });
-        addElement(toolbarButton);
+        addChildNCS(toolbarButton);
 
         TextButton propertiesButton = new TextButton("Properties", 265, 1080-110, 200, 40);
         propertiesButton.getButton().addOnLeftClickConsumer(() -> {
             ScreenEditorBaseScreen.instance.hideAllToolbarItems();
             ScreenEditorBaseScreen.instance.getPropertiesScreen().show();
         });
-        addElement(propertiesButton);
+        addChildNCS(propertiesButton);
 
         TextButton elementsButton = new TextButton("Elements", 265, 1080-160, 200, 40);
         elementsButton.getButton().addOnLeftClickConsumer(() -> {
             ScreenEditorBaseScreen.instance.hideAllToolbarItems();
             ScreenEditorBaseScreen.instance.getElementListScreen().show();
         });
-        addElement(elementsButton);
+        addChildNCS(elementsButton);
     }
 
     /** ModID */

@@ -39,3 +39,6 @@ Add a merge to composite button to merge few components together, when on compos
 -> composites delete button override
 --> add themes
 -> listbox textbox expose as textlable
+--> add a consumer pass and rename to listener
+--> say the spire pass
+--> allow elements do delcare themselves as standalone selectables

@@ -11,13 +11,15 @@ public class StringSettingUI extends AbstractSettingUI {
         super(setting, xPos, yPos, width, height);
 
         middle = new Inputfield(setting.getCurrentValue(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
-        ((Inputfield)(middle)).getButton().addOnDeselectedConsumer(new Runnable() {
+        ((Inputfield)(middle)).getButton().addOnSelectionStateChangedConsumer(new Consumer<Boolean>() {
             @Override
-            public void run() {
-                if(setting.getConfirmationMode().equals(StringSetting.InputConfirmationMode.SELECTION_MANAGED)) {
-                    setting.trySetValue(((Inputfield) middle).getTextBox().getText());
-                    if(!((Inputfield)(middle)).getTextBox().getText().equals(setting.getCurrentValue())){
-                        ((Inputfield)(middle)).getTextBox().setText(setting.getCurrentValue());
+            public void accept(Boolean aBoolean) {
+                if(!aBoolean){
+                    if(setting.getConfirmationMode().equals(StringSetting.InputConfirmationMode.SELECTION_MANAGED)) {
+                        setting.trySetValue(((Inputfield) middle).getTextBox().getText());
+                        if(!((Inputfield)(middle)).getTextBox().getText().equals(setting.getCurrentValue())){
+                            ((Inputfield)(middle)).getTextBox().setText(setting.getCurrentValue());
+                        }
                     }
                 }
             }

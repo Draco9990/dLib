@@ -2,11 +2,15 @@ package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.UIElementData;
+import dLib.ui.elements.implementations.Interactable;
 import dLib.util.IntVector2;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public abstract class UIElement {
     /** Variables */
@@ -16,21 +20,24 @@ public abstract class UIElement {
 
     //region Parent & Children
     protected UIElement parent;
-    protected UIElement[] children;
+    protected List<UIElementChild> children = new ArrayList<>();
     //endregion
 
     //region Position
     protected IntVector2 localPosition = new IntVector2(0, 0);
     //endregion
 
-    //region Dimensions
-    protected int width = 0;
-    protected int height = 0;
+    //region Selection
+    private boolean selected;
+    private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
     //endregion
 
     /** DEPRECATED */
     protected int x = 0;
     protected int y = 0;
+
+    protected int width = 0;
+    protected int height = 0;
 
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
@@ -54,10 +61,22 @@ public abstract class UIElement {
         this.height = data.height;
     }
 
-    /** Class Methods */
+    /** Methods */
     //region Update & Render
-    public abstract void update();
-    public abstract void render(SpriteBatch sb);
+    public void update(){
+        if(!shouldUpdate()) return;
+
+        for(int i = children.size() - 1; i >= 0; i--){
+            children.get(i).element.update();
+        }
+    }
+    public void render(SpriteBatch sb){
+        if(!shouldRender()) return;
+
+        for(UIElementChild child : children){
+            child.element.render(sb);
+        }
+    }
 
     protected boolean shouldUpdate(){
         return isActive() && isEnabled() && isVisible();
@@ -75,6 +94,72 @@ public abstract class UIElement {
     public String getId(){
         return ID;
     }
+    //endregion
+
+    //region Parent & Children
+
+    //region Parent
+    public UIElement setParent(UIElement parent){
+        this.parent = parent;
+        return this;
+    }
+    public UIElement getParent(){
+        return parent;
+    }
+    public boolean hasParent(){
+        return parent != null;
+    }
+    //endregion
+
+    //region Children
+    public UIElement addChildNCS(UIElement child){
+        return addChild(child, false);
+    }
+    public UIElement addChildCS(UIElement child){
+        return addChild(child, true);
+    }
+    public UIElement addChild(UIElement child, boolean isControllerSelectable){
+        return addChild(new UIElementChild(child, isControllerSelectable));
+    }
+    public UIElement addChild(UIElementChild child){
+        this.children.add(child);
+        child.element.setParent(this);
+        return this;
+    }
+
+    public UIElement setChildren(ArrayList<UIElementChild> children){
+        clearChildren();
+        for(UIElementChild child : children){
+            addChild(child);
+        }
+        return this;
+    }
+
+    public UIElement removeChild(UIElement child){
+        this.children.remove(child);
+        if(Objects.equals(child.getParent(), this)) child.setParent(null);
+        return this;
+    }
+    public UIElement clearChildren(){
+        for(UIElementChild child : children){
+            if(Objects.equals(child.element.getParent(), this)){
+                child.element.setParent(null);
+            }
+        }
+        children.clear();
+        return this;
+    }
+
+    public UIElementChild getFirstChild(){
+        if(children.isEmpty()) return null;
+        return children.get(0);
+    }
+    public UIElementChild getLastChild(){
+        if(children.isEmpty()) return null;
+        return children.get(children.size() - 1);
+    }
+    //endregion
+
     //endregion
 
     //region Position
@@ -132,7 +217,7 @@ public abstract class UIElement {
         return getWorldPosition().y;
     }
     public final IntVector2 getWorldPosition(){
-        if(parent == null) return getLocalPosition();
+        if(hasParent()) return getLocalPosition();
         else{
             IntVector2 parentWorld = parent.getWorldPosition();
             parentWorld.x += getLocalPositionX();
@@ -184,6 +269,149 @@ public abstract class UIElement {
 
     //endregion
 
+    //region Interactions
+    public boolean onLeftInteraction(){
+        boolean hasInteraction = false;
+        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onLeftInteraction();
+        return hasInteraction;
+    }
+    public boolean onRightInteraction(){
+        boolean hasInteraction = false;
+        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onRightInteraction();
+        return hasInteraction;
+    }
+    public boolean onUpInteraction(){
+        boolean hasInteraction = false;
+        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onUpInteraction();
+        return hasInteraction;
+    }
+    public boolean onDownInteraction(){
+        boolean hasInteraction = false;
+        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onDownInteraction();
+        return hasInteraction;
+    }
+
+    public boolean onConfirmInteraction(){
+        boolean hasInteraction = false;
+        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onConfirmInteraction();
+        return hasInteraction;
+    }
+    public boolean onCancelInteraction(){
+        boolean hasInteraction = false;
+        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onCancelInteraction();
+        return hasInteraction;
+    }
+    //endregion
+
+    //region Selection
+    public UIElement select(){
+        return setSelected(true);
+    }
+    public UIElement deselect(){
+        return setSelected(false);
+    }
+    public UIElement setSelected(boolean selected){
+        this.selected = selected;
+        onSelectionStateChanged();
+        return this;
+    }
+
+    public boolean isSelected(){
+        return selected;
+    }
+
+    public void onSelectionStateChanged(){
+        for(Consumer<Boolean> consumer : onSelectionStateChangedConsumers) consumer.accept(selected);
+    }
+    public UIElement addOnSelectionStateChangedConsumer(Consumer<Boolean> consumer){
+        onSelectionStateChangedConsumers.add(consumer);
+        return this;
+    }
+
+    public final UIElement getInnerMostSelectedChild(){
+        for(UIElementChild child : children) {
+            if(child.element.isSelected()){
+                UIElement selectedChild = child.element.getInnerMostSelectedChild();
+                return selectedChild == null ? child.element : selectedChild;
+            }
+        }
+        return null;
+    }
+
+    public final boolean hasPreviousChildToSelect(){
+        if(children.isEmpty()) return false;
+
+        UIElementChild firstChild = getFirstChild();
+        if(firstChild.element.isSelected()){
+            return firstChild.element.hasPreviousChildToSelect();
+        }
+
+        return children.size() > 1;
+    }
+    public final void selectPreviousChild(){
+        boolean selectedPreviousChild = false;
+        for(UIElementChild child : children){
+            if(child.element.isSelected()){
+                if(child.element.hasPreviousChildToSelect()){
+                    selectedPreviousChild = true;
+                    child.element.selectPreviousChild();
+                }
+            }
+        }
+
+        if(!selectedPreviousChild){
+            for(int i = children.size() - 1; i >= 0; i--){
+                if(children.get(i).element.isSelected()){
+                    children.get(i).element.deselect();
+                }
+
+                if(i - 1 < 0){
+                    return;
+                }
+
+                children.get(i).element.select();
+            }
+        }
+    }
+
+    public final boolean hasNextChildToSelect(){
+        if(children.isEmpty()) return false;
+
+        UIElementChild lastChild = getLastChild();
+        if(lastChild.element.isSelected()){
+            return lastChild.element.hasNextChildToSelect();
+        }
+
+        return children.size() > 1;
+    }
+    public final void selectNextChild(){
+        boolean selectedNextChild = false;
+        for(UIElementChild child : children){
+            if(child.element.isSelected()){
+                if(child.element.hasNextChildToSelect()){
+                    selectedNextChild = true;
+                    child.element.selectNextChild();
+                }
+            }
+        }
+
+        if(!selectedNextChild){
+            for(int i = 0; i < children.size(); i++){
+                if(children.get(i).element.isSelected()){
+                    children.get(i).element.deselect();
+                }
+
+                if(i + 1 >= children.size()){
+                    return;
+                }
+
+                children.get(i).element.select();
+            }
+        }
+    }
+    //endregion
+
+    /** DEPRECATED */
     /** Position */
     public UIElement setPositionX(int newPosX){
         setPosition(newPosX, y);
@@ -294,5 +522,14 @@ public abstract class UIElement {
         return isVisible() || isEnabled();
     }
 
-    /** Children */
+    /** CLASS DEFINITIONS */
+    public static class UIElementChild{
+        public UIElement element;
+        public boolean isControllerSelectable;
+
+        public UIElementChild(UIElement element, boolean isControllerSelectable){
+            this.element = element;
+            this.isControllerSelectable = isControllerSelectable;
+        }
+    }
 }

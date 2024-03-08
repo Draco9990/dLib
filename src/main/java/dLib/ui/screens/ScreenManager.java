@@ -9,9 +9,12 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.OverlayMenu;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
+import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
 import dLib.DLib;
+import dLib.ui.elements.UIElement;
 import dLib.util.Reflection;
 import dLib.util.Help;
 
@@ -24,7 +27,8 @@ public class ScreenManager {
     public static AbstractDungeon.RenderScene cachedRenderScene = null;
     public static AbstractDungeon.CurrentScreen cachedScreen = null;
 
-    /** Screen Open and Close */
+    /** Class Methods */
+    //region Screen Open & Close
     public static void openScreen(AbstractScreen newScreen){
         if(newScreen == null){
             DLib.logError("openScreen called with null newScreen. Stacktrace:");
@@ -95,6 +99,92 @@ public class ScreenManager {
     public static AbstractScreen getCurrentScreen(){
         return screen;
     }
+    //endregion
+
+    //region Input Manager
+    private static void updateInput(){
+        if(Help.Input.isPressed(CInputActionSet.down, InputActionSet.down)) onDownPressed();
+        if(Help.Input.isPressed(CInputActionSet.up, InputActionSet.up)) onUpPressed();
+        if(Help.Input.isPressed(CInputActionSet.left, InputActionSet.left)) onLeftPressed();
+        if(Help.Input.isPressed(CInputActionSet.right, InputActionSet.right)) onRightPressed();
+        if(Help.Input.isPressed(CInputActionSet.proceed, InputActionSet.confirm)) onConfirmPressed();
+        if(Help.Input.isPressed(CInputActionSet.cancel, InputActionSet.cancel)) onCancelPressed();
+    }
+
+    private static void onDownPressed(){
+        boolean handled = false;
+
+        UIElement selectedElement = getCurrentScreen().getInnerMostSelectedChild();
+        if(selectedElement != null){
+            handled = selectedElement.onDownInteraction();
+        }
+
+        if(!handled){
+            getCurrentScreen().onDownInteraction();
+        }
+    }
+    private static void onUpPressed(){
+        boolean handled = false;
+
+        UIElement selectedElement = getCurrentScreen().getInnerMostSelectedChild();
+        if(selectedElement != null){
+            handled = selectedElement.onUpInteraction();
+        }
+
+        if(!handled){
+            getCurrentScreen().onUpInteraction();
+        }
+    }
+    private static void onLeftPressed(){
+        boolean handled = false;
+
+        UIElement selectedElement = getCurrentScreen().getInnerMostSelectedChild();
+        if(selectedElement != null){
+            handled = selectedElement.onLeftInteraction();
+        }
+
+        if(!handled){
+            getCurrentScreen().onLeftInteraction();
+        }
+    }
+    private static void onRightPressed(){
+        boolean handled = false;
+
+        UIElement selectedElement = getCurrentScreen().getInnerMostSelectedChild();
+        if(selectedElement != null){
+            handled = selectedElement.onRightInteraction();
+        }
+
+        if(!handled){
+            getCurrentScreen().onRightInteraction();
+        }
+    }
+
+    private static void onConfirmPressed(){
+        boolean handled = false;
+
+        UIElement selectedElement = getCurrentScreen().getInnerMostSelectedChild();
+        if(selectedElement != null){
+            handled = selectedElement.onConfirmInteraction();
+        }
+
+        if(!handled){
+            getCurrentScreen().onConfirmInteraction();
+        }
+    }
+    private static void onCancelPressed(){
+        boolean handled = false;
+
+        UIElement selectedElement = getCurrentScreen().getInnerMostSelectedChild();
+        if(selectedElement != null){
+            handled = selectedElement.onCancelInteraction();
+        }
+
+        if(!handled){
+            getCurrentScreen().onCancelInteraction();
+        }
+    }
+    //endregion
 
     /** Misc methods */
     public static void initializeGlobalStrings(){
