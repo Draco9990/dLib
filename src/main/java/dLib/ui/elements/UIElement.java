@@ -39,7 +39,7 @@ public abstract class UIElement {
     protected int x = 0;
     protected int y = 0;
 
-    protected int width = 0;
+    protected int width = 0; //TODO RF replace with scale
     protected int height = 0;
 
     protected boolean isVisible = true;

@@ -71,7 +71,8 @@ public class ColorPicker extends CompositeUIElement {
     }
 
     public static class ColorWheel extends Interactable {
-        /** Variables */
+        //region Variables
+
         private Texture colorWheelTexture;
 
         private ArrayList<Consumer<Color>> colorHoveredConsumers = new ArrayList<>();
@@ -79,43 +80,58 @@ public class ColorPicker extends CompositeUIElement {
 
         private float lightness = 0.5f;
 
-        /** Constructors */
+        //endregion
+
+        //region Constructors
+
         public ColorWheel(int x, int y, int width, int height) {
             super(null, x, y, width, height);
             recreateTexture();
         }
 
-        /** Position & Dimensions*/
-        @Override
-        public ColorWheel setPosition(Integer newPosX, Integer newPosY) {
-            super.setPosition(newPosX, newPosY);
-            recreateTexture();
-            return this;
-        }
+        //endregion
+
+        //region Methods
+
+        //region Dimensions
 
         @Override
         public ColorWheel setDimensions(Integer newWidth, Integer newHeight) {
             super.setDimensions(newWidth, newHeight);
             recreateTexture();
             return this;
-        }
+        } //TODO RF add a parent on scale changed callback
 
-        /** Update and Render */
+        //endregion
+
+        //region render Texture & Color
+
         @Override
-        public void render(SpriteBatch sb) {
-            super.render(sb);
-            sb.setColor(Color.WHITE.cpy());
-            sb.draw(colorWheelTexture, x * Settings.xScale, y * Settings.yScale, width * Settings.xScale, height * Settings.yScale);
+        protected Texture getTextureForRender() {
+            return colorWheelTexture;
         }
 
-        /** Lightness */
+        @Override
+        protected Color getColorForRender() {
+            return Color.WHITE.cpy();
+        }
+
+        //endregion
+
+        //region Lightness
+
         public ColorWheel setLightness(float newLightness){
             lightness = newLightness;
             recreateTexture();
             return this;
         }
 
-        /** Left Click */
+        //endregion
+
+        //region Triggers
+
+        //region Left Click
+
         @Override
         protected void onLeftClick() {
             super.onLeftClick();
@@ -139,6 +155,28 @@ public class ColorPicker extends CompositeUIElement {
             if(currentColor != null) onColorHovered(getCurrentColor());
         }
 
+        //endregion
+
+        //endregion
+
+        //region Color Selection
+
+        public void onColorHovered(Color color){
+            for(Consumer<Color> consumer : colorHoveredConsumers) consumer.accept(color);
+        }
+        public ColorWheel addColorHoveredConsumer(Consumer<Color> consumer){
+            this.colorHoveredConsumers.add(consumer);
+            return this;
+        }
+
+        public void onColorSelected(Color color){
+            for(Consumer<Color> consumer : colorSelectedConsumers) consumer.accept(color);
+        }
+        public ColorWheel addColorSelectedConsumer(Consumer<Color> consumer) {
+            this.colorSelectedConsumers.add(consumer);
+            return this;
+        }
+
         private Color getCurrentColor(){
             int radius = Math.min(width, height) / 2;
             float dx = InputHelper.mX / Settings.xScale - (x + (float)width / 2);
@@ -152,7 +190,9 @@ public class ColorPicker extends CompositeUIElement {
             return null;
         }
 
-        /** Texture */
+
+        //endregion
+
         private void recreateTexture() {
             int radius = Math.min(width, height) / 2;
             Pixmap pixmap = new Pixmap(radius * 2, radius * 2, Pixmap.Format.RGBA8888);
@@ -169,21 +209,7 @@ public class ColorPicker extends CompositeUIElement {
             pixmap.dispose();
         }
 
-        /** Color Selection */
-        public void onColorHovered(Color color){
-            for(Consumer<Color> consumer : colorHoveredConsumers) consumer.accept(color);
-        }
-        public ColorWheel addColorHoveredConsumer(Consumer<Color> consumer){
-            this.colorHoveredConsumers.add(consumer);
-            return this;
-        }
 
-        public void onColorSelected(Color color){
-            for(Consumer<Color> consumer : colorSelectedConsumers) consumer.accept(color);
-        }
-        public ColorWheel addColorSelectedConsumer(Consumer<Color> consumer) {
-            this.colorSelectedConsumers.add(consumer);
-            return this;
-        }
+        //endregion
     }
 }
