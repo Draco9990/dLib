@@ -99,9 +99,8 @@ public class Interactable extends Hoverable{
     //region Update & Render
 
     @Override
-    public void update() {
-        if(!shouldUpdate()) return;
-        super.update();
+    public void updateSelf() {
+        super.updateSelf();
 
         if(isEnabled()){
             if(isHovered()){

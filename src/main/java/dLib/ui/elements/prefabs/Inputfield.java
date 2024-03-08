@@ -117,8 +117,8 @@ public class Inputfield extends CompositeUIElement {
 
     /** Update and render */
     @Override
-    public void update() {
-        super.update();
+    public void updateSelf() {
+        super.updateSelf();
 
         if(holdingDelete){
             float delta = Gdx.graphics.getDeltaTime();

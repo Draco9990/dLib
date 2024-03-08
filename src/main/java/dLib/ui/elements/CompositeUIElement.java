@@ -37,7 +37,7 @@ public class CompositeUIElement extends UIElement {
     }
 
     /** Update */
-    public void update(){
+    public void updateSelf(){
         for(int i = foreground.size() - 1; i >= 0; i--){
             foreground.get(i).update();
         }

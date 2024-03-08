@@ -91,8 +91,8 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem {
 
     /** Update & Render */
     @Override
-    public void update() {
-        super.update();
+    public void updateSelf() {
+        super.updateSelf();
         previewListBox.update();
     }
 

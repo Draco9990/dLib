@@ -24,8 +24,8 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
 
     /** Update & Render */
     @Override
-    public void update() {
-        super.update();
+    public void updateSelf() {
+        super.updateSelf();
 
         for(int i = items.size() - 1; i >= 0; i--){
             items.get(i).update();

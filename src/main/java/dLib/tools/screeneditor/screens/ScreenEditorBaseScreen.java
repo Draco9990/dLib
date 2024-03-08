@@ -88,10 +88,9 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
     /** Update and Render */
     @Override
-    public void update() {
+    public void updateSelf() {
+        super.updateSelf();
         activeItemsManager.update();
-
-        super.update();
     }
 
     /** Editing Screen cache */

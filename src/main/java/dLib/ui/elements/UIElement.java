@@ -71,20 +71,26 @@ public class UIElement {
     //region Methods
 
     //region Update & Render
-    public void update(){
+    public final void update(){
         if(!shouldUpdate()) return;
 
         ensureElementWithinBounds();
 
-        for(int i = children.size() - 1; i >= 0; i--){
-            children.get(i).element.update();
-        }
-
+        updateChildren();
+        updateSelf();
+    }
+    protected void updateSelf(){
         if(pendingRefresh){
             pendingRefresh = false;
             onRefreshElement();
         }
     }
+    protected void updateChildren(){
+        for(int i = children.size() - 1; i >= 0; i--){
+            children.get(i).element.update();
+        }
+    }
+
     public final void render(SpriteBatch sb){
         if(!shouldRender()) return;
         renderSelf(sb);
@@ -167,7 +173,7 @@ public class UIElement {
     }
 
     public UIElement removeChild(UIElement child){
-        this.children.remove(child);
+        this.children.removeIf(next -> next.element.equals(child));
         if(Objects.equals(child.getParent(), this)) child.setParent(null);
         return this;
     }

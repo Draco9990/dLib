@@ -58,9 +58,8 @@ public class Hoverable extends Renderable{
     //region Update & Render
 
     @Override
-    public void update() {
-        if(!shouldUpdate()) return;
-        super.update();
+    public void updateSelf() {
+        super.updateSelf();
 
         if(hb != null){
             boolean hbHoveredCache = this.hb.hovered || this.hb.justHovered;

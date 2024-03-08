@@ -103,8 +103,8 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
 
     /** Update & render */
     @Override
-    public void update() {
-        super.update();
+    public void updateSelf() {
+        super.updateSelf();
 
         textBox.update();
     }

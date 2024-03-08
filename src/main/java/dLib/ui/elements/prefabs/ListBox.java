@@ -161,8 +161,8 @@ public class ListBox<ItemType> extends UIElement {
     //region Update & Render
 
     @Override
-    public void update() {
-        if(!shouldUpdate()) return;
+    public void updateSelf() {
+        super.updateSelf();
 
         if(trackScrollWheelScroll){
             int scrollDelta = (int)(Math.signum((float)Mouse.getDWheel()));
@@ -170,15 +170,20 @@ public class ListBox<ItemType> extends UIElement {
         }
 
         int currentYPos = itemBoxBackground.getHeight();
+
+        for(ListBoxItem item : items){
+            item.renderForItem.hide();
+        }
+
         for(UIElement item : getItemsForDisplay()){
             item.setLocalPosition(0, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
             item.setWidth(itemBoxBackground.getWidth() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0));
 
+            item.show();
+
             currentYPos -= item.getHeight();
             currentYPos -= itemSpacing;
         }
-
-        super.update();
     }
 
     //endregion
@@ -235,7 +240,7 @@ public class ListBox<ItemType> extends UIElement {
         ArrayList<UIElement> childrenToRemove = new ArrayList<>();
         for(UIElementChild child : children){
             for(ListBoxItem item : items){
-                if(Objects.equals(item.item, child.element)){
+                if(Objects.equals(item.renderForItem, child.element)){
                     childrenToRemove.add(child.element);
                 }
             }

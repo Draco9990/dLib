@@ -56,9 +56,9 @@ public abstract class Scrollbox extends Renderable {
 
     //region Update & Render
     @Override
-    public void update() {
+    public void updateSelf() {
+        super.updateSelf();
         recalculateScrollbar();
-        super.update();
     }
     //endregion
 
