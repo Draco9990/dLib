@@ -13,10 +13,9 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class Hoverable extends Renderable{
-    /** Variables */
-    protected Hitbox hb;
+    //region Variables
 
-    protected boolean enabled = true;
+    protected Hitbox hb;
 
     private float totalHoverDuration;
 
@@ -26,7 +25,10 @@ public class Hoverable extends Renderable{
     private ArrayList<Consumer<Float>> onHoverTickConsumers = new ArrayList<>();
     private ArrayList<Runnable> onUnhoveredConsumers = new ArrayList<>();
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public Hoverable(Texture image) {
         super(image);
         initialize();
@@ -49,14 +51,20 @@ public class Hoverable extends Renderable{
         hb = new Hitbox(x * Settings.xScale, y * Settings.yScale, width * Settings.xScale, height * Settings.yScale);
     }
 
-    /** Update and render */
+    //endregion
+
+    //region Methods
+
+    //region Update & Render
+
     @Override
     public void update() {
-        super.update();
         if(!shouldUpdate()) return;
 
         if(hb != null){
             boolean hbHoveredCache = this.hb.hovered || this.hb.justHovered;
+            this.hb.move(getWorldPositionCenteredX() * Settings.xScale, getWorldPositionCenteredY() * Settings.yScale);
+            this.hb.resize(getWidth() * Settings.xScale, getHeight() * Settings.yScale);
             this.hb.update();
 
             if(isEnabled()){
@@ -71,19 +79,24 @@ public class Hoverable extends Renderable{
                 onUnhovered();
             }
         }
+
+        super.update();
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        super.render(sb);
         if(!shouldRender()) return;
+        super.render(sb);
 
         if(hb != null){
             hb.render(sb);
         }
     }
 
-    /** Hover */
+    //endregion
+
+    //region Hover
+
     protected void onHovered(){
         totalHoverDuration = 0.f;
 
@@ -126,41 +139,15 @@ public class Hoverable extends Renderable{
         return onHoverLine;
     }
 
-    /** Hitbox */
+    //endregion
+
+    //region HitBox
+
     public Hitbox getHitbox(){
         return hb;
     }
 
-    /** Position */
-    @Override
-    public Hoverable setPosition(Integer newPosX, Integer newPosY) {
-        super.setPosition(newPosX, newPosY);
-        hb.x = newPosX * Settings.xScale;
-        hb.y = newPosY * Settings.yScale;
+    //endregion
 
-        return this;
-    }
-
-    /** Width and Height */
-    @Override
-    public Hoverable setDimensions(Integer newWidth, Integer newHeight) {
-        super.setDimensions(newWidth, newHeight);
-
-        hb.width = width * Settings.xScale;
-        hb.height = height * Settings.yScale;
-
-        return this;
-    }
-
-    /** Enabled */
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-
-        this.enabled = enabled;
-    }
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+    //endregion
 }

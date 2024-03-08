@@ -324,10 +324,10 @@ public class ListBox<ItemType> extends ListCompositeUIElement {
         // We can span entire width since elements will get shrunk if Scrollbox is present
 
         if(itemBoxBackground == null){
-            buildItemBox(x, y, width, updateHeight);
+            buildItemBox(0, 0, width, updateHeight);
         }
 
-        itemBoxBackground.setPosition(x, y);
+        itemBoxBackground.setLocalPosition(0, 0);
         itemBoxBackground.setDimensions(width, updateHeight);
 
         this.middle = itemBoxBackground;
