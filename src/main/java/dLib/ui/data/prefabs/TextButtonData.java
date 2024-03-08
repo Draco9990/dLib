@@ -3,11 +3,12 @@ package dLib.ui.data.prefabs;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.composite.TextButtonScreenEditorItem;
 import dLib.ui.data.CompositeUIElementData;
+import dLib.ui.data.UIElementData;
 import dLib.ui.elements.prefabs.TextButton;
 
 import java.io.Serializable;
 
-public class TextButtonData extends CompositeUIElementData implements Serializable {
+public class TextButtonData extends UIElementData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public ButtonData buttonData;

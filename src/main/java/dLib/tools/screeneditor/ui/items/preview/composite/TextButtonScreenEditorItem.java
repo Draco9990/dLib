@@ -7,6 +7,7 @@ import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorIt
 import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.TextButtonData;
+import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.TextButton;
@@ -31,7 +32,7 @@ public class TextButtonScreenEditorItem extends CompositeScreenEditorItem {
     }
 
     public TextButtonScreenEditorItem(TextButtonData data){
-        super(data);
+        super(null); //TODO RF fix
 
         this.button = data.buttonData.makeEditorInstance();
         this.textBox = data.textBoxData.makeEditorInstance();
@@ -40,7 +41,7 @@ public class TextButtonScreenEditorItem extends CompositeScreenEditorItem {
     /** Data */
     @Override
     public CompositeUIElementData makeElementData() {
-        return new TextButtonData();
+        return null; //TODO RF fix
     }
 
     @Override
@@ -52,8 +53,8 @@ public class TextButtonScreenEditorItem extends CompositeScreenEditorItem {
     }
 
     @Override
-    public TextButtonData getElementData() {
-        return (TextButtonData) super.getElementData();
+    public CompositeUIElementData getElementData() {
+        return null; //TODO RF fix
     }
 
     /** Instancing */

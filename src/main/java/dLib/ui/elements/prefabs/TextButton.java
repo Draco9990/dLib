@@ -2,38 +2,50 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.data.prefabs.TextButtonData;
 import dLib.ui.elements.CompositeUIElement;
+import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 
-public class TextButton extends CompositeUIElement {
-    /** Class variables */
+public class TextButton extends UIElement {
+    //region Variables
+
+    private Button button;
     private TextBox label;
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public TextButton(String text, int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
-        middle = new Button(xPos, yPos, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
+        button = new Button(0, 0, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
+        addChildCS(button);
 
         label = new TextBox(text, 0, 0, width, height);
-        foreground.add(label);
+        addChildNCS(label);
     }
 
     public TextButton(TextButtonData data){
         super(data);
 
-        middle = data.buttonData.makeLiveInstance();
+        button = data.buttonData.makeLiveInstance();
+        addChildCS(button);
 
         label = data.textBoxData.makeLiveInstance();
-        foreground.add(label);
+        addChildCS(label);
     }
 
-    /** Button */
+    //endregion
+
+    //region Methods
+
     public Button getButton(){
-        return (Button) middle;
+        return button;
     }
 
-    /** Label */
     public TextBox getTextBox(){
         return label;
     }
+
+    //endregion
 }
