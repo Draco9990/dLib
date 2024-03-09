@@ -6,14 +6,23 @@ import dLib.ui.elements.settings.ColorSettingUI;
 import dLib.util.settings.Property;
 
 public class ColorProperty extends Property<Color> {
-    /** Constructors */
+    //region Variables
+    //endregion
+
+    //region Constructors
+
     public ColorProperty(Color value) {
         super(value);
     }
 
-    /** UI */
+    //endregion
+
+    //region Methods
+
     @Override
     public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
         return new ColorSettingUI(this, xPos, yPos, width, height);
     }
+
+    //endregion
 }

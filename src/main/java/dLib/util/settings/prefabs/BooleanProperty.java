@@ -8,27 +8,36 @@ import java.io.Serializable;
 public class BooleanProperty extends Property<Boolean> implements Serializable {
     static final long serialVersionUID = 1L;
 
-    /** Variables */
+    //region Variables
+    //endregion
 
-    /** Constructors */
+    //region Constructors
+
     public BooleanProperty(boolean defaultValue){
         super(defaultValue);
     }
 
-    /** Methods */
+    //endregion
+
+    //region Methods
+
+    //region Value
+
     public void toggle(){
-        setValue_internal(!getValue());
+        setValue(!getValue());
     }
 
-    /** Title */
+    //endregion
+
     @Override
     public BooleanProperty setName(String newTitle) {
         return (BooleanProperty) super.setName(newTitle);
     }
 
-    /** UI */
     @Override
     public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
         return new ToggleSettingUI(this, xPos, yPos, width, height);
     }
+
+    //endregion
 }

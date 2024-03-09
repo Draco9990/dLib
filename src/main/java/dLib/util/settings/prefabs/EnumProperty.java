@@ -12,17 +12,26 @@ import java.util.Arrays;
 public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implements Serializable {
     static final long serialVersionUID = 1L;
 
-    /** Variables */
+    //region Variables
+
     EControlType controlType;
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public EnumProperty(Enum<T> value, EControlType controlType) {
         super(value);
 
         this.controlType = controlType;
     }
 
-    /** Methods */
+    //endregion
+
+    //region Methods
+
+    //region Values
+
     public final void previous(){
         value = EnumHelpers.previousEnum(value);
     }
@@ -40,7 +49,10 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
         return super.getValueForDisplay().replace("_", " ");
     }
 
-    /** Control type*/
+    //endregion
+
+    //region Control Type
+
     public EControlType getControlType(){
         return controlType;
     }
@@ -50,9 +62,12 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
         CLICK
     }
 
-    /** UI */
+    //endregion
+
     @Override
     public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
         return new EnumSettingUI(this, xPos, yPos, width, height);
     }
+
+    //endregion
 }
