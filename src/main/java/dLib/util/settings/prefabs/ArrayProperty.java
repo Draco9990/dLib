@@ -6,14 +6,21 @@ import java.util.ArrayList;
 public abstract class ArrayProperty<ArrayListClass extends ArrayList<ArrayItemClass>, ArrayItemClass> extends CustomProperty<ArrayListClass> implements Serializable {
     static final long serialVersionUID = 1L;
 
-    /** Variables */
+    //region Variables
+    //endregion
 
-    /** Constructors */
+    //region Constructors
+
     public ArrayProperty(ArrayListClass defaultValue){
         super(defaultValue);
     }
 
-    /** Methods */
+    //endregion
+
+    //region Methods
+
+    //region Array Management
+
     public void add(ArrayItemClass arrayItem){
         value.add(arrayItem);
     }
@@ -25,4 +32,8 @@ public abstract class ArrayProperty<ArrayListClass extends ArrayList<ArrayItemCl
     public int size(){
         return value.size();
     }
+
+    //endregion
+
+    //endregion
 }
