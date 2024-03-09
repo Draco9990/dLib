@@ -8,7 +8,6 @@ import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorIt
 import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.TextButtonData;
-import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.TextButton;
