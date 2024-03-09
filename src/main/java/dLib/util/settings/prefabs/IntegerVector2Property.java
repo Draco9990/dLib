@@ -6,11 +6,13 @@ import dLib.util.IntVector2;
 import dLib.util.IntegerVector2;
 import dLib.util.settings.Property;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public class IntegerVector2Property extends Property<IntegerVector2> {
+public class IntegerVector2Property extends Property<IntegerVector2> implements Serializable {
+    static final long serialVersionUID = 1L;
     //region Variables
 
     private String xValName;

@@ -5,10 +5,12 @@ import dLib.ui.elements.settings.AbstractSettingUI;
 import dLib.ui.elements.settings.AlignmentSettingUI;
 import dLib.util.settings.Property;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 
-public class AlignmentProperty extends Property<Alignment> {
+public class AlignmentProperty extends Property<Alignment> implements Serializable {
+    static final long serialVersionUID = 1L;
     //region Variables
 
     private transient ArrayList<BiConsumer<Alignment.HorizontalAlignment, Alignment.HorizontalAlignment>> onHorizontalAlignmentChangedListeners = new ArrayList<>();
