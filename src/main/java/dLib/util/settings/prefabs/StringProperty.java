@@ -9,27 +9,22 @@ import java.io.Serializable;
 public class StringProperty extends Property<String> implements Serializable {
     static final long serialVersionUID = 1L;
 
-    /** Variables */
+    //region Variables
+
     private InputConfirmationMode confirmationMode = InputConfirmationMode.ON_TEXT_CHANGED;
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public StringProperty(String defaultValue){
         super(defaultValue);
     }
 
-    /** UI */
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
-        return new StringSettingUI(this, xPos, yPos, width, height);
-    }
+    //endregion
 
-    /** Title */
-    @Override
-    public StringProperty setName(String newTitle) {
-        return (StringProperty) super.setName(newTitle);
-    }
+    //region Confirmation Mode
 
-    /** Input confirmation mode */
     public StringProperty setConfirmationMode(InputConfirmationMode confirmationMode){
         this.confirmationMode = confirmationMode;
 
@@ -39,6 +34,20 @@ public class StringProperty extends Property<String> implements Serializable {
     public InputConfirmationMode getConfirmationMode(){
         return confirmationMode;
     }
+
+    //region Methods
+
+    @Override
+    public StringProperty setName(String newTitle) {
+        return (StringProperty) super.setName(newTitle);
+    }
+
+    @Override
+    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+        return new StringSettingUI(this, xPos, yPos, width, height);
+    }
+
+    //endregion
 
     public enum InputConfirmationMode{
         ON_TEXT_CHANGED,
