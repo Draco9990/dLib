@@ -1,6 +1,7 @@
 package dLib.tools.screeneditor.ui.items.preview.composite;
 
 import com.badlogic.gdx.graphics.Texture;
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.CompositeScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
@@ -57,7 +58,7 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
     }
 
     /** Copy */
-    public static ScreenEditorItem makeNewInstance(){
+    public static ScreenEditorItem makeNewInstance(ScreenEditorBaseScreen screenEditor){
         return new InputfieldScreenEditorItem(0, 0, 500, 75);
     }
 

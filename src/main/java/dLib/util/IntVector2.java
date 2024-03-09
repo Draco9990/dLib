@@ -1,6 +1,10 @@
 package dLib.util;
 
-public class IntVector2 {
+import java.io.Serializable;
+
+public class IntVector2 implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public int x;
     public int y;
 

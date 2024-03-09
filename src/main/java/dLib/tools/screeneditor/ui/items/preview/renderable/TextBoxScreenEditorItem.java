@@ -2,6 +2,7 @@ package dLib.tools.screeneditor.ui.items.preview.renderable;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.Alignment;
@@ -159,7 +160,7 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     }
 
     /** Copy */
-    public static ScreenEditorItem makeNewInstance(){
+    public static ScreenEditorItem makeNewInstance(ScreenEditorBaseScreen screenEditor){
         return new TextBoxScreenEditorItem(new TextureEmptyBinding(), 0, 0, 300, 75);
     }
 

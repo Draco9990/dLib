@@ -1,6 +1,7 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
 import com.badlogic.gdx.graphics.Color;
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
@@ -38,7 +39,7 @@ public class BackgroundScreenEditorItem extends ImageScreenEditorItem {
     }
 
     /** Copy */
-    public static ScreenEditorItem makeNewInstance(){
+    public static ScreenEditorItem makeNewInstance(ScreenEditorBaseScreen screenEditor){
         return (ScreenEditorItem) new BackgroundScreenEditorItem(new TextureEmptyBinding(), ScreenEditorPreview.xOffset, ScreenEditorPreview.yOffset, ScreenEditorPreview.width, ScreenEditorPreview.height).setHoveredColor(Color.WHITE);
     }
 

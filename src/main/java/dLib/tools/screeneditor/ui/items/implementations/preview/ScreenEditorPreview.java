@@ -41,12 +41,10 @@ public class ScreenEditorPreview extends UIElement {
         getParent().getActiveItemsManager().addActiveItem(item);
     }
     public ScreenEditorItem makeNewPreviewItem(Class<? extends ScreenEditorItem> template){
-        ScreenEditorItem copy = (ScreenEditorItem) Reflection.invokeMethod("makeNewInstance", template);
+        ScreenEditorItem copy = (ScreenEditorItem) Reflection.invokeMethod("makeNewInstance", template, getParent());
         if(copy == null){
             return null;
         }
-
-        copy.screenEditor = getParent();
 
         copy.postInitialize();
 

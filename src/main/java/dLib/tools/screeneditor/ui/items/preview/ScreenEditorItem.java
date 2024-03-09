@@ -18,23 +18,46 @@ import dLib.util.settings.prefabs.IntVector2Setting;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class ScreenEditorItem extends Resizeable {
-    /** Variables */
-    private UIElementData elementData = makeElementData();
+public abstract class ScreenEditorItem<DataType extends UIElementData> extends Resizeable {
+    //region Variables
 
+    private ScreenEditorBaseScreen screenEditor;
+
+    private UIElement previewInstance;
+
+    private DataType elementData;
+
+    //Properties
     private boolean proxyDragged;
 
     private boolean highlight;
 
-    public ScreenEditorBaseScreen screenEditor;
+    //endregion
+
+    //region Settings
+    //endregion Settings
+
+    //region Constructors
+
+    public ScreenEditorItem(int xPos, int yPos, int width, int height){
+        super(null, xPos, yPos, width, height);
+        elementData = DataType.makeNew();
+    }
+
+    //endregion
+
+    //region Methods
+    //endregion
+
+    /** Variables */
 
     /** Settings */
-    private StringSetting sID = (StringSetting) new StringSetting(getId()){
+    private StringSetting sID = new StringSetting(getId()){
         @Override
         public Setting<String> setCurrentValue(String currentValue) {
             super.setCurrentValue(currentValue);
             setID(currentValue);
-            getElementData().ID = currentValue;
+            getElementData().id = currentValue;
 
             return this;
         }
@@ -72,14 +95,6 @@ public abstract class ScreenEditorItem extends Resizeable {
     }.setAxisNames("W:", "H:").setTitle("Dimensions");
 
     /** Constructors */
-    public ScreenEditorItem(Texture image) {
-        super(image);
-    }
-
-    public ScreenEditorItem(Texture image, int xPos, int yPos) {
-        super(image, xPos, yPos);
-    }
-
     public ScreenEditorItem(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
     }
@@ -186,7 +201,7 @@ public abstract class ScreenEditorItem extends Resizeable {
     /** Data */
     public abstract UIElementData makeElementData();
     public void initializeElementData(UIElementData data){
-        data.ID = getId();
+        data.id = getId();
         data.x = x;
         data.y = y;
         data.width = width;
@@ -210,7 +225,7 @@ public abstract class ScreenEditorItem extends Resizeable {
 
         super.setID(newId);
 
-        getElementData().ID = newId;
+        getElementData().id = newId;
 
         if(!Objects.equals(newId, sID.getCurrentValue())){
             sID.trySetValue(newId);

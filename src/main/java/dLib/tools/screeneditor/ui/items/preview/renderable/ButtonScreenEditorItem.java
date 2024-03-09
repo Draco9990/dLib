@@ -1,5 +1,6 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.prefabs.ButtonData;
 import dLib.ui.elements.UIElement;
@@ -29,7 +30,7 @@ public class ButtonScreenEditorItem extends InteractableScreenEditorItem {
     }
 
     /** Copy */
-    public static ScreenEditorItem makeNewInstance(){
+    public static ScreenEditorItem makeNewInstance(ScreenEditorBaseScreen screenEditor){
         return new ButtonScreenEditorItem(new TextureThemeBinding("button_small"), 0, 0, 75, 75);
     }
 

@@ -36,16 +36,6 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
     }.setTitle("Render color:");
 
     /** Constructors */
-    public RenderableScreenEditorItem(TextureBinding image) {
-        super(image.getBoundTexture());
-        initialize(image);
-    }
-
-    public RenderableScreenEditorItem(TextureBinding image, int xPos, int yPos) {
-        super(image.getBoundTexture(), xPos, yPos);
-        initialize(image);
-    }
-
     public RenderableScreenEditorItem(TextureBinding image, int xPos, int yPos, int width, int height) {
         super(image.getBoundTexture(), xPos, yPos, width, height);
         initialize(image);

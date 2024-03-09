@@ -2,6 +2,7 @@ package dLib.tools.screeneditor.ui.items.preview.composite;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.ListBoxData;
@@ -156,7 +157,7 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem {
     }
 
     /** Copy */
-    public static ScreenEditorItem makeNewInstance(){
+    public static ScreenEditorItem makeNewInstance(ScreenEditorBaseScreen screenEditor){
         return (ScreenEditorItem) new ListBoxScreenEditorItem(0, 0, 500, 500).setRenderColor(Color.LIGHT_GRAY);
     }
 

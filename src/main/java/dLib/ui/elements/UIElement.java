@@ -52,16 +52,28 @@ public class UIElement {
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         this.localPosition.x = xPos;
         this.localPosition.y = yPos;
-        this.x = xPos;
-        this.y = yPos;
         this.width = width;
         this.height = height;
     }
 
     public UIElement(UIElementData data){
-        this.ID = data.ID;
-        this.x = data.x;
-        this.y = data.y;
+        this.ID = data.id;
+
+        this.localPosition = data.localPosition;
+        this.dockedToParent = data.dockedToParent;
+
+        this.lowerLocalBounds = data.lowerLocalBound;
+        this.upperLocalBounds = data.upperLocalBound;
+        this.lowerWorldBounds = data.lowerWorldBound;
+        this.upperWorldBounds = data.upperWorldBound;
+        this.boundWithinParent = data.boundWithinParent;
+        this.borderToBorderBound = data.borderToBorderBound;
+
+        this.isVisible = data.isVisible;
+        this.isEnabled = data.isEnabled;
+
+        onSelectionStateChangedConsumers.add(aBoolean -> data.onSelectionStateChangedBinding.executeBinding(aBoolean));
+
         this.width = data.width;
         this.height = data.height;
     }

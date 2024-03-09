@@ -71,14 +71,6 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
     }.setTitle("On Right Click Release:");
 
     /** Constructors */
-    public InteractableScreenEditorItem(TextureBinding image) {
-        super(image);
-    }
-
-    public InteractableScreenEditorItem(TextureBinding image, int xPos, int yPos) {
-        super(image, xPos, yPos);
-    }
-
     public InteractableScreenEditorItem(TextureBinding image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
     }

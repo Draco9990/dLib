@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.CompositeUIElement;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UITheme;
@@ -16,15 +17,19 @@ import dLib.util.TextureManager;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public class ColorPicker extends CompositeUIElement {
-    /** Variables  */
+public class ColorPicker extends UIElement {
+    //region Variables
+
     private ColorWheel colorWheel;
 
     private Interactable lightnessBar;
 
     private float lightness;
 
-    /** Constructors */
+    //endregion
+
+    //region Constructors
+
     public ColorPicker(int xPos, int yPos, int width, int height) {
         super(xPos, yPos, width, height);
 
@@ -38,7 +43,7 @@ public class ColorPicker extends CompositeUIElement {
         int diffX = width - colorWheelWidth;
         int diffY = height - colorWheelHeight;
 
-        colorWheel = new ColorWheel((int)(xPos + diffX * 0.5f), yPos + diffY, colorWheelWidth, colorWheelHeight){
+        colorWheel = new ColorWheel((int)(diffX * 0.5f), diffY, colorWheelWidth, colorWheelHeight){
             @Override
             public void onColorSelected(Color color) {
                 super.onColorSelected(color);
@@ -46,9 +51,9 @@ public class ColorPicker extends CompositeUIElement {
                 lightnessBar.setRenderColor(ColorHelpers.fromHSL(hsl[0], hsl[1], 0.5f));
             }
         };
-        foreground.add(colorWheel);
+        addChildNCS(colorWheel);
 
-        lightnessBar = new Interactable(UITheme.whitePixel, xPos, yPos, width, lightnessHeight){
+        lightnessBar = new Interactable(UITheme.whitePixel, 0, 0, width, lightnessHeight){
             @Override
             protected Color getColorForRender() {
                 return renderColor;
@@ -61,14 +66,20 @@ public class ColorPicker extends CompositeUIElement {
                 colorWheel.setLightness(mX / width);
             }
         };
-        middle = lightnessBar;
-        foreground.add(new Renderable(TextureManager.getTexture("dLibResources/images/ui/LightnessBar.png"), lightnessBar.getPositionX(), lightnessBar.getPositionY(), lightnessBar.getWidth(), lightnessBar.getHeight()));
+        addChildNCS(lightnessBar);
+
+        addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/LightnessBar.png"), lightnessBar.getPositionX(), lightnessBar.getPositionY(), lightnessBar.getWidth(), lightnessBar.getHeight()));
     }
 
-    /** Color Wheel */
+    //endregion
+
+    //region Methods
+
     public ColorWheel getColorWheel(){
         return colorWheel;
     }
+
+    //endregion
 
     public static class ColorWheel extends Interactable {
         //region Variables

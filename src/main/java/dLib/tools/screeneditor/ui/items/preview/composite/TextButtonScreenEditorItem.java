@@ -1,5 +1,6 @@
 package dLib.tools.screeneditor.ui.items.preview.composite;
 
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.CompositeScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
@@ -58,7 +59,7 @@ public class TextButtonScreenEditorItem extends CompositeScreenEditorItem {
     }
 
     /** Instancing */
-    public static TextButtonScreenEditorItem makeNewInstance(){
+    public static TextButtonScreenEditorItem makeNewInstance(ScreenEditorBaseScreen screenEditor){
         return new TextButtonScreenEditorItem(0, 0, 75, 75);
     }
 

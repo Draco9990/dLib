@@ -1,5 +1,6 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
@@ -38,7 +39,7 @@ public class ImageScreenEditorItem extends RenderableScreenEditorItem {
     }
 
     /** Copy */
-    public static ScreenEditorItem makeNewInstance(){
+    public static ScreenEditorItem makeNewInstance(ScreenEditorBaseScreen screenEditor){
         return new ImageScreenEditorItem(new TextureThemeBinding("whitePixel"), 0, 0, 75, 75);
     }
 
