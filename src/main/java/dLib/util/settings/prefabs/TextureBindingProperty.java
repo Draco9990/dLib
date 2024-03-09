@@ -7,7 +7,11 @@ import dLib.util.bindings.texture.TextureEmptyBinding;
 import java.util.ArrayList;
 
 public class TextureBindingProperty extends CustomProperty<TextureBinding> {
-    /** Constructors */
+    //region Variables
+    //endregion
+
+    //region Constructors
+
     public TextureBindingProperty(TextureBinding value) {
         super(value);
     }
@@ -16,9 +20,14 @@ public class TextureBindingProperty extends CustomProperty<TextureBinding> {
         super(new TextureEmptyBinding());
     }
 
-    /** All options */
+    //endregion
+
+    //region Methods
+
     @Override
     public ArrayList<TextureBinding> getAllOptions() {
         return TextureBindingHelpers.getAllImageBindings();
     }
+
+    //endregion
 }
