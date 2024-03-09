@@ -6,6 +6,7 @@ import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorItem;
+import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.InputfieldData;
 import dLib.ui.elements.UIElement;
@@ -30,7 +31,7 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
     }
 
     public InputfieldScreenEditorItem(InputfieldData data){
-        super(data);
+        super(null); //TODO RF refactor
 
         this.background = data.buttonData.makeEditorInstance();
         this.textBox = data.textboxData.makeEditorInstance();
@@ -38,8 +39,8 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
 
     /** Data */
     @Override
-    public InputfieldData makeElementData() {
-        return new InputfieldData();
+    public CompositeUIElementData makeElementData() {
+        return null; //TODO RF refactor return new InputfieldData();
     }
 
     @Override
@@ -51,8 +52,8 @@ public class InputfieldScreenEditorItem extends CompositeScreenEditorItem {
     }
 
     @Override
-    public InputfieldData getElementData() {
-        return (InputfieldData) super.getElementData();
+    public CompositeUIElementData getElementData() {
+        return null; //TODO RF REFACTOR return (InputfieldData) super.getElementData();
     }
 
     /** Copy */

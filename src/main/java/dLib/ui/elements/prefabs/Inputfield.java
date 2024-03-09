@@ -6,18 +6,20 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import dLib.ui.Alignment;
 import dLib.ui.data.prefabs.InputfieldData;
-import dLib.ui.elements.CompositeUIElement;
+import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Inputfield extends CompositeUIElement {
-    /** Variables */
+public class Inputfield extends UIElement {
+    //region Variables
+
     private Button background;
     private TextBox textBox;
 
+    //Properties
     private InputProcessor cachedInputProcessor;
     private InputProcessor inputProcessor;
 
@@ -27,18 +29,35 @@ public class Inputfield extends CompositeUIElement {
     private boolean holdingDelete = false;
     private float deleteTimerCount = 0;
 
-    private EInputfieldType type;
+    private EInputfieldPreset preset;
 
-    /** Constructor */
+    //endregion
+
+    //region Constructors
+
     public Inputfield(String initialValue, int posX, int posY, int width, int height){
         super(posX, posY, width, height);
 
         preInitialize();
 
+        this.background = new Button(0, 0, width, height){
+            @Override
+            public void onSelectionStateChanged() {
+                super.onSelectionStateChanged();
+                if(isSelected()){
+                    Gdx.input.setInputProcessor(inputProcessor);
+                }
+                else{
+                    resetInputProcessor();
+                }
+            }
+        }.setImage(UIThemeManager.getDefaultTheme().inputfield);
+        addChildCS(this.background);
+
         this.textBox = new TextBox(initialValue, 0, 0, width, height, 0.025f, 0.025f){
             @Override
             public void setText(String text) {
-                if(type == EInputfieldType.NUMERICAL_DECIMAL || type == EInputfieldType.NUMERICAL_WHOLE_POSITIVE){
+                if(preset == EInputfieldPreset.NUMERICAL_DECIMAL || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE){
                     if(Objects.equals(this.getText(), "1") && text.length() > 1){
                         text = text.substring(1);
                     }
@@ -47,21 +66,7 @@ public class Inputfield extends CompositeUIElement {
             }
         }.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
-        this.foreground.add(textBox);
-
-        this.background = new Button(posX, posY, width, height){
-            @Override
-            public void onSelectionStateChanged() {
-                super.onSelectionStateChanged();
-                if(selected){
-                    Gdx.input.setInputProcessor(inputProcessor);
-                }
-                else{
-                    resetInputProcessor();
-                }
-            }
-        }.setImage(UIThemeManager.getDefaultTheme().inputfield);
-        this.middle = this.background;
+        addChildNCS(textBox);
     }
 
     public Inputfield(InputfieldData data){
@@ -69,11 +74,11 @@ public class Inputfield extends CompositeUIElement {
 
         preInitialize();
 
-        this.textBox = data.textboxData.makeLiveInstance();
-        this.foreground.add(textBox);
-
         this.background = data.buttonData.makeLiveInstance();
-        this.middle = background;
+        addChildCS(this.background);
+
+        this.textBox = data.textboxData.makeLiveInstance();
+        addChildNCS(this.textBox);
 
         characterFilter = data.characterFilter;
         characterLimit = data.characterLimit;
@@ -115,7 +120,12 @@ public class Inputfield extends CompositeUIElement {
         };
     }
 
-    /** Update and render */
+    //endregion
+
+    //region Methods
+
+    //region Update & Render
+
     @Override
     public void updateSelf() {
         super.updateSelf();
@@ -129,33 +139,41 @@ public class Inputfield extends CompositeUIElement {
         }
     }
 
-    /** Button */
+    //endregion
+
+    //region Button
+
     public Button getButton(){
         return background;
     }
 
-    /** Label */
+    //endregion
+
+    //region TextBox
+
     public TextBox getTextBox(){
         return textBox;
     }
 
-    /** Typing */
-    public Inputfield setType(EInputfieldType type){
-        characterFilter.clear();
-        this.type = type;
+    //endregion
 
-        if(type == EInputfieldType.NUMERICAL_WHOLE_POSITIVE || type == EInputfieldType.NUMERICAL_DECIMAL){
+    //region Preset & Filters
+
+    public Inputfield setPreset(EInputfieldPreset preset){
+        characterFilter.clear();
+        this.preset = preset;
+
+        if(preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_DECIMAL){
             filterAddNumerical();
         }
 
-        if(type == EInputfieldType.NUMERICAL_DECIMAL){
+        if(preset == EInputfieldPreset.NUMERICAL_DECIMAL){
             characterFilter.add('.');
         }
 
         return this;
     }
 
-    /** Filters */
     public Inputfield filterAddNumerical(){
         for(char c = '0'; c <= '9'; c++){
             characterFilter.add(c);
@@ -181,9 +199,10 @@ public class Inputfield extends CompositeUIElement {
         return this;
     }
 
+    //endregion
 
+    //region Input Processing
 
-    /** Misc methods */
     private void addCharacter(char character){
         this.textBox.setText(this.textBox.getText() + character);
     }
@@ -199,7 +218,11 @@ public class Inputfield extends CompositeUIElement {
         }
     }
 
-    public enum EInputfieldType{
+    //endregion
+
+    //endregion
+
+    public enum EInputfieldPreset {
         GENERIC,
         NUMERICAL_WHOLE_POSITIVE,
         NUMERICAL_DECIMAL

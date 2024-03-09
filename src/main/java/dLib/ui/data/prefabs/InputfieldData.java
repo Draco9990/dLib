@@ -3,13 +3,14 @@ package dLib.ui.data.prefabs;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldScreenEditorItem;
 import dLib.ui.data.CompositeUIElementData;
+import dLib.ui.data.UIElementData;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.Inputfield;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class InputfieldData extends CompositeUIElementData  implements Serializable {
+public class InputfieldData extends UIElementData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public ButtonData buttonData;
@@ -19,7 +20,7 @@ public class InputfieldData extends CompositeUIElementData  implements Serializa
     public int characterLimit;
 
     @Override
-    public CompositeUIElement makeLiveInstance(Object... params) {
+    public Inputfield makeLiveInstance(Object... params) {
         return new Inputfield(this);
     }
 
