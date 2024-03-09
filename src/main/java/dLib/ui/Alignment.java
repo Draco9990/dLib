@@ -9,6 +9,11 @@ public class Alignment {
         this.verticalAlignment = verticalAlignment;
     }
 
+    public Alignment(Alignment copy){
+        this.horizontalAlignment = copy.horizontalAlignment;
+        this.verticalAlignment = copy.verticalAlignment;
+    }
+
     public enum HorizontalAlignment {
         LEFT,
         CENTER,

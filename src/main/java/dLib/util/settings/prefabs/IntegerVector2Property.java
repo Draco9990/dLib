@@ -6,11 +6,18 @@ import dLib.util.IntVector2;
 import dLib.util.IntegerVector2;
 import dLib.util.settings.Property;
 
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.function.BiConsumer;
+
 public class IntegerVector2Property extends Property<IntegerVector2> {
     //region Variables
 
     private String xValName;
     private String yValName;
+
+    private transient ArrayList<BiConsumer<Integer, Integer>> onXValueChangedListeners = new ArrayList<>();
+    private transient ArrayList<BiConsumer<Integer, Integer>> onYValueChangedListeners = new ArrayList<>();
 
     //endregion
 
@@ -28,6 +35,14 @@ public class IntegerVector2Property extends Property<IntegerVector2> {
 
 
     @Override
+    public void onValueChanged(IntegerVector2 oldValue, IntegerVector2 newValue) {
+        super.onValueChanged(oldValue, newValue);
+
+        if(!Objects.equals(oldValue.x, newValue.x)) onXValueChanged(oldValue.x, oldValue.y);
+        if(!Objects.equals(oldValue.y, newValue.y)) onYValueChanged(oldValue.x, oldValue.y);
+    }
+
+    @Override
     public IntegerVector2 getValue() {
         return new IntegerVector2(super.getValue());
     }
@@ -43,6 +58,14 @@ public class IntegerVector2Property extends Property<IntegerVector2> {
         return getValue().x;
     }
 
+    public void onXValueChanged(Integer oldValue, Integer newValue){
+        for(BiConsumer<Integer, Integer> listener : onXValueChangedListeners) listener.accept(oldValue, newValue);
+    }
+    public IntegerVector2Property addOnXValueChangedListener(BiConsumer<Integer, Integer> listener){
+        onXValueChangedListeners.add(listener);
+        return this;
+    }
+
     public IntegerVector2Property setYValue(Integer value){
         IntegerVector2 currentValue = getValue();
         currentValue.y = value;
@@ -52,6 +75,14 @@ public class IntegerVector2Property extends Property<IntegerVector2> {
     }
     public Integer getYValue(){
         return getValue().y;
+    }
+
+    public void onYValueChanged(Integer oldValue, Integer newValue){
+        for(BiConsumer<Integer, Integer> listener : onYValueChangedListeners) listener.accept(oldValue, newValue);
+    }
+    public IntegerVector2Property addOnYValueChangedListener(BiConsumer<Integer, Integer> listener){
+        onYValueChangedListeners.add(listener);
+        return this;
     }
 
     //endregion
