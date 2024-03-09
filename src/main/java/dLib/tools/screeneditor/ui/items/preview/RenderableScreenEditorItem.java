@@ -7,13 +7,13 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.ColorProperty;
-import dLib.util.settings.prefabs.TextureProperty;
+import dLib.util.settings.prefabs.TextureBindingProperty;
 
 import java.util.ArrayList;
 
 public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
     /** Variables */
-    protected TextureProperty sTexture = (TextureProperty) new TextureProperty(){
+    protected TextureBindingProperty sTexture = (TextureBindingProperty) new TextureBindingProperty(){
         @Override
         public void onValueChanged() {
             super.onValueChanged();

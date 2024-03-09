@@ -9,9 +9,9 @@
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/NumberProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/NumberProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/Property.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/IntegerProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/IntegerProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/RenderableScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/preview/RenderableScreenEditorItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/CustomProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/CustomProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/TextureProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/TextureBindingProperty.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +178,7 @@
       <workItem from="1709388203189" duration="16769000" />
       <workItem from="1709658474222" duration="7445000" />
       <workItem from="1709721222683" duration="35769000" />
-      <workItem from="1709804668179" duration="72496000" />
+      <workItem from="1709804668179" duration="73952000" />
     </task>
     <servers />
   </component>
