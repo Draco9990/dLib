@@ -30,7 +30,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
             if(screenEditor != null) screenEditor.getPropertiesScreen().markForRefresh();
             return this;
         }
-    }.addParameter("timeElapsed", Float.class).setName("On Left Click Held:");
+    }.addDNCParameter("timeElapsed", Float.class).setName("On Left Click Held:");
     private IntelliJMethodBindingProperty sOnLeftClickRelease = (IntelliJMethodBindingProperty) new IntelliJMethodBindingProperty(screenEditor){
         @Override
         public Property<MethodBinding> setValue_internal(MethodBinding value) {
@@ -58,7 +58,7 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
             if(screenEditor != null) screenEditor.getPropertiesScreen().markForRefresh();
             return this;
         }
-    }.addParameter("timeElapsed", Float.class).setName("On Right Click Held:");
+    }.addDNCParameter("timeElapsed", Float.class).setName("On Right Click Held:");
     private IntelliJMethodBindingProperty sOnRightClickRelease = (IntelliJMethodBindingProperty) new IntelliJMethodBindingProperty(screenEditor){
         @Override
         public Property<MethodBinding> setValue_internal(MethodBinding value) {
@@ -115,13 +115,13 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
     public ScreenEditorItem setID(String newId) {
         super.setID(newId);
 
-        sOnLeftClick.setPreferredMethodName(newId + "_onLeftClick");
-        sOnLeftClickHeld.setPreferredMethodName(newId + "_onLeftClickHeld");
-        sOnLeftClickRelease.setPreferredMethodName(newId + "_onLeftClickRelease");
+        sOnLeftClick.setDNCMethodName(newId + "_onLeftClick");
+        sOnLeftClickHeld.setDNCMethodName(newId + "_onLeftClickHeld");
+        sOnLeftClickRelease.setDNCMethodName(newId + "_onLeftClickRelease");
 
-        sOnRightClick.setPreferredMethodName(newId + "_onRightClick");
-        sOnRightClickHeld.setPreferredMethodName(newId + "_onRightClickHeld");
-        sOnRightClickRelease.setPreferredMethodName(newId + "_onRightClickRelease");
+        sOnRightClick.setDNCMethodName(newId + "_onRightClick");
+        sOnRightClickHeld.setDNCMethodName(newId + "_onRightClickHeld");
+        sOnRightClickRelease.setDNCMethodName(newId + "_onRightClickRelease");
 
         return this;
     }

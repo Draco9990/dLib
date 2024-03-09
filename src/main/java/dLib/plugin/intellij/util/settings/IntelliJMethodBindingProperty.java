@@ -32,7 +32,7 @@ public class IntelliJMethodBindingProperty extends MethodBindingProperty {
                 public void accept(String oldVal, String newVal) {
                     if(!newVal.isEmpty()){
                         if(oldVal.isEmpty() ){
-                            PluginMessageSender.Send_AddMethodToClass(screenEditor.getEditingScreen(), getReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
+                            PluginMessageSender.Send_AddMethodToClass(screenEditor.getEditingScreen(), getDNCReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
                         }
                         else{
                             PluginMessageSender.Send_RenameMethodInClass(screenEditor.getEditingScreen(), oldVal, newVal, parameters);
@@ -50,7 +50,7 @@ public class IntelliJMethodBindingProperty extends MethodBindingProperty {
 
     private LinkedHashMap<String, String> getConvertedParameters(){
         LinkedHashMap<String, String> convertedParameters = new LinkedHashMap<>();
-        for(Map.Entry<String, Class<?>> param : getParameters().entrySet()){
+        for(Map.Entry<String, Class<?>> param : getDNCParameters().entrySet()){
             convertedParameters.put(param.getKey(), param.getValue().getName());
         }
         return convertedParameters;
