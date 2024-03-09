@@ -54,7 +54,7 @@ public abstract class Property<T> implements Serializable {
 
         return false;
     }
-    private void setValue_internal(T value){
+    protected void setValue_internal(T value){
         T oldValue = this.value;
         this.value = value;
         onValueChanged(oldValue, value);

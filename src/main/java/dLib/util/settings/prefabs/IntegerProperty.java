@@ -6,13 +6,16 @@ import dLib.util.settings.NumberProperty;
 import dLib.util.settings.Property;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class IntegerProperty extends NumberProperty<Integer> implements Serializable {
     static final long serialVersionUID = 1L;
 
-    /** Variables */
+    //region Variables
+    //endregion
 
-    /** Constructors */
+    //region Constructors
+
     public IntegerProperty(Integer currentValue){
         this(currentValue, null, null);
     }
@@ -26,39 +29,54 @@ public class IntegerProperty extends NumberProperty<Integer> implements Serializ
         super(currentValue, minimumValue, maximumValue, incrementAmount, decrementAmount);
     }
 
-    /** Methods */
+    //endregion
+
+    //region Methods
+
+    //region Operators
+
     @Override
-    public Property<Integer> setValue_internal(Integer value) {
-        if(maximumValue != null && value > maximumValue) value = maximumValue;
-        if(minimumValue != null && value < minimumValue) value = minimumValue;
-        return super.setValue_internal(value);
+    protected boolean greaterThan(Integer lhs, Integer rhs) {
+        return lhs > rhs;
     }
 
     @Override
-    public void increment() {
-        value += incrementAmount;
-        if(maximumValue != null && value > maximumValue){
-            value = maximumValue;
-        }
+    protected boolean lessThan(Integer lhs, Integer rhs) {
+        return lhs < rhs;
     }
 
     @Override
-    public void decrement() {
-        value -= decrementAmount;
-        if(minimumValue != null && value < minimumValue){
-            value = minimumValue;
-        }
+    protected Integer add(Integer lhs, Integer rhs) {
+        return lhs + rhs;
     }
 
-    /** Title */
+    @Override
+    protected Integer subtract(Integer lhs, Integer rhs) {
+        return lhs - rhs;
+    }
+
+    @Override
+    protected Integer divide(Integer lhs, Integer rhs) {
+        return lhs / rhs;
+    }
+
+    @Override
+    protected Integer multiply(Integer lhs, Integer rhs) {
+        return lhs * rhs;
+    }
+
+
+    //endregion
+
     @Override
     public IntegerProperty setName(String newTitle) {
         return (IntegerProperty) super.setName(newTitle);
     }
 
-    /** UI */
     @Override
     public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
         return new IntegerSettingUI(this, xPos, yPos, width, height, false);
     }
+
+    //endregion
 }
