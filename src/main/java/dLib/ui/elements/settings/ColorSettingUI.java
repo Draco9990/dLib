@@ -5,31 +5,31 @@ import dLib.ui.elements.prefabs.Button;
 import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
-import dLib.util.settings.prefabs.ColorSetting;
+import dLib.util.settings.prefabs.ColorProperty;
 
 public class ColorSettingUI extends AbstractSettingUI {
     /** Constructor */
-    public ColorSettingUI(ColorSetting setting, Integer xPos, Integer yPos, int width, int height){
+    public ColorSettingUI(ColorProperty setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
 
         this.middle = new Button( xPos + ((int)(width - width * valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
-                ScreenManager.openScreen(new ColorPickerScreen(ScreenManager.getCurrentScreen(), setting.getCurrentValue()){
+                ScreenManager.openScreen(new ColorPickerScreen(ScreenManager.getCurrentScreen(), setting.getValue()){
                     @Override
                     public void onColorChosen(Color color) {
                         super.onColorChosen(color);
-                        setting.trySetValue(color);
+                        setting.setValue(color);
                     }
                 });
             }
-        }.setImage(UITheme.whitePixel).setRenderColor(setting.getCurrentValue());
+        }.setImage(UITheme.whitePixel).setRenderColor(setting.getValue());
 
-        setting.addOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedListener(new Runnable() {
             @Override
             public void run() {
-                ((Button)middle).setRenderColor(setting.getCurrentValue());
+                ((Button)middle).setRenderColor(setting.getValue());
             }
         });
     }

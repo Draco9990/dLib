@@ -11,9 +11,9 @@ import dLib.ui.data.UIElementData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.IntVector2;
-import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.StringSetting;
-import dLib.util.settings.prefabs.IntVector2Setting;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.IntVector2Property;
+import dLib.util.settings.prefabs.StringProperty;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -52,12 +52,12 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
     /** Variables */
 
     /** Settings */
-    private StringSetting sID = new StringSetting(getId()){
+    private StringProperty sID = new StringProperty(getId()){
         @Override
-        public Setting<String> setCurrentValue(String currentValue) {
-            super.setCurrentValue(currentValue);
-            setID(currentValue);
-            getElementData().id = currentValue;
+        public Property<String> setValue_internal(String value) {
+            super.setValue_internal(value);
+            setID(value);
+            getElementData().id = value;
 
             return this;
         }
@@ -76,23 +76,23 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
 
             return super.isValidValue(value);
         }
-    }.setConfirmationMode(StringSetting.InputConfirmationMode.SELECTION_MANAGED).setTitle("ID:");
+    }.setConfirmationMode(StringProperty.InputConfirmationMode.SELECTION_MANAGED).setName("ID:");
 
-    private IntVector2Setting sPosition = (IntVector2Setting) new IntVector2Setting(new IntVector2(getPositionX(), getPositionY())){
+    private IntVector2Property sPosition = (IntVector2Property) new IntVector2Property(new IntVector2(getPositionX(), getPositionY())){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            setPosition((int) getCurrentValue().x, (int) getCurrentValue().y);
+            setPosition((int) getValue().x, (int) getValue().y);
         }
-    }.setAxisNames("X:", "Y:").setTitle("Position:");
+    }.setAxisNames("X:", "Y:").setName("Position:");
 
-    private IntVector2Setting sDimensions = (IntVector2Setting) new IntVector2Setting(new IntVector2(getWidth(), getHeight())){
+    private IntVector2Property sDimensions = (IntVector2Property) new IntVector2Property(new IntVector2(getWidth(), getHeight())){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            setDimensions(getCurrentValue().x, getCurrentValue().y);
+            setDimensions(getValue().x, getValue().y);
         }
-    }.setAxisNames("W:", "H:").setTitle("Dimensions");
+    }.setAxisNames("W:", "H:").setName("Dimensions");
 
     /** Constructors */
     public ScreenEditorItem(Texture image, int xPos, int yPos, int width, int height) {
@@ -165,14 +165,14 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
         getElementData().x = x;
         getElementData().y = y;
 
-        IntVector2 currentVal = sPosition.getCurrentValue();
-        if(sPosition.getCurrentValue().x != x){
+        IntVector2 currentVal = sPosition.getValue();
+        if(sPosition.getValue().x != x){
             currentVal.x = x;
-            sPosition.trySetValue(currentVal);
+            sPosition.setValue(currentVal);
         }
-        if(sPosition.getCurrentValue().y != y){
+        if(sPosition.getValue().y != y){
             currentVal.y = y;
-            sPosition.trySetValue(currentVal);
+            sPosition.setValue(currentVal);
         }
 
         return this;
@@ -185,14 +185,14 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
         getElementData().width = width;
         getElementData().height = height;
 
-        IntVector2 currentDimensions = sDimensions.getCurrentValue();
+        IntVector2 currentDimensions = sDimensions.getValue();
         if(width != currentDimensions.x){
             currentDimensions.x = width;
-            sDimensions.trySetValue(currentDimensions);
+            sDimensions.setValue(currentDimensions);
         }
         if(height != currentDimensions.y){
             currentDimensions.y = height;
-            sDimensions.trySetValue(currentDimensions);
+            sDimensions.setValue(currentDimensions);
         }
 
         return this;
@@ -213,9 +213,9 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
 
     /** Settings */
     public void initializeSettingsData(){
-        sID.trySetValue(getId());
-        sPosition.trySetValue(new IntVector2(getPositionX(), getPositionY()));
-        sDimensions.trySetValue(new IntVector2(getWidth(), getHeight()));
+        sID.setValue(getId());
+        sPosition.setValue(new IntVector2(getPositionX(), getPositionY()));
+        sDimensions.setValue(new IntVector2(getWidth(), getHeight()));
     }
 
     /** ID */
@@ -227,8 +227,8 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
 
         getElementData().id = newId;
 
-        if(!Objects.equals(newId, sID.getCurrentValue())){
-            sID.trySetValue(newId);
+        if(!Objects.equals(newId, sID.getValue())){
+            sID.setValue(newId);
         }
 
         if(!Objects.equals(oldName, newId)){
@@ -239,8 +239,8 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
     }
 
     /** Properties */
-    public ArrayList<Setting<?>> getPropertiesForItem(){
-        ArrayList<Setting<?>> propertiesList = new ArrayList<>();
+    public ArrayList<Property<?>> getPropertiesForItem(){
+        ArrayList<Property<?>> propertiesList = new ArrayList<>();
         propertiesList.add(sID);
 
         propertiesList.add(sPosition);

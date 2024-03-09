@@ -2,7 +2,7 @@ package dLib.util.settings;
 
 import java.io.Serializable;
 
-public abstract class NumberSetting<T extends Number> extends Setting<T> implements Serializable {
+public abstract class NumberProperty<T extends Number> extends Property<T> implements Serializable {
     static final long serialVersionUID = 1L;
 
     /** Variables */
@@ -13,7 +13,7 @@ public abstract class NumberSetting<T extends Number> extends Setting<T> impleme
     protected T decrementAmount;
 
     /** Constructors */
-    public NumberSetting(T currentValue, T minimumValue, T maximumValue, T incrementAmount, T decrementAmount){
+    public NumberProperty(T currentValue, T minimumValue, T maximumValue, T incrementAmount, T decrementAmount){
         super(currentValue);
 
         this.minimumValue = minimumValue;
@@ -24,7 +24,7 @@ public abstract class NumberSetting<T extends Number> extends Setting<T> impleme
     }
 
     /** Bounds */
-    public NumberSetting<T> setBounds(T minimumValue, T maximumValue){
+    public NumberProperty<T> setBounds(T minimumValue, T maximumValue){
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
         return this;

@@ -3,7 +3,7 @@
 -> add boolean to list composite to render all?
 -> remove temporary field from composites
 
---> settings initializer for first time running intellij plugin with project
+--> properties initializer for first time running intellij plugin with project
 
 -> abstract class custom child named GeneratedAbstractScreen with constructor that initializes based on the provided AbstractScreenData
 -> abstractScreenData contains list of items with names that get set throughr eflection to the actual ones
@@ -15,7 +15,7 @@
 -> inputfield finish y pos
 --> Allow text
 --> Listbox have scrollbar start at top after loading pages?
--- add consumers and other shit to listbox, add settings to listbox element
+-- add consumers and other shit to listbox, add properties to listbox element
 -- add duplication, grid snapping, etc.
 
 --> rewrite composites
@@ -27,7 +27,7 @@ Add inverse bool to listbox to show latest elements on top
 Add arrows for up and down to the make preview method, and split it again so users can edit if they want
 Add selection mode with on selection changed
 Buy tarot cards and chair and drainer and brush and camera
-Screen settings tab for background settings plus say the spire
+Screen properties tab for background properties plus say the spire
 Add a merge to composite button to merge few components together, when on composite allow aasigning to left middle and right, add a composite element to the drop-down
 
 -- fix listbox theme

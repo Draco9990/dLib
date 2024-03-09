@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
-import dLib.util.settings.Setting;
+import dLib.util.settings.Property;
 
 import java.util.ArrayList;
 
@@ -116,14 +116,14 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
 
     /** Properties */
     @Override
-    public ArrayList<Setting<?>> getPropertiesForItem() {
-        ArrayList<Setting<?>> settings = super.getPropertiesForItem();
+    public ArrayList<Property<?>> getPropertiesForItem() {
+        ArrayList<Property<?>> properties = super.getPropertiesForItem();
         for(ScreenEditorItem editorItem : items){
-            ArrayList<Setting<?>> itemSettings = editorItem.getPropertiesForItem();
-            itemSettings.removeIf(element -> element.getTitle().equals("ID:")); //Remove all ID fields
-            settings.addAll(itemSettings);
+            ArrayList<Property<?>> itemProperties = editorItem.getPropertiesForItem();
+            itemProperties.removeIf(element -> element.getName().equals("ID:")); //Remove all ID fields
+            properties.addAll(itemProperties);
         }
-        return settings;
+        return properties;
     }
 
     /** Data */

@@ -5,35 +5,35 @@ import dLib.ui.data.UIElementData;
 import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.bindings.texture.TextureBinding;
-import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.ColorSetting;
-import dLib.util.settings.prefabs.TextureSetting;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.ColorProperty;
+import dLib.util.settings.prefabs.TextureProperty;
 
 import java.util.ArrayList;
 
 public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
     /** Variables */
-    protected TextureSetting sTexture = (TextureSetting) new TextureSetting(){
+    protected TextureProperty sTexture = (TextureProperty) new TextureProperty(){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
             if(getElementData() != null){
-                getElementData().textureBinding = getCurrentValue();
+                getElementData().textureBinding = getValue();
             }
-            if(getCurrentValue().isValid()){
-                setImage(getCurrentValue().getBoundTexture());
+            if(getValue().isValid()){
+                setImage(getValue().getBoundTexture());
             }
         }
-    }.setTitle("Image:");
+    }.setName("Image:");
 
-    protected ColorSetting sRenderColor = (ColorSetting) new ColorSetting(Color.WHITE){
+    protected ColorProperty sRenderColor = (ColorProperty) new ColorProperty(Color.WHITE){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            getElementData().renderColor = getCurrentValue().toString();
-            setRenderColor(getCurrentValue());
+            getElementData().renderColor = getValue().toString();
+            setRenderColor(getValue());
         }
-    }.setTitle("Render color:");
+    }.setName("Render color:");
 
     /** Constructors */
     public RenderableScreenEditorItem(TextureBinding image, int xPos, int yPos, int width, int height) {
@@ -43,19 +43,19 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
 
     public RenderableScreenEditorItem(RenderableData data){
         super(data);
-        sTexture.trySetValue(data.textureBinding);
-        sRenderColor.trySetValue(Color.valueOf(data.renderColor));
+        sTexture.setValue(data.textureBinding);
+        sRenderColor.setValue(Color.valueOf(data.renderColor));
     }
 
     private void initialize(TextureBinding binding){
-        sTexture.trySetValue(binding);
-        sRenderColor.trySetValue(getColorForRender());
+        sTexture.setValue(binding);
+        sRenderColor.setValue(getColorForRender());
     }
 
     /** Image */
     public Renderable setImage(TextureBinding binding){
-        if(sTexture.getCurrentValue() != binding){
-            sTexture.trySetValue(binding);
+        if(sTexture.getValue() != binding){
+            sTexture.setValue(binding);
         }
 
         if(!binding.isValid()){
@@ -76,8 +76,8 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
     public void initializeElementData(UIElementData data) {
         super.initializeElementData(data);
         RenderableData renderableData = (RenderableData) data;
-        renderableData.textureBinding = sTexture.getCurrentValue();
-        renderableData.renderColor = sRenderColor.getCurrentValue().toString();
+        renderableData.textureBinding = sTexture.getValue();
+        renderableData.renderColor = sRenderColor.getValue().toString();
     }
 
     @Override
@@ -87,8 +87,8 @@ public abstract class RenderableScreenEditorItem extends ScreenEditorItem {
 
     /** Properties */
     @Override
-    public ArrayList<Setting<?>> getPropertiesForItem() {
-        ArrayList<Setting<?>> allProperties = super.getPropertiesForItem();
+    public ArrayList<Property<?>> getPropertiesForItem() {
+        ArrayList<Property<?>> allProperties = super.getPropertiesForItem();
         allProperties.add(sTexture);
         allProperties.add(sRenderColor);
         return allProperties;

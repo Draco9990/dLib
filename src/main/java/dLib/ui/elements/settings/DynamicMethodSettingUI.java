@@ -5,18 +5,18 @@ import dLib.ui.elements.prefabs.Inputfield;
 import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
-import dLib.util.settings.prefabs.MethodBindingSetting;
+import dLib.util.settings.prefabs.MethodBindingProperty;
 
 import java.util.function.Consumer;
 
 public class DynamicMethodSettingUI extends AbstractSettingUI {
     /** Variables */
-    public DynamicMethodSettingUI(MethodBindingSetting setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public DynamicMethodSettingUI(MethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
 
         int buttonDim = Math.min(valueHeight, (int)((valuePercX - 0.3) * width));
 
-        DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) setting.getCurrentValue();
+        DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) setting.getValue();
 
         middle = new Inputfield(dynamicMethodBinding.getBoundMethod(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX) - buttonDim * 2, valueHeight);
         ((Inputfield)(middle)).getButton().addOnSelectionStateChangedConsumer(new Consumer<Boolean>() {
@@ -48,11 +48,11 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
-                setting.trySetValue(new NoneMethodBinding());
+                setting.setValue(new NoneMethodBinding());
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ResetButton.png")));
 
-        dynamicMethodBinding.getBoundMethodSetting().addOnValueChangedConsumer(new Runnable() {
+        dynamicMethodBinding.getBoundMethodSetting().addOnValueChangedListener(new Runnable() {
             @Override
             public void run() {
                 Inputfield element = (Inputfield) middle;

@@ -4,12 +4,12 @@ import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.util.ESelectionMode;
-import dLib.util.settings.Setting;
+import dLib.util.settings.Property;
 
 public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     //region Variables
 
-    private ListBox<Setting<?>> propertiesItemList;
+    private ListBox<Property<?>> propertiesItemList;
     private ScreenEditorItem propertiesFor;
 
     //endregion
@@ -19,10 +19,10 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     public ScreenEditorElementProperties(){
         super();
 
-        propertiesItemList = new ListBox<Setting<?>>(0, 0, getWidth(), getHeight()){
+        propertiesItemList = new ListBox<Property<?>>(0, 0, getWidth(), getHeight()){
             @Override
-            public CompositeUIElement makeUIForItem(Setting<?> item) {
-                return item.makeUIFor(0, 0, width, 100);
+            public CompositeUIElement makeUIForItem(Property<?> item) {
+                return item.makeUIForEdit(0, 0, width, 100);
             }
         }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:");
         propertiesItemList.getBackground().setImage(null);

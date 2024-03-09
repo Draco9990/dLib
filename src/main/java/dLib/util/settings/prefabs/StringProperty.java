@@ -2,35 +2,35 @@ package dLib.util.settings.prefabs;
 
 import dLib.ui.elements.settings.AbstractSettingUI;
 import dLib.ui.elements.settings.StringSettingUI;
-import dLib.util.settings.Setting;
+import dLib.util.settings.Property;
 
 import java.io.Serializable;
 
-public class StringSetting extends Setting<String> implements Serializable {
+public class StringProperty extends Property<String> implements Serializable {
     static final long serialVersionUID = 1L;
 
     /** Variables */
     private InputConfirmationMode confirmationMode = InputConfirmationMode.ON_TEXT_CHANGED;
 
     /** Constructors */
-    public StringSetting(String defaultValue){
+    public StringProperty(String defaultValue){
         super(defaultValue);
     }
 
     /** UI */
     @Override
-    public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
         return new StringSettingUI(this, xPos, yPos, width, height);
     }
 
     /** Title */
     @Override
-    public StringSetting setTitle(String newTitle) {
-        return (StringSetting) super.setTitle(newTitle);
+    public StringProperty setName(String newTitle) {
+        return (StringProperty) super.setName(newTitle);
     }
 
     /** Input confirmation mode */
-    public StringSetting setConfirmationMode(InputConfirmationMode confirmationMode){
+    public StringProperty setConfirmationMode(InputConfirmationMode confirmationMode){
         this.confirmationMode = confirmationMode;
 
         return this;

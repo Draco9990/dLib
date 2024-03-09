@@ -3,20 +3,20 @@ package dLib.util.settings.prefabs;
 import dLib.ui.elements.settings.AbstractSettingUI;
 import dLib.ui.elements.settings.EnumSettingUI;
 import dLib.util.EnumHelpers;
-import dLib.util.settings.Setting;
+import dLib.util.settings.Property;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class EnumSetting<T extends Enum<T>> extends Setting<Enum<T>> implements Serializable {
+public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implements Serializable {
     static final long serialVersionUID = 1L;
 
     /** Variables */
     EControlType controlType;
 
     /** Constructors */
-    public EnumSetting(Enum<T> value, EControlType controlType) {
+    public EnumProperty(Enum<T> value, EControlType controlType) {
         super(value);
 
         this.controlType = controlType;
@@ -24,15 +24,15 @@ public class EnumSetting<T extends Enum<T>> extends Setting<Enum<T>> implements 
 
     /** Methods */
     public final void previous(){
-        currentValue = EnumHelpers.previousEnum(currentValue);
+        value = EnumHelpers.previousEnum(value);
     }
 
     public final void next(){
-        currentValue = EnumHelpers.nextEnum(currentValue);
+        value = EnumHelpers.nextEnum(value);
     }
 
     public final ArrayList<T> getAllPossibleValues(){
-        return new ArrayList<>(Arrays.asList(currentValue.getDeclaringClass().getEnumConstants()));
+        return new ArrayList<>(Arrays.asList(value.getDeclaringClass().getEnumConstants()));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class EnumSetting<T extends Enum<T>> extends Setting<Enum<T>> implements 
 
     /** UI */
     @Override
-    public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
         return new EnumSettingUI(this, xPos, yPos, width, height);
     }
 }

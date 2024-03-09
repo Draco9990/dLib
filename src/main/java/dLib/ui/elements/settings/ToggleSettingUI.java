@@ -2,12 +2,12 @@ package dLib.ui.elements.settings;
 
 import dLib.ui.elements.prefabs.Toggle;
 import dLib.ui.themes.UIThemeManager;
-import dLib.util.settings.prefabs.BooleanSetting;
+import dLib.util.settings.prefabs.BooleanProperty;
 
 public class ToggleSettingUI extends AbstractSettingUI {
     /** Variables */
     /** Constructors */
-    public ToggleSettingUI(BooleanSetting setting, Integer xPos, Integer yPos, int width, int height){
+    public ToggleSettingUI(BooleanProperty setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
 
         int buttonDim = Math.min((int)(width * valuePercX), valueHeight);
@@ -18,14 +18,14 @@ public class ToggleSettingUI extends AbstractSettingUI {
                 super.toggle();
                 setting.toggle();
             }
-        }.setToggled(setting.getCurrentValue());
+        }.setToggled(setting.getValue());
 
-        setting.addOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedListener(new Runnable() {
             @Override
             public void run() {
                 Toggle element = (Toggle) middle;
-                if(element.isToggled() != setting.getCurrentValue()){
-                    element.setToggled(setting.getCurrentValue());
+                if(element.isToggled() != setting.getValue()){
+                    element.setToggled(setting.getValue());
                 }
             }
         });

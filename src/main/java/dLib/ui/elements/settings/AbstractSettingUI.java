@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
 import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.TextBox;
-import dLib.util.settings.Setting;
+import dLib.util.settings.Property;
 
 public abstract class AbstractSettingUI extends CompositeUIElement {
     /** Variables */
@@ -18,12 +18,12 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
     protected Integer valuePosY;
     protected Integer valueHeight;
 
-    protected Setting<?> setting;
+    protected Property<?> property;
 
     protected Integer xPos;
     protected Integer yPos;
 
-    public AbstractSettingUI(Setting<?> setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public AbstractSettingUI(Property<?> property, Integer xPos, Integer yPos, Integer width, Integer height){
         super(xPos, yPos, width, height);
 
         if(width < 500 && !canDisplayMultiline()){
@@ -46,12 +46,12 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
             valueHeight = (int) (height * (1-textHeaderPerc));
         }
 
-        this.setting = setting;
+        this.property = property;
 
         this.xPos = xPos;
         this.yPos = yPos;
 
-        this.label = new TextBox(setting.getTitle(), 0, textPosY, (int)(width * getTextPercX()), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
+        this.label = new TextBox(property.getName(), 0, textPosY, (int)(width * getTextPercX()), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
         this.foreground.add(label);
     }
 

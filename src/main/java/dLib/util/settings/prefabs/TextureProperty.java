@@ -6,13 +6,13 @@ import dLib.util.bindings.texture.TextureEmptyBinding;
 
 import java.util.ArrayList;
 
-public class TextureSetting extends CustomSetting<TextureBinding> {
+public class TextureProperty extends CustomProperty<TextureBinding> {
     /** Constructors */
-    public TextureSetting(TextureBinding value) {
+    public TextureProperty(TextureBinding value) {
         super(value);
     }
 
-    public TextureSetting() {
+    public TextureProperty() {
         super(new TextureEmptyBinding());
     }
 

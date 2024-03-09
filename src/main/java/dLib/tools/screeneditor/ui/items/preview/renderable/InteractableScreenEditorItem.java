@@ -1,74 +1,73 @@
 package dLib.tools.screeneditor.ui.items.preview.renderable;
 
-import dLib.plugin.intellij.util.settings.IntelliJMethodBindingSetting;
-import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
+import dLib.plugin.intellij.util.settings.IntelliJMethodBindingProperty;
 import dLib.tools.screeneditor.ui.items.preview.RenderableScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.UIElementData;
 import dLib.ui.data.implementations.InteractableData;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
-import dLib.util.settings.Setting;
+import dLib.util.settings.Property;
 
 import java.util.ArrayList;
 
 public abstract class InteractableScreenEditorItem extends RenderableScreenEditorItem {
     /** Settings */
-    private IntelliJMethodBindingSetting sOnLeftClick = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(screenEditor){
+    private IntelliJMethodBindingProperty sOnLeftClick = (IntelliJMethodBindingProperty) new IntelliJMethodBindingProperty(screenEditor){
         @Override
-        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().onLeftClick = getCurrentValue();
+        public Property<MethodBinding> setValue_internal(MethodBinding value) {
+            super.setValue_internal(value);
+            getElementData().onLeftClick = getValue();
             if(screenEditor != null) screenEditor.getPropertiesScreen().markForRefresh();
             return this;
         }
-    }.setTitle("On Left Click:");
-    private IntelliJMethodBindingSetting sOnLeftClickHeld = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(screenEditor){
+    }.setName("On Left Click:");
+    private IntelliJMethodBindingProperty sOnLeftClickHeld = (IntelliJMethodBindingProperty) new IntelliJMethodBindingProperty(screenEditor){
         @Override
-        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().onLeftClickHeld = getCurrentValue();
+        public Property<MethodBinding> setValue_internal(MethodBinding value) {
+            super.setValue_internal(value);
+            getElementData().onLeftClickHeld = getValue();
             if(screenEditor != null) screenEditor.getPropertiesScreen().markForRefresh();
             return this;
         }
-    }.addParameter("timeElapsed", Float.class).setTitle("On Left Click Held:");
-    private IntelliJMethodBindingSetting sOnLeftClickRelease = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(screenEditor){
+    }.addParameter("timeElapsed", Float.class).setName("On Left Click Held:");
+    private IntelliJMethodBindingProperty sOnLeftClickRelease = (IntelliJMethodBindingProperty) new IntelliJMethodBindingProperty(screenEditor){
         @Override
-        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().onLeftClickRelease = getCurrentValue();
+        public Property<MethodBinding> setValue_internal(MethodBinding value) {
+            super.setValue_internal(value);
+            getElementData().onLeftClickRelease = getValue();
             if(screenEditor != null) screenEditor.getPropertiesScreen().markForRefresh();
             return this;
         }
-    }.setTitle("On Left Click Release:");
+    }.setName("On Left Click Release:");
 
-    private IntelliJMethodBindingSetting sOnRightClick = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(screenEditor){
+    private IntelliJMethodBindingProperty sOnRightClick = (IntelliJMethodBindingProperty) new IntelliJMethodBindingProperty(screenEditor){
         @Override
-        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().onRightClick = getCurrentValue();
+        public Property<MethodBinding> setValue_internal(MethodBinding value) {
+            super.setValue_internal(value);
+            getElementData().onRightClick = getValue();
             if(screenEditor != null) screenEditor.getPropertiesScreen().markForRefresh();
             return this;
         }
-    }.setTitle("On Right Click:");
-    private IntelliJMethodBindingSetting sOnRightClickHeld = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(screenEditor){
+    }.setName("On Right Click:");
+    private IntelliJMethodBindingProperty sOnRightClickHeld = (IntelliJMethodBindingProperty) new IntelliJMethodBindingProperty(screenEditor){
         @Override
-        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().onRightClickHeld = getCurrentValue();
+        public Property<MethodBinding> setValue_internal(MethodBinding value) {
+            super.setValue_internal(value);
+            getElementData().onRightClickHeld = getValue();
             if(screenEditor != null) screenEditor.getPropertiesScreen().markForRefresh();
             return this;
         }
-    }.addParameter("timeElapsed", Float.class).setTitle("On Right Click Held:");
-    private IntelliJMethodBindingSetting sOnRightClickRelease = (IntelliJMethodBindingSetting) new IntelliJMethodBindingSetting(screenEditor){
+    }.addParameter("timeElapsed", Float.class).setName("On Right Click Held:");
+    private IntelliJMethodBindingProperty sOnRightClickRelease = (IntelliJMethodBindingProperty) new IntelliJMethodBindingProperty(screenEditor){
         @Override
-        public Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().onRightClickRelease = getCurrentValue();
+        public Property<MethodBinding> setValue_internal(MethodBinding value) {
+            super.setValue_internal(value);
+            getElementData().onRightClickRelease = getValue();
             if(screenEditor != null) screenEditor.getPropertiesScreen().markForRefresh();
             return this;
         }
-    }.setTitle("On Right Click Release:");
+    }.setName("On Right Click Release:");
 
     /** Constructors */
     public InteractableScreenEditorItem(TextureBinding image, int xPos, int yPos, int width, int height) {
@@ -78,13 +77,13 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
     public InteractableScreenEditorItem(InteractableData data) {
         super(data);
 
-        sOnLeftClick.trySetValue(data.onLeftClick);
-        sOnLeftClickHeld.trySetValue(data.onLeftClickHeld);
-        sOnLeftClickRelease.trySetValue(data.onLeftClickRelease);
+        sOnLeftClick.setValue(data.onLeftClick);
+        sOnLeftClickHeld.setValue(data.onLeftClickHeld);
+        sOnLeftClickRelease.setValue(data.onLeftClickRelease);
 
-        sOnRightClick.trySetValue(data.onRightClick);
-        sOnRightClickHeld.trySetValue(data.onRightClickHeld);
-        sOnRightClickRelease.trySetValue(data.onRightClickRelease);
+        sOnRightClick.setValue(data.onRightClick);
+        sOnRightClickHeld.setValue(data.onRightClickHeld);
+        sOnRightClickRelease.setValue(data.onRightClickRelease);
     }
 
     /** Data */
@@ -97,13 +96,13 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
     public void initializeElementData(UIElementData data) {
         super.initializeElementData(data);
         InteractableData interactableData = (InteractableData) data;
-        interactableData.onLeftClick = sOnLeftClick.getCurrentValue();
-        interactableData.onLeftClickHeld = sOnLeftClickHeld.getCurrentValue();
-        interactableData.onLeftClickRelease = sOnRightClickRelease.getCurrentValue();
+        interactableData.onLeftClick = sOnLeftClick.getValue();
+        interactableData.onLeftClickHeld = sOnLeftClickHeld.getValue();
+        interactableData.onLeftClickRelease = sOnRightClickRelease.getValue();
 
-        interactableData.onRightClick = sOnRightClick.getCurrentValue();
-        interactableData.onRightClickHeld = sOnRightClickHeld.getCurrentValue();
-        interactableData.onRightClickRelease = sOnRightClickRelease.getCurrentValue();
+        interactableData.onRightClick = sOnRightClick.getValue();
+        interactableData.onRightClickHeld = sOnRightClickHeld.getValue();
+        interactableData.onRightClickRelease = sOnRightClickRelease.getValue();
     }
 
     @Override
@@ -129,14 +128,14 @@ public abstract class InteractableScreenEditorItem extends RenderableScreenEdito
 
     /** Properties */
     @Override
-    public ArrayList<Setting<?>> getPropertiesForItem() {
-        ArrayList<Setting<?>> parentSettings = super.getPropertiesForItem();
-        parentSettings.add(sOnLeftClick);
-        parentSettings.add(sOnLeftClickHeld);
-        parentSettings.add(sOnLeftClickRelease);
-        parentSettings.add(sOnRightClick);
-        parentSettings.add(sOnRightClickHeld);
-        parentSettings.add(sOnRightClickRelease);
-        return parentSettings;
+    public ArrayList<Property<?>> getPropertiesForItem() {
+        ArrayList<Property<?>> parentProperties = super.getPropertiesForItem();
+        parentProperties.add(sOnLeftClick);
+        parentProperties.add(sOnLeftClickHeld);
+        parentProperties.add(sOnLeftClickRelease);
+        parentProperties.add(sOnRightClick);
+        parentProperties.add(sOnRightClickHeld);
+        parentProperties.add(sOnRightClickRelease);
+        return parentProperties;
     }
 }

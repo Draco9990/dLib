@@ -12,11 +12,11 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
-import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.AlignmentSetting;
-import dLib.util.settings.prefabs.BooleanSetting;
-import dLib.util.settings.prefabs.ColorSetting;
-import dLib.util.settings.prefabs.StringSetting;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.AlignmentProperty;
+import dLib.util.settings.prefabs.BooleanProperty;
+import dLib.util.settings.prefabs.ColorProperty;
+import dLib.util.settings.prefabs.StringProperty;
 
 import java.util.ArrayList;
 
@@ -25,42 +25,42 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     private TextBox textBox;
 
     /** Settings */
-    private StringSetting sText = (StringSetting) new StringSetting(""){
+    private StringProperty sText = (StringProperty) new StringProperty(""){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            getElementData().text = getCurrentValue();
-            textBox.setText(getCurrentValue());
+            getElementData().text = getValue();
+            textBox.setText(getValue());
         }
-    }.setTitle("Text:");
+    }.setName("Text:");
 
-    private ColorSetting sTextColor = (ColorSetting) new ColorSetting(Color.BLACK){
+    private ColorProperty sTextColor = (ColorProperty) new ColorProperty(Color.BLACK){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            getElementData().textColor = getCurrentValue().toString();
-            textBox.setTextRenderColor(getCurrentValue());
+            getElementData().textColor = getValue().toString();
+            textBox.setTextRenderColor(getValue());
         }
-    }.setTitle("Text Color:");
+    }.setName("Text Color:");
 
-    private AlignmentSetting sAlignment = (AlignmentSetting) new AlignmentSetting(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER)){
+    private AlignmentProperty sAlignment = (AlignmentProperty) new AlignmentProperty(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER)){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            getElementData().horizontalAlignment = getCurrentValue().horizontalAlignment.name();
-            getElementData().verticalAlignment = getCurrentValue().verticalAlignment.name();
-            textBox.setAlignment(getCurrentValue().horizontalAlignment, getCurrentValue().verticalAlignment);
+            getElementData().horizontalAlignment = getValue().horizontalAlignment.name();
+            getElementData().verticalAlignment = getValue().verticalAlignment.name();
+            textBox.setAlignment(getValue().horizontalAlignment, getValue().verticalAlignment);
         }
-    }.setTitle("Alignment:");
+    }.setName("Alignment:");
 
-    private BooleanSetting sWrap = (BooleanSetting) new BooleanSetting(false){
+    private BooleanProperty sWrap = (BooleanProperty) new BooleanProperty(false){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
-            getElementData().wrap = getCurrentValue();
-            textBox.setWrap(getCurrentValue());
+            getElementData().wrap = getValue();
+            textBox.setWrap(getValue());
         }
-    }.setTitle("Wrap:");
+    }.setName("Wrap:");
 
     /** Constructors */
     public TextBoxScreenEditorItem(TextureBinding textureBinding, int xPos, int yPos, int width, int height) {
@@ -74,11 +74,11 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
 
         textBox = new TextBox(data.text, data.x, data.y, data.width, data.height);
 
-        sText.trySetValue(data.text);
-        sTextColor.trySetValue(Color.valueOf(data.textColor));
+        sText.setValue(data.text);
+        sTextColor.setValue(Color.valueOf(data.textColor));
 
-        sAlignment.trySetValue(new Alignment(Alignment.HorizontalAlignment.valueOf(data.horizontalAlignment), Alignment.VerticalAlignment.valueOf(data.verticalAlignment)));
-        sWrap.trySetValue(data.wrap);
+        sAlignment.setValue(new Alignment(Alignment.HorizontalAlignment.valueOf(data.horizontalAlignment), Alignment.VerticalAlignment.valueOf(data.verticalAlignment)));
+        sWrap.setValue(data.wrap);
     }
 
     /** Text */
@@ -126,11 +126,11 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
     public void initializeElementData(UIElementData data) {
         super.initializeElementData(data);
         TextBoxData textBoxData = (TextBoxData) data;
-        textBoxData.text = sText.getCurrentValue();
-        textBoxData.horizontalAlignment = sAlignment.getCurrentValue().horizontalAlignment.name();
-        textBoxData.verticalAlignment = sAlignment.getCurrentValue().verticalAlignment.name();
-        textBoxData.wrap = sWrap.getCurrentValue();
-        textBoxData.textColor = sTextColor.getCurrentValue().toString();
+        textBoxData.text = sText.getValue();
+        textBoxData.horizontalAlignment = sAlignment.getValue().horizontalAlignment.name();
+        textBoxData.verticalAlignment = sAlignment.getValue().verticalAlignment.name();
+        textBoxData.wrap = sWrap.getValue();
+        textBoxData.textColor = sTextColor.getValue().toString();
     }
 
     @Override
@@ -140,23 +140,23 @@ public class TextBoxScreenEditorItem extends RenderableScreenEditorItem {
 
     /** Properties */
     @Override
-    public ArrayList<Setting<?>> getPropertiesForItem() {
-        ArrayList<Setting<?>> settings = super.getPropertiesForItem();
-        settings.add(sText);
-        settings.add(sAlignment);
-        settings.add(sWrap);
-        settings.add(sTextColor);
-        return settings;
+    public ArrayList<Property<?>> getPropertiesForItem() {
+        ArrayList<Property<?>> properties = super.getPropertiesForItem();
+        properties.add(sText);
+        properties.add(sAlignment);
+        properties.add(sWrap);
+        properties.add(sTextColor);
+        return properties;
     }
 
     /** Settings */
     @Override
     public void initializeSettingsData() {
         super.initializeSettingsData();
-        sText.trySetValue(textBox.getText());
-        sTextColor.trySetValue(textBox.getTextRenderColor());
-        sAlignment.trySetValue(new Alignment(textBox.getHorizontalAlignment(), textBox.getVerticalAlignment()));
-        sWrap.trySetValue(textBox.getWrap());
+        sText.setValue(textBox.getText());
+        sTextColor.setValue(textBox.getTextRenderColor());
+        sAlignment.setValue(new Alignment(textBox.getHorizontalAlignment(), textBox.getVerticalAlignment()));
+        sWrap.setValue(textBox.getWrap());
     }
 
     /** Copy */

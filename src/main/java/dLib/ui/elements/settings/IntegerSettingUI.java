@@ -3,13 +3,13 @@ package dLib.ui.elements.settings;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.themes.UIThemeManager;
-import dLib.util.settings.prefabs.IntegerSetting;
+import dLib.util.settings.prefabs.IntegerProperty;
 
 import java.util.function.Consumer;
 
 public class IntegerSettingUI extends AbstractSettingUI {
     /** Constructors */
-    public IntegerSettingUI(IntegerSetting setting, Integer xPos, Integer yPos, Integer width, int height, boolean showArrows){
+    public IntegerSettingUI(IntegerProperty setting, Integer xPos, Integer yPos, Integer width, int height, boolean showArrows){
         super(setting, xPos, yPos, width, height);
 
         int startingX = (int) (xPos + width * (1-valuePercX));
@@ -37,7 +37,7 @@ public class IntegerSettingUI extends AbstractSettingUI {
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
 
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * ((1 - valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX -2* arrowPercX))), valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+            middle = new Inputfield(setting.getValue().toString(), ((int)(xPos + width * ((1 - valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX -2* arrowPercX))), valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
             ((Inputfield)middle).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
@@ -45,31 +45,31 @@ public class IntegerSettingUI extends AbstractSettingUI {
                         ((Inputfield)middle).getTextBox().setText("0");
                         return;
                     }
-                    setting.trySetValue(Integer.valueOf(s));
+                    setting.setValue(Integer.valueOf(s));
                 }
             });
         }
         else{
-            middle = new Inputfield(setting.getCurrentValue().toString(), ((int)(xPos + width * (1 - valuePercX))), valuePosY, ((int)(width * valuePercX)), valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+            middle = new Inputfield(setting.getValue().toString(), ((int)(xPos + width * (1 - valuePercX))), valuePosY, ((int)(width * valuePercX)), valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
             ((Inputfield)middle).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
                     if(s.isEmpty()) {
-                        setting.trySetValue(0);
+                        setting.setValue(0);
                         return;
                     }
 
-                    setting.trySetValue(Integer.valueOf(s));
+                    setting.setValue(Integer.valueOf(s));
                 }
             });
         }
 
-        setting.addOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedListener(new Runnable() {
             @Override
             public void run() {
                 Inputfield inputfield = (Inputfield) middle;
-                if(!inputfield.getTextBox().getText().equals(setting.getCurrentValue().toString())){
-                    inputfield.getTextBox().setText(setting.getCurrentValue().toString());
+                if(!inputfield.getTextBox().getText().equals(setting.getValue().toString())){
+                    inputfield.getTextBox().setText(setting.getValue().toString());
                 }
             }
         });

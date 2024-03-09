@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-public class MethodBindingSetting extends CustomSetting<MethodBinding> {
+public class MethodBindingProperty extends CustomProperty<MethodBinding> {
     /** Variables */
     // Dynamic Binding Settings
     private LinkedHashMap<String, Class<?>> params = new LinkedHashMap<>();
@@ -19,23 +19,23 @@ public class MethodBindingSetting extends CustomSetting<MethodBinding> {
     private String preferredMethodName = "MethodBinding_" + UUID.randomUUID().toString().replace("-", "");
 
     /** Constructors */
-    public MethodBindingSetting(MethodBinding value) {
+    public MethodBindingProperty(MethodBinding value) {
         super(value);
     }
 
-    public MethodBindingSetting() {
+    public MethodBindingProperty() {
         this(new NoneMethodBinding());
     }
 
     /** Title override */
     @Override
-    public MethodBindingSetting setTitle(String newTitle) {
-        super.setTitle(newTitle);
+    public MethodBindingProperty setName(String newTitle) {
+        super.setName(newTitle);
         return this;
     }
 
     /** Method name */
-    public MethodBindingSetting setPreferredMethodName(String methodName){
+    public MethodBindingProperty setPreferredMethodName(String methodName){
         this.preferredMethodName = methodName;
         return this;
     }
@@ -44,11 +44,11 @@ public class MethodBindingSetting extends CustomSetting<MethodBinding> {
     }
 
     /** Params */
-    public MethodBindingSetting addParameter(String paramName, Class<?> paramType){
+    public MethodBindingProperty addParameter(String paramName, Class<?> paramType){
         params.put(paramName, paramType);
         return this;
     }
-    public MethodBindingSetting setParameters(LinkedHashMap<String, Class<?>> paramsIn){
+    public MethodBindingProperty setParameters(LinkedHashMap<String, Class<?>> paramsIn){
         this.params = paramsIn;
         return this;
     }
@@ -57,7 +57,7 @@ public class MethodBindingSetting extends CustomSetting<MethodBinding> {
     }
 
     /** Return type */
-    public MethodBindingSetting setReturnType(Class<?> returnType){
+    public MethodBindingProperty setReturnType(Class<?> returnType){
         this.returnType = returnType;
         return this;
     }
@@ -73,12 +73,12 @@ public class MethodBindingSetting extends CustomSetting<MethodBinding> {
 
     /** UI */
     @Override
-    public AbstractSettingUI makeUIFor(int xPos, int yPos, int width, int height) {
-        if(getCurrentValue() instanceof DynamicMethodBinding){
+    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+        if(getValue() instanceof DynamicMethodBinding){
             return new DynamicMethodSettingUI(this, xPos, yPos, width, height);
         }
         else{
-            return super.makeUIFor(xPos, yPos, width, height);
+            return super.makeUIForEdit(xPos, yPos, width, height);
         }
     }
 }

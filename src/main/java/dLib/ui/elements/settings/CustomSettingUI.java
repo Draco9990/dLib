@@ -4,11 +4,11 @@ import dLib.DLib;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.screens.AbstractObjectListPickerScreen;
-import dLib.util.settings.prefabs.CustomSetting;
+import dLib.util.settings.prefabs.CustomProperty;
 
 public class CustomSettingUI<ItemType> extends AbstractSettingUI {
     /** Constructor */
-    public CustomSettingUI(CustomSetting<ItemType> setting, Integer xPos, Integer yPos, int width, int height){
+    public CustomSettingUI(CustomProperty<ItemType> setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
 
         this.middle = new TextButton(setting.getValueForDisplay(), xPos + ((int)(width - width * valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
@@ -19,7 +19,7 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI {
                     @Override
                     public void onItemSelected(ItemType item) {
                         super.onItemSelected(item);
-                        setting.trySetValue(item);
+                        setting.setValue(item);
                     }
 
                     @Override
@@ -31,7 +31,7 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI {
             }
         });
 
-        setting.addOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedListener(new Runnable() {
             @Override
             public void run() {
                 ((TextButton)middle).getTextBox().setText(setting.getValueForDisplay());

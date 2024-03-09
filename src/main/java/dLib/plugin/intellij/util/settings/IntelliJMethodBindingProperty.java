@@ -4,30 +4,30 @@ import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
-import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.MethodBindingSetting;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.MethodBindingProperty;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class IntelliJMethodBindingSetting extends MethodBindingSetting {
+public class IntelliJMethodBindingProperty extends MethodBindingProperty {
     private ScreenEditorBaseScreen screenEditor;
 
-    public IntelliJMethodBindingSetting(ScreenEditorBaseScreen screenEditor){
+    public IntelliJMethodBindingProperty(ScreenEditorBaseScreen screenEditor){
         this.screenEditor = screenEditor;
     }
 
     @Override
-    protected Setting<MethodBinding> setCurrentValue(MethodBinding currentValue) {
-        MethodBinding previousValue = getCurrentValue();
+    protected Property<MethodBinding> setValue_internal(MethodBinding value) {
+        MethodBinding previousValue = getValue();
 
-        super.setCurrentValue(currentValue);
+        super.setValue_internal(value);
 
         LinkedHashMap<String, String> parameters = getConvertedParameters();
 
-        if(currentValue instanceof DynamicMethodBinding){
-            ((DynamicMethodBinding) currentValue).addOnBoundMethodChangedConsumer(new BiConsumer<String, String>() {
+        if(value instanceof DynamicMethodBinding){
+            ((DynamicMethodBinding) value).addOnBoundMethodChangedConsumer(new BiConsumer<String, String>() {
                 @Override
                 public void accept(String oldVal, String newVal) {
                     if(!newVal.isEmpty()){

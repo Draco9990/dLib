@@ -3,18 +3,18 @@ package dLib.ui.elements.settings;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
-import dLib.util.settings.prefabs.EnumSetting;
+import dLib.util.settings.prefabs.EnumProperty;
 
 public class EnumSettingUI extends AbstractSettingUI {
     /** Variables */
 
     /** Constructors*/
-    public EnumSettingUI(EnumSetting<?> setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public EnumSettingUI(EnumProperty<?> setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
 
         int startingX = (int) (xPos + width * (1 - valuePercX));
 
-        if(setting.getControlType() == EnumSetting.EControlType.ARROWS){
+        if(setting.getControlType() == EnumProperty.EControlType.ARROWS){
             int arrowDim = Math.min((int)(arrowPercX * width), valueHeight);
 
             int hOffset = 0;
@@ -39,12 +39,12 @@ public class EnumSettingUI extends AbstractSettingUI {
 
             middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX - arrowPercX *2))), valueHeight);
         }
-        else if(setting.getControlType() == EnumSetting.EControlType.CLICK){
+        else if(setting.getControlType() == EnumProperty.EControlType.CLICK){
             middle = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX)))), valuePosY, ((int)(width * (valuePercX - getTextPercX()))), valueHeight);
             ((TextButton)middle).getButton().addOnLeftClickConsumer(setting::next);
         }
 
-        setting.addOnValueChangedConsumer(new Runnable() {
+        setting.addOnValueChangedListener(new Runnable() {
             @Override
             public void run() {
                 TextButton element = (TextButton) middle;

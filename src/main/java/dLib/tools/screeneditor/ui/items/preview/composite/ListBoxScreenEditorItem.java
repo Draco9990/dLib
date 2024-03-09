@@ -8,64 +8,64 @@ import dLib.ui.data.UIElementData;
 import dLib.ui.data.prefabs.ListBoxData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.ListBox;
-import dLib.util.settings.Setting;
-import dLib.util.settings.prefabs.BooleanSetting;
-import dLib.util.settings.prefabs.IntegerSetting;
-import dLib.util.settings.prefabs.StringSetting;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.BooleanProperty;
+import dLib.util.settings.prefabs.IntegerProperty;
+import dLib.util.settings.prefabs.StringProperty;
 
 import java.util.ArrayList;
 
 /// No need to inherit from CompositeScreenEditor item, we aren't treating ListBoxes as regular composites
 public class ListBoxScreenEditorItem extends ScreenEditorItem {
     /** Settings */
-    private StringSetting sTitle = new StringSetting(""){
+    private StringProperty sTitle = new StringProperty(""){
         @Override
-        protected Setting<String> setCurrentValue(String currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().titleBoxText = getCurrentValue();
+        protected Property<String> setValue_internal(String value) {
+            super.setValue_internal(value);
+            getElementData().titleBoxText = getValue();
             reinitializePreviewItems();
             refreshPropertiesScreen();
             return this;
         }
-    }.setTitle("Title:");
-    private IntegerSetting sTitleBoxHeight = new IntegerSetting(50, 1, null){
+    }.setName("Title:");
+    private IntegerProperty sTitleBoxHeight = new IntegerProperty(50, 1, null){
         @Override
-        public Setting<Integer> setCurrentValue(Integer currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().titleBoxHeight = getCurrentValue();
+        public Property<Integer> setValue_internal(Integer value) {
+            super.setValue_internal(value);
+            getElementData().titleBoxHeight = getValue();
             reinitializePreviewItems();
             return this;
         }
-    }.setTitle("Title Box Height:");
+    }.setName("Title Box Height:");
 
-    private IntegerSetting sItemSpacing = new IntegerSetting(0, 0, null){
+    private IntegerProperty sItemSpacing = new IntegerProperty(0, 0, null){
         @Override
-        public Setting<Integer> setCurrentValue(Integer currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().itemSpacing = getCurrentValue();
+        public Property<Integer> setValue_internal(Integer value) {
+            super.setValue_internal(value);
+            getElementData().itemSpacing = getValue();
             reinitializePreviewItems();
             return this;
         }
-    }.setTitle("Row Spacing:");
-    private BooleanSetting sInvertedItemOrder = new BooleanSetting(false){
+    }.setName("Row Spacing:");
+    private BooleanProperty sInvertedItemOrder = new BooleanProperty(false){
         @Override
-        protected Setting<Boolean> setCurrentValue(Boolean currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().invertedItemOrder = getCurrentValue();
+        protected Property<Boolean> setValue_internal(Boolean value) {
+            super.setValue_internal(value);
+            getElementData().invertedItemOrder = getValue();
             reinitializePreviewItems();
             return this;
         }
-    }.setTitle("Inverted Item Order:");
+    }.setName("Inverted Item Order:");
 
-    private IntegerSetting sScrollbarWidth = new IntegerSetting(50, 0, null){
+    private IntegerProperty sScrollbarWidth = new IntegerProperty(50, 0, null){
         @Override
-        public Setting<Integer> setCurrentValue(Integer currentValue) {
-            super.setCurrentValue(currentValue);
-            getElementData().scrollbarWidth = getCurrentValue();
+        public Property<Integer> setValue_internal(Integer value) {
+            super.setValue_internal(value);
+            getElementData().scrollbarWidth = getValue();
             reinitializePreviewItems();
             return this;
         }
-    }.setTitle("Scrollbar Width:");
+    }.setName("Scrollbar Width:");
 
     /** Variables */
     private ListBox<Object> previewListBox;
@@ -118,27 +118,27 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem {
     public void initializeElementData(UIElementData data) {
         super.initializeElementData(data);
         ListBoxData<Object> listBoxData = (ListBoxData<Object>) data;
-        listBoxData.titleBoxText = sTitle.getCurrentValue();
-        listBoxData.titleBoxHeight = sTitleBoxHeight.getCurrentValue();
+        listBoxData.titleBoxText = sTitle.getValue();
+        listBoxData.titleBoxHeight = sTitleBoxHeight.getValue();
 
-        listBoxData.itemSpacing = sItemSpacing.getCurrentValue();
-        listBoxData.invertedItemOrder = sInvertedItemOrder.getCurrentValue();
+        listBoxData.itemSpacing = sItemSpacing.getValue();
+        listBoxData.invertedItemOrder = sInvertedItemOrder.getValue();
 
-        listBoxData.scrollbarWidth = sScrollbarWidth.getCurrentValue();
+        listBoxData.scrollbarWidth = sScrollbarWidth.getValue();
     }
 
     /** Settings */
     @Override
-    public ArrayList<Setting<?>> getPropertiesForItem() {
-        ArrayList<Setting<?>> settings = super.getPropertiesForItem();
-        settings.add(sTitle);
-        if(!sTitle.getCurrentValue().isEmpty()) settings.add(sTitleBoxHeight);
+    public ArrayList<Property<?>> getPropertiesForItem() {
+        ArrayList<Property<?>> properties = super.getPropertiesForItem();
+        properties.add(sTitle);
+        if(!sTitle.getValue().isEmpty()) properties.add(sTitleBoxHeight);
 
-        settings.add(sItemSpacing);
-        settings.add(sInvertedItemOrder);
+        properties.add(sItemSpacing);
+        properties.add(sInvertedItemOrder);
 
-        settings.add(sScrollbarWidth);
-        return settings;
+        properties.add(sScrollbarWidth);
+        return properties;
     }
 
     /** Position & Dimensions */
