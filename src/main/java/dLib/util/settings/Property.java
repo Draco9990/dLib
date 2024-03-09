@@ -20,16 +20,13 @@ public abstract class Property<T> implements Serializable {
 
     //endregion
 
-    //region Settings
+    //region Constructors
 
     public Property(T value){
         this.value = value;
         defaultValue = value;
     }
 
-    //endregion Settings
-
-    //region Constructors
     //endregion
 
     //region Methods

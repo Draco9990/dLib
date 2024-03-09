@@ -12,7 +12,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.IntVector2;
 import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.IntVector2Property;
+import dLib.util.settings.prefabs.IntegerVector2Property;
 import dLib.util.settings.prefabs.StringProperty;
 
 import java.util.ArrayList;
@@ -78,21 +78,21 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
         }
     }.setConfirmationMode(StringProperty.InputConfirmationMode.SELECTION_MANAGED).setName("ID:");
 
-    private IntVector2Property sPosition = (IntVector2Property) new IntVector2Property(new IntVector2(getPositionX(), getPositionY())){
+    private IntegerVector2Property sPosition = (IntegerVector2Property) new IntegerVector2Property(new IntVector2(getPositionX(), getPositionY())){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
             setPosition((int) getValue().x, (int) getValue().y);
         }
-    }.setAxisNames("X:", "Y:").setName("Position:");
+    }.setValueNames("X:", "Y:").setName("Position:");
 
-    private IntVector2Property sDimensions = (IntVector2Property) new IntVector2Property(new IntVector2(getWidth(), getHeight())){
+    private IntegerVector2Property sDimensions = (IntegerVector2Property) new IntegerVector2Property(new IntVector2(getWidth(), getHeight())){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
             setDimensions(getValue().x, getValue().y);
         }
-    }.setAxisNames("W:", "H:").setName("Dimensions");
+    }.setValueNames("W:", "H:").setName("Dimensions");
 
     /** Constructors */
     public ScreenEditorItem(Texture image, int xPos, int yPos, int width, int height) {

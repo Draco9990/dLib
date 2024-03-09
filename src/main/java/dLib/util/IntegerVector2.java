@@ -11,6 +11,11 @@ public class IntegerVector2 {
         this.y = yIn;
     }
 
+    public IntegerVector2(IntegerVector2 copy){
+        this.x = copy.x;
+        this.y = copy.y;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof IntegerVector2)) return false;

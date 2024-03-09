@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.IntVector2;
-import dLib.util.settings.prefabs.IntVector2Property;
+import dLib.util.settings.prefabs.IntegerVector2Property;
 
 import java.util.function.Consumer;
 
@@ -12,7 +12,7 @@ public class IntVector2SettingUI extends AbstractSettingUI{
     /** Variables */
 
     /** Constructors */
-    public IntVector2SettingUI(IntVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public IntVector2SettingUI(IntegerVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
 
         int renderWidth = (int) (width * valuePercX);
@@ -21,8 +21,8 @@ public class IntVector2SettingUI extends AbstractSettingUI{
         int textWidth = (int) (0.2f * renderWidth);
         int inputfieldWidth = (int)(0.25f * renderWidth);
 
-        this.foreground.add(new TextBox(setting.getXAxisName(), startingX, valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
-        this.foreground.add(new TextBox(setting.getYAxisName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        this.foreground.add(new TextBox(setting.getXValueName(), startingX, valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        this.foreground.add(new TextBox(setting.getYValueName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
 
         this.left = new Inputfield(String.valueOf(setting.getValue().x), startingX + textWidth, valuePosY, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
         ((Inputfield)left).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
