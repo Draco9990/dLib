@@ -8,22 +8,19 @@ import dLib.util.settings.Property;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.BiConsumer;
 
 public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
 
-    EControlType controlType;
-
     //endregion
 
     //region Constructors
 
-    public EnumProperty(Enum<T> value, EControlType controlType) {
+    public EnumProperty(Enum<T> value) {
         super(value);
-
-        this.controlType = controlType;
     }
 
     //endregion
@@ -49,17 +46,13 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
         return super.getValueForDisplay().replace("_", " ");
     }
 
-    //endregion
-
-    //region Control Type
-
-    public EControlType getControlType(){
-        return controlType;
-    }
-
-    public enum EControlType{
-        ARROWS,
-        CLICK
+    public Property<Enum<T>> addOnValueChangedListener(Runnable listener){
+        return addOnValueChangedListener(new BiConsumer<Enum<T>, Enum<T>>() {
+            @Override
+            public void accept(Enum<T> tEnum, Enum<T> tEnum2) {
+                listener.run();
+            }
+        });
     }
 
     //endregion

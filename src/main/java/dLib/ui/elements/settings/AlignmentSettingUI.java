@@ -5,20 +5,28 @@ import dLib.ui.elements.prefabs.TextButton;
 import dLib.util.EnumHelpers;
 import dLib.util.settings.prefabs.AlignmentProperty;
 
-public class AlignmentSettingUI extends AbstractSettingUI{
-    /** Variables */
+import java.util.function.BiConsumer;
 
-    /** Constructors */
+public class AlignmentSettingUI extends AbstractSettingUI{
+    //region Variables
+
+    TextButton leftButton;
+    TextButton rightButton;
+
+    //endregion
+
+    //region Constructors
+
     public AlignmentSettingUI(AlignmentProperty setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
 
         int renderWidth = (int) (width * valuePercX);
-        int startingX = xPos + (width - renderWidth);
+        int startingX = (width - renderWidth);
 
         int buttonWidth = (int)(0.45f * renderWidth);
 
-        this.left = new TextButton(setting.getValue().horizontalAlignment.name(), startingX, valuePosY, buttonWidth, valueHeight);
-        ((TextButton)left).getButton().addOnLeftClickConsumer(new Runnable() {
+        leftButton = new TextButton(setting.getValue().horizontalAlignment.name(), startingX, valuePosY, buttonWidth, valueHeight);
+        leftButton.getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
                 Alignment alignment = setting.getValue();
@@ -26,9 +34,10 @@ public class AlignmentSettingUI extends AbstractSettingUI{
                 setting.setValue(alignment);
             }
         });
+        addChildNCS(leftButton);
 
-        this.right = new TextButton(setting.getValue().verticalAlignment.name(), (int) (startingX + (renderWidth * 0.55f)), valuePosY, buttonWidth, valueHeight);
-        ((TextButton)right).getButton().addOnLeftClickConsumer(new Runnable() {
+        rightButton = new TextButton(setting.getValue().verticalAlignment.name(), (int) (startingX + (renderWidth * 0.55f)), valuePosY, buttonWidth, valueHeight);
+        rightButton.getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
                 Alignment alignment = setting.getValue();
@@ -36,20 +45,41 @@ public class AlignmentSettingUI extends AbstractSettingUI{
                 setting.setValue(alignment);
             }
         });
+        addChildNCS(rightButton);
 
-        setting.addOnValueChangedListener(new Runnable() {
+        setting.addOnHorizontalAlignmentChangedListener(new BiConsumer<Alignment.HorizontalAlignment, Alignment.HorizontalAlignment>() {
             @Override
-            public void run() {
-                TextButton leftI = ((TextButton)left);
-                if(!leftI.getTextBox().getText().equals(setting.getValue().horizontalAlignment.name())){
-                    leftI.getTextBox().setText(setting.getValue().horizontalAlignment.name());
+            public void accept(Alignment.HorizontalAlignment horizontalAlignment, Alignment.HorizontalAlignment horizontalAlignment2) {
+                if(!leftButton.getTextBox().getText().equals(setting.getValue().horizontalAlignment.name())){
+                    leftButton.getTextBox().setText(setting.getValue().horizontalAlignment.name());
                 }
-
-                TextButton rightI = ((TextButton)right);
-                if(!rightI.getTextBox().getText().equals(setting.getValue().verticalAlignment.name())){
-                    rightI.getTextBox().setText(setting.getValue().verticalAlignment.name());
+            }
+        });
+        setting.addOnVerticalAlignmentChangedListener(new BiConsumer<Alignment.VerticalAlignment, Alignment.VerticalAlignment>() {
+            @Override
+            public void accept(Alignment.VerticalAlignment verticalAlignment, Alignment.VerticalAlignment verticalAlignment2) {
+                if(!rightButton.getTextBox().getText().equals(setting.getValue().verticalAlignment.name())){
+                    rightButton.getTextBox().setText(setting.getValue().verticalAlignment.name());
                 }
             }
         });
     }
+
+    //endregion
+
+    //region Methods
+
+    @Override
+    public boolean onLeftInteraction() {
+        leftButton.getButton().trigger();
+        return true;
+    }
+
+    @Override
+    public boolean onRightInteraction() {
+        rightButton.getButton().trigger();
+        return true;
+    }
+
+    //endregion
 }

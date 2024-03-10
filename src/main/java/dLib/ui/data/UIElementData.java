@@ -1,7 +1,6 @@
 package dLib.ui.data;
 
 import dLib.ui.elements.UIElement;
-import dLib.util.IntVector2;
 import dLib.util.IntegerVector2;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
@@ -13,7 +12,7 @@ public class UIElementData implements Serializable {
 
     public String id;
 
-    public IntVector2 localPosition = new IntVector2(0, 0);
+    public IntegerVector2 localPosition = new IntegerVector2(0, 0);
     public boolean dockedToParent = true;
 
     public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);

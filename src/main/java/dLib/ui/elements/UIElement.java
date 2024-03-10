@@ -2,12 +2,8 @@ package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.data.UIElementData;
-import dLib.util.IntVector2;
 import dLib.util.IntegerVector2;
-import dLib.util.bindings.method.MethodBinding;
-import dLib.util.bindings.method.NoneMethodBinding;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -20,7 +16,7 @@ public class UIElement {
     protected UIElement parent;
     protected List<UIElementChild> children = new ArrayList<>();
 
-    private IntVector2 localPosition = new IntVector2(0, 0);
+    private IntegerVector2 localPosition = new IntegerVector2(0, 0);
     private boolean dockedToParent = true;
 
     private IntegerVector2 lowerLocalBounds = new IntegerVector2(null, null);
@@ -263,7 +259,7 @@ public class UIElement {
     public final int getLocalPositionY(){
         return localPosition.y;
     }
-    public final IntVector2 getLocalPosition(){
+    public final IntegerVector2 getLocalPosition(){
         return localPosition.copy();
     }
 
@@ -285,8 +281,8 @@ public class UIElement {
     public final int getLocalPositionCenteredY(){
         return getLocalPositionCentered().y;
     }
-    public final IntVector2 getLocalPositionCentered(){
-        IntVector2 localPosition = getLocalPosition();
+    public final IntegerVector2 getLocalPositionCentered(){
+        IntegerVector2 localPosition = getLocalPosition();
         localPosition.x += (int)(width * 0.5f);
         localPosition.y += (int)(height * 0.5f);
         return localPosition;
@@ -314,10 +310,10 @@ public class UIElement {
     public final int getWorldPositionY(){
         return getWorldPosition().y;
     }
-    public final IntVector2 getWorldPosition(){
+    public final IntegerVector2 getWorldPosition(){
         if(!hasParent()) return getLocalPosition();
         else{
-            IntVector2 parentWorld = parent.getWorldPosition();
+            IntegerVector2 parentWorld = parent.getWorldPosition();
             parentWorld.x += getLocalPositionX();
             parentWorld.y += getLocalPositionY();
             return parentWorld;
@@ -342,8 +338,8 @@ public class UIElement {
     public final int getWorldPositionCenteredY(){
         return getWorldPositionCentered().y;
     }
-    public final IntVector2 getWorldPositionCentered(){
-        IntVector2 worldPosition = getWorldPosition();
+    public final IntegerVector2 getWorldPositionCentered(){
+        IntegerVector2 worldPosition = getWorldPosition();
         worldPosition.x += (int)(width * 0.5f);
         worldPosition.y += (int)(height * 0.5f);
         return worldPosition;
@@ -383,19 +379,6 @@ public class UIElement {
     //endregion
 
     //region Transforming
-
-    public IntVector2 worldToLocal(IntVector2 worldPosition){
-        IntVector2 localPosition = getLocalPosition();
-        localPosition.x += worldPosition.x - getWorldPositionX();
-        localPosition.y += worldPosition.y - getWorldPositionY();
-        return localPosition;
-    }
-    public IntVector2 localToWorld(IntVector2 localPosition){
-        IntVector2 worldPosition = getWorldPosition();
-        worldPosition.x += localPosition.x - getLocalPositionX();
-        worldPosition.y += localPosition.y - getLocalPositionY();
-        return worldPosition;
-    }
 
     public IntegerVector2 worldToLocal(IntegerVector2 worldPosition){
         IntegerVector2 localPosition = new IntegerVector2(null, null);
@@ -478,7 +461,7 @@ public class UIElement {
         if(lowerBound.y == null || (lowerWorldBoundConverted.y != null && lowerWorldBoundConverted.y < lowerBound.y)) lowerBound.y = lowerWorldBoundConverted.y;
 
         if(boundWithinParent && hasParent()){
-            IntVector2 parentPosition = worldToLocal(parent.getWorldPosition());
+            IntegerVector2 parentPosition = worldToLocal(parent.getWorldPosition());
             if(lowerBound.x == null || parentPosition.x < lowerBound.x) lowerBound.x = parentPosition.x;
             if(lowerBound.y == null || parentPosition.y < lowerBound.y) lowerBound.y = parentPosition.y;
         }
@@ -540,7 +523,7 @@ public class UIElement {
         if(upperBound.y == null || (upperWorldBoundsConverted.y != null && upperWorldBoundsConverted.y > upperBound.y)) upperBound.y = upperWorldBoundsConverted.y;
 
         if(boundWithinParent && hasParent()){
-            IntVector2 parentPosition = worldToLocal(parent.getWorldPosition());
+            IntegerVector2 parentPosition = worldToLocal(parent.getWorldPosition());
             if(upperBound.x == null || parentPosition.x > upperBound.x) upperBound.x = parentPosition.x;
             if(upperBound.y == null || parentPosition.y > upperBound.y) upperBound.y = parentPosition.y;
         }

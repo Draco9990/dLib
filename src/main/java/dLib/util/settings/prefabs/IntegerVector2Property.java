@@ -1,8 +1,7 @@
 package dLib.util.settings.prefabs;
 
 import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.IntVector2SettingUI;
-import dLib.util.IntVector2;
+import dLib.ui.elements.settings.IntegerVector2SettingUI;
 import dLib.util.IntegerVector2;
 import dLib.util.settings.Property;
 
@@ -117,7 +116,7 @@ public class IntegerVector2Property extends Property<IntegerVector2> implements 
 
     @Override
     public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
-        return new IntVector2SettingUI(this, xPos, yPos, width, height);
+        return new IntegerVector2SettingUI(this, xPos, yPos, width, height);
     }
 
     //endregion

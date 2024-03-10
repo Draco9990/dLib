@@ -5,10 +5,21 @@ import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.settings.prefabs.IntegerProperty;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class IntegerSettingUI extends AbstractSettingUI {
-    /** Constructors */
+    //region Variables
+
+    Button leftArrow;
+    Button rightArrow;
+
+    Inputfield middleInputfield;
+
+    //endregion
+
+    //region Constructors
+
     public IntegerSettingUI(IntegerProperty setting, Integer xPos, Integer yPos, Integer width, int height, boolean showArrows){
         super(setting, xPos, yPos, width, height);
 
@@ -22,36 +33,40 @@ public class IntegerSettingUI extends AbstractSettingUI {
                 hOffset = (int)((height-arrowDim) / 2);
             }
 
-            left = new Button(startingX, valuePosY + hOffset, arrowDim, arrowDim){
+            leftArrow = new Button(startingX, valuePosY + hOffset, arrowDim, arrowDim){
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
                     setting.increment();
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_left);
-            right = new Button((int)(xPos + width * (1-arrowPercX)), valuePosY + hOffset, arrowDim, arrowDim){
+            addChildNCS(leftArrow);
+
+            rightArrow = new Button((int)(xPos + width * (1-arrowPercX)), valuePosY + hOffset, arrowDim, arrowDim){
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
                     setting.decrement();
                 }
             }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
+            addChildNCS(rightArrow);
 
-            middle = new Inputfield(setting.getValue().toString(), ((int)(xPos + width * ((1 - valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX -2* arrowPercX))), valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-            ((Inputfield)middle).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
+            middleInputfield = new Inputfield(setting.getValue().toString(), ((int)(xPos + width * ((1 - valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX -2* arrowPercX))), valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+            middleInputfield.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
                     if(s.isEmpty()){
-                        ((Inputfield)middle).getTextBox().setText("0");
+                        middleInputfield.getTextBox().setText("0");
                         return;
                     }
                     setting.setValue(Integer.valueOf(s));
                 }
             });
+
         }
         else{
-            middle = new Inputfield(setting.getValue().toString(), ((int)(xPos + width * (1 - valuePercX))), valuePosY, ((int)(width * valuePercX)), valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-            ((Inputfield)middle).getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
+            middleInputfield = new Inputfield(setting.getValue().toString(), ((int)(xPos + width * (1 - valuePercX))), valuePosY, ((int)(width * valuePercX)), valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+            middleInputfield.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
                 @Override
                 public void accept(String s) {
                     if(s.isEmpty()) {
@@ -64,14 +79,44 @@ public class IntegerSettingUI extends AbstractSettingUI {
             });
         }
 
-        setting.addOnValueChangedListener(new Runnable() {
-            @Override
-            public void run() {
-                Inputfield inputfield = (Inputfield) middle;
-                if(!inputfield.getTextBox().getText().equals(setting.getValue().toString())){
-                    inputfield.getTextBox().setText(setting.getValue().toString());
-                }
+        addChildCS(middleInputfield);
+
+        setting.addOnValueChangedListener((integer, integer2) -> {
+            if(!middleInputfield.getTextBox().getText().equals(setting.getValue().toString())){
+                middleInputfield.getTextBox().setText(setting.getValue().toString());
             }
         });
     }
+
+    //endregion
+
+    //region Methods
+
+    @Override
+    public boolean onLeftInteraction() {
+        if(leftArrow != null){
+            leftArrow.trigger();
+            return true;
+        }
+        return super.onLeftInteraction();
+    }
+
+    @Override
+    public boolean onRightInteraction() {
+        if(rightArrow != null){
+            rightArrow.trigger();
+            return true;
+        }
+        return super.onRightInteraction();
+    }
+
+    @Override
+    public boolean onCancelInteraction() {
+        middleInputfield.deselect();
+        return true;
+    }
+
+    //endregion
+
+    /** Constructors */
 }

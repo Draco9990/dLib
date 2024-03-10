@@ -166,6 +166,8 @@ public class Interactable extends Hoverable{
 
     //region Left Click
 
+    public void trigger(){ clickLeft(); }
+
     public void clickLeft(){
         onLeftClick();
     }

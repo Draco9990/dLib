@@ -1,18 +1,28 @@
 package dLib.ui.elements.settings;
 
 import dLib.DLib;
+import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.screens.AbstractObjectListPickerScreen;
 import dLib.util.settings.prefabs.CustomProperty;
 
+import java.util.function.BiConsumer;
+
 public class CustomSettingUI<ItemType> extends AbstractSettingUI {
-    /** Constructor */
+    //region Variables
+
+    TextButton middleButton;
+
+    //endregion
+
+    //region Constructors
+
     public CustomSettingUI(CustomProperty<ItemType> setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
 
-        this.middle = new TextButton(setting.getValueForDisplay(), xPos + ((int)(width - width * valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
-        ((TextButton)middle).getButton().addOnLeftClickConsumer(new Runnable() {
+        middleButton = new TextButton(setting.getValueForDisplay(), ((int)(width - width * valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
+        middleButton.getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
                 AbstractObjectListPickerScreen<ItemType> pickerScreen = new AbstractObjectListPickerScreen<ItemType>(ScreenManager.getCurrentScreen(), setting.getAllOptions()) {
@@ -30,12 +40,18 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI {
                 ScreenManager.openScreen(pickerScreen);
             }
         });
+        addChildCS(middleButton);
 
-        setting.addOnValueChangedListener(new Runnable() {
+        setting.addOnValueChangedListener(new BiConsumer<ItemType, ItemType>() {
             @Override
-            public void run() {
-                ((TextButton)middle).getTextBox().setText(setting.getValueForDisplay());
+            public void accept(ItemType itemType, ItemType itemType2) {
+                middleButton.getTextBox().setText(setting.getValueForDisplay());
             }
         });
     }
+
+    //endregion
+
+    //region Methods
+    //endregion
 }

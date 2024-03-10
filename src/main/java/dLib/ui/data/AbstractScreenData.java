@@ -5,7 +5,8 @@ import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPrev
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.elements.UIElement;
 import dLib.util.DLibLogger;
-import dLib.util.IntVector2;
+import dLib.util.IntegerVector2;
+import dLib.util.IntegerVector2;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -47,8 +48,8 @@ public class AbstractScreenData implements Serializable {
                 continue;
             }
 
-            repositionElement(liveInstance, new IntVector2(0, 0));
-            rescaleElement(liveInstance, new IntVector2(1920, 1080));
+            repositionElement(liveInstance, new IntegerVector2(0, 0));
+            rescaleElement(liveInstance, new IntegerVector2(1920, 1080));
             elements.add(liveInstance);
         }
 
@@ -64,8 +65,8 @@ public class AbstractScreenData implements Serializable {
                 continue;
             }
 
-            repositionElement(editorInstance, new IntVector2(ScreenEditorPreview.xOffset, ScreenEditorPreview.yOffset));
-            rescaleElement(editorInstance, new IntVector2(ScreenEditorPreview.width, ScreenEditorPreview.height));
+            repositionElement(editorInstance, new IntegerVector2(ScreenEditorPreview.xOffset, ScreenEditorPreview.yOffset));
+            rescaleElement(editorInstance, new IntegerVector2(ScreenEditorPreview.width, ScreenEditorPreview.height));
 
             items.add(editorInstance);
         }
@@ -73,14 +74,14 @@ public class AbstractScreenData implements Serializable {
         return items;
     }
 
-    private void repositionElement(UIElement element, IntVector2 targetOffset){
+    private void repositionElement(UIElement element, IntegerVector2 targetOffset){
         int xOffset = targetOffset.x - offsetX;
         int yOffset = targetOffset.y - offsetY;
 
         element.offset(xOffset, yOffset);
     }
 
-    private void rescaleElement(UIElement element, IntVector2 targetResolution){
+    private void rescaleElement(UIElement element, IntegerVector2 targetResolution){
         float scaleMultX = (float)targetResolution.x / referenceWidth;
         float scaleMultY = (float)targetResolution.y / referenceHeight;
 

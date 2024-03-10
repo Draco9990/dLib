@@ -2,15 +2,16 @@ package dLib.ui.elements.settings;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
-import dLib.ui.elements.CompositeUIElement;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.settings.Property;
 
-public abstract class AbstractSettingUI extends CompositeUIElement {
-    /** Variables */
+public abstract class AbstractSettingUI extends UIElement {
+    //region Variables
+
     protected TextBox label;
 
-    protected float valuePercX = 1 - getTextPercX();
+    protected float valuePercX = 1 - getTextWidthPerc();
     protected float arrowPercX = 0.025f;
 
     protected Integer textPosY;
@@ -20,8 +21,9 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
 
     protected Property<?> property;
 
-    protected Integer xPos;
-    protected Integer yPos;
+    //endregion
+
+    //region Constructors
 
     public AbstractSettingUI(Property<?> property, Integer xPos, Integer yPos, Integer width, Integer height){
         super(xPos, yPos, width, height);
@@ -48,18 +50,21 @@ public abstract class AbstractSettingUI extends CompositeUIElement {
 
         this.property = property;
 
-        this.xPos = xPos;
-        this.yPos = yPos;
-
-        this.label = new TextBox(property.getName(), 0, textPosY, (int)(width * getTextPercX()), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
-        this.foreground.add(label);
+        this.label = new TextBox(property.getName(), 0, textPosY, (int)(width * getTextWidthPerc()), textHeight).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setVerticalAlignment(Alignment.VerticalAlignment.BOTTOM).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
+        addChildNCS(this.label);
     }
+
+    //endregion
+
+    //region Methods
 
     public boolean canDisplayMultiline(){
         return true;
     }
 
-    protected float getTextPercX(){
+    protected float getTextWidthPerc(){
         return (width < 500 && canDisplayMultiline() ? 1 : 0.25f);
     }
+
+    //endregion
 }

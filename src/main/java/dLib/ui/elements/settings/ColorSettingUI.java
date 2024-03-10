@@ -7,12 +7,21 @@ import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
 import dLib.util.settings.prefabs.ColorProperty;
 
+import java.util.function.BiConsumer;
+
 public class ColorSettingUI extends AbstractSettingUI {
-    /** Constructor */
+    //region Variables
+
+    Button middleButton;
+
+    //endregion
+
+    //region Constructors
+
     public ColorSettingUI(ColorProperty setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
 
-        this.middle = new Button( xPos + ((int)(width - width * valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight){
+        middleButton = (Button) new Button( ((int)(width - width * valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
@@ -25,12 +34,18 @@ public class ColorSettingUI extends AbstractSettingUI {
                 });
             }
         }.setImage(UITheme.whitePixel).setRenderColor(setting.getValue());
+        addChildCS(middleButton);
 
-        setting.addOnValueChangedListener(new Runnable() {
+        setting.addOnValueChangedListener(new BiConsumer<Color, Color>() {
             @Override
-            public void run() {
-                ((Button)middle).setRenderColor(setting.getValue());
+            public void accept(Color color, Color color2) {
+                middleButton.setRenderColor(setting.getValue());
             }
         });
     }
+
+    //endregion
+
+    //region Methods
+    //endregion
 }

@@ -51,3 +51,7 @@ Add a merge to composite button to merge few components together, when on compos
 -- add unbind from parent dimensions, add onParentMoved and onParentResized
 
 --> add update children first check for scrollboxes
+
+-- collect properties & data through recursive reflection
+
+--> replace texture with texturebinding

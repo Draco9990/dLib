@@ -10,7 +10,7 @@ import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.data.UIElementData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
-import dLib.util.IntVector2;
+import dLib.util.IntegerVector2;
 import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.IntegerVector2Property;
 import dLib.util.settings.prefabs.StringProperty;
@@ -78,7 +78,7 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
         }
     }.setConfirmationMode(StringProperty.InputConfirmationMode.SELECTION_MANAGED).setName("ID:");
 
-    private IntegerVector2Property sPosition = (IntegerVector2Property) new IntegerVector2Property(new IntVector2(getPositionX(), getPositionY())){
+    private IntegerVector2Property sPosition = (IntegerVector2Property) new IntegerVector2Property(new IntegerVector2(getPositionX(), getPositionY())){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
@@ -86,7 +86,7 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
         }
     }.setValueNames("X:", "Y:").setName("Position:");
 
-    private IntegerVector2Property sDimensions = (IntegerVector2Property) new IntegerVector2Property(new IntVector2(getWidth(), getHeight())){
+    private IntegerVector2Property sDimensions = (IntegerVector2Property) new IntegerVector2Property(new IntegerVector2(getWidth(), getHeight())){
         @Override
         public void onValueChanged() {
             super.onValueChanged();
@@ -165,7 +165,7 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
         getElementData().x = x;
         getElementData().y = y;
 
-        IntVector2 currentVal = sPosition.getValue();
+        IntegerVector2 currentVal = sPosition.getValue();
         if(sPosition.getValue().x != x){
             currentVal.x = x;
             sPosition.setValue(currentVal);
@@ -185,7 +185,7 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
         getElementData().width = width;
         getElementData().height = height;
 
-        IntVector2 currentDimensions = sDimensions.getValue();
+        IntegerVector2 currentDimensions = sDimensions.getValue();
         if(width != currentDimensions.x){
             currentDimensions.x = width;
             sDimensions.setValue(currentDimensions);
@@ -214,8 +214,8 @@ public abstract class ScreenEditorItem<DataType extends UIElementData> extends R
     /** Settings */
     public void initializeSettingsData(){
         sID.setValue(getId());
-        sPosition.setValue(new IntVector2(getPositionX(), getPositionY()));
-        sDimensions.setValue(new IntVector2(getWidth(), getHeight()));
+        sPosition.setValue(new IntegerVector2(getPositionX(), getPositionY()));
+        sDimensions.setValue(new IntegerVector2(getWidth(), getHeight()));
     }
 
     /** ID */
