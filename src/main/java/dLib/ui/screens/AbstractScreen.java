@@ -2,23 +2,14 @@ package dLib.ui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
-import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
-import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Interactable;
-import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.Image;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
-import dLib.util.Help;
 import sayTheSpire.Output;
-
-import java.util.UUID;
 
 // Abstract version of a screen
 public abstract class AbstractScreen extends UIElement {

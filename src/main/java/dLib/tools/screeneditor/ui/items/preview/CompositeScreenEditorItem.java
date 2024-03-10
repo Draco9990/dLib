@@ -2,7 +2,7 @@ package dLib.tools.screeneditor.ui.items.preview;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dLib.ui.data.CompositeUIElementData;
+import dLib.ui.data.UIElementData;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.settings.Property;
@@ -16,10 +16,6 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
     /** Constructors */
     public CompositeScreenEditorItem(int xPos, int yPos, int width, int height) {
         super(null, xPos, yPos, width, height);
-    }
-
-    public CompositeScreenEditorItem(CompositeUIElementData data){
-        super(data);
     }
 
     /** Update & Render */
@@ -128,13 +124,13 @@ public abstract class CompositeScreenEditorItem extends ScreenEditorItem {
 
     /** Data */
     @Override
-    public CompositeUIElementData makeElementData() {
-        return new CompositeUIElementData();
+    public UIElementData makeElementData() {
+        return null;
     }
 
     @Override
-    public CompositeUIElementData getElementData() {
-        return (CompositeUIElementData) super.getElementData();
+    public UIElementData getElementData() {
+        return null;
     }
 
     /** Settings */

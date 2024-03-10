@@ -1,7 +1,7 @@
 package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
-import dLib.ui.elements.CompositeUIElement;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.settings.Property;
@@ -21,7 +21,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
 
         propertiesItemList = new ListBox<Property<?>>(0, 0, getWidth(), getHeight()){
             @Override
-            public CompositeUIElement makeUIForItem(Property<?> item) {
+            public UIElement makeUIForItem(Property<?> item) {
                 return item.makeUIForEdit(0, 0, width, 100);
             }
         }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:");

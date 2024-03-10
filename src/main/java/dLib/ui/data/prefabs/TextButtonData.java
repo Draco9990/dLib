@@ -2,7 +2,6 @@ package dLib.ui.data.prefabs;
 
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.composite.TextButtonScreenEditorItem;
-import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.data.UIElementData;
 import dLib.ui.elements.prefabs.TextButton;
 

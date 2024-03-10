@@ -1,7 +1,6 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.ui.data.prefabs.TextButtonData;
-import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 
