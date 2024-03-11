@@ -6,9 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
-import dLib.ui.data.implementations.HoverableData;
+import dLib.ui.elements.UIElement;
+import dLib.ui.screens.ScreenManager;
+import dLib.util.bindings.method.MethodBinding;
+import dLib.util.bindings.method.NoneMethodBinding;
 import sayTheSpire.Output;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -17,13 +21,13 @@ public class Hoverable extends Renderable{
 
     protected Hitbox hb;
 
-    private float totalHoverDuration;
-
-    private String onHoverLine; // Say the Spire mod compatibility
-
     private ArrayList<Runnable> onHoveredConsumers = new ArrayList<>();
     private ArrayList<Consumer<Float>> onHoverTickConsumers = new ArrayList<>();
     private ArrayList<Runnable> onUnhoveredConsumers = new ArrayList<>();
+
+    private String onHoverLine; // Say the Spire mod compatibility
+
+    private float totalHoverDuration;
 
     //endregion
 
@@ -45,6 +49,10 @@ public class Hoverable extends Renderable{
     public Hoverable(HoverableData data){
         super(data);
         initialize();
+
+        onHoveredConsumers.add(() -> data.onHovered.executeBinding(ScreenManager.getCurrentScreen()));
+        onHoverTickConsumers.add((elapsedTime) -> data.onHoverTick.executeBinding(ScreenManager.getCurrentScreen(), elapsedTime));
+        onUnhoveredConsumers.add(() -> data.onUnhovered.executeBinding(ScreenManager.getCurrentScreen()));
     }
 
     private void initialize(){
@@ -147,4 +155,17 @@ public class Hoverable extends Renderable{
     //endregion
 
     //endregion
+
+    public class HoverableData extends Renderable.RenderableData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public MethodBinding onHovered = new NoneMethodBinding();
+        public MethodBinding onHoverTick = new NoneMethodBinding();
+        public MethodBinding onUnhovered = new NoneMethodBinding();
+
+        @Override
+        public UIElement makeUIElement() {
+            return new Hoverable(this);
+        }
+    }
 }

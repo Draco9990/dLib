@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.TextureEmptyBinding;
 
 import java.io.Serializable;
 
@@ -98,9 +99,9 @@ public class Renderable extends UIElement {
     public static class RenderableData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public TextureBinding textureBinding;
+        public TextureBinding textureBinding = new TextureEmptyBinding();
 
-        public String renderColor;
+        public String renderColor = Color.WHITE.cpy().toString();
 
         @Override
         public UIElement makeUIElement() {
