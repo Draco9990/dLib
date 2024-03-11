@@ -80,16 +80,16 @@ public abstract class Scrollbox extends Renderable {
 
     public void nextPage(){
         if(currentPage < pageCount){
-            slider.setPositionY(slider.getPositionY() - heightPerState);
+            slider.setLocalPositionY(slider.getLocalPositionY() - heightPerState);
         }
     }
     public void previousPage(){
         if(currentPage > 0){
-            slider.setPositionY(slider.getPositionY() + heightPerState);
+            slider.setLocalPositionY(slider.getLocalPositionY() + heightPerState);
         }
     }
     public void setFirstPage(){
-        slider.setPositionY(slider.getPositionY() + height - slider.getHeight());
+        slider.setLocalPositionY(height - slider.getHeight());
     }
 
     public void onPageChanged(int newPage){}

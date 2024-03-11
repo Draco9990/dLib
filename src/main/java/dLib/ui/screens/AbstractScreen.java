@@ -170,7 +170,7 @@ public abstract class AbstractScreen extends UIElement {
             float scaleMultX = (float)targetResolution.x / referenceWidth;
             float scaleMultY = (float)targetResolution.y / referenceHeight;
 
-            element.setPosition((int) (element.getPositionX() * scaleMultX), (int) (element.getPositionY() * scaleMultY));
+            element.setWorldPosition((int) (element.getWorldPositionX() * scaleMultX), (int) (element.getWorldPositionY() * scaleMultY));
             element.setDimensions((int) (element.getWidth() * scaleMultX), (int) (element.getHeight() * scaleMultY));
         }
     }

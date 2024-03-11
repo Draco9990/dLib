@@ -79,7 +79,7 @@ public class ListBox<ItemType> extends UIElement {
                 buildTitleBox();
             }
             titleBox.setText(title);
-            titleBox.setPosition(0, height - titleBoxHeight);
+            titleBox.setLocalPosition(0, height - titleBoxHeight);
             titleBox.setDimensions(width, titleBoxHeight);
         }
         else if(titleBox != null){
@@ -137,9 +137,9 @@ public class ListBox<ItemType> extends UIElement {
         if(titleBox != null) updateHeight -= titleBox.getHeight();
 
         if(scrollbar == null){
-            buildScrollBar(updatePosX, y, scrollbarWidth, updateHeight);
+            buildScrollBar(updatePosX, 0, scrollbarWidth, updateHeight);
         }
-        scrollbar.setPosition(updatePosX, y);
+        scrollbar.setLocalPosition(updatePosX, 0);
         scrollbar.setDimensions(scrollbarWidth, updateHeight);
     }
     private void buildScrollBar(int x, int y, int width, int height){

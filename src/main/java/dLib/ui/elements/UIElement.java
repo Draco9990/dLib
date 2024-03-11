@@ -40,10 +40,6 @@ public class UIElement {
 
     //endregion
 
-    /** DEPRECATED */
-    protected int x = 0;
-    protected int y = 0;
-
     protected int width = 0; //TODO RF replace with scale
     protected int height = 0;
 
@@ -236,10 +232,10 @@ public class UIElement {
 
     //region Local Position
     public UIElement setLocalPositionX(int newPosition){
-        return setLocalPosition(newPosition, y);
+        return setLocalPosition(newPosition, getLocalPositionY());
     }
     public UIElement setLocalPositionY(int newPosition){
-        return setLocalPosition(x, newPosition);
+        return setLocalPosition(getLocalPositionX(), newPosition);
     }
     public UIElement setLocalPosition(int newPositionX, int newPositionY){
         int xDiff = newPositionX - localPosition.x;
@@ -829,44 +825,6 @@ public class UIElement {
     //endregion
 
     //endregion
-
-    /** Position */
-    public UIElement setPositionX(int newPosX){
-        setPosition(newPosX, y);
-        return this;
-    }
-    public UIElement setPositionY(int newPosY){
-        setPosition(x, newPosY);
-        return this;
-    }
-    public UIElement setPosition(Integer newPosX, Integer newPosY){
-        boolean positionDifferent = x != newPosX || y != newPosY;
-
-        x = newPosX;
-        y = newPosY;
-
-        if(positionDifferent) {
-            onPositionChanged(x, y);
-        }
-
-        return this;
-    }
-
-    public UIElement setCenterPositionX(int newPosX){
-        setPositionX(newPosX - ((int)(float)getWidth() / 2));
-        return this;
-    }
-    public UIElement setCenterPositionY(int newPosY){
-        setPositionY(newPosY - ((int)(float)getHeight() / 2));
-        return this;
-    }
-    public UIElement setCenterPosition(int newPosX, int newPosY){
-        setPosition(newPosX - ((int)(float)getWidth() / 2), newPosY - ((int)(float)getHeight() / 2));
-        return this;
-    }
-
-    public int getPositionX() { return x; }
-    public int getPositionY() { return y; }
 
     /** Width and height */
     public UIElement setWidth(int newWidth){

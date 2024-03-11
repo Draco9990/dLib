@@ -36,18 +36,18 @@ public class Draggable extends Interactable{
     @Override
     protected void onLeftClick() {
         super.onLeftClick();
-        if(canDragX) xDragOffset = (int) (InputHelper.mX - this.x * Settings.xScale);
-        if(canDragY) yDragOffset = (int) (InputHelper.mY - this.y * Settings.yScale);
+        if(canDragX) xDragOffset = (int) (InputHelper.mX - this.getWorldPositionX() * Settings.xScale);
+        if(canDragY) yDragOffset = (int) (InputHelper.mY - this.getWorldPositionY() * Settings.yScale);
     }
 
     @Override
     protected void onLeftClickHeld(float totalDuration) {
         super.onLeftClickHeld(totalDuration);
 
-        int xPos = canDragX ? (int) ((InputHelper.mX - xDragOffset) / Settings.xScale) : x;
-        int yPos = canDragY ? (int) ((InputHelper.mY - yDragOffset) / Settings.yScale) : y;
+        int xPos = canDragX ? (int) ((InputHelper.mX - xDragOffset) / Settings.xScale) : getWorldPositionX();
+        int yPos = canDragY ? (int) ((InputHelper.mY - yDragOffset) / Settings.yScale) : getWorldPositionY();
 
-        setPosition(xPos, yPos);
+        setWorldPosition(xPos, yPos);
     }
 
     public Draggable setCanDragX(boolean canDragX){

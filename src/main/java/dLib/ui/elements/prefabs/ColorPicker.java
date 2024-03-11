@@ -60,13 +60,13 @@ public class ColorPicker extends UIElement {
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
-                float mX = (InputHelper.mX / Settings.xScale) - x;
+                float mX = (InputHelper.mX / Settings.xScale) - getWorldPositionX();
                 colorWheel.setLightness(mX / width);
             }
         };
         addChildNCS(lightnessBar);
 
-        addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/LightnessBar.png"), lightnessBar.getPositionX(), lightnessBar.getPositionY(), lightnessBar.getWidth(), lightnessBar.getHeight()));
+        addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/LightnessBar.png"), 0, 0, lightnessBar.getWidth(), lightnessBar.getHeight()));
     }
 
     //endregion
@@ -188,8 +188,8 @@ public class ColorPicker extends UIElement {
 
         private Color getCurrentColor(){
             int radius = Math.min(width, height) / 2;
-            float dx = InputHelper.mX / Settings.xScale - (x + (float)width / 2);
-            float dy = InputHelper.mY / Settings.yScale - (y + (float)height / 2);
+            float dx = InputHelper.mX / Settings.xScale - (getWorldPositionX() + (float)width / 2);
+            float dy = InputHelper.mY / Settings.yScale - (getWorldPositionY() + (float)height / 2);
             float hue = (float) ((Math.atan2(-dy, dx) / Math.PI / 2 + 1) % 1);
 
             if (dx * dx + dy * dy <= radius * radius) {

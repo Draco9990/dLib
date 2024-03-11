@@ -61,7 +61,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
         if(highlight){
             sb.setColor(Color.BLUE);
-            sb.draw(ImageMaster.DEBUG_HITBOX_IMG, this.x * Settings.xScale, this.y * Settings.yScale, this.width * Settings.xScale, this.height * Settings.yScale);
+            sb.draw(ImageMaster.DEBUG_HITBOX_IMG, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, this.width * Settings.xScale, this.height * Settings.yScale);
         }
     }
 
