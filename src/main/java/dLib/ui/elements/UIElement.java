@@ -837,9 +837,23 @@ public class UIElement {
         if(newWidth < 1) newWidth = 1;
         if(newHeight < 1) newHeight = 1;
 
+        int diffX = newWidth - width;
+        int diffY = newHeight - height;
+
         this.width = newWidth;
         this.height = newHeight;
+
+        if(diffX != 0 && diffY != 0){
+            for(UIElementChild child : children){
+                child.element.onParentDimensionsChanged(diffX, diffY);
+            }
+        }
+
         return this;
+    }
+
+    public void onParentDimensionsChanged(int diffX, int diffY){
+        this.setDimensions(getWidth() + diffX, getHeight() + diffY);
     }
 
     public int getWidth(){
