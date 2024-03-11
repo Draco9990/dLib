@@ -156,7 +156,7 @@ public class Hoverable extends Renderable{
 
     //endregion
 
-    public class HoverableData extends Renderable.RenderableData implements Serializable {
+    public static class HoverableData extends Renderable.RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public MethodBinding onHovered = new NoneMethodBinding();

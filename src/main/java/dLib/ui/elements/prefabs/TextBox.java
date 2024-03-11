@@ -9,12 +9,16 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
 import dLib.ui.Alignment;
-import dLib.ui.data.prefabs.TextBoxData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
+import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
+import dLib.util.bindings.method.MethodBinding;
+import dLib.util.bindings.method.NoneMethodBinding;
 import sayTheSpire.Output;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -71,15 +75,24 @@ public class TextBox extends Hoverable {
     public TextBox(TextBoxData data){
         super(data);
 
-        this.marginPercX = data.marginPercX;
-        this.marginPercY = data.marginPercY;
+        this.text = data.text;
+
+        this.textRenderColor = Color.valueOf(data.textRenderColor);
+        //TODO FONT
+        this.wrap = data.wrap;
 
         horizontalAlignment = Alignment.HorizontalAlignment.valueOf(data.horizontalAlignment);
         verticalAlignment = Alignment.VerticalAlignment.valueOf(data.verticalAlignment);
-        wrap = data.wrap;
 
-        this.text = data.text;
-        this.textRenderColor = Color.valueOf(data.textColor);
+        this.marginPercX = data.marginPercX;
+        this.marginPercY = data.marginPercY;
+
+        onTextChangedConsumers.add(s -> data.onTextChanged.executeBinding(ScreenManager.getCurrentScreen()));
+
+        this.paddingRight = data.paddingRight;
+        this.paddingTop = data.paddingTop;
+        this.paddingLeft = data.paddingLeft;
+        this.paddingBottom = data.paddingBottom;
 
         setFont(FontManager.genericFont);
     }
@@ -386,4 +399,31 @@ public class TextBox extends Hoverable {
 
     //endregion
 
+    public static class TextBoxData extends Hoverable.HoverableData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public String text = "";
+
+        public String textRenderColor = Color.WHITE.toString();
+        //TODO FONT
+        public boolean wrap;
+
+        public String horizontalAlignment = Alignment.HorizontalAlignment.CENTER.name();
+        public String verticalAlignment = Alignment.VerticalAlignment.CENTER.name();
+
+        public float marginPercX = 0.07f;
+        public float marginPercY = 0.33f;
+
+        public MethodBinding onTextChanged = new NoneMethodBinding();
+
+        public int paddingRight = 0;
+        public int paddingTop = 0;
+        public int paddingLeft = 0;
+        public int paddingBottom = 0;
+
+        @Override
+        public UIElement makeUIElement() {
+            return new TextBox(this);
+        }
+    }
 }
