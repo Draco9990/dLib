@@ -3,20 +3,17 @@ package dLib.ui.data.prefabs;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.renderable.ButtonScreenEditorItem;
 import dLib.ui.data.implementations.InteractableData;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.prefabs.Button;
 
 import java.io.Serializable;
 
-public class ButtonData extends InteractableData  implements Serializable {
+public class ButtonData extends Interactable.InteractableData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public Button makeLiveInstance(Object... params) {
+    public UIElement makeUIElement() {
         return new Button(this);
-    }
-
-    @Override
-    public ButtonScreenEditorItem makeEditorInstance() {
-        return new ButtonScreenEditorItem(this);
     }
 }
