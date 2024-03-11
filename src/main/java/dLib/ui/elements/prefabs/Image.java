@@ -2,21 +2,17 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.data.prefabs.ImageData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.implementations.Renderable;
+
+import java.io.Serializable;
 
 public class Image extends Hoverable {
     //region Variables
     //endregion
 
     //region Constructors
-    public Image(Texture image) {
-        super(image);
-    }
-
-    public Image(Texture image, int xPos, int yPos) {
-        super(image, xPos, yPos);
-    }
 
     public Image(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
@@ -25,8 +21,18 @@ public class Image extends Hoverable {
     public Image(ImageData data){
         super(data);
     }
+
     //endregion
 
     //region Methods
     //endregion
+
+    public static class ImageData extends Hoverable.HoverableData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public UIElement makeUIElement() {
+            return new Image(this);
+        }
+    }
 }
