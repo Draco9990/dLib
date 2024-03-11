@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
-import dLib.ui.data.UIElementData;
 import dLib.ui.data.implementations.RenderableData;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureBinding;
@@ -95,4 +94,17 @@ public class Renderable extends UIElement {
     //endregion
 
     //endregion
+
+    public static class RenderableData extends UIElement.UIElementData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public TextureBinding textureBinding;
+
+        public String renderColor;
+
+        @Override
+        public UIElement makeUIElement() {
+            return new Renderable(this);
+        }
+    }
 }

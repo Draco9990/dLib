@@ -1,7 +1,5 @@
 package dLib.ui.elements.prefabs;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dLib.ui.data.prefabs.ScrollboxData;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
@@ -33,14 +31,6 @@ public abstract class Scrollbox extends Renderable {
         }.setCanDragX(false);
         slider.setBoundWithinParent(true);
         addChildNCS(slider);
-
-        initialize();
-    }
-
-    public Scrollbox(ScrollboxData data){
-        super(data);
-
-        slider = data.slider.makeLiveInstance(null);
 
         initialize();
     }

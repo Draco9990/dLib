@@ -7,7 +7,7 @@ import dLib.util.bindings.texture.TextureBinding;
 
 import java.io.Serializable;
 
-public class RenderableData extends UIElementData implements Serializable {
+public class RenderableData extends UIElement.UIElementData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public TextureBinding textureBinding;
@@ -15,7 +15,7 @@ public class RenderableData extends UIElementData implements Serializable {
     public String renderColor;
 
     @Override
-    public UIElement makeLiveInstance(Object... params) {
+    public UIElement makeUIElement() {
         return new Renderable(this);
     }
 }
