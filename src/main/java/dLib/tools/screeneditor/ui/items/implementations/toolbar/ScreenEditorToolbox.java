@@ -1,13 +1,13 @@
 package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
 import com.badlogic.gdx.utils.OrderedMap;
-import dLib.tools.screeneditor.ui.items.preview.*;
-import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.composite.ListBoxScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.composite.TextButtonScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.BackgroundScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.ImageScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.TextBoxScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.*;
+import dLib.tools.screeneditor.ui.items.editoritems.composite.InputfieldScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.composite.ListBoxScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.composite.TextButtonScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.renderable.BackgroundScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.renderable.ImageScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.renderable.TextBoxScreenEditorItem;
 import dLib.ui.elements.prefabs.ListBox;
 
 import java.util.ArrayList;

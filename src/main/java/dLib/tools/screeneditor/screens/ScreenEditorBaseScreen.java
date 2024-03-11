@@ -1,15 +1,14 @@
 package dLib.tools.screeneditor.screens;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.DLib;
 import dLib.tools.screeneditor.ui.items.implementations.menu.ScreenEditorMenu;
 import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorElementList;
 import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorElementProperties;
 import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorToolbox;
-import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.preview.renderable.BackgroundScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.renderable.BackgroundScreenEditorItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
 import dLib.tools.screeneditor.util.ScreenEditorSaveManager;
 import dLib.ui.data.AbstractScreenData;

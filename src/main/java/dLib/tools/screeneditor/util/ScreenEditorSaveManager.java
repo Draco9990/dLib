@@ -2,9 +2,7 @@ package dLib.tools.screeneditor.util;
 
 import dLib.plugin.intellij.PluginManager;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.ui.data.AbstractScreenData;
-import dLib.ui.screens.AbstractScreen;
 
 public class ScreenEditorSaveManager {
     //region Variables

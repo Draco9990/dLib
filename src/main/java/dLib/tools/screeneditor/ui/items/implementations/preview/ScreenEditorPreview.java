@@ -2,9 +2,10 @@ package dLib.tools.screeneditor.ui.items.implementations.preview;
 
 import dLib.plugin.intellij.PluginManager;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 import dLib.util.TextureManager;
 
@@ -40,28 +41,30 @@ public class ScreenEditorPreview extends UIElement {
 
         getParent().getActiveItemsManager().addActiveItem(item);
     }
-    public ScreenEditorItem makeNewPreviewItem(Class<? extends ScreenEditorItem> template){
-        ScreenEditorItem copy = (ScreenEditorItem) Reflection.invokeMethod("makeNewInstance", template, getParent());
-        if(copy == null){
-            return null;
+    public ScreenEditorItem<?, ?> makeNewPreviewItem(Class<? extends ScreenEditorItem> template){
+        try{
+            ScreenEditorItem<?, ?> copy = template.newInstance();
+
+            String idPrefix = copy.getClass().getSimpleName().replace("ScreenEditorItem", "") + "_";
+            int i = 1;
+            while(findChildById(idPrefix + i) != null){
+                i++;
+            }
+            copy.setID(idPrefix + i);
+
+            copy.setBoundWithinParent(true);
+
+            PluginManager.sendMessage("screenElementAdd", getParent().getEditingScreen(), copy.getId(), copy.getElementClass());
+
+            addPreviewItem(copy);
+
+            return copy;
+        }catch (Exception e){
+            DLibLogger.logError("Failed to create new instance of a screen editor item due to " + e.getLocalizedMessage());
+            e.printStackTrace();
         }
 
-        copy.postInitialize();
-
-        String idPrefix = copy.getClass().getSimpleName().replace("ScreenEditorItem", "") + "_";
-        int i = 1;
-        while(findChildById(idPrefix + i) != null){
-            i++;
-        }
-        copy.setID(idPrefix + i);
-
-        copy.setBoundWithinParent(true);
-
-        PluginManager.sendMessage("screenElementAdd", getParent().getEditingScreen(), copy.getId(), copy.getLiveInstanceType().getName());
-
-        addPreviewItem(copy);
-
-        return copy;
+        return null;
     }
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         removeChild(itemToDelete);

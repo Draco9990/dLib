@@ -3,7 +3,7 @@ package dLib.tools.screeneditor.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.util.Reflection;
 
 import java.util.ArrayList;

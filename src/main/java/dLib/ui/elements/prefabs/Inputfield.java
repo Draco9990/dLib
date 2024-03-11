@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import dLib.ui.Alignment;
-import dLib.ui.data.prefabs.InputfieldData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 
@@ -235,8 +234,8 @@ public class Inputfield extends UIElement {
     public static class InputfieldData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public Button.ButtonData buttonData = null;
-        public TextBox.TextBoxData textboxData = null;
+        public Button.ButtonData buttonData = new Button.ButtonData();
+        public TextBox.TextBoxData textboxData = new TextBox.TextBoxData();
 
         public List<Character> characterFilter = new ArrayList<>();
         public int characterLimit = -1;

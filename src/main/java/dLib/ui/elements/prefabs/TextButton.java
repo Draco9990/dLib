@@ -1,7 +1,5 @@
 package dLib.ui.elements.prefabs;
 
-import dLib.ui.data.prefabs.ButtonData;
-import dLib.ui.data.prefabs.TextBoxData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 
@@ -30,10 +28,10 @@ public class TextButton extends UIElement {
     public TextButton(TextButtonData data){
         super(data);
 
-        button = data.buttonData.makeLiveInstance();
+        button = data.buttonData.makeUIElement();
         addChildCS(button);
 
-        label = data.textBoxData.makeLiveInstance();
+        label = data.textBoxData.makeUIElement();
         addChildCS(label);
     }
 
@@ -54,8 +52,8 @@ public class TextButton extends UIElement {
     public static class TextButtonData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public ButtonData buttonData;
-        public TextBoxData textBoxData;
+        public Button.ButtonData buttonData = new Button.ButtonData();
+        public TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();
 
         @Override
         public UIElement makeUIElement() {
