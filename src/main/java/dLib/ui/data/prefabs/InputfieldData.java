@@ -2,9 +2,7 @@ package dLib.ui.data.prefabs;
 
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.composite.InputfieldScreenEditorItem;
-import dLib.ui.data.CompositeUIElementData;
 import dLib.ui.data.UIElementData;
-import dLib.ui.elements.CompositeUIElement;
 import dLib.ui.elements.prefabs.Inputfield;
 
 import java.io.Serializable;

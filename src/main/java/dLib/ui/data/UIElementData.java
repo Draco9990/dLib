@@ -29,8 +29,4 @@ public class UIElementData implements Serializable {
 
     public int width;
     public int height;
-
-    public UIElement makeUIElement(){
-        return new UIElement(this);
-    }
 }

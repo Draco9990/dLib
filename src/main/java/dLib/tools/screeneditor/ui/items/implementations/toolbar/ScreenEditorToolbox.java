@@ -46,12 +46,12 @@ public class ScreenEditorToolbox extends AbstractScreenEditorToolbar {
     //region Methods
 
     public void initializeElementMap(){
-        elementMap.put("Button", TextButtonScreenEditorItem.class); //TODO Should include a property for becoming a toggle instead & a text field property
-        elementMap.put("Background", BackgroundScreenEditorItem.class);
-        elementMap.put("Image", ImageScreenEditorItem.class);
-        elementMap.put("Inputfield", InputfieldScreenEditorItem.class);
-        elementMap.put("ListBox", ListBoxScreenEditorItem.class);
-        elementMap.put("TextBox", TextBoxScreenEditorItem.class);
+        elementMap.put("Button", TextButtonScreenEditorItem.class); // TextData & ButtonData
+        elementMap.put("Background", BackgroundScreenEditorItem.class); // ImageData
+        elementMap.put("Image", ImageScreenEditorItem.class); // ImageData
+        elementMap.put("Inputfield", InputfieldScreenEditorItem.class); // INputfieldData, TextData & ButtonData
+        elementMap.put("ListBox", ListBoxScreenEditorItem.class); // Listbox data, TextData
+        elementMap.put("TextBox", TextBoxScreenEditorItem.class); //Textdata
     }
 
     //endregion

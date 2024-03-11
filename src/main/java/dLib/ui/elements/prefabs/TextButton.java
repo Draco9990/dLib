@@ -1,8 +1,11 @@
 package dLib.ui.elements.prefabs;
 
-import dLib.ui.data.prefabs.TextButtonData;
+import dLib.ui.data.prefabs.ButtonData;
+import dLib.ui.data.prefabs.TextBoxData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
+
+import java.io.Serializable;
 
 public class TextButton extends UIElement {
     //region Variables
@@ -47,4 +50,16 @@ public class TextButton extends UIElement {
     }
 
     //endregion
+
+    public static class TextButtonData extends UIElement.UIElementData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public ButtonData buttonData;
+        public TextBoxData textBoxData;
+
+        @Override
+        public UIElement makeUIElement() {
+            return super.makeUIElement();
+        }
+    }
 }
