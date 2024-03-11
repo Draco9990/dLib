@@ -9,7 +9,13 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Image;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.DLibLogger;
+import dLib.util.IntegerVector2;
 import sayTheSpire.Output;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Base64;
 
 // Abstract version of a screen
 public abstract class AbstractScreen extends UIElement {
@@ -34,6 +40,15 @@ public abstract class AbstractScreen extends UIElement {
         super(xPos, yPos, width, height);
         theme = UIThemeManager.getDefaultTheme();
         localStrings = CardCrawlGame.languagePack.getUIString(getModId() + ":" + this.getClass().getSimpleName());
+    }
+
+    public AbstractScreen(AbstractScreenData data){
+        this();
+        ArrayList<UIElement> makeLiveItems = data.makeLiveItems();
+        for (int i = 0; i < makeLiveItems.size(); i++) {
+            UIElement liveElement = makeLiveItems.get(i);
+            addChild(liveElement, data.data.get(i).isSelectable);
+        }
     }
 
     //endregion
@@ -114,4 +129,49 @@ public abstract class AbstractScreen extends UIElement {
     public String getOnScreenOpenLine(){ return null; }
 
     //endregion
+
+    public static class AbstractScreenData extends UIElementData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public int referenceWidth = 1920;
+        public int referenceHeight = 1080;
+
+        public ArrayList<UIElementData> data = new ArrayList<>();
+
+        public String modID;
+
+        @Override
+        public UIElement makeUIElement() {
+            return new AbstractScreen() {
+                @Override
+                public String getModId() {
+                    return modID;
+                }
+            };
+        }
+
+        public ArrayList<UIElement> makeLiveItems(){
+            ArrayList<UIElement> elements = new ArrayList<>();
+            for(UIElementData elementData : data){
+                UIElement liveInstance = elementData.makeUIElement();
+                if(liveInstance == null){
+                    DLibLogger.log("Failed to create a live instance of an element!");
+                    continue;
+                }
+
+                rescaleElement(liveInstance, new IntegerVector2(1920, 1080));
+                elements.add(liveInstance);
+            }
+
+            return elements;
+        }
+
+        private void rescaleElement(UIElement element, IntegerVector2 targetResolution){
+            float scaleMultX = (float)targetResolution.x / referenceWidth;
+            float scaleMultY = (float)targetResolution.y / referenceHeight;
+
+            element.setPosition((int) (element.getPositionX() * scaleMultX), (int) (element.getPositionY() * scaleMultY));
+            element.setDimensions((int) (element.getWidth() * scaleMultX), (int) (element.getHeight() * scaleMultY));
+        }
+    }
 }

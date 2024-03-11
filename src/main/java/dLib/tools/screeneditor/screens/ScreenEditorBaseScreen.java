@@ -2,18 +2,18 @@ package dLib.tools.screeneditor.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.DLib;
+import dLib.tools.screeneditor.ui.items.editoritems.BackgroundScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.implementations.menu.ScreenEditorMenu;
 import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorElementList;
 import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorElementProperties;
 import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorToolbox;
 import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
-import dLib.tools.screeneditor.ui.items.editoritems.renderable.BackgroundScreenEditorItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
 import dLib.tools.screeneditor.util.ScreenEditorSaveManager;
-import dLib.ui.data.AbstractScreenData;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.screens.AbstractScreen;
+import dLib.ui.screens.GeneratedAbstractScreen;
 import dLib.ui.themes.UITheme;
 
 public class ScreenEditorBaseScreen extends AbstractScreen {
@@ -40,13 +40,13 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         super();
         initialize(editingClass);
     }
-    public ScreenEditorBaseScreen(AbstractScreenData initialData){
+    public ScreenEditorBaseScreen(GeneratedAbstractScreen.GeneratedScreenData initialData){
         super();
         initialize(initialData.screenClass);
 
-        for(ScreenEditorItem item : initialData.getEditorItems()){
+        /*for(ScreenEditorItem item : initialData.getEditorItems()){
             preview.addPreviewItem(item);
-        }
+        }*/
 
         activeItemsManager.clearActiveItems();
     }

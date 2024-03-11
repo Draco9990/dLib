@@ -1,11 +1,13 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.ui.screens.AbstractScreen;
+import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -922,8 +924,34 @@ public class UIElement {
         public int width;
         public int height;
 
+        public boolean isSelectable;
+
         public UIElement makeUIElement(){
             return new UIElement(this);
+        }
+
+        public String serializeToString(){
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+                oos.writeObject(this);
+                return Base64.getEncoder().encodeToString(baos.toByteArray());
+            }
+            catch (Exception e){
+                DLibLogger.logError("Failed to serialize AbstractScreenData due to "+ e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+
+            return "";
+        }
+        public static AbstractScreen.AbstractScreenData deserializeFromString(String s){
+            byte[] data = Base64.getDecoder().decode(s);
+            try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
+                return (AbstractScreen.AbstractScreenData) ois.readObject();
+            }catch (Exception e){
+                DLibLogger.log("Failed to deserialize AbstractScreenData due to " + e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 }
