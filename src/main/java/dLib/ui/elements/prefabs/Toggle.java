@@ -4,9 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.modcompat.ModManager;
 import dLib.ui.data.prefabs.ToggleData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.util.TextureManager;
+import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.TextureEmptyBinding;
 import sayTheSpire.Output;
+
+import java.io.Serializable;
 
 public class Toggle extends Interactable {
     //region Variables
@@ -39,11 +44,11 @@ public class Toggle extends Interactable {
     public Toggle(ToggleData data){
         super(data);
 
-        this.toggledTexture = TextureManager.getTexture(data.toggledTexturePath);
-        this.toggledHoveredTexture = TextureManager.getTexture(data.toggledHoveredTexturePath);
-        this.toggledDisabledTexture = TextureManager.getTexture(data.toggledDisabledTexturePath);
-
         this.toggled = data.isToggled;
+
+        this.toggledTexture = data.toggledTexture.getBoundTexture();
+        this.toggledHoveredTexture = data.toggledTexture.getBoundTexture();
+        this.toggledDisabledTexture = data.toggledTexture.getBoundTexture();
     }
 
 
@@ -123,4 +128,19 @@ public class Toggle extends Interactable {
     //endregion
 
     //endregion
+
+    public static class ToggleData extends Interactable.InteractableData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public boolean isToggled;
+
+        public TextureBinding toggledTexture = new TextureEmptyBinding();
+        public TextureBinding toggledHoveredTexture = new TextureEmptyBinding();
+        public TextureBinding toggledDisabledTexture = new TextureEmptyBinding();
+
+        @Override
+        public UIElement makeUIElement() {
+            return new Toggle(this);
+        }
+    }
 }
