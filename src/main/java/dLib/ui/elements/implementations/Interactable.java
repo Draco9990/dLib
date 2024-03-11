@@ -3,16 +3,19 @@ package dLib.ui.elements.implementations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.modcompat.ModManager;
-import dLib.ui.data.implementations.InteractableData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.GlobalEvents;
+import dLib.util.bindings.method.MethodBinding;
+import dLib.util.bindings.method.NoneMethodBinding;
+import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.TextureEmptyBinding;
 import sayTheSpire.Output;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -25,21 +28,11 @@ public class Interactable extends Hoverable{
     private Color hoveredColor = Color.LIGHT_GRAY;
     private Color disabledColor = Color.LIGHT_GRAY;
 
-    private boolean consumeTriggerEvent = true;
-    protected boolean selected = false;
-
-    private float totalLeftClickDuration;
-    private float totalRightClickDuration;
+    private boolean isPassthrough = true;
 
     private String onHoverSoundKey;
     private String onTriggerSoundKey;
     private String onHoldSoundKey;
-
-    protected String onSelectLine; // Say the Spire mod compatibility
-    protected String onTriggeredLine; // Say the Spire mod compatibility
-
-    private boolean holdingLeft;
-    private boolean holdingRight;
 
     private ArrayList<Runnable> onLeftClickConsumers = new ArrayList<>();
     private ArrayList<Consumer<Float>> onLeftClickHeldConsumers = new ArrayList<>();
@@ -49,8 +42,19 @@ public class Interactable extends Hoverable{
     private ArrayList<Consumer<Float>> onRightClickHeldConsumers = new ArrayList<>();
     private ArrayList<Runnable> onRightClickReleaseConsumers = new ArrayList<>();
 
-    private ArrayList<Runnable> onSelectedConsumers = new ArrayList<>();
-    private ArrayList<Runnable> onUnselectedConsumers = new ArrayList<>();
+    private ArrayList<Runnable> onSelectedConsumers = new ArrayList<>(); //TODO MOVE TO UIELEMENT
+    private ArrayList<Runnable> onUnselectedConsumers = new ArrayList<>(); // TODO MOVE TO UIELEMENt
+
+    protected String onSelectLine; // Say the Spire mod compatibility //TODO MOve to uiELement
+    protected String onTriggeredLine; // Say the Spire mod compatibility
+
+    //Temps
+
+    private float totalLeftClickDuration;
+    private float totalRightClickDuration;
+
+    private boolean holdingLeft;
+    private boolean holdingRight;
 
     //endregion
 
@@ -106,11 +110,11 @@ public class Interactable extends Hoverable{
             if(isHovered()){
                 if(InputHelper.justClickedLeft){
                     clickLeft();
-                    if(consumeTriggerEvent) InputHelper.justClickedLeft = false;
+                    if(isPassthrough) InputHelper.justClickedLeft = false;
                 }
                 if(InputHelper.justClickedRight){
                     clickRight();
-                    if(consumeTriggerEvent) InputHelper.justClickedRight = false;
+                    if(isPassthrough) InputHelper.justClickedRight = false;
                 }
 
             }
@@ -264,8 +268,8 @@ public class Interactable extends Hoverable{
 
     //endregion
 
-    public Interactable setConsumeTriggerEvent(boolean newValue){
-        consumeTriggerEvent = newValue;
+    public Interactable setPassthrough(boolean newValue){
+        isPassthrough = newValue;
         return this;
     }
 
@@ -365,6 +369,35 @@ public class Interactable extends Hoverable{
             public PreLeftClickEvent(Interactable source){
                 this.source = source;
             }
+        }
+    }
+
+    public static class InteractableData extends Hoverable.HoverableData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public TextureBinding hoveredTexture = new TextureEmptyBinding(); //TODO REWORK THIS UGLY THNG
+        public TextureBinding disabledTexture = new TextureEmptyBinding();
+
+        //TODO HOVEREDCOLOR
+        //TODO DISABLEDCOLOR
+
+        public boolean isPassthrough = false;
+
+        //TODO ON HOVER KEY
+        //TODO ON TRIGGER KEY
+        //TODO ON HOLD KEY
+
+        public MethodBinding onLeftClick = new NoneMethodBinding();
+        public MethodBinding onLeftClickHeld = new NoneMethodBinding();
+        public MethodBinding onLeftClickRelease = new NoneMethodBinding();
+
+        public MethodBinding onRightClick = new NoneMethodBinding();
+        public MethodBinding onRightClickHeld = new NoneMethodBinding();
+        public MethodBinding onRightClickRelease = new NoneMethodBinding();
+
+        @Override
+        public UIElement makeUIElement() {
+            return new Interactable(this);
         }
     }
 }
