@@ -3,8 +3,6 @@ package dLib.ui.elements.implementations;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import dLib.ui.data.implementations.DraggableData;
-import dLib.util.DLibLogger;
 
 public class Draggable extends Interactable{
     //region Variables
@@ -27,13 +25,6 @@ public class Draggable extends Interactable{
     }
     public Draggable(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
-    }
-
-    public Draggable(DraggableData data){
-        super(data);
-
-        this.canDragX = data.canDragX;
-        this.canDragY = data.canDragY;
     }
 
     //endregion

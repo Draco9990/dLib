@@ -3,8 +3,6 @@ package dLib.ui.elements.implementations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dLib.ui.data.implementations.ResizeableData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.misc.ResizeNode;
 
@@ -41,12 +39,6 @@ public class Resizeable extends Draggable {
     public Resizeable(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
         initialize();
-    }
-
-    public Resizeable(ResizeableData data) {
-        super(data);
-        initialize();
-        refreshResizeNodePositions();
     }
 
     private void initialize() {
