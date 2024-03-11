@@ -153,10 +153,12 @@ public class Resizeable extends Draggable {
     //endregion
 
     private void refreshResizeNodePositions() {
-        resizeNodes[0].setLocalPositionCentered(0, height);
-        resizeNodes[1].setLocalPositionCentered(width, height);
-        resizeNodes[2].setLocalPositionCentered(0, 0);
-        resizeNodes[3].setLocalPositionCentered(width, 0);
+        if(resizeNodes != null && resizeNodes.length == 4){
+            resizeNodes[0].setLocalPositionCentered(0, height);
+            resizeNodes[1].setLocalPositionCentered(width, height);
+            resizeNodes[2].setLocalPositionCentered(0, 0);
+            resizeNodes[3].setLocalPositionCentered(width, 0);
+        }
     }
 
     @Override

@@ -135,7 +135,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     @Override
     public void onPositionChanged(int diffX, int diffY) {
         super.onPositionChanged(diffX, diffY);
-        if(previewElement.getLocalPositionX() != getLocalPositionX() || previewElement.getLocalPositionY() != getLocalPositionY()){
+        if(previewElement != null && (previewElement.getLocalPositionX() != getLocalPositionX() || previewElement.getLocalPositionY() != getLocalPositionY())){
             previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
         }
     }
@@ -144,7 +144,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public UIElement setDimensions(Integer newWidth, Integer newHeight) {
         super.setDimensions(newWidth, newHeight);
 
-        if(previewElement.getWidth() != getWidth() || previewElement.getHeight() != getHeight()){
+        if(previewElement != null && (previewElement.getWidth() != getWidth() || previewElement.getHeight() != getHeight())){
             previewElement.setDimensions(getWidth(), getHeight());
         }
 

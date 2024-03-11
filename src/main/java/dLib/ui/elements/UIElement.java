@@ -49,32 +49,29 @@ public class UIElement {
 
     public UIElement(int xPos, int yPos, int width, int height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
-        this.localPosition.x = xPos;
-        this.localPosition.y = yPos;
-        this.width = width;
-        this.height = height;
+        setLocalPosition(xPos, yPos);
+        setDimensions(width, height);
     }
 
     public UIElement(UIElementData data){
-        this.ID = data.id;
+        setID(data.id);
 
-        this.localPosition = data.localPosition;
-        this.dockedToParent = data.dockedToParent;
+        setLocalPosition(data.localPosition.x, data.localPosition.y);
+        setDockedToParent(data.dockedToParent);
 
-        this.lowerLocalBounds = data.lowerLocalBound;
-        this.upperLocalBounds = data.upperLocalBound;
-        this.lowerWorldBounds = data.lowerWorldBound;
-        this.upperWorldBounds = data.upperWorldBound;
-        this.boundWithinParent = data.boundWithinParent;
-        this.borderToBorderBound = data.borderToBorderBound;
+        setLowerLocalBounds(data.lowerLocalBound.x, data.lowerLocalBound.y);
+        setUpperLocalBounds(data.upperLocalBound.x, data.upperLocalBound.y);
+        setLowerWorldBounds(data.lowerWorldBound.x, data.lowerWorldBound.y);
+        setUpperWorldBounds(data.upperWorldBound.x, data.upperWorldBound.y);
+        setBoundWithinParent(data.boundWithinParent);
+        setBorderToBorderBound(data.borderToBorderBound);
 
-        this.isVisible = data.isVisible;
-        this.isEnabled = data.isEnabled;
+        setVisibility(data.isVisible);
+        setEnabled(data.isEnabled);
 
         onSelectionStateChangedConsumers.add(aBoolean -> data.onSelectionStateChangedBinding.executeBinding(aBoolean));
 
-        this.width = data.width;
-        this.height = data.height;
+        setDimensions(data.width, data.height);
     }
 
     //endregion
