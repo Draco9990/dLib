@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.bindings.texture.TextureThemeBinding;
 
 import java.io.Serializable;
 
@@ -55,9 +56,13 @@ public class TextButton extends UIElement {
         public Button.ButtonData buttonData = new Button.ButtonData();
         public TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();
 
+        public TextButtonData(){
+            buttonData.textureBinding = new TextureThemeBinding("button_small");
+        }
+
         @Override
-        public UIElement makeUIElement() {
-            return super.makeUIElement();
+        public TextButton makeUIElement() {
+            return new TextButton(this);
         }
     }
 }

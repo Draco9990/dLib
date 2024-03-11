@@ -30,7 +30,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public ScreenEditorItem(int xPos, int yPos, int width, int height){
         super(null, xPos, yPos, width, height);
         elementData = makeDataType();
-        previewElement = (ElementType) elementData.makeUIElement();
+        remakePreviewElement();
     }
 
     //endregion
@@ -113,6 +113,11 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     //region Preview Element & Data
 
+    protected void remakePreviewElement(){
+        previewElement = (ElementType) elementData.makeUIElement();
+        previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
+        previewElement.setDimensions(getWidth(), getHeight());
+    }
     public Class<? extends UIElement> getElementClass(){
         return previewElement.getClass();
     }
@@ -120,6 +125,29 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     protected abstract DataType makeDataType();
     public DataType getElementData(){
         return elementData;
+    }
+
+    //endregion
+
+    //region Position & Dimensions
+
+    @Override
+    public void onPositionChanged(int diffX, int diffY) {
+        super.onPositionChanged(diffX, diffY);
+        if(previewElement.getLocalPositionX() != getLocalPositionX() || previewElement.getLocalPositionY() != getLocalPositionY()){
+            previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
+        }
+    }
+
+    @Override
+    public UIElement setDimensions(Integer newWidth, Integer newHeight) {
+        super.setDimensions(newWidth, newHeight);
+
+        if(previewElement.getWidth() != getWidth() || previewElement.getHeight() != getHeight()){
+            previewElement.setDimensions(getWidth(), getHeight());
+        }
+
+        return this;
     }
 
     //endregion
