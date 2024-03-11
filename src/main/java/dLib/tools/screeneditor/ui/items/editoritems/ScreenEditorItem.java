@@ -67,6 +67,11 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     //endregion
 
+    public ScreenEditorItem<ElementType, DataType> setScreenEditor(ScreenEditorBaseScreen screenEditor){
+        this.screenEditor = screenEditor;
+        return this;
+    }
+
     //region Proxy Drag
 
     public void setProxyDragged(boolean isProxyDragged){

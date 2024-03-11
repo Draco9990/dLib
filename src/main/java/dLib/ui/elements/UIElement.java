@@ -524,8 +524,8 @@ public class UIElement {
 
         if(boundWithinParent && hasParent()){
             IntegerVector2 parentPosition = worldToLocal(parent.getWorldPosition());
-            if(upperBound.x == null || parentPosition.x > upperBound.x) upperBound.x = parentPosition.x;
-            if(upperBound.y == null || parentPosition.y > upperBound.y) upperBound.y = parentPosition.y;
+            if(upperBound.x == null || parentPosition.x > upperBound.x) upperBound.x = parentPosition.x + parent.getWidth();
+            if(upperBound.y == null || parentPosition.y > upperBound.y) upperBound.y = parentPosition.y + parent.getHeight();
         }
 
         return upperBound;
@@ -556,6 +556,9 @@ public class UIElement {
 
     public UIElement setBoundWithinParent(boolean boundWithinParent){
         this.boundWithinParent = boundWithinParent;
+        if(boundWithinParent){
+            ensureElementWithinBounds();
+        }
         return this;
     }
     public boolean isBoundWithinParent(){

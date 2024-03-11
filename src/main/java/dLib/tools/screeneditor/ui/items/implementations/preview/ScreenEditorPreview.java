@@ -14,9 +14,6 @@ import java.util.ArrayList;
 public class ScreenEditorPreview extends UIElement {
     //region Variables
 
-    public static int xOffset = 10; //TODO RF remove
-    public static int yOffset = 10;
-
     public static int width = 1490;
     public static int height = 840;
 
@@ -25,7 +22,7 @@ public class ScreenEditorPreview extends UIElement {
     //region Constructors
 
     public ScreenEditorPreview(){
-        super(10, 10, 1490, 840);
+        super(10, 10, width, height);
 
         addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), 0, 0, getWidth(), getHeight()));
     }
@@ -44,6 +41,7 @@ public class ScreenEditorPreview extends UIElement {
     public ScreenEditorItem<?, ?> makeNewPreviewItem(Class<? extends ScreenEditorItem> template){
         try{
             ScreenEditorItem<?, ?> copy = template.newInstance();
+            copy.setScreenEditor(getParent());
 
             String idPrefix = copy.getClass().getSimpleName().replace("ScreenEditorItem", "") + "_";
             int i = 1;
