@@ -7,45 +7,46 @@ import dLib.util.bindings.method.MethodBinding;
 import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.MethodBindingProperty;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class IntelliJMethodBindingProperty extends MethodBindingProperty {
+public class IntelliJMethodBindingProperty extends MethodBindingProperty implements Serializable {
+    static final long serialVersionUID = 1L;
+
+    //region Variables
+
     private ScreenEditorBaseScreen screenEditor;
 
-    public IntelliJMethodBindingProperty(ScreenEditorBaseScreen screenEditor){
-        this.screenEditor = screenEditor;
-    }
+    //endregion
+
+    //region Constructors
+    //endregion
+
+    //region Methods
 
     @Override
-    protected Property<MethodBinding> setValue_internal(MethodBinding value) {
-        MethodBinding previousValue = getValue();
-
-        super.setValue_internal(value);
+    public void onValueChanged(MethodBinding oldValue, MethodBinding newValue) {
+        super.onValueChanged(oldValue, newValue);
 
         LinkedHashMap<String, String> parameters = getConvertedParameters();
 
-        if(value instanceof DynamicMethodBinding){
-            ((DynamicMethodBinding) value).addOnBoundMethodChangedConsumer(new BiConsumer<String, String>() {
-                @Override
-                public void accept(String oldVal, String newVal) {
-                    if(!newVal.isEmpty()){
-                        if(oldVal.isEmpty() ){
-                            PluginMessageSender.Send_AddMethodToClass(screenEditor.getEditingScreen(), getDNCReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
-                        }
-                        else{
-                            PluginMessageSender.Send_RenameMethodInClass(screenEditor.getEditingScreen(), oldVal, newVal, parameters);
-                        }
+        if(newValue instanceof DynamicMethodBinding){
+            ((DynamicMethodBinding) newValue).addOnBoundMethodChangedConsumer((oldVal, newVal) -> {
+                if(!newVal.isEmpty()){
+                    if(oldVal.isEmpty() ){
+                        PluginMessageSender.Send_AddMethodToClass(screenEditor.getEditingScreen(), getDNCReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
+                    }
+                    else{
+                        PluginMessageSender.Send_RenameMethodInClass(screenEditor.getEditingScreen(), oldVal, newVal, parameters);
                     }
                 }
             });
         }
-        else if(previousValue instanceof DynamicMethodBinding && !((DynamicMethodBinding) previousValue).getBoundMethod().isEmpty()){
-            PluginMessageSender.Send_RemoveMethodInClass(screenEditor.getEditingScreen(), ((DynamicMethodBinding) previousValue).getBoundMethod(), parameters);
+        else if(oldValue instanceof DynamicMethodBinding && !((DynamicMethodBinding) oldValue).getBoundMethod().isEmpty()){
+            PluginMessageSender.Send_RemoveMethodInClass(screenEditor.getEditingScreen(), ((DynamicMethodBinding) oldValue).getBoundMethod(), parameters);
         }
-
-         return this;
     }
 
     private LinkedHashMap<String, String> getConvertedParameters(){
@@ -55,4 +56,6 @@ public class IntelliJMethodBindingProperty extends MethodBindingProperty {
         }
         return convertedParameters;
     }
+
+    //endregion
 }
