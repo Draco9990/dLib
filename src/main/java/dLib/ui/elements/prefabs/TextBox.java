@@ -422,7 +422,7 @@ public class TextBox extends Hoverable {
         public int paddingBottom = 0;
 
         @Override
-        public UIElement makeUIElement() {
+        public TextBox makeUIElement() {
             return new TextBox(this);
         }
     }

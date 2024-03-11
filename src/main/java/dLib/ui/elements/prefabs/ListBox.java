@@ -10,6 +10,7 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 import org.lwjgl.input.Mouse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -50,7 +51,7 @@ public class ListBox<ItemType> extends UIElement {
         reinitializeElements();
     }
 
-    public ListBox(ListBoxData<ItemType> data){
+    public ListBox(ListBoxData data){
         super(data);
 
         this.title = data.titleBoxText;
@@ -60,6 +61,9 @@ public class ListBox<ItemType> extends UIElement {
         this.invertedItemOrder = data.invertedItemOrder;
 
         this.scrollbarWidth = data.scrollbarWidth;
+
+        this.setSelectionMode(data.selectionMode);
+        this.setSelectionCountLimit(data.selectionLimit);
 
         reinitializeElements();
     }
@@ -446,6 +450,26 @@ public class ListBox<ItemType> extends UIElement {
         public ListBoxItem(ItemType item, UIElement renderElement){
             this.item = item;
             this.renderForItem = renderElement;
+        }
+    }
+
+    public static class ListBoxData extends UIElement.UIElementData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public String titleBoxText = "";
+        public int titleBoxHeight = 50;
+
+        public int itemSpacing = 0;
+        public boolean invertedItemOrder = false;
+
+        public int scrollbarWidth = 50;
+
+        public ESelectionMode selectionMode = ESelectionMode.SINGLE;
+        public int selectionLimit = 1;
+
+        @Override
+        public UIElement makeUIElement() {
+            return new ListBox<>(this);
         }
     }
 }

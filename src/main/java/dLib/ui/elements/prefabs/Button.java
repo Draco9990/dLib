@@ -37,7 +37,7 @@ public class Button extends Interactable {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public UIElement makeUIElement() {
+        public Button makeUIElement() {
             return new Button(this);
         }
     }

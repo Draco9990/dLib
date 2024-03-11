@@ -3,11 +3,13 @@ package dLib.ui.data.prefabs;
 import dLib.tools.screeneditor.ui.items.preview.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.preview.composite.ListBoxScreenEditorItem;
 import dLib.ui.data.UIElementData;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.ListBox;
+import dLib.ui.util.ESelectionMode;
 
 import java.io.Serializable;
 
-public class ListBoxData<ItemType> extends UIElementData implements Serializable {
+public class ListBoxData extends UIElement.UIElementData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public String titleBoxText = "";
@@ -18,15 +20,11 @@ public class ListBoxData<ItemType> extends UIElementData implements Serializable
 
     public int scrollbarWidth = 50;
 
-    //Add make element bindings, on clicked bingsins, and canclick
+    public ESelectionMode selectionMode = ESelectionMode.SINGLE;
+    public int selectionLimit = 1;
 
     @Override
-    public ListBox<ItemType> makeLiveInstance(Object... params) {
-        return new ListBox<ItemType>(this);
-    }
-
-    @Override
-    public ScreenEditorItem makeEditorInstance() {
-        return new ListBoxScreenEditorItem(this);
+    public UIElement makeUIElement() {
+        return new ListBox<>(this);
     }
 }

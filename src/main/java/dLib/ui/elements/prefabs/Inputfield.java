@@ -9,6 +9,7 @@ import dLib.ui.data.prefabs.InputfieldData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,17 +20,18 @@ public class Inputfield extends UIElement {
     private Button background;
     private TextBox textBox;
 
-    //Properties
-    private InputProcessor cachedInputProcessor;
-    private InputProcessor inputProcessor;
-
     private List<Character> characterFilter = new ArrayList<>();
     private int characterLimit = -1;
 
+    private EInputfieldPreset preset;
+
+    //Temps
+
+    private InputProcessor cachedInputProcessor;
+    private InputProcessor inputProcessor;
+
     private boolean holdingDelete = false;
     private float deleteTimerCount = 0;
-
-    private EInputfieldPreset preset;
 
     //endregion
 
@@ -74,14 +76,16 @@ public class Inputfield extends UIElement {
 
         preInitialize();
 
-        this.background = data.buttonData.makeLiveInstance();
+        this.background = data.buttonData.makeUIElement();
         addChildCS(this.background);
 
-        this.textBox = data.textboxData.makeLiveInstance();
+        this.textBox = data.textboxData.makeUIElement();
         addChildNCS(this.textBox);
 
         characterFilter = data.characterFilter;
         characterLimit = data.characterLimit;
+
+        setPreset(data.inputfieldPreset);
     }
 
     public void preInitialize(){
@@ -226,5 +230,22 @@ public class Inputfield extends UIElement {
         GENERIC,
         NUMERICAL_WHOLE_POSITIVE,
         NUMERICAL_DECIMAL
+    }
+
+    public static class InputfieldData extends UIElement.UIElementData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public Button.ButtonData buttonData = null;
+        public TextBox.TextBoxData textboxData = null;
+
+        public List<Character> characterFilter = new ArrayList<>();
+        public int characterLimit = -1;
+
+        Inputfield.EInputfieldPreset inputfieldPreset = Inputfield.EInputfieldPreset.GENERIC;
+
+        @Override
+        public UIElement makeUIElement() {
+            return new Inputfield(this);
+        }
     }
 }
