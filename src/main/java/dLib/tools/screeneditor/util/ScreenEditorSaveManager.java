@@ -2,6 +2,8 @@ package dLib.tools.screeneditor.util;
 
 import dLib.plugin.intellij.PluginManager;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
+import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
+import dLib.ui.screens.GeneratedAbstractScreen;
 
 public class ScreenEditorSaveManager {
     //region Variables
@@ -21,7 +23,11 @@ public class ScreenEditorSaveManager {
     //region Methods
 
     public void save(){
-        AbstractScreenData screenData = new AbstractScreenData(screenEditor);
+        GeneratedAbstractScreen.GeneratedScreenData screenData = new GeneratedAbstractScreen.GeneratedScreenData();
+        screenData.screenClass = screenEditor.getEditingScreen();
+        for(ScreenEditorItem previewItem : screenEditor.getPreviewScreen().getPreviewItems()){
+            screenData.data.add(previewItem.getElementData());
+        }
 
         String[] scrName = screenData.screenClass.split("\\.");
 

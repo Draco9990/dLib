@@ -1,10 +1,8 @@
 package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Texture;
-import dLib.ui.data.prefabs.ImageData;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
-import dLib.ui.elements.implementations.Renderable;
 
 import java.io.Serializable;
 

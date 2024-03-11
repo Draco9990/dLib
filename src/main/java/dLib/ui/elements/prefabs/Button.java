@@ -1,8 +1,6 @@
 package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Texture;
-import dLib.ui.data.prefabs.ButtonData;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.themes.UIThemeManager;
 
