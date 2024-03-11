@@ -117,6 +117,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         previewElement = (ElementType) elementData.makeUIElement();
         previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
         previewElement.setDimensions(getWidth(), getHeight());
+        previewElement.setParent(getParent());
     }
     public Class<? extends UIElement> getElementClass(){
         return previewElement.getClass();
