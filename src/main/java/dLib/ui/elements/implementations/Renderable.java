@@ -34,11 +34,11 @@ public class Renderable extends UIElement {
         this.renderColor = Color.WHITE.cpy();
     }
 
-    public Renderable(RenderableData renderableData){
-        super(renderableData);
+    public Renderable(RenderableData data){
+        super(data);
 
-        this.image = renderableData.textureBinding.getBoundTexture();
-        this.renderColor = Color.valueOf(renderableData.renderColor);
+        this.image = data.textureBinding.getBoundTexture();
+        this.renderColor = Color.valueOf(data.renderColor);
     }
 
     //endregion

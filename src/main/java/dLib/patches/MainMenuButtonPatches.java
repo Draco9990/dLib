@@ -50,8 +50,8 @@ public class MainMenuButtonPatches {
                     ScreenManager.openScreen(new ScreenEditorNewScreenScreen());
                 }
                 else{ //TODO Remove on live
-                    //ScreenManager.openScreen(new ScreenEditorNewScreenScreen());
-                    ScreenManager.openScreen(new ScreenEditorBaseScreen("NONE"));
+                    ScreenManager.openScreen(new ScreenEditorNewScreenScreen());
+                    //ScreenManager.openScreen(new ScreenEditorBaseScreen("NONE"));
                 }
                 return SpireReturn.Return();
             }

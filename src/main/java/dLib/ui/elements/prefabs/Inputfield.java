@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.bindings.texture.TextureThemeBinding;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -241,6 +242,10 @@ public class Inputfield extends UIElement {
         public int characterLimit = -1;
 
         Inputfield.EInputfieldPreset inputfieldPreset = Inputfield.EInputfieldPreset.GENERIC;
+
+        public InputfieldData(){
+            buttonData.textureBinding = new TextureThemeBinding("inputfield");
+        }
 
         @Override
         public UIElement makeUIElement() {

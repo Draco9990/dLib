@@ -3,6 +3,8 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
+import dLib.util.bindings.texture.TexturePathBinding;
+import dLib.util.bindings.texture.TextureThemeBinding;
 
 import java.io.Serializable;
 
@@ -28,8 +30,12 @@ public class Image extends Hoverable {
     public static class ImageData extends Hoverable.HoverableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        public ImageData(){
+            textureBinding = new TexturePathBinding("dLibResources/images/ui/themes/WhitePixel.png");
+        }
+
         @Override
-        public UIElement makeUIElement() {
+        public Image makeUIElement() {
             return new Image(this);
         }
     }

@@ -16,7 +16,11 @@ public class ScreenEditorNewScreenScreen extends AbstractScreen {
 
         addChildNCS(new TextBox("Enter screen name:", 539, 1080-572, 798, 105));
 
-        inputfield = new Inputfield("", 538, 1080-713, 800, 121);
+        Inputfield.InputfieldData test = new Inputfield.InputfieldData();
+        inputfield = new Inputfield(test);
+        //inputfield = new Inputfield("", 538, 1080-713, 800, 121);
+        inputfield.setLocalPosition(538, 1080-713);
+        inputfield.setDimensions(800, 121);
         addChildCS(inputfield);
 
         TextButton proceedButton = new TextButton("CREATE", 683, 1080-896, 532, 101);

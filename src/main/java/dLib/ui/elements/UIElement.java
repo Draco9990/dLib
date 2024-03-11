@@ -879,8 +879,8 @@ public class UIElement {
 
         public MethodBinding onSelectionStateChangedBinding = new NoneMethodBinding();
 
-        public int width;
-        public int height;
+        public int width = 50;
+        public int height = 50;
 
         public boolean isSelectable;
 

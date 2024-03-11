@@ -164,7 +164,7 @@ public class Hoverable extends Renderable{
         public MethodBinding onUnhovered = new NoneMethodBinding();
 
         @Override
-        public UIElement makeUIElement() {
+        public Hoverable makeUIElement() {
             return new Hoverable(this);
         }
     }

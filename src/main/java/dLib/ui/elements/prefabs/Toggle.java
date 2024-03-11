@@ -137,7 +137,7 @@ public class Toggle extends Interactable {
         public TextureBinding toggledDisabledTexture = new TextureEmptyBinding();
 
         @Override
-        public UIElement makeUIElement() {
+        public Toggle makeUIElement() {
             return new Toggle(this);
         }
     }

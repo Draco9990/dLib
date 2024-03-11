@@ -20,9 +20,7 @@ public class ImageScreenEditorItem extends ScreenEditorItem<Image, Image.ImageDa
 
     @Override
     protected Image.ImageData makeDataType() {
-        Image.ImageData data = new Image.ImageData();
-        data.textureBinding = new TextureThemeBinding("button_small");
-        return data;
+        return new Image.ImageData();
     }
 
     //endregion

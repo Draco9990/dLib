@@ -76,6 +76,9 @@ public class Interactable extends Hoverable{
     public Interactable(InteractableData data){
         super(data);
 
+        this.hoveredTexture = data.hoveredTexture.getBoundTexture();
+        this.disabledTexture = data.disabledTexture.getBoundTexture();
+
         if(data.onLeftClick != null) addOnLeftClickConsumer(() -> data.onLeftClick.executeBinding(ScreenManager.getCurrentScreen()));
         if(data.onLeftClickHeld != null) addOnLeftClickHeldConsumer(deltaTime -> data.onLeftClickHeld.executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
         if(data.onLeftClickRelease != null) addOnLeftClickReleaseConsumer(() -> data.onLeftClickRelease.executeBinding(ScreenManager.getCurrentScreen()));
@@ -396,7 +399,7 @@ public class Interactable extends Hoverable{
         public MethodBinding onRightClickRelease = new NoneMethodBinding();
 
         @Override
-        public UIElement makeUIElement() {
+        public Interactable makeUIElement() {
             return new Interactable(this);
         }
     }
