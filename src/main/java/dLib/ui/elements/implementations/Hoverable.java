@@ -71,8 +71,8 @@ public class Hoverable extends Renderable{
 
         if(hb != null){
             boolean hbHoveredCache = this.hb.hovered || this.hb.justHovered;
-            this.hb.move(getWorldPositionCenteredX() * Settings.xScale, getWorldPositionCenteredY() * Settings.yScale);
             this.hb.resize(getWidth() * Settings.xScale, getHeight() * Settings.yScale);
+            this.hb.move(getWorldPositionCenteredX() * Settings.xScale, getWorldPositionCenteredY() * Settings.yScale);
             this.hb.update();
 
             if(isEnabled()){
