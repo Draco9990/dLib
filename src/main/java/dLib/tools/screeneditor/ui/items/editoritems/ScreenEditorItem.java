@@ -8,6 +8,8 @@ import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.ui.elements.prefabs.TextButton;
+import dLib.ui.themes.UITheme;
+import dLib.ui.themes.UIThemeManager;
 import dLib.util.IntegerVector2;
 
 public abstract class ScreenEditorItem<ElementType extends UIElement, DataType extends UIElement.UIElementData> extends Resizeable {

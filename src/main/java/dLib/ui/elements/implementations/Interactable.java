@@ -28,7 +28,7 @@ public class Interactable extends Hoverable{
     private Color hoveredColor = Color.LIGHT_GRAY;
     private Color disabledColor = Color.LIGHT_GRAY;
 
-    private boolean isPassthrough = true;
+    private boolean isPassthrough = false;
 
     private String onHoverSoundKey;
     private String onTriggerSoundKey;

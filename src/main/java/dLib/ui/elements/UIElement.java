@@ -251,10 +251,10 @@ public class UIElement {
     }
 
     public final int getLocalPositionX(){
-        return localPosition.x;
+        return getLocalPosition().x;
     }
     public final int getLocalPositionY(){
-        return localPosition.y;
+        return getLocalPosition().y;
     }
     public final IntegerVector2 getLocalPosition(){
         return localPosition.copy();
