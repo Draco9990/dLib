@@ -71,6 +71,10 @@ public class IntegerProperty extends NumberProperty<Integer> implements Serializ
         return (IntegerProperty) super.setName(newTitle);
     }
 
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
+        return makeEditUI(xPos, yPos, width, height, false);
+    }
+
     public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height, boolean showArrows) {
         return new IntegerSettingUI(this, xPos, yPos, width, height, showArrows);
     }

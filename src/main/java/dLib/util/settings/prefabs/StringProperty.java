@@ -30,6 +30,10 @@ public class StringProperty extends Property<String> implements Serializable {
         return (StringProperty) super.setName(newTitle);
     }
 
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
+        return makeEditUI(xPos, yPos, width, height, EInputConfirmationMode.SELECTION_MANAGED);
+    }
+
     public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height, EInputConfirmationMode inputConfirmationMode) {
         return new StringSettingUI(this, xPos, yPos, width, height, inputConfirmationMode);
     }

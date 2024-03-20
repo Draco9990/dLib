@@ -4,6 +4,7 @@ import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.util.ESelectionMode;
+import dLib.util.Reflection;
 import dLib.util.settings.Property;
 
 public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
@@ -22,7 +23,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
         propertiesItemList = new ListBox<Property<?>>(0, 0, getWidth(), getHeight()){
             @Override
             public UIElement makeUIForItem(Property<?> item) {
-                return item.makeUIForEdit(0, 0, width, 100);
+                return (UIElement) Reflection.invokeMethod("makeEditUI", item, 0, 0, width, 100);
             }
         }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:");
         propertiesItemList.getBackground().setImage(null);
