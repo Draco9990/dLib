@@ -11,8 +11,6 @@ public class StringProperty extends Property<String> implements Serializable {
 
     //region Variables
 
-    private InputConfirmationMode confirmationMode = InputConfirmationMode.ON_TEXT_CHANGED;
-
     //endregion
 
     //region Constructors
@@ -25,16 +23,6 @@ public class StringProperty extends Property<String> implements Serializable {
 
     //region Confirmation Mode
 
-    public StringProperty setConfirmationMode(InputConfirmationMode confirmationMode){
-        this.confirmationMode = confirmationMode;
-
-        return this;
-    }
-
-    public InputConfirmationMode getConfirmationMode(){
-        return confirmationMode;
-    }
-
     //region Methods
 
     @Override
@@ -42,14 +30,13 @@ public class StringProperty extends Property<String> implements Serializable {
         return (StringProperty) super.setName(newTitle);
     }
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
-        return new StringSettingUI(this, xPos, yPos, width, height);
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height, EInputConfirmationMode inputConfirmationMode) {
+        return new StringSettingUI(this, xPos, yPos, width, height, inputConfirmationMode);
     }
 
     //endregion
 
-    public enum InputConfirmationMode{
+    public enum EInputConfirmationMode {
         ON_TEXT_CHANGED,
         SELECTION_MANAGED
     }

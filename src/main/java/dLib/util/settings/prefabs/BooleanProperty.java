@@ -34,8 +34,7 @@ public class BooleanProperty extends Property<Boolean> implements Serializable {
         return (BooleanProperty) super.setName(newTitle);
     }
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
         return new ToggleSettingUI(this, xPos, yPos, width, height);
     }
 

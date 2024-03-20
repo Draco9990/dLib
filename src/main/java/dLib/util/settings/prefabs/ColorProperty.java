@@ -19,8 +19,7 @@ public class ColorProperty extends Property<Color> {
 
     //region Methods
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
         return new ColorSettingUI(this, xPos, yPos, width, height);
     }
 

@@ -133,13 +133,12 @@ public class MethodBindingProperty extends CustomProperty<MethodBinding> impleme
         return MethodBindingHelpers.getPremadeMethodBindings();
     }
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
         if(getValue() instanceof DynamicMethodBinding){
             return new DynamicMethodSettingUI(this, xPos, yPos, width, height);
         }
         else{
-            return super.makeUIForEdit(xPos, yPos, width, height);
+            return super.makeEditUI(xPos, yPos, width, height);
         }
     }
 

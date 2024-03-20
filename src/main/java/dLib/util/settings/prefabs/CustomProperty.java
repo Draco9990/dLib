@@ -25,8 +25,7 @@ public abstract class CustomProperty<T> extends Property<T> implements Serializa
 
     public abstract ArrayList<T> getAllOptions();
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
         return new CustomSettingUI<T>(this, xPos, yPos, width, height);
     }
 

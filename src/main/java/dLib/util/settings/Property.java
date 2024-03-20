@@ -86,11 +86,5 @@ public abstract class Property<T> implements Serializable {
 
     //endregion
 
-    //region Edit UI
-
-    public abstract AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height);
-
-    //endregion
-
     //endregion
 }

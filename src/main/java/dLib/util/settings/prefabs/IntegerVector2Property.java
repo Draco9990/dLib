@@ -114,8 +114,7 @@ public class IntegerVector2Property extends Property<IntegerVector2> implements 
 
     //region Edit UI
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
         return new IntegerVector2SettingUI(this, xPos, yPos, width, height);
     }
 

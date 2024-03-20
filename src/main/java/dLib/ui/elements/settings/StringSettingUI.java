@@ -15,7 +15,7 @@ public class StringSettingUI extends AbstractSettingUI {
 
     //region Constructors
 
-    public StringSettingUI(StringProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public StringSettingUI(StringProperty setting, Integer xPos, Integer yPos, Integer width, Integer height, StringProperty.EInputConfirmationMode inputConfirmationMode){
         super(setting, xPos, yPos, width, height);
 
         input = new Inputfield(setting.getValue(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
@@ -23,7 +23,7 @@ public class StringSettingUI extends AbstractSettingUI {
             @Override
             public void accept(Boolean aBoolean) {
                 if(!aBoolean){
-                    if(setting.getConfirmationMode().equals(StringProperty.InputConfirmationMode.SELECTION_MANAGED)) {
+                    if(inputConfirmationMode.equals(StringProperty.EInputConfirmationMode.SELECTION_MANAGED)) {
                         setting.setValue(input.getTextBox().getText());
                         if(!input.getTextBox().getText().equals(setting.getValue())){
                             input.getTextBox().setText(setting.getValue());
@@ -35,7 +35,7 @@ public class StringSettingUI extends AbstractSettingUI {
         input.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
-                if(setting.getConfirmationMode().equals(StringProperty.InputConfirmationMode.ON_TEXT_CHANGED)) setting.setValue(s);
+                if(inputConfirmationMode.equals(StringProperty.EInputConfirmationMode.ON_TEXT_CHANGED)) setting.setValue(s);
             }
         });
         addChildCS(input);

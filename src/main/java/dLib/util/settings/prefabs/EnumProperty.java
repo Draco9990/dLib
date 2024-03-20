@@ -57,8 +57,7 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
 
     //endregion
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
         return new EnumSettingUI(this, xPos, yPos, width, height);
     }
 

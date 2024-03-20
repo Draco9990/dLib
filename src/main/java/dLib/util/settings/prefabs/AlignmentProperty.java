@@ -75,8 +75,7 @@ public class AlignmentProperty extends Property<Alignment> implements Serializab
 
     //region Edit UI
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
         return new AlignmentSettingUI(this, xPos, yPos, width, height);
     }
 

@@ -3,10 +3,8 @@ package dLib.util.settings.prefabs;
 import dLib.ui.elements.settings.AbstractSettingUI;
 import dLib.ui.elements.settings.IntegerSettingUI;
 import dLib.util.settings.NumberProperty;
-import dLib.util.settings.Property;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class IntegerProperty extends NumberProperty<Integer> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -73,9 +71,8 @@ public class IntegerProperty extends NumberProperty<Integer> implements Serializ
         return (IntegerProperty) super.setName(newTitle);
     }
 
-    @Override
-    public AbstractSettingUI makeUIForEdit(int xPos, int yPos, int width, int height) {
-        return new IntegerSettingUI(this, xPos, yPos, width, height, false);
+    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height, boolean showArrows) {
+        return new IntegerSettingUI(this, xPos, yPos, width, height, showArrows);
     }
 
     //endregion
