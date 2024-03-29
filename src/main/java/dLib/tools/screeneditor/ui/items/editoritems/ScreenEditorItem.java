@@ -35,6 +35,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         super(null, xPos, yPos, width, height);
         elementData = makeDataType();
         remakePreviewElement();
+        setImage(UIThemeManager.getDefaultTheme().button_small);
     }
 
     //endregion
@@ -48,6 +49,8 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         super.updateSelf();
 
         previewElement.update();
+
+        previewElement.setParent(getParent());
     }
 
     @Override
@@ -121,7 +124,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         previewElement = (ElementType) elementData.makeUIElement();
         previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
         previewElement.setDimensions(getWidth(), getHeight());
-        previewElement.setParent(getParent());
     }
     public Class<? extends UIElement> getElementClass(){
         return previewElement.getClass();
@@ -134,11 +136,20 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     //endregion
 
+    @Override
+    public UIElement setParent(UIElement parent) {
+        if(previewElement != null){
+            previewElement.setParent(parent);
+        }
+        return super.setParent(parent);
+    }
+
     //region Position & Dimensions
 
     @Override
     public void onPositionChanged(int diffX, int diffY) {
         super.onPositionChanged(diffX, diffY);
+
         if(previewElement != null && (previewElement.getLocalPositionX() != getLocalPositionX() || previewElement.getLocalPositionY() != getLocalPositionY())){
             previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
         }
