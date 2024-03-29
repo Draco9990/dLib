@@ -291,6 +291,7 @@ public class ListBox<ItemType> extends UIElement {
         Color hoverColor = mainButton.getHoveredColor().cpy();
         hoverColor.a = 0.4f;
         mainButton.setHoveredColor(hoverColor);
+        mainButton.setHoveredColorMultiplier(1.0f);
 
         itemUI.addChildCS(mainButton);
 

@@ -8,7 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureNullBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Interactable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ListBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ListBox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,11 +87,11 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.util.bindings.texture" />
       <recent name="dLib.tools.screeneditor.ui.items.editoritems" />
       <recent name="dLib.util.settings.prefabs" />
       <recent name="dLib.ui.data.prefabs" />
       <recent name="dLib.tools.screeneditor.ui.items.preview.renderable" />
-      <recent name="dLib.ui.elements.settings" />
     </key>
   </component>
   <component name="RunManager">
@@ -184,7 +187,7 @@
       <workItem from="1710845105873" duration="2528000" />
       <workItem from="1711198336955" duration="595000" />
       <workItem from="1711646392138" duration="595000" />
-      <workItem from="1711724024043" duration="1819000" />
+      <workItem from="1711724024043" duration="3349000" />
     </task>
     <servers />
   </component>

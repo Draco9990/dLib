@@ -13,6 +13,7 @@ import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
+import dLib.util.bindings.texture.TextureNullBinding;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
@@ -25,8 +26,11 @@ public class Interactable extends Hoverable{
     public Texture hoveredTexture;
     public Texture disabledTexture;
 
-    private Color hoveredColor = Color.LIGHT_GRAY;
-    private Color disabledColor = Color.LIGHT_GRAY;
+    private Color hoveredColor = Color.BLACK;
+    private float hoveredColorMultiplier = 0.25f;
+
+    private Color disabledColor = Color.WHITE;
+    private float disabledColorMultiplier = 0.25f;
 
     private boolean isPassthrough = false;
 
@@ -158,12 +162,20 @@ public class Interactable extends Hoverable{
     protected Color getColorForRender() {
         if(!isEnabled()){
             if(disabledTexture == null){
-                return getDisabledColor();
+                Color colorToRender = getDisabledColor().cpy();
+                if(disabledColorMultiplier != 1.0f){
+                    colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - disabledColorMultiplier);
+                }
+                return colorToRender;
             }
         }
         else if(isHovered()){
             if(hoveredTexture == null){
-                return getHoveredColor();
+                Color colorToRender = getHoveredColor().cpy();
+                if(hoveredColorMultiplier != 1.0f){
+                    colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - hoveredColorMultiplier);
+                }
+                return colorToRender;
             }
         }
         return super.getColorForRender();
@@ -335,6 +347,15 @@ public class Interactable extends Hoverable{
         return hoveredColor;
     }
 
+    public Interactable setHoveredColorMultiplier(float hoveredColorMultiplier){
+        this.hoveredColorMultiplier = hoveredColorMultiplier;
+        if(this.hoveredColorMultiplier > 1.0f) this.hoveredColorMultiplier = 1.0f;
+        return this;
+    }
+    public Float getHoveredColorMultiplier(){
+        return hoveredColorMultiplier;
+    }
+
     public Interactable setOnHoverSoundKey(String key){
         onHoverSoundKey = key;
         return this;
@@ -362,6 +383,15 @@ public class Interactable extends Hoverable{
         return disabledColor;
     }
 
+    public Interactable setDisabledColorMultiplier(float disabledColorMultiplier){
+        this.disabledColorMultiplier = disabledColorMultiplier;
+        if(this.disabledColorMultiplier > 1.0f) this.disabledColorMultiplier = 1.0f;
+        return this;
+    }
+    public Float getDisabledColorMultiplier(){
+        return disabledColorMultiplier;
+    }
+
     //endregion
 
     //endregion
@@ -380,11 +410,11 @@ public class Interactable extends Hoverable{
     public static class InteractableData extends Hoverable.HoverableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public TextureBinding hoveredTexture = new TextureEmptyBinding(); //TODO REWORK THIS UGLY THNG
-        public TextureBinding disabledTexture = new TextureEmptyBinding();
+        public TextureBinding hoveredTexture = new TextureNullBinding();
+        public TextureBinding disabledTexture = new TextureNullBinding();
 
-        //TODO HOVEREDCOLOR
-        //TODO DISABLEDCOLOR
+        //TODO HOVEREDCOLOR & mult
+        //TODO DISABLEDCOLOR & mult
 
         public boolean isPassthrough = false;
 
