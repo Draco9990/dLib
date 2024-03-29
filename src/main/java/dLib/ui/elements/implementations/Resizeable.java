@@ -76,6 +76,8 @@ public class Resizeable extends Draggable {
 
             addChildNCS(resizeNodes[i]);
         }
+
+        refreshResizeNodePositions();
     }
 
     //endregion
