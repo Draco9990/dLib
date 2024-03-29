@@ -119,11 +119,11 @@ public class Interactable extends Hoverable{
             if(isHovered()){
                 if(InputHelper.justClickedLeft){
                     clickLeft();
-                    if(isPassthrough) InputHelper.justClickedLeft = false;
+                    if(!isPassthrough) InputHelper.justClickedLeft = false;
                 }
                 if(InputHelper.justClickedRight){
                     clickRight();
-                    if(isPassthrough) InputHelper.justClickedRight = false;
+                    if(!isPassthrough) InputHelper.justClickedRight = false;
                 }
 
             }
