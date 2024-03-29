@@ -457,10 +457,9 @@ public class UIElement {
         if(lowerBound.x == null || (lowerWorldBoundConverted.x != null && lowerWorldBoundConverted.x < lowerBound.x)) lowerBound.x = lowerWorldBoundConverted.x;
         if(lowerBound.y == null || (lowerWorldBoundConverted.y != null && lowerWorldBoundConverted.y < lowerBound.y)) lowerBound.y = lowerWorldBoundConverted.y;
 
-        if(boundWithinParent && hasParent()){
-            IntegerVector2 parentPosition = parent.worldToLocal(parent.getWorldPosition());
-            if(lowerBound.x == null || parentPosition.x < lowerBound.x) lowerBound.x = parentPosition.x;
-            if(lowerBound.y == null || parentPosition.y < lowerBound.y) lowerBound.y = parentPosition.y;
+        if(isBoundWithinParent() && hasParent()){
+            lowerBound.x = 0;
+            lowerBound.y = 0;
         }
 
         return lowerBound;
@@ -519,10 +518,9 @@ public class UIElement {
         if(upperBound.x == null || (upperWorldBoundsConverted.x != null && upperWorldBoundsConverted.x > upperBound.x)) upperBound.x = upperWorldBoundsConverted.x;
         if(upperBound.y == null || (upperWorldBoundsConverted.y != null && upperWorldBoundsConverted.y > upperBound.y)) upperBound.y = upperWorldBoundsConverted.y;
 
-        if(boundWithinParent && hasParent()){
-            IntegerVector2 parentPosition = parent.worldToLocal(parent.getWorldPosition());
-            if(upperBound.x == null || parentPosition.x > upperBound.x) upperBound.x = parentPosition.x + parent.getWidth();
-            if(upperBound.y == null || parentPosition.y > upperBound.y) upperBound.y = parentPosition.y + parent.getHeight();
+        if(isBoundWithinParent() && hasParent()){
+            upperBound.x = parent.getWidth();
+            upperBound.y = parent.getHeight();
         }
 
         return upperBound;

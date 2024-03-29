@@ -35,7 +35,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         super(null, xPos, yPos, width, height);
         elementData = makeDataType();
         remakePreviewElement();
-        setImage(UIThemeManager.getDefaultTheme().button_small);
     }
 
     //endregion
