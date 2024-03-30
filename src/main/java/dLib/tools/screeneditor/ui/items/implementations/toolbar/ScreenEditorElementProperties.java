@@ -37,9 +37,9 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
 
     //region Methods
 
-    public void createPropertiesFor(ScreenEditorItem item){
+    public void createPropertiesFor(ScreenEditorItem<?, ?> item){
         propertiesFor = item;
-        //propertiesItemList.setItems(item.getPropertiesForItem()); TODO RF
+        propertiesItemList.setItems(item.getItemProperties());
     }
 
     public void clearScreen(){

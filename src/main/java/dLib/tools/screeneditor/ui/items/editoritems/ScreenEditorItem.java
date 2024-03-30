@@ -11,6 +11,11 @@ import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.IntegerVector2;
+import dLib.util.Reflection;
+import dLib.util.settings.Property;
+
+import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 public abstract class ScreenEditorItem<ElementType extends UIElement, DataType extends UIElement.UIElementData> extends Resizeable {
     //region Variables
@@ -33,7 +38,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     public ScreenEditorItem(int xPos, int yPos, int width, int height){
         super(null, xPos, yPos, width, height);
-        elementData = makeDataType();
+        elementData = makeDataType_wrapper();
         remakePreviewElement();
     }
 
@@ -126,6 +131,22 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         return previewElement.getClass();
     }
 
+    private DataType makeDataType_wrapper(){
+        DataType elementData = makeDataType();
+
+        elementData.id.setValue(getId());
+        elementData.id.addOnValueChangedListener(new BiConsumer<String, String>() {
+            @Override
+            public void accept(String s, String s2) {
+                if(!getId().equals(s2)){
+                    setID(s2);
+                    previewElement.setID(s2);
+                }
+            }
+        });
+
+        return elementData;
+    }
     protected abstract DataType makeDataType();
     public DataType getElementData(){
         return elementData;
@@ -141,6 +162,25 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         return super.setParent(parent);
     }
 
+    //region ID
+
+    @Override
+    public UIElement setID(String newId) {
+        super.setID(newId);
+
+        if(previewElement != null){
+            previewElement.setID(getId());
+        }
+        if(elementData != null && !elementData.id.getValue().equals(newId)){
+            elementData.id.setValue(getId());
+        }
+
+        return this;
+    }
+
+
+    //endregion
+
     //region Position & Dimensions
 
     @Override
@@ -149,6 +189,9 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
         if(previewElement != null){
             previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
+        }
+        if(elementData != null){
+            elementData.localPosition = getLocalPosition();
         }
     }
 
@@ -159,11 +202,29 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         if(previewElement != null){
             previewElement.setDimensions(getWidth(), getHeight());
         }
+        if(elementData != null) {
+            elementData.width = getWidth();
+            elementData.height = getHeight();
+        }
 
         return this;
     }
 
     //endregion
+
+    //region Properties
+
+    public ArrayList<Property<?>> getItemProperties(){
+        return elementData.getEditableProperties();
+    }
+
+    //endregion
+
+    @Override
+    public String toString() {
+        return getId();
+    }
+
 
     //endregion
 }

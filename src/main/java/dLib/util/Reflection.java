@@ -74,7 +74,7 @@ public class Reflection {
         }catch (IllegalAccessException e) {
             DLib.logError("Could not get field value due to " + e.getLocalizedMessage());
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
 
         return fieldValues;

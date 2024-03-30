@@ -4,8 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.screens.AbstractScreen;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
+import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.StringProperty;
 
 import java.io.*;
 import java.util.*;
@@ -54,7 +57,7 @@ public class UIElement {
     }
 
     public UIElement(UIElementData data){
-        setID(data.id);
+        setID(data.id.getValue());
 
         setLocalPosition(data.localPosition.x, data.localPosition.y);
         setDockedToParent(data.dockedToParent);
@@ -874,7 +877,12 @@ public class UIElement {
     public static class UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public String id;
+        public StringProperty id = new StringProperty(""){
+            @Override
+            public boolean isValidValue(String value) {
+                return !value.isEmpty();
+            }
+        }.setName("Id");
 
         public IntegerVector2 localPosition = new IntegerVector2(0, 0);
         public boolean dockedToParent = true;
@@ -898,6 +906,14 @@ public class UIElement {
 
         public UIElement makeUIElement(){
             return new UIElement(this);
+        }
+
+        public ArrayList<Property<?>> getEditableProperties(){
+            ArrayList<Property<?>> toReturn = new ArrayList<>();
+
+            toReturn.add(id);
+
+            return toReturn;
         }
 
         public String serializeToString(){
