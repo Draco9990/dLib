@@ -154,6 +154,25 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
             }
         });
 
+        elementData.width.setValue(getWidth());
+        elementData.width.addOnValueChangedListener(new BiConsumer<Integer, Integer>() {
+            @Override
+            public void accept(Integer integer, Integer integer2) {
+                if(getWidth() != integer2){
+                    setWidth(integer2);
+                }
+            }
+        });
+        elementData.height.setValue(getHeight());
+        elementData.height.addOnValueChangedListener(new BiConsumer<Integer, Integer>() {
+            @Override
+            public void accept(Integer integer, Integer integer2) {
+                if(getHeight() != integer2){
+                    setHeight(integer2);
+                }
+            }
+        });
+
         return elementData;
     }
     protected abstract DataType makeDataType();
@@ -212,8 +231,8 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
             previewElement.setDimensions(getWidth(), getHeight());
         }
         if(elementData != null) {
-            elementData.width = getWidth();
-            elementData.height = getHeight();
+            elementData.width.setValue(getWidth());
+            elementData.height.setValue(getHeight());
         }
 
         return this;

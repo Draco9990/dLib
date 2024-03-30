@@ -8,6 +8,7 @@ import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.IntegerProperty;
 import dLib.util.settings.prefabs.IntegerVector2Property;
 import dLib.util.settings.prefabs.StringProperty;
 
@@ -75,7 +76,7 @@ public class UIElement {
 
         onSelectionStateChangedConsumers.add(aBoolean -> data.onSelectionStateChangedBinding.executeBinding(aBoolean));
 
-        setDimensions(data.width, data.height);
+        setDimensions(data.width.getValue(), data.height.getValue());
     }
 
     //endregion
@@ -900,8 +901,8 @@ public class UIElement {
 
         public MethodBinding onSelectionStateChangedBinding = new NoneMethodBinding();
 
-        public int width = 50;
-        public int height = 50;
+        public IntegerProperty width = new IntegerProperty(50).setName("Width");
+        public IntegerProperty height = new IntegerProperty(50).setName("Height");
 
         public boolean isSelectable;
 
@@ -914,6 +915,8 @@ public class UIElement {
 
             toReturn.add(id);
             toReturn.add(localPosition);
+            toReturn.add(width);
+            toReturn.add(height);
 
             return toReturn;
         }
