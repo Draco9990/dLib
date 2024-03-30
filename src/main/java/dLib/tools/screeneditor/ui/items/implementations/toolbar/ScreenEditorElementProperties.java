@@ -30,7 +30,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
         propertiesItemList.setItemSpacing(25);
         addChildNCS(propertiesItemList);
 
-        hide();
+        hideAndDisable();
     }
 
     //endregion

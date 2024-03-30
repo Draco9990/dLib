@@ -116,7 +116,7 @@ public class UIElement {
     }
 
     protected boolean shouldUpdate(){
-        return isActive() && isEnabled() && isVisible();
+        return isActive() && isEnabled();
     }
     protected boolean shouldRender(){
         return isActive() && isVisible();

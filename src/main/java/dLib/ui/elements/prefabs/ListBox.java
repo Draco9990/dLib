@@ -175,14 +175,14 @@ public class ListBox<ItemType> extends UIElement {
         int currentYPos = itemBoxBackground.getHeight();
 
         for(ListBoxItem item : items){
-            item.renderForItem.hide();
+            item.renderForItem.hideAndDisable();
         }
 
         for(UIElement item : getItemsForDisplay()){
             item.setLocalPosition(0, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
             item.setWidth(itemBoxBackground.getWidth() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0));
 
-            item.show();
+            item.showAndEnable();
 
             currentYPos -= item.getHeight();
             currentYPos -= itemSpacing;

@@ -126,9 +126,9 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
     /** Management */
     public void hideAllToolbarItems(){
-        toolbar.hide();
-        properties.hide();
-        elementListScreen.hide();
+        toolbar.hideAndDisable();
+        properties.hideAndDisable();
+        elementListScreen.hideAndDisable();
     }
 
     @Override

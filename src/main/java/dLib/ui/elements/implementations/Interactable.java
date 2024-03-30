@@ -128,19 +128,22 @@ public class Interactable extends Hoverable{
 
             }
 
-            if(InputHelper.justReleasedClickLeft){
-                onLeftClickRelease();
-            }
-            if(InputHelper.justReleasedClickRight){
-                onRightButtonRelease();
-            }
-
             if(holdingLeft){
+                if(InputHelper.justReleasedClickLeft){
+                    onLeftClickRelease();
+                    return;
+                }
+
                 totalLeftClickDuration += Gdx.graphics.getDeltaTime();
                 onLeftClickHeld(totalLeftClickDuration);
             }
 
             if(holdingRight){
+                if(InputHelper.justReleasedClickRight){
+                    onRightButtonRelease();
+                    return;
+                }
+
                 totalRightClickDuration += Gdx.graphics.getDeltaTime();
                 onRightClickHeld(totalRightClickDuration);
             }

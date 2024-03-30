@@ -42,7 +42,7 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
         previewItemList.getBackground().setImage(null);
         addChildNCS(previewItemList);
 
-        hide();
+        hideAndDisable();
     }
 
     //endregion

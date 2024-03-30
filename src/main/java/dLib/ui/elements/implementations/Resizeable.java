@@ -2,9 +2,10 @@ package dLib.ui.elements.implementations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.misc.ResizeNode;
+import dLib.ui.themes.UITheme;
 
 public class Resizeable extends Draggable {
     //region Variables
@@ -46,7 +47,7 @@ public class Resizeable extends Draggable {
         clearChildren();
 
         for (int i = 0; i < 4; i++) {
-            resizeNodes[i] = new ResizeNode(this, 0, 0) {
+            resizeNodes[i] = new ResizeNode(0, 0) {
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
@@ -172,4 +173,22 @@ public class Resizeable extends Draggable {
 
     //endregion
 
+    private static class ResizeNode extends Draggable {
+        //region Variables
+
+        //endregion
+
+        //region Constructors
+
+        public ResizeNode(int xPos, int yPos) {
+            super(UITheme.whitePixel, xPos, yPos, 20, 20);
+
+            this.renderColor = Color.RED;
+        }
+
+        //endregion
+
+        //region Methods
+        //endregion
+    }
 }
