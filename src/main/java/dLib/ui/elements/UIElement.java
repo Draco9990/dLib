@@ -82,10 +82,10 @@ public class UIElement {
     public final void update(){
         if(!shouldUpdate()) return;
 
-        ensureElementWithinBounds();
-
         updateChildren();
         updateSelf();
+
+        ensureElementWithinBounds();
     }
     protected void updateSelf(){
         if(pendingRefresh){
