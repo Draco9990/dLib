@@ -48,8 +48,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         super.updateSelf();
 
         previewElement.update();
-
-        previewElement.setParent(getParent());
     }
 
     @Override
@@ -149,7 +147,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public void onPositionChanged(int diffX, int diffY) {
         super.onPositionChanged(diffX, diffY);
 
-        if(previewElement != null && (previewElement.getLocalPositionX() != getLocalPositionX() || previewElement.getLocalPositionY() != getLocalPositionY())){
+        if(previewElement != null){
             previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
         }
     }
@@ -158,7 +156,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public UIElement setDimensions(Integer newWidth, Integer newHeight) {
         super.setDimensions(newWidth, newHeight);
 
-        if(previewElement != null && (previewElement.getWidth() != getWidth() || previewElement.getHeight() != getHeight())){
+        if(previewElement != null){
             previewElement.setDimensions(getWidth(), getHeight());
         }
 

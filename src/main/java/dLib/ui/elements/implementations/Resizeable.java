@@ -73,6 +73,11 @@ public class Resizeable extends Draggable {
                 public boolean isVisible() {
                     return isHovered() || resizeable.isHovered();
                 }
+
+                @Override
+                public void onParentDimensionsChanged(int diffX, int diffY) {
+                    return; //TODO: Remove with scale
+                }
             };
 
             addChildNCS(resizeNodes[i]);

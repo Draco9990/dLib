@@ -37,21 +37,21 @@ public class ScreenEditorMenu extends UIElement {
         TextButton toolbarButton = new TextButton("Toolbar", 255, height - 50, 200, 40);
         toolbarButton.getButton().addOnLeftClickConsumer(() -> {
             getParent().hideAllToolbarItems();
-            getParent().getToolbarScreen().show();
+            getParent().getToolbarScreen().showAndEnable();
         });
         addChildNCS(toolbarButton);
 
         TextButton propertiesButton = new TextButton("Properties", 255, height - 100, 200, 40);
         propertiesButton.getButton().addOnLeftClickConsumer(() -> {
             getParent().hideAllToolbarItems();
-            getParent().getPropertiesScreen().show();
+            getParent().getPropertiesScreen().showAndEnable();
         });
         addChildNCS(propertiesButton);
 
         TextButton elementsButton = new TextButton("Elements", 255, height - 150, 200, 40);
         elementsButton.getButton().addOnLeftClickConsumer(() -> {
             getParent().hideAllToolbarItems();
-            getParent().getElementListScreen().show();
+            getParent().getElementListScreen().showAndEnable();
         });
         addChildNCS(elementsButton);
     }

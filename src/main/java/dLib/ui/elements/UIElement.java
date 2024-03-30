@@ -841,7 +841,7 @@ public class UIElement {
         this.width = newWidth;
         this.height = newHeight;
 
-        if(diffX != 0 && diffY != 0){
+        if(diffX != 0 || diffY != 0){
             for(UIElementChild child : children){
                 child.element.onParentDimensionsChanged(diffX, diffY);
             }
