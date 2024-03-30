@@ -8,6 +8,7 @@ import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.IntegerVector2Property;
 import dLib.util.settings.prefabs.StringProperty;
 
 import java.io.*;
@@ -59,7 +60,7 @@ public class UIElement {
     public UIElement(UIElementData data){
         setID(data.id.getValue());
 
-        setLocalPosition(data.localPosition.x, data.localPosition.y);
+        setLocalPosition(data.localPosition.getXValue(), data.localPosition.getYValue());
         setDockedToParent(data.dockedToParent);
 
         setLowerLocalBounds(data.lowerLocalBound.x, data.lowerLocalBound.y);
@@ -884,7 +885,7 @@ public class UIElement {
             }
         }.setName("Id");
 
-        public IntegerVector2 localPosition = new IntegerVector2(0, 0);
+        public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Local Position").setValueNames("X", "Y");
         public boolean dockedToParent = true;
 
         public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);
@@ -912,6 +913,7 @@ public class UIElement {
             ArrayList<Property<?>> toReturn = new ArrayList<>();
 
             toReturn.add(id);
+            toReturn.add(localPosition);
 
             return toReturn;
         }

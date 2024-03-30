@@ -120,5 +120,11 @@ public class IntegerVector2Property extends Property<IntegerVector2> implements 
 
     //endregion
 
+    @Override
+    public IntegerVector2Property setName(String newTitle) {
+        return (IntegerVector2Property) super.setName(newTitle);
+    }
+
+
     //endregion
 }

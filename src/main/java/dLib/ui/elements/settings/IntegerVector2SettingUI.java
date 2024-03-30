@@ -28,10 +28,10 @@ public class IntegerVector2SettingUI extends AbstractSettingUI{
         int textWidth = (int) (0.2f * renderWidth);
         int inputfieldWidth = (int)(0.25f * renderWidth);
 
-        addChildNCS(new TextBox(setting.getXValueName(), startingX, valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
-        addChildNCS(new TextBox(setting.getYValueName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        if(setting.getXValueName() != null) addChildNCS(new TextBox(setting.getXValueName(), startingX, valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        if(setting.getYValueName() != null) addChildNCS(new TextBox(setting.getYValueName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
 
-        xInput = new Inputfield(String.valueOf(setting.getValue().x), startingX + textWidth, valuePosY, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+        xInput = new Inputfield(setting.getXValue().toString(), startingX + textWidth, valuePosY, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
         xInput.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
@@ -48,7 +48,7 @@ public class IntegerVector2SettingUI extends AbstractSettingUI{
         });
         addChildNCS(xInput);
 
-        yInput = new Inputfield(String.valueOf(setting.getValue().y), startingX + (int)(renderWidth * 0.55f) + textWidth, valuePosY, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+        yInput = new Inputfield(setting.getYValue().toString(), startingX + (int)(renderWidth * 0.55f) + textWidth, valuePosY, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
         yInput.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {

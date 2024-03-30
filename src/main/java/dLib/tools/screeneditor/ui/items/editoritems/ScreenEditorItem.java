@@ -140,7 +140,16 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
             public void accept(String s, String s2) {
                 if(!getId().equals(s2)){
                     setID(s2);
-                    previewElement.setID(s2);
+                }
+            }
+        });
+
+        elementData.localPosition.setValue(getLocalPosition());
+        elementData.localPosition.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
+            @Override
+            public void accept(IntegerVector2 integerVector2, IntegerVector2 integerVector22) {
+                if(!getLocalPosition().equals(integerVector22)){
+                    setLocalPosition(integerVector22.x, integerVector22.y);
                 }
             }
         });
@@ -190,8 +199,8 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         if(previewElement != null){
             previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
         }
-        if(elementData != null){
-            elementData.localPosition = getLocalPosition();
+        if(elementData != null && !elementData.localPosition.getValue().equals(getLocalPosition())){
+            elementData.localPosition.setValue(getLocalPosition());
         }
     }
 
