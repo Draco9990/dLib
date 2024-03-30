@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
+import dLib.util.IntegerVector2;
 
 public class Resizeable extends Draggable {
     //region Variables
@@ -99,18 +100,17 @@ public class Resizeable extends Draggable {
         resizeOrigWidth = width;
         resizeOrigHeight = height;
 
-        int oldPosCX = node.getLocalPositionCenteredX();
-        int oldPosCY = node.getLocalPositionCenteredY();
-        resizingRootX = oldPosCX == getLocalPositionX();
-        resizingRootY = oldPosCY == getLocalPositionY();
+        IntegerVector2 oldPosC = worldToLocal(node.getWorldPositionCentered());
+        resizingRootX = oldPosC.x == getLocalPositionX();
+        resizingRootY = oldPosC.y == getLocalPositionY();
 
-        resizeOrigNodePosX = node.getLocalPositionX();
-        resizeOrigNodePosY = node.getLocalPositionY();
+        resizeOrigNodePosX = node.getWorldPositionX();
+        resizeOrigNodePosY = node.getWorldPositionY();
     }
 
     public void onResizeNodeMoved(ResizeNode nodeMoved) {
-        int diffX = nodeMoved.getLocalPositionX() - resizeOrigNodePosX;
-        int diffY = nodeMoved.getLocalPositionY() - resizeOrigNodePosY;
+        int diffX = nodeMoved.getWorldPositionX() - resizeOrigNodePosX;
+        int diffY = nodeMoved.getWorldPositionY() - resizeOrigNodePosY;
 
         if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
             int sDiffX = Math.abs(diffX);
