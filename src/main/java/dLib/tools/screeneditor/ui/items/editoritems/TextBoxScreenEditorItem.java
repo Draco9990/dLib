@@ -10,7 +10,7 @@ public class TextBoxScreenEditorItem extends ScreenEditorItem<TextBox, TextBox.T
     //region Constructors
 
     public TextBoxScreenEditorItem(){
-        super(0, 0, 50, 50);
+        super(0, 0, 300, 75);
     }
 
     //endregion

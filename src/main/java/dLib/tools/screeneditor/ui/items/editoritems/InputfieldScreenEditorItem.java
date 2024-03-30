@@ -11,7 +11,7 @@ public class InputfieldScreenEditorItem extends ScreenEditorItem<Inputfield, Inp
     //region Constructors
 
     public InputfieldScreenEditorItem(){
-        super(0, 0, 50, 50);
+        super(0, 0, 500, 75);
     }
 
     //endregion
