@@ -36,7 +36,7 @@ public class Button extends Interactable {
         private static final long serialVersionUID = 1L;
 
         public ButtonData(){
-            textureBinding = new TextureThemeBinding("button_large");
+            textureBinding.setValue(new TextureThemeBinding("button_large"));
         }
 
         @Override

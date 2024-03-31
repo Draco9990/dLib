@@ -60,3 +60,7 @@ rework renderable
 
 --> Item offset
 --> Dragging issue??
+
+-- UI integervector2 messed up
+-- textButton weird since last few changes
+-- on texture binding change recreate item.

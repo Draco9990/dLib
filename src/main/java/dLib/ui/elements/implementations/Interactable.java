@@ -14,10 +14,13 @@ import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.MethodBindingProperty;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Interactable extends Hoverable{
@@ -83,13 +86,13 @@ public class Interactable extends Hoverable{
         this.hoveredTexture = data.hoveredTexture.getBoundTexture();
         this.disabledTexture = data.disabledTexture.getBoundTexture();
 
-        if(data.onLeftClick != null) addOnLeftClickConsumer(() -> data.onLeftClick.executeBinding(ScreenManager.getCurrentScreen()));
-        if(data.onLeftClickHeld != null) addOnLeftClickHeldConsumer(deltaTime -> data.onLeftClickHeld.executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
-        if(data.onLeftClickRelease != null) addOnLeftClickReleaseConsumer(() -> data.onLeftClickRelease.executeBinding(ScreenManager.getCurrentScreen()));
+        if(data.onLeftClick != null) addOnLeftClickConsumer(() -> data.onLeftClick.getValue().executeBinding(ScreenManager.getCurrentScreen()));
+        if(data.onLeftClickHeld != null) addOnLeftClickHeldConsumer(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
+        if(data.onLeftClickRelease != null) addOnLeftClickReleaseConsumer(() -> data.onLeftClickRelease.getValue().executeBinding(ScreenManager.getCurrentScreen()));
 
-        if(data.onRightClick != null) addOnRightClickConsumer(() -> data.onRightClick.executeBinding(ScreenManager.getCurrentScreen()));
-        if(data.onRightClickHeld != null) addOnRightClickHeldConsumer(deltaTime -> data.onRightClickHeld.executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
-        if(data.onRightClickRelease != null) addOnRightClickReleaseConsumer(() -> data.onRightClickRelease.executeBinding(ScreenManager.getCurrentScreen()));
+        if(data.onRightClick != null) addOnRightClickConsumer(() -> data.onRightClick.getValue().executeBinding(ScreenManager.getCurrentScreen()));
+        if(data.onRightClickHeld != null) addOnRightClickHeldConsumer(deltaTime -> data.onRightClickHeld.getValue().executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
+        if(data.onRightClickRelease != null) addOnRightClickReleaseConsumer(() -> data.onRightClickRelease.getValue().executeBinding(ScreenManager.getCurrentScreen()));
 
         this.isPassthrough = data.isPassthrough;
     }
@@ -425,17 +428,44 @@ public class Interactable extends Hoverable{
         //TODO ON TRIGGER KEY
         //TODO ON HOLD KEY
 
-        public MethodBinding onLeftClick = new NoneMethodBinding();
-        public MethodBinding onLeftClickHeld = new NoneMethodBinding();
-        public MethodBinding onLeftClickRelease = new NoneMethodBinding();
+        public MethodBindingProperty onLeftClick = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click");
+        public MethodBindingProperty onLeftClickHeld = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click Held").addDNCParameter("holdDuration", float.class);
+        public MethodBindingProperty onLeftClickRelease = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click Release");
 
-        public MethodBinding onRightClick = new NoneMethodBinding();
-        public MethodBinding onRightClickHeld = new NoneMethodBinding();
-        public MethodBinding onRightClickRelease = new NoneMethodBinding();
+        public MethodBindingProperty onRightClick = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click");
+        public MethodBindingProperty onRightClickHeld = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click Held").addDNCParameter("holdDuration", float.class);
+        public MethodBindingProperty onRightClickRelease = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click Release");
+
+        public InteractableData(){
+            id.addOnValueChangedListener((s, s2) -> {
+                onLeftClick.setDNCMethodName(s2 + "_onLeftClick");
+                onLeftClickHeld.setDNCMethodName(s2 + "_onLeftClickHeld");
+                onLeftClickRelease.setDNCMethodName(s2 + "_onLeftClickRelease");
+
+                onRightClick.setDNCMethodName(s2 + "_onRightClick");
+                onRightClickHeld.setDNCMethodName(s2 + "_onRightClickHeld");
+                onRightClickRelease.setDNCMethodName(s2 + "_onRightClickRelease");
+            });
+        }
 
         @Override
         public Interactable makeUIElement() {
             return new Interactable(this);
+        }
+
+        @Override
+        public ArrayList<Property<?>> getEditableProperties() {
+            ArrayList<Property<?>> properties = super.getEditableProperties();
+
+            properties.add(onLeftClick);
+            properties.add(onLeftClickHeld);
+            properties.add(onLeftClickRelease);
+
+            properties.add(onRightClick);
+            properties.add(onRightClickHeld);
+            properties.add(onRightClickRelease);
+
+            return properties;
         }
     }
 }

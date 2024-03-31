@@ -31,7 +31,7 @@ public class Image extends Hoverable {
         private static final long serialVersionUID = 1L;
 
         public ImageData(){
-            textureBinding = new TexturePathBinding("dLibResources/images/ui/themes/WhitePixel.png");
+            textureBinding.setValue(new TexturePathBinding("dLibResources/images/ui/themes/WhitePixel.png"));
         }
 
         @Override

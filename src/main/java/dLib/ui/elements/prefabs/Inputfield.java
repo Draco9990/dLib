@@ -8,6 +8,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.settings.Property;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -244,12 +245,24 @@ public class Inputfield extends UIElement {
         Inputfield.EInputfieldPreset inputfieldPreset = Inputfield.EInputfieldPreset.GENERIC;
 
         public InputfieldData(){
-            buttonData.textureBinding = new TextureThemeBinding("inputfield");
+            buttonData.textureBinding.setValue(new TextureThemeBinding("inputfield"));
         }
 
         @Override
         public UIElement makeUIElement() {
             return new Inputfield(this);
+        }
+
+        @Override
+        public ArrayList<Property<?>> getEditableProperties() {
+            ArrayList<Property<?>> properties = super.getEditableProperties();
+
+            properties.addAll(buttonData.getEditableProperties());
+            buttonData.filterInnerProperties(properties);
+            properties.addAll(textboxData.getEditableProperties());
+            textboxData.filterInnerProperties(properties);
+
+            return properties;
         }
     }
 }

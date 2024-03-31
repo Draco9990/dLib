@@ -7,8 +7,11 @@ import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.TextureBindingProperty;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Renderable extends UIElement {
     //region Variables
@@ -37,7 +40,7 @@ public class Renderable extends UIElement {
     public Renderable(RenderableData data){
         super(data);
 
-        this.image = data.textureBinding.getBoundTexture();
+        this.image = data.textureBinding.getValue().getBoundTexture();
         this.renderColor = Color.valueOf(data.renderColor);
     }
 
@@ -98,13 +101,22 @@ public class Renderable extends UIElement {
     public static class RenderableData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public TextureBinding textureBinding = new TextureEmptyBinding();
+        public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureEmptyBinding()).setName("Image");
 
         public String renderColor = Color.WHITE.cpy().toString();
 
         @Override
         public UIElement makeUIElement() {
             return new Renderable(this);
+        }
+
+        @Override
+        public ArrayList<Property<?>> getEditableProperties() {
+            ArrayList<Property<?>> properties = super.getEditableProperties();
+
+            properties.add(textureBinding);
+
+            return properties;
         }
     }
 }

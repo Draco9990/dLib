@@ -921,6 +921,13 @@ public class UIElement {
             return toReturn;
         }
 
+        public void filterInnerProperties(ArrayList<Property<?>> properties){
+            properties.remove(id);
+            properties.remove(localPosition);
+            properties.remove(width);
+            properties.remove(height);
+        }
+
         public String serializeToString(){
             try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(baos)) {
                 oos.writeObject(this);

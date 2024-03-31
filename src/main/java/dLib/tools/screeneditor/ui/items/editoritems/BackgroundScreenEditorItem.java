@@ -22,7 +22,7 @@ public class BackgroundScreenEditorItem extends ScreenEditorItem<Image, Image.Im
     @Override
     protected Image.ImageData makeDataType() {
         Image.ImageData data = new Image.ImageData();
-        data.textureBinding = new TextureThemeBinding("background");
+        data.textureBinding.setValue(new TextureThemeBinding("background"));
         return data;
     }
 

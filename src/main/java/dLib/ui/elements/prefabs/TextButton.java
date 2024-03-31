@@ -3,8 +3,10 @@ package dLib.ui.elements.prefabs;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.settings.Property;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class TextButton extends UIElement {
     //region Variables
@@ -57,12 +59,26 @@ public class TextButton extends UIElement {
         public TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();
 
         public TextButtonData(){
-            buttonData.textureBinding = new TextureThemeBinding("button_small");
+            buttonData.textureBinding.setValue(new TextureThemeBinding("button_small"));
         }
 
         @Override
         public TextButton makeUIElement() {
             return new TextButton(this);
+        }
+
+        @Override
+        public ArrayList<Property<?>> getEditableProperties() {
+            ArrayList<Property<?>> properties = super.getEditableProperties();
+
+            properties.addAll(buttonData.getEditableProperties());
+            buttonData.filterInnerProperties(properties);
+
+            properties.addAll(textBoxData.getEditableProperties());
+            textBoxData.filterInnerProperties(properties);
+            properties.remove(textBoxData.textureBinding);
+
+            return properties;
         }
     }
 }
