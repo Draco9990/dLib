@@ -1,9 +1,8 @@
 package dLib.tools.screeneditor.ui.items.editoritems;
 
-import dLib.ui.elements.prefabs.Inputfield;
-import dLib.ui.elements.prefabs.ListBox;
+import dLib.ui.elements.prefabs.HorizontalListBox;
 
-public class ListBoxScreenEditorItem extends ScreenEditorItem<ListBox<Object>, ListBox.ListBoxData> {
+public class ListBoxScreenEditorItem extends ScreenEditorItem<HorizontalListBox<Object>, HorizontalListBox.HorizontalListBoxData> {
     //region Variables
     //endregion
 
@@ -18,8 +17,8 @@ public class ListBoxScreenEditorItem extends ScreenEditorItem<ListBox<Object>, L
     //region Methods
 
     @Override
-    protected ListBox.ListBoxData makeDataType() {
-        return new ListBox.ListBoxData();
+    protected HorizontalListBox.HorizontalListBoxData makeDataType() {
+        return new HorizontalListBox.HorizontalListBoxData();
     }
 
     //endregion

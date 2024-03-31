@@ -1,6 +1,6 @@
 package dLib.util.screens;
 
-import dLib.ui.elements.prefabs.ListBox;
+import dLib.ui.elements.prefabs.HorizontalListBox;
 import dLib.ui.screens.AbstractScreen;
 import dLib.ui.screens.ScreenManager;
 
@@ -18,7 +18,7 @@ public abstract class AbstractObjectListPickerScreen<ItemPickType> extends Abstr
         setScreenToOpenOnClose(caller);
 
         addGenericBackground();
-        addChildCS(new ListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
+        addChildCS(new HorizontalListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
             @Override
             public void onItemSelectionChanged(ArrayList<ItemPickType> items) {
                 super.onItemSelectionChanged(items);

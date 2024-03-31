@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public class ListBox<ItemType> extends UIElement {
+public class HorizontalListBox<ItemType> extends UIElement {
     //region Variables
 
     // Elements
@@ -50,13 +50,13 @@ public class ListBox<ItemType> extends UIElement {
 
     //region Constructors
 
-    public ListBox(int xPos, int yPos, int width, int height){
+    public HorizontalListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
         reinitializeElements();
     }
 
-    public ListBox(ListBoxData data){
+    public HorizontalListBox(HorizontalListBoxData data){
         super(data);
 
         this.title = data.titleBoxText;
@@ -232,14 +232,14 @@ public class ListBox<ItemType> extends UIElement {
 
     //region Item Management
 
-    public ListBox<ItemType> addItem(ItemType item){
+    public HorizontalListBox<ItemType> addItem(ItemType item){
         UIElement compositeItem = wrapUIForItem(item);
         items.add(new ListBoxItem(item, compositeItem));
         addChildCS(compositeItem);
 
         return this;
     }
-    public ListBox<ItemType> setItems(ArrayList<ItemType> items){
+    public HorizontalListBox<ItemType> setItems(ArrayList<ItemType> items){
         clearItems();
         for(ItemType item : items){
             addItem(item);
@@ -373,7 +373,7 @@ public class ListBox<ItemType> extends UIElement {
         return selectedItems;
     }
 
-    public ListBox<ItemType> setSelectionMode(ESelectionMode selectionMode){
+    public HorizontalListBox<ItemType> setSelectionMode(ESelectionMode selectionMode){
         this.selectionMode = selectionMode;
         return this;
     } //TODO expose
@@ -381,7 +381,7 @@ public class ListBox<ItemType> extends UIElement {
         return selectionMode;
     }
 
-    public ListBox<ItemType> setSelectionCountLimit(int selectionCount){
+    public HorizontalListBox<ItemType> setSelectionCountLimit(int selectionCount){
         this.selectionCountLimit = selectionCount;
         return this;
     } //TODO expose
@@ -395,7 +395,7 @@ public class ListBox<ItemType> extends UIElement {
 
     //region Item Properties
 
-    public ListBox<ItemType> setItemSpacing(int spacing){
+    public HorizontalListBox<ItemType> setItemSpacing(int spacing){
         this.itemSpacing = spacing;
         return this;
     }
@@ -403,7 +403,7 @@ public class ListBox<ItemType> extends UIElement {
         return itemSpacing;
     }
 
-    public ListBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
+    public HorizontalListBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
         this.invertedItemOrder = invertedItemOrder;
         return this;
     }
@@ -412,7 +412,7 @@ public class ListBox<ItemType> extends UIElement {
 
     //region Title & TitleBox
 
-    public ListBox<ItemType> setTitle(String title){
+    public HorizontalListBox<ItemType> setTitle(String title){
         if(this.title != null && (title == null || title.isEmpty())){
             removeTitle();
             return this;
@@ -431,7 +431,7 @@ public class ListBox<ItemType> extends UIElement {
         reinitializeElements();
     }
 
-    public ListBox<ItemType> setTitleHeight(int titleHeight){
+    public HorizontalListBox<ItemType> setTitleHeight(int titleHeight){
         if(titleHeight <= 0) return this;
 
         this.titleBoxHeight = titleHeight;
@@ -442,7 +442,7 @@ public class ListBox<ItemType> extends UIElement {
 
     //region ScrollBar
 
-    public ListBox<ItemType> setScrollbarWidth(int width){
+    public HorizontalListBox<ItemType> setScrollbarWidth(int width){
         this.scrollbarWidth = width;
         return this;
     }
@@ -481,7 +481,7 @@ public class ListBox<ItemType> extends UIElement {
 
     //region Reordering
 
-    public ListBox<ItemType> setCanReorder(boolean canReorder){
+    public HorizontalListBox<ItemType> setCanReorder(boolean canReorder){
         this.canReorder = canReorder;
         return this;
     }
@@ -489,7 +489,7 @@ public class ListBox<ItemType> extends UIElement {
         return canReorder;
     }
 
-    public ListBox<ItemType> addOnElementsSwappedListener(BiConsumer<ItemType, ItemType> listener){
+    public HorizontalListBox<ItemType> addOnElementsSwappedListener(BiConsumer<ItemType, ItemType> listener){
         onElementsSwappedListeners.add(listener);
         return this;
     }
@@ -563,7 +563,7 @@ public class ListBox<ItemType> extends UIElement {
         }
     }
 
-    public static class ListBoxData extends UIElement.UIElementData implements Serializable {
+    public static class HorizontalListBoxData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public String titleBoxText = "";
@@ -581,7 +581,7 @@ public class ListBox<ItemType> extends UIElement {
 
         @Override
         public UIElement makeUIElement() {
-            return new ListBox<>(this);
+            return new HorizontalListBox<>(this);
         }
     }
 }

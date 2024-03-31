@@ -2,7 +2,7 @@ package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
 import com.badlogic.gdx.utils.OrderedMap;
 import dLib.tools.screeneditor.ui.items.editoritems.*;
-import dLib.ui.elements.prefabs.ListBox;
+import dLib.ui.elements.prefabs.HorizontalListBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class ScreenEditorToolbox extends AbstractScreenEditorToolbar {
 
         ScreenEditorToolbox self =this;
 
-        ListBox<String> toolElements = new ListBox<String>(0, 0, getWidth(), getHeight()){
+        HorizontalListBox<String> toolElements = new HorizontalListBox<String>(0, 0, getWidth(), getHeight()){
             @Override
             public void onItemSelectionChanged(ArrayList<String> items) {
                 super.onItemSelectionChanged(items);
