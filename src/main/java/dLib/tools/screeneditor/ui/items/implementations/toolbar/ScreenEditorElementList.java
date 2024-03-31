@@ -1,11 +1,15 @@
 package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
+import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
+import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.ListBox;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.function.BiConsumer;
 
 public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
     //region Variables
@@ -38,7 +42,16 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
                 button.addOnHoveredConsumer(() -> item.setHighlight(true));
                 button.addOnUnhoveredConsumer(() -> item.setHighlight(false));
             }
-        }.setTitle("Scene Elements:").setInvertedItemOrder(true);
+        }.setTitle("Scene Elements:").setInvertedItemOrder(true).setCanReorder(true).addOnElementsSwappedListener((screenEditorItem, screenEditorItem2) -> {
+            ScreenEditorPreview baseScreen = getParent().getPreviewScreen();
+            int index1 = baseScreen.getPreviewItems().indexOf(screenEditorItem);
+            int index2 = baseScreen.getPreviewItems().indexOf(screenEditorItem2);
+            Collections.swap(baseScreen.getPreviewItems(), index1, index2);
+
+            int childIndex1 = baseScreen.getChildren().indexOf(screenEditorItem);
+            int childIndex2 = baseScreen.getChildren().indexOf(screenEditorItem2);
+            baseScreen.swapChildren(childIndex1, childIndex2);
+        });
         previewItemList.getBackground().setImage(null);
         addChildNCS(previewItemList);
 

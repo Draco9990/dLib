@@ -177,6 +177,11 @@ public class UIElement {
         return this;
     }
 
+    public UIElement swapChildren(int index1, int index2){
+        Collections.swap(this.children, index1, index2);
+        return this;
+    }
+
     public boolean hasChild(UIElement child){
         for(UIElementChild childEle : children){
             if(Objects.equals(childEle.element, child)) return true;

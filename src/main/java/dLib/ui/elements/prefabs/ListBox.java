@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
+import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
@@ -12,7 +13,9 @@ import org.lwjgl.input.Mouse;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 
 public class ListBox<ItemType> extends UIElement {
     //region Variables
@@ -36,6 +39,9 @@ public class ListBox<ItemType> extends UIElement {
 
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
     private int selectionCountLimit = 1;
+
+    private boolean canReorder = false;
+    private ArrayList<BiConsumer<ItemType, ItemType>> onElementsSwappedListeners = new ArrayList<>();
 
     // Locals
     private boolean trackScrollWheelScroll = false;
@@ -63,6 +69,8 @@ public class ListBox<ItemType> extends UIElement {
 
         this.setSelectionMode(data.selectionMode);
         this.setSelectionCountLimit(data.selectionLimit);
+
+        this.canReorder = data.canReorder;
 
         reinitializeElements();
     }
@@ -267,7 +275,7 @@ public class ListBox<ItemType> extends UIElement {
         box.setMarginPercX(0.025f).setMarginPercY(0.05f);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         return box;
-    } //TODO expose
+    } //TODO expose with listeners
 
     public final UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = makeUIForItem(item);
@@ -294,6 +302,39 @@ public class ListBox<ItemType> extends UIElement {
         mainButton.setHoveredColorMultiplier(1.0f);
 
         itemUI.addChildCS(mainButton);
+
+        //Reorder
+        int reorderArrowWidth = (int) (itemUI.getWidth() * 0.1f);
+        int reorderArrowHeight = (int) (itemUI.getHeight() * 0.5f);
+
+        int reorderArrowXPos = itemUI.getWidth() - reorderArrowWidth;
+
+        Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_up, reorderArrowXPos, reorderArrowHeight, reorderArrowWidth, reorderArrowHeight){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                moveItemUp(item);
+            }
+
+            @Override
+            public boolean isActive() {
+                return super.isActive() && canReorder();
+            }
+        };
+        Interactable moveDownArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_down, reorderArrowXPos, 0, reorderArrowWidth, reorderArrowHeight){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                moveItemDown(item);
+            }
+
+            @Override
+            public boolean isActive() {
+                return super.isActive() && canReorder();
+            }
+        };
+        itemUI.addChildCS(moveUpArrow);
+        itemUI.addChildCS(moveDownArrow);
 
         postMakeWrapperForItem(item, itemUI);
 
@@ -438,6 +479,75 @@ public class ListBox<ItemType> extends UIElement {
 
     //endregion
 
+    //region Reordering
+
+    public ListBox<ItemType> setCanReorder(boolean canReorder){
+        this.canReorder = canReorder;
+        return this;
+    }
+    public boolean canReorder(){
+        return canReorder;
+    }
+
+    public ListBox<ItemType> addOnElementsSwappedListener(BiConsumer<ItemType, ItemType> listener){
+        onElementsSwappedListeners.add(listener);
+        return this;
+    }
+    public void onElementsSwapped(ItemType item1, ItemType item2){
+        for(BiConsumer<ItemType, ItemType> listener : onElementsSwappedListeners){
+            listener.accept(item1, item2);
+        }
+    }
+
+    private void moveItemDown(ItemType itemUI){
+        int itemIndex = -1;
+        for (int i = 0; i < items.size(); i++) {
+            ListBoxItem item = items.get(i);
+            if(item.item.equals(itemUI)){
+                itemIndex = i;
+            }
+        }
+
+        if(itemIndex == -1){
+            return;
+        }
+
+        int swapIndex = itemIndex + (invertedItemOrder ? -1 : 1);
+        if(swapIndex < 0 || swapIndex >= items.size()){
+            return;
+        }
+
+        swap(itemIndex, swapIndex);
+    }
+
+    private void moveItemUp(ItemType itemUI){
+        int itemIndex = -1;
+        for (int i = 0; i < items.size(); i++) {
+            ListBoxItem item = items.get(i);
+            if(item.item.equals(itemUI)){
+                itemIndex = i;
+            }
+        }
+
+        if(itemIndex == -1){
+            return;
+        }
+
+        int swapIndex = itemIndex + (invertedItemOrder ? 1 : -1);
+        if(swapIndex < 0 || swapIndex >= items.size()){
+            return;
+        }
+
+        swap(itemIndex, swapIndex);
+    }
+
+    private void swap(int index1, int index2){
+        Collections.swap(items, index1, index2);
+        onElementsSwapped(items.get(index1).item, items.get(index2).item);
+    }
+
+    //endregion
+
     //endregion
 
     public class ListBoxItem{
@@ -466,6 +576,8 @@ public class ListBox<ItemType> extends UIElement {
 
         public ESelectionMode selectionMode = ESelectionMode.SINGLE;
         public int selectionLimit = 1;
+
+        public boolean canReorder = false;
 
         @Override
         public UIElement makeUIElement() {
