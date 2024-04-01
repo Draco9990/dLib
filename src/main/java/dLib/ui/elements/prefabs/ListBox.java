@@ -21,7 +21,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     protected Hoverable itemBoxBackground;
     protected ArrayList<ListBoxItem> items = new ArrayList<>();
 
-    protected VerticalScrollbar scrollbar;
+    protected Scrollbar scrollbar;
 
     // Properties
     private String title;
@@ -62,9 +62,6 @@ public abstract class ListBox<ItemType> extends UIElement {
 
         this.itemSpacing = data.itemSpacing;
         this.invertedItemOrder = data.invertedItemOrder;
-
-        this.defaultItemWidth = data.defaultItemWidth;
-        this.defaultItemHeight = data.defaultItemHeight;
 
         this.setSelectionMode(data.selectionMode);
         this.setSelectionCountLimit(data.selectionLimit);
@@ -230,16 +227,6 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     public ListBox<ItemType> disableItemWrapping(){
         disableItemWrapping = true;
-        return this;
-    }
-
-    public ListBox<ItemType> setItemWidth(Integer width){
-        defaultItemWidth = width;
-        return this;
-    }
-
-    public ListBox<ItemType> setItemHeight(Integer height){
-        defaultItemHeight = height;
         return this;
     }
 
@@ -441,9 +428,6 @@ public abstract class ListBox<ItemType> extends UIElement {
 
         public int itemSpacing = 0;
         public boolean invertedItemOrder = false;
-
-        public Integer defaultItemWidth = null;
-        public Integer defaultItemHeight = null;
 
         public ESelectionMode selectionMode = ESelectionMode.SINGLE;
         public int selectionLimit = 1;

@@ -21,7 +21,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     public HorizontalListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
-        setItemWidth(30);
+        defaultItemWidth = 30;
     }
 
     public HorizontalListBox(HorizontalListBoxData data){
@@ -38,7 +38,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
         scrollbar.setDimensions(width, scrollbarHeight);
     }
     protected void buildScrollBar(int x, int y, int width, int height){
-        scrollbar = new VerticalScrollbar(x, y, width, height) {
+        scrollbar = new HorizontalScrollbar(x, y, width, height) {
             @Override
             public int getPageCount() {
                 return calculatePageCount();
@@ -75,7 +75,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
 
         for(UIElement item : getItemsForDisplay()){
             item.setLocalPosition(currentXPos, (scrollbar.isActive() ? scrollbar.getHeight() : 0)); //TODO RF BOUNDING HEIGHT
-            item.setHeight(defaultItemHeight == null ? itemBoxBackground.getHeight() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0) : defaultItemHeight);
+            item.setHeight(defaultItemHeight == null ? itemBoxBackground.getHeight() + (scrollbar.isActive() ? -scrollbar.getHeight() : 0) : defaultItemHeight);
 
             item.showAndEnable();
 
@@ -212,10 +212,6 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
         private static final long serialVersionUID = 1L;
 
         public int scrollbarHeight = 50;
-
-        public HorizontalListBoxData(){
-            defaultItemWidth = 30;
-        }
 
         @Override
         public UIElement makeUIElement() {

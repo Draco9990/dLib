@@ -20,7 +20,7 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
     public VerticalListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
-        setItemHeight(30);
+        defaultItemHeight = 30;
     }
 
     public VerticalListBox(VerticalListBoxData data){
@@ -206,10 +206,6 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
         private static final long serialVersionUID = 1L;
 
         public int scrollbarWidth = 50;
-
-        public VerticalListBoxData(){
-            defaultItemHeight = 30;
-        }
 
         @Override
         public UIElement makeUIElement() {
