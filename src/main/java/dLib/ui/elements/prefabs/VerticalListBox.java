@@ -1,0 +1,219 @@
+package dLib.ui.elements.prefabs;
+
+import dLib.ui.Alignment;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.implementations.Interactable;
+import dLib.ui.themes.UIThemeManager;
+import org.lwjgl.input.Mouse;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class VerticalListBox<ItemType> extends ListBox<ItemType> {
+    //region Variables
+
+    private int scrollbarHeight = 50;
+
+    //endregion
+
+    //region Constructors
+
+    public VerticalListBox(int xPos, int yPos, int width, int height){
+        super(xPos, yPos, width, height);
+
+        setItemWidth(30);
+    }
+
+    public VerticalListBox(VerticalListBoxData data){
+        super(data);
+
+        scrollbarHeight = data.scrollbarHeight;
+    }
+
+    protected void updateScrollBar(){
+        if(scrollbar == null){
+            buildScrollBar(0, 0, width, scrollbarHeight);
+        }
+        scrollbar.setLocalPosition(0, 0);
+        scrollbar.setDimensions(width, scrollbarHeight);
+    }
+    protected void buildScrollBar(int x, int y, int width, int height){
+        scrollbar = new HorizontalScrollbar(x, y, width, height) {
+            @Override
+            public int getPageCount() {
+                return calculatePageCount();
+            }
+
+            @Override
+            public boolean isActive() {
+                return calculatePageCount() > 1;
+            }
+        };
+        addChildCS(scrollbar);
+    }
+
+    //endregion
+
+    //region Methods
+
+    //region Update & Render
+
+    @Override
+    public void updateSelf() {
+        super.updateSelf();
+
+        if(trackScrollWheelScroll){
+            int scrollDelta = (int)(Math.signum((float)Mouse.getDWheel()));
+            scrollbar.getSlider().setLocalPositionX(scrollbar.getSlider().getLocalPositionX() - scrollDelta * 10);
+        }
+
+        int currentXPos = 0;
+
+        for(ListBoxItem item : items){
+            item.renderForItem.hideAndDisable();
+        }
+
+        for(UIElement item : getItemsForDisplay()){
+            item.setLocalPosition(currentXPos, (scrollbar.isActive() ? scrollbar.getHeight() : 0)); //TODO RF BOUNDING HEIGHT
+            item.setHeight(defaultItemHeight == null ? itemBoxBackground.getHeight() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0) : defaultItemHeight);
+
+            item.showAndEnable();
+
+            currentXPos += item.getWidth();
+            currentXPos += itemSpacing;
+        }
+    }
+
+    //endregion
+
+    public ArrayList<UIElement> getItemsForDisplay(){
+        ArrayList<UIElement> activeItems = new ArrayList<>();
+
+        int currentPageWidth = 0;
+        if(!invertedItemOrder){
+            for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
+                UIElement item = items.get(i).renderForItem;
+                if(currentPageWidth + item.getWidth() + itemSpacing > itemBoxBackground.getWidth()){
+                    break;
+                }
+                //TODO RF getBoundingHeight
+
+                currentPageWidth += item.getWidth() + itemSpacing;
+                activeItems.add(item);
+            }
+        }
+        else{
+            for(int i = items.size() - (scrollbar.getCurrentPage() - 1) - 1; i >= 0; i--){
+                UIElement item = items.get(i).renderForItem;
+                if(currentPageWidth + item.getWidth() + itemSpacing > itemBoxBackground.getWidth()){
+                    break;
+                }
+                //TODO RF getBoundingHeight
+
+                currentPageWidth += item.getWidth() + itemSpacing;
+                activeItems.add(item);
+            }
+        }
+
+        return activeItems;
+    }
+
+    //region Item Management
+
+    //region Item UI
+
+    public UIElement makeUIForItem(ItemType item){
+        TextBox box = new TextBox(item.toString(), 0, 0, 30, itemBoxBackground.getHeight());
+        box.setImage(UIThemeManager.getDefaultTheme().button_large);
+        box.setMarginPercX(0.025f).setMarginPercY(0.05f);
+        box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
+        return box;
+    } //TODO expose with listeners
+
+    public final UIElement wrapUIForItem(ItemType item){
+        UIElement itemUI = super.wrapUIForItem(item);
+
+        //Reorder
+        int reorderArrowWidth = (int) (itemUI.getWidth() * 0.5f);
+        int reorderArrowHeight = (int) (itemUI.getHeight() * 0.1f);
+
+        Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_left, 0, 0, reorderArrowWidth, reorderArrowHeight){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                moveItemUp(item);
+            }
+
+            @Override
+            public boolean isActive() {
+                return super.isActive() && canReorder();
+            }
+        };
+        Interactable moveDownArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_right, reorderArrowWidth, 0, reorderArrowWidth, reorderArrowHeight){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                moveItemDown(item);
+            }
+
+            @Override
+            public boolean isActive() {
+                return super.isActive() && canReorder();
+            }
+        };
+        itemUI.addChildCS(moveUpArrow);
+        itemUI.addChildCS(moveDownArrow);
+
+        return itemUI;
+    } //TODO expose
+
+    //endregion
+
+    //region ScrollBar
+
+    public dLib.ui.elements.prefabs.VerticalListBox<ItemType> setScrollbarHeight(int height){
+        this.scrollbarHeight = height;
+        return this;
+    }
+
+    public int calculatePageCount(){
+        int totalItemWidth = 0;
+        if(!invertedItemOrder){
+            for(int i = 0; i < items.size(); i++){
+                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing; //TODO RF BOUNDING WIDTH
+                if(totalItemWidth > itemBoxBackground.getWidth()){
+                    int pageCount = items.size() - i;
+                    return pageCount + 1;
+                }
+            }
+        }
+        else{
+            for(int i = items.size() - 1; i >= 0; i--){
+                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing; //TODO RF BOUNDING WIDTH
+                if(totalItemWidth > itemBoxBackground.getWidth()){
+                    return i + 2;
+                }
+            }
+        }
+        return 1;
+    }
+
+    //endregion
+
+    //endregion
+
+    public static class VerticalListBoxData extends ListBoxData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public int scrollbarHeight = 50;
+
+        public VerticalListBoxData(){
+            defaultItemWidth = 30;
+        }
+
+        @Override
+        public UIElement makeUIElement() {
+            return new VerticalListBox<>(this);
+        }
+    }
+}

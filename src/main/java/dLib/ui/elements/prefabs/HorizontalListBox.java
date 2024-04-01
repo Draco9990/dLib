@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.themes.UIThemeManager;
@@ -19,6 +20,8 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
 
     public HorizontalListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
+
+        setItemHeight(30);
     }
 
     public HorizontalListBox(HorizontalListBoxData data){
@@ -77,7 +80,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
 
         for(UIElement item : getItemsForDisplay()){
             item.setLocalPosition(0, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
-            item.setWidth(itemBoxBackground.getWidth() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0));
+            item.setWidth(defaultItemWidth == null ? itemBoxBackground.getWidth() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0) : defaultItemWidth);
 
             item.showAndEnable();
 
@@ -122,42 +125,47 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     //region Item Management
 
     //region Item UI
-
     public final UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = super.wrapUIForItem(item);
 
-        //Reorder
-        int reorderArrowWidth = (int) (itemUI.getWidth() * 0.1f);
-        int reorderArrowHeight = (int) (itemUI.getHeight() * 0.5f);
+        if(canReorder()){
+            //Controls
+            int elementControlsWidth = (int) (itemUI.getWidth() * 0.2f);
+            VerticalBox elementControls = new VerticalBox(itemUI.getWidth() - elementControlsWidth, 0, elementControlsWidth, itemUI.getHeight());
+            elementControls.setItemWidth((int) (elementControlsWidth * 0.5f));
+            elementControls.disableItemWrapping();
 
-        int reorderArrowXPos = itemUI.getWidth() - reorderArrowWidth;
+            if(canReorder()){
+                //Reorder
+                int reorderArrowWidth = (int) (elementControls.getWidth() * 0.5f);
+                int reorderArrowHeight = (int) (itemUI.getHeight() * 0.5f);
 
-        Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_up, reorderArrowXPos, reorderArrowHeight, reorderArrowWidth, reorderArrowHeight){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                moveItemUp(item);
+                HorizontalBox reorderArrows = new HorizontalBox(reorderArrowWidth, itemUI.getHeight(), 0, 0);
+                reorderArrows.setItemHeight((int) (itemUI.getHeight() * 0.5f));
+                reorderArrows.disableItemWrapping();
+
+                Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_up, 0, 0, reorderArrowWidth, reorderArrowHeight){
+                    @Override
+                    protected void onLeftClick() {
+                        super.onLeftClick();
+                        moveItemUp(item);
+                    }
+                };
+                Interactable moveDownArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_down, 0, 0, reorderArrowWidth, reorderArrowHeight){
+                    @Override
+                    protected void onLeftClick() {
+                        super.onLeftClick();
+                        moveItemDown(item);
+                    }
+                };
+                reorderArrows.addItem(moveUpArrow);
+                reorderArrows.addItem(moveDownArrow);
+
+                elementControls.addItem(reorderArrows);
             }
 
-            @Override
-            public boolean isActive() {
-                return super.isActive() && canReorder();
-            }
-        };
-        Interactable moveDownArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_down, reorderArrowXPos, 0, reorderArrowWidth, reorderArrowHeight){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                moveItemDown(item);
-            }
-
-            @Override
-            public boolean isActive() {
-                return super.isActive() && canReorder();
-            }
-        };
-        itemUI.addChildCS(moveUpArrow);
-        itemUI.addChildCS(moveDownArrow);
+            itemUI.addChildCS(elementControls);
+        }
 
         return itemUI;
     } //TODO expose
@@ -201,6 +209,10 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
         private static final long serialVersionUID = 1L;
 
         public int scrollbarWidth = 50;
+
+        public HorizontalListBoxData(){
+            defaultItemHeight = 30;
+        }
 
         @Override
         public UIElement makeUIElement() {

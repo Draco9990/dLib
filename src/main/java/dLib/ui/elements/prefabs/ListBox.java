@@ -30,13 +30,16 @@ public abstract class ListBox<ItemType> extends UIElement {
     protected int itemSpacing = 0;
     protected boolean invertedItemOrder = false;
 
-    protected int scrollbarWidth = 50;
-
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
     private int selectionCountLimit = 1;
 
     private boolean canReorder = false;
     private ArrayList<BiConsumer<ItemType, ItemType>> onElementsSwappedListeners = new ArrayList<>();
+
+    protected Integer defaultItemWidth = null;
+    protected Integer defaultItemHeight = null;
+
+    private boolean disableItemWrapping = false;
 
     // Locals
     protected boolean trackScrollWheelScroll = false;
@@ -51,7 +54,7 @@ public abstract class ListBox<ItemType> extends UIElement {
         reinitializeElements();
     }
 
-    public ListBox(HorizontalListBox.HorizontalListBoxData data){
+    public ListBox(ListBoxData data){
         super(data);
 
         this.title = data.titleBoxText;
@@ -60,7 +63,8 @@ public abstract class ListBox<ItemType> extends UIElement {
         this.itemSpacing = data.itemSpacing;
         this.invertedItemOrder = data.invertedItemOrder;
 
-        this.scrollbarWidth = data.scrollbarWidth;
+        this.defaultItemWidth = data.defaultItemWidth;
+        this.defaultItemHeight = data.defaultItemHeight;
 
         this.setSelectionMode(data.selectionMode);
         this.setSelectionCountLimit(data.selectionLimit);
@@ -143,8 +147,14 @@ public abstract class ListBox<ItemType> extends UIElement {
     //region Item Management
 
     public ListBox<ItemType> addItem(ItemType item){
-        UIElement compositeItem = wrapUIForItem(item);
-        postMakeWrapperForItem(item, compositeItem);
+        UIElement compositeItem;
+        if(!disableItemWrapping){
+            compositeItem = wrapUIForItem(item);
+            postMakeWrapperForItem(item, compositeItem);
+        }
+        else{
+            compositeItem = makeUIForItem(item);
+        }
         items.add(new ListBoxItem(item, compositeItem));
         addChildCS(compositeItem);
 
@@ -181,7 +191,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     //region Item UI
 
     public UIElement makeUIForItem(ItemType item){
-        TextBox box = new TextBox(item.toString(), 0, 0, itemBoxBackground.getWidth(), 30);
+        TextBox box = new TextBox(item.toString(), 0, 0, defaultItemWidth == null ? itemBoxBackground.getWidth() : defaultItemWidth, defaultItemHeight == null ? itemBoxBackground.getHeight() : defaultItemHeight);
         box.setImage(UIThemeManager.getDefaultTheme().button_large);
         box.setMarginPercX(0.025f).setMarginPercY(0.05f);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
@@ -217,6 +227,21 @@ public abstract class ListBox<ItemType> extends UIElement {
         return itemUI;
     } //TODO expose
     public void postMakeWrapperForItem(ItemType item, UIElement itemUI){ } //TODO expose
+
+    public ListBox<ItemType> disableItemWrapping(){
+        disableItemWrapping = true;
+        return this;
+    }
+
+    public ListBox<ItemType> setItemWidth(Integer width){
+        defaultItemWidth = width;
+        return this;
+    }
+
+    public ListBox<ItemType> setItemHeight(Integer height){
+        defaultItemHeight = height;
+        return this;
+    }
 
     //endregion
 
@@ -416,6 +441,9 @@ public abstract class ListBox<ItemType> extends UIElement {
 
         public int itemSpacing = 0;
         public boolean invertedItemOrder = false;
+
+        public Integer defaultItemWidth = null;
+        public Integer defaultItemHeight = null;
 
         public ESelectionMode selectionMode = ESelectionMode.SINGLE;
         public int selectionLimit = 1;
