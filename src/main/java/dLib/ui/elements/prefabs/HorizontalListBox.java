@@ -38,7 +38,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
         scrollbar.setDimensions(width, scrollbarHeight);
     }
     protected void buildScrollBar(int x, int y, int width, int height){
-        scrollbar = new HorizontalScrollbar(x, y, width, height) {
+        scrollbar = new VerticalScrollbar(x, y, width, height) {
             @Override
             public int getPageCount() {
                 return calculatePageCount();
@@ -133,36 +133,42 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     public final UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = super.wrapUIForItem(item);
 
-        //Reorder
-        int reorderArrowWidth = (int) (itemUI.getWidth() * 0.5f);
-        int reorderArrowHeight = (int) (itemUI.getHeight() * 0.1f);
+        if(canReorder()){
+            //Controls
+            int elementControlsHeight = (int) (itemUI.getHeight() * 0.2f);
+            VerticalBox elementControls = new VerticalBox(0, 0, itemUI.getWidth(), elementControlsHeight);
+            elementControls.disableItemWrapping();
 
-        Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_left, 0, 0, reorderArrowWidth, reorderArrowHeight){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                moveItemUp(item);
+            if(canReorder()){
+                //Reorder
+                int reorderArrowWidth = (int) (elementControls.getWidth() * 0.5f);
+                int reorderArrowHeight = (int) (elementControls.getHeight() * 0.5f);
+
+                HorizontalBox reorderArrows = new HorizontalBox(0, 0, itemUI.getWidth(), reorderArrowHeight);
+                reorderArrows.disableItemWrapping();
+
+                Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_left, 0, 0, reorderArrowWidth, reorderArrowHeight){
+                    @Override
+                    protected void onLeftClick() {
+                        super.onLeftClick();
+                        moveItemUp(item);
+                    }
+                };
+                Interactable moveDownArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_right, 0, 0, reorderArrowWidth, reorderArrowHeight){
+                    @Override
+                    protected void onLeftClick() {
+                        super.onLeftClick();
+                        moveItemDown(item);
+                    }
+                };
+                reorderArrows.addItem(moveUpArrow);
+                reorderArrows.addItem(moveDownArrow);
+
+                elementControls.addItem(reorderArrows);
             }
 
-            @Override
-            public boolean isActive() {
-                return super.isActive() && canReorder();
-            }
-        };
-        Interactable moveDownArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_right, reorderArrowWidth, 0, reorderArrowWidth, reorderArrowHeight){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                moveItemDown(item);
-            }
-
-            @Override
-            public boolean isActive() {
-                return super.isActive() && canReorder();
-            }
-        };
-        itemUI.addChildCS(moveUpArrow);
-        itemUI.addChildCS(moveDownArrow);
+            itemUI.addChildCS(elementControls);
+        }
 
         return itemUI;
     } //TODO expose

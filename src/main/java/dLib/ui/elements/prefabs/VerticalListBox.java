@@ -42,7 +42,7 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
         scrollbar.setDimensions(scrollbarWidth, updateHeight);
     }
     protected void buildScrollBar(int x, int y, int width, int height){
-        scrollbar = new HorizontalScrollbar(x, y, width, height) {
+        scrollbar = new VerticalScrollbar(x, y, width, height) {
             @Override
             public int getPageCount() {
                 return calculatePageCount();
@@ -131,7 +131,6 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
             //Controls
             int elementControlsWidth = (int) (itemUI.getWidth() * 0.2f);
             HorizontalBox elementControls = new HorizontalBox(itemUI.getWidth() - elementControlsWidth, 0, elementControlsWidth, itemUI.getHeight());
-            elementControls.setItemWidth((int) (elementControlsWidth * 0.5f));
             elementControls.disableItemWrapping();
 
             if(canReorder()){
@@ -139,8 +138,7 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
                 int reorderArrowWidth = (int) (elementControls.getWidth() * 0.5f);
                 int reorderArrowHeight = (int) (itemUI.getHeight() * 0.5f);
 
-                VerticalBox reorderArrows = new VerticalBox(reorderArrowWidth, itemUI.getHeight(), 0, 0);
-                reorderArrows.setItemHeight((int) (itemUI.getHeight() * 0.5f));
+                VerticalBox reorderArrows = new VerticalBox(reorderArrowWidth, itemUI.getHeight(), reorderArrowWidth, itemUI.getHeight());
                 reorderArrows.disableItemWrapping();
 
                 Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_up, 0, 0, reorderArrowWidth, reorderArrowHeight){

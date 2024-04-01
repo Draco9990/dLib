@@ -1,10 +1,9 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.implementations.Draggable;
-import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 
-public abstract class HorizontalScrollbar extends Scrollbar {
+public abstract class VerticalScrollbar extends Scrollbar {
     //region Variables
 
     private int heightPerState = 0;
@@ -13,7 +12,7 @@ public abstract class HorizontalScrollbar extends Scrollbar {
 
     //region Constructors
 
-    public HorizontalScrollbar(int x, int y, int width, int height){
+    public VerticalScrollbar(int x, int y, int width, int height){
         super(x, y, width, height);
     }
 

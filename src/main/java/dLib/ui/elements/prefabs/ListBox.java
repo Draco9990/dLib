@@ -21,7 +21,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     protected Hoverable itemBoxBackground;
     protected ArrayList<ListBoxItem> items = new ArrayList<>();
 
-    protected HorizontalScrollbar scrollbar;
+    protected VerticalScrollbar scrollbar;
 
     // Properties
     private String title;
