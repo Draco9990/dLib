@@ -17,34 +17,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public class HorizontalListBox<ItemType> extends UIElement {
+public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     //region Variables
 
-    // Elements
-    private TextBox titleBox;
-
-    private Hoverable itemBoxBackground;
-    private ArrayList<ListBoxItem> items = new ArrayList<>();
-
-    private Scrollbox scrollbar;
-
-    // Properties
-    private String title;
-    private int titleBoxHeight = 50;
-
-    private int itemSpacing = 0;
-    private boolean invertedItemOrder = false;
-
     private int scrollbarWidth = 50;
-
-    private ESelectionMode selectionMode = ESelectionMode.SINGLE;
-    private int selectionCountLimit = 1;
-
-    private boolean canReorder = false;
-    private ArrayList<BiConsumer<ItemType, ItemType>> onElementsSwappedListeners = new ArrayList<>();
-
-    // Locals
-    private boolean trackScrollWheelScroll = false;
 
     //endregion
 
@@ -52,93 +28,15 @@ public class HorizontalListBox<ItemType> extends UIElement {
 
     public HorizontalListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
-
-        reinitializeElements();
     }
 
     public HorizontalListBox(HorizontalListBoxData data){
         super(data);
 
-        this.title = data.titleBoxText;
-        this.titleBoxHeight = data.titleBoxHeight;
-
-        this.itemSpacing = data.itemSpacing;
-        this.invertedItemOrder = data.invertedItemOrder;
-
-        this.scrollbarWidth = data.scrollbarWidth;
-
-        this.setSelectionMode(data.selectionMode);
-        this.setSelectionCountLimit(data.selectionLimit);
-
-        this.canReorder = data.canReorder;
-
-        reinitializeElements();
+        scrollbarWidth = data.scrollbarWidth;
     }
 
-    private void reinitializeElements(){
-        updateTitleBox();
-        updateItemBox();
-        updateScrollBar();
-    }
-
-    private void updateTitleBox(){
-        if(title != null && !title.isEmpty()){
-            if(titleBox == null){
-                buildTitleBox();
-            }
-            titleBox.setText(title);
-            titleBox.setLocalPosition(0, height - titleBoxHeight);
-            titleBox.setDimensions(width, titleBoxHeight);
-        }
-        else if(titleBox != null){
-            removeChild(titleBox);
-            titleBox = null;
-        }
-    }
-    private void buildTitleBox(){
-        titleBox = new TextBox(title, 0, height - titleBoxHeight, width, titleBoxHeight);
-        titleBox.setImage(UITheme.whitePixel);
-        titleBox.setRenderColor(Color.valueOf("#151515FF"));
-        titleBox.setTextRenderColor(Color.WHITE);
-        titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
-        titleBox.setMarginPercX(0.005f);
-        addChildNCS(titleBox);
-    }
-
-    private void updateItemBox(){
-        int updateHeight = height;
-        if(titleBox != null) updateHeight -= titleBox.getHeight();
-
-        // We can span entire width since elements will get shrunk if Scrollbox is present
-
-        if(itemBoxBackground == null){
-            buildItemBox(0, 0, width, updateHeight);
-        }
-
-        itemBoxBackground.setLocalPosition(0, 0);
-        itemBoxBackground.setDimensions(width, updateHeight);
-    }
-    private void buildItemBox(int x, int y, int width, int height){
-        Color bgColor = Color.BLACK.cpy();
-        bgColor.a = 0.4f;
-        itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, x, y, width, height){
-            @Override
-            protected void onHovered() {
-                super.onHovered();
-                trackScrollWheelScroll = true;
-            }
-
-            @Override
-            protected void onUnhovered() {
-                super.onUnhovered();
-                trackScrollWheelScroll = false;
-            }
-        };
-        itemBoxBackground.setRenderColor(bgColor);
-        addChildCS(itemBoxBackground);
-    }
-
-    private void updateScrollBar(){
+    protected void updateScrollBar(){
         int updatePosX = width - scrollbarWidth;
 
         int updateHeight = height;
@@ -150,7 +48,7 @@ public class HorizontalListBox<ItemType> extends UIElement {
         scrollbar.setLocalPosition(updatePosX, 0);
         scrollbar.setDimensions(scrollbarWidth, updateHeight);
     }
-    private void buildScrollBar(int x, int y, int width, int height){
+    protected void buildScrollBar(int x, int y, int width, int height){
         scrollbar = new Scrollbox(x, y, width, height) {
             @Override
             public int getPageCount() {
@@ -232,76 +130,10 @@ public class HorizontalListBox<ItemType> extends UIElement {
 
     //region Item Management
 
-    public HorizontalListBox<ItemType> addItem(ItemType item){
-        UIElement compositeItem = wrapUIForItem(item);
-        items.add(new ListBoxItem(item, compositeItem));
-        addChildCS(compositeItem);
-
-        return this;
-    }
-    public HorizontalListBox<ItemType> setItems(ArrayList<ItemType> items){
-        clearItems();
-        for(ItemType item : items){
-            addItem(item);
-        }
-
-        return this;
-    }
-    public void clearItems(){
-        ArrayList<UIElement> childrenToRemove = new ArrayList<>();
-        for(UIElementChild child : children){
-            for(ListBoxItem item : items){
-                if(Objects.equals(item.renderForItem, child.element)){
-                    childrenToRemove.add(child.element);
-                }
-            }
-        }
-
-        for(UIElement childToRemove : childrenToRemove){
-            removeChild(childToRemove);
-        }
-
-        items.clear();
-        scrollbar.setFirstPage();
-    }
-
-    //endregion
-
     //region Item UI
 
-    public UIElement makeUIForItem(ItemType item){
-        TextBox box = new TextBox(item.toString(), 0, 0, itemBoxBackground.getWidth(), 30);
-        box.setImage(UIThemeManager.getDefaultTheme().button_large);
-        box.setMarginPercX(0.025f).setMarginPercY(0.05f);
-        box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
-        return box;
-    } //TODO expose with listeners
-
     public final UIElement wrapUIForItem(ItemType item){
-        UIElement itemUI = makeUIForItem(item);
-
-        Color transparent = Color.WHITE.cpy();
-        transparent.a = 0f;
-        Button mainButton = (Button) new Button(0, 0, itemUI.getWidth(), itemUI.getHeight()){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                trySelectItem(item);
-            }
-
-            @Override
-            public boolean isActive() {
-                return getSelectionCountLimit() != 0;
-            }
-        }.setImage(UITheme.whitePixel).setRenderColor(transparent);
-        mainButton.setID("MainSection");
-
-        Color hoverColor = mainButton.getHoveredColor().cpy();
-        hoverColor.a = 0.4f;
-        mainButton.setHoveredColor(hoverColor);
-        mainButton.setHoveredColorMultiplier(1.0f);
-
-        itemUI.addChildCS(mainButton);
+        UIElement itemUI = super.wrapUIForItem(item);
 
         //Reorder
         int reorderArrowWidth = (int) (itemUI.getWidth() * 0.1f);
@@ -336,107 +168,8 @@ public class HorizontalListBox<ItemType> extends UIElement {
         itemUI.addChildCS(moveUpArrow);
         itemUI.addChildCS(moveDownArrow);
 
-        postMakeWrapperForItem(item, itemUI);
-
         return itemUI;
     } //TODO expose
-    public void postMakeWrapperForItem(ItemType item, UIElement itemUI){ } //TODO expose
-
-    //endregion
-
-    //region Item Selection
-
-    private void trySelectItem(ItemType selectedItem){
-        if(getCurrentlySelectedItems().size() + 1 > getSelectionCountLimit()) return;
-
-        for(ListBoxItem item : items){
-            if(item.item.equals(selectedItem)){
-                if(selectionMode.equals(ESelectionMode.SINGLE)){
-                    onItemSelectionChanged(new ArrayList<>(Arrays.asList(item.item)));
-                    return;
-                }
-
-                item.selected = true;
-            }
-        }
-
-        onItemSelectionChanged(getCurrentlySelectedItems());
-    }
-    public void onItemSelectionChanged(ArrayList<ItemType> item){} //TODO expose
-
-    public ArrayList<ItemType> getCurrentlySelectedItems(){
-        ArrayList<ItemType> selectedItems = new ArrayList<>();
-        for(ListBoxItem item : items){
-            if(item.selected) selectedItems.add(item.item);
-        }
-
-        return selectedItems;
-    }
-
-    public HorizontalListBox<ItemType> setSelectionMode(ESelectionMode selectionMode){
-        this.selectionMode = selectionMode;
-        return this;
-    } //TODO expose
-    public ESelectionMode getSelectionMode(){
-        return selectionMode;
-    }
-
-    public HorizontalListBox<ItemType> setSelectionCountLimit(int selectionCount){
-        this.selectionCountLimit = selectionCount;
-        return this;
-    } //TODO expose
-    public int getSelectionCountLimit(){
-        if(selectionMode.equals(ESelectionMode.NONE)) return 0;
-        else if(selectionMode.equals(ESelectionMode.SINGLE)) return 1;
-        else return selectionCountLimit;
-    }
-
-    //endregion
-
-    //region Item Properties
-
-    public HorizontalListBox<ItemType> setItemSpacing(int spacing){
-        this.itemSpacing = spacing;
-        return this;
-    }
-    public int getItemSpacing(){
-        return itemSpacing;
-    }
-
-    public HorizontalListBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
-        this.invertedItemOrder = invertedItemOrder;
-        return this;
-    }
-
-    //endregion
-
-    //region Title & TitleBox
-
-    public HorizontalListBox<ItemType> setTitle(String title){
-        if(this.title != null && (title == null || title.isEmpty())){
-            removeTitle();
-            return this;
-        }
-
-        this.title = title;
-        reinitializeElements();
-        return this;
-    }
-    public void removeTitle(){
-        removeChild(titleBox);
-
-        this.title = null;
-        this.titleBox = null;
-
-        reinitializeElements();
-    }
-
-    public HorizontalListBox<ItemType> setTitleHeight(int titleHeight){
-        if(titleHeight <= 0) return this;
-
-        this.titleBoxHeight = titleHeight;
-        return this;
-    }
 
     //endregion
 
@@ -471,113 +204,12 @@ public class HorizontalListBox<ItemType> extends UIElement {
 
     //endregion
 
-    //region Background
-
-    public Hoverable getBackground(){
-        return itemBoxBackground;
-    }
-
     //endregion
 
-    //region Reordering
-
-    public HorizontalListBox<ItemType> setCanReorder(boolean canReorder){
-        this.canReorder = canReorder;
-        return this;
-    }
-    public boolean canReorder(){
-        return canReorder;
-    }
-
-    public HorizontalListBox<ItemType> addOnElementsSwappedListener(BiConsumer<ItemType, ItemType> listener){
-        onElementsSwappedListeners.add(listener);
-        return this;
-    }
-    public void onElementsSwapped(ItemType item1, ItemType item2){
-        for(BiConsumer<ItemType, ItemType> listener : onElementsSwappedListeners){
-            listener.accept(item1, item2);
-        }
-    }
-
-    private void moveItemDown(ItemType itemUI){
-        int itemIndex = -1;
-        for (int i = 0; i < items.size(); i++) {
-            ListBoxItem item = items.get(i);
-            if(item.item.equals(itemUI)){
-                itemIndex = i;
-            }
-        }
-
-        if(itemIndex == -1){
-            return;
-        }
-
-        int swapIndex = itemIndex + (invertedItemOrder ? -1 : 1);
-        if(swapIndex < 0 || swapIndex >= items.size()){
-            return;
-        }
-
-        swap(itemIndex, swapIndex);
-    }
-
-    private void moveItemUp(ItemType itemUI){
-        int itemIndex = -1;
-        for (int i = 0; i < items.size(); i++) {
-            ListBoxItem item = items.get(i);
-            if(item.item.equals(itemUI)){
-                itemIndex = i;
-            }
-        }
-
-        if(itemIndex == -1){
-            return;
-        }
-
-        int swapIndex = itemIndex + (invertedItemOrder ? 1 : -1);
-        if(swapIndex < 0 || swapIndex >= items.size()){
-            return;
-        }
-
-        swap(itemIndex, swapIndex);
-    }
-
-    private void swap(int index1, int index2){
-        Collections.swap(items, index1, index2);
-        onElementsSwapped(items.get(index1).item, items.get(index2).item);
-    }
-
-    //endregion
-
-    //endregion
-
-    public class ListBoxItem{
-        /** Variables */
-        public ItemType item;
-        public UIElement renderForItem;
-        public boolean selected;
-
-        /** Constructors */
-        public ListBoxItem(ItemType item, UIElement renderElement){
-            this.item = item;
-            this.renderForItem = renderElement;
-        }
-    }
-
-    public static class HorizontalListBoxData extends UIElement.UIElementData implements Serializable {
+    public static class HorizontalListBoxData extends ListBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public String titleBoxText = "";
-        public int titleBoxHeight = 50;
-
-        public int itemSpacing = 0;
-        public boolean invertedItemOrder = false;
-
         public int scrollbarWidth = 50;
-
-        public ESelectionMode selectionMode = ESelectionMode.SINGLE;
-        public int selectionLimit = 1;
-
-        public boolean canReorder = false;
 
         @Override
         public UIElement makeUIElement() {

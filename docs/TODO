@@ -65,3 +65,4 @@ rework renderable
 -- textButton weird since last few changes
 -- on texture binding change recreate item.
 -- horizontal list box, move swap into that, also add delete
+-- position docking that just changes the result of getLocalPosition by offset??

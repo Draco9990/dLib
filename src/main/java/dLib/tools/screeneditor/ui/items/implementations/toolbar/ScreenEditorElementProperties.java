@@ -20,7 +20,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     public ScreenEditorElementProperties(){
         super();
 
-        propertiesItemList = new HorizontalListBox<Property<?>>(0, 0, getWidth(), getHeight()){
+        propertiesItemList = (HorizontalListBox<Property<?>>) new HorizontalListBox<Property<?>>(0, 0, getWidth(), getHeight()){
             @Override
             public UIElement makeUIForItem(Property<?> item) {
                 return (UIElement) Reflection.invokeMethod("makeEditUI", item, 0, 0, width, 100);

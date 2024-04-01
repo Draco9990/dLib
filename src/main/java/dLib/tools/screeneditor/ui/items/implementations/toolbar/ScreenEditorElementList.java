@@ -23,7 +23,7 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
 
         ScreenEditorElementList self = this;
 
-        previewItemList = new HorizontalListBox<ScreenEditorItem>(0, 0, getWidth(), getHeight()){
+        previewItemList = (HorizontalListBox<ScreenEditorItem>) new HorizontalListBox<ScreenEditorItem>(0, 0, getWidth(), getHeight()){
             @Override
             public void onItemSelectionChanged(ArrayList<ScreenEditorItem> items) {
                 super.onItemSelectionChanged(items);

@@ -22,7 +22,7 @@ public class ScreenEditorToolbox extends AbstractScreenEditorToolbar {
 
         ScreenEditorToolbox self =this;
 
-        HorizontalListBox<String> toolElements = new HorizontalListBox<String>(0, 0, getWidth(), getHeight()){
+        HorizontalListBox<String> toolElements = (HorizontalListBox<String>) new HorizontalListBox<String>(0, 0, getWidth(), getHeight()){
             @Override
             public void onItemSelectionChanged(ArrayList<String> items) {
                 super.onItemSelectionChanged(items);
