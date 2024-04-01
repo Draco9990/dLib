@@ -2,7 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 
-public class VerticalBox extends VerticalListBox<UIElement>  {
+public class VerticalBox extends VerticalListBox<UIElement> {
     //region Variables
 
     //endregion

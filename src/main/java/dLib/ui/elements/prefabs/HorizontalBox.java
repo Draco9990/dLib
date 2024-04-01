@@ -2,7 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 
-public class HorizontalBox extends HorizontalListBox<UIElement>  {
+public class HorizontalBox extends HorizontalListBox<UIElement> {
     //region Variables
 
     //endregion

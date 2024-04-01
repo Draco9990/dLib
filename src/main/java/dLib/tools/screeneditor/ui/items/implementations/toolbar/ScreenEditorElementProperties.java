@@ -2,7 +2,7 @@ package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
 import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.HorizontalListBox;
+import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.Reflection;
 import dLib.util.settings.Property;
@@ -10,7 +10,7 @@ import dLib.util.settings.Property;
 public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     //region Variables
 
-    private HorizontalListBox<Property<?>> propertiesItemList;
+    private VerticalListBox<Property<?>> propertiesItemList;
     private ScreenEditorItem propertiesFor;
 
     //endregion
@@ -20,7 +20,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     public ScreenEditorElementProperties(){
         super();
 
-        propertiesItemList = (HorizontalListBox<Property<?>>) new HorizontalListBox<Property<?>>(0, 0, getWidth(), getHeight()){
+        propertiesItemList = (VerticalListBox<Property<?>>) new VerticalListBox<Property<?>>(0, 0, getWidth(), getHeight()){
             @Override
             public UIElement makeUIForItem(Property<?> item) {
                 return (UIElement) Reflection.invokeMethod("makeEditUI", item, 0, 0, width, 100);

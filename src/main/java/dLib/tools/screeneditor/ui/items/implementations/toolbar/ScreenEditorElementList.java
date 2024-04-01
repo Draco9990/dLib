@@ -4,7 +4,7 @@ import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
-import dLib.ui.elements.prefabs.HorizontalListBox;
+import dLib.ui.elements.prefabs.VerticalListBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +12,7 @@ import java.util.Collections;
 public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
     //region Variables
 
-    private HorizontalListBox<ScreenEditorItem> previewItemList;
+    private VerticalListBox<ScreenEditorItem> previewItemList;
 
     //endregion
 
@@ -23,7 +23,7 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
 
         ScreenEditorElementList self = this;
 
-        previewItemList = (HorizontalListBox<ScreenEditorItem>) new HorizontalListBox<ScreenEditorItem>(0, 0, getWidth(), getHeight()){
+        previewItemList = (VerticalListBox<ScreenEditorItem>) new VerticalListBox<ScreenEditorItem>(0, 0, getWidth(), getHeight()){
             @Override
             public void onItemSelectionChanged(ArrayList<ScreenEditorItem> items) {
                 super.onItemSelectionChanged(items);

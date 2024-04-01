@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     //region Variables
 
-    private int scrollbarWidth = 50;
+    private int scrollbarHeight = 50;
 
     //endregion
 
@@ -21,26 +21,21 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     public HorizontalListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
-        setItemHeight(30);
+        setItemWidth(30);
     }
 
     public HorizontalListBox(HorizontalListBoxData data){
         super(data);
 
-        scrollbarWidth = data.scrollbarWidth;
+        scrollbarHeight = data.scrollbarHeight;
     }
 
     protected void updateScrollBar(){
-        int updatePosX = width - scrollbarWidth;
-
-        int updateHeight = height;
-        if(titleBox != null) updateHeight -= titleBox.getHeight();
-
         if(scrollbar == null){
-            buildScrollBar(updatePosX, 0, scrollbarWidth, updateHeight);
+            buildScrollBar(0, 0, width, scrollbarHeight);
         }
-        scrollbar.setLocalPosition(updatePosX, 0);
-        scrollbar.setDimensions(scrollbarWidth, updateHeight);
+        scrollbar.setLocalPosition(0, 0);
+        scrollbar.setDimensions(width, scrollbarHeight);
     }
     protected void buildScrollBar(int x, int y, int width, int height){
         scrollbar = new HorizontalScrollbar(x, y, width, height) {
@@ -69,23 +64,23 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
 
         if(trackScrollWheelScroll){
             int scrollDelta = (int)(Math.signum((float)Mouse.getDWheel()));
-            scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionY() + scrollDelta * 10);
+            scrollbar.getSlider().setLocalPositionX(scrollbar.getSlider().getLocalPositionX() - scrollDelta * 10);
         }
 
-        int currentYPos = itemBoxBackground.getHeight();
+        int currentXPos = 0;
 
         for(ListBoxItem item : items){
             item.renderForItem.hideAndDisable();
         }
 
         for(UIElement item : getItemsForDisplay()){
-            item.setLocalPosition(0, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
-            item.setWidth(defaultItemWidth == null ? itemBoxBackground.getWidth() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0) : defaultItemWidth);
+            item.setLocalPosition(currentXPos, (scrollbar.isActive() ? scrollbar.getHeight() : 0)); //TODO RF BOUNDING HEIGHT
+            item.setHeight(defaultItemHeight == null ? itemBoxBackground.getHeight() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0) : defaultItemHeight);
 
             item.showAndEnable();
 
-            currentYPos -= item.getHeight();
-            currentYPos -= itemSpacing;
+            currentXPos += item.getWidth();
+            currentXPos += itemSpacing;
         }
     }
 
@@ -94,27 +89,28 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     public ArrayList<UIElement> getItemsForDisplay(){
         ArrayList<UIElement> activeItems = new ArrayList<>();
 
-        int currentPageHeight = 0;
+        int currentPageWidth = 0;
         if(!invertedItemOrder){
             for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
                 UIElement item = items.get(i).renderForItem;
-                if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
+                if(currentPageWidth + item.getWidth() + itemSpacing > itemBoxBackground.getWidth()){
                     break;
                 }
                 //TODO RF getBoundingHeight
 
-                currentPageHeight += item.getHeight() + itemSpacing;
+                currentPageWidth += item.getWidth() + itemSpacing;
                 activeItems.add(item);
             }
         }
         else{
             for(int i = items.size() - (scrollbar.getCurrentPage() - 1) - 1; i >= 0; i--){
                 UIElement item = items.get(i).renderForItem;
-                if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
+                if(currentPageWidth + item.getWidth() + itemSpacing > itemBoxBackground.getWidth()){
                     break;
                 }
                 //TODO RF getBoundingHeight
-                currentPageHeight += item.getHeight() + itemSpacing;
+
+                currentPageWidth += item.getWidth() + itemSpacing;
                 activeItems.add(item);
             }
         }
@@ -125,47 +121,48 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     //region Item Management
 
     //region Item UI
+
+    public UIElement makeUIForItem(ItemType item){
+        TextBox box = new TextBox(item.toString(), 0, 0, 30, itemBoxBackground.getHeight());
+        box.setImage(UIThemeManager.getDefaultTheme().button_large);
+        box.setMarginPercX(0.025f).setMarginPercY(0.05f);
+        box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
+        return box;
+    } //TODO expose with listeners
+
     public final UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = super.wrapUIForItem(item);
 
-        if(canReorder()){
-            //Controls
-            int elementControlsWidth = (int) (itemUI.getWidth() * 0.2f);
-            VerticalBox elementControls = new VerticalBox(itemUI.getWidth() - elementControlsWidth, 0, elementControlsWidth, itemUI.getHeight());
-            elementControls.setItemWidth((int) (elementControlsWidth * 0.5f));
-            elementControls.disableItemWrapping();
+        //Reorder
+        int reorderArrowWidth = (int) (itemUI.getWidth() * 0.5f);
+        int reorderArrowHeight = (int) (itemUI.getHeight() * 0.1f);
 
-            if(canReorder()){
-                //Reorder
-                int reorderArrowWidth = (int) (elementControls.getWidth() * 0.5f);
-                int reorderArrowHeight = (int) (itemUI.getHeight() * 0.5f);
-
-                HorizontalBox reorderArrows = new HorizontalBox(reorderArrowWidth, itemUI.getHeight(), 0, 0);
-                reorderArrows.setItemHeight((int) (itemUI.getHeight() * 0.5f));
-                reorderArrows.disableItemWrapping();
-
-                Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_up, 0, 0, reorderArrowWidth, reorderArrowHeight){
-                    @Override
-                    protected void onLeftClick() {
-                        super.onLeftClick();
-                        moveItemUp(item);
-                    }
-                };
-                Interactable moveDownArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_down, 0, 0, reorderArrowWidth, reorderArrowHeight){
-                    @Override
-                    protected void onLeftClick() {
-                        super.onLeftClick();
-                        moveItemDown(item);
-                    }
-                };
-                reorderArrows.addItem(moveUpArrow);
-                reorderArrows.addItem(moveDownArrow);
-
-                elementControls.addItem(reorderArrows);
+        Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_left, 0, 0, reorderArrowWidth, reorderArrowHeight){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                moveItemUp(item);
             }
 
-            itemUI.addChildCS(elementControls);
-        }
+            @Override
+            public boolean isActive() {
+                return super.isActive() && canReorder();
+            }
+        };
+        Interactable moveDownArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_right, reorderArrowWidth, 0, reorderArrowWidth, reorderArrowHeight){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                moveItemDown(item);
+            }
+
+            @Override
+            public boolean isActive() {
+                return super.isActive() && canReorder();
+            }
+        };
+        itemUI.addChildCS(moveUpArrow);
+        itemUI.addChildCS(moveDownArrow);
 
         return itemUI;
     } //TODO expose
@@ -174,17 +171,17 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
 
     //region ScrollBar
 
-    public HorizontalListBox<ItemType> setScrollbarWidth(int width){
-        this.scrollbarWidth = width;
+    public HorizontalListBox<ItemType> setScrollbarHeight(int height){
+        this.scrollbarHeight = height;
         return this;
     }
 
     public int calculatePageCount(){
-        int totalItemHeight = 0;
+        int totalItemWidth = 0;
         if(!invertedItemOrder){
             for(int i = 0; i < items.size(); i++){
-                totalItemHeight += items.get(i).renderForItem.getHeight() + itemSpacing; //TODO RF BOUNDING HEIGHT
-                if(totalItemHeight > itemBoxBackground.getHeight()){
+                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing; //TODO RF BOUNDING WIDTH
+                if(totalItemWidth > itemBoxBackground.getWidth()){
                     int pageCount = items.size() - i;
                     return pageCount + 1;
                 }
@@ -192,8 +189,8 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
         }
         else{
             for(int i = items.size() - 1; i >= 0; i--){
-                totalItemHeight += items.get(i).renderForItem.getHeight() + itemSpacing; //TODO RF BOUNDING HEIGHT
-                if(totalItemHeight > itemBoxBackground.getHeight()){
+                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing; //TODO RF BOUNDING WIDTH
+                if(totalItemWidth > itemBoxBackground.getWidth()){
                     return i + 2;
                 }
             }
@@ -208,10 +205,10 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     public static class HorizontalListBoxData extends ListBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public int scrollbarWidth = 50;
+        public int scrollbarHeight = 50;
 
         public HorizontalListBoxData(){
-            defaultItemHeight = 30;
+            defaultItemWidth = 30;
         }
 
         @Override
