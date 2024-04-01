@@ -4,23 +4,21 @@ import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 
-public abstract class Scrollbox extends Renderable {
+public abstract class HorizontalScrollbar extends Scrollbar {
     //region Variables
 
-    private Draggable slider;
-
-    private int currentPage = 1;
-
-    private int pageCount = 0;
     private int heightPerState = 0;
 
     //endregion
 
     //region Constructors
 
-    public Scrollbox(int x, int y, int width, int height){
-        super(UIThemeManager.getDefaultTheme().inputfield, x, y, width, height);
+    public HorizontalScrollbar(int x, int y, int width, int height){
+        super(x, y, width, height);
+    }
 
+    @Override
+    public void makeSlider() {
         slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, 0, 0, width, height){
             @Override
             public void onPositionChanged(int diffX, int diffY) {
@@ -31,34 +29,11 @@ public abstract class Scrollbox extends Renderable {
         }.setCanDragX(false);
         slider.setBoundWithinParent(true);
         addChildNCS(slider);
-
-        initialize();
-    }
-
-    public void initialize(){
-        currentPage = 1;
-        recalculateScrollbar();
     }
 
     //endregion
 
     //region Methods
-
-    //region Update & Render
-    @Override
-    public void updateSelf() {
-        super.updateSelf();
-        recalculateScrollbar();
-    }
-    //endregion
-
-    //region Slider
-
-    public Draggable getSlider(){
-        return slider;
-    }
-
-    //endregion
 
     //region Pages
 
@@ -72,11 +47,6 @@ public abstract class Scrollbox extends Renderable {
         if(currentPage < 1) currentPage = 1;
         onPageChanged(currentPage);
     }
-
-    public int getCurrentPage(){
-        return currentPage;
-    }
-    public abstract int getPageCount();
 
     public void nextPage(){
         if(currentPage < pageCount){
@@ -92,11 +62,9 @@ public abstract class Scrollbox extends Renderable {
         slider.setLocalPositionY(height - slider.getHeight());
     }
 
-    public void onPageChanged(int newPage){}
-
     //endregion
 
-    private void recalculateScrollbar(){
+    protected void recalculateScrollbar(){
         pageCount = getPageCount();
         if(pageCount == 0) pageCount = 1;
         heightPerState = (int)((float)height / pageCount);

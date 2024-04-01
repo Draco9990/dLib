@@ -4,11 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
-import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
-import org.lwjgl.input.Mouse;
 
 import java.io.Serializable;
 import java.util.*;
@@ -23,7 +21,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     protected Hoverable itemBoxBackground;
     protected ArrayList<ListBoxItem> items = new ArrayList<>();
 
-    protected Scrollbox scrollbar;
+    protected HorizontalScrollbar scrollbar;
 
     // Properties
     private String title;

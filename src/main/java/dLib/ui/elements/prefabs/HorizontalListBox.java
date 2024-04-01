@@ -1,21 +1,12 @@
 package dLib.ui.elements.prefabs;
 
-import com.badlogic.gdx.graphics.Color;
-import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.implementations.Interactable;
-import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
-import dLib.ui.util.ESelectionMode;
 import org.lwjgl.input.Mouse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.function.BiConsumer;
 
 public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
     //region Variables
@@ -49,7 +40,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
         scrollbar.setDimensions(scrollbarWidth, updateHeight);
     }
     protected void buildScrollBar(int x, int y, int width, int height){
-        scrollbar = new Scrollbox(x, y, width, height) {
+        scrollbar = new HorizontalScrollbar(x, y, width, height) {
             @Override
             public int getPageCount() {
                 return calculatePageCount();
