@@ -838,10 +838,10 @@ public class UIElement {
     //region Width & Height
 
     public UIElement setWidth(int newWidth){
-        return setDimensions(newWidth, dimensions.y);
+        return setDimensions(newWidth, getHeight());
     }
     public UIElement setHeight(int newHeight){
-        return setDimensions(dimensions.x, newHeight);
+        return setDimensions(getWidth(), newHeight);
     }
     public UIElement setDimensions(Integer newWidth, Integer newHeight){
         if(newWidth < 1) newWidth = 1;
