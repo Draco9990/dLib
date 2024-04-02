@@ -1,6 +1,7 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
+import dLib.ui.util.ESelectionMode;
 
 public class HorizontalBox extends HorizontalListBox<UIElement> {
     //region Variables
@@ -11,6 +12,7 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
 
     public HorizontalBox(int xPos, int yPos, int width, int height) {
         super(xPos, yPos, width, height);
+        setSelectionMode(ESelectionMode.NONE);
     }
 
     public HorizontalBox(HorizontalListBoxData data) {
