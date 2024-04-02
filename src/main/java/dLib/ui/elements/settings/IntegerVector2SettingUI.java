@@ -1,7 +1,9 @@
 package dLib.ui.elements.settings;
 
 import com.badlogic.gdx.graphics.Color;
+import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
+import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.IntegerVector2;
 import dLib.util.settings.prefabs.IntegerVector2Property;
@@ -28,10 +30,12 @@ public class IntegerVector2SettingUI extends AbstractSettingUI{
         int textWidth = (int) (0.2f * renderWidth);
         int inputfieldWidth = (int)(0.25f * renderWidth);
 
-        if(setting.getXValueName() != null) addChildNCS(new TextBox(setting.getXValueName(), startingX, valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
-        if(setting.getYValueName() != null) addChildNCS(new TextBox(setting.getYValueName(), startingX + ((int)(renderWidth * 0.55f)), valuePosY, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        HorizontalBox horizontalBox = new HorizontalBox(startingX, 0, renderWidth, valueHeight);
+        if(setting.getXValueName() != null) {
+            horizontalBox.addItem(new TextBox(setting.getXValueName(), 0, 0, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        }
 
-        xInput = new Inputfield(setting.getXValue().toString(), startingX + textWidth, valuePosY, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+        xInput = new Inputfield(setting.getXValue().toString(), 0, 0, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
         xInput.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
@@ -46,9 +50,15 @@ public class IntegerVector2SettingUI extends AbstractSettingUI{
                 setting.setValue(currentVal);
             }
         });
-        addChildNCS(xInput);
+        horizontalBox.addItem(xInput);
 
-        yInput = new Inputfield(setting.getYValue().toString(), startingX + (int)(renderWidth * 0.55f) + textWidth, valuePosY, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+        horizontalBox.addItem(new Spacer((int) (0.1 * renderWidth), valueHeight));
+
+        if(setting.getYValueName() != null){
+            horizontalBox.addItem(new TextBox(setting.getYValueName(), 0, 0, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        }
+
+        yInput = new Inputfield(setting.getYValue().toString(), 0, 0, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
         yInput.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
             @Override
             public void accept(String s) {
@@ -63,7 +73,9 @@ public class IntegerVector2SettingUI extends AbstractSettingUI{
                 setting.setValue(currentVal);
             }
         });
-        addChildNCS(yInput);
+        horizontalBox.addItem(yInput);
+
+        addChildCS(horizontalBox);
 
         setting.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
             @Override
