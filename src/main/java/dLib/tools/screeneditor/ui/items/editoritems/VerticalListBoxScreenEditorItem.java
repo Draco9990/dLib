@@ -2,13 +2,13 @@ package dLib.tools.screeneditor.ui.items.editoritems;
 
 import dLib.ui.elements.prefabs.VerticalListBox;
 
-public class ListBoxScreenEditorItem extends ScreenEditorItem<VerticalListBox<Object>, VerticalListBox.VerticalListBoxData> {
+public class VerticalListBoxScreenEditorItem extends ScreenEditorItem<VerticalListBox<Object>, VerticalListBox.VerticalListBoxData> {
     //region Variables
     //endregion
 
     //region Constructors
 
-    public ListBoxScreenEditorItem(){
+    public VerticalListBoxScreenEditorItem(){
         super(0, 0, 500, 500);
     }
 

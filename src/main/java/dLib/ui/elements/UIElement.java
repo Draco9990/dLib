@@ -52,7 +52,6 @@ public class UIElement {
 
     //endregion
 
-
     //region Constructors
 
     public UIElement(int xPos, int yPos, int width, int height){
@@ -67,6 +66,9 @@ public class UIElement {
         setLocalPosition(data.localPosition.getXValue(), data.localPosition.getYValue());
         setDockedToParent(data.dockedToParent);
 
+        dimensions = new IntegerVector2(data.dimensions.getXValue(), data.dimensions.getYValue());
+        scaleWithParent = data.scaleWithParent;
+
         setLowerLocalBounds(data.lowerLocalBound.x, data.lowerLocalBound.y);
         setUpperLocalBounds(data.upperLocalBound.x, data.upperLocalBound.y);
         setLowerWorldBounds(data.lowerWorldBound.x, data.lowerWorldBound.y);
@@ -78,8 +80,6 @@ public class UIElement {
         setEnabled(data.isEnabled);
 
         onSelectionStateChangedConsumers.add(aBoolean -> data.onSelectionStateChangedBinding.executeBinding(aBoolean));
-
-        setDimensions(data.width.getValue(), data.height.getValue());
     }
 
     //endregion
@@ -871,6 +871,12 @@ public class UIElement {
     public int getHeight(){
         return (int) (dimensions.y * getHeightScaleMult());
     }
+    public IntegerVector2 getDimensions(){
+        IntegerVector2 dimensions = this.dimensions.copy();
+        dimensions.x = (int) (dimensions.x * getWidthScaleMult());
+        dimensions.y = (int) (dimensions.y * getWidthScaleMult());
+        return dimensions;
+    }
 
     protected float getWidthScaleMult(){
         float scaleMult = widthScale;
@@ -924,8 +930,8 @@ public class UIElement {
         public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Local Position").setValueNames("X", "Y");
         public boolean dockedToParent = true;
 
-        public IntegerProperty width = new IntegerProperty(1).setName("Width");
-        public IntegerProperty height = new IntegerProperty(1).setName("Height");
+        public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)).setName("Dimensions").setValueNames("Width", "Height");
+        public boolean scaleWithParent = true;
 
         public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);
         public IntegerVector2 upperLocalBound = new IntegerVector2(null, null);
@@ -950,8 +956,7 @@ public class UIElement {
 
             toReturn.add(id);
             toReturn.add(localPosition);
-            toReturn.add(width);
-            toReturn.add(height);
+            toReturn.add(dimensions);
 
             return toReturn;
         }
@@ -959,8 +964,7 @@ public class UIElement {
         public void filterInnerProperties(ArrayList<Property<?>> properties){
             properties.remove(id);
             properties.remove(localPosition);
-            properties.remove(width);
-            properties.remove(height);
+            properties.remove(dimensions);
         }
 
         public String serializeToString(){

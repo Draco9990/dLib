@@ -15,6 +15,7 @@ import dLib.util.Reflection;
 import dLib.util.settings.Property;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 public abstract class ScreenEditorItem<ElementType extends UIElement, DataType extends UIElement.UIElementData> extends Resizeable {
@@ -124,8 +125,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     protected void remakePreviewElement(){
         previewElement = (ElementType) elementData.makeUIElement();
-        previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
-        previewElement.setDimensions(getWidth(), getHeight());
     }
     public Class<? extends UIElement> getElementClass(){
         return previewElement.getClass();
@@ -154,21 +153,12 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
             }
         });
 
-        elementData.width.setValue(getWidth());
-        elementData.width.addOnValueChangedListener(new BiConsumer<Integer, Integer>() {
+        elementData.dimensions.setValue(new IntegerVector2(getWidth(), getHeight()));
+        elementData.dimensions.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
             @Override
-            public void accept(Integer integer, Integer integer2) {
-                if(getWidth() != integer2){
-                    setWidth(integer2);
-                }
-            }
-        });
-        elementData.height.setValue(getHeight());
-        elementData.height.addOnValueChangedListener(new BiConsumer<Integer, Integer>() {
-            @Override
-            public void accept(Integer integer, Integer integer2) {
-                if(getHeight() != integer2){
-                    setHeight(integer2);
+            public void accept(IntegerVector2 integerVector2, IntegerVector2 integerVector22) {
+                if(!integerVector22.equals(getDimensions())){
+                    setDimensions(integerVector22.x, integerVector22.y);
                 }
             }
         });
@@ -215,11 +205,10 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public void onPositionChanged(int diffX, int diffY) {
         super.onPositionChanged(diffX, diffY);
 
-        if(previewElement != null){
-            previewElement.setLocalPosition(getLocalPositionX(), getLocalPositionY());
-        }
         if(elementData != null && !elementData.localPosition.getValue().equals(getLocalPosition())){
             elementData.localPosition.setValue(getLocalPosition());
+
+            remakePreviewElement();
         }
     }
 
@@ -227,12 +216,10 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public UIElement setDimensions(Integer newWidth, Integer newHeight) {
         super.setDimensions(newWidth, newHeight);
 
-        if(previewElement != null){
-            previewElement.setDimensions(getWidth(), getHeight());
-        }
-        if(elementData != null) {
-            elementData.width.setValue(getWidth());
-            elementData.height.setValue(getHeight());
+        if(elementData != null && (!Objects.equals(elementData.dimensions.getXValue(), newWidth) || !Objects.equals(elementData.dimensions.getYValue(), newHeight))) {
+            elementData.dimensions.setValue(new IntegerVector2(newWidth, newHeight));
+
+            remakePreviewElement();
         }
 
         return this;

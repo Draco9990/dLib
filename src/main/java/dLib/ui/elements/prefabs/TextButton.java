@@ -2,11 +2,13 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.settings.Property;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 public class TextButton extends UIElement {
     //region Variables
@@ -60,6 +62,15 @@ public class TextButton extends UIElement {
 
         public TextButtonData(){
             buttonData.textureBinding.setValue(new TextureThemeBinding("button_small"));
+
+            //add children transient property that manages this and below?
+            dimensions.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
+                @Override
+                public void accept(IntegerVector2 integerVector2, IntegerVector2 integerVector22) {
+                    buttonData.dimensions.setValue(dimensions.getValue());
+                    textBoxData.dimensions.setValue(dimensions.getValue());
+                }
+            });
         }
 
         @Override

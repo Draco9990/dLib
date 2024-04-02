@@ -44,7 +44,8 @@ public class ScreenEditorToolbox extends AbstractScreenEditorToolbar {
         elementMap.put("Background", BackgroundScreenEditorItem.class);
         elementMap.put("Image", ImageScreenEditorItem.class);
         elementMap.put("Inputfield", InputfieldScreenEditorItem.class);
-        elementMap.put("ListBox", ListBoxScreenEditorItem.class);
+        elementMap.put("Horizontal List Box", HorizontalListBoxScreenEditorItem.class);
+        elementMap.put("Vertical List Box", VerticalListBoxScreenEditorItem.class);
         elementMap.put("TextBox", TextBoxScreenEditorItem.class);
     }
 
