@@ -208,9 +208,9 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
         if(elementData != null && !elementData.localPosition.getValue().equals(getLocalPosition())){
             elementData.localPosition.setValue(getLocalPosition());
-
-            remakePreviewElement();
         }
+
+        remakePreviewElement();
     }
 
     @Override
@@ -219,9 +219,9 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
         if(elementData != null && (!Objects.equals(elementData.dimensions.getXValue(), newWidth) || !Objects.equals(elementData.dimensions.getYValue(), newHeight))) {
             elementData.dimensions.setValue(new IntegerVector2(newWidth, newHeight));
-
-            remakePreviewElement();
         }
+
+        remakePreviewElement();
 
         return this;
     }
