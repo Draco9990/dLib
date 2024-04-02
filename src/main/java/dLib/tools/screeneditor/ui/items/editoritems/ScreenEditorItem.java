@@ -125,6 +125,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     protected void remakePreviewElement(){
         previewElement = (ElementType) elementData.makeUIElement();
+        previewElement.setParent(getParent());
     }
     public Class<? extends UIElement> getElementClass(){
         return previewElement.getClass();

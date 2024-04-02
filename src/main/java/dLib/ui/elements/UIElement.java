@@ -930,7 +930,7 @@ public class UIElement {
         public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Local Position").setValueNames("X", "Y");
         public boolean dockedToParent = true;
 
-        public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)).setName("Dimensions").setValueNames("Width", "Height");
+        public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)).setName("Dimensions").setValueNames("W", "H");
         public boolean scaleWithParent = true;
 
         public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);
