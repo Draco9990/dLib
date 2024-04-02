@@ -184,6 +184,7 @@ public class Resizeable extends Draggable {
             super(UITheme.whitePixel, xPos, yPos, 20, 20);
 
             this.renderColor = Color.RED;
+            setScaleWithParent(false);
         }
 
         //endregion

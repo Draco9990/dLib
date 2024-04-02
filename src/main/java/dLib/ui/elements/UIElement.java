@@ -27,10 +27,10 @@ public class UIElement {
 
     private IntegerVector2 localPosition = new IntegerVector2(0, 0);
     private ArrayList<BiConsumer<Integer, Integer>> positionChangedConsumers = new ArrayList<>();
-
     private boolean dockedToParent = true;
 
     private IntegerVector2 dimensions = new IntegerVector2(1, 1);
+    private boolean scaleWithParent = true;
 
     private transient float widthScale = 1.0f;
     private transient float heightScale = 1.0f;
@@ -863,7 +863,6 @@ public class UIElement {
     }
 
     public void onParentDimensionsChanged(int diffX, int diffY){
-        this.setDimensions(getWidth() + diffX, getHeight() + diffY);
     }
 
     public int getWidth(){
@@ -875,7 +874,7 @@ public class UIElement {
 
     protected float getWidthScaleMult(){
         float scaleMult = widthScale;
-        if(hasParent()){
+        if(hasParent() && scalesWithParent()){
             scaleMult *= parent.getWidthScaleMult();
         }
         return scaleMult;
@@ -883,10 +882,19 @@ public class UIElement {
 
     protected float getHeightScaleMult(){
         float scaleMult = heightScale;
-        if(hasParent()){
+        if(hasParent() && scalesWithParent()){
             scaleMult *= parent.getHeightScaleMult();
         }
         return scaleMult;
+    }
+
+    public UIElement setScaleWithParent(boolean scaleWithParent){
+        this.scaleWithParent = scaleWithParent;
+        return this;
+    }
+
+    public boolean scalesWithParent(){
+        return scaleWithParent;
     }
 
     //endregion
