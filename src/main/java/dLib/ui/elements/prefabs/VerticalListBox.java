@@ -21,18 +21,22 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
         super(xPos, yPos, width, height);
 
         defaultItemHeight = 30;
+
+        reinitializeElements();
     }
 
     public VerticalListBox(VerticalListBoxData data){
         super(data);
 
         scrollbarWidth = data.scrollbarWidth;
+
+        reinitializeElements();
     }
 
     protected void updateScrollBar(){
-        int updatePosX = width - scrollbarWidth;
+        int updatePosX = getWidth() - scrollbarWidth;
 
-        int updateHeight = height;
+        int updateHeight = getHeight();
         if(titleBox != null) updateHeight -= titleBox.getHeight();
 
         if(scrollbar == null){

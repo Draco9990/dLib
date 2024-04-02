@@ -63,7 +63,7 @@ public abstract class AbstractSettingUI extends UIElement {
     }
 
     protected float getTextWidthPerc(){
-        return (width < 500 && canDisplayMultiline() ? 1 : 0.25f);
+        return (getWidth() < 500 && canDisplayMultiline() ? 1 : 0.25f);
     }
 
     //endregion

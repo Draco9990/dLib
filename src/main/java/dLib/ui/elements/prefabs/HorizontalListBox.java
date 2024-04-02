@@ -22,20 +22,24 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
         super(xPos, yPos, width, height);
 
         defaultItemWidth = 30;
+
+        reinitializeElements();
     }
 
     public HorizontalListBox(HorizontalListBoxData data){
         super(data);
 
         scrollbarHeight = data.scrollbarHeight;
+
+        reinitializeElements();
     }
 
     protected void updateScrollBar(){
         if(scrollbar == null){
-            buildScrollBar(0, 0, width, scrollbarHeight);
+            buildScrollBar(0, 0, getWidth(), scrollbarHeight);
         }
         scrollbar.setLocalPosition(0, 0);
-        scrollbar.setDimensions(width, scrollbarHeight);
+        scrollbar.setDimensions(getWidth(), scrollbarHeight);
     }
     protected void buildScrollBar(int x, int y, int width, int height){
         scrollbar = new HorizontalScrollbar(x, y, width, height) {

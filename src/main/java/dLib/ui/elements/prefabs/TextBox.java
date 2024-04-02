@@ -373,11 +373,11 @@ public class TextBox extends Hoverable {
     protected float calculateFontScale(){
         float fontScale = 0.1F;
 
-        float xMargin = marginPercX * width;
-        float yMargin = marginPercY * height;
+        float xMargin = marginPercX * getWidth();
+        float yMargin = marginPercY * getHeight();
 
-        int renderWidth = width - (int) xMargin * 2;
-        int renderHeight = height - (int) yMargin * 2;
+        int renderWidth = getWidth() - (int) xMargin * 2;
+        int renderHeight = getHeight() - (int) yMargin * 2;
 
         renderWidth -= paddingLeft;
         renderWidth -= paddingRight;

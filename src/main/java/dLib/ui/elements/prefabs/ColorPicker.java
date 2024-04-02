@@ -61,7 +61,7 @@ public class ColorPicker extends UIElement {
             protected void onLeftClick() {
                 super.onLeftClick();
                 float mX = (InputHelper.mX / Settings.xScale) - getWorldPositionX();
-                colorWheel.setLightness(mX / width);
+                colorWheel.setLightness(mX / getWidth());
             }
         };
         addChildNCS(lightnessBar);
@@ -187,9 +187,9 @@ public class ColorPicker extends UIElement {
         }
 
         private Color getCurrentColor(){
-            int radius = Math.min(width, height) / 2;
-            float dx = InputHelper.mX / Settings.xScale - (getWorldPositionX() + (float)width / 2);
-            float dy = InputHelper.mY / Settings.yScale - (getWorldPositionY() + (float)height / 2);
+            int radius = Math.min(getWidth(), getHeight()) / 2;
+            float dx = InputHelper.mX / Settings.xScale - (getWorldPositionX() + (float)getWidth() / 2);
+            float dy = InputHelper.mY / Settings.yScale - (getWorldPositionY() + (float)getHeight() / 2);
             float hue = (float) ((Math.atan2(-dy, dx) / Math.PI / 2 + 1) % 1);
 
             if (dx * dx + dy * dy <= radius * radius) {
@@ -203,7 +203,7 @@ public class ColorPicker extends UIElement {
         //endregion
 
         private void recreateTexture() {
-            int radius = Math.min(width, height) / 2;
+            int radius = Math.min(getWidth(), getHeight()) / 2;
             Pixmap pixmap = new Pixmap(radius * 2, radius * 2, Pixmap.Format.RGBA8888);
             for (int dy = -radius; dy < radius; dy++) {
                 for (int dx = -radius; dx < radius; dx++) {

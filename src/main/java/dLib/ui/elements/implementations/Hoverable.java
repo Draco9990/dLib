@@ -56,7 +56,7 @@ public class Hoverable extends Renderable{
     }
 
     private void initialize(){
-        hb = new Hitbox(0, 0, width * Settings.xScale, height * Settings.yScale);
+        hb = new Hitbox(0, 0, getWidth() * Settings.xScale, getHeight() * Settings.yScale);
     }
 
     //endregion

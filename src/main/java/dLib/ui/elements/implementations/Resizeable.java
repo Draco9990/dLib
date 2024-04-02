@@ -74,11 +74,6 @@ public class Resizeable extends Draggable {
                 public boolean isVisible() {
                     return isHovered() || resizeable.isHovered();
                 }
-
-                @Override
-                public void onParentDimensionsChanged(int diffX, int diffY) {
-                    return; //TODO: Remove with scale
-                }
             };
 
             addChildNCS(resizeNodes[i]);
@@ -97,8 +92,8 @@ public class Resizeable extends Draggable {
         resizeOrigPosX = getLocalPositionX();
         resizeOrigPosY = getLocalPositionY();
 
-        resizeOrigWidth = width;
-        resizeOrigHeight = height;
+        resizeOrigWidth = getWidth();
+        resizeOrigHeight = getHeight();
 
         IntegerVector2 oldPosC = worldToLocal(node.getWorldPositionCentered());
         resizingRootX = oldPosC.x == getLocalPositionX();
@@ -162,10 +157,10 @@ public class Resizeable extends Draggable {
 
     private void refreshResizeNodePositions() {
         if(resizeNodes != null && resizeNodes.length == 4){
-            resizeNodes[0].setLocalPositionCentered(0, height);
-            resizeNodes[1].setLocalPositionCentered(width, height);
+            resizeNodes[0].setLocalPositionCentered(0, getHeight());
+            resizeNodes[1].setLocalPositionCentered(getWidth(), getHeight());
             resizeNodes[2].setLocalPositionCentered(0, 0);
-            resizeNodes[3].setLocalPositionCentered(width, 0);
+            resizeNodes[3].setLocalPositionCentered(getWidth(), 0);
         }
     }
 

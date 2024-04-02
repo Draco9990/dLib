@@ -1,10 +1,10 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import dLib.ui.screens.AbstractScreen;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
-import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.Property;
@@ -26,7 +26,14 @@ public class UIElement {
     protected List<UIElementChild> children = new ArrayList<>();
 
     private IntegerVector2 localPosition = new IntegerVector2(0, 0);
+    private ArrayList<BiConsumer<Integer, Integer>> positionChangedConsumers = new ArrayList<>();
+
     private boolean dockedToParent = true;
+
+    private IntegerVector2 dimensions = new IntegerVector2(1, 1);
+
+    private transient float widthScale = 1.0f;
+    private transient float heightScale = 1.0f;
 
     private IntegerVector2 lowerLocalBounds = new IntegerVector2(null, null);
     private IntegerVector2 upperLocalBounds = new IntegerVector2(null, null);
@@ -45,17 +52,13 @@ public class UIElement {
 
     //endregion
 
-    protected int width = 0; //TODO RF replace with scale
-    protected int height = 0;
-
-    private ArrayList<BiConsumer<Integer, Integer>> positionChangedConsumers = new ArrayList<>();
 
     //region Constructors
 
     public UIElement(int xPos, int yPos, int width, int height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         setLocalPosition(xPos, yPos);
-        setDimensions(width, height);
+        dimensions = new IntegerVector2(width, height);
     }
 
     public UIElement(UIElementData data){
@@ -277,8 +280,8 @@ public class UIElement {
         return setLocalPositionCentered(getLocalPositionCenteredX(), newPos);
     }
     public UIElement setLocalPositionCentered(int newPosX, int newPosY){
-        int wHalf = (int)(width * 0.5f);
-        int hHalf = (int)(height * 0.5f);
+        int wHalf = (int)(getWidth() * 0.5f);
+        int hHalf = (int)(getHeight() * 0.5f);
         return setLocalPosition(newPosX - wHalf, newPosY - hHalf);
     }
 
@@ -290,8 +293,8 @@ public class UIElement {
     }
     public final IntegerVector2 getLocalPositionCentered(){
         IntegerVector2 localPosition = getLocalPosition();
-        localPosition.x += (int)(width * 0.5f);
-        localPosition.y += (int)(height * 0.5f);
+        localPosition.x += (int)(getWidth() * 0.5f);
+        localPosition.y += (int)(getHeight() * 0.5f);
         return localPosition;
     }
 
@@ -334,8 +337,8 @@ public class UIElement {
         return setWorldPositionCentered(getWorldPositionCenteredX(), newPos);
     }
     public UIElement setWorldPositionCentered(int newPosX, int newPosY){
-        int wHalf = (int)(width * 0.5f);
-        int hHalf = (int)(height * 0.5f);
+        int wHalf = (int)(getWidth() * 0.5f);
+        int hHalf = (int)(getHeight() * 0.5f);
         return setWorldPosition(newPosX - wHalf, newPosY - hHalf);
     }
 
@@ -347,8 +350,8 @@ public class UIElement {
     }
     public final IntegerVector2 getWorldPositionCentered(){
         IntegerVector2 worldPosition = getWorldPosition();
-        worldPosition.x += (int)(width * 0.5f);
-        worldPosition.y += (int)(height * 0.5f);
+        worldPosition.x += (int)(getWidth() * 0.5f);
+        worldPosition.y += (int)(getHeight() * 0.5f);
         return worldPosition;
     }
     //endregion
@@ -832,28 +835,27 @@ public class UIElement {
 
     //endregion
 
-    //endregion
+    //region Width & Height
 
-    /** Width and height */
     public UIElement setWidth(int newWidth){
-        return setDimensions(newWidth, height);
+        return setDimensions(newWidth, dimensions.y);
     }
     public UIElement setHeight(int newHeight){
-        return setDimensions(width, newHeight);
+        return setDimensions(dimensions.x, newHeight);
     }
     public UIElement setDimensions(Integer newWidth, Integer newHeight){
         if(newWidth < 1) newWidth = 1;
         if(newHeight < 1) newHeight = 1;
 
-        int diffX = newWidth - width;
-        int diffY = newHeight - height;
+        float oldScaleX = widthScale;
+        float oldScaleY = heightScale;
 
-        this.width = newWidth;
-        this.height = newHeight;
+        widthScale = (float) newWidth / dimensions.x;
+        heightScale = (float) newHeight / dimensions.y;
 
-        if(diffX != 0 || diffY != 0){
+        if(oldScaleX != widthScale || oldScaleY != heightScale){
             for(UIElementChild child : children){
-                child.element.onParentDimensionsChanged(diffX, diffY);
+                child.element.onParentDimensionsChanged(newWidth - dimensions.x, newHeight - dimensions.y);
             }
         }
 
@@ -865,11 +867,31 @@ public class UIElement {
     }
 
     public int getWidth(){
-        return width;
+        return (int) (dimensions.x * getWidthScaleMult());
     }
     public int getHeight(){
-        return height;
+        return (int) (dimensions.y * getHeightScaleMult());
     }
+
+    protected float getWidthScaleMult(){
+        float scaleMult = widthScale;
+        if(hasParent()){
+            scaleMult *= parent.getWidthScaleMult();
+        }
+        return scaleMult;
+    }
+
+    protected float getHeightScaleMult(){
+        float scaleMult = heightScale;
+        if(hasParent()){
+            scaleMult *= parent.getHeightScaleMult();
+        }
+        return scaleMult;
+    }
+
+    //endregion
+
+    //endregion
 
     public static class UIElementChild{
         public UIElement element;
@@ -894,6 +916,9 @@ public class UIElement {
         public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Local Position").setValueNames("X", "Y");
         public boolean dockedToParent = true;
 
+        public IntegerProperty width = new IntegerProperty(1).setName("Width");
+        public IntegerProperty height = new IntegerProperty(1).setName("Height");
+
         public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);
         public IntegerVector2 upperLocalBound = new IntegerVector2(null, null);
         public IntegerVector2 lowerWorldBound = new IntegerVector2(null, null);
@@ -905,9 +930,6 @@ public class UIElement {
         public boolean isEnabled = true;
 
         public MethodBinding onSelectionStateChangedBinding = new NoneMethodBinding();
-
-        public IntegerProperty width = new IntegerProperty(50).setName("Width");
-        public IntegerProperty height = new IntegerProperty(50).setName("Height");
 
         public boolean isSelectable;
 

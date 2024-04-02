@@ -18,7 +18,7 @@ public abstract class HorizontalScrollbar extends Scrollbar {
 
     @Override
     public void makeSlider() {
-        slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, 0, 0, width, height){
+        slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, 0, 0, getWidth(), getHeight()){
             @Override
             public void onPositionChanged(int diffX, int diffY) {
                 super.onPositionChanged(diffX, diffY);
@@ -66,7 +66,7 @@ public abstract class HorizontalScrollbar extends Scrollbar {
     protected void recalculateScrollbar(){
         pageCount = getPageCount();
         if(pageCount == 0) pageCount = 1;
-        widthPerState = (int)((float)width / pageCount);
+        widthPerState = (int)((float)getWidth() / pageCount);
 
         if(slider != null){
             slider.setWidth(widthPerState);

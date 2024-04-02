@@ -23,7 +23,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
         propertiesItemList = (VerticalListBox<Property<?>>) new VerticalListBox<Property<?>>(0, 0, getWidth(), getHeight()){
             @Override
             public UIElement makeUIForItem(Property<?> item) {
-                return (UIElement) Reflection.invokeMethod("makeEditUI", item, 0, 0, width, 100);
+                return (UIElement) Reflection.invokeMethod("makeEditUI", item, 0, 0, getWidth(), 100);
             }
         }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:");
         propertiesItemList.getBackground().setImage(null);

@@ -50,8 +50,6 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     public ListBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
-
-        reinitializeElements();
     }
 
     public ListBox(ListBoxData data){
@@ -67,11 +65,9 @@ public abstract class ListBox<ItemType> extends UIElement {
         this.setSelectionCountLimit(data.selectionLimit);
 
         this.canReorder = data.canReorder;
-
-        reinitializeElements();
     }
 
-    private void reinitializeElements(){
+    protected void reinitializeElements(){
         updateTitleBox();
         updateItemBox();
         updateScrollBar();
@@ -83,8 +79,8 @@ public abstract class ListBox<ItemType> extends UIElement {
                 buildTitleBox();
             }
             titleBox.setText(title);
-            titleBox.setLocalPosition(0, height - titleBoxHeight);
-            titleBox.setDimensions(width, titleBoxHeight);
+            titleBox.setLocalPosition(0, getHeight() - titleBoxHeight);
+            titleBox.setDimensions(getWidth(), titleBoxHeight);
         }
         else if(titleBox != null){
             removeChild(titleBox);
@@ -92,7 +88,7 @@ public abstract class ListBox<ItemType> extends UIElement {
         }
     }
     private void buildTitleBox(){
-        titleBox = new TextBox(title, 0, height - titleBoxHeight, width, titleBoxHeight);
+        titleBox = new TextBox(title, 0, getHeight() - titleBoxHeight, getWidth(), titleBoxHeight);
         titleBox.setImage(UITheme.whitePixel);
         titleBox.setRenderColor(Color.valueOf("#151515FF"));
         titleBox.setTextRenderColor(Color.WHITE);
@@ -102,17 +98,17 @@ public abstract class ListBox<ItemType> extends UIElement {
     }
 
     private void updateItemBox(){
-        int updateHeight = height;
+        int updateHeight = getHeight();
         if(titleBox != null) updateHeight -= titleBox.getHeight();
 
         // We can span entire width since elements will get shrunk if Scrollbox is present
 
         if(itemBoxBackground == null){
-            buildItemBox(0, 0, width, updateHeight);
+            buildItemBox(0, 0, getWidth(), updateHeight);
         }
 
         itemBoxBackground.setLocalPosition(0, 0);
-        itemBoxBackground.setDimensions(width, updateHeight);
+        itemBoxBackground.setDimensions(getWidth(), updateHeight);
     }
     private void buildItemBox(int x, int y, int width, int height){
         Color bgColor = Color.BLACK.cpy();

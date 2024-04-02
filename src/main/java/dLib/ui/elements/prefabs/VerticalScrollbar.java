@@ -6,7 +6,7 @@ import dLib.ui.themes.UIThemeManager;
 public abstract class VerticalScrollbar extends Scrollbar {
     //region Variables
 
-    private int heightPerState = 0;
+    private int heightPerState = 1;
 
     //endregion
 
@@ -18,7 +18,7 @@ public abstract class VerticalScrollbar extends Scrollbar {
 
     @Override
     public void makeSlider() {
-        slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, 0, 0, width, height){
+        slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, 0, 0, getWidth(), getHeight()){
             @Override
             public void onPositionChanged(int diffX, int diffY) {
                 super.onPositionChanged(diffX, diffY);
@@ -38,6 +38,7 @@ public abstract class VerticalScrollbar extends Scrollbar {
 
     private void setPageForSliderHeight(int sliderHeight){
         int state = 0;
+        if(heightPerState == 0) heightPerState = 1;
         while(sliderHeight > heightPerState * state){
             state++;
         }
@@ -58,7 +59,7 @@ public abstract class VerticalScrollbar extends Scrollbar {
         }
     }
     public void setFirstPage(){
-        slider.setLocalPositionY(height - slider.getHeight());
+        slider.setLocalPositionY(getHeight() - slider.getHeight());
     }
 
     //endregion
@@ -66,7 +67,7 @@ public abstract class VerticalScrollbar extends Scrollbar {
     protected void recalculateScrollbar(){
         pageCount = getPageCount();
         if(pageCount == 0) pageCount = 1;
-        heightPerState = (int)((float)height / pageCount);
+        heightPerState = (int)((float)getHeight() / pageCount);
 
         if(slider != null){
             slider.setHeight(heightPerState);
