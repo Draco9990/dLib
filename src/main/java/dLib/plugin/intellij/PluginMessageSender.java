@@ -1,7 +1,5 @@
 package dLib.plugin.intellij;
 
-import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-
 import java.util.LinkedHashMap;
 
 public class PluginMessageSender {
@@ -13,7 +11,22 @@ public class PluginMessageSender {
         PluginManager.sendMessage("renameMethod", referenceClass, oldMethodName, newMethodName, methodParameters);
     }
 
-    public static void Send_RemoveMethodInClass(String referenceClass, String methodName, LinkedHashMap<String, String> methodParameters){
+    public static void Send_RemoveMethodFromClass(String referenceClass, String methodName, LinkedHashMap<String, String> methodParameters){
         PluginManager.sendMessage("removeMethod", referenceClass, methodName, methodParameters);
+    }
+
+    public static void Send_AddVariableToClass(String referenceClass, Class<?> variableType, String variableName){
+        Send_AddVariableToClass(referenceClass, variableType.getName(), variableName);
+    }
+    public static void Send_AddVariableToClass(String referenceClass, String variableType, String variableName){
+        PluginManager.sendMessage("addVariable", referenceClass, variableType, variableName);
+    }
+
+    public static void Send_RenameVariableInClass(String referenceClass, String oldName, String newName){
+        PluginManager.sendMessage("renameVariable", referenceClass, oldName, oldName);
+    }
+
+    public static void Send_RemoveVariableFromClass(String referenceClass, String variableName){
+        PluginManager.sendMessage("removeVariable", referenceClass, variableName);
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
@@ -194,6 +195,8 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     @Override
     public UIElement setID(String newId) {
+        String oldId = getId();
+
         super.setID(newId);
 
         if(previewElement != null){
@@ -202,6 +205,8 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         if(elementData != null && !elementData.id.getValue().equals(newId)){
             elementData.id.setValue(getId());
         }
+
+        if(oldId != null) PluginMessageSender.Send_RenameVariableInClass(screenEditor.getEditingScreen(), oldId, newId);
 
         return this;
     }

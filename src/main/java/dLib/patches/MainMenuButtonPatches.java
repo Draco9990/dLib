@@ -46,7 +46,7 @@ public class MainMenuButtonPatches {
                 if(!PluginManager.isEnabled()) PluginManager.enable();
                 if(!PluginManager.isRunning()) PluginManager.start();
 
-                if(PluginManager.isRunning() || true){
+                if(PluginManager.isRunning()){
                     ScreenManager.openScreen(new ScreenEditorNewScreenScreen());
                 }
                 else{ //TODO Remove on live

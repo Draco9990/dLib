@@ -1,6 +1,7 @@
 package dLib.tools.screeneditor.ui.items.implementations.preview;
 
 import dLib.plugin.intellij.PluginManager;
+import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.elements.UIElement;
@@ -52,7 +53,7 @@ public class ScreenEditorPreview extends UIElement {
 
             copy.setBoundWithinParent(true);
 
-            PluginManager.sendMessage("screenElementAdd", getParent().getEditingScreen(), copy.getId(), copy.getElementClass());
+            PluginMessageSender.Send_AddVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
 
             addPreviewItem(copy);
 
@@ -67,7 +68,7 @@ public class ScreenEditorPreview extends UIElement {
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         removeChild(itemToDelete);
 
-        PluginManager.sendMessage("screenElementRemove", getParent().getEditingScreen(), itemToDelete.getId());
+        PluginMessageSender.Send_RemoveVariableFromClass(getParent().getEditingScreen(), itemToDelete.getId());
     }
 
     //endregion

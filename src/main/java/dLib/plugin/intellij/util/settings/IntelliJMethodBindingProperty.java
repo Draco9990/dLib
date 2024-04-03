@@ -4,13 +4,11 @@ import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
-import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.MethodBindingProperty;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 public class IntelliJMethodBindingProperty extends MethodBindingProperty implements Serializable {
     static final long serialVersionUID = 1L;
@@ -45,7 +43,7 @@ public class IntelliJMethodBindingProperty extends MethodBindingProperty impleme
             });
         }
         else if(oldValue instanceof DynamicMethodBinding && !((DynamicMethodBinding) oldValue).getBoundMethod().isEmpty()){
-            PluginMessageSender.Send_RemoveMethodInClass(screenEditor.getEditingScreen(), ((DynamicMethodBinding) oldValue).getBoundMethod(), parameters);
+            PluginMessageSender.Send_RemoveMethodFromClass(screenEditor.getEditingScreen(), ((DynamicMethodBinding) oldValue).getBoundMethod(), parameters);
         }
     }
 
