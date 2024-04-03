@@ -1,6 +1,7 @@
 package dLib.ui.elements.settings;
 
 import dLib.ui.elements.prefabs.Button;
+import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
@@ -28,7 +29,9 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
 
         DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) setting.getValue();
 
-        methodNameField = new Inputfield(dynamicMethodBinding.getBoundMethod(), (int)(width * (1-valuePercX)), valuePosY, (int)(width * valuePercX) - buttonDim * 2, valueHeight);
+        HorizontalBox elementBox = new HorizontalBox(0, 0, (int) (width * valuePercX), valueHeight);
+
+        methodNameField = new Inputfield(dynamicMethodBinding.getBoundMethod(), 0, 0, (int)(width * valuePercX) - buttonDim * 2, valueHeight);
         methodNameField.getButton().addOnSelectionStateChangedConsumer(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean selected) {
@@ -40,9 +43,9 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
                 }
             }
         });
-        addChildCS(methodNameField);
+        elementBox.addItem(methodNameField);
 
-        bindButton = new Button(methodNameField.getWidth(), valuePosY, buttonDim, buttonDim){
+        bindButton = new Button(0, 0, buttonDim, buttonDim){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
@@ -55,22 +58,22 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
                 }
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/BindButton.png"));
-        addChildNCS(bindButton);
+        elementBox.addItem(bindButton);
 
-        resetButton = new Button(methodNameField.getWidth() + buttonDim, valuePosY, buttonDim, buttonDim){
+        resetButton = new Button(0, 0, buttonDim, buttonDim){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
                 setting.setValue(new NoneMethodBinding());
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ResetButton.png"));
+        elementBox.addItem(resetButton);
 
-        dynamicMethodBinding.getBoundMethodSetting().addOnValueChangedListener(new BiConsumer<String, String>() {
-            @Override
-            public void accept(String s, String s2) {
-                if(!methodNameField.getTextBox().getText().equals(dynamicMethodBinding.getBoundMethod())){
-                    methodNameField.getTextBox().setText(dynamicMethodBinding.getBoundMethod());
-                }
+        addChildCS(elementBox);
+
+        dynamicMethodBinding.getBoundMethodSetting().addOnValueChangedListener((s, s2) -> {
+            if(!methodNameField.getTextBox().getText().equals(dynamicMethodBinding.getBoundMethod())){
+                methodNameField.getTextBox().setText(dynamicMethodBinding.getBoundMethod());
             }
         });
     }
