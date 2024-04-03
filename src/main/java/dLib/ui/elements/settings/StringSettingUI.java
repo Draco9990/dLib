@@ -19,22 +19,16 @@ public class StringSettingUI extends AbstractSettingUI {
         super(setting, xPos, yPos, width, height);
 
         input = new Inputfield(setting.getValue(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
-        input.addOnValueChangedListener(new Consumer<String>() {
-            @Override
-            public void accept(String s) {
-                if(inputConfirmationMode == StringProperty.EInputConfirmationMode.ON_TEXT_CHANGED){
-                    setting.setValue(s);
-                }
+        input.addOnValueChangedListener(s -> {
+            if(inputConfirmationMode == StringProperty.EInputConfirmationMode.ON_TEXT_CHANGED){
+                setting.setValue(s);
             }
         });
-        input.addOnValueCommittedListener(new Consumer<String>() {
-            @Override
-            public void accept(String s) {
-                if(inputConfirmationMode == StringProperty.EInputConfirmationMode.SELECTION_MANAGED){
-                    setting.setValue(input.getTextBox().getText());
-                    if(!input.getTextBox().getText().equals(setting.getValue())){
-                        input.getTextBox().setText(setting.getValue());
-                    }
+        input.addOnValueCommittedListener(s -> {
+            if(inputConfirmationMode == StringProperty.EInputConfirmationMode.SELECTION_MANAGED){
+                setting.setValue(input.getTextBox().getText());
+                if(!input.getTextBox().getText().equals(setting.getValue())){
+                    input.getTextBox().setText(setting.getValue());
                 }
             }
         });
