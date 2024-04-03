@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class Inputfield extends UIElement {
     //region Variables
@@ -45,33 +46,14 @@ public class Inputfield extends UIElement {
 
         preInitialize();
 
-        this.background = new Button(0, 0, width, height){
-            @Override
-            public void onSelectionStateChanged() {
-                super.onSelectionStateChanged();
-                if(isSelected()){
-                    Gdx.input.setInputProcessor(inputProcessor);
-                }
-                else{
-                    resetInputProcessor();
-                }
-            }
-        }.setImage(UIThemeManager.getDefaultTheme().inputfield);
+        this.background = new Button(0, 0, width, height).setImage(UIThemeManager.getDefaultTheme().inputfield);
         addChildCS(this.background);
 
-        this.textBox = new TextBox(initialValue, 0, 0, width, height, 0.025f, 0.025f){
-            @Override
-            public void setText(String text) {
-                if(preset == EInputfieldPreset.NUMERICAL_DECIMAL || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE){
-                    if(Objects.equals(this.getText(), "1") && text.length() > 1){
-                        text = text.substring(1);
-                    }
-                }
-                super.setText(text);
-            }
-        }.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        this.textBox = new TextBox(initialValue, 0, 0, width, height, 0.025f, 0.025f).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         addChildNCS(textBox);
+
+        postInitialize();
     }
 
     public Inputfield(InputfieldData data){
@@ -89,9 +71,11 @@ public class Inputfield extends UIElement {
         characterLimit = data.characterLimit;
 
         setPreset(data.inputfieldPreset);
+
+        postInitialize();
     }
 
-    public void preInitialize(){
+    private void preInitialize(){
         cachedInputProcessor = Gdx.input.getInputProcessor();
 
         inputProcessor = new InputAdapter(){
@@ -125,6 +109,17 @@ public class Inputfield extends UIElement {
                 return false;
             }
         };
+    }
+
+    private void postInitialize(){
+        background.addOnSelectionStateChangedConsumer(aBoolean -> {
+            if(aBoolean){
+                Gdx.input.setInputProcessor(inputProcessor);
+            }
+            else{
+                resetInputProcessor();
+            }
+        });
     }
 
     //endregion
