@@ -19,23 +19,23 @@ public class StringSettingUI extends AbstractSettingUI {
         super(setting, xPos, yPos, width, height);
 
         input = new Inputfield(setting.getValue(), (int)(xPos + width * (1-valuePercX)), valuePosY, (int)(width * valuePercX), valueHeight);
-        input.getButton().addOnSelectionStateChangedConsumer(new Consumer<Boolean>() {
+        input.addOnValueChangedListener(new Consumer<String>() {
             @Override
-            public void accept(Boolean aBoolean) {
-                if(!aBoolean){
-                    if(inputConfirmationMode.equals(StringProperty.EInputConfirmationMode.SELECTION_MANAGED)) {
-                        setting.setValue(input.getTextBox().getText());
-                        if(!input.getTextBox().getText().equals(setting.getValue())){
-                            input.getTextBox().setText(setting.getValue());
-                        }
-                    }
+            public void accept(String s) {
+                if(inputConfirmationMode == StringProperty.EInputConfirmationMode.ON_TEXT_CHANGED){
+                    setting.setValue(s);
                 }
             }
         });
-        input.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
+        input.addOnValueCommittedListener(new Consumer<String>() {
             @Override
             public void accept(String s) {
-                if(inputConfirmationMode.equals(StringProperty.EInputConfirmationMode.ON_TEXT_CHANGED)) setting.setValue(s);
+                if(inputConfirmationMode == StringProperty.EInputConfirmationMode.SELECTION_MANAGED){
+                    setting.setValue(input.getTextBox().getText());
+                    if(!input.getTextBox().getText().equals(setting.getValue())){
+                        input.getTextBox().setText(setting.getValue());
+                    }
+                }
             }
         });
         addChildCS(input);

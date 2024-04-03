@@ -14,7 +14,6 @@ import dLib.util.settings.Property;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -30,6 +29,9 @@ public class Inputfield extends UIElement {
     private EInputfieldPreset preset;
 
     //Temps
+
+    private ArrayList<Consumer<String>> onValueChangedListeners = new ArrayList<>();
+    private ArrayList<Consumer<String>> onValueCommittedListeners = new ArrayList<>();
 
     private InputProcessor cachedInputProcessor;
     private InputProcessor inputProcessor;
@@ -118,8 +120,11 @@ public class Inputfield extends UIElement {
             }
             else{
                 resetInputProcessor();
+                onValueCommitted();
             }
         });
+
+        textBox.addOnTextChangedConsumer(s -> onValueChanged());
     }
 
     //endregion
@@ -155,6 +160,28 @@ public class Inputfield extends UIElement {
 
     public TextBox getTextBox(){
         return textBox;
+    }
+
+    //endregion
+
+    //region Value
+
+    public void onValueChanged(){
+        for(Consumer<String> listener : onValueChangedListeners){
+            listener.accept(textBox.getText());
+        }
+    }
+    public void addOnValueChangedListener(Consumer<String> listener){
+        onValueChangedListeners.add(listener);
+    }
+
+    public void onValueCommitted(){
+        for(Consumer<String> listener : onValueCommittedListeners){
+            listener.accept(textBox.getText());
+        }
+    }
+    public void addOnValueCommittedListener(Consumer<String> listener){
+        onValueCommittedListeners.add(listener);
     }
 
     //endregion

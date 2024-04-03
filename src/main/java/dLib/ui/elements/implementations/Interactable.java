@@ -95,6 +95,8 @@ public class Interactable extends Hoverable{
         if(data.onRightClickRelease != null) addOnRightClickReleaseConsumer(() -> data.onRightClickRelease.getValue().executeBinding(ScreenManager.getCurrentScreen()));
 
         this.isPassthrough = data.isPassthrough;
+
+        initialize();
     }
 
     private void initialize(){
