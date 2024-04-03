@@ -838,24 +838,24 @@ public class UIElement {
     //region Width & Height
 
     public UIElement setWidth(int newWidth){
-        return setDimensions(newWidth, getHeight());
+        return setDimensions(newWidth, null);
     }
     public UIElement setHeight(int newHeight){
-        return setDimensions(getWidth(), newHeight);
+        return setDimensions(null, newHeight);
     }
     public UIElement setDimensions(Integer newWidth, Integer newHeight){
-        if(newWidth < 1) newWidth = 1;
-        if(newHeight < 1) newHeight = 1;
+        if(newWidth != null && newWidth < 1) newWidth = 1;
+        if(newHeight != null && newHeight < 1) newHeight = 1;
 
         float oldScaleX = widthScale;
         float oldScaleY = heightScale;
 
-        widthScale = (float) newWidth / dimensions.x;
-        heightScale = (float) newHeight / dimensions.y;
+        widthScale = newWidth != null ? (float) newWidth / dimensions.x : widthScale;
+        heightScale = newHeight != null ? (float) newHeight / dimensions.y : heightScale;
 
         if(oldScaleX != widthScale || oldScaleY != heightScale){
             for(UIElementChild child : children){
-                child.element.onParentDimensionsChanged(newWidth - dimensions.x, newHeight - dimensions.y);
+                child.element.onParentDimensionsChanged(newWidth != null ? newWidth - dimensions.x : 0, newHeight != null ? newHeight - dimensions.y : 0);
             }
         }
 
