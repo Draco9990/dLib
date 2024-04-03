@@ -290,10 +290,11 @@ public class Inputfield extends UIElement {
         public ArrayList<Property<?>> getEditableProperties() {
             ArrayList<Property<?>> properties = super.getEditableProperties();
 
-            properties.addAll(buttonData.getEditableProperties());
-            buttonData.filterInnerProperties(properties);
             properties.addAll(textboxData.getEditableProperties());
             textboxData.filterInnerProperties(properties);
+
+            properties.addAll(buttonData.getEditableProperties());
+            buttonData.filterInnerProperties(properties);
 
             return properties;
         }

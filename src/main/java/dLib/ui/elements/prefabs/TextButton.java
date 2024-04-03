@@ -82,12 +82,12 @@ public class TextButton extends UIElement {
         public ArrayList<Property<?>> getEditableProperties() {
             ArrayList<Property<?>> properties = super.getEditableProperties();
 
-            properties.addAll(buttonData.getEditableProperties());
-            buttonData.filterInnerProperties(properties);
-
             properties.addAll(textBoxData.getEditableProperties());
             textBoxData.filterInnerProperties(properties);
             properties.remove(textBoxData.textureBinding);
+
+            properties.addAll(buttonData.getEditableProperties());
+            buttonData.filterInnerProperties(properties);
 
             return properties;
         }

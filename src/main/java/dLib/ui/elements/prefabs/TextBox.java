@@ -17,6 +17,7 @@ import dLib.util.FontManager;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.StringProperty;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
@@ -76,7 +77,7 @@ public class TextBox extends Hoverable {
     public TextBox(TextBoxData data){
         super(data);
 
-        this.text = data.text;
+        this.text = data.text.getName();
 
         this.textRenderColor = Color.valueOf(data.textRenderColor);
         //TODO FONT
@@ -403,7 +404,7 @@ public class TextBox extends Hoverable {
     public static class TextBoxData extends Hoverable.HoverableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public String text = "";
+        public StringProperty text = new StringProperty("TEXT").setName("Text");
 
         public String textRenderColor = Color.WHITE.toString();
         //TODO FONT
@@ -425,6 +426,15 @@ public class TextBox extends Hoverable {
         @Override
         public TextBox makeUIElement() {
             return new TextBox(this);
+        }
+
+        @Override
+        public ArrayList<Property<?>> getEditableProperties() {
+            ArrayList<Property<?>> properties = super.getEditableProperties();
+
+            properties.add(text);
+
+            return properties;
         }
     }
 }

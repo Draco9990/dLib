@@ -17,6 +17,7 @@ import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.MethodBindingProperty;
+import dLib.util.settings.prefabs.TextureBindingProperty;
 
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
@@ -167,13 +168,13 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
             }
         });
 
-        if(elementData instanceof RenderableData){
-            ((RenderableData) elementData).textureBinding.addOnValueChangedListener((textureBinding, textureBinding2) -> remakePreviewElement());
-        }
-
         for(Property<?> property : elementData.getEditableProperties()){
             if(property instanceof MethodBindingProperty){
                 ((MethodBindingProperty)property).addOnValueChangedListener((methodBinding, methodBinding2) -> screenEditor.getPropertiesScreen().markForRefresh());
+            }
+
+            if(property instanceof TextureBindingProperty){
+                ((TextureBindingProperty) property).addOnValueChangedListener((textureBinding, textureBinding2) -> remakePreviewElement());
             }
         }
 
