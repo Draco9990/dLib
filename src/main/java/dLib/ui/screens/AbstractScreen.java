@@ -133,8 +133,8 @@ public abstract class AbstractScreen extends UIElement {
     public static class AbstractScreenData extends UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public int referenceWidth = 1920;
-        public int referenceHeight = 1080;
+        public int referenceWidth = 1490;
+        public int referenceHeight = 840;
 
         public ArrayList<UIElementData> data = new ArrayList<>();
 
