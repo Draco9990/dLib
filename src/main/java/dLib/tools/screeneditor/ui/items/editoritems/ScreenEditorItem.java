@@ -14,9 +14,11 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
+import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.MethodBindingProperty;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -159,14 +161,15 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         });
 
         elementData.dimensions.setValue(new IntegerVector2(getWidth(), getHeight()));
-        elementData.dimensions.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
-            @Override
-            public void accept(IntegerVector2 integerVector2, IntegerVector2 integerVector22) {
-                if(!integerVector22.equals(getDimensions())){
-                    setDimensions(integerVector22.x, integerVector22.y);
-                }
+        elementData.dimensions.addOnValueChangedListener((integerVector2, integerVector22) -> {
+            if(!integerVector22.equals(getDimensions())){
+                setDimensions(integerVector22.x, integerVector22.y);
             }
         });
+
+        if(elementData instanceof RenderableData){
+            ((RenderableData) elementData).textureBinding.addOnValueChangedListener((textureBinding, textureBinding2) -> remakePreviewElement());
+        }
 
         for(Property<?> property : elementData.getEditableProperties()){
             if(property instanceof MethodBindingProperty){
@@ -255,7 +258,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public String toString() {
         return getId();
     }
-
 
     //endregion
 }

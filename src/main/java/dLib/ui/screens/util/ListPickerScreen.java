@@ -1,12 +1,15 @@
 package dLib.ui.screens.util;
 
 import dLib.ui.elements.prefabs.Image;
+import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.screens.GeneratedAbstractScreen;
 
 public class ListPickerScreen extends GeneratedAbstractScreen {
     private Image Background;
     private VerticalListBox VerticalListBox_1;
+    private TextButton TextButton_1;
+    private TextButton TextButton_2;
 
     public ListPickerScreen() {
         super();
