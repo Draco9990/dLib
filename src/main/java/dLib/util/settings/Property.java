@@ -83,6 +83,15 @@ public abstract class Property<T> implements Serializable {
         onValueChangedListeners.add(listener);
         return this;
     }
+    public Property<T> addOnValueChangedListener(Runnable listener){
+        onValueChangedListeners.add(new BiConsumer<T, T>() {
+            @Override
+            public void accept(T t, T t2) {
+                listener.run();
+            }
+        });
+        return this;
+    }
 
     //endregion
 

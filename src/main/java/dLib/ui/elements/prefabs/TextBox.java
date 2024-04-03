@@ -17,6 +17,7 @@ import dLib.util.FontManager;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.BooleanProperty;
 import dLib.util.settings.prefabs.StringProperty;
 import sayTheSpire.Output;
 
@@ -81,7 +82,7 @@ public class TextBox extends Hoverable {
 
         this.textRenderColor = Color.valueOf(data.textRenderColor);
         //TODO FONT
-        this.wrap = data.wrap;
+        this.wrap = data.wrap.getValue();
 
         horizontalAlignment = Alignment.HorizontalAlignment.valueOf(data.horizontalAlignment);
         verticalAlignment = Alignment.VerticalAlignment.valueOf(data.verticalAlignment);
@@ -408,7 +409,7 @@ public class TextBox extends Hoverable {
 
         public String textRenderColor = Color.WHITE.toString();
         //TODO FONT
-        public boolean wrap;
+        public BooleanProperty wrap = new BooleanProperty(false).setName("Wrap");
 
         public String horizontalAlignment = Alignment.HorizontalAlignment.CENTER.name();
         public String verticalAlignment = Alignment.VerticalAlignment.CENTER.name();
@@ -433,6 +434,7 @@ public class TextBox extends Hoverable {
             ArrayList<Property<?>> properties = super.getEditableProperties();
 
             properties.add(text);
+            properties.add(wrap);
 
             return properties;
         }

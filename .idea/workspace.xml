@@ -10,9 +10,8 @@
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/editoritems/ScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/editoritems/ScreenEditorItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Inputfield.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/TextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/TextBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/TextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/TextButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/Property.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +194,7 @@
       <workItem from="1711925232499" duration="2794000" />
       <workItem from="1711978244891" duration="3027000" />
       <workItem from="1711987683459" duration="9524000" />
-      <workItem from="1712048906559" duration="34118000" />
+      <workItem from="1712048906559" duration="34423000" />
     </task>
     <servers />
   </component>
