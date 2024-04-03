@@ -231,8 +231,9 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public UIElement setDimensions(Integer newWidth, Integer newHeight) {
         super.setDimensions(newWidth, newHeight);
 
-        if(elementData != null && (!Objects.equals(elementData.dimensions.getXValue(), newWidth) || !Objects.equals(elementData.dimensions.getYValue(), newHeight))) {
-            elementData.dimensions.setValue(new IntegerVector2(newWidth, newHeight));
+        if(elementData != null) {
+            if(newWidth != null && !Objects.equals(elementData.dimensions.getXValue(), newWidth)) elementData.dimensions.setXValue(newWidth);
+            if(newHeight != null && !Objects.equals(elementData.dimensions.getYValue(), newHeight)) elementData.dimensions.setYValue(newHeight);
         }
 
         remakePreviewElement();
