@@ -1,6 +1,7 @@
 package dLib.ui.elements.settings;
 
 import com.badlogic.gdx.graphics.Color;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.Spacer;
@@ -11,7 +12,7 @@ import dLib.util.settings.prefabs.IntegerVector2Property;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class IntegerVector2SettingUI extends AbstractSettingUI{
+public class IntegerVector2SettingUI extends AbstractSettingUI<IntegerVector2Property>{
     //region Variables
 
     Inputfield xInput;
@@ -23,77 +24,69 @@ public class IntegerVector2SettingUI extends AbstractSettingUI{
 
     public IntegerVector2SettingUI(IntegerVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
-
-        int renderWidth = (int) (width * valuePercX);
-        int startingX = (width - renderWidth);
-
-        int textWidth = (int) (0.2f * renderWidth);
-        int inputfieldWidth = (int)(0.25f * renderWidth);
-
-        HorizontalBox horizontalBox = new HorizontalBox(startingX, 0, renderWidth, valueHeight);
-        if(setting.getXValueName() != null) {
-            horizontalBox.addItem(new TextBox(setting.getXValueName(), 0, 0, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
-        }
-
-        xInput = new Inputfield(setting.getXValue().toString(), 0, 0, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-        xInput.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
-            @Override
-            public void accept(String s) {
-                IntegerVector2 currentVal = setting.getValue();
-                if(s.isEmpty()) {
-                    currentVal.x = 0;
-                }
-                else{
-                    currentVal.x = Integer.valueOf(s);
-                }
-
-                setting.setValue(currentVal);
-            }
-        });
-        horizontalBox.addItem(xInput);
-
-        horizontalBox.addItem(new Spacer((int) (0.1 * renderWidth), valueHeight));
-
-        if(setting.getYValueName() != null){
-            horizontalBox.addItem(new TextBox(setting.getYValueName(), 0, 0, textWidth, valueHeight, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
-        }
-
-        yInput = new Inputfield(setting.getYValue().toString(), 0, 0, inputfieldWidth, valueHeight).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-        yInput.getTextBox().addOnTextChangedConsumer(new Consumer<String>() {
-            @Override
-            public void accept(String s) {
-                IntegerVector2 currentVal = setting.getValue();
-                if(s.isEmpty()) {
-                    currentVal.y = 0;
-                }
-                else{
-                    currentVal.y = Integer.parseInt(s);
-                }
-
-                setting.setValue(currentVal);
-            }
-        });
-        horizontalBox.addItem(yInput);
-
-        addChildCS(horizontalBox);
-
-        setting.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
-            @Override
-            public void accept(IntegerVector2 integerVector2, IntegerVector2 integerVector22) {
-                if(!xInput.getTextBox().getText().equals(String.valueOf(setting.getValue().x))){
-                    xInput.getTextBox().setText(String.valueOf(setting.getValue().x));
-                }
-
-                if(!yInput.getTextBox().getText().equals(String.valueOf(setting.getValue().y))){
-                    yInput.getTextBox().setText(String.valueOf(setting.getValue().y));
-                }
-            }
-        });
     }
 
     //endregion
 
     //region Methods
+
+
+    @Override
+    protected UIElement buildContent(IntegerVector2Property property, Integer width, Integer height) {
+        int textWidth = (int) (0.2f * width);
+        int inputfieldWidth = (int)(0.25f * width);
+
+        HorizontalBox horizontalBox = new HorizontalBox(0, 0, width, height);
+        if(property.getXValueName() != null) {
+            horizontalBox.addItem(new TextBox(property.getXValueName(), 0, 0, textWidth, height, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        }
+
+        xInput = new Inputfield(property.getXValue().toString(), 0, 0, inputfieldWidth, height).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+        xInput.getTextBox().addOnTextChangedConsumer(s -> {
+            IntegerVector2 currentVal = property.getValue();
+            if(s.isEmpty()) {
+                currentVal.x = 0;
+            }
+            else{
+                currentVal.x = Integer.valueOf(s);
+            }
+
+            property.setValue(currentVal);
+        });
+        horizontalBox.addItem(xInput);
+
+        horizontalBox.addItem(new Spacer((int) (0.1 * width), height));
+
+        if(property.getYValueName() != null){
+            horizontalBox.addItem(new TextBox(property.getYValueName(), 0, 0, textWidth, height, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+        }
+
+        yInput = new Inputfield(property.getYValue().toString(), 0, 0, inputfieldWidth, height).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+        yInput.getTextBox().addOnTextChangedConsumer(s -> {
+            IntegerVector2 currentVal = property.getValue();
+            if(s.isEmpty()) {
+                currentVal.y = 0;
+            }
+            else{
+                currentVal.y = Integer.parseInt(s);
+            }
+
+            property.setValue(currentVal);
+        });
+        horizontalBox.addItem(yInput);
+
+        property.addOnValueChangedListener((integerVector2, integerVector22) -> {
+            if(!xInput.getTextBox().getText().equals(String.valueOf(property.getValue().x))){
+                xInput.getTextBox().setText(String.valueOf(property.getValue().x));
+            }
+
+            if(!yInput.getTextBox().getText().equals(String.valueOf(property.getValue().y))){
+                yInput.getTextBox().setText(String.valueOf(property.getValue().y));
+            }
+        });
+
+        return horizontalBox;
+    }
 
     @Override
     public boolean onLeftInteraction() {

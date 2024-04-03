@@ -1,13 +1,15 @@
 package dLib.ui.elements.settings;
 
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
+import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.settings.prefabs.EnumProperty;
 
 import java.util.function.BiConsumer;
 
-public class EnumSettingUI extends AbstractSettingUI {
+public class EnumSettingUI extends AbstractSettingUI<EnumProperty<? extends Enum<?>>> {
     //region Variables
 
     Button leftArrow;
@@ -21,50 +23,47 @@ public class EnumSettingUI extends AbstractSettingUI {
 
     public EnumSettingUI(EnumProperty<? extends Enum<?>> setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
-
-        int startingX = (int) (xPos + width * (1 - valuePercX));
-
-        int arrowDim = Math.min((int)(arrowPercX * width), valueHeight);
-
-        int hOffset = 0;
-        if(arrowDim != height){
-            hOffset = (int)((height-arrowDim) / 2);
-        }
-
-        leftArrow = new Button(startingX, valuePosY + hOffset, arrowDim, arrowDim){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                setting.previous();
-            }
-        }.setImage(UIThemeManager.getDefaultTheme().arrow_left);
-        addChildNCS(leftArrow);
-
-        rightArrow = new Button((int)(xPos + width * (1- arrowPercX)), valuePosY + hOffset, arrowDim, arrowDim){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                setting.next();
-            }
-        }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
-        addChildNCS(rightArrow);
-
-        middleButton = new TextButton(setting.getValueForDisplay(), ((int)(xPos + width * ((1-valuePercX) + arrowPercX))), valuePosY, ((int)(width * (valuePercX - arrowPercX *2))), valueHeight);
-        addChildCS(middleButton);
-
-        setting.addOnValueChangedListener(new Runnable() {
-            @Override
-            public void run() {
-                if(!middleButton.getTextBox().getText().equals(setting.getValueForDisplay())){
-                    middleButton.getTextBox().setText(setting.getValueForDisplay());
-                }
-            }
-        });
     }
 
     //endregion
 
     //region Methods
+
+    @Override
+    protected UIElement buildContent(EnumProperty<? extends Enum<?>> property, Integer width, Integer height) {
+        HorizontalBox box = new HorizontalBox(0, 0, width, height);
+
+        int arrowDim = Math.min((int)(0.2f * width), height);
+
+        leftArrow = new Button(0, 0, arrowDim, arrowDim){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                property.previous();
+            }
+        }.setImage(UIThemeManager.getDefaultTheme().arrow_left);
+        box.addItem(leftArrow);
+
+        rightArrow = new Button(0, 0, arrowDim, arrowDim){
+            @Override
+            protected void onLeftClick() {
+                super.onLeftClick();
+                property.next();
+            }
+        }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
+        box.addItem(rightArrow);
+
+        middleButton = new TextButton(property.getValueForDisplay(), 0, 0, width - arrowDim * 2, height);
+        box.addItem(middleButton);
+
+        property.addOnValueChangedListener(() -> {
+            if(!middleButton.getTextBox().getText().equals(property.getValueForDisplay())){
+                middleButton.getTextBox().setText(property.getValueForDisplay());
+            }
+        });
+
+        return box;
+    }
 
     @Override
     public boolean onLeftInteraction() {

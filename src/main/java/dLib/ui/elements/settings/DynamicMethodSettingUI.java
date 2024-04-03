@@ -1,5 +1,6 @@
 package dLib.ui.elements.settings;
 
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
@@ -11,7 +12,7 @@ import dLib.util.settings.prefabs.MethodBindingProperty;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class DynamicMethodSettingUI extends AbstractSettingUI {
+public class DynamicMethodSettingUI extends AbstractSettingUI<MethodBindingProperty> {
     //region Variables
 
     Inputfield methodNameField;
@@ -24,22 +25,26 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
 
     public DynamicMethodSettingUI(MethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
+    }
 
-        int buttonDim = Math.min(valueHeight, (int)((valuePercX - 0.3) * width));
+    //endregion
 
-        DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) setting.getValue();
+    //region Methods
 
-        HorizontalBox elementBox = new HorizontalBox(0, 0, (int) (width * valuePercX), valueHeight);
+    @Override
+    protected UIElement buildContent(MethodBindingProperty property, Integer width, Integer height) {
+        int buttonDim = Math.min(height, (int)(0.3 * width));
 
-        methodNameField = new Inputfield(dynamicMethodBinding.getBoundMethod(), 0, 0, (int)(width * valuePercX) - buttonDim * 2, valueHeight);
-        methodNameField.getButton().addOnSelectionStateChangedConsumer(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean selected) {
-                if(!selected){
-                    dynamicMethodBinding.setBoundMethod(methodNameField.getTextBox().getText());
-                    if(!dynamicMethodBinding.getBoundMethod().equals(methodNameField.getTextBox().getText())){
-                        methodNameField.getTextBox().setText(dynamicMethodBinding.getBoundMethod());
-                    }
+        DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) property.getValue();
+
+        HorizontalBox elementBox = new HorizontalBox(0, 0, width, height);
+
+        methodNameField = new Inputfield(dynamicMethodBinding.getBoundMethod(), 0, 0, width - buttonDim * 2, height);
+        methodNameField.getButton().addOnSelectionStateChangedConsumer(selected -> {
+            if(!selected){
+                dynamicMethodBinding.setBoundMethod(methodNameField.getTextBox().getText());
+                if(!dynamicMethodBinding.getBoundMethod().equals(methodNameField.getTextBox().getText())){
+                    methodNameField.getTextBox().setText(dynamicMethodBinding.getBoundMethod());
                 }
             }
         });
@@ -50,7 +55,7 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
             protected void onLeftClick() {
                 super.onLeftClick();
                 if(methodNameField.getTextBox().getText().isEmpty()){
-                    methodNameField.getTextBox().setText(setting.getDNCMethodName());
+                    methodNameField.getTextBox().setText(property.getDNCMethodName());
                     dynamicMethodBinding.setBoundMethod(methodNameField.getTextBox().getText());
                     if(!dynamicMethodBinding.getBoundMethod().equals(methodNameField.getTextBox().getText())){
                         methodNameField.getTextBox().setText(dynamicMethodBinding.getBoundMethod());
@@ -64,23 +69,19 @@ public class DynamicMethodSettingUI extends AbstractSettingUI {
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
-                setting.setValue(new NoneMethodBinding());
+                property.setValue(new NoneMethodBinding());
             }
         }.setImage(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ResetButton.png"));
         elementBox.addItem(resetButton);
-
-        addChildCS(elementBox);
 
         dynamicMethodBinding.getBoundMethodSetting().addOnValueChangedListener((s, s2) -> {
             if(!methodNameField.getTextBox().getText().equals(dynamicMethodBinding.getBoundMethod())){
                 methodNameField.getTextBox().setText(dynamicMethodBinding.getBoundMethod());
             }
         });
+
+        return elementBox;
     }
-
-    //endregion
-
-    //region Methods
 
     @Override
     public boolean onRightInteraction() {

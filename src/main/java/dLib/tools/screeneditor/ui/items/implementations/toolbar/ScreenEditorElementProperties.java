@@ -25,7 +25,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
             public UIElement makeUIForItem(Property<?> item) {
                 return (UIElement) Reflection.invokeMethod("makeEditUI", item, 0, 0, getWidth(), 100);
             }
-        }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:");
+        }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:").disableItemWrapping();
         propertiesItemList.getBackground().setImage(null);
         propertiesItemList.setItemSpacing(25);
         addChildNCS(propertiesItemList);

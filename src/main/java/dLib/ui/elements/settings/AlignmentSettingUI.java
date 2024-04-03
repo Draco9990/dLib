@@ -1,13 +1,17 @@
 package dLib.ui.elements.settings;
 
 import dLib.ui.Alignment;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.HorizontalBox;
+import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.util.EnumHelpers;
+import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.AlignmentProperty;
 
 import java.util.function.BiConsumer;
 
-public class AlignmentSettingUI extends AbstractSettingUI{
+public class AlignmentSettingUI extends AbstractSettingUI<AlignmentProperty>{
     //region Variables
 
     TextButton leftButton;
@@ -19,55 +23,50 @@ public class AlignmentSettingUI extends AbstractSettingUI{
 
     public AlignmentSettingUI(AlignmentProperty setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
-
-        int renderWidth = (int) (width * valuePercX);
-        int startingX = (width - renderWidth);
-
-        int buttonWidth = (int)(0.45f * renderWidth);
-
-        leftButton = new TextButton(setting.getValue().horizontalAlignment.name(), startingX, valuePosY, buttonWidth, valueHeight);
-        leftButton.getButton().addOnLeftClickConsumer(new Runnable() {
-            @Override
-            public void run() {
-                Alignment alignment = setting.getValue();
-                alignment.horizontalAlignment = (Alignment.HorizontalAlignment) EnumHelpers.nextEnum(alignment.horizontalAlignment);
-                setting.setValue(alignment);
-            }
-        });
-        addChildNCS(leftButton);
-
-        rightButton = new TextButton(setting.getValue().verticalAlignment.name(), (int) (startingX + (renderWidth * 0.55f)), valuePosY, buttonWidth, valueHeight);
-        rightButton.getButton().addOnLeftClickConsumer(new Runnable() {
-            @Override
-            public void run() {
-                Alignment alignment = setting.getValue();
-                alignment.verticalAlignment = (Alignment.VerticalAlignment) EnumHelpers.nextEnum(alignment.verticalAlignment);
-                setting.setValue(alignment);
-            }
-        });
-        addChildNCS(rightButton);
-
-        setting.addOnHorizontalAlignmentChangedListener(new BiConsumer<Alignment.HorizontalAlignment, Alignment.HorizontalAlignment>() {
-            @Override
-            public void accept(Alignment.HorizontalAlignment horizontalAlignment, Alignment.HorizontalAlignment horizontalAlignment2) {
-                if(!leftButton.getTextBox().getText().equals(setting.getValue().horizontalAlignment.name())){
-                    leftButton.getTextBox().setText(setting.getValue().horizontalAlignment.name());
-                }
-            }
-        });
-        setting.addOnVerticalAlignmentChangedListener(new BiConsumer<Alignment.VerticalAlignment, Alignment.VerticalAlignment>() {
-            @Override
-            public void accept(Alignment.VerticalAlignment verticalAlignment, Alignment.VerticalAlignment verticalAlignment2) {
-                if(!rightButton.getTextBox().getText().equals(setting.getValue().verticalAlignment.name())){
-                    rightButton.getTextBox().setText(setting.getValue().verticalAlignment.name());
-                }
-            }
-        });
     }
 
     //endregion
 
     //region Methods
+
+    @Override
+    protected UIElement buildContent(AlignmentProperty property, Integer width, Integer height) {
+        HorizontalBox contentBox = new HorizontalBox(0, 0, width, height); //replace with ArrowButton
+
+        int buttonWidth = (int)(0.45f * width);
+        int spacerWidth = (int)(0.1f * width);
+
+        leftButton = new TextButton(property.getValue().horizontalAlignment.name(), 0, 0, buttonWidth, height);
+        leftButton.getButton().addOnLeftClickConsumer(() -> {
+            Alignment alignment = property.getValue();
+            alignment.horizontalAlignment = (Alignment.HorizontalAlignment) EnumHelpers.nextEnum(alignment.horizontalAlignment);
+            property.setValue(alignment);
+        });
+        contentBox.addItem(leftButton);
+
+        contentBox.addItem(new Spacer(spacerWidth, height));
+
+        rightButton = new TextButton(property.getValue().verticalAlignment.name(), 0, 0, buttonWidth, height);
+        rightButton.getButton().addOnLeftClickConsumer(() -> {
+            Alignment alignment = property.getValue();
+            alignment.verticalAlignment = (Alignment.VerticalAlignment) EnumHelpers.nextEnum(alignment.verticalAlignment);
+            property.setValue(alignment);
+        });
+        contentBox.addItem(rightButton);
+
+        property.addOnHorizontalAlignmentChangedListener((horizontalAlignment, horizontalAlignment2) -> {
+            if(!leftButton.getTextBox().getText().equals(property.getValue().horizontalAlignment.name())){
+                leftButton.getTextBox().setText(property.getValue().horizontalAlignment.name());
+            }
+        });
+        property.addOnVerticalAlignmentChangedListener((verticalAlignment, verticalAlignment2) -> {
+            if(!rightButton.getTextBox().getText().equals(property.getValue().verticalAlignment.name())){
+                rightButton.getTextBox().setText(property.getValue().verticalAlignment.name());
+            }
+        });
+
+        return contentBox;
+    }
 
     @Override
     public boolean onLeftInteraction() {

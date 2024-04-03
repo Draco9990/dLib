@@ -31,17 +31,8 @@ public class StringProperty extends Property<String> implements Serializable {
     }
 
     public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
-        return makeEditUI(xPos, yPos, width, height, EInputConfirmationMode.SELECTION_MANAGED);
-    }
-
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height, EInputConfirmationMode inputConfirmationMode) {
-        return new StringSettingUI(this, xPos, yPos, width, height, inputConfirmationMode);
+        return new StringSettingUI(this, xPos, yPos, width, height);
     }
 
     //endregion
-
-    public enum EInputConfirmationMode {
-        ON_TEXT_CHANGED,
-        SELECTION_MANAGED
-    }
 }
