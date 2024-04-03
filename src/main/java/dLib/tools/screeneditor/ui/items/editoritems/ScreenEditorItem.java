@@ -12,7 +12,9 @@ import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
+import dLib.util.bindings.method.MethodBinding;
 import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.MethodBindingProperty;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -134,6 +136,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     private DataType makeDataType_wrapper(){
         DataType elementData = makeDataType();
 
+        //Bind all screen editor specific stuff
         elementData.id.setValue(getId());
         elementData.id.addOnValueChangedListener(new BiConsumer<String, String>() {
             @Override
@@ -163,6 +166,12 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
                 }
             }
         });
+
+        for(Property<?> property : elementData.getEditableProperties()){
+            if(property instanceof MethodBindingProperty){
+                ((MethodBindingProperty)property).addOnValueChangedListener((methodBinding, methodBinding2) -> screenEditor.getPropertiesScreen().markForRefresh());
+            }
+        }
 
         return elementData;
     }
