@@ -1,8 +1,11 @@
 package dLib.util;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class IntegerVector2 {
+public class IntegerVector2 implements Serializable {
+    static final long serialVersionUID = 1L;
+
     public Integer x;
     public Integer y;
 

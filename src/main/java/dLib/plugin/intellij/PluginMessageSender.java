@@ -23,7 +23,7 @@ public class PluginMessageSender {
     }
 
     public static void Send_RenameVariableInClass(String referenceClass, String oldName, String newName){
-        PluginManager.sendMessage("renameVariable", referenceClass, oldName, oldName);
+        PluginManager.sendMessage("renameVariable", referenceClass, oldName, newName);
     }
 
     public static void Send_RemoveVariableFromClass(String referenceClass, String variableName){
