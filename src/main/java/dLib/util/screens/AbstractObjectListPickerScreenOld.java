@@ -7,13 +7,13 @@ import dLib.ui.screens.ScreenManager;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public abstract class AbstractObjectListPickerScreen<ItemPickType> extends AbstractScreen {
+public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends AbstractScreen {
     /** Variables */
     private Consumer<ItemPickType> onItemSelected;
 
     /** Constructors */
-    public AbstractObjectListPickerScreen(AbstractScreen caller, ArrayList<ItemPickType> itemsToPick){
-        AbstractObjectListPickerScreen<ItemPickType> instance = this;
+    public AbstractObjectListPickerScreenOld(AbstractScreen caller, ArrayList<ItemPickType> itemsToPick){
+        AbstractObjectListPickerScreenOld<ItemPickType> instance = this;
 
         setScreenToOpenOnClose(caller);
 
@@ -34,7 +34,7 @@ public abstract class AbstractObjectListPickerScreen<ItemPickType> extends Abstr
     public void onItemSelected(ItemPickType item){
         if(onItemSelected != null) onItemSelected.accept(item);
     }
-    public AbstractObjectListPickerScreen<ItemPickType> setOnItemSelectedConsumer(Consumer<ItemPickType> consumer){
+    public AbstractObjectListPickerScreenOld<ItemPickType> setOnItemSelectedConsumer(Consumer<ItemPickType> consumer){
         onItemSelected = consumer;
         return this;
     }

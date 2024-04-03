@@ -1,10 +1,9 @@
 package dLib.ui.elements.settings;
 
 import dLib.DLib;
-import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.ScreenManager;
-import dLib.util.screens.AbstractObjectListPickerScreen;
+import dLib.util.screens.AbstractObjectListPickerScreenOld;
 import dLib.util.settings.prefabs.CustomProperty;
 
 import java.util.function.BiConsumer;
@@ -25,7 +24,7 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI {
         middleButton.getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
-                AbstractObjectListPickerScreen<ItemType> pickerScreen = new AbstractObjectListPickerScreen<ItemType>(ScreenManager.getCurrentScreen(), setting.getAllOptions()) {
+                AbstractObjectListPickerScreenOld<ItemType> pickerScreen = new AbstractObjectListPickerScreenOld<ItemType>(ScreenManager.getCurrentScreen(), setting.getAllOptions()) {
                     @Override
                     public void onItemSelected(ItemType item) {
                         super.onItemSelected(item);
