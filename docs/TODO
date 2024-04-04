@@ -1,35 +1,13 @@
--> remove foreground and background elements from screen and add render priority to element groups
--> add background and foreground to composites
--> add boolean to list composite to render all?
--> remove temporary field from composites
-
 --> properties initializer for first time running intellij plugin with project
 
--> abstract class custom child named GeneratedAbstractScreen with constructor that initializes based on the provided AbstractScreenData
--> abstractScreenData contains list of items with names that get set throughr eflection to the actual ones
-
--> subsetting should be an interface and a variable inside of the main class?
-
--> make position, dimensions, and alignment two in one row properties
-
--> inputfield finish y pos
---> Allow text
 --> Listbox have scrollbar start at top after loading pages?
--- add consumers and other shit to listbox, add properties to listbox element
--- add duplication, grid snapping, etc.
-
---> rewrite composites
 
 Gridbox with parent itemsbox, isolate listbox stuff like scrollbar
 Radio button with linkedlist
-Current listbox is selectable, make view only ones too
-Add inverse bool to listbox to show latest elements on top
-Add arrows for up and down to the make preview method, and split it again so users can edit if they want
-Add selection mode with on selection changed
 Buy tarot cards and chair and drainer and brush and camera
 Screen properties tab for background properties plus say the spire
-Add a merge to composite button to merge few components together, when on composite allow aasigning to left middle and right, add a composite element to the drop-down
 
+--> add box with arrows
 -- fix listbox theme
 --> make screen editor a custom theme
 
@@ -43,11 +21,6 @@ Add a merge to composite button to merge few components together, when on compos
 --> say the spire pass
 --> allow elements do delcare themselves as standalone selectables
 
---composite
---screeneditoritems
-
---go over all data
-
 -- add unbind from parent dimensions, add onParentMoved and onParentResized
 
 --> add update children first check for scrollboxes
@@ -58,20 +31,10 @@ Add a merge to composite button to merge few components together, when on compos
 
 rework renderable
 
---> Item offset
---> Dragging issue??
-
--- UI integervector2 messed up
--- textButton weird since last few changes
--- on texture binding change recreate item.
 -- horizontal list box, move swap into that, also add delete
 -- position docking that just changes the result of getLocalPosition by offset??
+-- width and height set to fill?
 
---comodification
-weird spacer
-text change not changing
 Overlay interaction key, localisation, listbox store active item when setting/removing items
-Duplicate element with copy constructor
 Listbox filter and onfiltercompsrison method and listener
-grid
 DraggableCanvas
