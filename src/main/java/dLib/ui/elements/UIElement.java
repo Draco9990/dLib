@@ -977,7 +977,7 @@ public class UIElement {
 
             return "";
         }
-        public static AbstractScreen.AbstractScreenData deserializeFromString(String s){
+        public static UIElementData deserializeFromString(String s){
             byte[] data = Base64.getDecoder().decode(s);
             try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
                 return (AbstractScreen.AbstractScreenData) ois.readObject();
@@ -987,6 +987,10 @@ public class UIElement {
             }
 
             return null;
+        }
+
+        public <T extends UIElementData> T copy(){
+            return (T) deserializeFromString(serializeToString());
         }
     }
 }

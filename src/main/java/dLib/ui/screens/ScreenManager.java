@@ -212,7 +212,10 @@ public class ScreenManager {
                 if(!CardCrawlGame.isInARun()){
                     if(pendingScreen != null) openPendingScreen();
 
-                    if(screen != null && CardCrawlGame.mainMenuScreen.screen == ScreenOverridesEnum.CUSTOM_SCREEN) screen.update();
+                    if(screen != null && CardCrawlGame.mainMenuScreen.screen == ScreenOverridesEnum.CUSTOM_SCREEN) {
+                        screen.update();
+                        updateInput();
+                    }
                 }
             }
         }
@@ -222,7 +225,9 @@ public class ScreenManager {
             @SpireInsertPatch(loc=616)
             public static void Insert(MainMenuScreen __instance, SpriteBatch sb){
                 if(!CardCrawlGame.isInARun()){
-                    if(screen != null && CardCrawlGame.mainMenuScreen.screen == ScreenOverridesEnum.CUSTOM_SCREEN) screen.render(sb);
+                    if(screen != null && CardCrawlGame.mainMenuScreen.screen == ScreenOverridesEnum.CUSTOM_SCREEN) {
+                        screen.render(sb);
+                    }
                 }
             }
         }
@@ -232,7 +237,10 @@ public class ScreenManager {
             public static void Postfix(){
                 if(CardCrawlGame.isInARun()){
                     if(pendingScreen != null) openPendingScreen();
-                    if(screen != null && CardCrawlGame.mainMenuScreen.screen == ScreenOverridesEnum.CUSTOM_SCREEN) screen.update();
+                    if(screen != null && CardCrawlGame.mainMenuScreen.screen == ScreenOverridesEnum.CUSTOM_SCREEN) {
+                        screen.update();
+                        updateInput();
+                    }
                 }
             }
         }
@@ -241,7 +249,10 @@ public class ScreenManager {
         public static class CustomScreenRenderPatch_InGame{
             public static void Postfix(AbstractDungeon __instance, SpriteBatch sb){
                 if(CardCrawlGame.isInARun()){
-                    if(screen != null && CardCrawlGame.mainMenuScreen.screen == ScreenOverridesEnum.CUSTOM_SCREEN) screen.render(sb);
+                    if(screen != null && CardCrawlGame.mainMenuScreen.screen == ScreenOverridesEnum.CUSTOM_SCREEN) {
+                        screen.render(sb);
+                        updateInput();
+                    }
                 }
             }
         }

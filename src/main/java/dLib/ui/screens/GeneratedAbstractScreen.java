@@ -35,7 +35,7 @@ public abstract class GeneratedAbstractScreen extends AbstractScreen{
 
     private static AbstractScreenData loadDataFromClassname(String className){
         FileHandle fileHandle = Gdx.files.internal("dLibResources/screens/" + className + ".dscreen");
-        return GeneratedScreenData.deserializeFromString(fileHandle.readString());
+        return (AbstractScreenData) GeneratedScreenData.deserializeFromString(fileHandle.readString());
     }
 
     //endregion

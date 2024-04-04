@@ -8,6 +8,7 @@ import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
+import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.IntegerVector2Property;
@@ -39,6 +40,12 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     public ScreenEditorItem(int xPos, int yPos, int width, int height){
         super(null, xPos, yPos, width, height);
         elementData = makeDataType_wrapper();
+        remakePreviewElement();
+    }
+
+    public ScreenEditorItem(DataType elementData){
+        super(null, elementData.localPosition.getXValue(), elementData.localPosition.getYValue(), elementData.dimensions.getXValue(), elementData.dimensions.getYValue());
+        this.elementData = elementData;
         remakePreviewElement();
     }
 
@@ -282,6 +289,16 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         super.onRefreshElement();
 
         remakePreviewElement();
+    }
+
+    public ScreenEditorItem<ElementType, DataType> copy(){
+        try{
+            return this.getClass().getConstructor(UIElementData.class).newInstance(getElementData().copy());
+        }catch (Exception e){
+            DLibLogger.logError("Failed to create a copy of the screen editor item due to: " + e.getLocalizedMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     //endregion

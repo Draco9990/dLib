@@ -11,9 +11,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/editoritems/ScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/editoritems/ScreenEditorItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Draggable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Draggable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Resizeable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Resizeable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorPicker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ColorPicker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/GeneratedAbstractScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/GeneratedAbstractScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +198,7 @@
       <workItem from="1711978244891" duration="3027000" />
       <workItem from="1711987683459" duration="9524000" />
       <workItem from="1712048906559" duration="43468000" />
-      <workItem from="1712221937261" duration="10085000" />
+      <workItem from="1712221937261" duration="11935000" />
     </task>
     <servers />
   </component>
