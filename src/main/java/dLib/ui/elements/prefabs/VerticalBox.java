@@ -13,7 +13,7 @@ public class VerticalBox extends VerticalListBox<UIElement> {
     public VerticalBox(int xPos, int yPos, int width, int height) {
         super(xPos, yPos, width, height);
         setSelectionMode(ESelectionMode.NONE);
-        //getBackground().setImage(null);
+        getBackground().setImage(null);
     }
 
     public VerticalBox(VerticalListBoxData data) {

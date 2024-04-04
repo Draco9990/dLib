@@ -7,6 +7,8 @@ import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
+import dLib.util.settings.Property;
+import dLib.util.settings.prefabs.StringProperty;
 
 import java.io.Serializable;
 import java.util.*;
@@ -55,7 +57,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     public ListBox(ListBoxData data){
         super(data);
 
-        this.title = data.titleBoxText;
+        this.title = data.titleBoxText.getValue();
         this.titleBoxHeight = data.titleBoxHeight;
 
         this.itemSpacing = data.itemSpacing;
@@ -419,7 +421,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     public static class ListBoxData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public String titleBoxText = "";
+        public StringProperty titleBoxText = new StringProperty("").setName("Title");
         public int titleBoxHeight = 50;
 
         public int itemSpacing = 0;
@@ -429,5 +431,14 @@ public abstract class ListBox<ItemType> extends UIElement {
         public int selectionLimit = 1;
 
         public boolean canReorder = false;
+
+        @Override
+        public ArrayList<Property<?>> getEditableProperties() {
+            ArrayList<Property<?>> properties = super.getEditableProperties();
+
+            properties.add(titleBoxText);
+
+            return properties;
+        }
     }
 }
