@@ -78,7 +78,7 @@ public class TextBox extends Hoverable {
     public TextBox(TextBoxData data){
         super(data);
 
-        this.text = data.text.getName();
+        this.text = data.text.getValue();
 
         this.textRenderColor = Color.valueOf(data.textRenderColor);
         //TODO FONT
