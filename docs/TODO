@@ -66,3 +66,12 @@ rework renderable
 -- on texture binding change recreate item.
 -- horizontal list box, move swap into that, also add delete
 -- position docking that just changes the result of getLocalPosition by offset??
+
+--comodification
+weird spacer
+text change not changing
+Overlay interaction key, localisation, listbox store active item when setting/removing items
+Duplicate element with copy constructor
+Listbox filter and onfiltercompsrison method and listener
+grid
+DraggableCanvas

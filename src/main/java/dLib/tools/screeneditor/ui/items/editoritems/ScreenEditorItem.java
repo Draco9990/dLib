@@ -171,6 +171,8 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         });
 
         for(Property<?> property : elementData.getEditableProperties()){
+            property.addOnValueChangedListener(this::markForRefresh);
+
             if(property instanceof IntegerVector2Property || property instanceof StringProperty){
                 continue;
             }
@@ -258,6 +260,13 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     @Override
     public String toString() {
         return getId();
+    }
+
+    @Override
+    protected void onRefreshElement() {
+        super.onRefreshElement();
+
+        remakePreviewElement();
     }
 
     //endregion
