@@ -2,6 +2,7 @@ package dLib.tools.screeneditor.ui.items.implementations.toolbar;
 
 import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.VerticalBox;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.Reflection;

@@ -17,12 +17,25 @@ public class Toggle extends Interactable {
     private boolean toggled = false;
 
     private Texture toggledTexture;
-    public Texture toggledHoveredTexture;
-    public Texture toggledDisabledTexture;
+    private Texture toggledHoveredTexture;
+    private Texture toggledDisabledTexture;
+
+    private Color toggledColor = Color.BLACK.cpy();
+    private float toggledColorMultiplier = 0.15f;
+
+    private Color toggledHoveredColor = Color.BLACK.cpy();
+    private float toggledHoveredColorMultiplier = 0.25f;
+
+    private Color toggledDisabledColor = Color.WHITE.cpy();
+    private float toggledDisabledColorMultiplier = 0.25f;
 
     //endregion
 
     //region Constructors
+
+    public Toggle(Texture image, int xPos, int yPos, int width, int height){
+        this(image, null, xPos, yPos, width, height);
+    }
 
     public Toggle(Texture image, Texture toggledTexture, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
@@ -37,6 +50,15 @@ public class Toggle extends Interactable {
         this.toggledTexture = data.toggledTexture.getBoundTexture();
         this.toggledHoveredTexture = data.toggledTexture.getBoundTexture();
         this.toggledDisabledTexture = data.toggledTexture.getBoundTexture();
+
+        this.toggledColor = Color.valueOf(data.toggledColor);
+        this.toggledColorMultiplier = data.toggledColorMultiplier;
+
+        this.toggledHoveredColor = Color.valueOf(data.toggledHoveredColor);
+        this.toggledHoveredColorMultiplier = data.toggledHoveredColorMultiplier;
+
+        this.toggledDisabledColor = Color.valueOf(data.toggledDisabledColor);
+        this.toggledDisabledColorMultiplier = data.toggledDisabledColorMultiplier;
     }
 
 
@@ -51,24 +73,33 @@ public class Toggle extends Interactable {
         if(toggled){
             if(!isEnabled() && toggledDisabledTexture != null) return toggledDisabledTexture;
             if(isHovered() && toggledHoveredTexture != null) return toggledHoveredTexture;
-            return toggledTexture;
+            if(toggledTexture != null) return toggledTexture;
         }
         return super.getTextureForRender();
     }
     @Override
     protected Color getColorForRender() {
-        if(toggled){
+        if(isToggled()){
+            Color colorToRender = super.getColorForRender().cpy();
             if(!isEnabled()){
                 if(toggledDisabledTexture == null){
-                    return Color.LIGHT_GRAY;
+                    colorToRender = toggledDisabledColor.cpy();
+                    if(toggledDisabledColorMultiplier != 1.0f){
+                        colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - toggledDisabledColorMultiplier);
+                    }
                 }
             }
             else if(isHovered()){
                 if(toggledHoveredTexture == null){
-                    return Color.LIGHT_GRAY;
+                    colorToRender = toggledHoveredColor.cpy();
+                    if(toggledHoveredColorMultiplier != 1.0f){
+                        colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - toggledHoveredColorMultiplier);
+                    }
                 }
             }
+            return colorToRender.lerp(toggledColor, toggledColorMultiplier);
         }
+
         return super.getColorForRender();
     }
 
@@ -125,6 +156,15 @@ public class Toggle extends Interactable {
         public TextureBinding toggledTexture = new TextureEmptyBinding();
         public TextureBinding toggledHoveredTexture = new TextureEmptyBinding();
         public TextureBinding toggledDisabledTexture = new TextureEmptyBinding();
+
+        private String toggledColor = Color.BLACK.toString();
+        private float toggledColorMultiplier = 0.15f;
+
+        public String toggledHoveredColor = Color.BLACK.toString();
+        public float toggledHoveredColorMultiplier = 0.25f;
+
+        public String toggledDisabledColor = Color.WHITE.toString();
+        public float toggledDisabledColorMultiplier = 0.25f;
 
         @Override
         public Toggle makeUIElement() {

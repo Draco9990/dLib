@@ -50,6 +50,7 @@ public abstract class AbstractSettingUI<PropertyType extends Property<?>> extend
         HorizontalBox hBox = new HorizontalBox(xPos, yPos, width, height);
         hBox.addItem(buildTitle(property, (int)(width * 0.8f), height));
         hBox.addItem(buildContent(property, (int)(width * 0.2f), height));
+        addChildCS(hBox);
     }
 
     protected UIElement buildTitle(PropertyType property, Integer width, Integer height){

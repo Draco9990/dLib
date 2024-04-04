@@ -4,9 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextButton;
+import dLib.ui.elements.prefabs.Toggle;
 import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UITheme;
+import dLib.util.TextureManager;
 
 public class ScreenEditorMenu extends UIElement {
     //region Variables
@@ -20,10 +23,12 @@ public class ScreenEditorMenu extends UIElement {
         addChildNCS(new Renderable(UITheme.whitePixel, 0, 0, getWidth(), getHeight()).setRenderColor(Color.valueOf("#242424FF")));
 
         initializeFileControls();
-        initializeToolbarControls();
+        initializePropertyControls();
+
+        initializeToolbar();
     }
 
-    public void initializeFileControls(){
+    private void initializeFileControls(){
         TextButton closeButton = new TextButton("Close", 10, getHeight() - 50, 200, 40);
         closeButton.getButton().addOnLeftClickConsumer(ScreenManager::closeScreen);
         addChildNCS(closeButton);
@@ -33,7 +38,7 @@ public class ScreenEditorMenu extends UIElement {
         addChildNCS(saveButton);
     }
 
-    public void initializeToolbarControls(){
+    private void initializePropertyControls(){
         TextButton toolbarButton = new TextButton("Toolbar", 255, getHeight() - 50, 200, 40);
         toolbarButton.getButton().addOnLeftClickConsumer(() -> {
             getParent().hideAllToolbarItems();
@@ -56,6 +61,23 @@ public class ScreenEditorMenu extends UIElement {
         addChildNCS(elementsButton);
     }
 
+    private void initializeToolbar(){
+        ScreenEditorMenu menu = this;
+
+        HorizontalBox hBox = new HorizontalBox(0, 0, 1488, 40);
+        hBox.setItemSpacing(5);
+
+        addChildNCS(hBox);
+
+        hBox.addItem(new Toggle(TextureManager.getTexture("dLibResources/images/ui/screeneditor/GridButton.png"), 0, 0, 40, 40){
+            @Override
+            public void toggle() {
+                super.toggle();
+
+                menu.getParent().getEditorProperties().toggleGrid();
+            }
+        });
+    }
 
     //endregion
 
