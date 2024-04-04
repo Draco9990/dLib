@@ -60,9 +60,11 @@ public class IntegerVector2Property extends Property<IntegerVector2> implements 
     }
 
     public void onXValueChanged(Integer oldValue, Integer newValue){
+        if(onXValueChangedListeners == null) onXValueChangedListeners = new ArrayList<>();
         for(BiConsumer<Integer, Integer> listener : onXValueChangedListeners) listener.accept(oldValue, newValue);
     }
     public IntegerVector2Property addOnXValueChangedListener(BiConsumer<Integer, Integer> listener){
+        if(onXValueChangedListeners == null) onXValueChangedListeners = new ArrayList<>();
         onXValueChangedListeners.add(listener);
         return this;
     }
@@ -79,9 +81,11 @@ public class IntegerVector2Property extends Property<IntegerVector2> implements 
     }
 
     public void onYValueChanged(Integer oldValue, Integer newValue){
+        if(onYValueChangedListeners == null) onYValueChangedListeners = new ArrayList<>();
         for(BiConsumer<Integer, Integer> listener : onYValueChangedListeners) listener.accept(oldValue, newValue);
     }
     public IntegerVector2Property addOnYValueChangedListener(BiConsumer<Integer, Integer> listener){
+        if(onYValueChangedListeners == null) onYValueChangedListeners = new ArrayList<>();
         onYValueChangedListeners.add(listener);
         return this;
     }

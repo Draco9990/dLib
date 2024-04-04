@@ -6,6 +6,7 @@ import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.util.Reflection;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ScreenEditorActiveItemsManager {
@@ -36,6 +37,17 @@ public class ScreenEditorActiveItemsManager {
             }
             clearActiveItems();
         }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)){
+            ArrayList<ScreenEditorItem> copiedItems = new ArrayList<>();
+            for(ScreenEditorItem item : new ArrayList<>(activeItems)){
+                ScreenEditorItem copy = screenEditor.getPreviewScreen().duplicatePreviewItem(item);
+
+                if(copy == null) continue;
+                copiedItems.add(copy);
+            }
+            setActiveItems(copiedItems);
+        }
     }
 
     //endregion
@@ -56,6 +68,15 @@ public class ScreenEditorActiveItemsManager {
             }
         }
     }
+    public void setActiveItems(ArrayList<ScreenEditorItem> items){
+        clearActiveItems();
+        activeItems.addAll(items);
+
+        if(activeItems.size() == 1){
+            screenEditor.getPropertiesScreen().createPropertiesFor(activeItems.get(0));
+        }
+    }
+
     public void clearActiveItems(){
         screenEditor.getPropertiesScreen().clearScreen();
         screenEditor.getElementListScreen().refreshItemList();

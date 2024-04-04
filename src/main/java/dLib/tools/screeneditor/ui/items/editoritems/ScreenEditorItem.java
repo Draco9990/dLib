@@ -14,6 +14,7 @@ import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.IntegerVector2Property;
 import dLib.util.settings.prefabs.StringProperty;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -39,13 +40,13 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     public ScreenEditorItem(int xPos, int yPos, int width, int height){
         super(null, xPos, yPos, width, height);
-        elementData = makeDataType_wrapper();
+        elementData = wrapDataType(makeDataType());
         remakePreviewElement();
     }
 
     public ScreenEditorItem(DataType elementData){
         super(null, elementData.localPosition.getXValue(), elementData.localPosition.getYValue(), elementData.dimensions.getXValue(), elementData.dimensions.getYValue());
-        this.elementData = elementData;
+        this.elementData = wrapDataType(elementData);
         remakePreviewElement();
     }
 
@@ -137,9 +138,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         return previewElement.getClass();
     }
 
-    private DataType makeDataType_wrapper(){
-        DataType elementData = makeDataType();
-
+    private DataType wrapDataType(DataType elementData){
         //Bind all screen editor specific stuff
         elementData.id.setValue(getId());
         elementData.id.addOnValueChangedListener(new BiConsumer<String, String>() {
@@ -293,7 +292,10 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     public ScreenEditorItem<ElementType, DataType> copy(){
         try{
-            return this.getClass().getConstructor(UIElementData.class).newInstance(getElementData().copy());
+            DataType cpy = getElementData().copy();
+            Constructor<?> constructor = this.getClass().getConstructor(getElementData().getClass());
+
+            return (ScreenEditorItem<ElementType, DataType>) constructor.newInstance(cpy);
         }catch (Exception e){
             DLibLogger.logError("Failed to create a copy of the screen editor item due to: " + e.getLocalizedMessage());
             e.printStackTrace();

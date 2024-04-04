@@ -12,6 +12,10 @@ public class TextButtonScreenEditorItem extends ScreenEditorItem<TextButton, Tex
         super(0, 0, 75, 75);
     }
 
+    public TextButtonScreenEditorItem(TextButton.TextButtonData elementData) {
+        super(elementData);
+    }
+
     //endregion
 
     //region Methods

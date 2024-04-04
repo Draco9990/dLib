@@ -56,21 +56,10 @@ public class ScreenEditorPreview extends UIElement {
     public ScreenEditorItem<?, ?> makeNewPreviewItem(Class<? extends ScreenEditorItem> template){
         try{
             ScreenEditorItem<?, ?> copy = template.newInstance();
-            copy.setScreenEditor(getParent());
 
-            String idPrefix = copy.getClass().getSimpleName().replace("ScreenEditorItem", "") + "_";
-            int i = 1;
-            while(findChildById(idPrefix + i) != null){
-                i++;
-            }
-            copy.setID(idPrefix + i);
-
-            copy.setBoundWithinParent(true);
-
+            validatePreviewItem(copy);
             PluginMessageSender.Send_AddVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
-
             addPreviewItem(copy);
-
             return copy;
         }catch (Exception e){
             DLibLogger.logError("Failed to create new instance of a screen editor item due to " + e.getLocalizedMessage());
@@ -78,6 +67,31 @@ public class ScreenEditorPreview extends UIElement {
         }
 
         return null;
+    }
+    public ScreenEditorItem<?,?> duplicatePreviewItem(ScreenEditorItem template){
+        ScreenEditorItem copy = template.copy();
+        if(copy == null){
+            return null;
+        }
+
+        validatePreviewItem(copy);
+        PluginMessageSender.Send_AddVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
+
+        addPreviewItem(copy);
+
+        return copy;
+    }
+    public void validatePreviewItem(ScreenEditorItem item){
+        item.setScreenEditor(getParent());
+
+        String idPrefix = item.getClass().getSimpleName().replace("ScreenEditorItem", "") + "_";
+        int i = 1;
+        while(findChildById(idPrefix + i) != null){
+            i++;
+        }
+        item.setID(idPrefix + i);
+
+        item.setBoundWithinParent(true);
     }
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         removeChild(itemToDelete);

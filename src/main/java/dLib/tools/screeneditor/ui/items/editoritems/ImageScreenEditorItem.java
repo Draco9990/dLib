@@ -14,6 +14,10 @@ public class ImageScreenEditorItem extends ScreenEditorItem<Image, Image.ImageDa
         super(0, 0, 150, 150);
     }
 
+    public ImageScreenEditorItem(Image.ImageData elementData) {
+        super(elementData);
+    }
+
     //endregion
 
     //region Methods

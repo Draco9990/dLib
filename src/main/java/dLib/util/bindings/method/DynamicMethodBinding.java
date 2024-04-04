@@ -39,12 +39,14 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
         String oldMethodToExecute = methodToExecute.getValue();
         if(!methodToExecute.setValue(s)) return this;
 
+        if(onBoundMethodChangedConsumers == null) onBoundMethodChangedConsumers = new ArrayList<>();
         for(BiConsumer<String, String> consumer : onBoundMethodChangedConsumers) consumer.accept(oldMethodToExecute, methodToExecute.getValue());
 
         return this;
     }
 
     public DynamicMethodBinding addOnBoundMethodChangedConsumer(BiConsumer<String, String> consumer){
+        if(onBoundMethodChangedConsumers == null) onBoundMethodChangedConsumers = new ArrayList<>();
         this.onBoundMethodChangedConsumers.add(consumer);
         return this;
     }

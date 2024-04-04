@@ -12,13 +12,17 @@ public class HorizontalListBoxScreenEditorItem extends ScreenEditorItem<Horizont
         super(0, 0, 500, 500);
     }
 
+    public HorizontalListBoxScreenEditorItem(HorizontalListBox.HorizontalListBoxData data){
+        super(data);
+    }
+
     //endregion
 
     //region Methods
 
     @Override
     protected HorizontalListBox.HorizontalListBoxData makeDataType() {
-        return new HorizontalListBox.HorizontalListBoxData();
+    return new HorizontalListBox.HorizontalListBoxData();
     }
 
     //endregion

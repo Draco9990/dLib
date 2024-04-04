@@ -46,9 +46,11 @@ public class AlignmentProperty extends Property<Alignment> implements Serializab
     }
 
     public void onHorizontalAlignmentChanged(Alignment.HorizontalAlignment oldValue, Alignment.HorizontalAlignment newValue){
+        if(onHorizontalAlignmentChangedListeners == null) onHorizontalAlignmentChangedListeners = new ArrayList<>();
         for(BiConsumer<Alignment.HorizontalAlignment, Alignment.HorizontalAlignment> listener : onHorizontalAlignmentChangedListeners) listener.accept(oldValue, newValue);
     }
     public AlignmentProperty addOnHorizontalAlignmentChangedListener(BiConsumer<Alignment.HorizontalAlignment, Alignment.HorizontalAlignment> listener){
+        if(onHorizontalAlignmentChangedListeners == null) onHorizontalAlignmentChangedListeners = new ArrayList<>();
         onHorizontalAlignmentChangedListeners.add(listener);
         return this;
     }
@@ -64,9 +66,11 @@ public class AlignmentProperty extends Property<Alignment> implements Serializab
     }
 
     public void onVerticalAlignmentChanged(Alignment.VerticalAlignment oldValue, Alignment.VerticalAlignment newValue){
+        if(onVerticalAlignmentChangedListeners == null) onVerticalAlignmentChangedListeners = new ArrayList<>();
         for(BiConsumer<Alignment.VerticalAlignment, Alignment.VerticalAlignment> listener : onVerticalAlignmentChangedListeners) listener.accept(oldValue, newValue);
     }
     public AlignmentProperty addOnVerticalAlignmentChangedListener(BiConsumer<Alignment.VerticalAlignment, Alignment.VerticalAlignment> listener){
+        if(onVerticalAlignmentChangedListeners == null) onVerticalAlignmentChangedListeners = new ArrayList<>();
         onVerticalAlignmentChangedListeners.add(listener);
         return this;
     }

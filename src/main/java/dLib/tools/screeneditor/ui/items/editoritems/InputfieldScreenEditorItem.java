@@ -14,6 +14,10 @@ public class InputfieldScreenEditorItem extends ScreenEditorItem<Inputfield, Inp
         super(0, 0, 500, 75);
     }
 
+    public InputfieldScreenEditorItem(Inputfield.InputfieldData elementData) {
+        super(elementData);
+    }
+
     //endregion
 
     //region Methods

@@ -13,6 +13,10 @@ public class TextBoxScreenEditorItem extends ScreenEditorItem<TextBox, TextBox.T
         super(0, 0, 300, 75);
     }
 
+    public TextBoxScreenEditorItem(TextBox.TextBoxData elementData) {
+        super(elementData);
+    }
+
     //endregion
 
     //region Methods

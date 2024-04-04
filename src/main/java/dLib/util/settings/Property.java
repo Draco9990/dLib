@@ -77,19 +77,17 @@ public abstract class Property<T> implements Serializable {
     }
 
     public void onValueChanged(T oldValue, T newValue){
+        if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
         for(BiConsumer<T, T> listener : onValueChangedListeners) listener.accept(oldValue, newValue);
     }
     public Property<T> addOnValueChangedListener(BiConsumer<T, T> listener){
+        if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
         onValueChangedListeners.add(listener);
         return this;
     }
     public Property<T> addOnValueChangedListener(Runnable listener){
-        onValueChangedListeners.add(new BiConsumer<T, T>() {
-            @Override
-            public void accept(T t, T t2) {
-                listener.run();
-            }
-        });
+        if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
+        onValueChangedListeners.add((t, t2) -> listener.run());
         return this;
     }
 

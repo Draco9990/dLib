@@ -15,6 +15,10 @@ public class BackgroundScreenEditorItem extends ScreenEditorItem<Image, Image.Im
         super(0, 0, ScreenEditorPreview.width, ScreenEditorPreview.height);
     }
 
+    public BackgroundScreenEditorItem(Image.ImageData imageData){
+        super(imageData);
+    }
+
     //endregion
 
     //region Methods

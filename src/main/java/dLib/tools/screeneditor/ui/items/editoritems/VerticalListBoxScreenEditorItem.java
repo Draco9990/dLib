@@ -12,6 +12,10 @@ public class VerticalListBoxScreenEditorItem extends ScreenEditorItem<VerticalLi
         super(0, 0, 500, 500);
     }
 
+    public VerticalListBoxScreenEditorItem(VerticalListBox.VerticalListBoxData elementData) {
+        super(elementData);
+    }
+
     //endregion
 
     //region Methods
