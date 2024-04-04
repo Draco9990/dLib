@@ -24,16 +24,6 @@ public class Toggle extends Interactable {
 
     //region Constructors
 
-    public Toggle(Texture image, Texture toggledTexture) {
-        super(image);
-        this.toggledTexture = toggledTexture;
-    }
-
-    public Toggle(Texture image, Texture toggledTexture, int xPos, int yPos) {
-        super(image, xPos, yPos);
-        this.toggledTexture = toggledTexture;
-    }
-
     public Toggle(Texture image, Texture toggledTexture, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
         this.toggledTexture = toggledTexture;

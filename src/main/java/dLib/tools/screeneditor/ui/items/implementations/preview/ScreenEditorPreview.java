@@ -1,5 +1,6 @@
 package dLib.tools.screeneditor.ui.items.implementations.preview;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.plugin.intellij.PluginManager;
 import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
@@ -18,6 +19,8 @@ public class ScreenEditorPreview extends UIElement {
     public static int width = 1490;
     public static int height = 840;
 
+    private Renderable grid;
+
     //endregion
 
     //region Constructors
@@ -26,11 +29,20 @@ public class ScreenEditorPreview extends UIElement {
         super(10, 10, width, height);
 
         addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), 0, 0, getWidth(), getHeight()));
+
+        grid = new Renderable(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ScreenEditorGrid.png"), 0, 0, width, height);
+        grid.setParent(this);
     }
 
     //endregion
 
     //region Methods
+
+    @Override
+    protected void renderChildren(SpriteBatch sb) {
+        super.renderChildren(sb);
+        grid.render(sb);
+    }
 
     //region Preview Item Management
 
