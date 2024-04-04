@@ -257,6 +257,15 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     //endregion
 
+
+    @Override
+    protected void onDragForValueAdjust(IntegerVector2 newPos) {
+        if(screenEditor.getEditorProperties().isGridOn()){
+            newPos.x = Math.round(newPos.x / 10.0f) * 10;
+            newPos.y = Math.round(newPos.y / 10.0f) * 10;
+        }
+    }
+
     @Override
     public String toString() {
         return getId();

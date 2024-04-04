@@ -41,7 +41,9 @@ public class ScreenEditorPreview extends UIElement {
     @Override
     protected void renderChildren(SpriteBatch sb) {
         super.renderChildren(sb);
-        grid.render(sb);
+        if(getParent().getEditorProperties().isGridOn()){
+            grid.render(sb);
+        }
     }
 
     //region Preview Item Management

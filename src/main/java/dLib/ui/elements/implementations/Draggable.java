@@ -3,6 +3,7 @@ package dLib.ui.elements.implementations;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.util.IntegerVector2;
 
 public class Draggable extends Interactable{
     //region Variables
@@ -47,7 +48,12 @@ public class Draggable extends Interactable{
         int xPos = canDragX ? (int) ((InputHelper.mX - xDragOffset) / Settings.xScale) : getWorldPositionX();
         int yPos = canDragY ? (int) ((InputHelper.mY - yDragOffset) / Settings.yScale) : getWorldPositionY();
 
-        setWorldPosition(xPos, yPos);
+        IntegerVector2 worldPos = new IntegerVector2(xPos, yPos);
+        IntegerVector2 localPos = worldToLocal(worldPos);
+        onDragForValueAdjust(localPos);
+        worldPos = localToWorld(localPos);
+
+        setWorldPosition(worldPos.x, worldPos.y);
     }
 
     public Draggable setCanDragX(boolean canDragX){
@@ -57,6 +63,9 @@ public class Draggable extends Interactable{
     public Draggable setCanDragY(boolean canDragY){
         this.canDragY = canDragY;
         return this;
+    }
+
+    protected void onDragForValueAdjust(IntegerVector2 newPos){
     }
 
     //endregion

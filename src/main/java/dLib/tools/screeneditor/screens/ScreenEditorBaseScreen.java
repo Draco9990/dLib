@@ -10,6 +10,7 @@ import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorElem
 import dLib.tools.screeneditor.ui.items.implementations.toolbar.ScreenEditorToolbox;
 import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.tools.screeneditor.util.ScreenEditorActiveItemsManager;
+import dLib.tools.screeneditor.util.ScreenEditorProperties;
 import dLib.tools.screeneditor.util.ScreenEditorSaveManager;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.screens.AbstractScreen;
@@ -31,6 +32,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
     private ScreenEditorSaveManager saveManager;
     private ScreenEditorActiveItemsManager activeItemsManager;
+    private ScreenEditorProperties editorProperties;
 
     //endregion
 
@@ -39,6 +41,8 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     public ScreenEditorBaseScreen(String editingClass){
         super();
         initialize(editingClass);
+
+        preview.makeNewPreviewItem(BackgroundScreenEditorItem.class).setID("Background");
     }
     public ScreenEditorBaseScreen(GeneratedAbstractScreen.GeneratedScreenData initialData){
         super();
@@ -71,8 +75,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
 
         saveManager = new ScreenEditorSaveManager(this);
         activeItemsManager = new ScreenEditorActiveItemsManager(this);
-
-        preview.makeNewPreviewItem(BackgroundScreenEditorItem.class).setID("Background");
+        editorProperties = new ScreenEditorProperties();
     }
 
 
@@ -109,6 +112,7 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
     public ScreenEditorActiveItemsManager getActiveItemsManager(){
         return activeItemsManager;
     }
+    public ScreenEditorProperties getEditorProperties() { return editorProperties; }
 
     /** Preview */
     public ScreenEditorPreview getPreviewScreen(){

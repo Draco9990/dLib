@@ -8,10 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dLibResources/images/ui/screeneditor/ScreenEditorGrid.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/util/ScreenEditorProperties.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/ScreenEditorBaseScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/ScreenEditorBaseScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/editoritems/ScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/editoritems/ScreenEditorItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/preview/ScreenEditorPreview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/preview/ScreenEditorPreview.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Toggle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Toggle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Draggable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Draggable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,7 +200,7 @@
       <workItem from="1711978244891" duration="3027000" />
       <workItem from="1711987683459" duration="9524000" />
       <workItem from="1712048906559" duration="43468000" />
-      <workItem from="1712221937261" duration="3450000" />
+      <workItem from="1712221937261" duration="5226000" />
     </task>
     <servers />
   </component>
