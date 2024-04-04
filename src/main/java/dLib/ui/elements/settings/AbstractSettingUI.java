@@ -29,31 +29,31 @@ public abstract class AbstractSettingUI<PropertyType extends Property<?>> extend
 
     //region Methods
 
-    protected void buildElement(PropertyType property, Integer xPos, Integer yPos, Integer width, Integer height){
+    protected void buildElement(PropertyType property, int xPos, int yPos, int width, int height){
         if(width < 500 && canDisplayMultiline()){
             buildMultiline(property, xPos, yPos, width, height);
         }
         else{
-            int halfHeight = (int) (height * 0.5f);
-            buildSingleLine(property, xPos, yPos + halfHeight, width, halfHeight);
+            setHeight((int) (height * 0.5f));
+            buildSingleLine(property, xPos, yPos, width, height);
         }
     }
 
-    private void buildMultiline(PropertyType property, Integer xPos, Integer yPos, Integer width, Integer height){
+    private void buildMultiline(PropertyType property, int xPos, int yPos, int width, int height){
         VerticalBox vBox = new VerticalBox(xPos, yPos, width, height);
         vBox.addItem(buildTitle(property, width, (int)(height * 0.5f)));
         vBox.addItem(buildContent(property, width, (int)(height * 0.5f)));
         addChildCS(vBox);
     }
 
-    private void buildSingleLine(PropertyType property, Integer xPos, Integer yPos, Integer width, Integer height){
+    private void buildSingleLine(PropertyType property, int xPos, int yPos, int width, int height){
         HorizontalBox hBox = new HorizontalBox(xPos, yPos, width, height);
         hBox.addItem(buildTitle(property, (int)(width * 0.8f), height));
         hBox.addItem(buildContent(property, (int)(width * 0.2f), height));
         addChildCS(hBox);
     }
 
-    protected UIElement buildTitle(PropertyType property, Integer width, Integer height){
+    protected UIElement buildTitle(PropertyType property, int width, int height){
         return new TextBox(property.getName(), 0, 0, width, height).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setMarginPercX(0f).setMarginPercY(0.25f).setTextRenderColor(Color.WHITE);
     }
 

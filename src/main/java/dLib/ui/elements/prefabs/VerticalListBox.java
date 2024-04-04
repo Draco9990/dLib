@@ -54,7 +54,7 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
 
             @Override
             public boolean isActive() {
-                return calculatePageCount() > 1;
+                return calculatePageCount() > 1 && super.isActive();
             }
         };
         addChildCS(scrollbar);
@@ -83,7 +83,7 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
 
         for(UIElement item : getItemsForDisplay()){
             item.setLocalPosition(0, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
-            item.setWidth(defaultItemWidth == null ? itemBoxBackground.getWidth() + (scrollbar.isActive() ? -scrollbar.getWidth() : 0) : defaultItemWidth);
+            item.setWidth(defaultItemWidth == null ? itemBoxBackground.getWidthUnscaled() + (scrollbar.isActive() ? -scrollbar.getWidthUnscaled() : 0) : defaultItemWidth);
 
             item.showAndEnable();
 

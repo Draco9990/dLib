@@ -50,7 +50,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
 
             @Override
             public boolean isActive() {
-                return calculatePageCount() > 1;
+                return calculatePageCount() > 1 && super.isActive();
             }
         };
         addChildCS(scrollbar);
@@ -79,7 +79,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
 
         for(UIElement item : getItemsForDisplay()){
             item.setLocalPosition(currentXPos, (scrollbar.isActive() ? scrollbar.getHeight() : 0)); //TODO RF BOUNDING HEIGHT
-            item.setHeight(defaultItemHeight == null ? itemBoxBackground.getHeight() + (scrollbar.isActive() ? -scrollbar.getHeight() : 0) : defaultItemHeight);
+            item.setHeight(defaultItemHeight == null ? itemBoxBackground.getHeightUnscaled() + (scrollbar.isActive() ? -scrollbar.getHeightUnscaled() : 0) : defaultItemHeight);
 
             item.showAndEnable();
 

@@ -877,6 +877,16 @@ public class UIElement {
         return dimensions;
     }
 
+    public int getWidthUnscaled(){
+        return dimensions.x;
+    }
+    public int getHeightUnscaled(){
+        return dimensions.y;
+    }
+    public IntegerVector2 getDimensionsUnscaled(){
+        return dimensions.copy();
+    }
+
     protected float getWidthScaleMult(){
         float scaleMult = widthScale;
         if(hasParent() && scalesWithParent()){
