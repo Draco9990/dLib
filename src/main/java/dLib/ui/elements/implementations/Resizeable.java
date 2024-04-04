@@ -123,21 +123,25 @@ public class Resizeable extends Draggable {
             diffY = sDiffY;
         }
 
-        if (resizingRootX) {
-            setLocalPositionX(resizeOrigPosX + diffX);
-            diffX = -diffX;
-        } else {
-            setLocalPositionX(resizeOrigPosX);
+        if(diffX != 0){
+            if (resizingRootX) {
+                setLocalPositionX(resizeOrigPosX + diffX);
+                diffX = -diffX;
+            } else {
+                setLocalPositionX(resizeOrigPosX);
+            }
+            setWidth(resizeOrigWidth + diffX);
         }
-        setWidth(resizeOrigWidth + diffX);
 
-        if (resizingRootY) {
-            setLocalPositionY(resizeOrigPosY + diffY);
-            diffY = -diffY;
-        } else {
-            setLocalPositionY(resizeOrigPosY);
+        if(diffY != 0){
+            if (resizingRootY) {
+                setLocalPositionY(resizeOrigPosY + diffY);
+                diffY = -diffY;
+            } else {
+                setLocalPositionY(resizeOrigPosY);
+            }
+            setHeight(resizeOrigHeight + diffY);
         }
-        setHeight(resizeOrigHeight + diffY);
     }
 
     public void onResizeFinished(ResizeNode node) {
@@ -165,7 +169,7 @@ public class Resizeable extends Draggable {
     }
 
     @Override
-    public UIElement setDimensions(Integer newWidth, Integer newHeight) {
+    public UIElement setDimensions(int newWidth, int newHeight) {
         super.setDimensions(newWidth, newHeight);
         refreshResizeNodePositions(); //TODO RF remove
         return this;

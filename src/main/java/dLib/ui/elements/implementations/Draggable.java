@@ -48,12 +48,7 @@ public class Draggable extends Interactable{
         int xPos = canDragX ? (int) ((InputHelper.mX - xDragOffset) / Settings.xScale) : getWorldPositionX();
         int yPos = canDragY ? (int) ((InputHelper.mY - yDragOffset) / Settings.yScale) : getWorldPositionY();
 
-        IntegerVector2 worldPos = new IntegerVector2(xPos, yPos);
-        IntegerVector2 localPos = worldToLocal(worldPos);
-        onDragForValueAdjust(localPos);
-        worldPos = localToWorld(localPos);
-
-        setWorldPosition(worldPos.x, worldPos.y);
+        setWorldPosition(xPos, yPos);
     }
 
     public Draggable setCanDragX(boolean canDragX){
@@ -64,10 +59,6 @@ public class Draggable extends Interactable{
         this.canDragY = canDragY;
         return this;
     }
-
-    protected void onDragForValueAdjust(IntegerVector2 newPos){
-    }
-
     //endregion
 
     //endregion

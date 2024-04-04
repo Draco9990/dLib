@@ -1,14 +1,12 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import dLib.ui.screens.AbstractScreen;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.IntegerProperty;
 import dLib.util.settings.prefabs.IntegerVector2Property;
 import dLib.util.settings.prefabs.StringProperty;
 
@@ -838,24 +836,24 @@ public class UIElement {
     //region Width & Height
 
     public UIElement setWidth(int newWidth){
-        return setDimensions(newWidth, null);
+        return setDimensions(newWidth, -1);
     }
     public UIElement setHeight(int newHeight){
-        return setDimensions(null, newHeight);
+        return setDimensions(-1, newHeight);
     }
-    public UIElement setDimensions(Integer newWidth, Integer newHeight){
-        if(newWidth != null && newWidth < 1) newWidth = 1;
-        if(newHeight != null && newHeight < 1) newHeight = 1;
+    public UIElement setDimensions(int newWidth, int newHeight){
+        if(newWidth != -1 && newWidth < 1) newWidth = 1;
+        if(newHeight != -1 && newHeight < 1) newHeight = 1;
 
         float oldScaleX = widthScale;
         float oldScaleY = heightScale;
 
-        widthScale = newWidth != null ? (float) newWidth / dimensions.x : widthScale;
-        heightScale = newHeight != null ? (float) newHeight / dimensions.y : heightScale;
+        widthScale = newWidth != -1 ? (float) newWidth / dimensions.x : widthScale;
+        heightScale = newHeight != -1 ? (float) newHeight / dimensions.y : heightScale;
 
         if(oldScaleX != widthScale || oldScaleY != heightScale){
             for(UIElementChild child : children){
-                child.element.onParentDimensionsChanged(newWidth != null ? newWidth - dimensions.x : 0, newHeight != null ? newHeight - dimensions.y : 0);
+                child.element.onParentDimensionsChanged(newWidth != -1 ? newWidth - dimensions.x : 0, newHeight != -1 ? newHeight - dimensions.y : 0);
             }
         }
 

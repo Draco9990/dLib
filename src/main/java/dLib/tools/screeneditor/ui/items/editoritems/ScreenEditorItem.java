@@ -8,20 +8,11 @@ import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
-import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.themes.UITheme;
-import dLib.ui.themes.UIThemeManager;
 import dLib.util.IntegerVector2;
-import dLib.util.Reflection;
-import dLib.util.bindings.method.MethodBinding;
-import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.IntegerVector2Property;
-import dLib.util.settings.prefabs.MethodBindingProperty;
 import dLib.util.settings.prefabs.StringProperty;
-import dLib.util.settings.prefabs.TextureBindingProperty;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -223,6 +214,16 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     //region Position & Dimensions
 
     @Override
+    public UIElement setLocalPosition(int newPositionX, int newPositionY) {
+        if(screenEditor != null && screenEditor.getEditorProperties().isGridOn()){
+            newPositionX = Math.round(newPositionX / 10.0f) * 10;
+            newPositionY = Math.round(newPositionY / 10.0f) * 10;
+        }
+
+        return super.setLocalPosition(newPositionX, newPositionY);
+    }
+
+    @Override
     public void onPositionChanged(int diffX, int diffY) {
         super.onPositionChanged(diffX, diffY);
 
@@ -234,12 +235,26 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     }
 
     @Override
-    public UIElement setDimensions(Integer newWidth, Integer newHeight) {
+    public UIElement setDimensions(int newWidth, int newHeight) {
+        if(screenEditor != null && screenEditor.getEditorProperties().isGridOn()){
+            int upperX = getLocalPositionX() + getWidth();
+            int upperY = getLocalPositionY() + getHeight();
+
+            int gridUpperX = Math.round(upperX / 10.0f) * 10;
+            int gridUpperY = Math.round(upperY / 10.0f) * 10;
+
+            int diffX = gridUpperX - upperX;
+            int diffY = gridUpperY - upperY;
+
+            if(diffX != 0 && newWidth != -1) newWidth += diffX;
+            if(diffY != 0 && newHeight != -1) newHeight += diffY;
+        }
+
         super.setDimensions(newWidth, newHeight);
 
         if(elementData != null) {
-            if(newWidth != null && !Objects.equals(elementData.dimensions.getXValue(), newWidth)) elementData.dimensions.setXValue(newWidth);
-            if(newHeight != null && !Objects.equals(elementData.dimensions.getYValue(), newHeight)) elementData.dimensions.setYValue(newHeight);
+            if(newWidth != -1 && !Objects.equals(elementData.dimensions.getXValue(), newWidth)) elementData.dimensions.setXValue(newWidth);
+            if(newHeight != -1 && !Objects.equals(elementData.dimensions.getYValue(), newHeight)) elementData.dimensions.setYValue(newHeight);
         }
 
         remakePreviewElement();
@@ -256,15 +271,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     }
 
     //endregion
-
-
-    @Override
-    protected void onDragForValueAdjust(IntegerVector2 newPos) {
-        if(screenEditor.getEditorProperties().isGridOn()){
-            newPos.x = Math.round(newPos.x / 10.0f) * 10;
-            newPos.y = Math.round(newPos.y / 10.0f) * 10;
-        }
-    }
 
     @Override
     public String toString() {

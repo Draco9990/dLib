@@ -105,7 +105,7 @@ public class ColorPicker extends UIElement {
         //region Dimensions
 
         @Override
-        public ColorWheel setDimensions(Integer newWidth, Integer newHeight) {
+        public ColorWheel setDimensions(int newWidth, int newHeight) {
             super.setDimensions(newWidth, newHeight);
             recreateTexture();
             return this;
