@@ -54,7 +54,8 @@ public class UIElement {
 
     public UIElement(int xPos, int yPos, int width, int height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
-        setLocalPosition(xPos, yPos);
+        localPosition = new IntegerVector2(xPos, yPos);
+        //setLocalPosition(xPos, yPos); //TODO reenable this if issues
         dimensions = new IntegerVector2(width, height);
     }
 
