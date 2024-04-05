@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
+import dLib.properties.ui.elements.OnValueChangedStringPropertyEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.screens.ScreenManager;
@@ -403,7 +404,7 @@ public class TextBox extends Hoverable {
     public static class TextBoxData extends Hoverable.HoverableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public StringProperty text = new StringProperty("TEXT").setName("Text");
+        public StringProperty text = (StringProperty) new StringProperty("TEXT").setName("Text").setPropertyEditorClass(OnValueChangedStringPropertyEditor.class);
 
         public String textRenderColor = Color.WHITE.toString();
         //TODO FONT

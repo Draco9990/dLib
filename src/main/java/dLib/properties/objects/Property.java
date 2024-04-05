@@ -99,8 +99,10 @@ public abstract class Property<T> implements Serializable {
 
     //region Property Editor
 
-    public void setPropertyEditorClass(Class<? extends AbstractPropertyEditor> propertyEditorClass){
+    public Property<T> setPropertyEditorClass(Class<? extends AbstractPropertyEditor> propertyEditorClass){
         this.propertyEditorClass = propertyEditorClass;
+
+        return this;
     }
 
     public <PropertyEditorClass extends AbstractPropertyEditor> PropertyEditorClass makePropertyEditor(int xPos, int yPos, int width, int height){

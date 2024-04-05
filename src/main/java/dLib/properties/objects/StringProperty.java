@@ -1,5 +1,6 @@
 package dLib.properties.objects;
 
+import dLib.properties.ui.elements.OnValueCommitedStringPropertyEditor;
 import dLib.properties.ui.elements.StringPropertyEditor;
 
 import java.io.Serializable;
@@ -15,7 +16,7 @@ public class StringProperty extends Property<String> implements Serializable {
 
     public StringProperty(String defaultValue){
         super(defaultValue);
-        propertyEditorClass = StringPropertyEditor.class;
+        propertyEditorClass = OnValueCommitedStringPropertyEditor.class;
     }
 
     //endregion
