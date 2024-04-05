@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.DynamicMethodSettingUI;
+import dLib.ui.elements.settings.AbstractPropertyEditor;
+import dLib.ui.elements.settings.DynamicMethodPropertyEditor;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.MethodBindingHelpers;
@@ -133,9 +133,9 @@ public class MethodBindingProperty extends CustomProperty<MethodBinding> impleme
         return MethodBindingHelpers.getPremadeMethodBindings();
     }
 
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
+    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
         if(getValue() instanceof DynamicMethodBinding){
-            return new DynamicMethodSettingUI(this, xPos, yPos, width, height);
+            return new DynamicMethodPropertyEditor(this, xPos, yPos, width, height);
         }
         else{
             return super.makeEditUI(xPos, yPos, width, height);

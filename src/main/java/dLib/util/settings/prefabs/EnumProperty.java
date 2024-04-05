@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.EnumSettingUI;
+import dLib.ui.elements.settings.AbstractPropertyEditor;
+import dLib.ui.elements.settings.EnumPropertyEditor;
 import dLib.util.EnumHelpers;
 import dLib.util.settings.Property;
 
@@ -57,8 +57,8 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
 
     //endregion
 
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
-        return new EnumSettingUI(this, xPos, yPos, width, height);
+    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
+        return new EnumPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

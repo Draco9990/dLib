@@ -1,7 +1,5 @@
 package dLib.util.settings;
 
-import dLib.ui.elements.settings.AbstractSettingUI;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;

@@ -1,8 +1,8 @@
 package dLib.util.settings.prefabs;
 
 import dLib.ui.Alignment;
-import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.AlignmentSettingUI;
+import dLib.ui.elements.settings.AbstractPropertyEditor;
+import dLib.ui.elements.settings.AlignmentPropertyEditor;
 import dLib.util.settings.Property;
 
 import java.io.Serializable;
@@ -79,8 +79,8 @@ public class AlignmentProperty extends Property<Alignment> implements Serializab
 
     //region Edit UI
 
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
-        return new AlignmentSettingUI(this, xPos, yPos, width, height);
+    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
+        return new AlignmentPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

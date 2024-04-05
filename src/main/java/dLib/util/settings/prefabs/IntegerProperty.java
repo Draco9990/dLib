@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.IntegerSettingUI;
+import dLib.ui.elements.settings.AbstractPropertyEditor;
+import dLib.ui.elements.settings.IntegerPropertyEditor;
 import dLib.util.settings.NumberProperty;
 
 import java.io.Serializable;
@@ -71,8 +71,8 @@ public class IntegerProperty extends NumberProperty<Integer> implements Serializ
         return (IntegerProperty) super.setName(newTitle);
     }
 
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
-        return new IntegerSettingUI(this, xPos, yPos, width, height);
+    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
+        return new IntegerPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.CustomSettingUI;
+import dLib.ui.elements.settings.AbstractPropertyEditor;
+import dLib.ui.elements.settings.CustomPropertyEditor;
 import dLib.util.settings.Property;
 
 import java.io.Serializable;
@@ -25,8 +25,8 @@ public abstract class CustomProperty<T> extends Property<T> implements Serializa
 
     public abstract ArrayList<T> getAllOptions();
 
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
-        return new CustomSettingUI<T>(this, xPos, yPos, width, height);
+    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
+        return new CustomPropertyEditor<T>(this, xPos, yPos, width, height);
     }
 
     //endregion
