@@ -1,4 +1,4 @@
-package dLib.ui.elements.propertyeditors;
+package dLib.propertyeditors.ui.elements;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;

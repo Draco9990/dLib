@@ -1,8 +1,8 @@
 package dLib.util.settings.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.ui.elements.propertyeditors.AbstractPropertyEditor;
-import dLib.ui.elements.propertyeditors.ColorPropertyEditor;
+import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
+import dLib.propertyeditors.ui.elements.ColorPropertyEditor;
 import dLib.util.settings.Property;
 
 public class ColorProperty extends Property<Color> {

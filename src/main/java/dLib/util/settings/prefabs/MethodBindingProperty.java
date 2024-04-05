@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.propertyeditors.AbstractPropertyEditor;
-import dLib.ui.elements.propertyeditors.DynamicMethodPropertyEditor;
+import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
+import dLib.propertyeditors.ui.elements.DynamicMethodPropertyEditor;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.MethodBindingHelpers;
