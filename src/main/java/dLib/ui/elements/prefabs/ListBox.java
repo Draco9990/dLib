@@ -27,6 +27,8 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     protected Scrollbar scrollbar;
 
+    protected Inputfield filter;
+
     // Properties
     private String title;
     private int titleBoxHeight = 50;
@@ -72,27 +74,31 @@ public abstract class ListBox<ItemType> extends UIElement {
     }
 
     protected void reinitializeElements(){
-        updateTitleBox();
-        updateItemBox();
-        updateScrollBar();
+        int heightRemaining = getHeight();
+
+        updateTitleBox(0, getHeightUnscaled() - titleBoxHeight, getHeightUnscaled(), titleBoxHeight);
+        if(titleBox != null) heightRemaining -= titleBox.getHeightUnscaled();
+
+        updateItemBox(0, 0, getWidthUnscaled(), heightRemaining);
+        updateScrollBar(0, 0, getWidthUnscaled(), heightRemaining);
     }
 
-    private void updateTitleBox(){
+    private void updateTitleBox(int xPos, int yPos, int width, int height){
         if(title != null && !title.isEmpty()){
             if(titleBox == null){
-                buildTitleBox();
+                buildTitleBox(width, height);
             }
             titleBox.setText(title);
-            titleBox.setLocalPosition(0, getHeight() - titleBoxHeight);
-            titleBox.setDimensions(getWidth(), titleBoxHeight);
+            titleBox.setLocalPosition(xPos, yPos);
+            titleBox.setDimensions(width, height);
         }
         else if(titleBox != null){
             removeChild(titleBox);
             titleBox = null;
         }
     }
-    private void buildTitleBox(){
-        titleBox = new TextBox(title, 0, getHeight() - titleBoxHeight, getWidth(), titleBoxHeight);
+    private void buildTitleBox(int width, int height){
+        titleBox = new TextBox(title, 0, 0, getWidth(), titleBoxHeight);
         titleBox.setImage(UITheme.whitePixel);
         titleBox.setRenderColor(Color.valueOf("#151515FF"));
         titleBox.setTextRenderColor(Color.WHITE);
@@ -101,7 +107,14 @@ public abstract class ListBox<ItemType> extends UIElement {
         addChildNCS(titleBox);
     }
 
-    private void updateItemBox(){
+    protected void updateFilter(int xPos, int yPos, int width, int height){
+
+    }
+    protected void buildFilter(int x, int y, int width, int height){
+
+    }
+
+    private void updateItemBox(int xPos, int yPos, int width, int height){
         int updateHeight = getHeight();
         if(titleBox != null) updateHeight -= titleBox.getHeight();
 
@@ -134,7 +147,7 @@ public abstract class ListBox<ItemType> extends UIElement {
         addChildCS(itemBoxBackground);
     }
 
-    protected abstract void updateScrollBar();
+    protected abstract void updateScrollBar(int xPos, int yPos, int width, int height);
     protected abstract void buildScrollBar(int x, int y, int width, int height);
 
     //endregion

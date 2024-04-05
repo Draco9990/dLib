@@ -34,7 +34,7 @@ public class HorizontalListBox<ItemType> extends ListBox<ItemType> {
         reinitializeElements();
     }
 
-    protected void updateScrollBar(){
+    protected void updateScrollBar(int xPos, int yPos, int width, int height){
         if(scrollbar == null){
             buildScrollBar(0, 0, getWidth(), scrollbarHeight);
         }

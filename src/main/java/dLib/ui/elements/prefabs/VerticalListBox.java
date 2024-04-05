@@ -33,17 +33,14 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
         reinitializeElements();
     }
 
-    protected void updateScrollBar(){
-        int updatePosX = getWidth() - scrollbarWidth;
-
-        int updateHeight = getHeight();
-        if(titleBox != null) updateHeight -= titleBox.getHeight();
+    protected void updateScrollBar(int xPos, int yPos, int width, int height){
+        xPos = width - scrollbarWidth;
 
         if(scrollbar == null){
-            buildScrollBar(updatePosX, 0, scrollbarWidth, updateHeight);
+            buildScrollBar(xPos, 0, scrollbarWidth, height);
         }
-        scrollbar.setLocalPosition(updatePosX, 0);
-        scrollbar.setDimensions(scrollbarWidth, updateHeight);
+        scrollbar.setLocalPosition(xPos, 0);
+        scrollbar.setDimensions(scrollbarWidth, height);
     }
     protected void buildScrollBar(int x, int y, int width, int height){
         scrollbar = new VerticalScrollbar(x, y, width, height) {
