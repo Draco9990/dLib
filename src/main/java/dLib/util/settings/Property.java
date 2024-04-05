@@ -105,8 +105,9 @@ public abstract class Property<T> implements Serializable {
 
     public <PropertyEditorClass extends AbstractPropertyEditor> PropertyEditorClass makePropertyEditor(int xPos, int yPos, int width, int height){
         try{
-            Constructor propertyMaker = propertyEditorClass.getConstructor(getClass(), int.class, int.class, int.class, int.class);
+            if(propertyEditorClass.getConstructors().length == 0) return null;
 
+            Constructor propertyMaker = propertyEditorClass.getConstructors()[0];
             return (PropertyEditorClass) propertyMaker.newInstance(this, xPos, yPos, width, height);
         }catch (Exception e){
             DLibLogger.logError("Failed to make a property editor due to " + e.getLocalizedMessage());
