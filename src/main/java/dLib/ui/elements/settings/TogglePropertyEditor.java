@@ -5,9 +5,7 @@ import dLib.ui.elements.prefabs.Toggle;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.settings.prefabs.BooleanProperty;
 
-import java.util.function.BiConsumer;
-
-public class ToggleSettingUI extends AbstractSettingUI<BooleanProperty> {
+public class TogglePropertyEditor extends AbstractPropertyEditor<BooleanProperty> {
     //region Variables
 
     Toggle button;
@@ -16,7 +14,7 @@ public class ToggleSettingUI extends AbstractSettingUI<BooleanProperty> {
 
     //region Constructors
 
-    public ToggleSettingUI(BooleanProperty setting, Integer xPos, Integer yPos, int width, int height){
+    public TogglePropertyEditor(BooleanProperty setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
     }
 

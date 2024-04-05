@@ -8,9 +8,7 @@ import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
 import dLib.util.settings.prefabs.ColorProperty;
 
-import java.util.function.BiConsumer;
-
-public class ColorSettingUI extends AbstractSettingUI<ColorProperty> {
+public class ColorPropertyEditor extends AbstractPropertyEditor<ColorProperty> {
     //region Variables
 
     Button middleButton;
@@ -19,7 +17,7 @@ public class ColorSettingUI extends AbstractSettingUI<ColorProperty> {
 
     //region Constructors
 
-    public ColorSettingUI(ColorProperty setting, Integer xPos, Integer yPos, int width, int height){
+    public ColorPropertyEditor(ColorProperty setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
     }
 

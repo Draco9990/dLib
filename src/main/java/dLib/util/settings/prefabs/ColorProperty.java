@@ -1,8 +1,8 @@
 package dLib.util.settings.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.ColorSettingUI;
+import dLib.ui.elements.settings.AbstractPropertyEditor;
+import dLib.ui.elements.settings.ColorPropertyEditor;
 import dLib.util.settings.Property;
 
 public class ColorProperty extends Property<Color> {
@@ -19,8 +19,8 @@ public class ColorProperty extends Property<Color> {
 
     //region Methods
 
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
-        return new ColorSettingUI(this, xPos, yPos, width, height);
+    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
+        return new ColorPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

@@ -8,7 +8,7 @@ import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.elements.prefabs.VerticalBox;
 import dLib.util.settings.Property;
 
-public abstract class AbstractSettingUI<PropertyType extends Property<?>> extends UIElement {
+public abstract class AbstractPropertyEditor<PropertyType extends Property<?>> extends UIElement {
     //region Variables
 
     protected PropertyType property;
@@ -17,7 +17,7 @@ public abstract class AbstractSettingUI<PropertyType extends Property<?>> extend
 
     //region Constructors
 
-    public AbstractSettingUI(PropertyType property, Integer xPos, Integer yPos, Integer width, Integer height){
+    public AbstractPropertyEditor(PropertyType property, Integer xPos, Integer yPos, Integer width, Integer height){
         super(xPos, yPos, width, height);
 
         this.property = property;

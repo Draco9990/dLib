@@ -9,10 +9,7 @@ import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.prefabs.MethodBindingProperty;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
-public class DynamicMethodSettingUI extends AbstractSettingUI<MethodBindingProperty> {
+public class DynamicMethodPropertyEditor extends AbstractPropertyEditor<MethodBindingProperty> {
     //region Variables
 
     Inputfield methodNameField;
@@ -23,7 +20,7 @@ public class DynamicMethodSettingUI extends AbstractSettingUI<MethodBindingPrope
 
     //region Constructors
 
-    public DynamicMethodSettingUI(MethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public DynamicMethodPropertyEditor(MethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
     }
 

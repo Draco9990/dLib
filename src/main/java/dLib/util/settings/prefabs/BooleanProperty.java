@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.ToggleSettingUI;
+import dLib.ui.elements.settings.AbstractPropertyEditor;
+import dLib.ui.elements.settings.TogglePropertyEditor;
 import dLib.util.settings.Property;
 import java.io.Serializable;
 
@@ -34,8 +34,8 @@ public class BooleanProperty extends Property<Boolean> implements Serializable {
         return (BooleanProperty) super.setName(newTitle);
     }
 
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
-        return new ToggleSettingUI(this, xPos, yPos, width, height);
+    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
+        return new TogglePropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

@@ -1,15 +1,10 @@
 package dLib.ui.elements.settings;
 
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.Inputfield;
-import dLib.ui.themes.UIThemeManager;
 import dLib.util.settings.prefabs.IntegerProperty;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
-public class IntegerSettingUI extends AbstractSettingUI<IntegerProperty> {
+public class IntegerPropertyEditor extends AbstractPropertyEditor<IntegerProperty> {
     //region Variables
 
     Inputfield middleInputfield;
@@ -18,7 +13,7 @@ public class IntegerSettingUI extends AbstractSettingUI<IntegerProperty> {
 
     //region Constructors
 
-    public IntegerSettingUI(IntegerProperty setting, Integer xPos, Integer yPos, Integer width, int height){
+    public IntegerPropertyEditor(IntegerProperty setting, Integer xPos, Integer yPos, Integer width, int height){
         super(setting, xPos, yPos, width, height);
     }
 

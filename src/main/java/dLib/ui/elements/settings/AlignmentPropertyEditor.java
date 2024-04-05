@@ -6,12 +6,9 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.util.EnumHelpers;
-import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.AlignmentProperty;
 
-import java.util.function.BiConsumer;
-
-public class AlignmentSettingUI extends AbstractSettingUI<AlignmentProperty>{
+public class AlignmentPropertyEditor extends AbstractPropertyEditor<AlignmentProperty> {
     //region Variables
 
     TextButton leftButton;
@@ -21,7 +18,7 @@ public class AlignmentSettingUI extends AbstractSettingUI<AlignmentProperty>{
 
     //region Constructors
 
-    public AlignmentSettingUI(AlignmentProperty setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public AlignmentPropertyEditor(AlignmentProperty setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
     }
 

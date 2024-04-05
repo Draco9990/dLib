@@ -7,9 +7,7 @@ import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.settings.prefabs.EnumProperty;
 
-import java.util.function.BiConsumer;
-
-public class EnumSettingUI extends AbstractSettingUI<EnumProperty<? extends Enum<?>>> {
+public class EnumPropertyEditor extends AbstractPropertyEditor<EnumProperty<? extends Enum<?>>> {
     //region Variables
 
     Button leftArrow;
@@ -21,7 +19,7 @@ public class EnumSettingUI extends AbstractSettingUI<EnumProperty<? extends Enum
 
     //region Constructors
 
-    public EnumSettingUI(EnumProperty<? extends Enum<?>> setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public EnumPropertyEditor(EnumProperty<? extends Enum<?>> setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
     }
 

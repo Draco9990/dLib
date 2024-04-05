@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractSettingUI;
-import dLib.ui.elements.settings.StringSettingUI;
+import dLib.ui.elements.settings.AbstractPropertyEditor;
+import dLib.ui.elements.settings.StringPropertyEditor;
 import dLib.util.settings.Property;
 
 import java.io.Serializable;
@@ -30,8 +30,8 @@ public class StringProperty extends Property<String> implements Serializable {
         return (StringProperty) super.setName(newTitle);
     }
 
-    public AbstractSettingUI makeEditUI(int xPos, int yPos, int width, int height) {
-        return new StringSettingUI(this, xPos, yPos, width, height);
+    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
+        return new StringPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

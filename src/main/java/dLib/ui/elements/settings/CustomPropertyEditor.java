@@ -5,12 +5,9 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
-import dLib.util.settings.Property;
 import dLib.util.settings.prefabs.CustomProperty;
 
-import java.util.function.BiConsumer;
-
-public class CustomSettingUI<ItemType> extends AbstractSettingUI<CustomProperty<ItemType>> {
+public class CustomPropertyEditor<ItemType> extends AbstractPropertyEditor<CustomProperty<ItemType>> {
     //region Variables
 
     TextButton middleButton;
@@ -19,7 +16,7 @@ public class CustomSettingUI<ItemType> extends AbstractSettingUI<CustomProperty<
 
     //region Constructors
 
-    public CustomSettingUI(CustomProperty<ItemType> setting, Integer xPos, Integer yPos, int width, int height){
+    public CustomPropertyEditor(CustomProperty<ItemType> setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
     }
 

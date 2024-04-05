@@ -4,10 +4,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.util.settings.prefabs.StringProperty;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
-public class StringSettingUI extends AbstractSettingUI<StringProperty> {
+public class StringPropertyEditor extends AbstractPropertyEditor<StringProperty> {
     //region Variables
 
     Inputfield input;
@@ -16,7 +13,7 @@ public class StringSettingUI extends AbstractSettingUI<StringProperty> {
 
     //region Constructors
 
-    public StringSettingUI(StringProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public StringPropertyEditor(StringProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
     }
 

@@ -9,10 +9,7 @@ import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.IntegerVector2;
 import dLib.util.settings.prefabs.IntegerVector2Property;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
-public class IntegerVector2SettingUI extends AbstractSettingUI<IntegerVector2Property>{
+public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<IntegerVector2Property> {
     //region Variables
 
     Inputfield xInput;
@@ -22,7 +19,7 @@ public class IntegerVector2SettingUI extends AbstractSettingUI<IntegerVector2Pro
 
     //region Constructors
 
-    public IntegerVector2SettingUI(IntegerVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public IntegerVector2PropertyEditor(IntegerVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
     }
 
