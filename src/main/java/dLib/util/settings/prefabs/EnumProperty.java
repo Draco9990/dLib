@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractPropertyEditor;
-import dLib.ui.elements.settings.EnumPropertyEditor;
+import dLib.ui.elements.propertyeditors.AbstractPropertyEditor;
+import dLib.ui.elements.propertyeditors.EnumPropertyEditor;
 import dLib.util.EnumHelpers;
 import dLib.util.settings.Property;
 

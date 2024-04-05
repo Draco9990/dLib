@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractPropertyEditor;
-import dLib.ui.elements.settings.IntegerVector2PropertyEditor;
+import dLib.ui.elements.propertyeditors.AbstractPropertyEditor;
+import dLib.ui.elements.propertyeditors.IntegerVector2PropertyEditor;
 import dLib.util.IntegerVector2;
 import dLib.util.settings.Property;
 

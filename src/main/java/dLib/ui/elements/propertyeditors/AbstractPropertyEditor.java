@@ -1,4 +1,4 @@
-package dLib.ui.elements.settings;
+package dLib.ui.elements.propertyeditors;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;

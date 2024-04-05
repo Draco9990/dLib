@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
-import dLib.ui.elements.settings.AbstractPropertyEditor;
-import dLib.ui.elements.settings.IntegerPropertyEditor;
+import dLib.ui.elements.propertyeditors.AbstractPropertyEditor;
+import dLib.ui.elements.propertyeditors.IntegerPropertyEditor;
 import dLib.util.settings.NumberProperty;
 
 import java.io.Serializable;

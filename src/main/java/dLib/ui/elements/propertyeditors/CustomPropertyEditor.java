@@ -1,4 +1,4 @@
-package dLib.ui.elements.settings;
+package dLib.ui.elements.propertyeditors;
 
 import dLib.DLib;
 import dLib.ui.elements.UIElement;
