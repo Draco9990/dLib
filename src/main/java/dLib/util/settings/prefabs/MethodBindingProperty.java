@@ -134,12 +134,7 @@ public class MethodBindingProperty extends CustomProperty<MethodBinding> impleme
     }
 
     public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        if(getValue() instanceof DynamicMethodBinding){
-            return new DynamicMethodPropertyEditor(this, xPos, yPos, width, height);
-        }
-        else{
-            return super.makeEditUI(xPos, yPos, width, height);
-        }
+        return new DynamicMethodPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

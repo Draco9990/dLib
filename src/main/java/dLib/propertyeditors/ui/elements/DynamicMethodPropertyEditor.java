@@ -6,10 +6,11 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
+import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.prefabs.MethodBindingProperty;
 
-public class DynamicMethodPropertyEditor extends AbstractPropertyEditor<MethodBindingProperty> {
+public class DynamicMethodPropertyEditor extends CustomPropertyEditor<MethodBindingProperty, MethodBinding> {
     //region Variables
 
     Inputfield methodNameField;
@@ -30,6 +31,15 @@ public class DynamicMethodPropertyEditor extends AbstractPropertyEditor<MethodBi
 
     @Override
     protected UIElement buildContent(MethodBindingProperty property, Integer width, Integer height) {
+        if(property.getValue() instanceof DynamicMethodBinding){
+            return buildDynamicMethodPropertyEditor(property, width, height);
+        }
+        else {
+            return super.buildContent(property, width, height);
+        }
+    }
+
+    private UIElement buildDynamicMethodPropertyEditor(MethodBindingProperty property, Integer width, Integer height){
         int buttonDim = Math.min(height, (int)(0.3 * width));
 
         DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) property.getValue();

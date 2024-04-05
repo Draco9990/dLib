@@ -26,7 +26,7 @@ public abstract class CustomProperty<T> extends Property<T> implements Serializa
     public abstract ArrayList<T> getAllOptions();
 
     public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        return new CustomPropertyEditor<T>(this, xPos, yPos, width, height);
+        return new CustomPropertyEditor<>(this, xPos, yPos, width, height);
     }
 
     //endregion
