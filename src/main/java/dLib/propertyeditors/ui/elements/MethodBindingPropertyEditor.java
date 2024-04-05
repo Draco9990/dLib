@@ -10,9 +10,7 @@ import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.prefabs.MethodBindingProperty;
 
-import java.util.function.BiConsumer;
-
-public class DynamicMethodPropertyEditor extends CustomPropertyEditor<MethodBindingProperty, MethodBinding> {
+public class MethodBindingPropertyEditor extends CustomPropertyEditor<MethodBindingProperty, MethodBinding> {
     //region Variables
 
     Inputfield methodNameField;
@@ -23,7 +21,7 @@ public class DynamicMethodPropertyEditor extends CustomPropertyEditor<MethodBind
 
     //region Constructors
 
-    public DynamicMethodPropertyEditor(MethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public MethodBindingPropertyEditor(MethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
 
         setting.addOnValueChangedListener((oldValue, newValue) -> {

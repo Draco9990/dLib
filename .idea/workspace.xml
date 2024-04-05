@@ -9,10 +9,20 @@
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/ui/elements/AbstractPropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/ui/elements/AbstractPropertyEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/ui/elements/DynamicMethodPropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/ui/elements/DynamicMethodPropertyEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/editoritems/ScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/editoritems/ScreenEditorItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/PropertyEditorManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/ui/elements/DynamicMethodPropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/ui/elements/MethodBindingPropertyEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/ui/elements/TogglePropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/propertyeditors/ui/elements/BooleanPropertyEditor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/toolbar/ScreenEditorElementProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/toolbar/ScreenEditorElementProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/Property.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/AlignmentProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/AlignmentProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/BooleanProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/BooleanProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/ColorProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/ColorProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/CustomProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/CustomProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/EnumProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/EnumProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/IntegerProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/IntegerProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/IntegerVector2Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/IntegerVector2Property.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/MethodBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/MethodBindingProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/StringProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/settings/prefabs/StringProperty.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +211,7 @@
       <workItem from="1711987683459" duration="9524000" />
       <workItem from="1712048906559" duration="43468000" />
       <workItem from="1712221937261" duration="24540000" />
-      <workItem from="1712307568206" duration="8277000" />
+      <workItem from="1712307568206" duration="10044000" />
     </task>
     <servers />
   </component>

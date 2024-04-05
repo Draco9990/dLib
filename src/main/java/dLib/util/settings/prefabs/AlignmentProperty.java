@@ -22,6 +22,8 @@ public class AlignmentProperty extends Property<Alignment> implements Serializab
 
     public AlignmentProperty(Alignment value) {
         super(value);
+
+        propertyEditorClass = AlignmentPropertyEditor.class;
     }
 
     //endregion
@@ -73,14 +75,6 @@ public class AlignmentProperty extends Property<Alignment> implements Serializab
         if(onVerticalAlignmentChangedListeners == null) onVerticalAlignmentChangedListeners = new ArrayList<>();
         onVerticalAlignmentChangedListeners.add(listener);
         return this;
-    }
-
-    //endregion
-
-    //region Edit UI
-
-    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        return new AlignmentPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

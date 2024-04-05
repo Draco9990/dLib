@@ -1,7 +1,7 @@
 package dLib.util.settings.prefabs;
 
 import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
-import dLib.propertyeditors.ui.elements.DynamicMethodPropertyEditor;
+import dLib.propertyeditors.ui.elements.MethodBindingPropertyEditor;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.MethodBindingHelpers;
@@ -31,6 +31,8 @@ public class MethodBindingProperty extends CustomProperty<MethodBinding> impleme
 
     public MethodBindingProperty(MethodBinding value) {
         super(value);
+
+        propertyEditorClass = MethodBindingPropertyEditor.class;
     }
 
     public MethodBindingProperty() {
@@ -131,10 +133,6 @@ public class MethodBindingProperty extends CustomProperty<MethodBinding> impleme
     @Override
     public ArrayList<MethodBinding> getAllOptions() {
         return MethodBindingHelpers.getPremadeMethodBindings();
-    }
-
-    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        return new DynamicMethodPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

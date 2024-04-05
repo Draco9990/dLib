@@ -21,6 +21,8 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
 
     public EnumProperty(Enum<T> value) {
         super(value);
+
+        propertyEditorClass = EnumPropertyEditor.class;
     }
 
     //endregion
@@ -56,10 +58,6 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
     }
 
     //endregion
-
-    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        return new EnumPropertyEditor(this, xPos, yPos, width, height);
-    }
 
     //endregion
 }

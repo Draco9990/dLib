@@ -1,6 +1,7 @@
 package dLib.util.settings.prefabs;
 
 import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
+import dLib.propertyeditors.ui.elements.IntegerPropertyEditor;
 import dLib.propertyeditors.ui.elements.IntegerVector2PropertyEditor;
 import dLib.util.IntegerVector2;
 import dLib.util.settings.Property;
@@ -26,6 +27,8 @@ public class IntegerVector2Property extends Property<IntegerVector2> implements 
 
     public IntegerVector2Property(IntegerVector2 value) {
         super(value);
+
+        propertyEditorClass = IntegerVector2PropertyEditor.class;
     }
 
     //endregion
@@ -116,19 +119,10 @@ public class IntegerVector2Property extends Property<IntegerVector2> implements 
 
     //endregion
 
-    //region Edit UI
-
-    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        return new IntegerVector2PropertyEditor(this, xPos, yPos, width, height);
-    }
-
-    //endregion
-
     @Override
     public IntegerVector2Property setName(String newTitle) {
         return (IntegerVector2Property) super.setName(newTitle);
     }
-
 
     //endregion
 }

@@ -25,6 +25,8 @@ public class IntegerProperty extends NumberProperty<Integer> implements Serializ
     }
     public IntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue, Integer incrementAmount, Integer decrementAmount){
         super(currentValue, minimumValue, maximumValue, incrementAmount, decrementAmount);
+
+        propertyEditorClass = IntegerPropertyEditor.class;
     }
 
     //endregion
@@ -69,10 +71,6 @@ public class IntegerProperty extends NumberProperty<Integer> implements Serializ
     @Override
     public IntegerProperty setName(String newTitle) {
         return (IntegerProperty) super.setName(newTitle);
-    }
-
-    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        return new IntegerPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

@@ -17,6 +17,7 @@ public class StringProperty extends Property<String> implements Serializable {
 
     public StringProperty(String defaultValue){
         super(defaultValue);
+        propertyEditorClass = StringPropertyEditor.class;
     }
 
     //endregion
@@ -28,10 +29,6 @@ public class StringProperty extends Property<String> implements Serializable {
     @Override
     public StringProperty setName(String newTitle) {
         return (StringProperty) super.setName(newTitle);
-    }
-
-    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        return new StringPropertyEditor(this, xPos, yPos, width, height);
     }
 
     //endregion

@@ -13,15 +13,12 @@ public class ColorProperty extends Property<Color> {
 
     public ColorProperty(Color value) {
         super(value);
+        propertyEditorClass = ColorPropertyEditor.class;
     }
 
     //endregion
 
     //region Methods
-
-    public AbstractPropertyEditor makeEditUI(int xPos, int yPos, int width, int height) {
-        return new ColorPropertyEditor(this, xPos, yPos, width, height);
-    }
 
     //endregion
 }

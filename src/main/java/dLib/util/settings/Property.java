@@ -1,6 +1,10 @@
 package dLib.util.settings;
 
+import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
+import dLib.util.DLibLogger;
+
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 
@@ -13,6 +17,8 @@ public abstract class Property<T> implements Serializable {
 
     protected T defaultValue;
     protected T value;
+
+    protected Class<? extends AbstractPropertyEditor> propertyEditorClass;
 
     private transient ArrayList<BiConsumer<T, T>> onValueChangedListeners = new ArrayList<>();
 
@@ -90,6 +96,27 @@ public abstract class Property<T> implements Serializable {
     }
 
     //endregion
+
+    //region Property Editor
+
+    public void setPropertyEditorClass(Class<? extends AbstractPropertyEditor> propertyEditorClass){
+        this.propertyEditorClass = propertyEditorClass;
+    }
+
+    public <PropertyEditorClass extends AbstractPropertyEditor> PropertyEditorClass makePropertyEditor(int xPos, int yPos, int width, int height){
+        try{
+            Constructor propertyMaker = propertyEditorClass.getConstructor(getClass(), int.class, int.class, int.class, int.class);
+
+            return (PropertyEditorClass) propertyMaker.newInstance(this, xPos, yPos, width, height);
+        }catch (Exception e){
+            DLibLogger.logError("Failed to make a property editor due to " + e.getLocalizedMessage());
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    //endregion Property Editor
 
     //endregion
 }

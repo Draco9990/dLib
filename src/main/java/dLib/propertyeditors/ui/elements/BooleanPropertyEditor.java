@@ -5,7 +5,7 @@ import dLib.ui.elements.prefabs.Toggle;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.settings.prefabs.BooleanProperty;
 
-public class TogglePropertyEditor extends AbstractPropertyEditor<BooleanProperty> {
+public class BooleanPropertyEditor extends AbstractPropertyEditor<BooleanProperty> {
     //region Variables
 
     Toggle button;
@@ -14,7 +14,7 @@ public class TogglePropertyEditor extends AbstractPropertyEditor<BooleanProperty
 
     //region Constructors
 
-    public TogglePropertyEditor(BooleanProperty setting, Integer xPos, Integer yPos, int width, int height){
+    public BooleanPropertyEditor(BooleanProperty setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
     }
 
