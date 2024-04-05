@@ -260,8 +260,8 @@ public class Inputfield extends UIElement {
     public static class InputfieldData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public Button.ButtonData buttonData = new Button.ButtonData();
         public TextBox.TextBoxData textboxData = new TextBox.TextBoxData();
+        public Button.ButtonData buttonData = new Button.ButtonData();
 
         public List<Character> characterFilter = new ArrayList<>();
         public int characterLimit = -1;
@@ -272,12 +272,9 @@ public class Inputfield extends UIElement {
             buttonData.textureBinding.setValue(new TextureThemeBinding("inputfield"));
 
             //add children transient property that manages this and below?
-            dimensions.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
-                @Override
-                public void accept(IntegerVector2 integerVector2, IntegerVector2 integerVector22) {
-                    buttonData.dimensions.setValue(dimensions.getValue());
-                    textboxData.dimensions.setValue(dimensions.getValue());
-                }
+            dimensions.addOnValueChangedListener((integerVector2, integerVector22) -> {
+                buttonData.dimensions.setValue(dimensions.getValue());
+                textboxData.dimensions.setValue(dimensions.getValue());
             });
         }
 

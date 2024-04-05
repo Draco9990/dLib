@@ -940,7 +940,16 @@ public class UIElement {
         public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Local Position").setValueNames("X", "Y");
         public boolean dockedToParent = true;
 
-        public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)).setName("Dimensions").setValueNames("W", "H");
+        public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)){
+            @Override
+            public void onValueChanged(IntegerVector2 oldValue, IntegerVector2 newValue) {
+                super.onValueChanged(oldValue, newValue);
+
+                for(UIElementData subElement : Reflection.getFieldValuesByClass(UIElementData.class, getSelf())){
+                    subElement.dimensions.setValue(newValue.copy());
+                };
+            }
+        }.setName("Dimensions").setValueNames("W", "H");
         public boolean scaleWithParent = true;
 
         public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);
@@ -1009,6 +1018,10 @@ public class UIElement {
 
         public <T extends UIElementData> T copy(){
             return (T) deserializeFromString(serializeToString());
+        }
+
+        public UIElementData getSelf(){
+            return this;
         }
     }
 }

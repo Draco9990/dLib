@@ -57,20 +57,11 @@ public class TextButton extends UIElement {
     public static class TextButtonData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public Button.ButtonData buttonData = new Button.ButtonData();
         public TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();
+        public Button.ButtonData buttonData = new Button.ButtonData();
 
         public TextButtonData(){
             buttonData.textureBinding.setValue(new TextureThemeBinding("button_small"));
-
-            //add children transient property that manages this and below?
-            dimensions.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
-                @Override
-                public void accept(IntegerVector2 integerVector2, IntegerVector2 integerVector22) {
-                    buttonData.dimensions.setValue(dimensions.getValue());
-                    textBoxData.dimensions.setValue(dimensions.getValue());
-                }
-            });
         }
 
         @Override
