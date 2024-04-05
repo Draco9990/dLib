@@ -970,7 +970,7 @@ public class UIElement {
 
             for(UIElementData subElement : Reflection.getFieldValuesByClass(UIElementData.class, this)){
                 ArrayList<Property<?>> subProperties = subElement.getEditableProperties();
-                filterInnerProperties(subProperties);
+                subElement.filterInnerProperties(subProperties);
                 properties.addAll(subProperties);
             }
 
