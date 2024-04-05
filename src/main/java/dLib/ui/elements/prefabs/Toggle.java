@@ -3,10 +3,13 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.modcompat.ModManager;
+import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.TextureBindingProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
+import dLib.util.bindings.texture.TextureNullBinding;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
@@ -45,11 +48,11 @@ public class Toggle extends Interactable {
     public Toggle(ToggleData data){
         super(data);
 
-        this.toggled = data.isToggled;
+        this.toggled = data.isToggled.getValue();
 
-        this.toggledTexture = data.toggledTexture.getBoundTexture();
-        this.toggledHoveredTexture = data.toggledTexture.getBoundTexture();
-        this.toggledDisabledTexture = data.toggledTexture.getBoundTexture();
+        this.toggledTexture = data.toggledTexture.getValue().getBoundTexture();
+        this.toggledHoveredTexture = data.toggledHoveredTexture.getBoundTexture();
+        this.toggledDisabledTexture = data.toggledDisabledTexture.getBoundTexture();
 
         this.toggledColor = Color.valueOf(data.toggledColor);
         this.toggledColorMultiplier = data.toggledColorMultiplier;
@@ -151,9 +154,9 @@ public class Toggle extends Interactable {
     public static class ToggleData extends Interactable.InteractableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public boolean isToggled;
+        public BooleanProperty isToggled = new BooleanProperty(false).setName("Toggled");
 
-        public TextureBinding toggledTexture = new TextureEmptyBinding();
+        public TextureBindingProperty toggledTexture = new TextureBindingProperty(new TextureNullBinding()).setName("Toggled Image");
         public TextureBinding toggledHoveredTexture = new TextureEmptyBinding();
         public TextureBinding toggledDisabledTexture = new TextureEmptyBinding();
 

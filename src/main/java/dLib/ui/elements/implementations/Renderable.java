@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
+import dLib.properties.objects.ColorProperty;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.properties.objects.TextureBindingProperty;
@@ -38,7 +39,7 @@ public class Renderable extends UIElement {
         super(data);
 
         this.image = data.textureBinding.getValue().getBoundTexture();
-        this.renderColor = Color.valueOf(data.renderColor);
+        this.renderColor = data.renderColor.getColorValue();
     }
 
     //endregion
@@ -100,7 +101,7 @@ public class Renderable extends UIElement {
 
         public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureEmptyBinding()).setName("Image");
 
-        public String renderColor = Color.WHITE.cpy().toString();
+        public ColorProperty renderColor = (ColorProperty) new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
 
         @Override
         public UIElement makeUIElement() {

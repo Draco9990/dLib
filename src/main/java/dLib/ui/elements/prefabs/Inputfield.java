@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
+import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
@@ -67,7 +68,7 @@ public class Inputfield extends UIElement {
         addChildNCS(this.textBox);
 
         characterFilter = data.characterFilter;
-        characterLimit = data.characterLimit;
+        characterLimit = data.characterLimit.getValue();
 
         setPreset(data.inputfieldPreset);
 
@@ -261,7 +262,7 @@ public class Inputfield extends UIElement {
         public Button.ButtonData buttonData = new Button.ButtonData();
 
         public List<Character> characterFilter = new ArrayList<>();
-        public int characterLimit = -1;
+        public IntegerProperty characterLimit = new IntegerProperty(-1).setName("Character Limit");
 
         Inputfield.EInputfieldPreset inputfieldPreset = Inputfield.EInputfieldPreset.GENERIC;
 

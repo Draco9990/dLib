@@ -1,6 +1,9 @@
 package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
+import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.EnumProperty;
+import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
@@ -59,10 +62,10 @@ public abstract class ListBox<ItemType> extends UIElement {
         this.title = data.titleBoxText.getValue();
         this.titleBoxHeight = data.titleBoxHeight;
 
-        this.itemSpacing = data.itemSpacing;
-        this.invertedItemOrder = data.invertedItemOrder;
+        this.itemSpacing = data.itemSpacing.getValue();
+        this.invertedItemOrder = data.invertedItemOrder.getValue();
 
-        this.setSelectionMode(data.selectionMode);
+        this.setSelectionMode(data.selectionMode.getValue());
         this.setSelectionCountLimit(data.selectionLimit);
 
         this.canReorder = data.canReorder;
@@ -423,11 +426,11 @@ public abstract class ListBox<ItemType> extends UIElement {
         public StringProperty titleBoxText = new StringProperty("").setName("Title");
         public int titleBoxHeight = 50;
 
-        public int itemSpacing = 0;
-        public boolean invertedItemOrder = false;
+        public IntegerProperty itemSpacing = (IntegerProperty) new IntegerProperty(0).setMinimumValue(0).setName("Item Spacing");
+        public BooleanProperty invertedItemOrder = new BooleanProperty(false).setName("Inverted Item Order");
 
-        public ESelectionMode selectionMode = ESelectionMode.SINGLE;
-        public int selectionLimit = 1;
+        public EnumProperty<ESelectionMode> selectionMode = (EnumProperty<ESelectionMode>) new EnumProperty<>(ESelectionMode.SINGLE).setName("Selection Mode");
+        public int selectionLimit = 1; //TODO allow
 
         public boolean canReorder = false;
     }

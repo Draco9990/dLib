@@ -42,6 +42,11 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
     }
 
     @Override
+    public T getValue() {
+        return (T) super.getValue();
+    }
+
+    @Override
     public String getValueForDisplay() {
         return super.getValueForDisplay().replace("_", " ");
     }

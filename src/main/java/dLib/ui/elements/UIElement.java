@@ -1,6 +1,7 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.properties.objects.BooleanProperty;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
@@ -75,8 +76,8 @@ public class UIElement {
         setBoundWithinParent(data.boundWithinParent);
         setBorderToBorderBound(data.borderToBorderBound);
 
-        setVisibility(data.isVisible);
-        setEnabled(data.isEnabled);
+        setVisibility(data.isVisible.getValue());
+        setEnabled(data.isEnabled.getValue());
 
         onSelectionStateChangedConsumers.add(aBoolean -> data.onSelectionStateChangedBinding.executeBinding(aBoolean));
     }
@@ -958,8 +959,8 @@ public class UIElement {
         public boolean boundWithinParent = false;
         public boolean borderToBorderBound = false;
 
-        public boolean isVisible = true;
-        public boolean isEnabled = true;
+        public BooleanProperty isVisible = new BooleanProperty(true).setName("Visible");
+        public BooleanProperty isEnabled = new BooleanProperty(true).setName("Enabled");
 
         public MethodBinding onSelectionStateChangedBinding = new NoneMethodBinding();
 
@@ -989,6 +990,8 @@ public class UIElement {
             properties.remove(id);
             properties.remove(localPosition);
             properties.remove(dimensions);
+            properties.remove(isVisible);
+            properties.remove(isEnabled);
         }
 
         public String serializeToString(){

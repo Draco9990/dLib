@@ -81,6 +81,12 @@ public class Interactable extends Hoverable{
         this.hoveredTexture = data.hoveredTexture.getBoundTexture();
         this.disabledTexture = data.disabledTexture.getBoundTexture();
 
+        this.hoveredColor = Color.valueOf(data.hoveredColor);
+        this.hoveredColorMultiplier = data.hoveredColorMultiplier;
+
+        this.disabledColor = Color.valueOf(data.disabledColor);
+        this.disabledColorMultiplier = data.disabledColorMultiplier;
+
         if(data.onLeftClick != null) addOnLeftClickConsumer(() -> data.onLeftClick.getValue().executeBinding(ScreenManager.getCurrentScreen()));
         if(data.onLeftClickHeld != null) addOnLeftClickHeldConsumer(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
         if(data.onLeftClickRelease != null) addOnLeftClickReleaseConsumer(() -> data.onLeftClickRelease.getValue().executeBinding(ScreenManager.getCurrentScreen()));
@@ -416,8 +422,11 @@ public class Interactable extends Hoverable{
         public TextureBinding hoveredTexture = new TextureNullBinding();
         public TextureBinding disabledTexture = new TextureNullBinding();
 
-        //TODO HOVEREDCOLOR & mult
-        //TODO DISABLEDCOLOR & mult
+        public String hoveredColor = Color.BLACK.toString();
+        public float hoveredColorMultiplier = 0.25f;
+
+        public String disabledColor = Color.WHITE.toString();
+        public float disabledColorMultiplier = 0.25f;
 
         public boolean isPassthrough = false;
 
@@ -434,6 +443,7 @@ public class Interactable extends Hoverable{
         public MethodBindingProperty onRightClickRelease = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click Release");
 
         public InteractableData(){
+            //TODO handle serialization
             id.addOnValueChangedListener((s, s2) -> {
                 onLeftClick.setDNCMethodName(s2 + "_onLeftClick");
                 onLeftClickHeld.setDNCMethodName(s2 + "_onLeftClickHeld");

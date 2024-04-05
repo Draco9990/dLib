@@ -31,17 +31,17 @@ public class ColorPropertyEditor extends AbstractPropertyEditor<ColorProperty> {
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
-                ScreenManager.openScreen(new ColorPickerScreen(ScreenManager.getCurrentScreen(), property.getValue()){
+                ScreenManager.openScreen(new ColorPickerScreen(ScreenManager.getCurrentScreen(), property.getColorValue()){
                     @Override
                     public void onColorChosen(Color color) {
                         super.onColorChosen(color);
-                        property.setValue(color);
+                        property.setColorValue(color);
                     }
                 });
             }
-        }.setImage(UITheme.whitePixel).setRenderColor(property.getValue());
+        }.setImage(UITheme.whitePixel).setRenderColor(property.getColorValue());
 
-        property.addOnValueChangedListener((color, color2) -> middleButton.setRenderColor(property.getValue()));
+        property.addOnValueChangedListener((color, color2) -> middleButton.setRenderColor(property.getColorValue()));
 
         return middleButton;
     }
