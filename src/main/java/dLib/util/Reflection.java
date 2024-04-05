@@ -13,15 +13,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Reflection {
 
     /** Variables */
-    private static final Map<Class<?>, Map<String, Field>> fieldMap = new HashMap();
+    private static final LinkedHashMap<Class<?>, LinkedHashMap<String, Field>> fieldMap = new LinkedHashMap();
 
     //Returns value of a field from the object or its parent classes
     public static <T> T getFieldValue(String fieldName, Object source){
@@ -45,10 +42,10 @@ public class Reflection {
         }
     }
 
-    public static HashMap<String, Object> getFieldValues(Object source){
+    public static LinkedHashMap<String, Object> getFieldValues(Object source){
         ArrayList<Map<String, Field>> classFields = getAllFields(source instanceof Class<?> ? (Class<?>) source : source.getClass());
 
-        HashMap<String, Object> fieldValues = new HashMap<>();
+        LinkedHashMap<String, Object> fieldValues = new LinkedHashMap<>();
 
         for(Map<String, Field> fields : classFields){
             for(Field field : fields.values()){
@@ -122,15 +119,19 @@ public class Reflection {
     }
     public static ArrayList<Field> getFieldsByClass(Class<?> fieldClass, Class<?> objectClass){
         ArrayList<Field> fields = new ArrayList<>();
-        Field[] objectFields = objectClass.getDeclaredFields();
-        for(Field field : objectFields){
-            if(fieldClass.isAssignableFrom(field.getType())){
-                fields.add(field);
-            } else if (field.getGenericType() instanceof ParameterizedType) {
-                ParameterizedType pType = (ParameterizedType) field.getGenericType();
-                Class<?> rawType = (Class<?>) pType.getRawType();
-                if (fieldClass.isAssignableFrom(rawType)) {
+
+        ArrayList<Map<String, Field>> allFields = getAllFields(objectClass);
+        for (int i = allFields.size() - 1; i >= 0; i--) {
+            Map<String, Field> fieldsPerClass = allFields.get(i);
+            for (Field field : fieldsPerClass.values()) {
+                if (fieldClass.isAssignableFrom(field.getType())) {
                     fields.add(field);
+                } else if (field.getGenericType() instanceof ParameterizedType) {
+                    ParameterizedType pType = (ParameterizedType) field.getGenericType();
+                    Class<?> rawType = (Class<?>) pType.getRawType();
+                    if (fieldClass.isAssignableFrom(rawType)) {
+                        fields.add(field);
+                    }
                 }
             }
         }
@@ -139,7 +140,7 @@ public class Reflection {
 
     public static ArrayList<Map<String, Field>> getAllFields(Class<?> objClass){
         ArrayList<Map<String, Field>> objFields = new ArrayList<>();
-        Map<String, Field> fields = fieldMap.get(objClass);
+        LinkedHashMap<String, Field> fields = fieldMap.get(objClass);
 
         if(fields != null){
             objFields.add(fields);
@@ -152,7 +153,7 @@ public class Reflection {
         }
 
         while (objClass != null && objClass != Object.class) {
-            fields = new HashMap<>();
+            fields = new LinkedHashMap<>();
             for(Field f : objClass.getDeclaredFields()){
                 fields.put(f.getName(), f);
             }
@@ -164,7 +165,7 @@ public class Reflection {
     }
 
     /** Methods */
-    private static final Map<Class<?>, Map<String, Method>> methodMap = new HashMap();
+    private static final LinkedHashMap<Class<?>, LinkedHashMap<String, Method>> methodMap = new LinkedHashMap();
 
     public static Object invokeMethod(String methodName, Object object, Object... params) {
         if(methodName == null){
@@ -213,12 +214,12 @@ public class Reflection {
         throw new NoSuchMethodException();
     }
 
-    private static ArrayList<Map<String, Method>> getAllMethods(Object obj){
+    private static ArrayList<LinkedHashMap<String, Method>> getAllMethods(Object obj){
         return getAllMethods(obj.getClass());
     }
-    private static ArrayList<Map<String, Method>> getAllMethods(Class<?> objClass){
-        ArrayList<Map<String, Method>> objMethods = new ArrayList<>();
-        Map<String, Method> methods = methodMap.get(objClass);
+    private static ArrayList<LinkedHashMap<String, Method>> getAllMethods(Class<?> objClass){
+        ArrayList<LinkedHashMap<String, Method>> objMethods = new ArrayList<>();
+        LinkedHashMap<String, Method> methods = methodMap.get(objClass);
 
         if(methods != null){
             objMethods.add(methods);
@@ -231,7 +232,7 @@ public class Reflection {
         }
 
         while (objClass != null && objClass != Object.class) {
-            methods = new HashMap<>();
+            methods = new LinkedHashMap<>();
             for(Method m : objClass.getDeclaredMethods()){
                 methods.put(getMethodUID(m), m);
             }

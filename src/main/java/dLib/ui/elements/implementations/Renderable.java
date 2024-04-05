@@ -109,14 +109,5 @@ public class Renderable extends UIElement {
         public UIElement makeUIElement() {
             return new Renderable(this);
         }
-
-        @Override
-        public ArrayList<Property<?>> getEditableProperties() {
-            ArrayList<Property<?>> properties = super.getEditableProperties();
-
-            properties.add(textureBinding);
-
-            return properties;
-        }
     }
 }

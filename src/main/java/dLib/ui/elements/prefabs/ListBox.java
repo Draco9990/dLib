@@ -431,14 +431,5 @@ public abstract class ListBox<ItemType> extends UIElement {
         public int selectionLimit = 1;
 
         public boolean canReorder = false;
-
-        @Override
-        public ArrayList<Property<?>> getEditableProperties() {
-            ArrayList<Property<?>> properties = super.getEditableProperties();
-
-            properties.add(titleBoxText);
-
-            return properties;
-        }
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.screens.AbstractScreen;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
+import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.settings.Property;
@@ -961,13 +962,19 @@ public class UIElement {
         }
 
         public ArrayList<Property<?>> getEditableProperties(){
-            ArrayList<Property<?>> toReturn = new ArrayList<>();
+            ArrayList<Property<?>> properties = new ArrayList<>();
 
-            toReturn.add(id);
-            toReturn.add(localPosition);
-            toReturn.add(dimensions);
+            for(Property<?> property : Reflection.getFieldValuesByClass(Property.class, this)){
+                properties.add(property);
+            }
 
-            return toReturn;
+            for(UIElementData subElement : Reflection.getFieldValuesByClass(UIElementData.class, this)){
+                ArrayList<Property<?>> subProperties = subElement.getEditableProperties();
+                filterInnerProperties(subProperties);
+                properties.addAll(subProperties);
+            }
+
+            return properties;
         }
 
         public void filterInnerProperties(ArrayList<Property<?>> properties){

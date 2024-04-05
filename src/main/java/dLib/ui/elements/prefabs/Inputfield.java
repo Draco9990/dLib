@@ -285,18 +285,5 @@ public class Inputfield extends UIElement {
         public UIElement makeUIElement() {
             return new Inputfield(this);
         }
-
-        @Override
-        public ArrayList<Property<?>> getEditableProperties() {
-            ArrayList<Property<?>> properties = super.getEditableProperties();
-
-            properties.addAll(textboxData.getEditableProperties());
-            textboxData.filterInnerProperties(properties);
-
-            properties.addAll(buttonData.getEditableProperties());
-            buttonData.filterInnerProperties(properties);
-
-            return properties;
-        }
     }
 }

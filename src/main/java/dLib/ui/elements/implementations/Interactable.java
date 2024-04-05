@@ -454,20 +454,5 @@ public class Interactable extends Hoverable{
         public Interactable makeUIElement() {
             return new Interactable(this);
         }
-
-        @Override
-        public ArrayList<Property<?>> getEditableProperties() {
-            ArrayList<Property<?>> properties = super.getEditableProperties();
-
-            properties.add(onLeftClick);
-            properties.add(onLeftClickHeld);
-            properties.add(onLeftClickRelease);
-
-            properties.add(onRightClick);
-            properties.add(onRightClickHeld);
-            properties.add(onRightClickRelease);
-
-            return properties;
-        }
     }
 }

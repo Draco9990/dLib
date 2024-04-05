@@ -428,15 +428,5 @@ public class TextBox extends Hoverable {
         public TextBox makeUIElement() {
             return new TextBox(this);
         }
-
-        @Override
-        public ArrayList<Property<?>> getEditableProperties() {
-            ArrayList<Property<?>> properties = super.getEditableProperties();
-
-            properties.add(text);
-            properties.add(wrap);
-
-            return properties;
-        }
     }
 }
