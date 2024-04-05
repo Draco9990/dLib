@@ -1,8 +1,8 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Inputfield;
-import dLib.util.settings.prefabs.StringProperty;
+import dLib.properties.objects.StringProperty;
 
 public class StringPropertyEditor extends AbstractPropertyEditor<StringProperty> {
     //region Variables

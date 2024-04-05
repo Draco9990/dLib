@@ -1,8 +1,7 @@
-package dLib.util.settings.prefabs;
+package dLib.properties.objects;
 
-import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
-import dLib.propertyeditors.ui.elements.BooleanPropertyEditor;
-import dLib.util.settings.Property;
+import dLib.properties.ui.elements.BooleanPropertyEditor;
+
 import java.io.Serializable;
 
 public class BooleanProperty extends Property<Boolean> implements Serializable {

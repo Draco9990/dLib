@@ -1,4 +1,4 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.elements.UIElement;
@@ -6,7 +6,7 @@ import dLib.ui.elements.prefabs.Button;
 import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
-import dLib.util.settings.prefabs.ColorProperty;
+import dLib.properties.objects.ColorProperty;
 
 public class ColorPropertyEditor extends AbstractPropertyEditor<ColorProperty> {
     //region Variables

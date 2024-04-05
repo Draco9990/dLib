@@ -1,4 +1,4 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
@@ -6,7 +6,7 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.util.EnumHelpers;
-import dLib.util.settings.prefabs.AlignmentProperty;
+import dLib.properties.objects.AlignmentProperty;
 
 public class AlignmentPropertyEditor extends AbstractPropertyEditor<AlignmentProperty> {
     //region Variables

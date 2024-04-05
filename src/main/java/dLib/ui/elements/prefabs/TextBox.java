@@ -9,16 +9,14 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
 import dLib.ui.Alignment;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
-import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.BooleanProperty;
-import dLib.util.settings.prefabs.StringProperty;
+import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.StringProperty;
 import sayTheSpire.Output;
 
 import java.io.Serializable;

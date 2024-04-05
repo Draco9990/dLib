@@ -4,7 +4,7 @@ import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
-import dLib.util.settings.prefabs.MethodBindingProperty;
+import dLib.properties.objects.MethodBindingProperty;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;

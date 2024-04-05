@@ -1,9 +1,7 @@
-package dLib.util.settings.prefabs;
+package dLib.properties.objects;
 
-import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
-import dLib.propertyeditors.ui.elements.EnumPropertyEditor;
+import dLib.properties.ui.elements.EnumPropertyEditor;
 import dLib.util.EnumHelpers;
-import dLib.util.settings.Property;
 
 import java.io.Serializable;
 import java.util.ArrayList;

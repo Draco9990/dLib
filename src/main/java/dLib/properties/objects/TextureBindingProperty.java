@@ -1,9 +1,8 @@
-package dLib.util.settings.prefabs;
+package dLib.properties.objects;
 
 import dLib.util.bindings.texture.TextureBindingHelpers;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
-import dLib.util.settings.Property;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,8 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Inputfield;
-import dLib.util.settings.prefabs.IntegerProperty;
+import dLib.properties.objects.IntegerProperty;
 
 public class IntegerPropertyEditor extends AbstractPropertyEditor<IntegerProperty> {
     //region Variables

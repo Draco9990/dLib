@@ -1,6 +1,6 @@
-package dLib.util.settings;
+package dLib.properties.objects;
 
-import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
+import dLib.properties.ui.elements.AbstractPropertyEditor;
 import dLib.util.DLibLogger;
 
 import java.io.Serializable;

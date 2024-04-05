@@ -5,13 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.elements.UIElement;
-import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
-import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.TextureBindingProperty;
+import dLib.properties.objects.TextureBindingProperty;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Renderable extends UIElement {
     //region Variables

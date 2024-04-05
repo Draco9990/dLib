@@ -1,4 +1,4 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
@@ -8,7 +8,7 @@ import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
-import dLib.util.settings.prefabs.MethodBindingProperty;
+import dLib.properties.objects.MethodBindingProperty;
 
 public class MethodBindingPropertyEditor extends CustomPropertyEditor<MethodBindingProperty, MethodBinding> {
     //region Variables

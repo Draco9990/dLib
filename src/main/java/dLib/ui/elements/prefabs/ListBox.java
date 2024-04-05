@@ -7,8 +7,7 @@ import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
-import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.StringProperty;
+import dLib.properties.objects.StringProperty;
 
 import java.io.Serializable;
 import java.util.*;

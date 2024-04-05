@@ -1,4 +1,4 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.elements.UIElement;
@@ -7,7 +7,7 @@ import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.IntegerVector2;
-import dLib.util.settings.prefabs.IntegerVector2Property;
+import dLib.properties.objects.IntegerVector2Property;
 
 public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<IntegerVector2Property> {
     //region Variables

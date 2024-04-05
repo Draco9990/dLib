@@ -2,13 +2,9 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
-import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.TextureThemeBinding;
-import dLib.util.settings.Property;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.function.BiConsumer;
 
 public class TextButton extends UIElement {
     //region Variables

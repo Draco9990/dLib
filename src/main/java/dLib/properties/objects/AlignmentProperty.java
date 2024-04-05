@@ -1,9 +1,7 @@
-package dLib.util.settings.prefabs;
+package dLib.properties.objects;
 
 import dLib.ui.Alignment;
-import dLib.propertyeditors.ui.elements.AbstractPropertyEditor;
-import dLib.propertyeditors.ui.elements.AlignmentPropertyEditor;
-import dLib.util.settings.Property;
+import dLib.properties.ui.elements.AlignmentPropertyEditor;
 
 import java.io.Serializable;
 import java.util.ArrayList;

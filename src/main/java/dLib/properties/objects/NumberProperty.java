@@ -1,4 +1,4 @@
-package dLib.util.settings;
+package dLib.properties.objects;
 
 import java.io.Serializable;
 import java.util.Objects;

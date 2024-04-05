@@ -1,12 +1,11 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import dLib.DLib;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
-import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.CustomProperty;
+import dLib.properties.objects.CustomProperty;
 
 public class CustomPropertyEditor<PropertyType extends CustomProperty<ItemType>, ItemType> extends AbstractPropertyEditor<PropertyType> {
     //region Variables

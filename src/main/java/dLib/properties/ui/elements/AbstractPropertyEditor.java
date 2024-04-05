@@ -1,4 +1,4 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
@@ -7,7 +7,7 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.ListBox;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.elements.prefabs.VerticalBox;
-import dLib.util.settings.Property;
+import dLib.properties.objects.Property;
 
 public abstract class AbstractPropertyEditor<PropertyType extends Property<?>> extends UIElement {
     //region Variables

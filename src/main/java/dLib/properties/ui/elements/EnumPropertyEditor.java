@@ -1,11 +1,11 @@
-package dLib.propertyeditors.ui.elements;
+package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
-import dLib.util.settings.prefabs.EnumProperty;
+import dLib.properties.objects.EnumProperty;
 
 public class EnumPropertyEditor extends AbstractPropertyEditor<EnumProperty<? extends Enum<?>>> {
     //region Variables

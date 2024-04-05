@@ -10,9 +10,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
-import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.IntegerVector2Property;
-import dLib.util.settings.prefabs.StringProperty;
+import dLib.properties.objects.Property;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

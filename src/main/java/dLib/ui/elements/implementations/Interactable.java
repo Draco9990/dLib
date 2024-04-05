@@ -6,21 +6,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.modcompat.ModManager;
-import dLib.ui.elements.UIElement;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.GlobalEvents;
-import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
-import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
-import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.MethodBindingProperty;
+import dLib.properties.objects.MethodBindingProperty;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Interactable extends Hoverable{

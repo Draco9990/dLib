@@ -1,15 +1,14 @@
 package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dLib.ui.screens.AbstractScreen;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
-import dLib.util.settings.Property;
-import dLib.util.settings.prefabs.IntegerVector2Property;
-import dLib.util.settings.prefabs.StringProperty;
+import dLib.properties.objects.Property;
+import dLib.properties.objects.IntegerVector2Property;
+import dLib.properties.objects.StringProperty;
 
 import java.io.*;
 import java.util.*;
