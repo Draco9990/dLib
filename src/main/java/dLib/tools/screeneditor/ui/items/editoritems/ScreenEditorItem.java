@@ -169,12 +169,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
         for(Property<?> property : elementData.getEditableProperties()){
             property.addOnValueChangedListener(this::markForRefresh);
-
-            if(property instanceof IntegerVector2Property || property instanceof StringProperty){
-                continue;
-            }
-
-            property.addOnValueChangedListener(() -> screenEditor.getPropertiesScreen().markForRefresh());
         }
 
         return elementData;
