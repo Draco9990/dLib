@@ -168,16 +168,26 @@ public abstract class ItemBox<ItemType> extends UIElement {
         items.add(new ItemBoxItem(item, compositeItem));
         addChildCS(compositeItem);
 
+        onItemAdded(item);
         return this;
     }
+    public void onItemAdded(ItemType item){
+        onItemsChanged();
+    }
+
     public ItemBox<ItemType> setItems(ArrayList<ItemType> items){
         clearItems();
         for(ItemType item : items){
             addItem(item);
         }
 
+        onItemsSet(items);
         return this;
     }
+    public void onItemsSet(ArrayList<ItemType> items){
+        onItemsChanged();
+    }
+
     public void clearItems(){
         ArrayList<UIElement> childrenToRemove = new ArrayList<>();
         for(UIElementChild child : children){
@@ -194,6 +204,15 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
         items.clear();
         scrollbar.setFirstPage();
+
+        onItemsCleared();
+    }
+    public void onItemsCleared(){
+        onItemsChanged();
+    }
+
+    public void onItemsChanged(){
+
     }
 
     //endregion

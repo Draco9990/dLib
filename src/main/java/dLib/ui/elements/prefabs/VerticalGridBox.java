@@ -10,10 +10,15 @@ import org.lwjgl.input.Mouse;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+//Gridboxes do not support elements that change their size after being added. All GridBox items must be identical in dimensions. This is a TODO.
 public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
     //region Variables
 
     private int scrollbarWidth = 50;
+
+    private int effectiveScrollbarWidth = 0;
+    private int itemsPerRow = 0;
+    private int rowsPerPage = 0;
 
     //endregion
 
@@ -24,6 +29,8 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
 
         defaultItemHeight = 75;
         defaultItemWidth = 75;
+
+        itemSpacing = 5;
 
         reinitializeElements();
     }
@@ -76,19 +83,74 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
         }
 
         int currentYPos = itemBoxBackground.getHeight();
+        int currentXPos = 0;
 
         for(ItemBoxItem item : items){
             item.renderForItem.hideAndDisable();
         }
 
         for(UIElement item : getItemsForDisplay()){
-            item.setLocalPosition(0, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
+            item.setLocalPosition(currentXPos, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
 
             item.showAndEnable();
 
-            currentYPos -= item.getHeight();
-            currentYPos -= itemSpacing;
+            currentXPos += item.getWidthUnscaled() + itemSpacing;
+            if(currentXPos + item.getWidthUnscaled() + itemSpacing > itemBoxBackground.getWidthUnscaled() - effectiveScrollbarWidth){
+                currentXPos = 0;
+
+                currentYPos -= item.getHeightUnscaled();
+                currentYPos -= itemSpacing;
+            }
         }
+    }
+
+    //endregion
+
+    //region Item Pages
+
+    @Override
+    public void onItemsChanged(){
+        effectiveScrollbarWidth = 0;
+        calculateItemPerRow();
+        calculateRowsPerPage();
+
+        calculateEffectiveScrollbarWidth();
+        calculateItemPerRow();
+        calculateRowsPerPage();
+    }
+
+    private void calculateEffectiveScrollbarWidth(){
+        if(calculatePageCount() <= 1){
+            effectiveScrollbarWidth = 0;
+        }
+        else{
+            effectiveScrollbarWidth = scrollbarWidth;
+        }
+    }
+
+    private void calculateItemPerRow(){
+        int totalItemWidth = 0;
+        for(int i = 0; i < items.size(); i++){
+            totalItemWidth += items.get(i).renderForItem.getWidthUnscaled() + itemSpacing;
+            if(totalItemWidth > itemBoxBackground.getWidthUnscaled() - effectiveScrollbarWidth){
+                itemsPerRow = i;
+                break;
+            }
+        }
+    }
+
+    private void calculateRowsPerPage(){
+        if(items.isEmpty()) return;
+
+        int itemHeight = items.get(0).renderForItem.getHeightUnscaled() + itemSpacing;
+        rowsPerPage = (int) Math.floor((float)itemBoxBackground.getHeightUnscaled() / itemHeight);
+    }
+
+    public int calculatePageCount(){
+        //Recalculate width not accounting for the scrollbar.
+        int totalRowCount = (int) Math.ceil((float)items.size() / itemsPerRow);
+        totalRowCount -= rowsPerPage - 1;
+        return totalRowCount;
     }
 
     //endregion
@@ -96,29 +158,15 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
     public ArrayList<UIElement> getItemsForDisplay(){
         ArrayList<UIElement> activeItems = new ArrayList<>();
 
-        int currentPageHeight = 0;
         if(!invertedItemOrder){
-            for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
-                UIElement item = items.get(i).renderForItem;
-                if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
-                    break;
-                }
-                //TODO RF getBoundingHeight
-
-                currentPageHeight += item.getHeight() + itemSpacing;
-                activeItems.add(item);
+            int startingItemIndex = (scrollbar.getCurrentPage() - 1) * itemsPerRow;
+            int endingItemIndex = startingItemIndex + rowsPerPage * itemsPerRow;
+            for(int i = startingItemIndex; i < Math.min(endingItemIndex, items.size()); i++){
+                activeItems.add(items.get(i).renderForItem);
             }
         }
         else{
-            for(int i = items.size() - (scrollbar.getCurrentPage() - 1) - 1; i >= 0; i--){
-                UIElement item = items.get(i).renderForItem;
-                if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
-                    break;
-                }
-                //TODO RF getBoundingHeight
-                currentPageHeight += item.getHeight() + itemSpacing;
-                activeItems.add(item);
-            }
+            //TODO
         }
 
         return activeItems;
@@ -142,51 +190,6 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
     public VerticalGridBox<ItemType> setScrollbarWidth(int width){
         this.scrollbarWidth = width;
         return this;
-    }
-
-    public int calculatePageCount(){
-        int totalItemHeight = 0;
-        int totalItemWidth = 0;
-
-        int highestItem = 0;
-        if(!invertedItemOrder){
-            for(int i = 0; i < items.size(); i++){
-                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing;
-
-                if(items.get(i).renderForItem.getHeight() > highestItem){
-                    highestItem = items.get(i).renderForItem.getHeight();
-                }
-
-                if(totalItemWidth > itemBoxBackground.getWidth()){
-                    totalItemWidth = 0;
-
-                    totalItemHeight += highestItem; //TODO RF BOUNDING HEIGHT
-                    if(totalItemHeight > itemBoxBackground.getHeight()){
-                        int pageCount = items.size() - i;
-                        return pageCount + 1;
-                    }
-                }
-            }
-        }
-        else{
-            for(int i = items.size() - 1; i >= 0; i--){
-                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing;
-
-                if(items.get(i).renderForItem.getHeight() > highestItem){
-                    highestItem = items.get(i).renderForItem.getHeight();
-                }
-
-                if(totalItemWidth > itemBoxBackground.getWidth()){
-                    totalItemWidth = 0;
-
-                    totalItemHeight += highestItem; //TODO RF BOUNDING HEIGHT
-                    if(totalItemHeight > itemBoxBackground.getHeight()){
-                        return i + 2;
-                    }
-                }
-            }
-        }
-        return 1;
     }
 
     //endregion
