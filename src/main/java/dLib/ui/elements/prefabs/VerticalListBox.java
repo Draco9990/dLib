@@ -8,7 +8,7 @@ import org.lwjgl.input.Mouse;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class VerticalListBox<ItemType> extends ListBox<ItemType> {
+public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     //region Variables
 
     private int scrollbarWidth = 50;
@@ -74,7 +74,7 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
 
         int currentYPos = itemBoxBackground.getHeight();
 
-        for(ListBoxItem item : items){
+        for(ItemBoxItem item : items){
             item.renderForItem.hideAndDisable();
         }
 
@@ -203,7 +203,7 @@ public class VerticalListBox<ItemType> extends ListBox<ItemType> {
 
     //endregion
 
-    public static class VerticalListBoxData extends ListBoxData implements Serializable {
+    public static class VerticalListBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public int scrollbarWidth = 50;

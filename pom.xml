@@ -15,7 +15,7 @@
         <SlayTheSpire.version>03-07-2022</SlayTheSpire.version>
         <ModTheSpire.version>3.19.1</ModTheSpire.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <WorkshopContent.path>D:\SteamLibrary\steamapps\workshop\content\646570</WorkshopContent.path>
+        <WorkshopContent.path>C:\SteamLibrary\steamapps\workshop\content\646570</WorkshopContent.path>
         <Libraries.path>E:\Marino\Projects\Together in Spire\Libraries</Libraries.path>
         <Mods.path>E:\Marino\Games\Slay The Spire\Game\mods</Mods.path>
         <ModJars.path>E:\Marino\Projects\Together in Spire - Official Card Pack\Source\TiSBoosterPack\addons</ModJars.path>

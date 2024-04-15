@@ -4,8 +4,7 @@ import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.tools.screeneditor.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
-import dLib.ui.elements.prefabs.HorizontalListBox;
-import dLib.ui.elements.prefabs.ListBox;
+import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.elements.prefabs.VerticalListBox;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.Collections;
 public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
     //region Variables
 
-    private ListBox<ScreenEditorItem> previewItemList;
+    private ItemBox<ScreenEditorItem> previewItemList;
 
     //endregion
 

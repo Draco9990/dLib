@@ -16,14 +16,14 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-public abstract class ListBox<ItemType> extends UIElement {
+public abstract class ItemBox<ItemType> extends UIElement {
     //region Variables
 
     // Elements
     protected TextBox titleBox;
 
     protected Hoverable itemBoxBackground;
-    protected ArrayList<ListBoxItem> items = new ArrayList<>();
+    protected ArrayList<ItemBoxItem> items = new ArrayList<>();
 
     protected Scrollbar scrollbar;
 
@@ -54,11 +54,11 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     //region Constructors
 
-    public ListBox(int xPos, int yPos, int width, int height){
+    public ItemBox(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
     }
 
-    public ListBox(ListBoxData data){
+    public ItemBox(ItemBoxData data){
         super(data);
 
         this.title = data.titleBoxText.getValue();
@@ -156,7 +156,7 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     //region Item Management
 
-    public ListBox<ItemType> addItem(ItemType item){
+    public ItemBox<ItemType> addItem(ItemType item){
         UIElement compositeItem;
         if(!disableItemWrapping){
             compositeItem = wrapUIForItem(item);
@@ -165,12 +165,12 @@ public abstract class ListBox<ItemType> extends UIElement {
         else{
             compositeItem = makeUIForItem(item);
         }
-        items.add(new ListBoxItem(item, compositeItem));
+        items.add(new ItemBoxItem(item, compositeItem));
         addChildCS(compositeItem);
 
         return this;
     }
-    public ListBox<ItemType> setItems(ArrayList<ItemType> items){
+    public ItemBox<ItemType> setItems(ArrayList<ItemType> items){
         clearItems();
         for(ItemType item : items){
             addItem(item);
@@ -181,7 +181,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     public void clearItems(){
         ArrayList<UIElement> childrenToRemove = new ArrayList<>();
         for(UIElementChild child : children){
-            for(ListBoxItem item : items){
+            for(ItemBoxItem item : items){
                 if(Objects.equals(item.renderForItem, child.element)){
                     childrenToRemove.add(child.element);
                 }
@@ -238,7 +238,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     } //TODO expose
     public void postMakeWrapperForItem(ItemType item, UIElement itemUI){ } //TODO expose
 
-    public ListBox<ItemType> disableItemWrapping(){
+    public ItemBox<ItemType> disableItemWrapping(){
         disableItemWrapping = true;
         return this;
     }
@@ -250,7 +250,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     private void trySelectItem(ItemType selectedItem){
         if(getCurrentlySelectedItems().size() + 1 > getSelectionCountLimit()) return;
 
-        for(ListBoxItem item : items){
+        for(ItemBoxItem item : items){
             if(item.item.equals(selectedItem)){
                 if(selectionMode.equals(ESelectionMode.SINGLE)){
                     onItemSelectionChanged(new ArrayList<>(Arrays.asList(item.item)));
@@ -267,14 +267,14 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     public ArrayList<ItemType> getCurrentlySelectedItems(){
         ArrayList<ItemType> selectedItems = new ArrayList<>();
-        for(ListBoxItem item : items){
+        for(ItemBoxItem item : items){
             if(item.selected) selectedItems.add(item.item);
         }
 
         return selectedItems;
     }
 
-    public ListBox<ItemType> setSelectionMode(ESelectionMode selectionMode){
+    public ItemBox<ItemType> setSelectionMode(ESelectionMode selectionMode){
         this.selectionMode = selectionMode;
         return this;
     } //TODO expose
@@ -282,7 +282,7 @@ public abstract class ListBox<ItemType> extends UIElement {
         return selectionMode;
     }
 
-    public ListBox<ItemType> setSelectionCountLimit(int selectionCount){
+    public ItemBox<ItemType> setSelectionCountLimit(int selectionCount){
         this.selectionCountLimit = selectionCount;
         return this;
     } //TODO expose
@@ -296,7 +296,7 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     //region Item Properties
 
-    public ListBox<ItemType> setItemSpacing(int spacing){
+    public ItemBox<ItemType> setItemSpacing(int spacing){
         this.itemSpacing = spacing;
         return this;
     }
@@ -304,7 +304,7 @@ public abstract class ListBox<ItemType> extends UIElement {
         return itemSpacing;
     }
 
-    public ListBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
+    public ItemBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
         this.invertedItemOrder = invertedItemOrder;
         return this;
     }
@@ -313,7 +313,7 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     //region Title & TitleBox
 
-    public ListBox<ItemType> setTitle(String title){
+    public ItemBox<ItemType> setTitle(String title){
         if(this.title != null && (title == null || title.isEmpty())){
             removeTitle();
             return this;
@@ -332,7 +332,7 @@ public abstract class ListBox<ItemType> extends UIElement {
         reinitializeElements();
     }
 
-    public ListBox<ItemType> setTitleHeight(int titleHeight){
+    public ItemBox<ItemType> setTitleHeight(int titleHeight){
         if(titleHeight <= 0) return this;
 
         this.titleBoxHeight = titleHeight;
@@ -351,7 +351,7 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     //region Reordering
 
-    public ListBox<ItemType> setCanReorder(boolean canReorder){
+    public ItemBox<ItemType> setCanReorder(boolean canReorder){
         this.canReorder = canReorder;
         return this;
     }
@@ -359,7 +359,7 @@ public abstract class ListBox<ItemType> extends UIElement {
         return canReorder;
     }
 
-    public ListBox<ItemType> addOnElementsSwappedListener(BiConsumer<ItemType, ItemType> listener){
+    public ItemBox<ItemType> addOnElementsSwappedListener(BiConsumer<ItemType, ItemType> listener){
         onElementsSwappedListeners.add(listener);
         return this;
     }
@@ -372,7 +372,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     protected void moveItemDown(ItemType itemUI){
         int itemIndex = -1;
         for (int i = 0; i < items.size(); i++) {
-            ListBoxItem item = items.get(i);
+            ItemBoxItem item = items.get(i);
             if(item.item.equals(itemUI)){
                 itemIndex = i;
             }
@@ -393,7 +393,7 @@ public abstract class ListBox<ItemType> extends UIElement {
     protected void moveItemUp(ItemType itemUI){
         int itemIndex = -1;
         for (int i = 0; i < items.size(); i++) {
-            ListBoxItem item = items.get(i);
+            ItemBoxItem item = items.get(i);
             if(item.item.equals(itemUI)){
                 itemIndex = i;
             }
@@ -420,20 +420,20 @@ public abstract class ListBox<ItemType> extends UIElement {
 
     //endregion
 
-    public class ListBoxItem{
+    public class ItemBoxItem {
         /** Variables */
         public ItemType item;
         public UIElement renderForItem;
         public boolean selected;
 
         /** Constructors */
-        public ListBoxItem(ItemType item, UIElement renderElement){
+        public ItemBoxItem(ItemType item, UIElement renderElement){
             this.item = item;
             this.renderForItem = renderElement;
         }
     }
 
-    public static class ListBoxData extends UIElement.UIElementData implements Serializable {
+    public static class ItemBoxData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public StringProperty titleBoxText = new StringProperty("").setName("Title");
