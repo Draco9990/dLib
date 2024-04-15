@@ -424,6 +424,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
         /** Variables */
         public ItemType item;
         public UIElement renderForItem;
+
         public boolean selected;
 
         /** Constructors */

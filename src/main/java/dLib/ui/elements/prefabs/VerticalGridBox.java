@@ -1,0 +1,206 @@
+package dLib.ui.elements.prefabs;
+
+import dLib.ui.Alignment;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.implementations.Interactable;
+import dLib.ui.themes.UITheme;
+import dLib.ui.themes.UIThemeManager;
+import org.lwjgl.input.Mouse;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
+    //region Variables
+
+    private int scrollbarWidth = 50;
+
+    //endregion
+
+    //region Constructors
+
+    public VerticalGridBox(int xPos, int yPos, int width, int height){
+        super(xPos, yPos, width, height);
+
+        defaultItemHeight = 75;
+        defaultItemWidth = 75;
+
+        reinitializeElements();
+    }
+
+    public VerticalGridBox(VerticalGridBoxData data){
+        super(data);
+
+        scrollbarWidth = data.scrollbarWidth;
+
+        reinitializeElements();
+    }
+
+    protected void updateScrollBar(int xPos, int yPos, int width, int height){
+        xPos = width - scrollbarWidth;
+
+        if(scrollbar == null){
+            buildScrollBar(xPos, 0, scrollbarWidth, height);
+        }
+        scrollbar.setLocalPosition(xPos, 0);
+        scrollbar.setDimensions(scrollbarWidth, height);
+    }
+    protected void buildScrollBar(int x, int y, int width, int height){
+        scrollbar = new VerticalScrollbar(x, y, width, height) {
+            @Override
+            public int getPageCount() {
+                return calculatePageCount();
+            }
+
+            @Override
+            public boolean isActive() {
+                return calculatePageCount() > 1 && super.isActive();
+            }
+        };
+        addChildCS(scrollbar);
+    }
+
+    //endregion
+
+    //region Methods
+
+    //region Update & Render
+
+    @Override
+    public void updateSelf() {
+        super.updateSelf();
+
+        if(trackScrollWheelScroll){
+            int scrollDelta = (int)(Math.signum((float)Mouse.getDWheel()));
+            scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionY() + scrollDelta * 10);
+        }
+
+        int currentYPos = itemBoxBackground.getHeight();
+
+        for(ItemBoxItem item : items){
+            item.renderForItem.hideAndDisable();
+        }
+
+        for(UIElement item : getItemsForDisplay()){
+            item.setLocalPosition(0, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
+
+            item.showAndEnable();
+
+            currentYPos -= item.getHeight();
+            currentYPos -= itemSpacing;
+        }
+    }
+
+    //endregion
+
+    public ArrayList<UIElement> getItemsForDisplay(){
+        ArrayList<UIElement> activeItems = new ArrayList<>();
+
+        int currentPageHeight = 0;
+        if(!invertedItemOrder){
+            for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
+                UIElement item = items.get(i).renderForItem;
+                if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
+                    break;
+                }
+                //TODO RF getBoundingHeight
+
+                currentPageHeight += item.getHeight() + itemSpacing;
+                activeItems.add(item);
+            }
+        }
+        else{
+            for(int i = items.size() - (scrollbar.getCurrentPage() - 1) - 1; i >= 0; i--){
+                UIElement item = items.get(i).renderForItem;
+                if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
+                    break;
+                }
+                //TODO RF getBoundingHeight
+                currentPageHeight += item.getHeight() + itemSpacing;
+                activeItems.add(item);
+            }
+        }
+
+        return activeItems;
+    }
+
+    //region Item Management
+
+    //region Item UI
+
+    @Override
+    public UIElement makeUIForItem(ItemType item) {
+        TextBox box = (TextBox) super.makeUIForItem(item);
+        box.setImage(UIThemeManager.getDefaultTheme().button_small);
+        return box;
+    }
+
+    //endregion
+
+    //region ScrollBar
+
+    public VerticalGridBox<ItemType> setScrollbarWidth(int width){
+        this.scrollbarWidth = width;
+        return this;
+    }
+
+    public int calculatePageCount(){
+        int totalItemHeight = 0;
+        int totalItemWidth = 0;
+
+        int highestItem = 0;
+        if(!invertedItemOrder){
+            for(int i = 0; i < items.size(); i++){
+                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing;
+
+                if(items.get(i).renderForItem.getHeight() > highestItem){
+                    highestItem = items.get(i).renderForItem.getHeight();
+                }
+
+                if(totalItemWidth > itemBoxBackground.getWidth()){
+                    totalItemWidth = 0;
+
+                    totalItemHeight += highestItem; //TODO RF BOUNDING HEIGHT
+                    if(totalItemHeight > itemBoxBackground.getHeight()){
+                        int pageCount = items.size() - i;
+                        return pageCount + 1;
+                    }
+                }
+            }
+        }
+        else{
+            for(int i = items.size() - 1; i >= 0; i--){
+                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing;
+
+                if(items.get(i).renderForItem.getHeight() > highestItem){
+                    highestItem = items.get(i).renderForItem.getHeight();
+                }
+
+                if(totalItemWidth > itemBoxBackground.getWidth()){
+                    totalItemWidth = 0;
+
+                    totalItemHeight += highestItem; //TODO RF BOUNDING HEIGHT
+                    if(totalItemHeight > itemBoxBackground.getHeight()){
+                        return i + 2;
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+
+    //endregion
+
+    //endregion
+
+    public static class VerticalGridBoxData extends ItemBoxData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public int scrollbarWidth = 50;
+
+        @Override
+        public UIElement makeUIElement() {
+            return new VerticalGridBox<>(this);
+        }
+    }
+}
