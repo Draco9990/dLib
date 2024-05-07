@@ -15,31 +15,60 @@ import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
 import dLib.DLib;
 import dLib.ui.elements.UIElement;
+import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 import dLib.util.Help;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScreenManager {
-    /** Variables */
+    //region Variables
     private static AbstractScreen screen;
     private static AbstractScreen pendingScreen;
+
+    private static List<AbstractScreen> previousScreens = new ArrayList<>();
 
     private static boolean hidingGameUI = false;
     public static AbstractDungeon.RenderScene cachedRenderScene = null;
     public static AbstractDungeon.CurrentScreen cachedScreen = null;
 
-    /** Class Methods */
-    //region Screen Open & Close
+    //endregion
+
+    //region Class Methods
+
+    public static AbstractScreen getCurrentScreen(){
+        return screen;
+    }
+
+    //region Open & Close
     public static void openScreen(AbstractScreen newScreen){
         if(newScreen == null){
-            DLib.logError("openScreen called with null newScreen. Stacktrace:");
+            DLibLogger.logError("openScreen called with null newScreen. Stacktrace:");
             Help.Dev.printStacktrace(5);
         }
 
         if(screen != null){
-            screen.onClose();
+            previousScreens.add(0, screen);
+        }
+        markScreenForOpen_Internal(newScreen);
+    }
+    public static void openPreviousScreen(){
+        if(previousScreens.isEmpty()){
+            DLibLogger.logError("Called openPreviousScreen with no previous screen to open. Stacktrace");
+            Help.Dev.printStacktrace(5);
         }
 
-        pendingScreen = newScreen;
+        AbstractScreen screenToOpen = previousScreens.get(0);
+        previousScreens.remove(0);
+        markScreenForOpen_Internal(screenToOpen);
+    }
+
+    private static void markScreenForOpen_Internal(AbstractScreen screenToOpen){
+        if(screen != null){
+            screen.onClose();
+        }
+        pendingScreen = screenToOpen;
     }
     private static void openPendingScreen(){
         screen = pendingScreen;
@@ -62,6 +91,7 @@ public class ScreenManager {
 
             screen.onClose();
             screen = null;
+            previousScreens.clear();
 
             if(CardCrawlGame.isInARun()){
                 showGameUI();
@@ -71,7 +101,9 @@ public class ScreenManager {
             }
         }
     }
+    //endregion
 
+    //region UI Manipulation
     private static void hideGameUI(){
         if(!hidingGameUI){
             cachedRenderScene = AbstractDungeon.rs;
@@ -94,10 +126,6 @@ public class ScreenManager {
                 Reflection.invokeMethod("genericScreenOverlayReset", AbstractDungeon.class);
             }
         }
-    }
-
-    public static AbstractScreen getCurrentScreen(){
-        return screen;
     }
     //endregion
 
@@ -186,12 +214,14 @@ public class ScreenManager {
     }
     //endregion
 
-    /** Misc methods */
     public static void initializeGlobalStrings(){
         AbstractScreen.globalStrings = CardCrawlGame.languagePack.getUIString(DLib.getModID() + ":AbstractScreen");
     }
 
-    /** Enums */
+    //endregion
+
+    //region Enums
+
     public static class ScreenOverridesEnum {
         @SpireEnum
         public static MainMenuScreen.CurScreen CUSTOM_SCREEN;
@@ -203,7 +233,9 @@ public class ScreenManager {
         public static AbstractDungeon.RenderScene CUSTOM_SCENE;
     }
 
-    /** Patches */
+    //endregion
+
+    //region Patches
     static class ScreenRenderAndUpdatePatches{
         @SpirePatch(clz = MainMenuScreen.class, method = "update")
         public static class CustomScreenUpdatePatch_OutOfGame{
@@ -298,4 +330,5 @@ public class ScreenManager {
             }
         }
     }
+    //endregion
 }

@@ -79,6 +79,7 @@ public abstract class AbstractScreen extends UIElement {
     }
     public void onClose(){
         resetInputProcessor();
+        dispose();
     }
 
     public void setScreenToOpenOnClose(AbstractScreen screen){

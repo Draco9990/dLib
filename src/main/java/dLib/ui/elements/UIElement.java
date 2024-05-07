@@ -273,6 +273,21 @@ public class UIElement {
         return localPosition.copy();
     }
 
+    public final int getLocalPositionScaledX(){
+        return getLocalPositionScaled().x;
+    }
+    public final int getLocalPositionScaledY(){
+        return getLocalPositionScaled().y;
+    }
+    public final IntegerVector2 getLocalPositionScaled(){
+        IntegerVector2 localPos = getLocalPosition();
+        if(parent != null){
+            localPos.x = (int) (localPos.x * parent.widthScale);
+            localPos.y = (int) (localPos.y * parent.heightScale);
+        }
+        return localPos;
+    }
+
     public UIElement setLocalPositionCenteredX(int newPos){
         return setLocalPositionCentered(newPos, getLocalPositionCenteredY());
     }
@@ -321,11 +336,13 @@ public class UIElement {
         return getWorldPosition().y;
     }
     public final IntegerVector2 getWorldPosition(){
-        if(!hasParent()) return getLocalPosition();
+        if(!hasParent()){
+            return getLocalPosition();
+        }
         else{
             IntegerVector2 parentWorld = parent.getWorldPosition();
-            parentWorld.x += getLocalPositionX();
-            parentWorld.y += getLocalPositionY();
+            parentWorld.x += getLocalPositionScaledX();
+            parentWorld.y += getLocalPositionScaledY();
             return parentWorld;
         }
     }
@@ -913,6 +930,14 @@ public class UIElement {
         return scaleWithParent;
     }
 
+    //endregion
+
+    //region Resource Management
+    public void dispose(){
+        for(UIElementChild child : children){
+            child.element.dispose();
+        }
+    }
     //endregion
 
     //endregion

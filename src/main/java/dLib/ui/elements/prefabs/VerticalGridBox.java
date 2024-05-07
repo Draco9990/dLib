@@ -82,8 +82,8 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
             scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionY() + scrollDelta * 10);
         }
 
-        int currentYPos = itemBoxBackground.getHeight();
-        int currentXPos = 0;
+        int currentYPos = itemBoxBackground.getHeight() - itemPadding.y;
+        int currentXPos = itemPadding.x;
 
         for(ItemBoxItem item : items){
             item.renderForItem.hideAndDisable();
@@ -94,11 +94,11 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
 
             item.showAndEnable();
 
-            currentXPos += item.getWidthUnscaled() + itemSpacing;
-            if(currentXPos + item.getWidthUnscaled() + itemSpacing > itemBoxBackground.getWidthUnscaled() - effectiveScrollbarWidth){
-                currentXPos = 0;
+            currentXPos += item.getWidth() + itemSpacing;
+            if(currentXPos + item.getWidth() + itemSpacing > itemBoxBackground.getWidth() - effectiveScrollbarWidth){
+                currentXPos = itemPadding.x;
 
-                currentYPos -= item.getHeightUnscaled();
+                currentYPos -= item.getHeight();
                 currentYPos -= itemSpacing;
             }
         }
@@ -129,11 +129,12 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
     }
 
     private void calculateItemPerRow(){
-        int totalItemWidth = 0;
+        int totalItemWidth = itemPadding.x;
         for(int i = 0; i < items.size(); i++){
-            totalItemWidth += items.get(i).renderForItem.getWidthUnscaled() + itemSpacing;
-            if(totalItemWidth > itemBoxBackground.getWidthUnscaled() - effectiveScrollbarWidth){
-                itemsPerRow = i;
+            totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing;
+
+            itemsPerRow = i;
+            if(totalItemWidth > itemBoxBackground.getWidth() - effectiveScrollbarWidth){
                 break;
             }
         }
@@ -142,8 +143,8 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
     private void calculateRowsPerPage(){
         if(items.isEmpty()) return;
 
-        int itemHeight = items.get(0).renderForItem.getHeightUnscaled() + itemSpacing;
-        rowsPerPage = (int) Math.floor((float)itemBoxBackground.getHeightUnscaled() / itemHeight);
+        int itemHeight = items.get(0).renderForItem.getHeight() + itemSpacing - itemPadding.y;
+        rowsPerPage = (int) Math.floor((float)itemBoxBackground.getHeight() / itemHeight);
     }
 
     public int calculatePageCount(){

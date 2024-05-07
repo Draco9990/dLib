@@ -38,3 +38,7 @@ rework renderable
 Overlay interaction key, localisation, listbox store active item when setting/removing items
 Listbox filter and onfiltercompsrison method and listener
 DraggableCanvas
+
+rework themes
+rework loading and dispose so textures are manually managed
+list box item padding

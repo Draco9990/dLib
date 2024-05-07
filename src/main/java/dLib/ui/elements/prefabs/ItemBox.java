@@ -1,16 +1,14 @@
 package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.properties.objects.BooleanProperty;
-import dLib.properties.objects.EnumProperty;
-import dLib.properties.objects.IntegerProperty;
+import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
-import dLib.properties.objects.StringProperty;
+import dLib.util.IntegerVector2;
 
 import java.io.Serializable;
 import java.util.*;
@@ -35,6 +33,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     protected int itemSpacing = 0;
     protected boolean invertedItemOrder = false;
+
+    protected IntegerVector2 itemPadding = new IntegerVector2(0, 0);
 
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
     private int selectionCountLimit = 1;
@@ -66,6 +66,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
         this.itemSpacing = data.itemSpacing.getValue();
         this.invertedItemOrder = data.invertedItemOrder.getValue();
+
+        this.itemPadding = data.itemPadding.getValue();
 
         this.setSelectionMode(data.selectionMode.getValue());
         this.setSelectionCountLimit(data.selectionLimit);
@@ -232,7 +234,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
         Color transparent = Color.WHITE.cpy();
         transparent.a = 0f;
-        Button mainButton = (Button) new Button(0, 0, itemUI.getWidth(), itemUI.getHeight()){
+        Button mainButton = (Button) new Button(0, 0, itemUI.getWidthUnscaled(), itemUI.getHeightUnscaled()){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
@@ -437,6 +439,20 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     //endregion
 
+    //region Padding
+    public ItemBox<ItemType> setLeftPadding(int leftPadding){
+        return setPadding(leftPadding, itemPadding.y);
+    }
+    public ItemBox<ItemType> setTopPadding(int topPadding){
+        return setPadding(itemPadding.x, topPadding);
+    }
+    public ItemBox<ItemType> setPadding(int leftPadding, int topPadding){
+        this.itemPadding = new IntegerVector2(leftPadding, topPadding);
+        return this;
+    }
+
+    //endregion
+
     //endregion
 
     public class ItemBoxItem {
@@ -461,6 +477,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
         public IntegerProperty itemSpacing = (IntegerProperty) new IntegerProperty(0).setMinimumValue(0).setName("Item Spacing");
         public BooleanProperty invertedItemOrder = new BooleanProperty(false).setName("Inverted Item Order");
+
+        public IntegerVector2Property itemPadding = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Item Padding").setValueNames("L:", "T:");
 
         public EnumProperty<ESelectionMode> selectionMode = (EnumProperty<ESelectionMode>) new EnumProperty<>(ESelectionMode.SINGLE).setName("Selection Mode");
         public int selectionLimit = 1; //TODO allow

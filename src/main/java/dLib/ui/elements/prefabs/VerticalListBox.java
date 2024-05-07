@@ -72,14 +72,14 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
             scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionY() + scrollDelta * 10);
         }
 
-        int currentYPos = itemBoxBackground.getHeight();
+        int currentYPos = itemBoxBackground.getHeight() - itemPadding.y;
 
         for(ItemBoxItem item : items){
             item.renderForItem.hideAndDisable();
         }
 
         for(UIElement item : getItemsForDisplay()){
-            item.setLocalPosition(0, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
+            item.setLocalPosition(itemPadding.x, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
             item.setWidth(defaultItemWidth == null ? itemBoxBackground.getWidthUnscaled() + (scrollbar.isActive() ? -scrollbar.getWidthUnscaled() : 0) : defaultItemWidth);
 
             item.showAndEnable();
@@ -94,7 +94,7 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     public ArrayList<UIElement> getItemsForDisplay(){
         ArrayList<UIElement> activeItems = new ArrayList<>();
 
-        int currentPageHeight = 0;
+        int currentPageHeight = -itemPadding.y;
         if(!invertedItemOrder){
             for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
                 UIElement item = items.get(i).renderForItem;
@@ -130,16 +130,16 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
 
         if(canReorder()){
             //Controls
-            int elementControlsWidth = (int) (itemUI.getWidth() * 0.2f);
-            HorizontalBox elementControls = new HorizontalBox(itemUI.getWidth() - elementControlsWidth, 0, elementControlsWidth, itemUI.getHeight());
+            int elementControlsWidth = (int) (itemUI.getWidthUnscaled() * 0.2f);
+            HorizontalBox elementControls = new HorizontalBox(itemUI.getWidthUnscaled() - elementControlsWidth, 0, elementControlsWidth, itemUI.getHeightUnscaled());
             elementControls.disableItemWrapping();
 
             if(canReorder()){
                 //Reorder
-                int reorderArrowWidth = (int) (elementControls.getWidth() * 0.5f);
-                int reorderArrowHeight = (int) (itemUI.getHeight() * 0.5f);
+                int reorderArrowWidth = (int) (elementControls.getWidthUnscaled() * 0.5f);
+                int reorderArrowHeight = (int) (itemUI.getHeightUnscaled() * 0.5f);
 
-                VerticalBox reorderArrows = new VerticalBox(reorderArrowWidth, itemUI.getHeight(), reorderArrowWidth, itemUI.getHeight());
+                VerticalBox reorderArrows = new VerticalBox(reorderArrowWidth, itemUI.getHeightUnscaled(), reorderArrowWidth, itemUI.getHeightUnscaled());
                 reorderArrows.disableItemWrapping();
 
                 Interactable moveUpArrow = new Interactable(UIThemeManager.getDefaultTheme().arrow_up, 0, 0, reorderArrowWidth, reorderArrowHeight){
