@@ -4,6 +4,7 @@ import dLib.plugin.intellij.PluginManager;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.screens.GeneratedAbstractScreen;
+import dLib.util.SerializationHelpers;
 
 public class ScreenEditorSaveManager {
     //region Variables
@@ -31,7 +32,7 @@ public class ScreenEditorSaveManager {
 
         String[] scrName = screenData.screenClass.split("\\.");
 
-        PluginManager.sendMessage("saveScreen", scrName[scrName.length - 1], screenData.serializeToString());
+        PluginManager.sendMessage("saveScreen", scrName[scrName.length - 1], SerializationHelpers.toString(screenData));
     }
 
     //endregion

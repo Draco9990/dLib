@@ -1019,18 +1019,6 @@ public class UIElement {
             properties.remove(isEnabled);
         }
 
-        public String serializeToString(){
-            try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-                oos.writeObject(this);
-                return Base64.getEncoder().encodeToString(baos.toByteArray());
-            }
-            catch (Exception e){
-                DLibLogger.logError("Failed to serialize AbstractScreenData due to "+ e.getLocalizedMessage());
-                e.printStackTrace();
-            }
-
-            return "";
-        }
         public static UIElementData deserializeFromString(String s){
             byte[] data = Base64.getDecoder().decode(s);
             try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
@@ -1041,10 +1029,6 @@ public class UIElement {
             }
 
             return null;
-        }
-
-        public <T extends UIElementData> T copy(){
-            return (T) deserializeFromString(serializeToString());
         }
 
         public UIElementData getSelf(){

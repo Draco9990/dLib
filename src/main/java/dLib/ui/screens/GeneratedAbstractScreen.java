@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.Reflection;
+import dLib.util.SerializationHelpers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public abstract class GeneratedAbstractScreen extends AbstractScreen{
 
     private static AbstractScreenData loadDataFromClassname(String className){
         FileHandle fileHandle = Gdx.files.internal("dLibResources/screens/" + className + ".dscreen");
-        return (AbstractScreenData) GeneratedScreenData.deserializeFromString(fileHandle.readString());
+        return (AbstractScreenData) SerializationHelpers.fromString(fileHandle.readString());
     }
 
     //endregion

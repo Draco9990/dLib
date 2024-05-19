@@ -11,6 +11,7 @@ import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.properties.objects.Property;
+import dLib.util.SerializationHelpers;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -284,7 +285,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     public ScreenEditorItem<ElementType, DataType> copy(){
         try{
-            DataType cpy = getElementData().copy();
+            DataType cpy = SerializationHelpers.deepCopySerializable(getElementData());
             Constructor<?> constructor = this.getClass().getConstructor(getElementData().getClass());
 
             return (ScreenEditorItem<ElementType, DataType>) constructor.newInstance(cpy);
