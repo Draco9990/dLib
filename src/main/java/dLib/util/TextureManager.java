@@ -24,16 +24,4 @@ public class TextureManager {
         textures.put(textureLocation, ImageMaster.loadImage(textureLocation));
         return textures.get(textureLocation);
     }
-
-    public static void disposeAll(){
-        if(textures == null) return;
-        Iterator tI = textures.values().iterator();
-        while(tI.hasNext()){
-            Texture t = (Texture) tI.next();
-            if(t != null){
-                t.dispose();
-            }
-        }
-        textures.clear();
-    }
 }

@@ -46,6 +46,7 @@ public class ScreenManager {
         if(newScreen == null){
             DLibLogger.logError("openScreen called with null newScreen. Stacktrace:");
             Help.Dev.printStacktrace(5);
+            return;
         }
 
         if(screen != null){
@@ -57,6 +58,7 @@ public class ScreenManager {
         if(previousScreens.isEmpty()){
             DLibLogger.logError("Called openPreviousScreen with no previous screen to open. Stacktrace");
             Help.Dev.printStacktrace(5);
+            return;
         }
 
         AbstractScreen screenToOpen = previousScreens.get(0);
