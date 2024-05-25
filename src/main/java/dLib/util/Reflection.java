@@ -163,6 +163,15 @@ public class Reflection {
         }
         return objFields;
     }
+    public static ArrayList<Field> getAllFieldsSimple(Class<?> objClass){
+        ArrayList<Field> objFields = new ArrayList<>();
+
+        for(Map<String, Field> classFields : getAllFields(objClass)){
+            objFields.addAll(classFields.values());
+        }
+
+        return objFields;
+    }
 
     /** Methods */
     private static final LinkedHashMap<Class<?>, LinkedHashMap<String, Method>> methodMap = new LinkedHashMap();
