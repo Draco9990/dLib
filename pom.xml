@@ -6,7 +6,7 @@
     <groupId>dlib</groupId>
     <artifactId>dLib</artifactId> <!--Keep a note of this one: this is the ID used in the "auto add cards" method-->
     <name>dLib</name>
-    <version>0.0.1</version>
+    <version>0.3.0</version>
     <description>A default base to start your own mod from.</description>
 
     <properties>

@@ -95,7 +95,7 @@ public abstract class AbstractScreen extends UIElement {
     public boolean onDownInteraction() {
         if(parent != null) return super.onDownInteraction();
 
-        selectPreviousChild();
+        selectNextChild();
         return true;
     }
 
@@ -103,7 +103,7 @@ public abstract class AbstractScreen extends UIElement {
     public boolean onUpInteraction() {
         if(parent != null) return super.onUpInteraction();
 
-        selectNextChild();
+        selectPreviousChild();
         return true;
     }
 

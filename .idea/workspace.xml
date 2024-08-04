@@ -8,9 +8,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/BiMap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/effects/AuraEffect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/FieldInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/HistoryProperty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/MatcherUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/StaticResourceLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/docs/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/modcompat/ModManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/modcompat/ModManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/AbstractScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/AbstractScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/Reflection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/Reflection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/TextureManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/TextureManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +39,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Draco9990&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Draco9990/dLib.git&quot;,
+    &quot;accountId&quot;: &quot;781c76c1-bfae-40f1-be5d-4d0f29a7234c&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -48,6 +70,7 @@
     &quot;Attach to process.pid 23800.executor&quot;: &quot;ProcessAttachDebug&quot;,
     &quot;JAR Application.Slay the Spire.executor&quot;: &quot;Debug&quot;,
     &quot;Maven.dLib [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.dLib [install:install-file...].executor&quot;: &quot;Run&quot;,
     &quot;Maven.dLib [package].executor&quot;: &quot;Run&quot;,
     &quot;Maven.dLib [test].executor&quot;: &quot;Run&quot;,
     &quot;Maven.dLib [verify].executor&quot;: &quot;Run&quot;,
@@ -58,7 +81,7 @@
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Marino/Projects/MtSPlusPlus/Source/Mod the Spire++ Patcher&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Marino/Projects/CoffeeDripperWithDrip/CoffeeDripperWithDrip/theDefault/pom.xml&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -92,12 +115,17 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.files" />
+      <recent name="dLib.effects" />
       <recent name="dLib.tools.screeneditor.ui.items.editoritems" />
       <recent name="dLib.properties.ui.elements" />
       <recent name="dLib.ui.elements.prefabs" />
-      <recent name="dLib.util.bindings.texture" />
-      <recent name="dLib.util.settings.prefabs" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn install:install-file &quot;-Dfile=E:\Marino\Games\Slay The Spire\Game\mods\dLib.jar&quot; -DgroupId=dlib -DartifactId=dLib -Dversion=0.0.1 -Dpackaging=jar" />
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="Slay the Spire" type="JarApplication">
@@ -110,7 +138,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-1.8.0_402-corretto-1.8.0_402-3183f394aec4-734fdc6e" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
       </set>
     </attachedChunks>
   </component>
@@ -222,6 +251,26 @@
       <workItem from="1716280206006" duration="94000" />
       <workItem from="1716280309061" duration="2553000" />
       <workItem from="1716369034280" duration="2316000" />
+      <workItem from="1716680365594" duration="586000" />
+      <workItem from="1716731864785" duration="4219000" />
+      <workItem from="1716843268352" duration="8118000" />
+      <workItem from="1716888210669" duration="13403000" />
+      <workItem from="1716933428921" duration="670000" />
+      <workItem from="1717184300267" duration="42000" />
+      <workItem from="1717363809871" duration="186000" />
+      <workItem from="1717367795031" duration="1206000" />
+      <workItem from="1717446550148" duration="597000" />
+      <workItem from="1717448119685" duration="172000" />
+      <workItem from="1717448377254" duration="213000" />
+      <workItem from="1717541658194" duration="640000" />
+      <workItem from="1719356081365" duration="15000" />
+      <workItem from="1719507352198" duration="400000" />
+      <workItem from="1720816389807" duration="3648000" />
+      <workItem from="1721852982370" duration="290000" />
+      <workItem from="1722286905655" duration="2048000" />
+      <workItem from="1722344390335" duration="2586000" />
+      <workItem from="1722604040272" duration="1002000" />
+      <workItem from="1722703305606" duration="665000" />
     </task>
     <servers />
   </component>

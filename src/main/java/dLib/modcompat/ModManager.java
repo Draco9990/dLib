@@ -75,4 +75,20 @@ public class ModManager {
             return Loader.isModLoaded(modId);
         }
     }
+
+    public static class SpireLocations{
+        public static final String modId = "spireLocations";
+
+        public static boolean isActive(){
+            return Loader.isModLoaded(modId);
+        }
+    }
+
+    public static class InfiniteSpire{
+        public static final String modId = "infinitespire";
+
+        public static boolean isActive(){
+            return Loader.isModLoaded(modId);
+        }
+    }
 }

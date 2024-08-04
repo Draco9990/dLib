@@ -1,23 +1,24 @@
 package dLib.util;
 
+import com.evacipated.cardcrawl.modthespire.*;
 import com.evacipated.cardcrawl.modthespire.Loader;
-import com.evacipated.cardcrawl.modthespire.ModInfo;
+import com.evacipated.cardcrawl.modthespire.lib.SpireField;
 import dLib.DLib;
 import javassist.*;
 import org.apache.commons.lang3.ClassUtils;
 import org.clapper.util.classutil.*;
+import org.scannotation.AnnotationDB;
 
 import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 
 public class Reflection {
+    //region Fields
 
-    /** Variables */
     private static final LinkedHashMap<Class<?>, LinkedHashMap<String, Field>> fieldMap = new LinkedHashMap();
 
     //Returns value of a field from the object or its parent classes
@@ -33,10 +34,24 @@ public class Reflection {
 
         try{
             Field field = getFieldByName(fieldName, (source instanceof Class<?> ? (Class<?>) source : source.getClass()));
+            return getFieldValue(field, source);
+        } catch (Exception e) {
+            DLib.logError("Could not get field " + fieldName + " due to " + e.getLocalizedMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static <T> T getFieldValue(Field field, Object source){
+        if(field == null){
+            DLib.logError("getFieldValue called with null field. Stacktrace:");
+            Help.Dev.printStacktrace(5);
+        }
+
+        try{
             field.setAccessible(true);
             return (T) field.get(source);
         } catch (Exception e) {
-            DLib.logError("Could not get field " + fieldName + " due to " + e.getLocalizedMessage());
+            DLib.logError("Could not get field " + field.getName() + " due to " + e.getLocalizedMessage());
             e.printStackTrace();
             return null;
         }
@@ -90,19 +105,35 @@ public class Reflection {
 
         try{
             Field field = getFieldByName(fieldName, (source instanceof Class<?> ? ((Class<?>)source) : source.getClass()));
+            setFieldValue(field, source, value);
+
+        } catch (Exception e) {
+            DLib.logError("Could not set field " + fieldName + " due to " + e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+    }
+    public static void setFieldValue(Field field, Object source, Object value){
+        if(field == null){
+            DLib.logError("setFieldValue called with null field. Stacktrace:");
+            Help.Dev.printStacktrace(5);
+            return;
+        }
+
+        try{
+            //If our field type is not a spire field or if it is and the value we're setting is also spirefield
             field.setAccessible(true);
 
-            if (!Modifier.isFinal(field.getModifiers())) {
-                field.set(source, value);
-            } else {
+            if (Modifier.isFinal(field.getModifiers())) {
                 // If it's final, we need to remove the final modifier
                 Field modifiersField = Field.class.getDeclaredField("modifiers");
                 modifiersField.setAccessible(true);
                 modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
             }
 
+            field.set((source instanceof Class<?> ? null : source), value);
+
         } catch (Exception e) {
-            DLib.logError("Could not set field " + fieldName + " due to " + e.getLocalizedMessage());
+            DLib.logError("Could not set field " + field.getName() + " due to " + e.getLocalizedMessage());
             e.printStackTrace();
         }
     }
@@ -173,7 +204,21 @@ public class Reflection {
         return objFields;
     }
 
-    /** Methods */
+    public static Type[] getFieldTypeArguments(Field field){
+        Type type = field.getGenericType();
+
+        if(type instanceof ParameterizedType){
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            return parameterizedType.getActualTypeArguments();
+        }
+
+        return null;
+    }
+
+    //endregion Fields
+
+    //region Methods
+
     private static final LinkedHashMap<Class<?>, LinkedHashMap<String, Method>> methodMap = new LinkedHashMap();
 
     public static Object invokeMethod(String methodName, Object object, Object... params) {
@@ -335,18 +380,58 @@ public class Reflection {
         return foundMethods;
     }
 
-    /** Classes */
+    public static ArrayList<CtConstructor> findConstructorsFromClasses(CtBehavior ctBehavior, Class<?> parentClass, boolean includeParent){
+        return findConstructorsFromClasses(ctBehavior, findClassesOfType(parentClass, includeParent));
+    }
+    public static ArrayList<CtConstructor> findConstructorsFromClasses(CtBehavior ctBehavior, ArrayList<ClassInfo> classesToSearch){
+        ClassPool classPool = ctBehavior.getDeclaringClass().getClassPool();
+
+        ArrayList<CtConstructor> foundMethods = new ArrayList<>();
+
+        try{
+            outer:
+            for(ClassInfo c : classesToSearch){
+                CtClass ctClass = classPool.get(c.getClassName());
+
+                try{
+                    Collection<String> references = ctClass.getRefClasses();
+
+                    for(String s : references){
+                        if(classPool.getOrNull(s) == null){
+                            continue outer;
+                        }
+                    }
+
+                    foundMethods.addAll(Arrays.asList(ctClass.getDeclaredConstructors()));
+                }catch (Exception patchException){
+                    DLibLogger.log("Could not find class constructors due to: " + patchException.getMessage());
+                    patchException.printStackTrace();
+                }
+            }
+        }
+        catch (NotFoundException notFoundException){
+            DLibLogger.log("Could not find class constructors due to: " + notFoundException.getMessage());
+            notFoundException.printStackTrace();
+        }
+
+        return foundMethods;
+    }
+
+    //endregion Methods
+
+    //region Classes
+
     public static ArrayList<ClassInfo> findClassesOfType(Class<?> parentClass, boolean returnParent){
         ClassFilter filter = new AndClassFilter(
-            new NotClassFilter(new InterfaceOnlyClassFilter()),
-            new ClassModifiersClassFilter(Modifier.PUBLIC),
-            (
-                returnParent
-                ? new OrClassFilter(
-                new SubclassClassFilter(parentClass),
-                (classInfo, classFinder) -> classInfo.getClassName().equals(parentClass.getName()))
-                : new SubclassClassFilter(parentClass)
-            )
+                new NotClassFilter(new InterfaceOnlyClassFilter()),
+                new ClassModifiersClassFilter(Modifier.PUBLIC),
+                (
+                        returnParent
+                                ? new OrClassFilter(
+                                new SubclassClassFilter(parentClass),
+                                (classInfo, classFinder) -> classInfo.getClassName().equals(parentClass.getName()))
+                                : new SubclassClassFilter(parentClass)
+                )
         );
 
         ArrayList<ClassInfo> foundClasses = new ArrayList<>();
@@ -354,6 +439,67 @@ public class Reflection {
 
         return foundClasses;
     }
+
+    public static ArrayList<Class<?>> getAllClassesFromFile(URL path) {
+        ArrayList<Class<?>> classes = new ArrayList<>();
+        try {
+            AnnotationDB db = new AnnotationDB();
+            db.scanArchives(path);
+
+            Set<String> classNames = db.getClassIndex().keySet();
+            for (String className : classNames) {
+                try {
+                    Class<?> clazz = Class.forName(className);
+                    classes.add(clazz);
+                } catch (ClassNotFoundException | NoClassDefFoundError ignored) {
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return classes;
+    }
+
+    public static <T> HashMap<Class<?>, T> getAllClassesWithAnnotation(Class<T> annotation){
+        HashMap<Class<?>, T> classes = new HashMap<>();
+
+        try {
+            URL[] urlPaths = new URL[Loader.MODINFOS.length];
+            ModInfo[] modinfos = Loader.MODINFOS;
+            for (int i = 0; i < modinfos.length; i++) {
+                ModInfo info = modinfos[i];
+                urlPaths[i] = info.jarURL;
+            }
+
+            Set<String> classNames = new HashSet<>();
+            for(Map.Entry<URL, AnnotationDB> annotationDBEntry : Patcher.annotationDBMap.entrySet()){
+                try{
+                    classNames.addAll(annotationDBEntry.getValue().getAnnotationIndex().get(annotation.getName()));
+                }catch (Exception | Error ignored){
+                }
+            }
+
+            for (String className : classNames) {
+                CtClass clazz = ((ClassPool) getFieldValue("POOL", Loader.class)).get(className);
+                if(clazz != null){
+                    T annObject = (T) clazz.getAnnotation(annotation);
+                    if(annObject != null){
+                        try{
+                            Class<?> annClass = Class.forName(className);
+                            classes.put(annClass, annObject);
+                        }catch (Exception | Error ignored){
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        return classes;
+    }
+
+    //endregion Classes
+
+    //region Misc
 
     private static ClassFinder generateClassFinder(){
         ClassFinder finder = new ClassFinder();
@@ -370,6 +516,11 @@ public class Reflection {
 
         return finder;
     }
+
+    //endregion Misc
+
+    /** Classes */
+
 
     /** Misc */
     public static void clearCache(){

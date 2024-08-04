@@ -739,16 +739,25 @@ public class UIElement {
 
         if(!selectedPreviousChild){
             for(int i = children.size() - 1; i >= 0; i--){
-                if(children.get(i).element.isSelected()){
-                    children.get(i).element.deselect();
+                if(!children.get(i).element.isSelected()){
+                    continue;
                 }
+
+                children.get(i).element.deselect();
 
                 if(i - 1 < 0){
-                    return;
+                    children.get(children.size() - 1).element.select();
+                }
+                else{
+                    children.get(0).element.select();
                 }
 
-                children.get(i).element.select();
+                selectedPreviousChild = true;
             }
+        }
+
+        if(!selectedPreviousChild && !children.isEmpty()){
+            children.get(children.size() - 1).element.select();
         }
     }
 
@@ -769,22 +778,32 @@ public class UIElement {
                 if(child.element.hasNextChildToSelect()){
                     selectedNextChild = true;
                     child.element.selectNextChild();
+                    break;
                 }
             }
         }
 
         if(!selectedNextChild){
             for(int i = 0; i < children.size(); i++){
-                if(children.get(i).element.isSelected()){
-                    children.get(i).element.deselect();
+                if(!children.get(i).element.isSelected()){
+                    continue;
                 }
+
+                children.get(i).element.deselect();
 
                 if(i + 1 >= children.size()){
-                    return;
+                    children.get(0).element.select();
+                }
+                else{
+                    children.get(i + 1).element.select();
                 }
 
-                children.get(i).element.select();
+                selectedNextChild = true;
             }
+        }
+
+        if(!selectedNextChild && !children.isEmpty()){
+            children.get(0).element.select();
         }
     }
     //endregion
