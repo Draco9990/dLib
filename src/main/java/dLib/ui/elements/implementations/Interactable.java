@@ -3,6 +3,7 @@ package dLib.ui.elements.implementations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.modcompat.ModManager;
@@ -21,8 +22,8 @@ import java.util.function.Consumer;
 public class Interactable extends Hoverable{
     //region Variables
 
-    public Texture hoveredTexture;
-    public Texture disabledTexture;
+    public TextureRegion hoveredTexture;
+    public TextureRegion disabledTexture;
 
     private Color hoveredColor = Color.BLACK;
     private float hoveredColorMultiplier = 0.25f;
@@ -78,8 +79,10 @@ public class Interactable extends Hoverable{
     public Interactable(InteractableData data){
         super(data);
 
-        this.hoveredTexture = data.hoveredTexture.getBoundTexture();
-        this.disabledTexture = data.disabledTexture.getBoundTexture();
+        Texture hoveredTextureT = data.hoveredTexture.getBoundTexture();
+        Texture disabledTextureT = data.disabledTexture.getBoundTexture();
+        if(hoveredTextureT != null) this.hoveredTexture = new TextureRegion(hoveredTextureT);
+        if(disabledTextureT != null) this.disabledTexture = new TextureRegion(disabledTextureT);
 
         this.hoveredColor = Color.valueOf(data.hoveredColor);
         this.hoveredColorMultiplier = data.hoveredColorMultiplier;
@@ -161,7 +164,7 @@ public class Interactable extends Hoverable{
     //region Render Texture & Color
 
     @Override
-    protected Texture getTextureForRender() {
+    protected TextureRegion getTextureForRender() {
         if(!isEnabled() && disabledTexture != null) return disabledTexture;
         if(isHovered() && hoveredTexture != null) return hoveredTexture;
         return super.getTextureForRender();
@@ -344,7 +347,8 @@ public class Interactable extends Hoverable{
     }
 
     public Interactable setHoveredTexture(Texture hoveredTexture){
-        this.hoveredTexture = hoveredTexture;
+        if(hoveredTexture == null) this.hoveredTexture = null;
+        else this.hoveredTexture = new TextureRegion(hoveredTexture);
         return this;
     }
 
@@ -380,7 +384,8 @@ public class Interactable extends Hoverable{
 
     //TODO MOVE TO RENDERABLE
     public Interactable setDisabledTexture(Texture disabledTexture){
-        this.disabledTexture = disabledTexture;
+        if(disabledTexture == null) this.disabledTexture = null;
+        else this.disabledTexture = new TextureRegion(disabledTexture);
         return this;
     }
 

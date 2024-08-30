@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
@@ -19,9 +20,9 @@ public class Toggle extends Interactable {
 
     private boolean toggled = false;
 
-    private Texture toggledTexture;
-    private Texture toggledHoveredTexture;
-    private Texture toggledDisabledTexture;
+    private TextureRegion toggledTexture;
+    private TextureRegion toggledHoveredTexture;
+    private TextureRegion toggledDisabledTexture;
 
     private Color toggledColor = Color.BLACK.cpy();
     private float toggledColorMultiplier = 0.15f;
@@ -42,7 +43,7 @@ public class Toggle extends Interactable {
 
     public Toggle(Texture image, Texture toggledTexture, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
-        this.toggledTexture = toggledTexture;
+        this.toggledTexture = toggledTexture != null ? new TextureRegion(toggledTexture) : null;
     }
 
     public Toggle(ToggleData data){
@@ -50,9 +51,12 @@ public class Toggle extends Interactable {
 
         this.toggled = data.isToggled.getValue();
 
-        this.toggledTexture = data.toggledTexture.getValue().getBoundTexture();
-        this.toggledHoveredTexture = data.toggledHoveredTexture.getBoundTexture();
-        this.toggledDisabledTexture = data.toggledDisabledTexture.getBoundTexture();
+        Texture toggledTextureT = data.toggledTexture.getValue().getBoundTexture();
+        Texture toggledHoveredTextureT = data.toggledHoveredTexture.getBoundTexture();
+        Texture toggledDisabledTextureT = data.toggledDisabledTexture.getBoundTexture();
+        this.toggledTexture = toggledTextureT == null ? null : new TextureRegion(toggledTextureT);
+        this.toggledHoveredTexture = toggledHoveredTextureT == null ? null : new TextureRegion(toggledHoveredTextureT);
+        this.toggledDisabledTexture = toggledDisabledTextureT == null ? null : new TextureRegion(toggledDisabledTextureT);
 
         this.toggledColor = Color.valueOf(data.toggledColor);
         this.toggledColorMultiplier = data.toggledColorMultiplier;
@@ -72,7 +76,7 @@ public class Toggle extends Interactable {
     //region Render Texture & Color
 
     @Override
-    protected Texture getTextureForRender() {
+    protected TextureRegion getTextureForRender() {
         if(toggled){
             if(!isEnabled() && toggledDisabledTexture != null) return toggledDisabledTexture;
             if(isHovered() && toggledHoveredTexture != null) return toggledHoveredTexture;
@@ -139,11 +143,13 @@ public class Toggle extends Interactable {
         return this;
     }
     public Interactable setToggledHoveredTexture(Texture hoveredTexture){
-        this.toggledHoveredTexture = hoveredTexture;
+        if(hoveredTexture == null) this.toggledHoveredTexture = null;
+        else this.toggledHoveredTexture = new TextureRegion(hoveredTexture);
         return this;
     }
     public Interactable setToggledDisabledTexture(Texture disabledTexture){
-        this.toggledDisabledTexture = disabledTexture;
+        if(disabledTexture == null) this.toggledDisabledTexture = null;
+        else this.toggledDisabledTexture = new TextureRegion(disabledTexture);
         return this;
     }
 

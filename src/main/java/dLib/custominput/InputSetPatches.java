@@ -25,7 +25,12 @@ public class InputSetPatches {
         @SpirePrefixPatch
         public static void Prefix() {
             for (Map.Entry<String, Pair<Function<String, String>, Pair<InputAction, CInputAction>>> action : CustomInputSetManager.actionMap.entrySet()) {
-                InputActionSet.prefs.putInteger(action.getKey(), action.getValue().getValue().getKey().getKey());
+                InputAction actionValue = action.getValue().getValue().getKey();
+                if(actionValue == null){
+                    continue;
+                }
+
+                InputActionSet.prefs.putInteger(action.getKey(), actionValue.getKey());
             }
         }
     }
@@ -35,22 +40,12 @@ public class InputSetPatches {
         @SpirePrefixPatch
         public static void Prefix() {
             for (Map.Entry<String, Pair<Function<String, String>, Pair<InputAction, CInputAction>>> action : CustomInputSetManager.actionMap.entrySet()) {
-                CInputActionSet.prefs.putInteger(action.getKey(), action.getValue().getValue().getValue().getKey());
-            }
-        }
-    }
-
-    @SpirePatch2(clz = CInputActionSet.class, method = "load")
-    public static class LoadCInputSet {
-        @SpirePrefixPatch
-        public static void Prefix() {
-            for (Map.Entry<String, Pair<Function<String, String>, Pair<InputAction, CInputAction>>> action : CustomInputSetManager.actionMap.entrySet()) {
-                int key = CInputActionSet.prefs.getInteger(action.getKey(), -1);
-                if(key == -1){
+                CInputAction actionValue = action.getValue().getValue().getValue();
+                if(actionValue == null){
                     continue;
                 }
 
-                action.getValue().getValue().getValue().remap(key);
+                CInputActionSet.prefs.putInteger(action.getKey(), actionValue.getKey());
             }
         }
     }

@@ -3,6 +3,7 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
@@ -82,7 +83,7 @@ public class ColorPicker extends UIElement {
     public static class ColorWheel extends Interactable {
         //region Variables
 
-        private Texture colorWheelTexture;
+        private TextureRegion colorWheelTexture;
 
         private ArrayList<Consumer<Color>> colorHoveredConsumers = new ArrayList<>();
         private ArrayList<Consumer<Color>> colorSelectedConsumers = new ArrayList<>();
@@ -116,7 +117,7 @@ public class ColorPicker extends UIElement {
         //region Render Texture & Color
 
         @Override
-        protected Texture getTextureForRender() {
+        protected TextureRegion getTextureForRender() {
             return colorWheelTexture;
         }
 
@@ -214,7 +215,7 @@ public class ColorPicker extends UIElement {
                     }
                 }
             }
-            colorWheelTexture = new Texture(pixmap);
+            colorWheelTexture = new TextureRegion(new Texture(pixmap));
             pixmap.dispose();
         }
 

@@ -3,6 +3,8 @@ package dLib.ui.elements.implementations;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.ColorProperty;
 import dLib.ui.elements.UIElement;
@@ -14,7 +16,7 @@ import java.io.Serializable;
 public class Renderable extends UIElement {
     //region Variables
 
-    protected Texture image;
+    protected TextureRegion image;
 
     protected Color renderColor;
 
@@ -31,14 +33,15 @@ public class Renderable extends UIElement {
     public Renderable(Texture image, int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
 
-        this.image = image;
+        this.image = image == null ? null : new TextureRegion(image);
         this.renderColor = Color.WHITE.cpy();
     }
 
     public Renderable(RenderableData data){
         super(data);
 
-        this.image = data.textureBinding.getValue().getBoundTexture();
+        Texture texture = data.textureBinding.getValue().getBoundTexture();
+        this.image = texture == null ? null : new TextureRegion(texture);
         this.renderColor = data.renderColor.getColorValue();
     }
 
@@ -54,7 +57,7 @@ public class Renderable extends UIElement {
 
         sb.setColor(getColorForRender());
 
-        Texture textureToRender = getTextureForRender();
+        TextureRegion textureToRender = getTextureForRender();
         if(textureToRender != null){
             sb.draw(textureToRender, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, getWidth() * Settings.xScale, getHeight() * Settings.yScale);
         }
@@ -67,12 +70,13 @@ public class Renderable extends UIElement {
     //region Image
 
     public Renderable setImage(Texture image){
-        this.image = image;
+        if(image == null) this.image = null;
+        else this.image = new TextureRegion(image);
         return this;
     }
-    public Texture getImage() { return image; }
+    public Texture getImage() { return image.getTexture(); }
 
-    protected Texture getTextureForRender(){
+    protected TextureRegion getTextureForRender(){
         return image;
     }
 
