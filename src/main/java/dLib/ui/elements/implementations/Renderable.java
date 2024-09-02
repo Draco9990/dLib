@@ -3,12 +3,10 @@ package dLib.ui.elements.implementations;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.ColorProperty;
-import dLib.properties.objects.FloatProperty;
 import dLib.properties.objects.FloatVector2Property;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureEmptyBinding;
@@ -51,7 +49,7 @@ public class Renderable extends UIElement {
         this.image = texture == null ? null : new TextureRegion(texture);
         this.renderColor = data.renderColor.getColorValue();
 
-        this.renderDimensionsPerc = data.position.getValue();
+        this.renderDimensionsPerc = data.renderDimensionsPerc.getValue();
     }
 
     //endregion
@@ -155,7 +153,7 @@ public class Renderable extends UIElement {
 
         public ColorProperty renderColor = (ColorProperty) new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
 
-        public FloatVector2Property position = new FloatVector2Property(new Vector2(1, 1)).setName("Render Dimensions Perc").setValueNames("W", "H").setMinimumX(0).setMinimumY(0).setMaximumX(1).setMaximumY(1);
+        public FloatVector2Property renderDimensionsPerc = new FloatVector2Property(new Vector2(1, 1)).setName("Render Dimensions Perc").setValueNames("W", "H").setMinimumX(0).setMinimumY(0).setMaximumX(1).setMaximumY(1);
 
         @Override
         public UIElement makeUIElement() {
