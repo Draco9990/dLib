@@ -75,12 +75,31 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<FloatVect
         horizontalBox.addItem(yInput);
 
         property.addOnValueChangedListener((integerVector2, integerVector22) -> {
-            if(!xInput.getTextBox().getText().equals(String.valueOf(property.getValue().x))){
-                xInput.getTextBox().setText(String.valueOf(property.getValue().x));
+            TextBox xBox = xInput.getTextBox();
+            TextBox yBox = yInput.getTextBox();
+
+            if(!xBox.getText().equals(String.valueOf(property.getValue().x))){
+                boolean allowedDifference = false;
+                if((property.getValue().x == 0 && xBox.getText().isEmpty())){
+                    allowedDifference = true;
+                }
+                if((int)property.getXValue() == property.getValue().x){
+                    allowedDifference = true;
+                }
+
+                if(!allowedDifference) xBox.setText(String.valueOf(property.getValue().x));
             }
 
-            if(!yInput.getTextBox().getText().equals(String.valueOf(property.getValue().y))){
-                yInput.getTextBox().setText(String.valueOf(property.getValue().y));
+            if(!yBox.getText().equals(String.valueOf(property.getValue().y))){
+                boolean allowedDifference = false;
+                if((property.getValue().y == 0 && yBox.getText().isEmpty())){
+                    allowedDifference = true;
+                }
+                if((int)property.getYValue() == property.getValue().y){
+                    allowedDifference = true;
+                }
+
+                if(!allowedDifference) yBox.setText(String.valueOf(property.getValue().y));
             }
         });
 

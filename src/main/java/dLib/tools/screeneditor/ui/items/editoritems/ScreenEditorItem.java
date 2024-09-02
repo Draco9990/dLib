@@ -23,8 +23,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     private ScreenEditorBaseScreen screenEditor;
 
-    private UIElement previewInstance;
-
     private ElementType previewElement;
     private DataType elementData;
 
