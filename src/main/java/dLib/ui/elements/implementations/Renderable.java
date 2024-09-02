@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.ColorProperty;
+import dLib.properties.objects.FloatProperty;
+import dLib.properties.objects.FloatVector2Property;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.properties.objects.TextureBindingProperty;
@@ -19,6 +22,8 @@ public class Renderable extends UIElement {
     protected TextureRegion image;
 
     protected Color renderColor;
+
+    protected Vector2 renderDimensionsPerc;
 
     //endregion
 
@@ -35,6 +40,8 @@ public class Renderable extends UIElement {
 
         this.image = image == null ? null : new TextureRegion(image);
         this.renderColor = Color.WHITE.cpy();
+
+        this.renderDimensionsPerc = new Vector2(1.f, 1.f);
     }
 
     public Renderable(RenderableData data){
@@ -43,6 +50,8 @@ public class Renderable extends UIElement {
         Texture texture = data.textureBinding.getValue().getBoundTexture();
         this.image = texture == null ? null : new TextureRegion(texture);
         this.renderColor = data.renderColor.getColorValue();
+
+        this.renderDimensionsPerc = data.position.getValue();
     }
 
     //endregion
@@ -59,6 +68,8 @@ public class Renderable extends UIElement {
 
         TextureRegion textureToRender = getTextureForRender();
         if(textureToRender != null){
+            textureToRender.setRegionWidth((int)(textureToRender.getTexture().getWidth() * getRenderWidthPerc()));
+            textureToRender.setRegionHeight((int)(textureToRender.getTexture().getHeight() * getRenderHeightPerc()));
             sb.draw(textureToRender, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, getWidth() * Settings.xScale, getHeight() * Settings.yScale);
         }
 
@@ -98,6 +109,43 @@ public class Renderable extends UIElement {
 
     //endregion
 
+    //region Render Width & Height Percentage
+
+    public Renderable setRenderWidthPerc(float perc){
+        setRenderDimensionsPerc(perc, renderDimensionsPerc.y);
+        return this;
+    }
+
+    public float getRenderWidthPerc(){
+        return renderDimensionsPerc.x;
+    }
+
+    public Renderable setRenderHeightPerc(float perc){
+        setRenderDimensionsPerc(renderDimensionsPerc.x, perc);
+        return this;
+    }
+
+    public float getRenderHeightPerc(){
+        return renderDimensionsPerc.y;
+    }
+
+    public Renderable setRenderDimensionsPerc(float widthPerc, float heightPerc){
+        if(widthPerc < 0) widthPerc = 0;
+        if(widthPerc > 1) widthPerc = 1;
+
+        if(heightPerc < 0) heightPerc = 0;
+        if(heightPerc > 1) heightPerc = 1;
+
+        this.renderDimensionsPerc.set(widthPerc, heightPerc);
+        return this;
+    }
+
+    public Vector2 getRenderDimensionsPerc(){
+        return renderDimensionsPerc;
+    }
+
+    //endregion
+
     //endregion
 
     public static class RenderableData extends UIElement.UIElementData implements Serializable {
@@ -106,6 +154,8 @@ public class Renderable extends UIElement {
         public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureEmptyBinding()).setName("Image");
 
         public ColorProperty renderColor = (ColorProperty) new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
+
+        public FloatVector2Property position = new FloatVector2Property(new Vector2(1, 1)).setName("Render Dimensions Perc").setValueNames("W", "H").setMinimumX(0).setMinimumY(0).setMaximumX(1).setMaximumY(1);
 
         @Override
         public UIElement makeUIElement() {

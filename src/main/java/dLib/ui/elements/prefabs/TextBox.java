@@ -105,6 +105,8 @@ public class TextBox extends Hoverable {
     public void renderSelf(SpriteBatch sb) {
         super.renderSelf(sb);
 
+        if(text == null || text.isEmpty()) return;
+
         float fontScale = calculateFontScale();
         font.getData().setScale(fontScale);
 
@@ -368,6 +370,8 @@ public class TextBox extends Hoverable {
     //endregion
 
     protected float calculateFontScale(){
+        if(text == null || text.isEmpty()) return 0.1f;
+
         float fontScale = 0.1F;
 
         float xMargin = marginPercX * getWidth();

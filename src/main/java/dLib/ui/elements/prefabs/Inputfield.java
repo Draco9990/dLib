@@ -81,9 +81,29 @@ public class Inputfield extends UIElement {
         inputProcessor = new InputAdapter(){
             @Override
             public boolean keyTyped(char character) {
-                if(characterLimit >= 0 && textBox.getText().length() >= characterLimit) return false;
-                if(Character.isISOControl(character)) return false;
-                if(!characterFilter.isEmpty() && !characterFilter.contains(character)) return false;
+                if(characterLimit >= 0 && textBox.getText().length() >= characterLimit) {
+                    return false;
+                }
+
+                if(Character.isISOControl(character)) {
+                    return false;
+                }
+
+                if(!characterFilter.isEmpty() && !characterFilter.contains(character)) {
+                    if(preset == EInputfieldPreset.NUMERICAL_DECIMAL || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE){
+                        if(character >= '0' && character <= '9'){
+                            return character != '0' || !textBox.getText().isEmpty();
+                        }
+                    }
+
+                    if(preset == EInputfieldPreset.NUMERICAL_DECIMAL){
+                        if(character == '.' && !textBox.getText().contains(".") && !textBox.getText().isEmpty()){
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
 
                 addCharacter(character);
                 return true;
@@ -189,14 +209,6 @@ public class Inputfield extends UIElement {
     public Inputfield setPreset(EInputfieldPreset preset){
         characterFilter.clear();
         this.preset = preset;
-
-        if(preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_DECIMAL){
-            filterAddNumerical();
-        }
-
-        if(preset == EInputfieldPreset.NUMERICAL_DECIMAL){
-            characterFilter.add('.');
-        }
 
         return this;
     }
