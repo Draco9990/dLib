@@ -68,7 +68,7 @@ public class Renderable extends UIElement {
         if(textureToRender != null){
             textureToRender.setRegionWidth((int)(textureToRender.getTexture().getWidth() * getRenderWidthPerc()));
             textureToRender.setRegionHeight((int)(textureToRender.getTexture().getHeight() * getRenderHeightPerc()));
-            sb.draw(textureToRender, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, getWidth() * Settings.xScale, getHeight() * Settings.yScale);
+            sb.draw(textureToRender, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, getWidth() * Settings.xScale * getRenderWidthPerc(), getHeight() * Settings.yScale * getRenderHeightPerc());
         }
 
         sb.setColor(Color.WHITE);

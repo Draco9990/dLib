@@ -9,6 +9,8 @@ import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.IntegerVector2;
 import dLib.properties.objects.IntegerVector2Property;
 
+import java.util.Objects;
+
 public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<IntegerVector2Property> {
     //region Variables
 
@@ -76,7 +78,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<Integer
             TextBox xBox = xInput.getTextBox();
             TextBox yBox = yInput.getTextBox();
 
-            if(!xBox.getText().equals(String.valueOf(property.getValue().x))){
+            if(xBox.getText().isEmpty() || !Objects.equals(Float.valueOf(xBox.getText()), property.getValue().x)){
                 boolean allowedDifference = false;
                 if((property.getValue().x == 0 && xBox.getText().isEmpty())){
                     allowedDifference = true;
@@ -85,7 +87,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<Integer
                 if(!allowedDifference) xBox.setText(String.valueOf(property.getValue().x));
             }
 
-            if(!yBox.getText().equals(String.valueOf(property.getValue().y))){
+            if(yBox.getText().isEmpty() || !Objects.equals(Float.valueOf(yBox.getText()), property.getValue().y)){
                 boolean allowedDifference = false;
                 if((property.getValue().y == 0 && yBox.getText().isEmpty())){
                     allowedDifference = true;

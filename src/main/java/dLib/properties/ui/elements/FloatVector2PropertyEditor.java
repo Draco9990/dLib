@@ -11,6 +11,8 @@ import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.IntegerVector2;
 
+import java.util.Objects;
+
 public class FloatVector2PropertyEditor extends AbstractPropertyEditor<FloatVector2Property> {
     //region Variables
 
@@ -78,24 +80,18 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<FloatVect
             TextBox xBox = xInput.getTextBox();
             TextBox yBox = yInput.getTextBox();
 
-            if(!xBox.getText().equals(String.valueOf(property.getValue().x))){
+            if(xBox.getText().isEmpty() || !Objects.equals(Float.valueOf(xBox.getText()), property.getValue().x)){
                 boolean allowedDifference = false;
                 if((property.getValue().x == 0 && xBox.getText().isEmpty())){
-                    allowedDifference = true;
-                }
-                if((int)property.getXValue() == property.getValue().x){
                     allowedDifference = true;
                 }
 
                 if(!allowedDifference) xBox.setText(String.valueOf(property.getValue().x));
             }
 
-            if(!yBox.getText().equals(String.valueOf(property.getValue().y))){
+            if(yBox.getText().isEmpty() || !Objects.equals(Float.valueOf(yBox.getText()), property.getValue().y)){
                 boolean allowedDifference = false;
                 if((property.getValue().y == 0 && yBox.getText().isEmpty())){
-                    allowedDifference = true;
-                }
-                if((int)property.getYValue() == property.getValue().y){
                     allowedDifference = true;
                 }
 
