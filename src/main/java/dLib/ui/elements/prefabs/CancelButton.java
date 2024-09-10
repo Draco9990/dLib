@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import dLib.ui.animations.entry.UIAnimation_SlideInRight;
 import dLib.util.TextureManager;
 
 public class CancelButton extends TextButton{
@@ -14,6 +15,9 @@ public class CancelButton extends TextButton{
         this.getTextBox().setFont(FontHelper.buttonLabelFont);
         this.getTextBox().setLocalPosition(27, 27);
         this.getTextBox().setFontScaleOverride(1f);
+
+        this.setEntryAnimation(new UIAnimation_SlideInRight(this));
+        this.show();
 
         getTextBox().setTextRenderColor(Color.valueOf("FFEDA7"));
     }

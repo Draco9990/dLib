@@ -7,7 +7,7 @@ public abstract class UIAnimation {
 
     protected UIElement element;
 
-    private boolean isPlaying = false;
+    protected boolean isPlaying = false;
 
     //endregion
 
@@ -22,13 +22,13 @@ public abstract class UIAnimation {
     //region Methods
 
     public void start(){
-        isPlaying = false;
+        isPlaying = true;
     }
 
     public abstract void update();
 
     public void finishInstantly(){
-        isPlaying = true;
+        isPlaying = false;
     }
 
     public boolean isPlaying(){

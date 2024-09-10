@@ -3,6 +3,8 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.Alignment;
+import dLib.ui.animations.entry.UIAnimation_SlideInLeft;
+import dLib.ui.animations.entry.UIAnimation_SlideInRight;
 import dLib.util.TextureManager;
 
 public class ConfirmButton extends TextButton{
@@ -16,6 +18,9 @@ public class ConfirmButton extends TextButton{
         this.getTextBox().setFont(FontHelper.buttonLabelFont);
         this.getTextBox().setLocalPosition(65, 30);
         this.getTextBox().setFontScaleOverride(1f);
+
+        this.setEntryAnimation(new UIAnimation_SlideInLeft(this));
+        this.show();
 
         getTextBox().setTextRenderColor(Color.valueOf("FFEDA7"));
     }

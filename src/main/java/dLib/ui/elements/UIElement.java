@@ -107,6 +107,7 @@ public class UIElement {
         if(playingAnimation != null){
             playingAnimation.update();
             if(!playingAnimation.isPlaying()){
+                playingAnimation.finishInstantly();
                 playingAnimation = null;
             }
         }
