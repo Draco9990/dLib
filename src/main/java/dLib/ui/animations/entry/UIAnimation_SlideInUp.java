@@ -18,7 +18,7 @@ public class UIAnimation_SlideInUp extends UIAnimation {
     public void start() {
         super.start();
 
-        origElementY = element.getLocalPositionY();
+        origElementY = element.getWorldPositionY();
         element.setWorldPositionY(-element.getHeight());
     }
 
@@ -28,7 +28,7 @@ public class UIAnimation_SlideInUp extends UIAnimation {
 
         element.setWorldPositionY((int) newPos);
 
-        if (Math.abs(element.getWorldPositionX() - origElementY) < Settings.UI_SNAP_THRESHOLD) {
+        if (Math.abs(element.getLocalPositionY() - origElementY) < Settings.UI_SNAP_THRESHOLD) {
             isPlaying = false;
         }
     }
