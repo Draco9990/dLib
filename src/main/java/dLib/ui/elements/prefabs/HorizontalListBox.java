@@ -73,7 +73,7 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
 
         int currentXPos = itemPadding.x;
 
-        for(ItemBoxItem item : items){
+        for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
         }
 

@@ -1,4 +1,4 @@
-package dLib.ui.elements.prefabs;
+package dLib.ui.elements.implementations;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
-import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Interactable;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureNullBinding;

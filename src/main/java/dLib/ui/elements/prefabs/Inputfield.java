@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
@@ -20,6 +21,8 @@ public class Inputfield extends UIElement {
 
     private Button background;
     private TextBox textBox;
+
+    private TextBox previewTextBox;
 
     private List<Character> characterFilter = new ArrayList<>();
     private int characterLimit = -1;
@@ -47,11 +50,19 @@ public class Inputfield extends UIElement {
         preInitialize();
 
         this.background = new Button(0, 0, width, height).setImage(UIThemeManager.getDefaultTheme().inputfield);
-        addChildCS(this.background);
+        addChildNCS(this.background);
 
-        this.textBox = new TextBox(initialValue, 0, 0, width, height, 0.025f, 0.025f).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        this.textBox = new TextBox(initialValue, 0, 0, width, height, 0.05f, 0.05f).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
-        addChildNCS(textBox);
+        addChildCS(textBox);
+
+        this.previewTextBox = new TextBox("", 0, 0, width, height, 0.05f, 0.05f){
+            @Override
+            protected boolean shouldRender() {
+                return super.shouldRender() && textBox.getText().isEmpty();
+            }
+        }.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setTextRenderColor(Color.DARK_GRAY);
+        addChildNCS(this.previewTextBox);
 
         postInitialize();
     }
@@ -62,10 +73,13 @@ public class Inputfield extends UIElement {
         preInitialize();
 
         this.background = data.buttonData.makeUIElement();
-        addChildCS(this.background);
+        addChildNCS(this.background);
 
         this.textBox = data.textboxData.makeUIElement();
-        addChildNCS(this.textBox);
+        addChildCS(this.textBox);
+
+        this.previewTextBox = data.previewTextBoxData.makeUIElement();
+        addChildCS(this.previewTextBox);
 
         characterFilter = data.characterFilter;
         characterLimit = data.characterLimit.getValue();
@@ -182,6 +196,15 @@ public class Inputfield extends UIElement {
 
     //endregion
 
+    //region Preview Text
+
+    public Inputfield setPreviewText(String text){
+        previewTextBox.setText(text);
+        return this;
+    }
+
+    //endregion Preview Text
+
     //region Value
 
     public void onValueChanged(){
@@ -272,6 +295,8 @@ public class Inputfield extends UIElement {
 
         public TextBox.TextBoxData textboxData = new TextBox.TextBoxData();
         public Button.ButtonData buttonData = new Button.ButtonData();
+
+        public TextBox.TextBoxData previewTextBoxData = new TextBox.TextBoxData();
 
         public List<Character> characterFilter = new ArrayList<>();
         public IntegerProperty characterLimit = new IntegerProperty(-1).setName("Character Limit");

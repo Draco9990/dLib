@@ -74,7 +74,7 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
 
         int currentYPos = itemBoxBackground.getHeight() - itemPadding.y;
 
-        for(ItemBoxItem item : items){
+        for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
         }
 

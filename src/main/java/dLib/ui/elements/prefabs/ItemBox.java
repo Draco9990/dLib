@@ -23,9 +23,12 @@ public abstract class ItemBox<ItemType> extends UIElement {
     protected Hoverable itemBoxBackground;
     protected ArrayList<ItemBoxItem> items = new ArrayList<>();
 
+    protected ArrayList<ItemBoxItem> originalItems = new ArrayList<>();
+
     protected Scrollbar scrollbar;
 
     protected Inputfield filter;
+    private String filterText = "";
 
     // Properties
     private String title;
@@ -167,7 +170,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
         else{
             compositeItem = makeUIForItem(item);
         }
-        items.add(new ItemBoxItem(item, compositeItem));
+        originalItems.add(new ItemBoxItem(item, compositeItem));
         addChildCS(compositeItem);
 
         onItemAdded(item);
@@ -193,7 +196,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
     public void clearItems(){
         ArrayList<UIElement> childrenToRemove = new ArrayList<>();
         for(UIElementChild child : children){
-            for(ItemBoxItem item : items){
+            for(ItemBoxItem item : originalItems){
                 if(Objects.equals(item.renderForItem, child.element)){
                     childrenToRemove.add(child.element);
                 }
@@ -204,7 +207,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
             removeChild(childToRemove);
         }
 
-        items.clear();
+        originalItems.clear();
         scrollbar.setFirstPage();
 
         onItemsCleared();
@@ -214,7 +217,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
     }
 
     public void onItemsChanged(){
-
+        refilterItems();
     }
 
     //endregion
@@ -452,6 +455,34 @@ public abstract class ItemBox<ItemType> extends UIElement {
     }
 
     //endregion
+
+    //region Filter
+
+    public ItemBox<ItemType> setFilterText(String filterText){
+        if(filterText == null) filterText = "";
+
+        this.filterText = filterText;
+        refilterItems();
+        return this;
+    }
+
+    public boolean filterCheck(String filterText, ItemType item){
+        return item.toString().toLowerCase(Locale.ENGLISH).contains(filterText.toLowerCase(Locale.ENGLISH));
+    }
+
+    public void refilterItems(){
+        items.clear();
+
+        for(ItemBoxItem item : originalItems){
+            if(!filterCheck(filterText, item.item)){
+                continue;
+            }
+
+            items.add(item);
+        }
+    }
+
+    //endregion Filter
 
     //endregion
 

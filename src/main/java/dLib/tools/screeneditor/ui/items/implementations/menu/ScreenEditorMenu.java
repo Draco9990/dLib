@@ -6,7 +6,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.elements.prefabs.Toggle;
+import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UITheme;
 import dLib.util.TextureManager;

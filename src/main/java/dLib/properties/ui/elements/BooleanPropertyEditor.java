@@ -1,7 +1,7 @@
 package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.Toggle;
+import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.themes.UIThemeManager;
 import dLib.properties.objects.BooleanProperty;
 

@@ -48,6 +48,10 @@ public class TextBox extends Hoverable {
 
     private Hitbox textRenderHitbox;
 
+    private float minFontScale = 0.0f;
+    private float fontScaleOverride = 0.0f;
+    private float maxFontScale = 0.0f;
+
     //endregion
 
     //region Constructors
@@ -108,6 +112,7 @@ public class TextBox extends Hoverable {
         if(text == null || text.isEmpty()) return;
 
         float fontScale = calculateFontScale();
+
         font.getData().setScale(fontScale);
 
         float xMargin = marginPercX * getWidth();
@@ -385,18 +390,46 @@ public class TextBox extends Hoverable {
         renderHeight -= paddingTop;
         renderHeight -= paddingBottom;
 
+        if(fontScaleOverride > 0.0f){
+            return fontScaleOverride;
+        }
+
         while(true){
             font.getData().setScale(fontScale);
             FontHelper.layout.setText(font, text, Color.BLACK, renderWidth * Settings.xScale, 0, wrap);
             if(FontHelper.layout.height > renderHeight * Settings.yScale || (!wrap && FontHelper.layout.width > renderWidth * Settings.xScale)) {
                 font.getData().setScale(1);
-                return Math.max(fontScale - 0.1F, 0.1f);
+                float calculatedScale = Math.max(fontScale - 0.1F, 0.1f);
+
+                if(minFontScale > 0.0f){
+                    calculatedScale = Math.max(calculatedScale, minFontScale);
+                }
+                if(maxFontScale > 0.0f){
+                    calculatedScale = Math.min(calculatedScale, maxFontScale);
+                }
+
+                return calculatedScale;
             }
             fontScale+=0.1F;
         }
     }
     public boolean containsNonASCIICharacters(){
         return this.text != null && !this.text.isEmpty() && !this.text.matches("\\A\\p{ASCII}*\\z");
+    }
+
+    public TextBox setFontScaleOverride(float fontScaleOverride){
+        this.fontScaleOverride = fontScaleOverride;
+        return this;
+    }
+
+    public TextBox setMinFontScale(float minFontScale){
+        this.minFontScale = minFontScale;
+        return this;
+    }
+
+    public TextBox setMaxFontScale(float maxFontScale){
+        this.maxFontScale = maxFontScale;
+        return this;
     }
 
     //endregion
@@ -421,6 +454,8 @@ public class TextBox extends Hoverable {
         public int paddingTop = 0;
         public int paddingLeft = 0;
         public int paddingBottom = 0;
+
+        public float fontScaleOverride = 0.0f;
 
         @Override
         public TextBox makeUIElement() {

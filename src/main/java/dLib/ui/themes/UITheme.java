@@ -30,6 +30,9 @@ public class UITheme {
 
     public Texture scroll_button;
 
+    public Texture checkbox_unchecked;
+    public Texture checkbox_checked;
+
     public Texture inputfield;
     public Texture listbox = UITheme.whitePixel;
 
@@ -79,6 +82,9 @@ public class UITheme {
 
         this.scroll_button =  loadItem("scroll_button.png");
 
+        this.checkbox_unchecked =  loadItem("checkbox_unchecked.png");
+        this.checkbox_checked =  loadItem("checkbox_checked.png");
+
         this.inputfield =  loadItem("inputfield.png");
     }
 
@@ -101,6 +107,9 @@ public class UITheme {
         this.arrow_right_double.dispose();
         this.arrow_up.dispose();
         this.arrow_down.dispose();
+
+        this.checkbox_unchecked.dispose();
+        this.checkbox_checked.dispose();
 
         this.scroll_button.dispose();
     }

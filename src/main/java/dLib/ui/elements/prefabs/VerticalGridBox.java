@@ -85,7 +85,7 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
         int currentYPos = itemBoxBackground.getHeight() - itemPadding.y;
         int currentXPos = itemPadding.x;
 
-        for(ItemBoxItem item : items){
+        for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
         }
 
