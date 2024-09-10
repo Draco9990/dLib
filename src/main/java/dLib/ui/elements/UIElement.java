@@ -2,6 +2,7 @@ package dLib.ui.elements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.BooleanProperty;
+import dLib.ui.animations.UIAnimation;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
@@ -48,6 +49,13 @@ public class UIElement {
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
 
     private boolean pendingRefresh = false;
+
+    //TODO: Expose to data and screen editor
+    private UIAnimation entryAnimation;
+    private UIAnimation exitAnimation;
+    private UIAnimation animation;
+
+    private UIAnimation playingAnimation;
 
     //endregion
 
@@ -96,6 +104,13 @@ public class UIElement {
         ensureElementWithinBounds();
     }
     protected void updateSelf(){
+        if(playingAnimation != null){
+            playingAnimation.update();
+            if(!playingAnimation.isPlaying()){
+                playingAnimation = null;
+            }
+        }
+
         if(pendingRefresh){
             pendingRefresh = false;
             onRefreshElement();
@@ -813,10 +828,16 @@ public class UIElement {
     //region Visibility
 
     public final void hide(){
-        setVisibility(false);
+        if(exitAnimation == null){
+            setVisibility(false);
+        }
+        else{
+            playAnimation(exitAnimation);
+        }
     }
     public final void show(){
         setVisibility(true);
+        playAnimation(entryAnimation);
     }
     protected void setVisibility(boolean visible){
         isVisible = visible;
@@ -947,6 +968,36 @@ public class UIElement {
 
     public boolean scalesWithParent(){
         return scaleWithParent;
+    }
+
+    //endregion
+
+    //region Animations
+
+    public UIElement setEntryAnimation(UIAnimation entryAnimation){
+        this.entryAnimation = entryAnimation;
+        return this;
+    }
+
+    public UIElement setExitAnimation(UIAnimation exitAnimation){
+        this.exitAnimation = exitAnimation;
+        return this;
+    }
+
+    public UIElement setAnimation(UIAnimation animation){
+        this.animation = animation;
+        return this;
+    }
+
+    public void playAnimation(UIAnimation animation){
+        if(playingAnimation != null){
+            playingAnimation.finishInstantly();
+        }
+
+        playingAnimation = animation;
+        if(playingAnimation != null){
+            playingAnimation.start();
+        }
     }
 
     //endregion

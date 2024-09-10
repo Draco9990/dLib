@@ -15,6 +15,7 @@ public class ConfirmButton extends TextButton{
         this.getTextBox().setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         this.getTextBox().setFont(FontHelper.buttonLabelFont);
         this.getTextBox().setLocalPosition(65, 30);
+        this.getTextBox().setFontScaleOverride(1f);
 
         getTextBox().setTextRenderColor(Color.valueOf("FFEDA7"));
     }

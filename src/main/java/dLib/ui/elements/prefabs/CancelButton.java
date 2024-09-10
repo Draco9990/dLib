@@ -13,6 +13,7 @@ public class CancelButton extends TextButton{
         this.getTextBox().setDimensions(186, 54);
         this.getTextBox().setFont(FontHelper.buttonLabelFont);
         this.getTextBox().setLocalPosition(27, 27);
+        this.getTextBox().setFontScaleOverride(1f);
 
         getTextBox().setTextRenderColor(Color.valueOf("FFEDA7"));
     }
