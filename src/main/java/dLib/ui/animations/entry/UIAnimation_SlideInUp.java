@@ -8,10 +8,17 @@ import dLib.ui.elements.UIElement;
 
 public class UIAnimation_SlideInUp extends UIAnimation {
 
+    private AnimationProperties properties;
+
     private int origElementY = 0;
 
     public UIAnimation_SlideInUp(UIElement element) {
+        this(element, new AnimationProperties());
+    }
+
+    public UIAnimation_SlideInUp(UIElement element, AnimationProperties properties) {
         super(element);
+        this.properties = properties;
     }
 
     @Override
@@ -19,12 +26,12 @@ public class UIAnimation_SlideInUp extends UIAnimation {
         super.start();
 
         origElementY = element.getWorldPositionY();
-        element.setWorldPositionY(-element.getHeight());
+        element.setWorldPositionY(properties.refPointY - element.getHeight());
     }
 
     @Override
     public void update() {
-        float newPos = MathUtils.lerp(this.element.getWorldPositionY(), origElementY, Gdx.graphics.getDeltaTime() * 9.0F);
+        float newPos = MathUtils.lerp(this.element.getWorldPositionY(), origElementY, Gdx.graphics.getDeltaTime() * properties.speed);
 
         element.setWorldPositionY((int) newPos);
 
@@ -38,5 +45,11 @@ public class UIAnimation_SlideInUp extends UIAnimation {
         super.finishInstantly();
 
         element.setWorldPositionY(origElementY);
+    }
+
+    public static class AnimationProperties{
+        public int refPointY = 0;
+
+        public float speed = 9.0F;
     }
 }

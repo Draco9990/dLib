@@ -272,20 +272,29 @@ public abstract class ItemBox<ItemType> extends UIElement {
     //region Item Selection
 
     private void trySelectItem(ItemType selectedItem){
-        if(getCurrentlySelectedItems().size() + 1 > getSelectionCountLimit()) return;
+        if(selectionMode == ESelectionMode.NONE){
+            return;
+        }
+
+        if(selectionMode == ESelectionMode.MULTIPLE && getCurrentlySelectedItems().size() + 1 > getSelectionCountLimit()){
+            return;
+        }
 
         for(ItemBoxItem item : items){
             if(item.item.equals(selectedItem)){
-                if(selectionMode.equals(ESelectionMode.SINGLE)){
-                    onItemSelectionChanged(new ArrayList<>(Arrays.asList(item.item)));
-                    return;
-                }
-
                 item.selected = true;
+            }
+            else if(selectionMode == ESelectionMode.SINGLE){
+                item.selected = false;
             }
         }
 
-        onItemSelectionChanged(getCurrentlySelectedItems());
+        if(selectionMode.equals(ESelectionMode.SINGLE)){
+            onItemSelectionChanged(new ArrayList<>(Collections.singletonList(selectedItem)));
+        }
+        else if(selectionMode.equals(ESelectionMode.MULTIPLE)){
+            onItemSelectionChanged(getCurrentlySelectedItems());
+        }
     }
     public void onItemSelectionChanged(ArrayList<ItemType> item){} //TODO expose
 
@@ -467,7 +476,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
     }
 
     public boolean filterCheck(String filterText, ItemType item){
-        return item.toString().toLowerCase(Locale.ENGLISH).contains(filterText.toLowerCase(Locale.ENGLISH));
+        return item.toString().toLowerCase(Locale.ROOT).contains(filterText.toLowerCase(Locale.ROOT));
     }
 
     public void refilterItems(){

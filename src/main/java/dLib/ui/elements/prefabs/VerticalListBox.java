@@ -76,6 +76,9 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
 
         for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
+
+            if(!item.selected) item.renderForItem.lightenInstantly();
+            else item.renderForItem.darkenInstantly();
         }
 
         for(UIElement item : getItemsForDisplay()){

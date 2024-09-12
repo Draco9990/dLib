@@ -8,10 +8,17 @@ import dLib.ui.elements.UIElement;
 
 public class UIAnimation_SlideInRight extends UIAnimation {
 
+    private AnimationProperties properties;
+
     private int origElementX = 0;
 
     public UIAnimation_SlideInRight(UIElement element) {
+        this(element, new AnimationProperties());
+    }
+
+    public UIAnimation_SlideInRight(UIElement element, AnimationProperties properties) {
         super(element);
+        this.properties = properties;
     }
 
     @Override
@@ -19,12 +26,12 @@ public class UIAnimation_SlideInRight extends UIAnimation {
         super.start();
 
         origElementX = element.getWorldPositionX();
-        element.setWorldPositionX(-element.getWidth());
+        element.setWorldPositionX(properties.refPointX - element.getWidth());
     }
 
     @Override
     public void update() {
-        float newPos = MathUtils.lerp(this.element.getWorldPositionX(), origElementX, Gdx.graphics.getDeltaTime() * 9.0F);
+        float newPos = MathUtils.lerp(this.element.getWorldPositionX(), origElementX, Gdx.graphics.getDeltaTime() * properties.speed);
 
         element.setWorldPositionX((int) newPos);
 
@@ -38,5 +45,11 @@ public class UIAnimation_SlideInRight extends UIAnimation {
         super.finishInstantly();
 
         element.setWorldPositionX(origElementX);
+    }
+
+    public static class AnimationProperties{
+        public int refPointX = 0;
+
+        public float speed = 9.0F;
     }
 }

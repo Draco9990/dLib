@@ -102,7 +102,14 @@ public class Renderable extends UIElement {
     }
 
     protected Color getColorForRender(){
-        return renderColor;
+        if(isDarkened()){
+            Color cpy = getDarkenedColor().cpy();
+            cpy = cpy.lerp(renderColor, 1 - getDarkenedColorMultiplier());
+            return cpy;
+        }
+        else {
+            return renderColor;
+        }
     }
 
     //endregion

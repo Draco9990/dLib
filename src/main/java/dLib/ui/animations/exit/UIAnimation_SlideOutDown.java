@@ -1,4 +1,4 @@
-package dLib.ui.animations.entry;
+package dLib.ui.animations.exit;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
@@ -6,17 +6,17 @@ import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.elements.UIElement;
 
-public class UIAnimation_SlideInDown extends UIAnimation {
+public class UIAnimation_SlideOutDown extends UIExitAnimation {
 
     private AnimationProperties properties;
 
     private int origElementY = 0;
 
-    public UIAnimation_SlideInDown(UIElement element) {
-        this(element, new AnimationProperties());
+    public UIAnimation_SlideOutDown(UIElement element) {
+        super(element);
     }
 
-    public UIAnimation_SlideInDown(UIElement element, AnimationProperties properties) {
+    public UIAnimation_SlideOutDown(UIElement element, AnimationProperties properties) {
         super(element);
         this.properties = properties;
     }
@@ -26,16 +26,19 @@ public class UIAnimation_SlideInDown extends UIAnimation {
         super.start();
 
         origElementY = element.getWorldPositionY();
-        element.setWorldPositionY(properties.refPointY + element.getHeight());
     }
 
     @Override
     public void update() {
-        float newPos = MathUtils.lerp(this.element.getWorldPositionY(), origElementY, Gdx.graphics.getDeltaTime() * properties.speed);
+        float lerpPos = Math.abs(MathUtils.lerp(element.getWorldPositionY(), origElementY + Math.max(element.getHeight() * 0.02f, 3), Gdx.graphics.getDeltaTime() * 9.0F));
+        float absPos = Math.abs(element.getWorldPositionY());
+        float lerpDistance = Math.abs(lerpPos - absPos);
+
+        float newPos = element.getWorldPositionY() - lerpDistance;
 
         element.setWorldPositionY((int) newPos);
 
-        if (Math.abs(element.getWorldPositionY() - origElementY) < Settings.UI_SNAP_THRESHOLD) {
+        if (Math.abs(element.getLocalPositionY() - (properties.refPointY - element.getHeight())) < Settings.UI_SNAP_THRESHOLD) {
             isPlaying = false;
         }
     }
@@ -48,7 +51,7 @@ public class UIAnimation_SlideInDown extends UIAnimation {
     }
 
     public static class AnimationProperties{
-        public int refPointY = 1080;
+        public int refPointY = 0;
 
         public float speed = 9.0F;
     }

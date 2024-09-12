@@ -1,8 +1,10 @@
 package dLib.ui.elements;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.BooleanProperty;
 import dLib.ui.animations.UIAnimation;
+import dLib.ui.elements.implementations.Interactable;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
@@ -45,6 +47,10 @@ public class UIElement {
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
 
+    private Color darkenedColor = Color.BLACK;
+    private float darkenedColorMultiplier = 0.4f;
+    protected boolean isDarkened = false;
+
     private boolean selected;
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
 
@@ -64,7 +70,6 @@ public class UIElement {
     public UIElement(int xPos, int yPos, int width, int height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         localPosition = new IntegerVector2(xPos, yPos);
-        //setLocalPosition(xPos, yPos); //TODO reenable this if issues
         dimensions = new IntegerVector2(width, height);
     }
 
@@ -86,6 +91,9 @@ public class UIElement {
 
         setVisibility(data.isVisible.getValue());
         setEnabled(data.isEnabled.getValue());
+
+        this.darkenedColor = Color.valueOf(data.darkenedColor);
+        this.darkenedColorMultiplier = data.darkenedColorMultiplier;
 
         onSelectionStateChangedConsumers.add(aBoolean -> data.onSelectionStateChangedBinding.executeBinding(aBoolean));
     }
@@ -884,6 +892,42 @@ public class UIElement {
 
     //endregion
 
+    //region Darken & Lighten
+
+    public UIElement setDarkenedColor(Color darkenedColor){
+        this.darkenedColor = darkenedColor;
+        return this;
+    }
+    public Color getDarkenedColor(){
+        return darkenedColor;
+    }
+
+    public UIElement setDarkenedColorMultiplier(float darkenedColorMultiplier){
+        this.darkenedColorMultiplier = darkenedColorMultiplier;
+        if(this.darkenedColorMultiplier > 1.0f) this.darkenedColorMultiplier = 1.0f;
+        return this;
+    }
+    public Float getDarkenedColorMultiplier(){
+        return darkenedColorMultiplier;
+    }
+
+    public UIElement darkenInstantly(){
+        return setDarkened(true);
+    }
+    public UIElement lightenInstantly(){
+        return setDarkened(false);
+    }
+    private UIElement setDarkened(boolean darkened){
+        this.isDarkened = darkened;
+        return this;
+    }
+
+    public boolean isDarkened(){
+        return isDarkened || (hasParent() && parent.isDarkened());
+    }
+
+    //endregion
+
     //region Refresh
 
     public void markForRefresh(){
@@ -1057,6 +1101,9 @@ public class UIElement {
 
         public BooleanProperty isVisible = new BooleanProperty(true).setName("Visible");
         public BooleanProperty isEnabled = new BooleanProperty(true).setName("Enabled");
+
+        public String darkenedColor = Color.BLACK.toString();
+        public float darkenedColorMultiplier = 0.25f;
 
         public MethodBinding onSelectionStateChangedBinding = new NoneMethodBinding();
 
