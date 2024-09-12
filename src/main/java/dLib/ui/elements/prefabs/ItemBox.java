@@ -180,6 +180,22 @@ public abstract class ItemBox<ItemType> extends UIElement {
         onItemsChanged();
     }
 
+    public ItemBox<ItemType> insertItem(int insertIndex, ItemType item){
+        UIElement compositeItem;
+        if(!disableItemWrapping){
+            compositeItem = wrapUIForItem(item);
+            postMakeWrapperForItem(item, compositeItem);
+        }
+        else{
+            compositeItem = makeUIForItem(item);
+        }
+        originalItems.add(insertIndex, new ItemBoxItem(item, compositeItem));
+        addChildCS(compositeItem);
+
+        onItemAdded(item);
+        return this;
+    }
+
     public ItemBox<ItemType> setItems(ArrayList<ItemType> items){
         clearItems();
         for(ItemType item : items){
@@ -191,6 +207,49 @@ public abstract class ItemBox<ItemType> extends UIElement {
     }
     public void onItemsSet(ArrayList<ItemType> items){
         onItemsChanged();
+    }
+
+    public ItemBox<ItemType> updateItems(ArrayList<ItemType> items){
+        boolean itemsChanged = false;
+        boolean selectionChanged = false;
+
+        ArrayList<ItemType> itemsToAdd = new ArrayList<>(items);
+
+        Iterator<ItemBoxItem> existingItems = originalItems.iterator();
+        while(existingItems.hasNext()){
+            ItemBoxItem existingItem = existingItems.next();
+            if(itemsToAdd.contains(existingItem.item)){
+                ItemType item = itemsToAdd.get(itemsToAdd.indexOf(existingItem.item));
+                itemsToAdd.remove(existingItem.item);
+                updateUIForItem(item, existingItem.renderForItem);
+            }
+            else {
+                if(existingItem.selected){
+                    selectionChanged = true;
+                }
+
+                existingItems.remove();
+                removeChild(existingItem.renderForItem);
+                itemsChanged = true;
+            }
+        }
+
+        for(ItemType item : itemsToAdd){
+            addItem(item);
+            itemsChanged = true;
+        }
+
+        originalItems.sort(Comparator.comparingInt(o -> items.indexOf(o.item)));
+
+        onItemsUpdated(items, itemsChanged);
+        onItemSelectionChanged(getCurrentlySelectedItems());
+
+        return this;
+    }
+    public void onItemsUpdated(ArrayList<ItemType> items, boolean itemsChanged){
+        if(itemsChanged){
+            onItemsChanged();
+        }
     }
 
     public void clearItems(){
@@ -231,6 +290,10 @@ public abstract class ItemBox<ItemType> extends UIElement {
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         return box;
     } //TODO expose with listeners
+
+    public void updateUIForItem(ItemType item, UIElement element){
+
+    }
 
     public UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = makeUIForItem(item);

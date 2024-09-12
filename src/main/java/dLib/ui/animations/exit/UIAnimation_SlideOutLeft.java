@@ -37,7 +37,7 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
 
         element.setWorldPositionX((int) newPos);
 
-        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - element.getHeight()) {
+        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - element.getWidth()) {
             isPlaying = false;
         }
     }
