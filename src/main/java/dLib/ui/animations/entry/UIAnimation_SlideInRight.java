@@ -35,7 +35,7 @@ public class UIAnimation_SlideInRight extends UIAnimation {
 
         element.setWorldPositionX((int) newPos);
 
-        if (Math.abs(element.getWorldPositionX() - origElementX) < Settings.UI_SNAP_THRESHOLD) {
+        if (element.getWorldPositionX() + Settings.UI_SNAP_THRESHOLD >= origElementX) {
             isPlaying = false;
         }
     }

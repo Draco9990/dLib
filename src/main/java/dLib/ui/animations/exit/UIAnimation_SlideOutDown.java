@@ -30,7 +30,7 @@ public class UIAnimation_SlideOutDown extends UIExitAnimation {
 
     @Override
     public void update() {
-        float lerpPos = Math.abs(MathUtils.lerp(element.getWorldPositionY(), origElementY + Math.max(element.getHeight() * 0.02f, 3), Gdx.graphics.getDeltaTime() * 9.0F));
+        float lerpPos = Math.abs(MathUtils.lerp(element.getWorldPositionY(), origElementY + Math.max(element.getHeight() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed));
         float absPos = Math.abs(element.getWorldPositionY());
         float lerpDistance = Math.abs(lerpPos - absPos);
 
@@ -38,7 +38,7 @@ public class UIAnimation_SlideOutDown extends UIExitAnimation {
 
         element.setWorldPositionY((int) newPos);
 
-        if (Math.abs(element.getLocalPositionY() - (properties.refPointY - element.getHeight())) < Settings.UI_SNAP_THRESHOLD) {
+        if (element.getWorldPositionY() - Settings.UI_SNAP_THRESHOLD < properties.refPointY - element.getHeight()) {
             isPlaying = false;
         }
     }

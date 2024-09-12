@@ -35,7 +35,7 @@ public class UIAnimation_SlideInDown extends UIAnimation {
 
         element.setWorldPositionY((int) newPos);
 
-        if (Math.abs(element.getWorldPositionY() - origElementY) < Settings.UI_SNAP_THRESHOLD) {
+        if (element.getWorldPositionY() - Settings.UI_SNAP_THRESHOLD <= origElementY) {
             isPlaying = false;
         }
     }

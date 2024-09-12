@@ -1,22 +1,21 @@
-package dLib.ui.animations.entry;
+package dLib.ui.animations.exit;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.Settings;
-import dLib.ui.animations.UIAnimation;
 import dLib.ui.elements.UIElement;
 
-public class UIAnimation_SlideInLeft extends UIAnimation {
+public class UIAnimation_SlideOutLeft extends UIExitAnimation {
 
     private AnimationProperties properties;
 
     private int origElementX = 0;
 
-    public UIAnimation_SlideInLeft(UIElement element) {
-        this(element, new AnimationProperties());
+    public UIAnimation_SlideOutLeft(UIElement element) {
+        super(element);
     }
 
-    public UIAnimation_SlideInLeft(UIElement element, AnimationProperties properties) {
+    public UIAnimation_SlideOutLeft(UIElement element, AnimationProperties properties) {
         super(element);
         this.properties = properties;
     }
@@ -26,16 +25,19 @@ public class UIAnimation_SlideInLeft extends UIAnimation {
         super.start();
 
         origElementX = element.getWorldPositionX();
-        element.setWorldPositionX(properties.refPointX + element.getWidth());
     }
 
     @Override
     public void update() {
-        float newPos = MathUtils.lerp(this.element.getWorldPositionX(), origElementX, Gdx.graphics.getDeltaTime() * properties.speed);
+        float lerpPos = Math.abs(MathUtils.lerp(element.getWorldPositionX(), origElementX + Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed));
+        float absPos = Math.abs(element.getWorldPositionX());
+        float lerpDistance = Math.abs(lerpPos - absPos);
+
+        float newPos = element.getWorldPositionX() - lerpDistance;
 
         element.setWorldPositionX((int) newPos);
 
-        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= origElementX) {
+        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - element.getHeight()) {
             isPlaying = false;
         }
     }
@@ -48,7 +50,7 @@ public class UIAnimation_SlideInLeft extends UIAnimation {
     }
 
     public static class AnimationProperties{
-        public int refPointX = 1920;
+        public int refPointX = 0;
 
         public float speed = 9.0F;
     }
