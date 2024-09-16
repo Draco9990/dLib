@@ -69,6 +69,7 @@ public class Renderable extends UIElement {
             textureToRender.setRegionWidth((int)(textureToRender.getTexture().getWidth() * getRenderWidthPerc()));
             textureToRender.setRegionHeight((int)(textureToRender.getTexture().getHeight() * getRenderHeightPerc()));
             sb.draw(textureToRender, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, getWidth() * Settings.xScale * getRenderWidthPerc(), getHeight() * Settings.yScale * getRenderHeightPerc());
+            sb.flush();  //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
         }
 
         sb.setColor(Color.WHITE);

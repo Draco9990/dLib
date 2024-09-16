@@ -28,13 +28,22 @@ public class UITheme {
     public Texture arrow_up;
     public Texture arrow_down;
 
-    public Texture scroll_button;
-
     public Texture checkbox_unchecked;
     public Texture checkbox_checked;
 
     public Texture inputfield;
     public Texture listbox = UITheme.whitePixel;
+
+    public Texture scrollbar_horizontal_train;
+    public Texture scrollbar_horizontal_left;
+    public Texture scrollbar_horizontal_right;
+    public Texture scrollbar_horizontal_middle;
+
+    public Texture scrollbar_vertical_train;
+    public Texture scrollbar_vertical_top;
+    public Texture scrollbar_vertical_bottom;
+    public Texture scrollbar_vertical_middle;
+
 
     public Color textColor;
 
@@ -80,12 +89,20 @@ public class UITheme {
         this.arrow_up =  loadItem("arrow_up.png");
         this.arrow_down =  loadItem("arrow_down.png");
 
-        this.scroll_button =  loadItem("scroll_button.png");
-
         this.checkbox_unchecked =  loadItem("checkbox_unchecked.png");
         this.checkbox_checked =  loadItem("checkbox_checked.png");
 
         this.inputfield =  loadItem("inputfield.png");
+
+        this.scrollbar_horizontal_train = loadItem("scrollbar/horizontal_train.png");
+        this.scrollbar_horizontal_left = loadItem("scrollbar/horizontal_left.png");
+        this.scrollbar_horizontal_right = loadItem("scrollbar/horizontal_right.png");
+        this.scrollbar_horizontal_middle = loadItem("scrollbar/horizontal_mid.png");
+
+        this.scrollbar_vertical_train = loadItem("scrollbar/vertical_train.png");
+        this.scrollbar_vertical_top = loadItem("scrollbar/vertical_top.png");
+        this.scrollbar_vertical_bottom = loadItem("scrollbar/vertical_bottom.png");
+        this.scrollbar_vertical_middle = loadItem("scrollbar/vertical_mid.png");
     }
 
     public void dispose(){
@@ -111,7 +128,15 @@ public class UITheme {
         this.checkbox_unchecked.dispose();
         this.checkbox_checked.dispose();
 
-        this.scroll_button.dispose();
+        this.scrollbar_horizontal_train.dispose();
+        this.scrollbar_horizontal_left.dispose();
+        this.scrollbar_horizontal_right.dispose();
+        this.scrollbar_horizontal_middle.dispose();
+
+        this.scrollbar_vertical_train.dispose();
+        this.scrollbar_vertical_top.dispose();
+        this.scrollbar_vertical_bottom.dispose();
+        this.scrollbar_vertical_middle.dispose();
     }
 
     protected Texture loadItem(String itemName){

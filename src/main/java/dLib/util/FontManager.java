@@ -16,13 +16,13 @@ public class FontManager {
 
     /** Initializer */
     public static void initialize(){
-        genericFont = GenerateFont(Gdx.files.internal("font/vie/Grenze-RegularItalic.ttf"));
+        genericFont = generateFont(Gdx.files.internal("font/vie/Grenze-RegularItalic.ttf"));
 
-        nonASCIIFont = GenerateNonASCIIFont();
+        nonASCIIFont = generateNonASCIIFont();
     }
 
     /** Methods */
-    public static BitmapFont GenerateFont(FileHandle source){
+    public static BitmapFont generateFont(FileHandle source){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(source);
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
         param.characters = "";
@@ -43,7 +43,7 @@ public class FontManager {
 
         return toReturn;
     }
-    public static BitmapFont GenerateNonASCIIFont(){
+    public static BitmapFont generateNonASCIIFont(){
         FileHandle f = Reflection.getFieldValue("fontFile", FontHelper.class);
         Reflection.setFieldValue("fontFile", FontHelper.class, Gdx.files.internal("font/zht/NotoSansCJKtc-Regular.otf"));
         BitmapFont nonASCIIFont = FontHelper.prepFont(24.0F, true);

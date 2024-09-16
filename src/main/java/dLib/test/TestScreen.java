@@ -4,24 +4,25 @@ import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.elements.prefabs.VerticalGridBox;
+import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.screens.AbstractScreen;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TestScreen extends AbstractScreen {
 
     public TestScreen(){
         addGenericBackground();
 
-        TextButton button = new TextButton("Test Button", 0, 0, 1920, 1080);
-        button.getButton().addOnLeftClickConsumer(new Runnable() {
-            @Override
-            public void run() {
-                button.hide();
-            }
-        });
+        ArrayList<String> test = new ArrayList<>();
 
-        button.setExitAnimation(new UIAnimation_SlideOutDown(button));
+        for(int i = 0; i < 100; i++){
+            test.add("Test " + i);
+        }
 
-        addChildCS(button);
+        addChildNCS(new VerticalListBox<String>(100, 100, 1920-200, 1080-200).setItems(test));
     }
 
     @Override

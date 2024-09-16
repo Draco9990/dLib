@@ -13,7 +13,7 @@ import java.util.Collections;
 public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
     //region Variables
 
-    private ItemBox<ScreenEditorItem> previewItemList;
+    private VerticalListBox<ScreenEditorItem> previewItemList;
 
     //endregion
 
@@ -24,7 +24,7 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
 
         ScreenEditorElementList self = this;
 
-        previewItemList = new VerticalListBox<ScreenEditorItem>(0, 0, getWidth(), getHeight()){
+        previewItemList = (VerticalListBox<ScreenEditorItem>) new VerticalListBox<ScreenEditorItem>(0, 0, getWidth(), getHeight()){
             @Override
             public void onItemSelectionChanged(ArrayList<ScreenEditorItem> items) {
                 super.onItemSelectionChanged(items);

@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.MathHelper;
 import dLib.modcompat.ModManager;
-import dLib.ui.elements.UIElement;
 import dLib.ui.screens.ScreenManager;
+import dLib.util.IntegerVector4;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import sayTheSpire.Output;
@@ -71,8 +72,37 @@ public class Hoverable extends Renderable{
 
         if(hb != null){
             boolean hbHoveredCache = this.hb.hovered || this.hb.justHovered;
-            this.hb.resize(getWidth() * Settings.xScale, getHeight() * Settings.yScale);
-            this.hb.move(getWorldPositionCenteredX() * Settings.xScale, getWorldPositionCenteredY() * Settings.yScale);
+
+            float targetHbX = getWorldPositionCenteredX() * Settings.xScale;
+            float targetHbY = getWorldPositionCenteredY() * Settings.yScale;
+            float targetHbWidth = getWidth() * Settings.xScale;
+            float targetHbHeight = getHeight() * Settings.yScale;
+
+            IntegerVector4 maskBounds = getMaskWorldBounds();
+            if(maskBounds != null && overlaps(maskBounds) && !within(maskBounds)){
+                if(getWorldPositionX() < maskBounds.x){
+                    float newTargetHbX = (maskBounds.x + getWidth() * 0.5f) * Settings.xScale;
+                    targetHbWidth -= newTargetHbX - targetHbX;
+                    targetHbX = newTargetHbX;
+                }
+                if(getWorldPositionY() < maskBounds.y){
+                    float newTargetHbY = (maskBounds.y + getHeight() * 0.5f) * Settings.yScale;
+                    targetHbHeight -= newTargetHbY - targetHbY;
+                    targetHbY = newTargetHbY;
+                }
+
+
+                if(getWorldPositionX() + getWidth() > maskBounds.x + maskBounds.w){
+                    targetHbWidth = (maskBounds.x + maskBounds.w - getWorldPositionX()) * Settings.xScale;
+                }
+                if(getWorldPositionY() + getHeight() > maskBounds.y + maskBounds.h){
+                    targetHbHeight = (maskBounds.y + maskBounds.h - getWorldPositionY()) * Settings.yScale;
+                    targetHbY = (maskBounds.y + maskBounds.h - (targetHbHeight / Settings.yScale * 0.5f)) * Settings.yScale;
+                }
+            }
+
+            this.hb.resize(targetHbWidth, targetHbHeight);
+            this.hb.move(targetHbX, targetHbY);
             this.hb.update();
 
             if(isEnabled()){

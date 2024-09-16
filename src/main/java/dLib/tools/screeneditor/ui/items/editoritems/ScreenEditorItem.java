@@ -76,6 +76,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         if(highlight){
             sb.setColor(Color.BLUE);
             sb.draw(ImageMaster.DEBUG_HITBOX_IMG, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, getWidth() * Settings.xScale, getHeight() * Settings.yScale);
+            sb.flush();  //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
         }
     }
 

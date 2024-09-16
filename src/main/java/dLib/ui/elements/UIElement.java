@@ -1,12 +1,17 @@
 package dLib.ui.elements;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
+import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.BooleanProperty;
 import dLib.ui.animations.UIAnimation;
-import dLib.ui.elements.implementations.Interactable;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
+import dLib.util.IntegerVector4;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
@@ -43,6 +48,8 @@ public class UIElement {
     private IntegerVector2 upperWorldBounds = new IntegerVector2(null, null);
     private boolean boundWithinParent = false;
     private boolean borderToBorderBound = false;
+
+    private UIElement elementMask = null;
 
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
@@ -133,7 +140,26 @@ public class UIElement {
 
     public final void render(SpriteBatch sb){
         if(!shouldRender()) return;
+
+        IntegerVector4 maskBounds = getMaskWorldBounds();
+        if(maskBounds != null){
+            sb.flush();
+
+            Rectangle scissors = new Rectangle();
+            Rectangle mask = new Rectangle(maskBounds.x * Settings.xScale, maskBounds.y * Settings.yScale, maskBounds.w * Settings.xScale, maskBounds.h * Settings.yScale);
+
+            OrthographicCamera camera = Reflection.getFieldValue("camera", Gdx.app.getApplicationListener());
+            ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), mask, scissors);
+            ScissorStack.pushScissors(scissors);
+        }
+
         renderSelf(sb);
+
+        if(maskBounds != null){
+            ScissorStack.popScissors();
+            sb.flush();
+        }
+
         renderChildren(sb);
     }
 
@@ -887,6 +913,10 @@ public class UIElement {
 
     public boolean isActive(){
         if(hasParent() && !parent.isActive()) return false;
+
+        IntegerVector4 maskBounds = getMaskWorldBounds();
+        if(maskBounds != null && !overlaps(maskBounds)) return false;
+
         return isVisible() || isEnabled();
     }
 
@@ -1054,6 +1084,79 @@ public class UIElement {
         }
     }
     //endregion
+
+    //region Bounds Methods
+
+    public boolean overlapsParent(){
+        return parent != null && overlaps(parent);
+    }
+    public boolean overlaps(UIElement other){
+        return overlaps(new IntegerVector4(other.getWorldPositionX(), other.getWorldPositionY(), other.getWidth(), other.getHeight()));
+    }
+    public boolean overlaps(IntegerVector4 other){
+        IntegerVector2 thisWorldPos = getWorldPosition();
+        IntegerVector2 thisDimensions = getDimensions();
+
+        if (thisWorldPos.y + thisDimensions.y < other.y || thisWorldPos.y > other.y + other.h) {
+            return false;
+        }
+        if (thisWorldPos.x + thisDimensions.x < other.x || thisWorldPos.x > other.x + other.w) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean withinParent(){
+        return parent != null && within(parent);
+    }
+    public boolean within(UIElement other){
+        return within(new IntegerVector4(other.getWorldPositionX(), other.getWorldPositionY(), other.getWidth(), other.getHeight()));
+    }
+    public boolean within(IntegerVector4 other){
+        IntegerVector2 thisWorldPos = getWorldPosition();
+
+        IntegerVector2 thisDimensions = getDimensions();
+
+        if (thisWorldPos.x < other.x || thisWorldPos.y < other.y) {
+            return false;
+        }
+
+        if (thisWorldPos.x + thisDimensions.x > other.x + other.w || thisWorldPos.y + thisDimensions.y > other.y + other.h) {
+            return false;
+        }
+
+        return true;
+    }
+
+    //endregion
+
+    //region Masks
+
+    public UIElement setElementMask(UIElement elementMask){
+        this.elementMask = elementMask;
+        return this;
+    }
+
+    public boolean hasMaskBounds(){
+        return elementMask != null || (hasParent() && parent.hasMaskBounds());
+    }
+
+    public IntegerVector4 getMaskWorldBounds(){
+        UIElement mask = elementMask;
+        UIElement current = this;
+        while(mask == null && current.hasParent()){
+            current = current.getParent();
+            mask = current.elementMask;
+        }
+
+        if(mask == null){
+            return null;
+        }
+
+        return new IntegerVector4(mask.getWorldPositionX(), mask.getWorldPositionY(), mask.getWidth(), mask.getHeight());
+    }
+
+    //endregion Masks
 
     //endregion
 

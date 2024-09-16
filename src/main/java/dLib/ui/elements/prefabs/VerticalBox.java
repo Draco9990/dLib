@@ -11,7 +11,14 @@ public class VerticalBox extends VerticalListBox<UIElement> {
     //region Constructors
 
     public VerticalBox(int xPos, int yPos, int width, int height) {
-        super(xPos, yPos, width, height);
+        this(xPos, yPos, width, height, false);
+    }
+
+    public VerticalBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar) {
+        super(xPos, yPos, width, height, noInitScrollbar);
+
+        reinitializeElements();
+
         setSelectionMode(ESelectionMode.NONE);
         getBackground().setImage(null);
     }

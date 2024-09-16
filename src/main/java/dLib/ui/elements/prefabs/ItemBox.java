@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
@@ -19,20 +18,19 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     // Elements
     protected TextBox titleBox;
-
-    protected Hoverable itemBoxBackground;
-    protected ArrayList<ItemBoxItem> items = new ArrayList<>();
-
-    protected ArrayList<ItemBoxItem> originalItems = new ArrayList<>();
-
+    protected UIElement itemBox;
     protected Scrollbar scrollbar;
 
-    protected Inputfield filter;
+    protected ArrayList<ItemBoxItem> items = new ArrayList<>();
+    protected ArrayList<ItemBoxItem> originalItems = new ArrayList<>();
+
     private String filterText = "";
 
     // Properties
+    protected boolean noInitScrollbar = false; //TODO expose
+
     private String title;
-    private int titleBoxHeight = 50;
+    protected int titleBoxHeight = 50;
 
     protected int itemSpacing = 0;
     protected boolean invertedItemOrder = false;
@@ -53,12 +51,22 @@ public abstract class ItemBox<ItemType> extends UIElement {
     // Locals
     protected boolean trackScrollWheelScroll = false;
 
+    protected int currentScrollbarOffset = 0;
+
     //endregion
 
     //region Constructors
 
     public ItemBox(int xPos, int yPos, int width, int height){
+        this(xPos, yPos, width, height, false);
+    }
+
+    public ItemBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar){
         super(xPos, yPos, width, height);
+
+        this.noInitScrollbar = noInitScrollbar;
+
+        reinitializeElements(); //TODO move after constructor
     }
 
     public ItemBox(ItemBoxData data){
@@ -76,84 +84,55 @@ public abstract class ItemBox<ItemType> extends UIElement {
         this.setSelectionCountLimit(data.selectionLimit);
 
         this.canReorder = data.canReorder;
+
+        reinitializeElements(); //TODO move after constructor
     }
 
-    protected void reinitializeElements(){
-        int heightRemaining = getHeight();
-
-        updateTitleBox(0, getHeightUnscaled() - titleBoxHeight, getHeightUnscaled(), titleBoxHeight);
-        if(titleBox != null) heightRemaining -= titleBox.getHeightUnscaled();
-
-        updateItemBox(0, 0, getWidthUnscaled(), heightRemaining);
-        updateScrollBar(0, 0, getWidthUnscaled(), heightRemaining);
-    }
-
-    private void updateTitleBox(int xPos, int yPos, int width, int height){
-        if(title != null && !title.isEmpty()){
-            if(titleBox == null){
-                buildTitleBox(width, height);
-            }
-            titleBox.setText(title);
-            titleBox.setLocalPosition(xPos, yPos);
-            titleBox.setDimensions(width, height);
-        }
-        else if(titleBox != null){
+    protected void reinitializeElements() {
+        //Update the title box
+        if(titleBox != null){
             removeChild(titleBox);
             titleBox = null;
         }
+        if(titleBoxHeight > 0 && title != null && !title.isEmpty()){
+            titleBox = buildTitleBox();
+            titleBox.setText(title);
+
+            addChildNCS(titleBox);
+        }
+
+        //Update the item box
+        if(itemBox != null){
+            removeChild(itemBox);
+            itemBox = null;
+        }
+        this.itemBox = buildItemBox();
+        addChildNCS(itemBox);
+
+        //Update the scrollbar
+        if(!noInitScrollbar){
+            if(scrollbar != null){
+                removeChild(scrollbar);
+                scrollbar = null;
+            }
+            this.scrollbar = buildScrollBar();
+            addChildNCS(scrollbar);
+        }
     }
-    private void buildTitleBox(int width, int height){
-        titleBox = new TextBox(title, 0, 0, getWidth(), titleBoxHeight);
+
+    protected TextBox buildTitleBox(){
+        TextBox titleBox = new TextBox(title, 0, getHeightUnscaled() - titleBoxHeight, getWidthUnscaled(), titleBoxHeight);
         titleBox.setImage(UITheme.whitePixel);
         titleBox.setRenderColor(Color.valueOf("#151515FF"));
         titleBox.setTextRenderColor(Color.WHITE);
         titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         titleBox.setMarginPercX(0.005f);
-        addChildNCS(titleBox);
+
+        return titleBox;
     }
 
-    protected void updateFilter(int xPos, int yPos, int width, int height){
-
-    }
-    protected void buildFilter(int x, int y, int width, int height){
-
-    }
-
-    private void updateItemBox(int xPos, int yPos, int width, int height){
-        int updateHeight = getHeight();
-        if(titleBox != null) updateHeight -= titleBox.getHeight();
-
-        // We can span entire width since elements will get shrunk if Scrollbox is present
-
-        if(itemBoxBackground == null){
-            buildItemBox(0, 0, getWidth(), updateHeight);
-        }
-
-        itemBoxBackground.setLocalPosition(0, 0);
-        itemBoxBackground.setDimensions(getWidth(), updateHeight);
-    }
-    private void buildItemBox(int x, int y, int width, int height){
-        Color bgColor = Color.BLACK.cpy();
-        bgColor.a = 0.4f;
-        itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, x, y, width, height){
-            @Override
-            protected void onHovered() {
-                super.onHovered();
-                trackScrollWheelScroll = true;
-            }
-
-            @Override
-            protected void onUnhovered() {
-                super.onUnhovered();
-                trackScrollWheelScroll = false;
-            }
-        };
-        itemBoxBackground.setRenderColor(bgColor);
-        addChildCS(itemBoxBackground);
-    }
-
-    protected abstract void updateScrollBar(int xPos, int yPos, int width, int height);
-    protected abstract void buildScrollBar(int x, int y, int width, int height);
+    protected abstract UIElement buildItemBox();
+    protected abstract Scrollbar buildScrollBar();
 
     //endregion
 
@@ -170,8 +149,11 @@ public abstract class ItemBox<ItemType> extends UIElement {
         else{
             compositeItem = makeUIForItem(item);
         }
+
+        compositeItem.setElementMask(itemBox);
+
         originalItems.add(new ItemBoxItem(item, compositeItem));
-        addChildCS(compositeItem);
+        itemBox.addChildCS(compositeItem);
 
         onItemAdded(item);
         return this;
@@ -190,7 +172,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
             compositeItem = makeUIForItem(item);
         }
         originalItems.add(insertIndex, new ItemBoxItem(item, compositeItem));
-        addChildCS(compositeItem);
+        itemBox.addChildCS(compositeItem);
 
         onItemAdded(item);
         return this;
@@ -229,7 +211,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
                 }
 
                 existingItems.remove();
-                removeChild(existingItem.renderForItem);
+                itemBox.removeChild(existingItem.renderForItem);
                 itemsChanged = true;
             }
         }
@@ -263,11 +245,11 @@ public abstract class ItemBox<ItemType> extends UIElement {
         }
 
         for(UIElement childToRemove : childrenToRemove){
-            removeChild(childToRemove);
+            itemBox.removeChild(childToRemove);
         }
 
         originalItems.clear();
-        scrollbar.setFirstPage();
+        scrollbar.reset();
 
         onItemsCleared();
     }
@@ -284,7 +266,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
     //region Item UI
 
     public UIElement makeUIForItem(ItemType item){
-        TextBox box = new TextBox(item.toString(), 0, 0, defaultItemWidth == null ? itemBoxBackground.getWidth() : defaultItemWidth, defaultItemHeight == null ? itemBoxBackground.getHeight() : defaultItemHeight);
+        TextBox box = new TextBox(item.toString(), 0, 0, defaultItemWidth == null ? itemBox.getWidth() : defaultItemWidth, defaultItemHeight == null ? itemBox.getHeight() : defaultItemHeight);
         box.setImage(UIThemeManager.getDefaultTheme().button_large);
         box.setMarginPercX(0.025f).setMarginPercY(0.05f);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
@@ -432,6 +414,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
         if(titleHeight <= 0) return this;
 
         this.titleBoxHeight = titleHeight;
+        reinitializeElements();
         return this;
     }
 
@@ -439,8 +422,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     //region Background
 
-    public Hoverable getBackground(){
-        return itemBoxBackground;
+    public UIElement getBackground(){
+        return itemBox;
     }
 
     //endregion
@@ -508,8 +491,14 @@ public abstract class ItemBox<ItemType> extends UIElement {
     }
 
     private void swap(int index1, int index2){
-        Collections.swap(items, index1, index2);
-        onElementsSwapped(items.get(index1).item, items.get(index2).item);
+        ItemBoxItem itemtoSwap1 = items.get(index1);
+        ItemBoxItem itemtoSwap2 = items.get(index2);
+
+        Integer originalIndex1 = originalItems.indexOf(itemtoSwap1);
+        Integer originalIndex2 = originalItems.indexOf(itemtoSwap2);
+
+        Collections.swap(originalItems, originalIndex1, originalIndex2);
+        onElementsSwapped(itemtoSwap1.item, itemtoSwap2.item);
     }
 
     //endregion
@@ -552,9 +541,17 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
             items.add(item);
         }
+
+        if(scrollbar != null) scrollbar.reset();
     }
 
     //endregion Filter
+
+    //region Scrolling
+
+    protected abstract int recalculateScrollOffset(float scrollPercentage);
+
+    //endregion
 
     //endregion
 

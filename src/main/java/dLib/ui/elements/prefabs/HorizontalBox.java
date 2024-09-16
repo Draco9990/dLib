@@ -11,7 +11,14 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
     //region Constructors
 
     public HorizontalBox(int xPos, int yPos, int width, int height) {
-        super(xPos, yPos, width, height);
+        this(xPos, yPos, width, height, false);
+    }
+
+    public HorizontalBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar) {
+        super(xPos, yPos, width, height, noInitScrollbar);
+
+        reinitializeElements();
+
         setSelectionMode(ESelectionMode.NONE);
         getBackground().setImage(null);
     }

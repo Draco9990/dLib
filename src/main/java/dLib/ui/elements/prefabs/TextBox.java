@@ -70,7 +70,12 @@ public class TextBox extends Hoverable {
 
         this.text = text;
 
-        setFont(FontManager.genericFont);
+        if(containsNonASCIICharacters()){
+            setFont(FontManager.nonASCIIFont);
+        }
+        else {
+            setFont(FontManager.genericFont);
+        }
 
         textRenderColor = UIThemeManager.getDefaultTheme().textColor;
     }
@@ -232,6 +237,8 @@ public class TextBox extends Hoverable {
             font.draw(sb, text, renderX * Settings.xScale, (renderY + FontHelper.layout.height / 2f) * Settings.yScale, renderWidth * Settings.xScale, align, true);
             font.getData().setScale(1.0F);
         }
+
+        sb.flush(); //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
 
         font.getData().setScale(1.f);
 

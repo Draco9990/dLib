@@ -1,12 +1,11 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.implementations.Draggable;
+import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 
 public abstract class VerticalScrollbar extends Scrollbar {
     //region Variables
-
-    private int heightPerState = 1;
 
     //endregion
 
@@ -14,64 +13,39 @@ public abstract class VerticalScrollbar extends Scrollbar {
 
     public VerticalScrollbar(int x, int y, int width, int height){
         super(x, y, width, height);
+
+        float mult = width / 49f;
+        int topBottomHeight = (int) Math.min(22 * mult, (float) (height - 1) / 2);
+
+        addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_top, 0, height - topBottomHeight, width, topBottomHeight));
+        addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_middle, 0, topBottomHeight, width, height - topBottomHeight * 2));
+        addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_bottom, 0, 0, width, topBottomHeight));
+
+        addChildNCS(slider);
     }
 
     @Override
-    public void makeSlider() {
-        slider = new Draggable(UIThemeManager.getDefaultTheme().scroll_button, 0, 0, getWidth(), getHeight()){
-            @Override
-            public void onPositionChanged(int diffX, int diffY) {
-                super.onPositionChanged(diffX, diffY);
-
-                setPageForSliderHeight(slider.getLocalPositionY());
-            }
-        }.setCanDragX(false);
+    protected Draggable buildSlider(int containerWidth, int containerHeight) {
+        Draggable slider = new Draggable(UIThemeManager.getDefaultTheme().scrollbar_vertical_train, (int) (5 * 1.29f), 0, (int) (containerWidth / 1.29f), 60);
+        slider.setCanDragX(false);
         slider.setBoundWithinParent(true);
-        addChildNCS(slider);
+        slider.addOnPositionChangedConsumer((diffX, diffY) -> {
+            onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));
+        });
+        return slider;
     }
 
     //endregion
 
     //region Methods
 
-    //region Pages
+    @Override
+    public void onScrollbarScrolled(float percentage) {
 
-    private void setPageForSliderHeight(int sliderHeight){
-        int state = 0;
-        if(heightPerState == 0) heightPerState = 1;
-        while(sliderHeight > heightPerState * state){
-            state++;
-        }
-
-        currentPage = getPageCount() - state;
-        if(currentPage < 1) currentPage = 1;
-        onPageChanged(currentPage);
     }
 
-    public void nextPage(){
-        if(currentPage < pageCount){
-            slider.setLocalPositionY(slider.getLocalPositionY() - heightPerState);
-        }
-    }
-    public void previousPage(){
-        if(currentPage > 0){
-            slider.setLocalPositionY(slider.getLocalPositionY() + heightPerState);
-        }
-    }
-    public void setFirstPage(){
+    public void reset(){
         slider.setLocalPositionY(getHeight() - slider.getHeight());
-    }
-
-    //endregion
-
-    protected void recalculateScrollbar(){
-        pageCount = getPageCount();
-        if(pageCount == 0) pageCount = 1;
-        heightPerState = (int)((float)getHeight() / pageCount);
-
-        if(slider != null){
-            slider.setHeight(heightPerState);
-        }
     }
 
     //endregion

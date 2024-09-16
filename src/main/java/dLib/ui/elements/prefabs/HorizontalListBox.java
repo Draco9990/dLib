@@ -9,19 +9,19 @@ import org.lwjgl.input.Mouse;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
+public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
     //region Variables
-
-    private int scrollbarHeight = 50;
 
     //endregion
 
     //region Constructors
 
     public HorizontalListBox(int xPos, int yPos, int width, int height){
-        super(xPos, yPos, width, height);
+        this(xPos, yPos, width, height, false);
+    }
 
-        defaultItemWidth = 30;
+    public HorizontalListBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar) {
+        super(xPos, yPos, width, height, noInitScrollbar);
 
         reinitializeElements();
     }
@@ -29,31 +29,7 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
     public HorizontalListBox(HorizontalListBoxData data){
         super(data);
 
-        scrollbarHeight = data.scrollbarHeight;
-
         reinitializeElements();
-    }
-
-    protected void updateScrollBar(int xPos, int yPos, int width, int height){
-        if(scrollbar == null){
-            buildScrollBar(0, 0, getWidth(), scrollbarHeight);
-        }
-        scrollbar.setLocalPosition(0, 0);
-        scrollbar.setDimensions(getWidth(), scrollbarHeight);
-    }
-    protected void buildScrollBar(int x, int y, int width, int height){
-        scrollbar = new HorizontalScrollbar(x, y, width, height) {
-            @Override
-            public int getPageCount() {
-                return calculatePageCount();
-            }
-
-            @Override
-            public boolean isActive() {
-                return calculatePageCount() > 1 && super.isActive();
-            }
-        };
-        addChildCS(scrollbar);
     }
 
     //endregion
@@ -66,71 +42,42 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
     public void updateSelf() {
         super.updateSelf();
 
-        if(trackScrollWheelScroll){
-            int scrollDelta = (int)(Math.signum((float)Mouse.getDWheel()));
-            scrollbar.getSlider().setLocalPositionX(scrollbar.getSlider().getLocalPositionX() - scrollDelta * 10);
-        }
-
-        int currentXPos = itemPadding.x;
+        int currentXPos = itemPadding.x - currentScrollbarOffset;
 
         for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
-
-            if(!item.selected) item.renderForItem.lightenInstantly();
-            else item.renderForItem.darkenInstantly();
         }
 
-        for(UIElement item : getItemsForDisplay()){
-            item.setLocalPosition(currentXPos, (scrollbar.isActive() ? scrollbar.getHeight() - itemPadding.y : -itemPadding.y)); //TODO RF BOUNDING HEIGHT
-            item.setHeight(defaultItemHeight == null ? itemBoxBackground.getHeightUnscaled() + (scrollbar.isActive() ? -scrollbar.getHeightUnscaled() : 0) : defaultItemHeight);
+        for(ItemBoxItem item : items){
+            item.renderForItem.setLocalPosition(currentXPos, -itemPadding.y); //TODO RF BOUNDING HEIGHT
 
-            item.showAndEnable();
+            if(item.renderForItem.overlapsParent()){
+                item.renderForItem.showAndEnable();
+            }
+            else{
+                item.renderForItem.hideAndDisable();
+            }
 
-            currentXPos += item.getWidth();
+            if(!item.selected){
+                item.renderForItem.lightenInstantly();
+            }
+            else {
+                item.renderForItem.darkenInstantly();
+            }
+
+            currentXPos += item.renderForItem.getWidth();
             currentXPos += itemSpacing;
         }
     }
 
     //endregion
 
-    public ArrayList<UIElement> getItemsForDisplay(){
-        ArrayList<UIElement> activeItems = new ArrayList<>();
-
-        int currentPageWidth = itemPadding.x;
-        if(!invertedItemOrder){
-            for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
-                UIElement item = items.get(i).renderForItem;
-                if(currentPageWidth + item.getWidth() + itemSpacing > itemBoxBackground.getWidth()){
-                    break;
-                }
-                //TODO RF getBoundingHeight
-
-                currentPageWidth += item.getWidth() + itemSpacing;
-                activeItems.add(item);
-            }
-        }
-        else{
-            for(int i = items.size() - (scrollbar.getCurrentPage() - 1) - 1; i >= 0; i--){
-                UIElement item = items.get(i).renderForItem;
-                if(currentPageWidth + item.getWidth() + itemSpacing > itemBoxBackground.getWidth()){
-                    break;
-                }
-                //TODO RF getBoundingHeight
-
-                currentPageWidth += item.getWidth() + itemSpacing;
-                activeItems.add(item);
-            }
-        }
-
-        return activeItems;
-    }
-
     //region Item Management
 
     //region Item UI
 
     public UIElement makeUIForItem(ItemType item){
-        TextBox box = new TextBox(item.toString(), 0, 0, 30, itemBoxBackground.getHeight());
+        TextBox box = new TextBox(item.toString(), 0, 0, 30, itemBox.getHeight());
         box.setImage(UIThemeManager.getDefaultTheme().button_large);
         box.setMarginPercX(0.025f).setMarginPercY(0.05f);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
@@ -182,43 +129,26 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
 
     //endregion
 
-    //region ScrollBar
+    @Override
+    protected int recalculateScrollOffset(float scrollPercentage) {
+        int totalWidth = 0;
 
-    public HorizontalListBox<ItemType> setScrollbarHeight(int height){
-        this.scrollbarHeight = height;
-        return this;
-    }
+        for (int i = 0; i < items.size(); i++) {
+            ItemBoxItem item = items.get(i);
+            totalWidth += item.renderForItem.getWidth();
 
-    public int calculatePageCount(){
-        int totalItemWidth = 0;
-        if(!invertedItemOrder){
-            for(int i = 0; i < items.size(); i++){
-                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing; //TODO RF BOUNDING WIDTH
-                if(totalItemWidth > itemBoxBackground.getWidth()){
-                    int pageCount = items.size() - i;
-                    return pageCount + 1;
-                }
+            if (i != items.size() - 1) {
+                totalWidth += itemSpacing;
             }
         }
-        else{
-            for(int i = items.size() - 1; i >= 0; i--){
-                totalItemWidth += items.get(i).renderForItem.getWidth() + itemSpacing; //TODO RF BOUNDING WIDTH
-                if(totalItemWidth > itemBoxBackground.getWidth()){
-                    return i + 2;
-                }
-            }
-        }
-        return 1;
+
+        return (int) ((totalWidth - itemBox.getWidth()) * scrollPercentage);
     }
 
     //endregion
 
-    //endregion
-
-    public static class HorizontalListBoxData extends ItemBoxData implements Serializable {
+    public static class HorizontalListBoxData extends HorizontalItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
-
-        public int scrollbarHeight = 50;
 
         @Override
         public UIElement makeUIElement() {

@@ -8,17 +8,19 @@ import org.lwjgl.input.Mouse;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
+public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
     //region Variables
-
-    private int scrollbarWidth = 50;
 
     //endregion
 
     //region Constructors
 
     public VerticalListBox(int xPos, int yPos, int width, int height){
-        super(xPos, yPos, width, height);
+        this(xPos, yPos, width, height, false);
+    }
+
+    public VerticalListBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar) {
+        super(xPos, yPos, width, height, noInitScrollbar);
 
         defaultItemHeight = 30;
 
@@ -28,33 +30,7 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     public VerticalListBox(VerticalListBoxData data){
         super(data);
 
-        scrollbarWidth = data.scrollbarWidth;
-
         reinitializeElements();
-    }
-
-    protected void updateScrollBar(int xPos, int yPos, int width, int height){
-        xPos = width - scrollbarWidth;
-
-        if(scrollbar == null){
-            buildScrollBar(xPos, 0, scrollbarWidth, height);
-        }
-        scrollbar.setLocalPosition(xPos, 0);
-        scrollbar.setDimensions(scrollbarWidth, height);
-    }
-    protected void buildScrollBar(int x, int y, int width, int height){
-        scrollbar = new VerticalScrollbar(x, y, width, height) {
-            @Override
-            public int getPageCount() {
-                return calculatePageCount();
-            }
-
-            @Override
-            public boolean isActive() {
-                return calculatePageCount() > 1 && super.isActive();
-            }
-        };
-        addChildCS(scrollbar);
     }
 
     //endregion
@@ -67,63 +43,35 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     public void updateSelf() {
         super.updateSelf();
 
-        if(trackScrollWheelScroll){
-            int scrollDelta = (int)(Math.signum((float)Mouse.getDWheel()));
-            scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionY() + scrollDelta * 10);
-        }
-
-        int currentYPos = itemBoxBackground.getHeight() - itemPadding.y;
+        int currentYPos = itemBox.getHeight() - itemPadding.y + currentScrollbarOffset;
 
         for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
-
-            if(!item.selected) item.renderForItem.lightenInstantly();
-            else item.renderForItem.darkenInstantly();
         }
 
-        for(UIElement item : getItemsForDisplay()){
-            item.setLocalPosition(itemPadding.x, currentYPos - item.getHeight()); //TODO RF BOUNDING HEIGHT
-            item.setWidth(defaultItemWidth == null ? itemBoxBackground.getWidthUnscaled() + (scrollbar.isActive() ? -scrollbar.getWidthUnscaled() : 0) : defaultItemWidth);
+        for(ItemBoxItem item : items){
+            item.renderForItem.setLocalPosition(itemPadding.x, currentYPos - item.renderForItem.getHeight()); //TODO RF BOUNDING HEIGHT
 
-            item.showAndEnable();
+            if(item.renderForItem.overlapsParent()){
+                item.renderForItem.showAndEnable();
+            }
+            else{
+                item.renderForItem.hideAndDisable();
+            }
 
-            currentYPos -= item.getHeight();
+            if(!item.selected){
+                item.renderForItem.lightenInstantly();
+            }
+            else {
+                item.renderForItem.darkenInstantly();
+            }
+
+            currentYPos -= item.renderForItem.getHeight();
             currentYPos -= itemSpacing;
         }
     }
 
     //endregion
-
-    public ArrayList<UIElement> getItemsForDisplay(){
-        ArrayList<UIElement> activeItems = new ArrayList<>();
-
-        int currentPageHeight = -itemPadding.y;
-        if(!invertedItemOrder){
-            for(int i = scrollbar.getCurrentPage() - 1; i < items.size(); i++){
-                UIElement item = items.get(i).renderForItem;
-                if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
-                    break;
-                }
-                //TODO RF getBoundingHeight
-
-                currentPageHeight += item.getHeight() + itemSpacing;
-                activeItems.add(item);
-            }
-        }
-        else{
-            for(int i = items.size() - (scrollbar.getCurrentPage() - 1) - 1; i >= 0; i--){
-                UIElement item = items.get(i).renderForItem;
-                if(currentPageHeight + item.getHeight() + itemSpacing > itemBoxBackground.getHeight()){
-                    break;
-                }
-                //TODO RF getBoundingHeight
-                currentPageHeight += item.getHeight() + itemSpacing;
-                activeItems.add(item);
-            }
-        }
-
-        return activeItems;
-    }
 
     //region Item Management
 
@@ -173,43 +121,26 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
 
     //endregion
 
-    //region ScrollBar
+    @Override
+    protected int recalculateScrollOffset(float scrollPercentage) {
+        int totalHeight = 0;
 
-    public VerticalListBox<ItemType> setScrollbarWidth(int width){
-        this.scrollbarWidth = width;
-        return this;
-    }
+        for (int i = 0; i < items.size(); i++) {
+            ItemBoxItem item = items.get(i);
+            totalHeight += item.renderForItem.getHeight();
 
-    public int calculatePageCount(){
-        int totalItemHeight = 0;
-        if(!invertedItemOrder){
-            for(int i = 0; i < items.size(); i++){
-                totalItemHeight += items.get(i).renderForItem.getHeight() + itemSpacing; //TODO RF BOUNDING HEIGHT
-                if(totalItemHeight > itemBoxBackground.getHeight()){
-                    int pageCount = items.size() - i;
-                    return pageCount + 1;
-                }
+            if (i != items.size() - 1) {
+                totalHeight += itemSpacing;
             }
         }
-        else{
-            for(int i = items.size() - 1; i >= 0; i--){
-                totalItemHeight += items.get(i).renderForItem.getHeight() + itemSpacing; //TODO RF BOUNDING HEIGHT
-                if(totalItemHeight > itemBoxBackground.getHeight()){
-                    return i + 2;
-                }
-            }
-        }
-        return 1;
+
+        return (int) ((totalHeight - itemBox.getHeight()) * scrollPercentage);
     }
 
     //endregion
 
-    //endregion
-
-    public static class VerticalListBoxData extends ItemBoxData implements Serializable {
+    public static class VerticalListBoxData extends VerticalItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
-
-        public int scrollbarWidth = 50;
 
         @Override
         public UIElement makeUIElement() {

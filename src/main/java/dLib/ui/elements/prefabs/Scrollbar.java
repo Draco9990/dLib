@@ -1,43 +1,32 @@
 package dLib.ui.elements.prefabs;
 
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Draggable;
-import dLib.ui.elements.implementations.Renderable;
-import dLib.ui.themes.UIThemeManager;
 
-public abstract class Scrollbar extends Renderable {
+public abstract class Scrollbar extends UIElement {
     //region Variables
 
     protected Draggable slider;
-
-    protected int currentPage = 1;
-
-    protected int pageCount = 0;
 
     //endregion
 
     //region Constructors
 
     public Scrollbar(int x, int y, int width, int height){
-        super(UIThemeManager.getDefaultTheme().inputfield, x, y, width, height);
+        super(x, y, width, height);
 
-        makeSlider();
-        currentPage = 1;
-        recalculateScrollbar();
+        slider = buildSlider(width, height);
     }
 
-    public abstract void makeSlider();
+    protected abstract Draggable buildSlider(int containerWidth, int containerHeight);
 
     //endregion
 
     //region Methods
 
-    //region Update & Render
-    @Override
-    public void updateSelf() {
-        super.updateSelf();
-        recalculateScrollbar();
-    }
-    //endregion
+    public abstract void onScrollbarScrolled(float percentage); //TODO add listeners
+
+    public abstract void reset();
 
     //region Slider
 
@@ -46,23 +35,6 @@ public abstract class Scrollbar extends Renderable {
     }
 
     //endregion
-
-    //region Pages
-
-    public int getCurrentPage(){
-        return currentPage;
-    }
-    public abstract int getPageCount();
-
-    public abstract void nextPage();
-    public abstract void previousPage();
-    public abstract void setFirstPage();
-
-    public void onPageChanged(int newPage){}
-
-    //endregion
-
-    protected abstract void recalculateScrollbar();
 
     //endregion
 }
