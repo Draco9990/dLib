@@ -1142,18 +1142,29 @@ public class UIElement {
     }
 
     public IntegerVector4 getMaskWorldBounds(){
+        IntegerVector4 bounds = null;
+
         UIElement mask = elementMask;
+        if(mask != null){
+            bounds = new IntegerVector4(mask.getWorldPositionX(), mask.getWorldPositionY(), mask.getWidth(), mask.getHeight());
+        }
+
         UIElement current = this;
-        while(mask == null && current.hasParent()){
+        while(current.hasParent()){
             current = current.getParent();
             mask = current.elementMask;
+
+            if(mask != null){
+                if(bounds == null){
+                    bounds = new IntegerVector4(mask.getWorldPositionX(), mask.getWorldPositionY(), mask.getWidth(), mask.getHeight());
+                }
+                else{
+                    bounds = bounds.overlap(new IntegerVector4(mask.getWorldPositionX(), mask.getWorldPositionY(), mask.getWidth(), mask.getHeight()));
+                }
+            }
         }
 
-        if(mask == null){
-            return null;
-        }
-
-        return new IntegerVector4(mask.getWorldPositionX(), mask.getWorldPositionY(), mask.getWidth(), mask.getHeight());
+        return bounds;
     }
 
     //endregion Masks

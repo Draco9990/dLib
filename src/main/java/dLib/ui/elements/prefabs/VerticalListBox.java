@@ -123,6 +123,11 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
 
     @Override
     protected int recalculateScrollOffset(float scrollPercentage) {
+        return (int) ((getTotalItemHeight() - itemBox.getHeight()) * scrollPercentage);
+    }
+
+    @Override
+    protected int getTotalItemHeight() {
         int totalHeight = 0;
 
         for (int i = 0; i < items.size(); i++) {
@@ -134,7 +139,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
             }
         }
 
-        return (int) ((totalHeight - itemBox.getHeight()) * scrollPercentage);
+        return totalHeight;
     }
 
     //endregion

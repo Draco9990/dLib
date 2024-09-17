@@ -541,8 +541,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
             items.add(item);
         }
-
-        if(scrollbar != null) scrollbar.reset();
     }
 
     //endregion Filter

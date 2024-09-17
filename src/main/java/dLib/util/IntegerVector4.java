@@ -26,6 +26,23 @@ public class IntegerVector4 implements Serializable {
         this.h = copy.h;
     }
 
+    public IntegerVector4 overlap(IntegerVector4 other){
+        int overlapX = Math.max(x, other.x);
+        int overlapY = Math.max(y, other.y);
+
+        int overlapRight = Math.min(x + w, other.x + other.w);
+        int overlapBottom = Math.min(y + h, other.y + other.h);
+
+        int overlapW = overlapRight - overlapX;
+        int overlapH = overlapBottom - overlapY;
+
+        if (overlapW > 0 && overlapH > 0) {
+            return new IntegerVector4(overlapX, overlapY, overlapW, overlapH);
+        } else {
+            return null; // No overlap
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof IntegerVector4)) return false;

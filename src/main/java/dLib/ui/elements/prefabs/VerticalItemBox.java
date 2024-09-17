@@ -79,7 +79,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
 
             @Override
             public boolean isActive() {
-                return true; //TODO;
+                return getTotalItemHeight() > itemBox.getHeight();
             }
         };
 
@@ -90,6 +90,19 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
     public Hoverable getBackground() {
         return (Hoverable) super.getBackground();
     }
+
+    @Override
+    public void refilterItems() {
+        super.refilterItems();
+
+        if(scrollbar != null){
+            if(getTotalItemHeight() <= itemBox.getHeight()){
+                scrollbar.reset();
+            }
+        }
+    }
+
+    protected abstract int getTotalItemHeight();
 
     //endregion
 

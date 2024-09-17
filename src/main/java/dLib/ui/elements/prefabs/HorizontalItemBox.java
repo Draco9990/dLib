@@ -51,7 +51,7 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     protected UIElement buildItemBox() {
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
-        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, 0, 0 + (noInitScrollbar ? 0 : scrollbarHeight), getWidthUnscaled(), getHeightUnscaled() - titleBoxHeight - scrollbarHeight){
+        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, 0, 0 + (noInitScrollbar ? 0 : scrollbarHeight), getWidthUnscaled(), getHeightUnscaled() - (noInitScrollbar ? 0 : scrollbarHeight)){
             @Override
             protected void onHovered() {
                 super.onHovered();
@@ -80,7 +80,7 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
 
             @Override
             public boolean isActive() {
-                return true; //TODO;
+                return getTotalItemWidth() > itemBox.getWidth();
             }
         };
 
@@ -91,6 +91,19 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     public Hoverable getBackground() {
         return (Hoverable) super.getBackground();
     }
+
+    @Override
+    public void refilterItems() {
+        super.refilterItems();
+
+        if(scrollbar != null){
+            if(getTotalItemWidth() <= itemBox.getWidth()){
+                scrollbar.reset();
+            }
+        }
+    }
+
+    protected abstract int getTotalItemWidth();
 
     //endregion
 
