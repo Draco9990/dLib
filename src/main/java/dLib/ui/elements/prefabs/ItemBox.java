@@ -236,10 +236,10 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     public void clearItems(){
         ArrayList<UIElement> childrenToRemove = new ArrayList<>();
-        for(UIElementChild child : children){
+        for(UIElement child : itemBox.getChildren()){
             for(ItemBoxItem item : originalItems){
-                if(Objects.equals(item.renderForItem, child.element)){
-                    childrenToRemove.add(child.element);
+                if(Objects.equals(item.renderForItem, child)){
+                    childrenToRemove.add(child);
                 }
             }
         }
@@ -249,7 +249,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
         }
 
         originalItems.clear();
-        scrollbar.reset();
+        if(scrollbar != null) scrollbar.reset();
 
         onItemsCleared();
     }

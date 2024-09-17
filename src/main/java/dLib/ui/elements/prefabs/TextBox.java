@@ -111,7 +111,7 @@ public class TextBox extends Hoverable {
 
         float fontScale = calculateFontScale();
 
-        font.getData().setScale(fontScale);
+        getFontForRender().getData().setScale(fontScale);
 
         float xMargin = marginPercX * getWidth();
         float yMargin = marginPercY * getHeight();
@@ -215,8 +215,8 @@ public class TextBox extends Hoverable {
             }
         }
         else{
-            font.getData().setScale(fontScale);
-            font.setColor(textRenderColor);
+            getFontForRender().getData().setScale(fontScale);
+            getFontForRender().setColor(textRenderColor);
 
             int align = 0;
             if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.LEFT) align = Align.left;
@@ -227,13 +227,13 @@ public class TextBox extends Hoverable {
             else if(alignment.verticalAlignment == Alignment.VerticalAlignment.BOTTOM) renderY -= (int) halfHeight;
 
             FontHelper.layout.setText(getFontForRender(), text, Color.WHITE, renderWidth * Settings.xScale, align, true);
-            font.draw(sb, text, renderX * Settings.xScale, (renderY + FontHelper.layout.height / 2f) * Settings.yScale, renderWidth * Settings.xScale, align, true);
-            font.getData().setScale(1.0F);
+            getFontForRender().draw(sb, text, renderX * Settings.xScale, (renderY + FontHelper.layout.height / 2f) * Settings.yScale, renderWidth * Settings.xScale, align, true);
+            getFontForRender().getData().setScale(1.0F);
         }
 
         sb.flush(); //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
 
-        font.getData().setScale(1.f);
+        getFontForRender().getData().setScale(1.f);
 
         if(hb != null){
             hb.render(sb);
@@ -400,10 +400,10 @@ public class TextBox extends Hoverable {
         }
 
         while(true){
-            font.getData().setScale(fontScale);
+            getFontForRender().getData().setScale(fontScale);
             FontHelper.layout.setText(getFontForRender(), text, Color.BLACK, renderWidth * Settings.xScale, 0, wrap);
             if(FontHelper.layout.height > renderHeight * Settings.yScale || (!wrap && FontHelper.layout.width > renderWidth * Settings.xScale)) {
-                font.getData().setScale(1);
+                getFontForRender().getData().setScale(1);
                 float calculatedScale = Math.max(fontScale - 0.1F, 0.1f);
 
                 if(minFontScale > 0.0f){

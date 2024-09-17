@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
@@ -23,6 +24,7 @@ public class TextButton extends UIElement {
         addChildCS(button);
 
         label = new TextBox(text, 0, 0, width, height);
+        label.setFont(FontHelper.buttonLabelFont);
         addChildNCS(label);
     }
 

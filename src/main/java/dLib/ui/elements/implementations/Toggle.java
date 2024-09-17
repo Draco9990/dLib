@@ -102,7 +102,9 @@ public class Toggle extends Interactable {
                     }
                 }
             }
-            return colorToRender.lerp(toggledColor, toggledColorMultiplier);
+            else if(toggledTexture == null){
+                return colorToRender.lerp(toggledColor, toggledColorMultiplier);
+            }
         }
 
         return super.getColorForRender();
@@ -114,6 +116,8 @@ public class Toggle extends Interactable {
 
     @Override
     public void clickLeft() {
+        super.clickLeft();
+
         toggle();
     }
 

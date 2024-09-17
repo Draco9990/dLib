@@ -14,7 +14,7 @@ public class Checkbox extends Toggle {
     //region Constructors
 
     public Checkbox(int xPos, int yPos, int width, int height) {
-        super(UIThemeManager.getDefaultTheme().checkbox_checked, UIThemeManager.getDefaultTheme().checkbox_checked, xPos, yPos, width, height);
+        super(UIThemeManager.getDefaultTheme().checkbox_unchecked, UIThemeManager.getDefaultTheme().checkbox_checked, xPos, yPos, width, height);
     }
 
     public Checkbox(CheckboxData data) {
@@ -45,7 +45,7 @@ public class Checkbox extends Toggle {
         //region Methods
 
         @Override
-        public Toggle makeUIElement() {
+        public Checkbox makeUIElement() {
             return new Checkbox(this);
         }
 
