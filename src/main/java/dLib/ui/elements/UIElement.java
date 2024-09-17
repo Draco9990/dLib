@@ -863,6 +863,8 @@ public class UIElement {
     //region Visibility
 
     public final void hide(){
+        if(!isVisible) return;
+
         if(exitAnimation == null){
             setVisibility(false);
         }
@@ -870,10 +872,24 @@ public class UIElement {
             playAnimation(exitAnimation);
         }
     }
+    public final void hideInstantly(){
+        if(!isVisible) return;
+
+        setVisibility(false);
+    }
+
     public final void show(){
+        if(isVisible) return;
+
         setVisibility(true);
         playAnimation(entryAnimation);
     }
+    public final void showInstantly(){
+        if(isVisible) return;
+
+        setVisibility(true);
+    }
+
     protected void setVisibility(boolean visible){
         isVisible = visible;
     }

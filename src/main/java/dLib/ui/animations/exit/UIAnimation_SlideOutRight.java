@@ -5,17 +5,17 @@ import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.elements.UIElement;
 
-public class UIAnimation_SlideOutLeft extends UIExitAnimation {
+public class UIAnimation_SlideOutRight extends UIExitAnimation {
 
     private AnimationProperties properties;
 
     private int origElementX = 0;
 
-    public UIAnimation_SlideOutLeft(UIElement element) {
+    public UIAnimation_SlideOutRight(UIElement element) {
         this(element, new AnimationProperties());
     }
 
-    public UIAnimation_SlideOutLeft(UIElement element, AnimationProperties properties) {
+    public UIAnimation_SlideOutRight(UIElement element, AnimationProperties properties) {
         super(element);
         this.properties = properties;
     }
@@ -29,15 +29,15 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
 
     @Override
     public void update() {
-        float lerpPos = Math.abs(MathUtils.lerp(element.getWorldPositionX(), origElementX + Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed));
+        float lerpPos = Math.abs(MathUtils.lerp(element.getWorldPositionX(), origElementX - Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed));
         float absPos = Math.abs(element.getWorldPositionX());
         float lerpDistance = Math.abs(lerpPos - absPos);
 
-        float newPos = element.getWorldPositionX() - lerpDistance;
+        float newPos = element.getWorldPositionX() + lerpDistance;
 
         element.setWorldPositionX((int) newPos);
 
-        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - element.getWidth()) {
+        if (element.getWorldPositionX() + Settings.UI_SNAP_THRESHOLD >= properties.refPointX) {
             isPlaying = false;
         }
     }
@@ -50,7 +50,7 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
     }
 
     public static class AnimationProperties{
-        public int refPointX = 0;
+        public int refPointX = 1920;
 
         public float speed = 9.0F;
     }

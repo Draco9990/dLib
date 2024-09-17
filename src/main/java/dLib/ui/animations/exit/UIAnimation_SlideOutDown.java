@@ -13,7 +13,7 @@ public class UIAnimation_SlideOutDown extends UIExitAnimation {
     private int origElementY = 0;
 
     public UIAnimation_SlideOutDown(UIElement element) {
-        super(element);
+        this(element, new AnimationProperties());
     }
 
     public UIAnimation_SlideOutDown(UIElement element, AnimationProperties properties) {

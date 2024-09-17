@@ -223,8 +223,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
         originalItems.sort(Comparator.comparingInt(o -> items.indexOf(o.item)));
 
-        onItemsUpdated(items, itemsChanged);
-        onItemSelectionChanged(getCurrentlySelectedItems());
+        if(itemsChanged) onItemsUpdated(items, itemsChanged);
+        if(selectionChanged) onItemSelectionChanged(getCurrentlySelectedItems());
 
         return this;
     }
