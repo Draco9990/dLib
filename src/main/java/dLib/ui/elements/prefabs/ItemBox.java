@@ -138,6 +138,10 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     //region Methods
 
+    public UIElement getItemBox(){
+        return itemBox;
+    }
+
     //region Item Management
 
     public ItemBox<ItemType> addItem(ItemType item){
@@ -267,7 +271,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     public UIElement makeUIForItem(ItemType item){
         TextBox box = new TextBox(item.toString(), 0, 0, defaultItemWidth == null ? itemBox.getWidth() : defaultItemWidth, defaultItemHeight == null ? itemBox.getHeight() : defaultItemHeight);
-        box.setImage(UIThemeManager.getDefaultTheme().button_large);
         box.setMarginPercX(0.025f).setMarginPercY(0.05f);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         return box;

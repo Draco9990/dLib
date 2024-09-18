@@ -40,7 +40,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
     protected void updateSelf() {
         super.updateSelf();
 
-        if(trackScrollWheelScroll && scrollbar != null){
+        if(trackScrollWheelScroll && scrollbar != null && scrollbar.getSlider().isVisible()){
             int scrollDelta = (int)(Math.signum((float) Mouse.getDWheel()));
             scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionY() + scrollDelta * 10);
         }
@@ -68,6 +68,20 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
     }
 
     @Override
+    public void onItemsChanged() {
+        super.onItemsChanged();
+
+        if (scrollbar != null) {
+            if(getTotalItemHeight() > itemBox.getHeight()){
+                scrollbar.getSlider().showInstantly();
+            }
+            else{
+                scrollbar.getSlider().hideInstantly();
+            }
+        }
+    }
+
+    @Override
     protected Scrollbar buildScrollBar() {
         Scrollbar scrollbar = new VerticalScrollbar(getWidthUnscaled() - scrollbarWidth, 0, scrollbarWidth, getHeightUnscaled() - (titleBox != null ? titleBox.getHeight() : 0)) {
             @Override
@@ -75,11 +89,6 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
                 super.onScrollbarScrolled(percentage);
 
                 currentScrollbarOffset = recalculateScrollOffset(1 - percentage);
-            }
-
-            @Override
-            public boolean isActive() {
-                return getTotalItemHeight() > itemBox.getHeight();
             }
         };
 

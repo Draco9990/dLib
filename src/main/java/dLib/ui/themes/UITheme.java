@@ -34,6 +34,9 @@ public class UITheme {
     public Texture inputfield;
     public Texture listbox = UITheme.whitePixel;
 
+    public Texture itemBoxVerticalItemBg;
+    public Texture itemBoxHorizontalItemBg;
+
     public Texture scrollbar_horizontal_train;
     public Texture scrollbar_horizontal_left;
     public Texture scrollbar_horizontal_right;
@@ -94,6 +97,9 @@ public class UITheme {
 
         this.inputfield =  loadItem("inputfield.png");
 
+        this.itemBoxVerticalItemBg = loadItem("listbox_vertical_itembg.png");
+        this.itemBoxHorizontalItemBg = loadItem("listbox_horizontal_itembg.png");
+
         this.scrollbar_horizontal_train = loadItem("scrollbar/horizontal_train.png");
         this.scrollbar_horizontal_left = loadItem("scrollbar/horizontal_left.png");
         this.scrollbar_horizontal_right = loadItem("scrollbar/horizontal_right.png");
@@ -127,6 +133,11 @@ public class UITheme {
 
         this.checkbox_unchecked.dispose();
         this.checkbox_checked.dispose();
+
+        this.inputfield.dispose();
+
+        this.itemBoxVerticalItemBg.dispose();
+        this.itemBoxHorizontalItemBg.dispose();
 
         this.scrollbar_horizontal_train.dispose();
         this.scrollbar_horizontal_left.dispose();

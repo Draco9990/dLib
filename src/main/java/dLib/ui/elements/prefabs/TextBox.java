@@ -223,8 +223,9 @@ public class TextBox extends Hoverable {
             else if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.CENTER) align = Align.center;
             else if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT) align = Align.right;
 
-            if(alignment.verticalAlignment == Alignment.VerticalAlignment.TOP) renderY += (int) halfHeight;
-            else if(alignment.verticalAlignment == Alignment.VerticalAlignment.BOTTOM) renderY -= (int) halfHeight;
+            if(alignment.verticalAlignment == Alignment.VerticalAlignment.TOP) renderY += (int) (halfHeight * 1.5f);
+            else if(alignment.verticalAlignment == Alignment.VerticalAlignment.CENTER) renderY += (int) halfHeight;
+            else if(alignment.verticalAlignment == Alignment.VerticalAlignment.BOTTOM) renderY += (int) (halfHeight * 0.5f);
 
             FontHelper.layout.setText(getFontForRender(), text, Color.WHITE, renderWidth * Settings.xScale, align, true);
             getFontForRender().draw(sb, text, renderX * Settings.xScale, (renderY + FontHelper.layout.height / 2f) * Settings.yScale, renderWidth * Settings.xScale, align, true);

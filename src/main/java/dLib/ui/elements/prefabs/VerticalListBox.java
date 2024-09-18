@@ -75,6 +75,13 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
 
     //region Item Management
 
+    @Override
+    public UIElement makeUIForItem(ItemType item) {
+        TextBox box = (TextBox) super.makeUIForItem(item);
+        box.setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
+        return box;
+    }
+
     //region Item UI
     public final UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = super.wrapUIForItem(item);

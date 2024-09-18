@@ -41,7 +41,7 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     protected void updateSelf() {
         super.updateSelf();
 
-        if(trackScrollWheelScroll && scrollbar != null){
+        if(trackScrollWheelScroll && scrollbar != null && scrollbar.getSlider().isVisible()){
             int scrollDelta = (int)(Math.signum((float) Mouse.getDWheel()));
             scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionX() + scrollDelta * 10);
         }
@@ -69,6 +69,20 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     }
 
     @Override
+    public void onItemsChanged() {
+        super.onItemsChanged();
+
+        if (scrollbar != null) {
+            if(getTotalItemWidth() > itemBox.getWidth()){
+                scrollbar.getSlider().showInstantly();
+            }
+            else{
+                scrollbar.getSlider().hideInstantly();
+            }
+        }
+    }
+
+    @Override
     protected Scrollbar buildScrollBar() {
         Scrollbar scrollbar = new HorizontalScrollbar(0, 0, getWidthUnscaled(), scrollbarHeight) {
             @Override
@@ -76,11 +90,6 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
                 super.onScrollbarScrolled(percentage);
 
                 currentScrollbarOffset = recalculateScrollOffset(percentage);
-            }
-
-            @Override
-            public boolean isActive() {
-                return getTotalItemWidth() > itemBox.getWidth();
             }
         };
 

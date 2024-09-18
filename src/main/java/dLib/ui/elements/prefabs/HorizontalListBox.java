@@ -76,13 +76,12 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
 
     //region Item UI
 
-    public UIElement makeUIForItem(ItemType item){
-        TextBox box = new TextBox(item.toString(), 0, 0, 30, itemBox.getHeight());
-        box.setImage(UIThemeManager.getDefaultTheme().button_large);
-        box.setMarginPercX(0.025f).setMarginPercY(0.05f);
-        box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
+    @Override
+    public UIElement makeUIForItem(ItemType item) {
+        TextBox box = (TextBox) super.makeUIForItem(item);
+        box.setImage(UIThemeManager.getDefaultTheme().itemBoxHorizontalItemBg);
         return box;
-    } //TODO expose with listeners
+    }
 
     public final UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = super.wrapUIForItem(item);
