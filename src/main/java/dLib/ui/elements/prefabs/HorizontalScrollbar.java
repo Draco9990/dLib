@@ -41,7 +41,7 @@ public abstract class HorizontalScrollbar extends Scrollbar {
 
     @Override
     public void onScrollbarScrolled(float percentage) {
-
+        super.onScrollbarScrolled(percentage);
     }
 
     public void reset(){

@@ -219,6 +219,7 @@ public class UIElement {
     public UIElement addChild(UIElementChild child){
         this.children.add(child);
         child.element.setParent(this);
+        onChildrenChanged();
         return this;
     }
 
@@ -246,6 +247,7 @@ public class UIElement {
     public UIElement removeChild(UIElement child){
         this.children.removeIf(next -> next.element.equals(child));
         if(Objects.equals(child.getParent(), this)) child.setParent(null);
+        onChildrenChanged();
         return this;
     }
     public UIElement clearChildren(){
@@ -255,7 +257,11 @@ public class UIElement {
             }
         }
         children.clear();
+        onChildrenChanged();
         return this;
+    }
+
+    protected void onChildrenChanged(){ //TODO Expose
     }
 
     public UIElementChild getFirstChild(){
