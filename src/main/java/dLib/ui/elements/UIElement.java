@@ -63,6 +63,9 @@ public class UIElement {
 
     private boolean pendingRefresh = false;
 
+    private float totalLifespan = -1f;
+    private float remainingLifespan = -1f;
+
     //TODO: Expose to data and screen editor
     private UIAnimation entryAnimation;
     private UIAnimation exitAnimation;
@@ -131,6 +134,8 @@ public class UIElement {
             pendingRefresh = false;
             onRefreshElement();
         }
+
+        updateLifespan();
     }
     protected void updateChildren(){
         for(int i = children.size() - 1; i >= 0; i--){
@@ -174,7 +179,7 @@ public class UIElement {
     }
 
     protected boolean shouldUpdate(){
-        return isActive() && isEnabled();
+        return isActive() && (isEnabled() || isVisible());
     }
     protected boolean shouldRender(){
         return isActive() && isVisible();
@@ -868,7 +873,7 @@ public class UIElement {
 
     //region Visibility
 
-    public final void hide(){
+    public void hide(){
         if(!isVisible) return;
 
         if(exitAnimation == null){
@@ -878,19 +883,19 @@ public class UIElement {
             playAnimation(exitAnimation);
         }
     }
-    public final void hideInstantly(){
+    public void hideInstantly(){
         if(!isVisible) return;
 
         setVisibility(false);
     }
 
-    public final void show(){
+    public void show(){
         if(isVisible) return;
 
         setVisibility(true);
         playAnimation(entryAnimation);
     }
-    public final void showInstantly(){
+    public void showInstantly(){
         if(isVisible) return;
 
         setVisibility(true);
@@ -908,10 +913,10 @@ public class UIElement {
 
     //region Enabled State
 
-    public final void disable(){
+    public void disable(){
         setEnabled(false);
     }
-    public final void enable(){
+    public void enable(){
         setEnabled(true);
     }
     protected void setEnabled(boolean enabled){
@@ -1190,6 +1195,39 @@ public class UIElement {
     }
 
     //endregion Masks
+
+    //region Lifespan
+
+    public void updateLifespan(){
+        if(totalLifespan == -1) return;
+
+        remainingLifespan -= Gdx.graphics.getDeltaTime();
+        if(remainingLifespan <= 0){
+            hideAndDisable();
+            //TODO wait for animations to finish
+            if(parent != null){
+                parent.removeChild(this);
+                dispose();
+            }
+            //TODO fire on death event
+        }
+    }
+
+    public UIElement setLifespan(float lifespan){
+        totalLifespan = lifespan;
+        remainingLifespan = lifespan;
+        return this;
+    }
+
+    public float getTotalLifespan(){
+        return totalLifespan;
+    }
+
+    public float getRemainingLifespan(){
+        return remainingLifespan;
+    }
+
+    //endregion
 
     //endregion
 

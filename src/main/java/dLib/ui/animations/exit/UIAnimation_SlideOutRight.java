@@ -29,13 +29,11 @@ public class UIAnimation_SlideOutRight extends UIExitAnimation {
 
     @Override
     public void update() {
-        float lerpPos = Math.abs(MathUtils.lerp(element.getWorldPositionX(), origElementX - Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed));
-        float absPos = Math.abs(element.getWorldPositionX());
-        float lerpDistance = Math.abs(lerpPos - absPos);
-
+        float lerpPos = MathUtils.lerp(element.getWorldPositionX(), origElementX - Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed);
+        float lerpDistance = Math.abs(lerpPos - element.getWorldPositionX());
         float newPos = element.getWorldPositionX() + lerpDistance;
 
-        element.setWorldPositionX((int) newPos);
+        element.setWorldPositionX(Math.round(newPos));
 
         if (element.getWorldPositionX() + Settings.UI_SNAP_THRESHOLD >= properties.refPointX) {
             isPlaying = false;

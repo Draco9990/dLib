@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.MathHelper;
 import dLib.modcompat.ModManager;
+import dLib.patches.InputHelperHoverConsumer;
 import dLib.ui.screens.ScreenManager;
 import dLib.util.IntegerVector4;
 import dLib.util.bindings.method.MethodBinding;
@@ -21,6 +22,8 @@ public class Hoverable extends Renderable{
     //region Variables
 
     protected Hitbox hb;
+
+    private boolean isClickthrough = false;
 
     private ArrayList<Runnable> onHoveredConsumers = new ArrayList<>();
     private ArrayList<Consumer<Float>> onHoverTickConsumers = new ArrayList<>();
@@ -54,6 +57,8 @@ public class Hoverable extends Renderable{
         onHoveredConsumers.add(() -> data.onHovered.executeBinding(ScreenManager.getCurrentScreen()));
         onHoverTickConsumers.add((elapsedTime) -> data.onHoverTick.executeBinding(ScreenManager.getCurrentScreen(), elapsedTime));
         onUnhoveredConsumers.add(() -> data.onUnhovered.executeBinding(ScreenManager.getCurrentScreen()));
+
+        this.isClickthrough = data.isClickthrough;
     }
 
     private void initialize(){
@@ -105,6 +110,11 @@ public class Hoverable extends Renderable{
             this.hb.move(targetHbX, targetHbY);
             this.hb.update();
 
+            if((this.hb.justHovered || this.hb.hovered) && InputHelperHoverConsumer.alreadyHovered){
+                this.hb.justHovered = false;
+                this.hb.hovered = false;
+            }
+
             if(isEnabled()){
                 if(this.hb.justHovered) onHovered();
                 if(this.hb.hovered){
@@ -141,9 +151,13 @@ public class Hoverable extends Renderable{
             }
         }
         for(Runnable consumer : onHoveredConsumers) consumer.run();
+
+        if(!isClickthrough()) InputHelperHoverConsumer.alreadyHovered = true;
     }
     protected void onHoverTick(float totalTickDuration){
         for(Consumer<Float> consumer : onHoverTickConsumers) consumer.accept(totalTickDuration);
+
+        if(!isClickthrough()) InputHelperHoverConsumer.alreadyHovered = true;
     }
     protected void onUnhovered(){
         totalHoverDuration = 0.f;
@@ -151,7 +165,7 @@ public class Hoverable extends Renderable{
         for(Runnable consumer : onUnhoveredConsumers) consumer.run();
     }
 
-    public boolean isHovered(){ return hb.hovered || hb.justHovered; }
+    public boolean isHovered(){ return (hb.hovered || hb.justHovered); }
 
     public Hoverable addOnHoveredConsumer(Runnable consumer){
         onHoveredConsumers.add(consumer);
@@ -184,6 +198,19 @@ public class Hoverable extends Renderable{
 
     //endregion
 
+    //region Clickthrough
+
+    public Hoverable setClickthrough(boolean newValue){
+        isClickthrough = newValue;
+        return this;
+    }
+
+    public boolean isClickthrough(){
+        return isClickthrough || (!isVisible() && !isEnabled());
+    }
+
+    //endregion
+
     //endregion
 
     public static class HoverableData extends Renderable.RenderableData implements Serializable {
@@ -192,6 +219,8 @@ public class Hoverable extends Renderable{
         public MethodBinding onHovered = new NoneMethodBinding();
         public MethodBinding onHoverTick = new NoneMethodBinding();
         public MethodBinding onUnhovered = new NoneMethodBinding();
+
+        public boolean isClickthrough = false;
 
         @Override
         public Hoverable makeUIElement() {

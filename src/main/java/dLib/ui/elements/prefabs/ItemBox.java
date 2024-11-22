@@ -265,6 +265,16 @@ public abstract class ItemBox<ItemType> extends UIElement {
         refilterItems();
     }
 
+    public boolean containsItem(ItemType item){
+        for(ItemBoxItem itemBoxItem : originalItems){
+            if(itemBoxItem.item.equals(item)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     //endregion
 
     //region Item UI

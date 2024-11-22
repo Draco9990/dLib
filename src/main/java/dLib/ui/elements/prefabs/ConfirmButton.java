@@ -5,11 +5,13 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.Alignment;
 import dLib.ui.animations.entry.UIAnimation_SlideInLeft;
 import dLib.ui.animations.entry.UIAnimation_SlideInRight;
+import dLib.ui.animations.exit.UIAnimation_SlideOutLeft;
+import dLib.ui.animations.exit.UIAnimation_SlideOutRight;
 import dLib.util.TextureManager;
 
 public class ConfirmButton extends TextButton{
     public ConfirmButton() {
-        super("CONFIRM", 1650, 1080-950, 270, 90);
+        super("Confirm", 1650, 1080-950, 270, 90);
 
         this.getButton().setImage(TextureManager.getTexture("dLibResources/images/ui/common/ConfirmButton.png"));
 
@@ -20,6 +22,7 @@ public class ConfirmButton extends TextButton{
         this.getTextBox().setFontScaleOverride(1f);
 
         this.setEntryAnimation(new UIAnimation_SlideInLeft(this));
+        this.setExitAnimation(new UIAnimation_SlideOutRight(this));
         this.show();
 
         getTextBox().setTextRenderColor(Color.valueOf("FFEDA7"));

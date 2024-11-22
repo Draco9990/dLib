@@ -21,6 +21,8 @@ public class Renderable extends UIElement {
 
     protected Color renderColor;
 
+    private float renderColorAlphaMultiplier = 1.0f;
+
     protected Vector2 renderDimensionsPerc;
 
     //endregion
@@ -48,6 +50,8 @@ public class Renderable extends UIElement {
         Texture texture = data.textureBinding.getValue().getBoundTexture();
         this.image = texture == null ? null : new TextureRegion(texture);
         this.renderColor = data.renderColor.getColorValue();
+
+        this.renderColorAlphaMultiplier = data.renderColorAlphaMultiplier;
 
         this.renderDimensionsPerc = data.renderDimensionsPerc.getValue();
     }
@@ -106,11 +110,22 @@ public class Renderable extends UIElement {
         if(isDarkened()){
             Color cpy = getDarkenedColor().cpy();
             cpy = cpy.lerp(renderColor, 1 - getDarkenedColorMultiplier());
+            cpy.a *= getRenderColorAlphaMultiplier();
             return cpy;
         }
         else {
+            Color renderColor = this.renderColor.cpy();
+            renderColor.a *= getRenderColorAlphaMultiplier();
             return renderColor;
         }
+    }
+
+    public void setRenderColorAlphaMultiplier(float newAlpha){
+        renderColorAlphaMultiplier = newAlpha;
+    }
+
+    public float getRenderColorAlphaMultiplier(){
+        return renderColorAlphaMultiplier;
     }
 
     //endregion
@@ -160,6 +175,8 @@ public class Renderable extends UIElement {
         public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureEmptyBinding()).setName("Image");
 
         public ColorProperty renderColor = (ColorProperty) new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
+
+        public float renderColorAlphaMultiplier = 1.0f;
 
         public FloatVector2Property renderDimensionsPerc = new FloatVector2Property(new Vector2(1, 1)).setName("Render Dimensions Perc").setValueNames("W", "H").setMinimumX(0).setMinimumY(0).setMaximumX(1).setMaximumY(1);
 

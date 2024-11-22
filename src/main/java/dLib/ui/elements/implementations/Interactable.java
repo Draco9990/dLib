@@ -31,8 +31,6 @@ public class Interactable extends Hoverable{
     private Color disabledColor = Color.WHITE;
     private float disabledColorMultiplier = 0.25f;
 
-    private boolean isPassthrough = false;
-
     private String onHoverSoundKey;
     private String onTriggerSoundKey;
     private String onHoldSoundKey;
@@ -98,8 +96,6 @@ public class Interactable extends Hoverable{
         if(data.onRightClickHeld != null) addOnRightClickHeldConsumer(deltaTime -> data.onRightClickHeld.getValue().executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
         if(data.onRightClickRelease != null) addOnRightClickReleaseConsumer(() -> data.onRightClickRelease.getValue().executeBinding(ScreenManager.getCurrentScreen()));
 
-        this.isPassthrough = data.isPassthrough;
-
         initialize();
     }
 
@@ -128,11 +124,11 @@ public class Interactable extends Hoverable{
             if(isHovered()){
                 if(InputHelper.justClickedLeft){
                     clickLeft();
-                    if(!isPassthrough) InputHelper.justClickedLeft = false;
+                    if(!isClickthrough()) InputHelper.justClickedLeft = false;
                 }
                 if(InputHelper.justClickedRight){
                     clickRight();
-                    if(!isPassthrough) InputHelper.justClickedRight = false;
+                    if(!isClickthrough()) InputHelper.justClickedRight = false;
                 }
 
             }
@@ -178,6 +174,9 @@ public class Interactable extends Hoverable{
                 if(disabledColorMultiplier != 1.0f){
                     colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - disabledColorMultiplier);
                 }
+
+                colorToRender.a *= getRenderColorAlphaMultiplier();
+
                 return colorToRender;
             }
         }
@@ -187,6 +186,9 @@ public class Interactable extends Hoverable{
                 if(hoveredColorMultiplier != 1.0f){
                     colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - hoveredColorMultiplier);
                 }
+
+                colorToRender.a *= getRenderColorAlphaMultiplier();
+
                 return colorToRender;
             }
         }
@@ -296,11 +298,6 @@ public class Interactable extends Hoverable{
     }
 
     //endregion
-
-    public Interactable setPassthrough(boolean newValue){
-        isPassthrough = newValue;
-        return this;
-    }
 
     //endregion
 
@@ -432,8 +429,6 @@ public class Interactable extends Hoverable{
 
         public String disabledColor = Color.WHITE.toString();
         public float disabledColorMultiplier = 0.25f;
-
-        public boolean isPassthrough = false;
 
         //TODO ON HOVER KEY
         //TODO ON TRIGGER KEY
