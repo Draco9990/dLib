@@ -68,6 +68,7 @@ public class UIElement {
 
     //TODO: Expose to data and screen editor
     private UIAnimation entryAnimation;
+    private UIAnimation reentryAnimation; //TODO
     private UIAnimation exitAnimation;
     private UIAnimation animation;
 

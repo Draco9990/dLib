@@ -172,7 +172,7 @@ public class Inputfield extends UIElement {
         if(holdingDelete){
             float delta = Gdx.graphics.getDeltaTime();
             deleteTimerCount += delta;
-            if(deleteTimerCount > 1){
+            if(deleteTimerCount > 0.5){
                 removeLastCharacter();
             }
         }
