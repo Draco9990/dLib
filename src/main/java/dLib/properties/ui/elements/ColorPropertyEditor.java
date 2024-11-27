@@ -3,7 +3,6 @@ package dLib.properties.ui.elements;
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
-import dLib.ui.screens.ScreenManager;
 import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
 import dLib.properties.objects.ColorProperty;
@@ -31,13 +30,14 @@ public class ColorPropertyEditor extends AbstractPropertyEditor<ColorProperty> {
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
-                ScreenManager.openScreen(new ColorPickerScreen(ScreenManager.getCurrentScreen(), property.getColorValue()){
+                ColorPickerScreen colorPickerScreen = new ColorPickerScreen(property.getColorValue()){
                     @Override
                     public void onColorChosen(Color color) {
                         super.onColorChosen(color);
                         property.setColorValue(color);
                     }
-                });
+                };
+                colorPickerScreen.open();
             }
         }.setImage(UITheme.whitePixel).setRenderColor(property.getColorValue());
 

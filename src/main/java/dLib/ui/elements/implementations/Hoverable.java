@@ -5,10 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.MathHelper;
 import dLib.modcompat.ModManager;
 import dLib.patches.InputHelperHoverConsumer;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 import dLib.util.IntegerVector4;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
@@ -54,9 +53,9 @@ public class Hoverable extends Renderable{
         super(data);
         initialize();
 
-        onHoveredConsumers.add(() -> data.onHovered.executeBinding(ScreenManager.getCurrentScreen()));
-        onHoverTickConsumers.add((elapsedTime) -> data.onHoverTick.executeBinding(ScreenManager.getCurrentScreen(), elapsedTime));
-        onUnhoveredConsumers.add(() -> data.onUnhovered.executeBinding(ScreenManager.getCurrentScreen()));
+        onHoveredConsumers.add(() -> data.onHovered.executeBinding(getTopParent()));
+        onHoverTickConsumers.add((elapsedTime) -> data.onHoverTick.executeBinding(getTopParent(), elapsedTime));
+        onUnhoveredConsumers.add(() -> data.onUnhovered.executeBinding(getTopParent()));
 
         this.isClickthrough = data.isClickthrough;
     }

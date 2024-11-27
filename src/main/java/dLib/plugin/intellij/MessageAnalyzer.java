@@ -1,7 +1,7 @@
 package dLib.plugin.intellij;
 
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 
 import java.util.List;
 
@@ -12,7 +12,8 @@ public class MessageAnalyzer {
         if(request.equals("openScreenEditor")){
             String screenClass = message.getData(String.class);
 
-            ScreenManager.openScreen(new ScreenEditorBaseScreen(screenClass));
+            ScreenEditorBaseScreen screen = new ScreenEditorBaseScreen(screenClass);
+            screen.open();
         }
 
         if(request.equals("screenListCallback")){

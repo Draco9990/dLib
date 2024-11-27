@@ -2,7 +2,7 @@ package dLib.util.screens;
 
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.screens.AbstractScreen;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -12,10 +12,8 @@ public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends Ab
     private Consumer<ItemPickType> onItemSelected;
 
     /** Constructors */
-    public AbstractObjectListPickerScreenOld(AbstractScreen caller, ArrayList<ItemPickType> itemsToPick){
+    public AbstractObjectListPickerScreenOld(ArrayList<ItemPickType> itemsToPick){
         AbstractObjectListPickerScreenOld<ItemPickType> instance = this;
-
-        setScreenToOpenOnClose(caller);
 
         addGenericBackground();
         addChildCS(new VerticalListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
@@ -25,7 +23,7 @@ public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends Ab
 
                 if(items.isEmpty()) return;
                 instance.onItemSelected(items.get(0));
-                ScreenManager.closeScreen();
+                instance.close();
             }
         }.setItems(itemsToPick));
     }

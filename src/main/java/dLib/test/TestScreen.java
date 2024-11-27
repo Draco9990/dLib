@@ -12,9 +12,4 @@ public class TestScreen extends AbstractScreen {
                 .addChildNCS(new Button(0, 0, 100, 100))
                 .addChildNCS(new Button(450, 0, 100, 100)));
     }
-
-    @Override
-    public String getModId() {
-        return "Dlib";
-    }
 }

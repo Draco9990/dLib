@@ -12,7 +12,7 @@ import dLib.properties.objects.*;
 import dLib.properties.ui.elements.OnValueChangedStringPropertyEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.implementations.Hoverable;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
 import sayTheSpire.Output;
@@ -91,7 +91,7 @@ public class TextBox extends Hoverable {
         this.marginPercX = data.marginPercX;
         this.marginPercY = data.marginPercY;
 
-        onTextChangedConsumers.add(s -> data.onTextChanged.getValue().executeBinding(ScreenManager.getCurrentScreen()));
+        onTextChangedConsumers.add(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
 
         this.paddingRight = data.paddingRight;
         this.paddingTop = data.paddingTop;

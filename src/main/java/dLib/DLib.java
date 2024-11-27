@@ -2,26 +2,18 @@ package dLib;
 
 import basemod.BaseMod;
 import basemod.interfaces.PostInitializeSubscriber;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
-import com.google.gson.Gson;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
 import dLib.plugin.intellij.PluginManager;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.LinkedHashMap;
 import java.util.function.Function;
 
 @SpireInitializer
@@ -54,7 +46,6 @@ public class DLib implements PostInitializeSubscriber{
     @Override
     public void receivePostInitialize() {
         CommandManager.initialize();
-        ScreenManager.initializeGlobalStrings();
         UIThemeManager.initialize();
         FontManager.initialize();
 

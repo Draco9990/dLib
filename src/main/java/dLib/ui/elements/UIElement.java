@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.properties.objects.BooleanProperty;
 import dLib.ui.animations.UIAnimation;
+import dLib.ui.screens.UIManager;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.IntegerVector4;
@@ -74,6 +77,8 @@ public class UIElement {
 
     private UIAnimation playingAnimation;
 
+    private UIStrings stringTable = null;
+
     //endregion
 
     //region Constructors
@@ -82,6 +87,11 @@ public class UIElement {
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         localPosition = new IntegerVector2(xPos, yPos);
         dimensions = new IntegerVector2(width, height);
+
+        String uiStrings = getUIStringsKey();
+        if(uiStrings != null){
+            stringTable = CardCrawlGame.languagePack.getUIString(uiStrings);
+        }
     }
 
     public UIElement(UIElementData data){
@@ -210,6 +220,12 @@ public class UIElement {
     public boolean hasParent(){
         return parent != null;
     }
+
+    public UIElement getTopParent(){
+        if(parent == null) return this;
+        return parent.getTopParent();
+    }
+
     //endregion
 
     //region Children
@@ -284,6 +300,33 @@ public class UIElement {
             childElements.add(child.element);
         }
         return childElements;
+    }
+    public ArrayList<UIElementChild> getChildrenRaw(){
+        return new ArrayList<>(children);
+    }
+
+    public ArrayList<UIElementChild> getAllChildrenRaw(){
+        ArrayList<UIElementChild> allChildren = new ArrayList<>();
+        for(UIElementChild child : children){
+            allChildren.add(child);
+            allChildren.addAll(child.element.getAllChildrenRaw());
+        }
+        return allChildren;
+    }
+
+    public UIElement getSelectedChild(){
+        for(UIElementChild child : children){
+            if(child.element.isSelected()){
+                return child.element;
+            }
+
+            UIElement selectedChild = child.element.getSelectedChild();
+            if(selectedChild != null){
+                return selectedChild;
+            }
+        }
+
+        return null;
     }
 
     public UIElement findChildById(String elementId){
@@ -939,6 +982,16 @@ public class UIElement {
         enable();
     }
 
+    public void hideAndDisableInstantly(){
+        hideInstantly();
+        disable();
+    }
+
+    public void showAndEnableInstantly(){
+        showInstantly();
+        enable();
+    }
+
     public boolean isActive(){
         if(hasParent() && !parent.isActive()) return false;
 
@@ -1229,6 +1282,46 @@ public class UIElement {
     }
 
     //endregion
+
+    //region Top-Level Display
+
+    public void open(){
+        open(true);
+    }
+    public void open(boolean closePrevious){
+        UIManager.hideAllUIElements();
+        UIManager.openUIElement(this);
+    }
+
+    public void close(){
+        close(true);
+    }
+    public void close(boolean reopenPrevious){
+        UIManager.closeUIElement(this);
+        UIManager.reopenPreviousUIElement();
+    }
+
+    //endregion
+
+    //region String Tables
+
+    protected String getUIStringsKey(){
+        return null;
+    }
+
+    protected String uiString(int valIndex){
+        if(stringTable != null){
+            return stringTable.TEXT[valIndex];
+        }
+        else if(parent != null){
+            return parent.uiString(valIndex);
+        }
+        else{
+            return "MISSING STRING TABLE ENTRY";
+        }
+    }
+
+    //endregion String Tables
 
     //endregion
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.modcompat.ModManager;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 import dLib.util.GlobalEvents;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
@@ -88,13 +88,13 @@ public class Interactable extends Hoverable{
         this.disabledColor = Color.valueOf(data.disabledColor);
         this.disabledColorMultiplier = data.disabledColorMultiplier;
 
-        if(data.onLeftClick != null) addOnLeftClickConsumer(() -> data.onLeftClick.getValue().executeBinding(ScreenManager.getCurrentScreen()));
-        if(data.onLeftClickHeld != null) addOnLeftClickHeldConsumer(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
-        if(data.onLeftClickRelease != null) addOnLeftClickReleaseConsumer(() -> data.onLeftClickRelease.getValue().executeBinding(ScreenManager.getCurrentScreen()));
+        if(data.onLeftClick != null) addOnLeftClickConsumer(() -> data.onLeftClick.getValue().executeBinding(getTopParent()));
+        if(data.onLeftClickHeld != null) addOnLeftClickHeldConsumer(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
+        if(data.onLeftClickRelease != null) addOnLeftClickReleaseConsumer(() -> data.onLeftClickRelease.getValue().executeBinding(getTopParent()));
 
-        if(data.onRightClick != null) addOnRightClickConsumer(() -> data.onRightClick.getValue().executeBinding(ScreenManager.getCurrentScreen()));
-        if(data.onRightClickHeld != null) addOnRightClickHeldConsumer(deltaTime -> data.onRightClickHeld.getValue().executeBinding(ScreenManager.getCurrentScreen(), deltaTime));
-        if(data.onRightClickRelease != null) addOnRightClickReleaseConsumer(() -> data.onRightClickRelease.getValue().executeBinding(ScreenManager.getCurrentScreen()));
+        if(data.onRightClick != null) addOnRightClickConsumer(() -> data.onRightClick.getValue().executeBinding(getTopParent()));
+        if(data.onRightClickHeld != null) addOnRightClickHeldConsumer(deltaTime -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
+        if(data.onRightClickRelease != null) addOnRightClickReleaseConsumer(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent()));
 
         initialize();
     }

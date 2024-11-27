@@ -34,9 +34,4 @@ public class ScreenEditorNewScreenScreen extends AbstractScreen {
         });
         addChildCS(proceedButton);
     }
-
-    @Override
-    public String getModId() {
-        return DLib.getModID();
-    }
 }

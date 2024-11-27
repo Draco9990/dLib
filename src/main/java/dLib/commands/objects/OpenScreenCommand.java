@@ -4,7 +4,7 @@ import basemod.DevConsole;
 import basemod.devcommands.ConsoleCommand;
 import dLib.DLib;
 import dLib.ui.screens.AbstractScreen;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 
 public class OpenScreenCommand extends ConsoleCommand {
     public OpenScreenCommand() {
@@ -16,16 +16,16 @@ public class OpenScreenCommand extends ConsoleCommand {
     public void execute(String[] tokens, int depth) {
         try{
             Class<? extends AbstractScreen> screen = (Class<? extends AbstractScreen>) Class.forName("dLib.ui.screens." + tokens[1]);
-            AbstractScreen screenObject = (AbstractScreen)screen.newInstance();
-            ScreenManager.openScreen(screenObject);
+            AbstractScreen screenObject = screen.newInstance();
+            screenObject.open();
             return;
         }
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException ignored){}
 
         try{
             Class<? extends AbstractScreen> screen = (Class<? extends AbstractScreen>) Class.forName(tokens[1]);
-            AbstractScreen screenObject = (AbstractScreen)screen.newInstance();
-            ScreenManager.openScreen(screenObject);
+            AbstractScreen screenObject = screen.newInstance();
+            screenObject.open();
         }catch (ClassNotFoundException | InstantiationException | IllegalAccessException ignored){}
 
         DLib.logError("Could not find class with name " + tokens[1]);

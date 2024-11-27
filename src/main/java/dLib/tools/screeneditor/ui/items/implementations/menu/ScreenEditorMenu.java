@@ -7,7 +7,7 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.elements.implementations.Toggle;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 import dLib.ui.themes.UITheme;
 import dLib.util.TextureManager;
 
@@ -30,7 +30,7 @@ public class ScreenEditorMenu extends UIElement {
 
     private void initializeFileControls(){
         TextButton closeButton = new TextButton("Close", 10, getHeight() - 50, 200, 40);
-        closeButton.getButton().addOnLeftClickConsumer(ScreenManager::closeScreen);
+        closeButton.getButton().addOnLeftClickConsumer(this::close);
         addChildNCS(closeButton);
 
         TextButton saveButton = new TextButton("Save", 10, getHeight() - 100, 200, 40);

@@ -1,6 +1,7 @@
 package dLib.util.bindings.method;
 
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.elements.UIElement;
+import dLib.ui.screens.UIManager;
 
 import java.io.Serializable;
 
@@ -15,7 +16,9 @@ public class CloseScreenMethodBinding extends MethodBinding implements Serializa
 
     @Override
     public Object executeBinding(Object invoker, Object... args) {
-        ScreenManager.closeScreen();
+        if(invoker instanceof UIElement){
+            ((UIElement) invoker).close();
+        }
         return null;
     }
 

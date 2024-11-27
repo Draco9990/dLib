@@ -134,9 +134,4 @@ public class ScreenEditorBaseScreen extends AbstractScreen {
         properties.hideAndDisable();
         elementListScreen.hideAndDisable();
     }
-
-    @Override
-    public String getModId() {
-        return DLib.getModID();
-    }
 }

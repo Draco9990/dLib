@@ -6,7 +6,7 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.ColorPicker;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.AbstractScreen;
-import dLib.ui.screens.ScreenManager;
+import dLib.ui.screens.UIManager;
 import dLib.ui.themes.UITheme;
 
 import java.util.function.Consumer;
@@ -19,8 +19,8 @@ public class ColorPickerScreen extends AbstractScreen {
     private Renderable selectedPreview;
 
     /** Constructors */
-    public ColorPickerScreen(AbstractScreen invoker, Color initialColor){
-        setScreenToOpenOnClose(invoker);
+    public ColorPickerScreen(Color initialColor){
+        ColorPickerScreen self = this;
 
         addGenericBackground();
 
@@ -46,12 +46,9 @@ public class ColorPickerScreen extends AbstractScreen {
         addChildNCS(selectedPreview);
 
         TextButton confirmButton = new TextButton("CONFIRM", 685, 1080-1015, 550, 150);
-        confirmButton.getButton().addOnLeftClickConsumer(new Runnable() {
-            @Override
-            public void run() {
-                onColorChosen(currentColor);
-                ScreenManager.closeScreen();
-            }
+        confirmButton.getButton().addOnLeftClickConsumer(() -> {
+            onColorChosen(currentColor);
+            self.close();
         });
         addChildCS(confirmButton);
 
@@ -65,11 +62,5 @@ public class ColorPickerScreen extends AbstractScreen {
 
     public void onColorChosen(Color color){
 
-    }
-
-    /** ID */
-    @Override
-    public String getModId() {
-        return DLib.getModID();
     }
 }

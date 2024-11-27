@@ -10,7 +10,7 @@ import dLib.util.SerializationHelpers;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class GeneratedAbstractScreen extends AbstractScreen{
+public class GeneratedAbstractScreen extends AbstractScreen{
     //region Variables
     //endregion
 
@@ -48,12 +48,7 @@ public abstract class GeneratedAbstractScreen extends AbstractScreen{
 
         @Override
         public GeneratedAbstractScreen makeUIElement() {
-            return new GeneratedAbstractScreen() {
-                @Override
-                public String getModId() {
-                    return modID;
-                }
-            };
+            return new GeneratedAbstractScreen();
         }
     }
 }

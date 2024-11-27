@@ -1,9 +1,7 @@
 package dLib.properties.ui.elements;
 
-import dLib.DLib;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.screens.ScreenManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
 import dLib.properties.objects.CustomProperty;
 
@@ -30,19 +28,14 @@ public class CustomPropertyEditor<PropertyType extends CustomProperty<ItemType>,
         middleButton.getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {
-                AbstractObjectListPickerScreenOld<ItemType> pickerScreen = new AbstractObjectListPickerScreenOld<ItemType>(ScreenManager.getCurrentScreen(), property.getAllOptions()) {
+                AbstractObjectListPickerScreenOld<ItemType> pickerScreen = new AbstractObjectListPickerScreenOld<ItemType>(property.getAllOptions()) {
                     @Override
                     public void onItemSelected(ItemType item) {
                         super.onItemSelected(item);
                         property.setValue(item);
                     }
-
-                    @Override
-                    public String getModId() {
-                        return DLib.getModID();
-                    }
                 };
-                ScreenManager.openScreen(pickerScreen);
+                pickerScreen.open();
             }
         });
 
