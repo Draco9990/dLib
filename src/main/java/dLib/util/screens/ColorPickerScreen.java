@@ -1,17 +1,18 @@
 package dLib.util.screens;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.DLib;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.ColorPicker;
+import dLib.ui.elements.prefabs.Image;
 import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.screens.AbstractScreen;
-import dLib.ui.screens.UIManager;
+import dLib.ui.screens.AbstractScreen_DEPRECATED;
 import dLib.ui.themes.UITheme;
+import dLib.ui.themes.UIThemeManager;
 
 import java.util.function.Consumer;
 
-public class ColorPickerScreen extends AbstractScreen {
+public class ColorPickerScreen extends UIElement {
     /** Variables */
     private Color currentColor;
 
@@ -20,9 +21,11 @@ public class ColorPickerScreen extends AbstractScreen {
 
     /** Constructors */
     public ColorPickerScreen(Color initialColor){
+        super(0, 0, 1920, 1080);
+
         ColorPickerScreen self = this;
 
-        addGenericBackground();
+        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, 0, 0, getWidth(), getHeight()));
 
         ColorPicker colorWheel = new ColorPicker(235, 1080-654, 550, 550);
         colorWheel.getColorWheel().addColorHoveredConsumer(new Consumer<Color>() {

@@ -1,28 +1,26 @@
 package dLib.ui.screens;
 
-import dLib.modcompat.ModManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Image;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
-import sayTheSpire.Output;
 
 import java.io.*;
 import java.util.ArrayList;
 
-// Abstract version of a screen
-public class AbstractScreen extends UIElement {
+// Abstract version of a screen. Deprecated. Code remains as reference.
+public final class AbstractScreen_DEPRECATED extends UIElement {
     //region Constructors
 
-    public AbstractScreen(){
+    public AbstractScreen_DEPRECATED(){
         this(0, 0, 1920, 1080);
     }
-    public AbstractScreen(int xPos, int yPos, int width, int height){
+    public AbstractScreen_DEPRECATED(int xPos, int yPos, int width, int height){
         super(xPos, yPos, width, height);
     }
 
-    public AbstractScreen(AbstractScreenData data){
+    public AbstractScreen_DEPRECATED(AbstractScreenData data){
         this();
         ArrayList<UIElement> makeLiveItems = data.makeLiveItems();
         for (int i = 0; i < makeLiveItems.size(); i++) {
@@ -86,7 +84,7 @@ public class AbstractScreen extends UIElement {
 
         @Override
         public UIElement makeUIElement() {
-            return new AbstractScreen();
+            return new AbstractScreen_DEPRECATED();
         }
 
         public ArrayList<UIElement> makeLiveItems(){

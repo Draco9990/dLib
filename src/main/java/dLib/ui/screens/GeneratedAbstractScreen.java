@@ -3,25 +3,25 @@ package dLib.ui.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Renderable;
 import dLib.util.Reflection;
 import dLib.util.SerializationHelpers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GeneratedAbstractScreen extends AbstractScreen{
+public class GeneratedAbstractScreen extends UIElement {
     //region Variables
     //endregion
 
     //region Constructors
 
     public GeneratedAbstractScreen(){
+        super(0, 0, 1920, 1080);
         initialize();
     }
 
     public void initialize(){
-        AbstractScreenData screenData = loadDataFromClassname(getClass().getSimpleName());
+        AbstractScreen_DEPRECATED.AbstractScreenData screenData = loadDataFromClassname(getClass().getSimpleName());
         ArrayList<UIElement> makeLiveItems = screenData.makeLiveItems();
         for (UIElement element : makeLiveItems) {
             Reflection.setFieldValue(element.getId(), this, element);
@@ -34,14 +34,14 @@ public class GeneratedAbstractScreen extends AbstractScreen{
 
     //region Methods
 
-    private static AbstractScreenData loadDataFromClassname(String className){
+    private static AbstractScreen_DEPRECATED.AbstractScreenData loadDataFromClassname(String className){
         FileHandle fileHandle = Gdx.files.internal("dLibResources/screens/" + className + ".dscreen");
-        return (AbstractScreenData) SerializationHelpers.fromString(fileHandle.readString());
+        return (AbstractScreen_DEPRECATED.AbstractScreenData) SerializationHelpers.fromString(fileHandle.readString());
     }
 
     //endregion
 
-    public static class GeneratedScreenData extends AbstractScreenData implements Serializable {
+    public static class GeneratedScreenData extends AbstractScreen_DEPRECATED.AbstractScreenData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public String screenClass;
