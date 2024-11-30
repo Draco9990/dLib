@@ -29,7 +29,15 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
 
     @Override
     public void update() {
-        float lerpPos = MathUtils.lerp(element.getWorldPositionX(), origElementX + Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed);
+        float newPos = MathUtils.lerp(this.element.getWorldPositionX(), properties.refPointX - this.element.getWidthUnscaled(), Gdx.graphics.getDeltaTime() * properties.speed);
+
+        element.setWorldPositionX(Math.round(newPos));
+
+        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - this.element.getWidthUnscaled()) {
+            isPlaying = false;
+        }
+
+        /*float lerpPos = MathUtils.lerp(element.getWorldPositionX(), origElementX + Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed);
         float lerpDistance = Math.abs(lerpPos - element.getWorldPositionX());
         float newPos = element.getWorldPositionX() - lerpDistance;
 
@@ -37,7 +45,7 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
 
         if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - element.getWidth()) {
             isPlaying = false;
-        }
+        }*/
     }
 
     @Override
