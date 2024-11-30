@@ -8,15 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/MinimalModInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/Version.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/commands/objects/OpenScreenCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/commands/objects/OpenScreenCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/ScreenEditorBaseScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/ScreenEditorBaseScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/preeditor/ScreenEditorNewScreenScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/screens/preeditor/ScreenEditorNewScreenScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/AbstractScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/AbstractScreen_DEPRECATED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/GeneratedAbstractScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/GeneratedAbstractScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/screens/AbstractObjectListPickerScreenOld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/screens/AbstractObjectListPickerScreenOld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/screens/ColorPickerScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/screens/ColorPickerScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Renderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Image.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Inputfield.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ItemBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/VerticalListBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/VerticalListBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/util/ESelectionMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/util/ESelectionMode.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -277,7 +278,8 @@
       <workItem from="1732226061057" duration="75000" />
       <workItem from="1732226144842" duration="4196000" />
       <workItem from="1732311591643" duration="2640000" />
-      <workItem from="1732527227159" duration="24215000" />
+      <workItem from="1732527227159" duration="25160000" />
+      <workItem from="1732701084870" duration="14391000" />
     </task>
     <servers />
   </component>

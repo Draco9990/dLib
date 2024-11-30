@@ -102,7 +102,7 @@ public class Renderable extends UIElement {
         this.renderColor = color;
         return this;
     }
-    public Color getRenderColor(Color color){
+    public Color getRenderColor(){
         return renderColor;
     }
 

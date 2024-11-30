@@ -996,7 +996,7 @@ public class UIElement {
         if(hasParent() && !parent.isActive()) return false;
 
         IntegerVector4 maskBounds = getMaskWorldBounds();
-        if(maskBounds != null && !overlaps(maskBounds)) return false;
+        //if(maskBounds != null && !overlaps(maskBounds)) return false;
 
         return isVisible() || isEnabled();
     }
@@ -1294,9 +1294,9 @@ public class UIElement {
     }
 
     public void close(){
-        close(true);
+        close(true, false);
     }
-    public void close(boolean reopenPrevious){
+    public void close(boolean reopenPrevious, boolean closePermanently){
         UIManager.closeUIElement(this);
         UIManager.reopenPreviousUIElement();
     }

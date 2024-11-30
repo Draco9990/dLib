@@ -282,6 +282,19 @@ public class Inputfield extends UIElement {
 
     //endregion
 
+    //region Character Limit
+
+    public Inputfield setCharacterLimit(int characterLimit){
+        this.characterLimit = characterLimit;
+        return this;
+    }
+
+    public int getCharacterLimit(){
+        return characterLimit;
+    }
+
+    //endregion Character Limit
+
     //endregion
 
     public enum EInputfieldPreset {

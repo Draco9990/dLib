@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
@@ -30,6 +31,14 @@ public class Image extends Interactable {
     //endregion
 
     //region Methods
+
+    @Override
+    protected Color getColorForRender() {
+        setDisabledColor(getRenderColor());
+        return super.getColorForRender();
+    }
+
+
     //endregion
 
     public static class ImageData extends InteractableData implements Serializable {

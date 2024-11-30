@@ -71,6 +71,11 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
         }
     }
 
+    public VerticalListBox<ItemType> setDefaultItemHeight(int defaultItemHeight){
+        this.defaultItemHeight = defaultItemHeight;
+        return this;
+    }
+
     //endregion
 
     //region Item Management

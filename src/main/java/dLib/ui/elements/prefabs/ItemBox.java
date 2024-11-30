@@ -1,6 +1,7 @@
 package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
@@ -275,13 +276,28 @@ public abstract class ItemBox<ItemType> extends UIElement {
         return false;
     }
 
+    public ItemBox<ItemType> removeItem(ItemType item){
+        for(ItemBoxItem itemBoxItem : originalItems){
+            if(itemBoxItem.item.equals(item)){
+                originalItems.remove(itemBoxItem);
+                itemBox.removeChild(itemBoxItem.renderForItem);
+                break;
+            }
+        }
+
+        onItemsChanged();
+        return this;
+    }
+
     //endregion
 
     //region Item UI
 
     public UIElement makeUIForItem(ItemType item){
         TextBox box = new TextBox(item.toString(), 0, 0, defaultItemWidth == null ? itemBox.getWidth() : defaultItemWidth, defaultItemHeight == null ? itemBox.getHeight() : defaultItemHeight);
-        box.setMarginPercX(0.025f).setMarginPercY(0.05f);
+        box.setMarginPercX(0.025f).setMarginPercY(0.2f);
+        box.setFont(FontHelper.buttonLabelFont);
+        box.setTextRenderColor(Color.WHITE);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         return box;
     } //TODO expose with listeners
@@ -339,7 +355,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
         }
 
         for(ItemBoxItem item : items){
-            if(item.item.equals(selectedItem)){
+            if(item.item.equals(selectedItem) && !selectionMode.equals(ESelectionMode.SINGLE_NOPERSIST)){
                 item.selected = true;
             }
             else if(selectionMode == ESelectionMode.SINGLE){
@@ -347,7 +363,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
             }
         }
 
-        if(selectionMode.equals(ESelectionMode.SINGLE)){
+        if(selectionMode.equals(ESelectionMode.SINGLE) || selectionMode.equals(ESelectionMode.SINGLE_NOPERSIST)){
             onItemSelectionChanged(new ArrayList<>(Collections.singletonList(selectedItem)));
         }
         else if(selectionMode.equals(ESelectionMode.MULTIPLE)){
