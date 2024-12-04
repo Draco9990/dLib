@@ -166,7 +166,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         });
 
         for(Property<?> property : elementData.getEditableProperties()){
-            property.addOnValueChangedListener(this::markForRefresh);
+            property.addOnValueChangedListener((o, o2) -> delayedActions.add(this::remakePreviewElement));
         }
 
         return elementData;
@@ -273,13 +273,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     @Override
     public String toString() {
         return getId();
-    }
-
-    @Override
-    protected void onRefreshElement() {
-        super.onRefreshElement();
-
-        remakePreviewElement();
     }
 
     public ScreenEditorItem<ElementType, DataType> copy(){

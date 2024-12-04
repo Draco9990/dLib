@@ -39,6 +39,8 @@ public abstract class Scrollbar extends UIElement {
         onScrollbarScrolledListeners.add(listener);
     }
 
+    public abstract void setScrollbarScrollPercentageForExternalChange(float percentage);
+
     public abstract void reset();
 
     //region Slider

@@ -99,6 +99,11 @@ public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
     }
 
     @Override
+    protected float recalculateScrollPercentageForItemChange() {
+        return (float) currentScrollbarOffset / (float) (getTotalItemHeight() - itemBox.getHeight());
+    }
+
+    @Override
     protected int getTotalItemHeight() {
         int totalHeight = itemBox.getHeight() - itemPadding.y;
         int currentXPos = itemPadding.x;

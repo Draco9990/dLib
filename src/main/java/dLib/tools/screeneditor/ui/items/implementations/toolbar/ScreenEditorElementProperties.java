@@ -46,13 +46,5 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
         propertiesItemList.clearItems();
     }
 
-    @Override
-    protected void onRefreshElement() {
-        super.onRefreshElement();
-        if(propertiesFor != null){
-            createPropertiesFor(propertiesFor);
-        }
-    }
-
     //endregion
 }

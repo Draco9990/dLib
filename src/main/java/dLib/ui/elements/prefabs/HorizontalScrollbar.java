@@ -40,8 +40,8 @@ public abstract class HorizontalScrollbar extends Scrollbar {
     //region Methods
 
     @Override
-    public void onScrollbarScrolled(float percentage) {
-        super.onScrollbarScrolled(percentage);
+    public void setScrollbarScrollPercentageForExternalChange(float percentage) {
+        slider.setLocalPositionX((int) ((getWidth() - slider.getWidth()) * percentage));
     }
 
     public void reset(){

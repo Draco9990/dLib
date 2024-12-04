@@ -139,6 +139,11 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
     }
 
     @Override
+    protected float recalculateScrollPercentageForItemChange() {
+        return currentScrollbarOffset / (float) (getTotalItemHeight() - itemBox.getHeight());
+    }
+
+    @Override
     protected int getTotalItemHeight() {
         int totalHeight = 0;
 

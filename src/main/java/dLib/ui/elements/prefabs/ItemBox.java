@@ -6,13 +6,13 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
-import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.IntegerVector2;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public abstract class ItemBox<ItemType> extends UIElement {
     //region Variables
@@ -43,6 +43,9 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     private boolean canReorder = false;
     private ArrayList<BiConsumer<ItemType, ItemType>> onElementsSwappedListeners = new ArrayList<>();
+
+    private ArrayList<Consumer<ItemType>> onPropertyAddedConsumers = new ArrayList<>();
+    private ArrayList<Consumer<ItemType>> onPropertyRemovedConsumers = new ArrayList<>();
 
     protected Integer defaultItemWidth = null;
     protected Integer defaultItemHeight = null;
@@ -164,6 +167,10 @@ public abstract class ItemBox<ItemType> extends UIElement {
         return this;
     }
     public void onItemAdded(ItemType item){
+        for (Consumer<ItemType> consumer : onPropertyAddedConsumers) {
+            consumer.accept(item);
+        }
+
         onItemsChanged();
     }
 
@@ -228,7 +235,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
         originalItems.sort(Comparator.comparingInt(o -> items.indexOf(o.item)));
 
-        if(itemsChanged) onItemsUpdated(items, itemsChanged);
+        onItemsUpdated(items, itemsChanged);
         if(selectionChanged) onItemSelectionChanged(getCurrentlySelectedItems());
 
         return this;
@@ -253,6 +260,9 @@ public abstract class ItemBox<ItemType> extends UIElement {
             itemBox.removeChild(childToRemove);
         }
 
+        for(ItemBoxItem item : originalItems){
+            onItemRemoved(item.item);
+        }
         originalItems.clear();
         if(scrollbar != null) scrollbar.reset();
 
@@ -285,9 +295,31 @@ public abstract class ItemBox<ItemType> extends UIElement {
             }
         }
 
-        onItemsChanged();
+        onItemRemoved(item);
         return this;
     }
+
+    public void onItemRemoved(ItemType item){
+        for (Consumer<ItemType> consumer : onPropertyRemovedConsumers) {
+            consumer.accept(item);
+        }
+
+        onItemsChanged();
+    }
+
+    //region Consumers
+
+    public ItemBox<ItemType> addOnPropertyAddedConsumer(Consumer<ItemType> consumer){
+        onPropertyAddedConsumers.add(consumer);
+        return this;
+    }
+
+    public ItemBox<ItemType> addOnPropertyRemovedConsumer(Consumer<ItemType> consumer){
+        onPropertyRemovedConsumers.add(consumer);
+        return this;
+    }
+
+    //endregion
 
     //endregion
 
@@ -570,6 +602,10 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
             items.add(item);
         }
+
+        if(scrollbar != null){
+            scrollbar.setScrollbarScrollPercentageForExternalChange(recalculateScrollPercentageForItemChange());
+        }
     }
 
     //endregion Filter
@@ -577,6 +613,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
     //region Scrolling
 
     protected abstract int recalculateScrollOffset(float scrollPercentage);
+
+    protected abstract float recalculateScrollPercentageForItemChange();
 
     //endregion
 

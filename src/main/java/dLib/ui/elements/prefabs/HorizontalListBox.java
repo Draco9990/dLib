@@ -134,6 +134,11 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
     }
 
     @Override
+    protected float recalculateScrollPercentageForItemChange() {
+        return currentScrollbarOffset / (float) (getTotalItemWidth() - itemBox.getWidth());
+    }
+
+    @Override
     protected int getTotalItemWidth() {
         int totalWidth = 0;
 

@@ -6,9 +6,13 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 
+import java.util.ArrayList;
+import java.util.function.BiConsumer;
+
 public class PropertyEditor extends UIElement {
     public TextBox descriptionBox;
 
+    public ArrayList<Property<?>> properties = new ArrayList<>();
     public VerticalListBox<Property<?>> propertyList;
 
     public PropertyEditor(int xPos, int yPos, int width, int height) {
@@ -33,6 +37,12 @@ public class PropertyEditor extends UIElement {
         propertyList.setItemSpacing(10);
         propertyList.setSelectionMode(ESelectionMode.NONE);
         propertyList.disableItemWrapping();
+
+        BiConsumer updateProperties = (__, ___) -> delayedActions.add(this::loadProperties);
+
+        propertyList.addOnPropertyAddedConsumer(property -> property.addOnValueChangedListener(updateProperties));
+        propertyList.addOnPropertyRemovedConsumer(property -> property.removeOnValueChangedListener(updateProperties));
+
         addChildNCS(propertyList);
 
         descriptionBox = new TextBox("", 0, 0, width, (int) (height * 0.2f));
@@ -44,5 +54,23 @@ public class PropertyEditor extends UIElement {
         descriptionBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         descriptionBox.setVerticalAlignment(Alignment.VerticalAlignment.TOP);
         addChildNCS(descriptionBox);
+    }
+
+    public PropertyEditor setProperties(ArrayList<Property<?>> properties){
+        this.properties = properties;
+        loadProperties();
+        return this;
+    }
+
+    private void loadProperties(){
+        ArrayList<Property<?>> propertiesToAdd = new ArrayList<>();
+
+        for (Property<?> property : properties) {
+            if(property.isVisible()){
+                propertiesToAdd.add(property);
+            }
+        }
+
+        propertyList.updateItems(propertiesToAdd);
     }
 }

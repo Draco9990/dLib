@@ -16,7 +16,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends Property<?>> e
 
     private ItemBox ui;
 
-    private int originalHeight;
+    protected int originalHeight;
 
     public Consumer<PropertyType> onPropertyHovered;
     public Consumer<PropertyType> onPropertyUnhovered;
@@ -119,13 +119,6 @@ public abstract class AbstractPropertyEditor<PropertyType extends Property<?>> e
 
     public boolean canDisplayMultiline(){
         return true;
-    }
-
-    @Override
-    protected void onRefreshElement() {
-        super.onRefreshElement();
-
-        buildElement(property, getWidthUnscaled(), originalHeight);
     }
 
     private void onPropertyHovered(PropertyType property){

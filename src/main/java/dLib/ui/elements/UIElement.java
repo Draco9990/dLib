@@ -64,6 +64,7 @@ public class UIElement {
     private boolean selected;
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
 
+    protected ArrayList<Runnable> delayedActions =new ArrayList<>();
     private boolean pendingRefresh = false;
 
     private float totalLifespan = -1f;
@@ -141,6 +142,10 @@ public class UIElement {
             }
         }
 
+        while(!delayedActions.isEmpty()){
+            delayedActions.remove(0).run();
+        }
+
         if(pendingRefresh){
             pendingRefresh = false;
             onRefreshElement();
@@ -214,15 +219,15 @@ public class UIElement {
         this.parent = parent;
         return this;
     }
-    public UIElement getParent(){
-        return parent;
+    public <T extends UIElement> T getParent(){
+        return (T) parent;
     }
     public boolean hasParent(){
         return parent != null;
     }
 
-    public UIElement getTopParent(){
-        if(parent == null) return this;
+    public <T extends UIElement> T getTopParent(){
+        if(parent == null) return (T) this;
         return parent.getTopParent();
     }
 
@@ -1041,9 +1046,6 @@ public class UIElement {
 
     //region Refresh
 
-    public void markForRefresh(){
-        pendingRefresh = true;
-    }
     protected void onRefreshElement(){}
 
     //endregion
@@ -1357,7 +1359,7 @@ public class UIElement {
                     subElement.dimensions.setValue(newValue.copy());
                 };
             }
-        }.setName("Dimensions").setValueNames("W", "H");
+        }.setValueNames("W", "H");
         public boolean scaleWithParent = true;
 
         public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);

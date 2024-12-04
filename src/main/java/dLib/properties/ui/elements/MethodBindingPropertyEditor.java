@@ -26,7 +26,7 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<MethodBind
 
         setting.addOnValueChangedListener((oldValue, newValue) -> {
             if(!oldValue.getClass().equals(newValue.getClass())){
-                markForRefresh();
+                delayedActions.add(() -> buildElement(property, getWidthUnscaled(), originalHeight));
             }
         });
     }

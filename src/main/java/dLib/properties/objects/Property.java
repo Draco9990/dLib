@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public abstract class Property<T> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -14,8 +15,9 @@ public abstract class Property<T> implements Serializable {
     //region Variables
 
     private String name;
-
     private String description;
+
+    private String category;
 
     protected T defaultValue;
     protected T value;
@@ -23,6 +25,8 @@ public abstract class Property<T> implements Serializable {
     protected Class<? extends AbstractPropertyEditor> propertyEditorClass;
 
     private transient ArrayList<BiConsumer<T, T>> onValueChangedListeners = new ArrayList<>();
+
+    private transient ArrayList<Function<Property<T>, Boolean>> isPropertyVisibleFunctions = new ArrayList<>();
 
     //endregion
 
@@ -88,14 +92,16 @@ public abstract class Property<T> implements Serializable {
         if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
         for(BiConsumer<T, T> listener : onValueChangedListeners) listener.accept(oldValue, newValue);
     }
-    public Property<T> addOnValueChangedListener(BiConsumer<T, T> listener){
+
+    public Property<?> addOnValueChangedListener(BiConsumer<T, T> listener){
         if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
         onValueChangedListeners.add(listener);
         return this;
     }
-    public Property<T> addOnValueChangedListener(Runnable listener){
+
+    public Property<?> removeOnValueChangedListener(BiConsumer<T, T> listener){
         if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
-        onValueChangedListeners.add((t, t2) -> listener.run());
+        onValueChangedListeners.remove(listener);
         return this;
     }
 
@@ -114,11 +120,23 @@ public abstract class Property<T> implements Serializable {
 
     //endregion Description
 
+    //region Category
+
+    public Property<?> setCategory(String category){
+        this.category = category;
+        return this;
+    }
+
+    public String getCategory(){
+        return category;
+    }
+
+    //endregion Category
+
     //region Property Editor
 
     public Property<T> setPropertyEditorClass(Class<? extends AbstractPropertyEditor> propertyEditorClass){
         this.propertyEditorClass = propertyEditorClass;
-
         return this;
     }
 
@@ -137,6 +155,22 @@ public abstract class Property<T> implements Serializable {
     }
 
     //endregion Property Editor
+
+    //region Visibility
+
+    public boolean isVisible(){
+        for(Function<Property<T>, Boolean> f : isPropertyVisibleFunctions){
+            if(!f.apply(this)) return false;
+        }
+        return true;
+    }
+
+    public <PropertyClass extends Property<T>> PropertyClass addIsPropertyVisibleFunction(Function<Property<T>, Boolean> f){
+        isPropertyVisibleFunctions.add(f);
+        return (PropertyClass) this;
+    }
+
+    //endregion
 
     //endregion
 }

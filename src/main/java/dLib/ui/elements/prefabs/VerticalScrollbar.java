@@ -40,8 +40,8 @@ public abstract class VerticalScrollbar extends Scrollbar {
     //region Methods
 
     @Override
-    public void onScrollbarScrolled(float percentage) {
-        super.onScrollbarScrolled(percentage);
+    public void setScrollbarScrollPercentageForExternalChange(float percentage) {
+        slider.setLocalPositionY((int) ((getHeight() - slider.getHeight()) * percentage));
     }
 
     public void reset(){
