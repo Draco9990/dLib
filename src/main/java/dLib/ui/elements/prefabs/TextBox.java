@@ -9,11 +9,10 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.*;
+import dLib.properties.objects.templates.*;
 import dLib.properties.ui.elements.OnValueChangedStringPropertyEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.implementations.Hoverable;
-import dLib.ui.screens.UIManager;
-import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
 import sayTheSpire.Output;
 
@@ -470,13 +469,13 @@ public class TextBox extends Hoverable {
     public static class TextBoxData extends Hoverable.HoverableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public StringProperty text = (StringProperty) new StringProperty("TEXT").setName("Text").setPropertyEditorClass(OnValueChangedStringPropertyEditor.class);
+        public StringProperty text = new StringProperty("TEXT").setName("Text").setPropertyEditorClass(OnValueChangedStringPropertyEditor.class);
 
-        public ColorProperty textRenderColor = (ColorProperty) new ColorProperty(Color.WHITE).setName("Render Color");
+        public ColorProperty textRenderColor = new ColorProperty(Color.WHITE).setName("Render Color");
         //TODO FONT
         public BooleanProperty wrap = new BooleanProperty(false).setName("Wrap");
 
-        public AlignmentProperty alignment = (AlignmentProperty) new AlignmentProperty(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER)).setName("Alignment");
+        public AlignmentProperty alignment = new AlignmentProperty(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER)).setName("Alignment");
 
         public float marginPercX = 0.07f; //TODO Propertize
         public float marginPercY = 0.33f;

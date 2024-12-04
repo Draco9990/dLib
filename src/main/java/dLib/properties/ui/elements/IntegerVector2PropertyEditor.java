@@ -7,11 +7,11 @@ import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.IntegerVector2;
-import dLib.properties.objects.IntegerVector2Property;
+import dLib.properties.objects.templates.TIntegerVector2Property;
 
 import java.util.Objects;
 
-public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<IntegerVector2Property> {
+public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntegerVector2Property<?>> {
     //region Variables
 
     Inputfield xInput;
@@ -21,7 +21,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<Integer
 
     //region Constructors
 
-    public IntegerVector2PropertyEditor(IntegerVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public IntegerVector2PropertyEditor(TIntegerVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
     }
 
@@ -31,7 +31,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<Integer
 
 
     @Override
-    protected UIElement buildContent(IntegerVector2Property property, Integer width, Integer height) {
+    protected UIElement buildContent(TIntegerVector2Property property, Integer width, Integer height) {
         int textWidth = (int) (0.2f * width);
         int inputfieldWidth = (int)(0.25f * width);
 

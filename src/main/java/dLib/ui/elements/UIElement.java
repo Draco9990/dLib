@@ -9,7 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.*;
+import dLib.properties.objects.templates.TProperty;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.screens.UIManager;
 import dLib.util.DLibLogger;
@@ -18,9 +19,6 @@ import dLib.util.IntegerVector4;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
-import dLib.properties.objects.Property;
-import dLib.properties.objects.IntegerVector2Property;
-import dLib.properties.objects.StringProperty;
 
 import java.io.*;
 import java.util.*;
@@ -1383,15 +1381,15 @@ public class UIElement {
             return new UIElement(this);
         }
 
-        public ArrayList<Property<?>> getEditableProperties(){
-            ArrayList<Property<?>> properties = new ArrayList<>();
+        public ArrayList<TProperty<?, ?>> getEditableProperties(){
+            ArrayList<TProperty<?, ?>> properties = new ArrayList<>();
 
-            for(Property<?> property : Reflection.getFieldValuesByClass(Property.class, this)){
+            for(TProperty<?, ?> property : Reflection.getFieldValuesByClass(TProperty.class, this)){
                 properties.add(property);
             }
 
             for(UIElementData subElement : Reflection.getFieldValuesByClass(UIElementData.class, this)){
-                ArrayList<Property<?>> subProperties = subElement.getEditableProperties();
+                ArrayList<TProperty<?, ?>> subProperties = subElement.getEditableProperties();
                 subElement.filterInnerProperties(subProperties);
                 properties.addAll(subProperties);
             }
@@ -1399,7 +1397,7 @@ public class UIElement {
             return properties;
         }
 
-        public void filterInnerProperties(ArrayList<Property<?>> properties){
+        public void filterInnerProperties(ArrayList<TProperty<?, ?>> properties){
             properties.remove(id);
             properties.remove(localPosition);
             properties.remove(dimensions);

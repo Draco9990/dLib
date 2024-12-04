@@ -5,11 +5,11 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.prefabs.*;
-import dLib.properties.objects.Property;
+import dLib.properties.objects.templates.TProperty;
 
 import java.util.function.Consumer;
 
-public abstract class AbstractPropertyEditor<PropertyType extends Property<?>> extends UIElement {
+public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?>> extends UIElement {
     //region Variables
 
     protected PropertyType property;

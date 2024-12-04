@@ -4,10 +4,9 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.elements.prefabs.Checkbox;
 import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.themes.UIThemeManager;
-import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.templates.TBooleanProperty;
 
-public class BooleanPropertyEditor extends AbstractPropertyEditor<BooleanProperty> {
+public class BooleanPropertyEditor extends AbstractPropertyEditor<TBooleanProperty<?>> {
     //region Variables
 
     Toggle button;
@@ -16,7 +15,7 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<BooleanPropert
 
     //region Constructors
 
-    public BooleanPropertyEditor(BooleanProperty setting, Integer xPos, Integer yPos, int width, int height){
+    public BooleanPropertyEditor(TBooleanProperty setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
     }
 
@@ -26,7 +25,7 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<BooleanPropert
 
 
     @Override
-    protected UIElement buildContent(BooleanProperty property, Integer width, Integer height) {
+    protected UIElement buildContent(TBooleanProperty<?> property, Integer width, Integer height) {
         int buttonDim = Math.min(width, height);
 
         HorizontalBox box = new HorizontalBox(0, 0, width, height, true);

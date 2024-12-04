@@ -8,9 +8,9 @@ import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
-import dLib.properties.objects.MethodBindingProperty;
+import dLib.properties.objects.templates.TMethodBindingProperty;
 
-public class MethodBindingPropertyEditor extends CustomPropertyEditor<MethodBindingProperty, MethodBinding> {
+public class MethodBindingPropertyEditor extends CustomPropertyEditor<TMethodBindingProperty<?>, MethodBinding> {
     //region Variables
 
     Inputfield methodNameField;
@@ -21,7 +21,7 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<MethodBind
 
     //region Constructors
 
-    public MethodBindingPropertyEditor(MethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public MethodBindingPropertyEditor(TMethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
 
         setting.addOnValueChangedListener((oldValue, newValue) -> {
@@ -36,7 +36,7 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<MethodBind
     //region Methods
 
     @Override
-    protected UIElement buildContent(MethodBindingProperty property, Integer width, Integer height) {
+    protected UIElement buildContent(TMethodBindingProperty property, Integer width, Integer height) {
         if(property.getValue() instanceof DynamicMethodBinding){
             return buildDynamicMethodPropertyEditor(property, width, height);
         }
@@ -45,7 +45,7 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<MethodBind
         }
     }
 
-    private UIElement buildDynamicMethodPropertyEditor(MethodBindingProperty property, Integer width, Integer height){
+    private UIElement buildDynamicMethodPropertyEditor(TMethodBindingProperty property, Integer width, Integer height){
         int buttonDim = Math.min(height, (int)(0.3 * width));
 
         DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) property.getValue();

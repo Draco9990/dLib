@@ -2,18 +2,16 @@ package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import dLib.properties.objects.FloatVector2Property;
-import dLib.properties.objects.IntegerVector2Property;
+import dLib.properties.objects.templates.TFloatVector2Property;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextBox;
-import dLib.util.IntegerVector2;
 
 import java.util.Objects;
 
-public class FloatVector2PropertyEditor extends AbstractPropertyEditor<FloatVector2Property> {
+public class FloatVector2PropertyEditor extends AbstractPropertyEditor<TFloatVector2Property<?>> {
     //region Variables
 
     Inputfield xInput;
@@ -23,7 +21,7 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<FloatVect
 
     //region Constructors
 
-    public FloatVector2PropertyEditor(FloatVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public FloatVector2PropertyEditor(TFloatVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
     }
 
@@ -33,7 +31,7 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<FloatVect
 
 
     @Override
-    protected UIElement buildContent(FloatVector2Property property, Integer width, Integer height) {
+    protected UIElement buildContent(TFloatVector2Property property, Integer width, Integer height) {
         int textWidth = (int) (0.2f * width);
         int inputfieldWidth = (int)(0.25f * width);
 

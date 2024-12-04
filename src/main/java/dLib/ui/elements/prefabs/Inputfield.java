@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.IntegerProperty;
+import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;

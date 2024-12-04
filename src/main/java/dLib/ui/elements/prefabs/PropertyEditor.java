@@ -1,6 +1,6 @@
 package dLib.ui.elements.prefabs;
 
-import dLib.properties.objects.Property;
+import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
@@ -12,19 +12,19 @@ import java.util.function.BiConsumer;
 public class PropertyEditor extends UIElement {
     public TextBox descriptionBox;
 
-    public ArrayList<Property<?>> properties = new ArrayList<>();
-    public VerticalListBox<Property<?>> propertyList;
+    public ArrayList<TProperty<?, ?>> properties = new ArrayList<>();
+    public VerticalListBox<TProperty<?, ?>> propertyList;
 
     public PropertyEditor(int xPos, int yPos, int width, int height) {
         super(xPos, yPos, width, height);
 
-        propertyList = new VerticalListBox<Property<?>>(0, (int) (height * 0.2f), width, (int) (height * 0.8f)){
+        propertyList = new VerticalListBox<TProperty<?, ?>>(0, (int) (height * 0.2f), width, (int) (height * 0.8f)){
             @Override
-            public UIElement makeUIForItem(Property<?> item) {
+            public UIElement makeUIForItem(TProperty<?, ?> item) {
                 return item.makePropertyEditor(0, 0, itemBox.getWidth(), 50)
                         .setOnPropertyHoveredConsumer(property -> {
                             if(descriptionBox != null){
-                                descriptionBox.setText(((Property<?>)property).getDescription());
+                                descriptionBox.setText(((TProperty<?, ?>)property).getDescription());
                             }
                         })
                         .setOnPropertyUnhoveredConsumer(property -> {
@@ -56,16 +56,16 @@ public class PropertyEditor extends UIElement {
         addChildNCS(descriptionBox);
     }
 
-    public PropertyEditor setProperties(ArrayList<Property<?>> properties){
+    public PropertyEditor setProperties(ArrayList<TProperty<?, ?>> properties){
         this.properties = properties;
         loadProperties();
         return this;
     }
 
     private void loadProperties(){
-        ArrayList<Property<?>> propertiesToAdd = new ArrayList<>();
+        ArrayList<TProperty<?, ?>> propertiesToAdd = new ArrayList<>();
 
-        for (Property<?> property : properties) {
+        for (TProperty<?, ?> property : properties) {
             if(property.isVisible()){
                 propertiesToAdd.add(property);
             }

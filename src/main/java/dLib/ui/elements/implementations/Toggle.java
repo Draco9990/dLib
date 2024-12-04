@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
+import dLib.properties.objects.templates.TBooleanProperty;
+import dLib.properties.objects.templates.TTextureBindingProperty;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureNullBinding;

@@ -8,9 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.ColorProperty;
 import dLib.properties.objects.FloatVector2Property;
+import dLib.properties.objects.TextureBindingProperty;
+import dLib.properties.objects.templates.TColorProperty;
+import dLib.properties.objects.templates.TFloatVector2Property;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureEmptyBinding;
-import dLib.properties.objects.TextureBindingProperty;
+import dLib.properties.objects.templates.TTextureBindingProperty;
 
 import java.io.Serializable;
 
@@ -174,7 +177,7 @@ public class Renderable extends UIElement {
 
         public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureEmptyBinding()).setName("Image");
 
-        public ColorProperty renderColor = (ColorProperty) new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
+        public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
 
         public float renderColorAlphaMultiplier = 1.0f;
 

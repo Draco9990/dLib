@@ -10,7 +10,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
-import dLib.properties.objects.Property;
+import dLib.properties.objects.templates.TProperty;
 import dLib.util.SerializationHelpers;
 
 import java.lang.reflect.Constructor;
@@ -165,7 +165,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
             }
         });
 
-        for(Property<?> property : elementData.getEditableProperties()){
+        for(TProperty<?, ?> property : elementData.getEditableProperties()){
             property.addOnValueChangedListener((o, o2) -> delayedActions.add(this::remakePreviewElement));
         }
 
@@ -264,7 +264,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     //region Properties
 
-    public ArrayList<Property<?>> getItemProperties(){
+    public ArrayList<TProperty<?, ?>> getItemProperties(){
         return elementData.getEditableProperties();
     }
 

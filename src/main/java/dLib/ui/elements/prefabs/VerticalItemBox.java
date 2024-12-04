@@ -1,7 +1,8 @@
 package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.properties.objects.*;
+import dLib.properties.objects.IntegerProperty;
+import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UIThemeManager;
@@ -118,6 +119,6 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
     public static class VerticalItemBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public IntegerProperty scrollbarWidth = (IntegerProperty) new IntegerProperty(50).setMinimumValue(0).setName("Scrollbar Width");
+        public IntegerProperty scrollbarWidth = new IntegerProperty(50).setMinimumValue(0).setName("Scrollbar Width");
     }
 }

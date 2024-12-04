@@ -4,12 +4,12 @@ import dLib.tools.screeneditor.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.util.ESelectionMode;
-import dLib.properties.objects.Property;
+import dLib.properties.objects.templates.TProperty;
 
 public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     //region Variables
 
-    private VerticalListBox<Property<?>> propertiesItemList;
+    private VerticalListBox<TProperty<?, ?>> propertiesItemList;
     private ScreenEditorItem propertiesFor;
 
     //endregion
@@ -19,9 +19,9 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     public ScreenEditorElementProperties(){
         super();
 
-        propertiesItemList = (VerticalListBox<Property<?>>) new VerticalListBox<Property<?>>(0, 0, getWidth(), getHeight()){
+        propertiesItemList = (VerticalListBox<TProperty<?, ?>>) new VerticalListBox<TProperty<?, ?>>(0, 0, getWidth(), getHeight()){
             @Override
-            public UIElement makeUIForItem(Property<?> item) {
+            public UIElement makeUIForItem(TProperty<?, ?> item) {
                 return item.makePropertyEditor(0, 0, getWidth(), 50);
             }
         }.setSelectionMode(ESelectionMode.NONE).setTitle("Properties:").disableItemWrapping();

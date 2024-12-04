@@ -3,6 +3,7 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.properties.objects.*;
+import dLib.properties.objects.templates.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
@@ -640,12 +641,12 @@ public abstract class ItemBox<ItemType> extends UIElement {
         public StringProperty titleBoxText = new StringProperty("").setName("Title");
         public int titleBoxHeight = 50;
 
-        public IntegerProperty itemSpacing = (IntegerProperty) new IntegerProperty(0).setMinimumValue(0).setName("Item Spacing");
+        public IntegerProperty itemSpacing = new IntegerProperty(0).setMinimumValue(0).setName("Item Spacing");
         public BooleanProperty invertedItemOrder = new BooleanProperty(false).setName("Inverted Item Order");
 
         public IntegerVector2Property itemPadding = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Item Padding").setValueNames("L:", "T:");
 
-        public EnumProperty<ESelectionMode> selectionMode = (EnumProperty<ESelectionMode>) new EnumProperty<>(ESelectionMode.SINGLE).setName("Selection Mode");
+        public EnumProperty<ESelectionMode> selectionMode = new EnumProperty<>(ESelectionMode.SINGLE).setName("Selection Mode");
         public int selectionLimit = 1; //TODO allow
 
         public boolean canReorder = false;

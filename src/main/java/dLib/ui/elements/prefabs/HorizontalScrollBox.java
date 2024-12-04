@@ -2,10 +2,10 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.IntegerProperty;
+import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -127,6 +127,6 @@ public class HorizontalScrollBox extends ScrollBox {
     public static class HorizontalScrollBoxData extends ScrollBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public IntegerProperty scrollbarHeight = (IntegerProperty) new IntegerProperty(50).setMinimumValue(0).setName("Scrollbar Width");
+        public IntegerProperty scrollbarHeight = new IntegerProperty(50).setMinimumValue(0).setName("Scrollbar Width");
     }
 }

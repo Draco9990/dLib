@@ -5,9 +5,9 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
-import dLib.properties.objects.ColorProperty;
+import dLib.properties.objects.templates.TColorProperty;
 
-public class ColorPropertyEditor extends AbstractPropertyEditor<ColorProperty> {
+public class ColorPropertyEditor extends AbstractPropertyEditor<TColorProperty<?>> {
     //region Variables
 
     Button middleButton;
@@ -16,7 +16,7 @@ public class ColorPropertyEditor extends AbstractPropertyEditor<ColorProperty> {
 
     //region Constructors
 
-    public ColorPropertyEditor(ColorProperty setting, Integer xPos, Integer yPos, int width, int height){
+    public ColorPropertyEditor(TColorProperty setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
     }
 
@@ -25,7 +25,7 @@ public class ColorPropertyEditor extends AbstractPropertyEditor<ColorProperty> {
     //region Methods
 
     @Override
-    protected UIElement buildContent(ColorProperty property, Integer width, Integer height) {
+    protected UIElement buildContent(TColorProperty property, Integer width, Integer height) {
         middleButton = (Button) new Button(0, 0, width, height){
             @Override
             protected void onLeftClick() {

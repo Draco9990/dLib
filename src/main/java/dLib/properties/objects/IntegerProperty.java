@@ -1,95 +1,25 @@
 package dLib.properties.objects;
 
-import dLib.properties.ui.elements.IntegerPropertyEditor;
+import dLib.properties.objects.templates.TIntegerProperty;
 
 import java.io.Serializable;
 
-public class IntegerProperty extends NumericProperty<Integer> implements Serializable {
+public class IntegerProperty extends TIntegerProperty<IntegerProperty> implements Serializable {
     static final long serialVersionUID = 1L;
 
-    //region Variables
-    //endregion
+    public IntegerProperty(Integer currentValue) {
+        super(currentValue);
+    }
 
-    //region Constructors
+    public IntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue) {
+        super(currentValue, minimumValue, maximumValue);
+    }
 
-    public IntegerProperty(Integer currentValue){
-        this(currentValue, null, null);
+    public IntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue, Integer amountOnChange) {
+        super(currentValue, minimumValue, maximumValue, amountOnChange);
     }
-    public IntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue){
-        this(currentValue, minimumValue, maximumValue, 1);
-    }
-    public IntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue, Integer amountOnChange){
-        this(currentValue, minimumValue, maximumValue, amountOnChange, amountOnChange);
-    }
-    public IntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue, Integer incrementAmount, Integer decrementAmount){
+
+    public IntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue, Integer incrementAmount, Integer decrementAmount) {
         super(currentValue, minimumValue, maximumValue, incrementAmount, decrementAmount);
-
-        propertyEditorClass = IntegerPropertyEditor.class;
     }
-
-    //endregion
-
-    //region Methods
-
-    //region Operators
-
-    @Override
-    protected boolean greaterThan(Integer lhs, Integer rhs) {
-        return lhs > rhs;
-    }
-
-    @Override
-    protected boolean lessThan(Integer lhs, Integer rhs) {
-        return lhs < rhs;
-    }
-
-    @Override
-    protected Integer add(Integer lhs, Integer rhs) {
-        return lhs + rhs;
-    }
-
-    @Override
-    protected Integer subtract(Integer lhs, Integer rhs) {
-        return lhs - rhs;
-    }
-
-    @Override
-    protected Integer divide(Integer lhs, Integer rhs) {
-        return lhs / rhs;
-    }
-
-    @Override
-    protected Integer multiply(Integer lhs, Integer rhs) {
-        return lhs * rhs;
-    }
-
-
-    //endregion
-
-    @Override
-    public boolean setValueFromString(String value) {
-        return setValue(Integer.parseInt(value));
-    }
-
-    @Override
-    public IntegerProperty setName(String newTitle) {
-        return (IntegerProperty) super.setName(newTitle);
-    }
-
-    @Override
-    public IntegerProperty setDescription(String description) {
-        return (IntegerProperty) super.setDescription(description);
-    }
-
-    @Override
-    public IntegerProperty setMinimumValue(Integer minimumValue) {
-        return (IntegerProperty) super.setMinimumValue(minimumValue);
-    }
-
-    @Override
-    public IntegerProperty setMaximumValue(Integer maximumValue) {
-        return (IntegerProperty) super.setMaximumValue(maximumValue);
-    }
-
-    //endregion
 }

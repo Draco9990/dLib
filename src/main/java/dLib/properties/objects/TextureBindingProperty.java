@@ -1,43 +1,14 @@
 package dLib.properties.objects;
 
-import dLib.util.bindings.texture.TextureBindingHelpers;
+import dLib.properties.objects.templates.TTextureBindingProperty;
 import dLib.util.bindings.texture.TextureBinding;
-import dLib.util.bindings.texture.TextureEmptyBinding;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class TextureBindingProperty extends CustomProperty<TextureBinding> {
-    //region Variables
-    //endregion
+public class TextureBindingProperty extends TTextureBindingProperty<TextureBindingProperty> implements Serializable {
+    static final long serialVersionUID = 1L;
 
-    //region Constructors
-
-    public TextureBindingProperty(TextureBinding value) {
-        super(value);
+    public TextureBindingProperty(TextureBinding currentValue) {
+        super(currentValue);
     }
-
-    public TextureBindingProperty() {
-        super(new TextureEmptyBinding());
-    }
-
-    //endregion
-
-    //region Methods
-
-    @Override
-    public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("TextureBindingProperty does not support setting values from strings");
-    }
-
-    @Override
-    public ArrayList<TextureBinding> getAllOptions() {
-        return TextureBindingHelpers.getAllImageBindings();
-    }
-
-    @Override
-    public TextureBindingProperty setName(String newTitle) {
-        return (TextureBindingProperty) super.setName(newTitle);
-    }
-
-    //endregion
 }

@@ -1,7 +1,6 @@
 package dLib.ui.elements.prefabs;
 
-import dLib.properties.objects.EnumProperty;
-import dLib.properties.objects.NumericProperty;
+import dLib.properties.objects.templates.TEnumProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 
@@ -11,7 +10,7 @@ public class EnumBoxWithArrows extends UIElement {
 
     public TextButton enumBox;
 
-    private EnumProperty<?> linkedProperty;
+    private TEnumProperty<?, ?> linkedProperty;
 
     public EnumBoxWithArrows(int xPos, int yPos, int width, int height) {
         super(xPos, yPos, width, height);
@@ -38,7 +37,7 @@ public class EnumBoxWithArrows extends UIElement {
 
     //region Methods
 
-    public EnumBoxWithArrows setLinkedProperty(EnumProperty<?> property) {
+    public EnumBoxWithArrows setLinkedProperty(TEnumProperty<?, ?> property) {
         enumBox.getTextBox().setText(property.getValueForDisplay());
 
         linkedProperty = property;

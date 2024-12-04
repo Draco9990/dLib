@@ -6,9 +6,9 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.util.EnumHelpers;
-import dLib.properties.objects.AlignmentProperty;
+import dLib.properties.objects.templates.TAlignmentProperty;
 
-public class AlignmentPropertyEditor extends AbstractPropertyEditor<AlignmentProperty> {
+public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentProperty<?>> {
     //region Variables
 
     TextButton leftButton;
@@ -18,7 +18,7 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<AlignmentPro
 
     //region Constructors
 
-    public AlignmentPropertyEditor(AlignmentProperty setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public AlignmentPropertyEditor(TAlignmentProperty setting, Integer xPos, Integer yPos, Integer width, Integer height) {
         super(setting, xPos, yPos, width, height);
     }
 
@@ -27,7 +27,7 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<AlignmentPro
     //region Methods
 
     @Override
-    protected UIElement buildContent(AlignmentProperty property, Integer width, Integer height) {
+    protected UIElement buildContent(TAlignmentProperty property, Integer width, Integer height) {
         HorizontalBox contentBox = new HorizontalBox(0, 0, width, height); //replace with ArrowButton
 
         int buttonWidth = (int)(0.45f * width);

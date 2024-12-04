@@ -2,9 +2,9 @@ package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Inputfield;
-import dLib.properties.objects.StringProperty;
+import dLib.properties.objects.templates.TStringProperty;
 
-public abstract class StringPropertyEditor extends AbstractPropertyEditor<StringProperty> {
+public abstract class StringPropertyEditor extends AbstractPropertyEditor<TStringProperty<?>> {
     //region Variables
 
     Inputfield input;
@@ -13,7 +13,7 @@ public abstract class StringPropertyEditor extends AbstractPropertyEditor<String
 
     //region Constructors
 
-    public StringPropertyEditor(StringProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public StringPropertyEditor(TStringProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
         super(setting, xPos, yPos, width, height);
     }
 
@@ -22,7 +22,7 @@ public abstract class StringPropertyEditor extends AbstractPropertyEditor<String
     //region Methods
 
     @Override
-    protected UIElement buildContent(StringProperty property, Integer width, Integer height) {
+    protected UIElement buildContent(TStringProperty<?> property, Integer width, Integer height) {
         input = new Inputfield(property.getValue(), 0, 0, width, height);
 
         property.addOnValueChangedListener((s, s2) -> {

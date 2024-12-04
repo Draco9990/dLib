@@ -1,11 +1,8 @@
 package dLib.ui.elements.prefabs;
 
-import dLib.properties.objects.NumericProperty;
-import dLib.properties.objects.Property;
+import dLib.properties.objects.templates.TNumericProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
-
-import java.util.function.Consumer;
 
 public class NumberInputBoxWithArrows extends UIElement {
     public Button leftArrow;
@@ -13,7 +10,7 @@ public class NumberInputBoxWithArrows extends UIElement {
 
     public Inputfield inputbox;
 
-    private NumericProperty<?> linkedProperty;
+    private TNumericProperty<?, ?> linkedProperty;
 
     public NumberInputBoxWithArrows(int xPos, int yPos, int width, int height, ENumberType type) {
         super(xPos, yPos, width, height);
@@ -45,7 +42,7 @@ public class NumberInputBoxWithArrows extends UIElement {
 
     //region Methods
 
-    public NumberInputBoxWithArrows setLinkedProperty(NumericProperty<?> property) {
+    public NumberInputBoxWithArrows setLinkedProperty(TNumericProperty<?, ?> property) {
         inputbox.getTextBox().setText(property.getValue().toString());
 
         linkedProperty = property;

@@ -1,13 +1,12 @@
 package dLib.properties.ui.elements;
 
-import dLib.properties.objects.ArrayProperty;
-import dLib.properties.objects.CustomProperty;
+import dLib.properties.objects.templates.TArrayProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
 
-public class ArrayPropertyEditor<PropertyType extends ArrayProperty<ItemType>, ItemType> extends AbstractPropertyEditor<PropertyType> {
+public class ArrayPropertyEditor<PropertyType extends TArrayProperty<ItemType, ?>, ItemType> extends AbstractPropertyEditor<PropertyType> {
     //region Variables
 
     TextButton middleButton;

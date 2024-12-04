@@ -4,13 +4,13 @@ import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
-import dLib.properties.objects.MethodBindingProperty;
+import dLib.properties.objects.templates.TMethodBindingProperty;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class IntelliJMethodBindingProperty extends MethodBindingProperty implements Serializable {
+public class TIntelliJMethodBindingProperty<PropertyType> extends TMethodBindingProperty<PropertyType> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -20,6 +20,7 @@ public class IntelliJMethodBindingProperty extends MethodBindingProperty impleme
     //endregion
 
     //region Constructors
+
     //endregion
 
     //region Methods

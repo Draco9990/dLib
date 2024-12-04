@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.modcompat.ModManager;
-import dLib.ui.screens.UIManager;
+import dLib.properties.objects.MethodBindingProperty;
 import dLib.util.GlobalEvents;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
-import dLib.properties.objects.MethodBindingProperty;
+import dLib.properties.objects.templates.TMethodBindingProperty;
 import sayTheSpire.Output;
 
 import java.io.Serializable;

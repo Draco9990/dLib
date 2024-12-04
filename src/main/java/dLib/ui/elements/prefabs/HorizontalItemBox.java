@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.IntegerProperty;
+import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UIThemeManager;
@@ -119,6 +120,6 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     public static class HorizontalItemBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public IntegerProperty scrollbarHeight = (IntegerProperty) new IntegerProperty(50).setMinimumValue(0).setName("Scrollbar Height");
+        public IntegerProperty scrollbarHeight = new IntegerProperty(50).setMinimumValue(0).setName("Scrollbar Height");
     }
 }

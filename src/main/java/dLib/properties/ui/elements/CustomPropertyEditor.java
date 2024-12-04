@@ -4,9 +4,9 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
-import dLib.properties.objects.CustomProperty;
+import dLib.properties.objects.templates.TCustomProperty;
 
-public class CustomPropertyEditor<PropertyType extends CustomProperty<ItemType>, ItemType> extends AbstractPropertyEditor<PropertyType> {
+public class CustomPropertyEditor<PropertyType extends TCustomProperty<ItemType, ?>, ItemType> extends AbstractPropertyEditor<PropertyType> {
     //region Variables
 
     TextButton middleButton;

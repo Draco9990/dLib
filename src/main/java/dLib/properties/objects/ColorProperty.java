@@ -1,35 +1,14 @@
 package dLib.properties.objects;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.properties.ui.elements.ColorPropertyEditor;
+import dLib.properties.objects.templates.TColorProperty;
 
-public class ColorProperty extends Property<String> {
-    //region Variables
-    //endregion
+import java.io.Serializable;
 
-    //region Constructors
+public class ColorProperty extends TColorProperty<ColorProperty> implements Serializable {
+    static final long serialVersionUID = 1L;
 
     public ColorProperty(Color value) {
-        super(value.toString());
-        propertyEditorClass = ColorPropertyEditor.class;
+        super(value);
     }
-
-    //endregion
-
-    //region Methods
-
-    @Override
-    public boolean setValueFromString(String value) {
-        return setValue(value);
-    }
-
-    public void setColorValue(Color value){
-        setValue(value.toString());
-    }
-
-    public Color getColorValue(){
-        return Color.valueOf(getValue());
-    }
-
-    //endregion
 }

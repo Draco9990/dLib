@@ -1,7 +1,7 @@
 package dLib.util.bindings.method;
 
-import dLib.util.Reflection;
 import dLib.properties.objects.StringProperty;
+import dLib.util.Reflection;
 
 import java.io.Serializable;
 import java.util.ArrayList;
