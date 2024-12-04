@@ -29,6 +29,10 @@ public class OnValueCommitedStringPropertyEditor extends StringPropertyEditor{
             }
         });
 
+        if(property.getCharacterLimit() != -1){
+            element.setCharacterLimit(property.getCharacterLimit());
+        }
+
         return element;
     }
 

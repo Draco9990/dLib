@@ -1,6 +1,7 @@
 package dLib.ui.elements.implementations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
@@ -8,6 +9,8 @@ import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
 import dLib.patches.InputHelperHoverConsumer;
 import dLib.ui.screens.UIManager;
+import dLib.ui.themes.UITheme;
+import dLib.ui.themes.UIThemeManager;
 import dLib.util.IntegerVector4;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
@@ -46,6 +49,12 @@ public class Hoverable extends Renderable{
     }
     public Hoverable(Texture image, int xPos, int yPos, int width, int height) {
         super(image, xPos, yPos, width, height);
+        initialize();
+    }
+    public Hoverable(int xPos, int yPos, int width, int height) {
+        super(UITheme.whitePixel, xPos, yPos, width, height);
+        Color transparent = new Color(0, 0, 0, 0);
+        setRenderColor(transparent);
         initialize();
     }
 

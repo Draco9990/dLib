@@ -11,6 +11,7 @@ public class UITheme {
     public Texture background;
 
     public Texture button_large;
+    public Texture button_large_square;
     public Texture button_large_outline_empty;
     public Texture button_large_outline_confirm;
 
@@ -75,6 +76,7 @@ public class UITheme {
         this.background =  loadItem("background.png");
 
         this.button_large =  loadItem("button_large.png");
+        this.button_large_square =  loadItem("button_large_square.png");
         this.button_large_outline_empty =  loadItem("button_large_outline_empty.png");
         this.button_large_outline_confirm =  loadItem("button_large_outline_confirm.png");
 
@@ -115,6 +117,7 @@ public class UITheme {
         this.background.dispose();
 
         this.button_large.dispose();
+        this.button_large_square.dispose();
         this.button_large_outline_empty.dispose();
         this.button_large_outline_confirm.dispose();
 

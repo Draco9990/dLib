@@ -18,6 +18,11 @@ public class ColorProperty extends Property<String> {
 
     //region Methods
 
+    @Override
+    public boolean setValueFromString(String value) {
+        return setValue(value);
+    }
+
     public void setColorValue(Color value){
         setValue(value.toString());
     }

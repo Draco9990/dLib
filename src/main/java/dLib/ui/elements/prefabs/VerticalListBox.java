@@ -88,7 +88,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
     }
 
     //region Item UI
-    public final UIElement wrapUIForItem(ItemType item){
+    public UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = super.wrapUIForItem(item);
 
         if(canReorder()){

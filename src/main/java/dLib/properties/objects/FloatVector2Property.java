@@ -42,6 +42,10 @@ public class FloatVector2Property extends Property<Vector2> implements Serializa
 
     //region Value
 
+    @Override
+    public boolean setValueFromString(String value) {
+        throw new UnsupportedOperationException("FloatVector2Property does not support setting value from string");
+    }
 
     @Override
     public void onValueChanged(Vector2 oldValue, Vector2 newValue) {

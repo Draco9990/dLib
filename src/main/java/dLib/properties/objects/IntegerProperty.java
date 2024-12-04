@@ -4,7 +4,7 @@ import dLib.properties.ui.elements.IntegerPropertyEditor;
 
 import java.io.Serializable;
 
-public class IntegerProperty extends NumberProperty<Integer> implements Serializable {
+public class IntegerProperty extends NumericProperty<Integer> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -67,8 +67,28 @@ public class IntegerProperty extends NumberProperty<Integer> implements Serializ
     //endregion
 
     @Override
+    public boolean setValueFromString(String value) {
+        return setValue(Integer.parseInt(value));
+    }
+
+    @Override
     public IntegerProperty setName(String newTitle) {
         return (IntegerProperty) super.setName(newTitle);
+    }
+
+    @Override
+    public IntegerProperty setDescription(String description) {
+        return (IntegerProperty) super.setDescription(description);
+    }
+
+    @Override
+    public IntegerProperty setMinimumValue(Integer minimumValue) {
+        return (IntegerProperty) super.setMinimumValue(minimumValue);
+    }
+
+    @Override
+    public IntegerProperty setMaximumValue(Integer maximumValue) {
+        return (IntegerProperty) super.setMaximumValue(maximumValue);
     }
 
     //endregion

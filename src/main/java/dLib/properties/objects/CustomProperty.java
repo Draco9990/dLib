@@ -5,7 +5,7 @@ import dLib.properties.ui.elements.CustomPropertyEditor;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class CustomProperty<T> extends Property<T> implements Serializable {
+public abstract class CustomProperty<ItemClass> extends Property<ItemClass> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -13,7 +13,7 @@ public abstract class CustomProperty<T> extends Property<T> implements Serializa
 
     //region Constructors
 
-    public CustomProperty(T defaultValue) {
+    public CustomProperty(ItemClass defaultValue) {
         super(defaultValue);
         propertyEditorClass = CustomPropertyEditor.class;
     }
@@ -22,7 +22,7 @@ public abstract class CustomProperty<T> extends Property<T> implements Serializa
 
     //region Methods
 
-    public abstract ArrayList<T> getAllOptions();
+    public abstract ArrayList<ItemClass> getAllOptions();
 
     //endregion
 }

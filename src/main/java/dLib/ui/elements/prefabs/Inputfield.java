@@ -40,6 +40,8 @@ public class Inputfield extends UIElement {
     private boolean holdingDelete = false;
     private float deleteTimerCount = 0;
 
+    private float blinkingCursorPosX = 0;
+
     //endregion
 
     //region Constructors
@@ -52,16 +54,18 @@ public class Inputfield extends UIElement {
         this.background = new Button(0, 0, width, height).setImage(UIThemeManager.getDefaultTheme().inputfield);
         addChildNCS(this.background);
 
-        this.textBox = new TextBox(initialValue, 0, 0, width, height, 0.05f, 0.05f).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        this.textBox = new TextBox(initialValue, 0, 0, width, height).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
+        textBox.setPadding(20, 0, 0, 0);
         addChildCS(textBox);
 
-        this.previewTextBox = new TextBox("", 0, 0, width, height, 0.05f, 0.05f){
+        this.previewTextBox = new TextBox("", 0, 0, width, height){
             @Override
             protected boolean shouldRender() {
                 return super.shouldRender() && textBox.getText().isEmpty();
             }
         }.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setTextRenderColor(Color.DARK_GRAY);
+        previewTextBox.setPadding(20, 0, 0, 0);
         addChildNCS(this.previewTextBox);
 
         postInitialize();
@@ -95,32 +99,49 @@ public class Inputfield extends UIElement {
         inputProcessor = new InputAdapter(){
             @Override
             public boolean keyTyped(char character) {
-                if(characterLimit >= 0 && textBox.getText().length() >= characterLimit) {
-                    return false;
+                char[] charsToAdd = new char[]{character};
+
+                if(character == '\u0016'){
+                    charsToAdd = Gdx.app.getClipboard().getContents().toCharArray();
                 }
 
-                if(Character.isISOControl(character)) {
-                    return false;
-                }
+                boolean success = true;
 
-                if(!characterFilter.isEmpty() && !characterFilter.contains(character)) {
+                for(char c : charsToAdd){
+                    if(characterLimit >= 0 && textBox.getText().length() >= characterLimit) {
+                        success = false;
+                        continue;
+                    }
+
+                    if(Character.isISOControl(c)) {
+                        success = false;
+                        continue;
+                    }
+
+                    boolean respectsPreset = preset != EInputfieldPreset.GENERIC;
                     if(preset == EInputfieldPreset.NUMERICAL_DECIMAL || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE){
-                        if(character >= '0' && character <= '9'){
-                            return character != '0' || !textBox.getText().isEmpty();
+                        if (c < '0' || c > '9') {
+                            if(c != '.' || preset != EInputfieldPreset.NUMERICAL_DECIMAL || textBox.getText().contains(".")){
+                                respectsPreset = false;
+                            }
                         }
                     }
 
-                    if(preset == EInputfieldPreset.NUMERICAL_DECIMAL){
-                        if(character == '.' && !textBox.getText().contains(".") && !textBox.getText().isEmpty()){
-                            return true;
+                    if(!characterFilter.isEmpty() && !characterFilter.contains(c)) {
+                        if(!respectsPreset){
+                            success = false;
+                            continue;
                         }
                     }
+                    else if(!respectsPreset && preset != EInputfieldPreset.GENERIC){
+                        success = false;
+                        continue;
+                    }
 
-                    return false;
+                    addCharacter(c);
                 }
 
-                addCharacter(character);
-                return true;
+                return success;
             }
 
             @Override
@@ -259,6 +280,14 @@ public class Inputfield extends UIElement {
         filterAddUpercase();
 
         return this;
+    }
+
+    //endregion
+
+    //region Blinking Cursor
+
+    private void calculateCursorBlinkPosition(){
+
     }
 
     //endregion

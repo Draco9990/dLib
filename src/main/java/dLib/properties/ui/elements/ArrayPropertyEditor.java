@@ -1,12 +1,13 @@
 package dLib.properties.ui.elements;
 
+import dLib.properties.objects.ArrayProperty;
+import dLib.properties.objects.CustomProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
-import dLib.properties.objects.CustomProperty;
 
-public class CustomPropertyEditor<PropertyType extends CustomProperty<ItemType>, ItemType> extends AbstractPropertyEditor<PropertyType> {
+public class ArrayPropertyEditor<PropertyType extends ArrayProperty<ItemType>, ItemType> extends AbstractPropertyEditor<PropertyType> {
     //region Variables
 
     TextButton middleButton;
@@ -15,7 +16,7 @@ public class CustomPropertyEditor<PropertyType extends CustomProperty<ItemType>,
 
     //region Constructors
 
-    public CustomPropertyEditor(PropertyType setting, Integer xPos, Integer yPos, int width, int height){
+    public ArrayPropertyEditor(PropertyType setting, Integer xPos, Integer yPos, int width, int height){
         super(setting, xPos, yPos, width, height);
     }
 
@@ -33,12 +34,14 @@ public class CustomPropertyEditor<PropertyType extends CustomProperty<ItemType>,
                     @Override
                     public void onItemSelected(ItemType item) {
                         super.onItemSelected(item);
-                        property.setValue(item);
+                        property.clear();
+                        property.add(item);//TODO add selection options
                     }
                 };
                 pickerScreen.open();
             }
         });
+
         middleButton.getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);
 
         property.addOnValueChangedListener((itemType, itemType2) -> middleButton.getTextBox().setText(property.getValueForDisplay()));

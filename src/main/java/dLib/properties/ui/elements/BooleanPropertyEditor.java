@@ -2,6 +2,8 @@ package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Toggle;
+import dLib.ui.elements.prefabs.Checkbox;
+import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.themes.UIThemeManager;
 import dLib.properties.objects.BooleanProperty;
 
@@ -27,7 +29,10 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<BooleanPropert
     protected UIElement buildContent(BooleanProperty property, Integer width, Integer height) {
         int buttonDim = Math.min(width, height);
 
-        button = new Toggle(UIThemeManager.getDefaultTheme().button_small, UIThemeManager.getDefaultTheme().button_small_confirm, 0, 0, buttonDim, buttonDim){
+        HorizontalBox box = new HorizontalBox(0, 0, width, height, true);
+        box.addItem(new UIElement(0, 0, width - buttonDim, height));
+
+        button = new Checkbox(0, 0, buttonDim, buttonDim){
             @Override
             public void toggle() {
                 super.toggle();
@@ -41,7 +46,9 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<BooleanPropert
             }
         });
 
-        return button;
+        box.addItem(button);
+
+        return box;
     }
 
     @Override

@@ -45,6 +45,11 @@ public class MethodBindingProperty extends CustomProperty<MethodBinding> impleme
     //region Values
 
     @Override
+    public boolean setValueFromString(String value) {
+        throw new UnsupportedOperationException("MethodBindingProperty does not support setting values from strings");
+    }
+
+    @Override
     public boolean isValidValue(MethodBinding value) {
         if(!super.isValidValue(value)) return false;
 

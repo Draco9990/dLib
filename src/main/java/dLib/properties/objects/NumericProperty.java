@@ -3,7 +3,7 @@ package dLib.properties.objects;
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class NumberProperty<T extends Number> extends Property<T> implements Serializable {
+public abstract class NumericProperty<T extends Number> extends Property<T> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -18,13 +18,13 @@ public abstract class NumberProperty<T extends Number> extends Property<T> imple
 
     //region Constructors
 
-    public NumberProperty(T currentValue){
+    public NumericProperty(T currentValue){
         this(currentValue, null, null, null, null);
     }
-    public NumberProperty(T currentValue, T incrementAmount, T decrementAmount){
+    public NumericProperty(T currentValue, T incrementAmount, T decrementAmount){
         this(currentValue, null, null, incrementAmount, decrementAmount);
     }
-    public NumberProperty(T currentValue, T minimumValue, T maximumValue, T incrementAmount, T decrementAmount){
+    public NumericProperty(T currentValue, T minimumValue, T maximumValue, T incrementAmount, T decrementAmount){
         super(currentValue);
 
         this.minimumValue = minimumValue;
@@ -51,6 +51,24 @@ public abstract class NumberProperty<T extends Number> extends Property<T> imple
         }
     }
 
+    public NumericProperty<T> setIncrementAmount(T incrementAmount){
+        this.incrementAmount = incrementAmount;
+        return this;
+    }
+
+    public T getIncrementAmount(){
+        return incrementAmount;
+    }
+
+    public NumericProperty<T> setDecrementAmount(T decrementAmount){
+        this.decrementAmount = decrementAmount;
+        return this;
+    }
+
+    public T getDecrementAmount(){
+        return decrementAmount;
+    }
+
     @Override
     public boolean isValidValue(T value) {
         if(!super.isValidValue(value)) return false;
@@ -65,15 +83,18 @@ public abstract class NumberProperty<T extends Number> extends Property<T> imple
 
     //region Min & Max values
 
-    public NumberProperty<T> setMinimumValue(T minimumValue){
+    public NumericProperty<T> setMinimumValue(T minimumValue){
         return setLimits(minimumValue, maximumValue);
     }
-    public NumberProperty<T> setMaximumValue(T maximumValue){
+    public NumericProperty<T> setMaximumValue(T maximumValue){
         return setLimits(minimumValue, maximumValue);
     }
-    public NumberProperty<T> setLimits(T minimumValue, T maximumValue){
+    public NumericProperty<T> setLimits(T minimumValue, T maximumValue){
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
+
+        ensureValueWithinLimits();
+
         return this;
     }
 

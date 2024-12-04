@@ -3,6 +3,7 @@ package dLib.ui.screens;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
@@ -199,7 +200,7 @@ public class UIManager {
     static class ScreenRenderAndUpdatePatches{
         @SpirePatch(clz = MainMenuScreen.class, method = "update")
         public static class CustomScreenUpdatePatch_OutOfGame{
-            @SpireInsertPatch(loc=273)
+            @SpireInsertPatch(rloc=6)
             public static void Insert(){
                 if(!CardCrawlGame.isInARun()){
                     for(int i = 0; i < uiElements.size(); i++){
@@ -212,8 +213,8 @@ public class UIManager {
 
         @SpirePatch(clz = MainMenuScreen.class, method = "render")
         public static class CustomScreenRenderPatch_OutOfGame{
-            @SpireInsertPatch(loc=616)
-            public static void Insert(MainMenuScreen __instance, SpriteBatch sb){
+            @SpirePostfixPatch
+            public static void Postfix(MainMenuScreen __instance, SpriteBatch sb){
                 if(!CardCrawlGame.isInARun()){
                     for(int i = 0; i < uiElements.size(); i++){
                         uiElements.get(i).render(sb);

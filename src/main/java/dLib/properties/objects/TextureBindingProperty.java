@@ -25,6 +25,11 @@ public class TextureBindingProperty extends CustomProperty<TextureBinding> {
     //region Methods
 
     @Override
+    public boolean setValueFromString(String value) {
+        throw new UnsupportedOperationException("TextureBindingProperty does not support setting values from strings");
+    }
+
+    @Override
     public ArrayList<TextureBinding> getAllOptions() {
         return TextureBindingHelpers.getAllImageBindings();
     }

@@ -83,7 +83,7 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
         return box;
     }
 
-    public final UIElement wrapUIForItem(ItemType item){
+    public UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = super.wrapUIForItem(item);
 
         if(canReorder()){

@@ -57,7 +57,7 @@ public class TextBox extends Hoverable {
     //region Constructors
 
     public TextBox(String text, int xPos, int yPos, int width, int height){
-        this(text, xPos, yPos, width, height, 0.07f, 0.33f);
+        this(text, xPos, yPos, width, height, 0, 0.33f);
     }
     public TextBox(String text, int xPos, int yPos, int width, int height, float xMarginPerc, float yMarginPerc){
         super(null, xPos, yPos, width, height);
@@ -70,9 +70,11 @@ public class TextBox extends Hoverable {
 
         this.text = text;
 
-        setFont(FontManager.genericFont);
+        setFont(FontHelper.cardTitleFont);
 
-        textRenderColor = UIThemeManager.getDefaultTheme().textColor;
+        textRenderColor = Color.WHITE.cpy();
+
+        paddingLeft = 10;
 
         setClickthrough(true);
     }

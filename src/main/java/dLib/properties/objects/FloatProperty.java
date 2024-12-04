@@ -1,11 +1,10 @@
 package dLib.properties.objects;
 
 import dLib.properties.ui.elements.FloatPropertyEditor;
-import dLib.properties.ui.elements.IntegerPropertyEditor;
 
 import java.io.Serializable;
 
-public class FloatProperty extends NumberProperty<Float> implements Serializable {
+public class FloatProperty extends NumericProperty<Float> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -68,8 +67,53 @@ public class FloatProperty extends NumberProperty<Float> implements Serializable
     //endregion
 
     @Override
+    public boolean setValueFromString(String value) {
+        return setValue(Float.parseFloat(value));
+    }
+
+    @Override
     public FloatProperty setName(String newTitle) {
         return (FloatProperty) super.setName(newTitle);
+    }
+
+    @Override
+    public FloatProperty setDescription(String description) {
+        return (FloatProperty) super.setDescription(description);
+    }
+
+    @Override
+    public FloatProperty setMinimumValue(Float minimumValue) {
+        return (FloatProperty) super.setMinimumValue(minimumValue);
+    }
+
+    @Override
+    public FloatProperty setMaximumValue(Float maximumValue) {
+        return (FloatProperty) super.setMaximumValue(maximumValue);
+    }
+
+    @Override
+    public FloatProperty setLimits(Float minimumValue, Float maximumValue) {
+        return (FloatProperty) super.setLimits(minimumValue, maximumValue);
+    }
+
+    @Override
+    public FloatProperty setIncrementAmount(Float incrementAmount) {
+        return (FloatProperty) super.setIncrementAmount(incrementAmount);
+    }
+
+    @Override
+    public FloatProperty setDecrementAmount(Float decrementAmount) {
+        return (FloatProperty) super.setDecrementAmount(decrementAmount);
+    }
+
+    @Override
+    public void increment() {
+        setValue(add(getValue(), incrementAmount));
+    }
+
+    @Override
+    public void decrement() {
+        setValue(subtract(getValue(), decrementAmount));
     }
 
     //endregion

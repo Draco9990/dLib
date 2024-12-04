@@ -31,6 +31,11 @@ public class AlignmentProperty extends Property<Alignment> implements Serializab
     //region Value
 
     @Override
+    public boolean setValueFromString(String value) {
+        throw new UnsupportedOperationException("AlignmentProperty does not support setting value from string");
+    }
+
+    @Override
     public Alignment getValue() {
         return new Alignment(super.getValue());
     }

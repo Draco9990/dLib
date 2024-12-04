@@ -2,6 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
+import dLib.ui.elements.prefabs.EnumBoxWithArrows;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
@@ -29,37 +30,8 @@ public class EnumPropertyEditor extends AbstractPropertyEditor<EnumProperty<? ex
 
     @Override
     protected UIElement buildContent(EnumProperty<? extends Enum<?>> property, Integer width, Integer height) {
-        HorizontalBox box = new HorizontalBox(0, 0, width, height);
-
-        int arrowDim = Math.min((int)(0.2f * width), height);
-
-        leftArrow = new Button(0, 0, arrowDim, arrowDim){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                property.previous();
-            }
-        }.setImage(UIThemeManager.getDefaultTheme().arrow_left);
-        box.addItem(leftArrow);
-
-        rightArrow = new Button(0, 0, arrowDim, arrowDim){
-            @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
-                property.next();
-            }
-        }.setImage(UIThemeManager.getDefaultTheme().arrow_right);
-        box.addItem(rightArrow);
-
-        middleButton = new TextButton(property.getValueForDisplay(), 0, 0, width - arrowDim * 2, height);
-        box.addItem(middleButton);
-
-        property.addOnValueChangedListener(() -> {
-            if(!middleButton.getTextBox().getText().equals(property.getValueForDisplay())){
-                middleButton.getTextBox().setText(property.getValueForDisplay());
-            }
-        });
-
+        EnumBoxWithArrows box = new EnumBoxWithArrows(0, 0, width, height);
+        box.setLinkedProperty(property);
         return box;
     }
 

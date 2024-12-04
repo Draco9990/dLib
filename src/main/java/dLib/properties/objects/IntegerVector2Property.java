@@ -2,6 +2,7 @@ package dLib.properties.objects;
 
 import dLib.properties.ui.elements.IntegerVector2PropertyEditor;
 import dLib.util.IntegerVector2;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +35,10 @@ public class IntegerVector2Property extends Property<IntegerVector2> implements 
 
     //region Value
 
+    @Override
+    public boolean setValueFromString(String value) {
+        throw new UnsupportedOperationException("IntegerVector2Property does not support setting value from string");
+    }
 
     @Override
     public void onValueChanged(IntegerVector2 oldValue, IntegerVector2 newValue) {

@@ -15,6 +15,8 @@ public abstract class Property<T> implements Serializable {
 
     private String name;
 
+    private String description;
+
     protected T defaultValue;
     protected T value;
 
@@ -64,6 +66,8 @@ public abstract class Property<T> implements Serializable {
         onValueChanged(oldValue, value);
     }
 
+    public abstract boolean setValueFromString(String value);
+
     public T getValue(){
         return value;
     }
@@ -96,6 +100,19 @@ public abstract class Property<T> implements Serializable {
     }
 
     //endregion
+
+    //region Description
+
+    public Property<T> setDescription(String description){
+        this.description = description;
+        return this;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    //endregion Description
 
     //region Property Editor
 

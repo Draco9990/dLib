@@ -29,12 +29,22 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
 
     //region Values
 
+    @Override
+    public boolean setValueFromString(String value) {
+        try {
+            this.value = Enum.valueOf(this.value.getDeclaringClass(), value);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
     public final void previous(){
-        value = EnumHelpers.previousEnum(value);
+        setValue(EnumHelpers.previousEnum(value));
     }
 
     public final void next(){
-        value = EnumHelpers.nextEnum(value);
+        setValue(EnumHelpers.nextEnum(value));
     }
 
     public final ArrayList<T> getAllPossibleValues(){
@@ -52,12 +62,17 @@ public class EnumProperty<T extends Enum<T>> extends Property<Enum<T>> implement
     }
 
     public Property<Enum<T>> addOnValueChangedListener(Runnable listener){
-        return addOnValueChangedListener(new BiConsumer<Enum<T>, Enum<T>>() {
-            @Override
-            public void accept(Enum<T> tEnum, Enum<T> tEnum2) {
-                listener.run();
-            }
-        });
+        return addOnValueChangedListener((tEnum, tEnum2) -> listener.run());
+    }
+
+    @Override
+    public EnumProperty<T> setName(String newTitle) {
+        return (EnumProperty<T>) super.setName(newTitle);
+    }
+
+    @Override
+    public EnumProperty<T> setDescription(String description) {
+        return (EnumProperty<T>) super.setDescription(description);
     }
 
     //endregion
