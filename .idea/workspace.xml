@@ -8,16 +8,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDimension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/Dim.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/StaticDimension.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/toolbar/ScreenEditorElementList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/toolbar/ScreenEditorElementList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/toolbar/ScreenEditorElementProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/toolbar/ScreenEditorElementProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/toolbar/ScreenEditorToolbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditor/ui/items/implementations/toolbar/ScreenEditorToolbox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/HorizontalItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/HorizontalItemBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Resizeable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Resizeable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/ItemBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/PropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/PropertyEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/VerticalItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/VerticalItemBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/GifDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/GifDecoder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -282,7 +283,7 @@
       <workItem from="1732701084870" duration="17337000" />
       <workItem from="1733001345347" duration="9000" />
       <workItem from="1733001717033" duration="39783000" />
-      <workItem from="1733306085559" duration="14116000" />
+      <workItem from="1733306085559" duration="16389000" />
     </task>
     <servers />
   </component>

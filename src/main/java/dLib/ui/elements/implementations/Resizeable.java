@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
 import dLib.util.IntegerVector2;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
 
 public class Resizeable extends Draggable {
     //region Variables
@@ -130,7 +132,7 @@ public class Resizeable extends Draggable {
             } else {
                 setLocalPositionX(resizeOrigPosX);
             }
-            setWidth(resizeOrigWidth + diffX);
+            setWidth(Dim.px(resizeOrigWidth + diffX));
         }
 
         if(diffY != 0){
@@ -140,7 +142,7 @@ public class Resizeable extends Draggable {
             } else {
                 setLocalPositionY(resizeOrigPosY);
             }
-            setHeight(resizeOrigHeight + diffY);
+            setHeight(Dim.px(resizeOrigHeight + diffY));
         }
     }
 
@@ -169,7 +171,7 @@ public class Resizeable extends Draggable {
     }
 
     @Override
-    public UIElement setDimensions(int newWidth, int newHeight) {
+    public UIElement setDimensions(AbstractDimension newWidth, AbstractDimension newHeight) {
         super.setDimensions(newWidth, newHeight);
         refreshResizeNodePositions(); //TODO RF remove
         return this;
@@ -188,7 +190,6 @@ public class Resizeable extends Draggable {
             super(UITheme.whitePixel, xPos, yPos, 20, 20);
 
             this.renderColor = Color.RED;
-            setScaleWithParent(false);
         }
 
         //endregion

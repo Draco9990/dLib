@@ -1,5 +1,6 @@
 package dLib.ui.elements;
 
+import basemod.Pair;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,6 +20,9 @@ import dLib.util.IntegerVector4;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.dimensions.StaticDimension;
 
 import java.io.*;
 import java.util.*;
@@ -37,11 +41,8 @@ public class UIElement {
     private ArrayList<BiConsumer<Integer, Integer>> positionChangedConsumers = new ArrayList<>();
     private boolean dockedToParent = true;
 
-    private IntegerVector2 dimensions = new IntegerVector2(1, 1);
+    private Pair<AbstractDimension, AbstractDimension> dimensions = new Pair<>(Dim.fill(), Dim.fill());
     private boolean scaleWithParent = true;
-
-    private transient float widthScale = 1.0f;
-    private transient float heightScale = 1.0f;
 
     private IntegerVector2 lowerLocalBounds = new IntegerVector2(null, null);
     private IntegerVector2 upperLocalBounds = new IntegerVector2(null, null);
@@ -85,7 +86,7 @@ public class UIElement {
     public UIElement(int xPos, int yPos, int width, int height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         localPosition = new IntegerVector2(xPos, yPos);
-        dimensions = new IntegerVector2(width, height);
+        dimensions = new Pair<>(Dim.px(width), Dim.px(height));
 
         String uiStrings = getUIStringsKey();
         if(uiStrings != null){
@@ -99,7 +100,7 @@ public class UIElement {
         setLocalPosition(data.localPosition.getXValue(), data.localPosition.getYValue());
         setDockedToParent(data.dockedToParent);
 
-        dimensions = new IntegerVector2(data.dimensions.getXValue(), data.dimensions.getYValue());
+        dimensions = new Pair<>(Dim.px(data.dimensions.getXValue()), Dim.px(data.dimensions.getYValue()));
         scaleWithParent = data.scaleWithParent;
 
         setLowerLocalBounds(data.lowerLocalBound.x, data.lowerLocalBound.y);
@@ -387,21 +388,6 @@ public class UIElement {
         return localPosition.copy();
     }
 
-    public final int getLocalPositionScaledX(){
-        return getLocalPositionScaled().x;
-    }
-    public final int getLocalPositionScaledY(){
-        return getLocalPositionScaled().y;
-    }
-    public final IntegerVector2 getLocalPositionScaled(){
-        IntegerVector2 localPos = getLocalPosition();
-        if(parent != null){
-            localPos.x = (int) (localPos.x * parent.widthScale);
-            localPos.y = (int) (localPos.y * parent.heightScale);
-        }
-        return localPos;
-    }
-
     public UIElement setLocalPositionCenteredX(int newPos){
         return setLocalPositionCentered(newPos, getLocalPositionCenteredY());
     }
@@ -455,8 +441,8 @@ public class UIElement {
         }
         else{
             IntegerVector2 parentWorld = parent.getWorldPosition();
-            parentWorld.x += getLocalPositionScaledX();
-            parentWorld.y += getLocalPositionScaledY();
+            parentWorld.x += getLocalPositionX();
+            parentWorld.y += getLocalPositionY();
             return parentWorld;
         }
     }
@@ -716,43 +702,56 @@ public class UIElement {
         IntegerVector2 lowerLocalBounds = getLowerLocalBounds();
         IntegerVector2 upperLocalBounds = getUpperLocalBounds();
 
+        Integer desiredWidth = null;
+        Integer desiredHeight = null;
+
         int desiredPositionX = getLocalPositionX();
         int desiredPositionY = getLocalPositionY();
 
-        int boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
-        int boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
+        if(!(dimensions.getKey() instanceof StaticDimension)){
+            int boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
 
-        if(upperLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
-            desiredPositionX = upperLocalBounds.x - (borderToBorderBound ? 0 : getWidth());
-            boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
-        }
-        if(upperLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
-            desiredPositionY = upperLocalBounds.y - (borderToBorderBound ? 0 : getHeight());
-            boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
-        }
+            if(upperLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
+                desiredPositionX = upperLocalBounds.x - (borderToBorderBound ? 0 : getWidth());
+                boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
+            }
 
-        if(lowerLocalBounds.x != null && desiredPositionX < lowerLocalBounds.x){
-            desiredPositionX = lowerLocalBounds.x;
-            boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
-        }
-        if(lowerLocalBounds.y != null && desiredPositionY < lowerLocalBounds.y){
-            desiredPositionY = lowerLocalBounds.y;
-            boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
-        }
+            if(lowerLocalBounds.x != null && desiredPositionX < lowerLocalBounds.x){
+                desiredPositionX = lowerLocalBounds.x;
+                boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
+            }
 
-        int desiredWidth = getWidth();
-        int desiredHeight = getHeight();
+            desiredWidth = getWidth();
 
-        //If we're still OOB, resize.
-        if(upperLocalBounds.x != null && lowerLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
-            desiredWidth = upperLocalBounds.x - lowerLocalBounds.x;
-        }
-        if(upperLocalBounds.y != null && lowerLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
-            desiredHeight = upperLocalBounds.y - lowerLocalBounds.y;
+            if(upperLocalBounds.x != null && lowerLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
+                desiredWidth = upperLocalBounds.x - lowerLocalBounds.x;
+            }
+
         }
 
-        if(desiredWidth != getWidth() || desiredHeight != getHeight()){
-            setDimensions(desiredWidth, desiredHeight);
+        if(!(dimensions.getValue() instanceof StaticDimension)){
+            int boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
+
+            if(upperLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
+                desiredPositionY = upperLocalBounds.y - (borderToBorderBound ? 0 : getHeight());
+                boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
+            }
+
+            if(lowerLocalBounds.y != null && desiredPositionY < lowerLocalBounds.y){
+                desiredPositionY = lowerLocalBounds.y;
+                boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
+            }
+
+            desiredHeight = getHeight();
+
+            if(upperLocalBounds.y != null && lowerLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
+                desiredHeight = upperLocalBounds.y - lowerLocalBounds.y;
+            }
+        }
+
+        if((desiredWidth != null && desiredWidth != getWidth()) || (desiredHeight != null && desiredHeight != getHeight())){
+            setDimensions(desiredWidth == null ? dimensions.getKey() : Dim.px(desiredWidth),
+                    desiredHeight == null ? dimensions.getValue() : Dim.px(desiredHeight));
         }
         else if(desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
             setLocalPosition(desiredPositionX, desiredPositionY);
@@ -1056,80 +1055,54 @@ public class UIElement {
 
     //region Width & Height
 
+    public UIElement setWidth(AbstractDimension newWidth){
+        return setDimensions(newWidth, null);
+    }
+    public UIElement setHeight(AbstractDimension newHeight){
+        return setDimensions(null, newHeight);
+    }
     public UIElement setWidth(int newWidth){
-        return setDimensions(newWidth, -1);
-    }
+        return setWidth(Dim.px(newWidth));
+    } //TODO REMOVE
     public UIElement setHeight(int newHeight){
-        return setDimensions(-1, newHeight);
-    }
-    public UIElement setDimensions(int newWidth, int newHeight){
-        if(newWidth != -1 && newWidth < 1) newWidth = 1;
-        if(newHeight != -1 && newHeight < 1) newHeight = 1;
+        return setHeight(Dim.px(newHeight));
+    } //TODO REMOVE
+    public UIElement setDimensions(AbstractDimension newWidth, AbstractDimension newHeight){
+        AbstractDimension oldWidth = dimensions.getKey();
+        AbstractDimension oldHeight = dimensions.getValue();
 
-        float oldScaleX = widthScale;
-        float oldScaleY = heightScale;
+        dimensions = new Pair<>(newWidth == null ? dimensions.getKey() : newWidth,
+                newHeight == null ? dimensions.getValue() : newHeight);
 
-        widthScale = newWidth != -1 ? (float) newWidth / dimensions.x : widthScale;
-        heightScale = newHeight != -1 ? (float) newHeight / dimensions.y : heightScale;
-
-        if(oldScaleX != widthScale || oldScaleY != heightScale){
+        if(oldWidth != null && newWidth != null && !oldWidth.equals(newWidth)){
             for(UIElementChild child : children){
-                child.element.onParentDimensionsChanged(newWidth != -1 ? newWidth - dimensions.x : 0, newHeight != -1 ? newHeight - dimensions.y : 0);
+                child.element.onParentDimensionsChanged(oldWidth, newWidth, oldHeight, newHeight);
             }
         }
 
         return this;
     }
+    public UIElement setDimensions(int newWidth, int newHeight){
+        return setDimensions(Dim.px(newWidth), Dim.px(newHeight));
+    } //TODO REMOVE
 
-    public void onParentDimensionsChanged(int diffX, int diffY){
-    }
+    public void onParentDimensionsChanged(AbstractDimension oldWidth, AbstractDimension newWidth, AbstractDimension oldHeight, AbstractDimension newHeight){}
 
     public int getWidth(){
-        return (int) (dimensions.x * getWidthScaleMult());
+        return dimensions.getKey().getWidth(this);
     }
     public int getHeight(){
-        return (int) (dimensions.y * getHeightScaleMult());
+        return dimensions.getValue().getHeight(this);
     }
     public IntegerVector2 getDimensions(){
-        IntegerVector2 dimensions = this.dimensions.copy();
-        dimensions.x = (int) (dimensions.x * getWidthScaleMult());
-        dimensions.y = (int) (dimensions.y * getWidthScaleMult());
-        return dimensions;
+        return new IntegerVector2(getWidth(), getHeight());
     }
 
     public int getWidthUnscaled(){
-        return dimensions.x;
+        return getWidth();
     }
     public int getHeightUnscaled(){
-        return dimensions.y;
-    }
-    public IntegerVector2 getDimensionsUnscaled(){
-        return dimensions.copy();
-    }
-
-    protected float getWidthScaleMult(){
-        float scaleMult = widthScale;
-        if(hasParent() && scalesWithParent()){
-            scaleMult *= parent.getWidthScaleMult();
-        }
-        return scaleMult;
-    }
-
-    protected float getHeightScaleMult(){
-        float scaleMult = heightScale;
-        if(hasParent() && scalesWithParent()){
-            scaleMult *= parent.getHeightScaleMult();
-        }
-        return scaleMult;
-    }
-
-    public UIElement setScaleWithParent(boolean scaleWithParent){
-        this.scaleWithParent = scaleWithParent;
-        return this;
-    }
-
-    public boolean scalesWithParent(){
-        return scaleWithParent;
+        return getHeight();
     }
 
     //endregion
@@ -1363,7 +1336,7 @@ public class UIElement {
                     subElement.dimensions.setValue(newValue.copy());
                 };
             }
-        }.setValueNames("W", "H");
+        }.setValueNames("W", "H"); //TODO make this dimensions
         public boolean scaleWithParent = true;
 
         public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);

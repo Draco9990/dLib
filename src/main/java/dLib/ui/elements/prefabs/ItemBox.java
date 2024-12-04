@@ -134,8 +134,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
         originalItems.add(new ItemBoxItem(item, compositeItem));
         itemBox.addChildCS(compositeItem);
 
-        compositeItem.setScaleWithParent(false);
-
         onItemAdded(item);
         return this;
     }
