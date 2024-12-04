@@ -17,7 +17,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     private String name;
     private String description;
 
-    private String category;
+    private String category = "Uncategorized";
 
     protected ValueType defaultValue;
     protected ValueType value;

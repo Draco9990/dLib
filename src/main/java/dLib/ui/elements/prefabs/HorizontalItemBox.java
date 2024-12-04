@@ -52,7 +52,7 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     protected UIElement buildItemBox() {
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
-        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, 0, 0 + (noInitScrollbar ? 0 : scrollbarHeight), getWidthUnscaled(), getHeightUnscaled() - (noInitScrollbar ? 0 : scrollbarHeight) - (titleBox != null ? titleBox.getHeight() : 0)){
+        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, 0, 0 + (noInitScrollbar ? 0 : scrollbarHeight), getWidthUnscaled(), getHeightUnscaled() - (noInitScrollbar ? 0 : scrollbarHeight)){
             @Override
             protected void onHovered() {
                 super.onHovered();

@@ -51,7 +51,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
     protected UIElement buildItemBox() {
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
-        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, 0, 0, getWidthUnscaled() - (noInitScrollbar ? 0 : scrollbarWidth), getHeightUnscaled() - (titleBox != null ? titleBox.getHeight() : 0)){
+        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, 0, 0, getWidthUnscaled() - (noInitScrollbar ? 0 : scrollbarWidth), getHeightUnscaled()){
             @Override
             protected void onHovered() {
                 super.onHovered();
@@ -84,7 +84,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
 
     @Override
     protected Scrollbar buildScrollBar() {
-        Scrollbar scrollbar = new VerticalScrollbar(getWidthUnscaled() - scrollbarWidth, 0, scrollbarWidth, getHeightUnscaled() - (titleBox != null ? titleBox.getHeight() : 0)) {
+        Scrollbar scrollbar = new VerticalScrollbar(getWidthUnscaled() - scrollbarWidth, 0, scrollbarWidth, getHeightUnscaled()) {
             @Override
             public void onScrollbarScrolled(float percentage) {
                 super.onScrollbarScrolled(percentage);

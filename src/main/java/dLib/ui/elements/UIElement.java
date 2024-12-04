@@ -229,6 +229,12 @@ public class UIElement {
         return parent.getTopParent();
     }
 
+    public <T extends UIElement> T getParentOfType(Class<T> parentType){
+        if(parent == null) return null;
+        if(parentType.isAssignableFrom(parent.getClass())) return (T) parent;
+        return parent.getParentOfType(parentType);
+    }
+
     //endregion
 
     //region Children

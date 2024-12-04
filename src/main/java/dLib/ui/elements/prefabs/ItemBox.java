@@ -19,7 +19,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
     //region Variables
 
     // Elements
-    protected TextBox titleBox;
     protected UIElement itemBox;
     protected Scrollbar scrollbar;
 
@@ -30,9 +29,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     // Properties
     protected boolean noInitScrollbar = false; //TODO expose
-
-    private String title;
-    protected int titleBoxHeight = 50;
 
     protected int itemSpacing = 0;
     protected boolean invertedItemOrder = false;
@@ -77,9 +73,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
     public ItemBox(ItemBoxData data){
         super(data);
 
-        this.title = data.titleBoxText.getValue();
-        this.titleBoxHeight = data.titleBoxHeight;
-
         this.itemSpacing = data.itemSpacing.getValue();
         this.invertedItemOrder = data.invertedItemOrder.getValue();
 
@@ -94,18 +87,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
     }
 
     protected void reinitializeElements() {
-        //Update the title box
-        if(titleBox != null){
-            removeChild(titleBox);
-            titleBox = null;
-        }
-        if(titleBoxHeight > 0 && title != null && !title.isEmpty()){
-            titleBox = buildTitleBox();
-            titleBox.setText(title);
-
-            addChildNCS(titleBox);
-        }
-
         //Update the item box
         if(itemBox != null){
             removeChild(itemBox);
@@ -123,17 +104,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
             this.scrollbar = buildScrollBar();
             addChildNCS(scrollbar);
         }
-    }
-
-    protected TextBox buildTitleBox(){
-        TextBox titleBox = new TextBox(title, 0, getHeightUnscaled() - titleBoxHeight, getWidthUnscaled(), titleBoxHeight);
-        titleBox.setImage(UITheme.whitePixel);
-        titleBox.setRenderColor(Color.valueOf("#151515FF"));
-        titleBox.setTextRenderColor(Color.WHITE);
-        titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
-        titleBox.setMarginPercX(0.005f);
-
-        return titleBox;
     }
 
     protected abstract UIElement buildItemBox();
@@ -163,6 +133,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
         originalItems.add(new ItemBoxItem(item, compositeItem));
         itemBox.addChildCS(compositeItem);
+
+        compositeItem.setScaleWithParent(false);
 
         onItemAdded(item);
         return this;
@@ -451,37 +423,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     //endregion
 
-    //region Title & TitleBox
-
-    public ItemBox<ItemType> setTitle(String title){
-        if(this.title != null && (title == null || title.isEmpty())){
-            removeTitle();
-            return this;
-        }
-
-        this.title = title;
-        reinitializeElements();
-        return this;
-    }
-    public void removeTitle(){
-        removeChild(titleBox);
-
-        this.title = null;
-        this.titleBox = null;
-
-        reinitializeElements();
-    }
-
-    public ItemBox<ItemType> setTitleHeight(int titleHeight){
-        if(titleHeight <= 0) return this;
-
-        this.titleBoxHeight = titleHeight;
-        reinitializeElements();
-        return this;
-    }
-
-    //endregion
-
     //region Background
 
     public UIElement getBackground(){
@@ -637,9 +578,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     public static class ItemBoxData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
-
-        public StringProperty titleBoxText = new StringProperty("").setName("Title");
-        public int titleBoxHeight = 50;
 
         public IntegerProperty itemSpacing = new IntegerProperty(0).setMinimumValue(0).setName("Item Spacing");
         public BooleanProperty invertedItemOrder = new BooleanProperty(false).setName("Inverted Item Order");
