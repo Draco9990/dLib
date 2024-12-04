@@ -7,6 +7,10 @@ import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.util.bindings.texture.TexturePathBinding;
 import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
@@ -16,7 +20,13 @@ public class Image extends Interactable {
 
     //region Constructors
 
-    public Image(Texture image, int xPos, int yPos, int width, int height) {
+    public Image(Texture image, AbstractPosition xPos, AbstractPosition yPos){
+        this(image, xPos, yPos, Dim.fill(), Dim.fill());
+    }
+    public Image(Texture image, AbstractDimension width, AbstractDimension height){
+        this(image, Pos.px(0), Pos.px(0), width, height);
+    }
+    public Image(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);
 
         setClickthrough(true);

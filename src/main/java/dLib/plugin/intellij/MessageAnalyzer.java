@@ -1,7 +1,6 @@
 package dLib.plugin.intellij;
 
-import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
-import dLib.ui.screens.UIManager;
+import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 
 import java.util.List;
 

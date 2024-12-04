@@ -5,10 +5,12 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.animations.entry.UIAnimation_SlideInRight;
 import dLib.ui.animations.exit.UIAnimation_SlideOutLeft;
 import dLib.util.TextureManager;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
 public class CancelButton extends TextButton{
     public CancelButton() {
-        super("Cancel", 0, 1080-949, 278, 102);
+        super("Cancel", Pos.px(0), Pos.px(1080-949), Dim.px(278), Dim.px(102));
 
         this.getButton().setImage(TextureManager.getTexture("dLibResources/images/ui/common/CancelButton.png"));
 

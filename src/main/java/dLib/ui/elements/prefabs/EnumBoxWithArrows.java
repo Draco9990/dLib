@@ -3,6 +3,10 @@ package dLib.ui.elements.prefabs;
 import dLib.properties.objects.templates.TEnumProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class EnumBoxWithArrows extends UIElement {
     public Button leftArrow;
@@ -12,25 +16,21 @@ public class EnumBoxWithArrows extends UIElement {
 
     private TEnumProperty<?, ?> linkedProperty;
 
-    public EnumBoxWithArrows(int xPos, int yPos, int width, int height) {
+    public EnumBoxWithArrows(AbstractDimension width, AbstractDimension height) {
+        this(Pos.perc(0), Pos.perc(0), width, height);
+    }
+    public EnumBoxWithArrows(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
-        int arrowDims = height;
-        if(arrowDims * 2 > width){
-            throw new IllegalArgumentException("Width must be at least twice the height");
-        }
-
-        int actualArrowDims = (int) (arrowDims / 2.0f);
-        int arrowPadding = (int) (actualArrowDims / 2.0f);
-        leftArrow = new Button(arrowPadding, arrowPadding, actualArrowDims, actualArrowDims);
+        leftArrow = new Button(Pos.perc(0), Pos.perc(0), Dim.perc(0.25), Dim.fill());
         leftArrow.setImage(UIThemeManager.getDefaultTheme().arrow_left);
         addChildNCS(leftArrow);
 
-        enumBox = new TextButton("", arrowDims, 0, width - arrowDims * 2, height);
+        enumBox = new TextButton("", Pos.perc(0.25), Pos.perc(0), Dim.fill(), Dim.fill());
         enumBox.getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);
         addChildNCS(enumBox);
 
-        rightArrow = new Button(width - arrowDims + arrowPadding, arrowPadding, actualArrowDims, actualArrowDims);
+        rightArrow = new Button(Pos.perc(0.75), Pos.perc(0), Dim.height(), Dim.fill());
         rightArrow.setImage(UIThemeManager.getDefaultTheme().arrow_right);
         addChildNCS(rightArrow);
     }

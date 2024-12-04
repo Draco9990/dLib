@@ -3,6 +3,10 @@ package dLib.ui.elements.prefabs;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 import org.lwjgl.input.Mouse;
 
 import java.io.Serializable;
@@ -15,11 +19,17 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
 
     //region Constructors
 
-    public VerticalListBox(int xPos, int yPos, int width, int height){
+    public VerticalListBox(AbstractPosition xPos, AbstractPosition yPos){
+        this(xPos, yPos, Dim.fill(), Dim.fill());
+    }
+    public VerticalListBox(AbstractDimension width, AbstractDimension height){
+        this(Pos.perc(0), Pos.perc(0), width, height);
+    }
+    public VerticalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this(xPos, yPos, width, height, false);
     }
 
-    public VerticalListBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar) {
+    public VerticalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
         super(xPos, yPos, width, height, noInitScrollbar);
 
         defaultItemHeight = 30;
@@ -93,7 +103,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
 
         if(canReorder()){
             //Controls
-            int elementControlsWidth = (int) (itemUI.getWidthUnscaled() * 0.2f);
+            /*int elementControlsWidth = (int) (itemUI.getWidthUnscaled() * 0.2f);
             HorizontalBox elementControls = new HorizontalBox(itemUI.getWidthUnscaled() - elementControlsWidth, 0, elementControlsWidth, itemUI.getHeightUnscaled());
             elementControls.disableItemWrapping();
 
@@ -125,7 +135,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
                 elementControls.addItem(reorderArrows);
             }
 
-            itemUI.addChildCS(elementControls);
+            itemUI.addChildCS(elementControls);*/
         }
 
         return itemUI;

@@ -5,6 +5,10 @@ import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.elements.prefabs.Checkbox;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.properties.objects.templates.TBooleanProperty;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class BooleanPropertyEditor extends AbstractPropertyEditor<TBooleanProperty<?>> {
     //region Variables
@@ -15,7 +19,7 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<TBooleanProper
 
     //region Constructors
 
-    public BooleanPropertyEditor(TBooleanProperty setting, Integer xPos, Integer yPos, int width, int height){
+    public BooleanPropertyEditor(TBooleanProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(setting, xPos, yPos, width, height);
     }
 
@@ -23,15 +27,11 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<TBooleanProper
 
     //region Methods
 
-
     @Override
-    protected UIElement buildContent(TBooleanProperty<?> property, Integer width, Integer height) {
-        int buttonDim = Math.min(width, height);
+    protected UIElement buildContent(TBooleanProperty<?> property, AbstractDimension width, AbstractDimension height) {
+        HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), width, height, true);
 
-        HorizontalBox box = new HorizontalBox(0, 0, width, height, true);
-        box.addItem(new UIElement(0, 0, width - buttonDim, height));
-
-        button = new Checkbox(0, 0, buttonDim, buttonDim){
+        button = new Checkbox(Dim.height(), Dim.fill()){
             @Override
             public void toggle() {
                 super.toggle();

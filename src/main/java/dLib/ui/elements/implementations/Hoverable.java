@@ -14,6 +14,10 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.util.IntegerVector4;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
@@ -40,18 +44,19 @@ public class Hoverable extends Renderable{
     //region Constructors
 
     public Hoverable(Texture image) {
-        super(image);
-        initialize();
+        this(image, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
     }
-    public Hoverable(Texture image, int xPos, int yPos) {
-        super(image, xPos, yPos);
-        initialize();
+    public Hoverable(Texture image, AbstractPosition xPos, AbstractPosition yPos) {
+        super(image, xPos, yPos, Dim.fill(), Dim.fill());
     }
-    public Hoverable(Texture image, int xPos, int yPos, int width, int height) {
+    public Hoverable(Texture image, AbstractDimension width, AbstractDimension height) {
+        this(image, Pos.px(0), Pos.px(0), width, height);
+    }
+    public Hoverable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);
         initialize();
     }
-    public Hoverable(int xPos, int yPos, int width, int height) {
+    public Hoverable(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(UITheme.whitePixel, xPos, yPos, width, height);
         Color transparent = new Color(0, 0, 0, 0);
         setRenderColor(transparent);

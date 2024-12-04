@@ -2,6 +2,8 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
 
@@ -13,11 +15,11 @@ public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
 
     //region Constructors
 
-    public VerticalGridBox(int xPos, int yPos, int width, int height){
+    public VerticalGridBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this(xPos, yPos, width, height, false);
     }
 
-    public VerticalGridBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar) {
+    public VerticalGridBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
         super(xPos, yPos, width, height, noInitScrollbar);
 
         defaultItemHeight = 75;

@@ -8,6 +8,9 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.TextureManager;
 
+//NREDO
+
+/*
 public class GenericInputWindow extends UIElement {
     public DarkenLayer darkenLayer;
 
@@ -102,3 +105,4 @@ public class GenericInputWindow extends UIElement {
         public boolean canCancel = true;
     }
 }
+*/

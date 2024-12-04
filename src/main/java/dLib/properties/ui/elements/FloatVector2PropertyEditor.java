@@ -8,6 +8,10 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextBox;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.util.Objects;
 
@@ -21,7 +25,7 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<TFloatVec
 
     //region Constructors
 
-    public FloatVector2PropertyEditor(TFloatVector2Property setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public FloatVector2PropertyEditor(TFloatVector2Property setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(setting, xPos, yPos, width, height);
     }
 
@@ -29,50 +33,50 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<TFloatVec
 
     //region Methods
 
-
     @Override
-    protected UIElement buildContent(TFloatVector2Property property, Integer width, Integer height) {
-        int textWidth = (int) (0.2f * width);
-        int inputfieldWidth = (int)(0.25f * width);
+    protected UIElement buildContent(TFloatVector2Property property, AbstractDimension width, AbstractDimension height) {
+        HorizontalBox horizontalBox = new HorizontalBox(width, height);
+        {
+            if(property.getXValueName() != null) {
+                TextBox xLabel = new TextBox(property.getXValueName(), Dim.perc(0.2), Dim.fill());
+                horizontalBox.addItem(xLabel);
+            }
 
-        HorizontalBox horizontalBox = new HorizontalBox(0, 0, width, height);
-        if(property.getXValueName() != null) {
-            horizontalBox.addItem(new TextBox(property.getXValueName(), 0, 0, textWidth, height, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
+            xInput = new Inputfield(String.valueOf(property.getXValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+            xInput.getTextBox().addOnTextChangedConsumer(s -> {
+                Vector2 currentVal = property.getValue();
+                if(s.isEmpty()) {
+                    currentVal.x = 0;
+                }
+                else{
+                    currentVal.x = Float.valueOf(s);
+                }
+
+                property.setValue(currentVal);
+            });
+            horizontalBox.addItem(xInput);
+
+            horizontalBox.addItem(new Spacer(Dim.perc(0.1), Dim.fill()));
+
+            if(property.getYValueName() != null){
+                TextBox yLabel = new TextBox(property.getYValueName(), Dim.perc(0.2), Dim.fill());
+                horizontalBox.addItem(yLabel);
+            }
+
+            yInput = new Inputfield(String.valueOf(property.getYValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+            yInput.getTextBox().addOnTextChangedConsumer(s -> {
+                Vector2 currentVal = property.getValue();
+                if(s.isEmpty()) {
+                    currentVal.y = 0;
+                }
+                else{
+                    currentVal.y = Float.valueOf(s);
+                }
+
+                property.setValue(currentVal);
+            });
+            horizontalBox.addItem(yInput);
         }
-
-        xInput = new Inputfield(String.valueOf(property.getXValue()), 0, 0, inputfieldWidth, height).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-        xInput.getTextBox().addOnTextChangedConsumer(s -> {
-            Vector2 currentVal = property.getValue();
-            if(s.isEmpty()) {
-                currentVal.x = 0;
-            }
-            else{
-                currentVal.x = Float.valueOf(s);
-            }
-
-            property.setValue(currentVal);
-        });
-        horizontalBox.addItem(xInput);
-
-        horizontalBox.addItem(new Spacer((int) (0.1 * width), height));
-
-        if(property.getYValueName() != null){
-            horizontalBox.addItem(new TextBox(property.getYValueName(), 0, 0, textWidth, height, 0.15f, 0.15f).setTextRenderColor(Color.WHITE));
-        }
-
-        yInput = new Inputfield(String.valueOf(property.getYValue()), 0, 0, inputfieldWidth, height).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-        yInput.getTextBox().addOnTextChangedConsumer(s -> {
-            Vector2 currentVal = property.getValue();
-            if(s.isEmpty()) {
-                currentVal.y = 0;
-            }
-            else{
-                currentVal.y = Float.valueOf(s);
-            }
-
-            property.setValue(currentVal);
-        });
-        horizontalBox.addItem(yInput);
 
         property.addOnValueChangedListener((integerVector2, integerVector22) -> {
             TextBox xBox = xInput.getTextBox();

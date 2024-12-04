@@ -11,6 +11,10 @@ import dLib.properties.objects.templates.TTextureBindingProperty;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
@@ -37,11 +41,16 @@ public class Toggle extends Interactable {
 
     //region Constructors
 
-    public Toggle(Texture image, int xPos, int yPos, int width, int height){
+    public Toggle(Texture image, AbstractPosition xPos, AbstractPosition yPos){
+        this(image, xPos, yPos, Dim.fill(), Dim.fill());
+    }
+    public Toggle(Texture image, AbstractDimension width, AbstractDimension height){
+        this(image, Pos.px(0), Pos.px(0), width, height);
+    }
+    public Toggle(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this(image, null, xPos, yPos, width, height);
     }
-
-    public Toggle(Texture image, Texture toggledTexture, int xPos, int yPos, int width, int height) {
+    public Toggle(Texture image, Texture toggledTexture, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);
         this.toggledTexture = toggledTexture != null ? new TextureRegion(toggledTexture) : null;
     }

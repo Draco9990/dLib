@@ -1,7 +1,7 @@
 package dLib.plugin.intellij.util.settings;
 
 import dLib.plugin.intellij.PluginMessageSender;
-import dLib.tools.screeneditor.screens.ScreenEditorBaseScreen;
+import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.properties.objects.templates.TMethodBindingProperty;

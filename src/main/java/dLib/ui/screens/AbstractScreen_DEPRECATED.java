@@ -5,6 +5,10 @@ import dLib.ui.elements.prefabs.Image;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,9 +18,9 @@ public final class AbstractScreen_DEPRECATED extends UIElement {
     //region Constructors
 
     public AbstractScreen_DEPRECATED(){
-        this(0, 0, 1920, 1080);
+        this(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
     }
-    public AbstractScreen_DEPRECATED(int xPos, int yPos, int width, int height){
+    public AbstractScreen_DEPRECATED(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
     }
 
@@ -65,10 +69,6 @@ public final class AbstractScreen_DEPRECATED extends UIElement {
 
 
     //endregion
-
-    protected void addGenericBackground(){
-        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, 0, 0, getWidth(), getHeight()));
-    }
 
     //endregion
 

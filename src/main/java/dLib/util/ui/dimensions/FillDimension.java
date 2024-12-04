@@ -14,12 +14,38 @@ public class FillDimension extends AbstractDimension {
 
     @Override
     public int getWidth(UIElement self) {
-        return self.getParent() != null ? self.getParent().getWidth() : 1920;
+        if(self.getParent() == null) return 1920;
+
+        int parentWidth = self.getParent().getWidth();
+        int fillChildCount = 0;
+        for(UIElement child : self.getParent().getChildren()){
+            if(!(child.getWidthRaw() instanceof FillDimension)){
+                parentWidth -= child.getWidth();
+            }
+            else{
+                fillChildCount++;
+            }
+        }
+
+        return (int) ((float) parentWidth / fillChildCount);
     }
 
     @Override
     public int getHeight(UIElement self) {
-        return self.getParent() != null ? self.getParent().getHeight() : 1080;
+        if(self.getParent() == null) return 1080;
+
+        int parentHeight = self.getParent().getHeight();
+        int fillChildCount = 0;
+        for(UIElement child : self.getParent().getChildren()){
+            if(!(child.getHeightRaw() instanceof FillDimension)){
+                parentHeight -= child.getHeight();
+            }
+            else{
+                fillChildCount++;
+            }
+        }
+
+        return (int) ((float) parentHeight / fillChildCount);
     }
 
     @Override

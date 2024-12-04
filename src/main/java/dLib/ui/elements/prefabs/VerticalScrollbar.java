@@ -3,6 +3,10 @@ package dLib.ui.elements.prefabs;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public abstract class VerticalScrollbar extends Scrollbar {
     //region Variables
@@ -11,25 +15,26 @@ public abstract class VerticalScrollbar extends Scrollbar {
 
     //region Constructors
 
-    public VerticalScrollbar(int x, int y, int width, int height){
+    public VerticalScrollbar(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height){
         super(x, y, width, height);
 
-        float mult = width / 49f;
-        int topBottomHeight = (int) Math.min(22 * mult, (float) (height - 1) / 2);
-
-        addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_top, 0, height - topBottomHeight, width, topBottomHeight));
-        addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_middle, 0, topBottomHeight, width, height - topBottomHeight * 2));
-        addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_bottom, 0, 0, width, topBottomHeight));
+        VerticalBox elements = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        {
+            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_top, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(22)));
+            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_middle, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()));
+            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_bottom, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(22)));
+        }
+        addChildNCS(elements);
 
         addChildNCS(slider);
     }
 
     @Override
-    protected Draggable buildSlider(int containerWidth, int containerHeight) {
-        Draggable slider = new Draggable(UIThemeManager.getDefaultTheme().scrollbar_vertical_train, (int) (5 * 1.29f), 0, (int) (containerWidth / 1.29f), 60);
+    protected Draggable buildSlider() {
+        Draggable slider = new Draggable(UIThemeManager.getDefaultTheme().scrollbar_vertical_train, Pos.px((int) (5 * 1.29f)), Pos.perc(0), Dim.perc(0.7762), Dim.px(60));
         slider.setCanDragX(false);
         slider.setBoundWithinParent(true);
-        slider.addOnPositionChangedConsumer((diffX, diffY) -> {
+        slider.addOnPositionChangedConsumer((element) -> {
             onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));
         });
         return slider;

@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
@@ -13,7 +17,13 @@ public class Button extends Interactable {
 
     //region Constructors
 
-    public Button(int xPos, int yPos, int width, int height) {
+    public Button(AbstractPosition xPos, AbstractPosition yPos){
+        this(xPos, yPos, Dim.fill(), Dim.fill());
+    }
+    public Button(AbstractDimension width, AbstractDimension height){
+        this(Pos.px(0), Pos.px(0), width, height);
+    }
+    public Button(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(UIThemeManager.getDefaultTheme().button_small, xPos, yPos, width, height);
     }
 

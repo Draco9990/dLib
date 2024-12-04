@@ -13,6 +13,10 @@ import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
 import dLib.properties.objects.templates.TMethodBindingProperty;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
@@ -62,14 +66,15 @@ public class Interactable extends Hoverable{
     //region Constructors
 
     public Interactable(Texture image) {
-        super(image);
-        initialize();
+        this(image, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
     }
-    public Interactable(Texture image, int xPos, int yPos) {
-        super(image, xPos, yPos);
-        initialize();
+    public Interactable(Texture image, AbstractPosition xPos, AbstractPosition yPos) {
+        this(image, xPos, yPos, Dim.fill(), Dim.fill());
     }
-    public Interactable(Texture image, int xPos, int yPos, int width, int height) {
+    public Interactable(Texture image, AbstractDimension width, AbstractDimension height) {
+        this(image, Pos.px(0), Pos.px(0), width, height);
+    }
+    public Interactable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);
         initialize();
     }

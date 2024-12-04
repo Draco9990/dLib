@@ -4,11 +4,16 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
+import dLib.ui.elements.prefabs.Spacer;
 import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.properties.objects.templates.TMethodBindingProperty;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class MethodBindingPropertyEditor extends CustomPropertyEditor<TMethodBindingProperty<?>, MethodBinding> {
     //region Variables
@@ -21,14 +26,8 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<TMethodBin
 
     //region Constructors
 
-    public MethodBindingPropertyEditor(TMethodBindingProperty setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public MethodBindingPropertyEditor(TMethodBindingProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(setting, xPos, yPos, width, height);
-
-        setting.addOnValueChangedListener((oldValue, newValue) -> {
-            if(!oldValue.getClass().equals(newValue.getClass())){
-                delayedActions.add(() -> buildElement(property, getWidthUnscaled(), originalHeight));
-            }
-        });
     }
 
     //endregion
@@ -36,7 +35,7 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<TMethodBin
     //region Methods
 
     @Override
-    protected UIElement buildContent(TMethodBindingProperty property, Integer width, Integer height) {
+    protected UIElement buildContent(TMethodBindingProperty property, AbstractDimension width, AbstractDimension height) {
         if(property.getValue() instanceof DynamicMethodBinding){
             return buildDynamicMethodPropertyEditor(property, width, height);
         }
@@ -45,12 +44,12 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<TMethodBin
         }
     }
 
-    private UIElement buildDynamicMethodPropertyEditor(TMethodBindingProperty property, Integer width, Integer height){
-        int buttonDim = Math.min(height, (int)(0.3 * width));
+    private UIElement buildDynamicMethodPropertyEditor(TMethodBindingProperty property, AbstractDimension width, AbstractDimension height){
+        /*int buttonDim = Math.min(height, (int)(0.3 * width));
 
         DynamicMethodBinding dynamicMethodBinding = (DynamicMethodBinding) property.getValue();
 
-        HorizontalBox elementBox = new HorizontalBox(0, 0, width, height);
+        HorizontalBox elementBox = new HorizontalBox(Pos.px(0), Pos.px(0), width, height);
 
         methodNameField = new Inputfield(dynamicMethodBinding.getBoundMethod(), 0, 0, width - buttonDim * 2, height);
         methodNameField.getButton().addOnSelectionStateChangedConsumer(selected -> {
@@ -93,7 +92,8 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<TMethodBin
             }
         });
 
-        return elementBox;
+        return elementBox;*/
+        return new Spacer(Dim.fill(), Dim.fill());
     }
 
     @Override

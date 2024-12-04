@@ -6,12 +6,8 @@ public class PercentageDimension extends AbstractDimension {
     private float percentage;
 
     public PercentageDimension(float percentage){
-        setPercentage(percentage);
-    }
-
-    public void setPercentage(float percentage){
         if(percentage < 0) percentage = 0;
-        if(percentage > 100) percentage = 100;
+        if(percentage > 1) percentage = 1;
 
         this.percentage = percentage;
     }
@@ -29,13 +25,13 @@ public class PercentageDimension extends AbstractDimension {
     @Override
     public int getWidth(UIElement self) {
         int parentWidth = self.getParent() != null ? self.getParent().getWidth() : 1920;
-        return (int) (parentWidth * percentage / 100);
+        return (int) (parentWidth * percentage);
     }
 
     @Override
     public int getHeight(UIElement self) {
         int parentHeight = self.getParent() != null ? self.getParent().getHeight() : 1080;
-        return (int) (parentHeight * percentage / 100);
+        return (int) (parentHeight * percentage);
     }
 
     @Override

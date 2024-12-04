@@ -4,40 +4,38 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
 import dLib.util.TextureManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class PasswordBox extends UIElement {
-    private static int PASSWORD_BOX_SPACING = 5;
-
     public Inputfield inputfield;
     public Button showPasswordButton;
 
-    public PasswordBox(int xPos, int yPos, int width, int height) {
+    public PasswordBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
-        if(width < PASSWORD_BOX_SPACING){
-            throw new IllegalArgumentException("Width must be greater than " + PASSWORD_BOX_SPACING);
-        }
-
-        int buttonWidth = height;
-        if(width - buttonWidth - PASSWORD_BOX_SPACING <= 0) {
-            buttonWidth = (width - PASSWORD_BOX_SPACING) / 2;
-        }
-
-        inputfield = new Inputfield("", 0, 0, width - buttonWidth - PASSWORD_BOX_SPACING, height);
-        inputfield.getTextBox().setFont(FontHelper.cardTitleFont);
-        inputfield.getTextBox().setMaxFontScale(0.8f);
-        inputfield.getTextBox().setTextRenderColor(Color.WHITE);
-        inputfield.getTextBox().setObscureText(true);
-        addChildCS(inputfield);
-
-        showPasswordButton = new Button(width - buttonWidth, 0, buttonWidth, height);
-        showPasswordButton.setImage(TextureManager.getTexture("dLibResources/images/ui/common/peekButton.png"));
-        showPasswordButton.addOnLeftClickConsumer(() -> {
-            inputfield.getTextBox().setObscureText(false);
-        });
-        showPasswordButton.addOnLeftClickReleaseConsumer(() -> {
+        HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
+        {
+            inputfield = new Inputfield("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+            inputfield.getTextBox().setFont(FontHelper.cardTitleFont);
+            inputfield.getTextBox().setMaxFontScale(0.8f);
+            inputfield.getTextBox().setTextRenderColor(Color.WHITE);
             inputfield.getTextBox().setObscureText(true);
-        });
-        addChildCS(showPasswordButton);
+            box.addItem(inputfield);
+
+            showPasswordButton = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
+            showPasswordButton.setImage(TextureManager.getTexture("dLibResources/images/ui/common/peekButton.png"));
+            showPasswordButton.addOnLeftClickConsumer(() -> {
+                inputfield.getTextBox().setObscureText(false);
+            });
+            showPasswordButton.addOnLeftClickReleaseConsumer(() -> {
+                inputfield.getTextBox().setObscureText(true);
+            });
+            box.addItem(showPasswordButton);
+
+            addChildNCS(box);
+        }
     }
 }

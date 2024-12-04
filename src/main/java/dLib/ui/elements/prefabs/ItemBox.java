@@ -9,6 +9,10 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.IntegerVector2;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 import java.util.*;
@@ -58,11 +62,11 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     //region Constructors
 
-    public ItemBox(int xPos, int yPos, int width, int height){
+    public ItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this(xPos, yPos, width, height, false);
     }
 
-    public ItemBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar){
+    public ItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar){
         super(xPos, yPos, width, height);
 
         this.noInitScrollbar = noInitScrollbar;
@@ -297,7 +301,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
     //region Item UI
 
     public UIElement makeUIForItem(ItemType item){
-        TextBox box = new TextBox(item.toString(), 0, 0, defaultItemWidth == null ? itemBox.getWidth() : defaultItemWidth, defaultItemHeight == null ? itemBox.getHeight() : defaultItemHeight);
+        TextBox box = new TextBox(item.toString(), defaultItemWidth == null ? Dim.fill() : Dim.px(defaultItemWidth), defaultItemHeight == null ? Dim.fill() : Dim.px(defaultItemHeight));
         box.setMarginPercX(0.025f).setMarginPercY(0.2f);
         box.setFont(FontHelper.buttonLabelFont);
         box.setTextRenderColor(Color.WHITE);
@@ -314,7 +318,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
         Color transparent = Color.WHITE.cpy();
         transparent.a = 0f;
-        Button mainButton = (Button) new Button(0, 0, itemUI.getWidthUnscaled(), itemUI.getHeightUnscaled()){
+        Button mainButton = (Button) new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();

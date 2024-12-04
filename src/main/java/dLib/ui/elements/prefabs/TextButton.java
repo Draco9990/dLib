@@ -4,6 +4,9 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
@@ -17,13 +20,16 @@ public class TextButton extends UIElement {
 
     //region Constructors
 
-    public TextButton(String text, int xPos, int yPos, int width, int height){
+    public TextButton(String text, AbstractDimension width, AbstractDimension height){
+        this(text, Pos.px(0), Pos.px(0), width, height);
+    }
+    public TextButton(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        button = new Button(0, 0, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
+        button = new Button(xPos, xPos, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
         addChildCS(button);
 
-        label = new TextBox(text, 0, 0, width, height);
+        label = new TextBox(text, xPos, xPos, width, height);
         label.setFont(FontHelper.buttonLabelFont);
         addChildNCS(label);
     }

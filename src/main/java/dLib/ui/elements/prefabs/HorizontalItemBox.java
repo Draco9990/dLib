@@ -6,6 +6,10 @@ import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 import org.lwjgl.input.Mouse;
 
 import java.io.Serializable;
@@ -19,11 +23,16 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
 
     //region Constructors
 
-    public HorizontalItemBox(int xPos, int yPos, int width, int height) {
+    public HorizontalItemBox(AbstractPosition xPos, AbstractPosition yPos){
+        this(xPos, yPos, Dim.fill(), Dim.fill());
+    }
+    public HorizontalItemBox(AbstractDimension width, AbstractDimension height){
+        this(Pos.px(0), Pos.px(0), width, height);
+    }
+    public HorizontalItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         this(xPos, yPos, width, height, false);
     }
-
-    public HorizontalItemBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar) {
+    public HorizontalItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
         super(xPos, yPos, width, height, noInitScrollbar);
     }
 
@@ -52,7 +61,7 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     protected UIElement buildItemBox() {
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
-        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, 0, 0 + (noInitScrollbar ? 0 : scrollbarHeight), getWidthUnscaled(), getHeightUnscaled() - (noInitScrollbar ? 0 : scrollbarHeight)){
+        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
             @Override
             protected void onHovered() {
                 super.onHovered();
@@ -85,7 +94,7 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
 
     @Override
     protected Scrollbar buildScrollBar() {
-        Scrollbar scrollbar = new HorizontalScrollbar(0, 0, getWidthUnscaled(), scrollbarHeight) {
+        Scrollbar scrollbar = new HorizontalScrollbar(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(scrollbarHeight)) {
             @Override
             public void onScrollbarScrolled(float percentage) {
                 super.onScrollbarScrolled(percentage);

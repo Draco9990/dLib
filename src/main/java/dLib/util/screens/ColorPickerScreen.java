@@ -9,6 +9,8 @@ import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.screens.AbstractScreen_DEPRECATED;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
 import java.util.function.Consumer;
 
@@ -21,13 +23,13 @@ public class ColorPickerScreen extends UIElement {
 
     /** Constructors */
     public ColorPickerScreen(Color initialColor){
-        super(0, 0, 1920, 1080);
+        super(Pos.px(0), Pos.px(0), Dim.px(1920), Dim.px(1080));
 
         ColorPickerScreen self = this;
 
-        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, 0, 0, getWidth(), getHeight()));
+        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
 
-        ColorPicker colorWheel = new ColorPicker(235, 1080-654, 550, 550);
+        ColorPicker colorWheel = new ColorPicker(Pos.px(235), Pos.px(1080-654), Dim.px(550), Dim.px(550));
         colorWheel.getColorWheel().addColorHoveredConsumer(new Consumer<Color>() {
             @Override
             public void accept(Color color) {
@@ -42,13 +44,13 @@ public class ColorPickerScreen extends UIElement {
         });
         addChildNCS(colorWheel);
 
-        hoverPreview = new Renderable(UITheme.whitePixel, 273, 1080-596, 475, 33);
+        hoverPreview = new Renderable(UITheme.whitePixel, Pos.px(273), Pos.px(1080-596), Dim.px(475), Dim.px(33));
         addChildNCS(hoverPreview);
 
-        selectedPreview = new Renderable(UITheme.whitePixel, 50, 1080-850, 1810, 80);
+        selectedPreview = new Renderable(UITheme.whitePixel, Pos.px(50), Pos.px(1080-850), Dim.px(1810), Dim.px(80));
         addChildNCS(selectedPreview);
 
-        TextButton confirmButton = new TextButton("CONFIRM", 685, 1080-1015, 550, 150);
+        TextButton confirmButton = new TextButton("CONFIRM", Pos.px(685), Pos.px(1080-1015), Dim.px(550), Dim.px(150));
         confirmButton.getButton().addOnLeftClickConsumer(() -> {
             onColorChosen(currentColor);
             self.close();

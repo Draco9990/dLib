@@ -5,6 +5,8 @@ import com.badlogic.gdx.files.FileHandle;
 import dLib.ui.elements.UIElement;
 import dLib.util.Reflection;
 import dLib.util.SerializationHelpers;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class GeneratedAbstractScreen extends UIElement {
     //region Constructors
 
     public GeneratedAbstractScreen(){
-        super(0, 0, 1920, 1080);
+        super(Pos.px(0), Pos.px(0), Dim.px(1920), Dim.px(1080));
         initialize();
     }
 

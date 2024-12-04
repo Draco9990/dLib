@@ -5,21 +5,23 @@ import dLib.ui.elements.prefabs.Image;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.screens.AbstractScreen_DEPRECATED;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends UIElement {
+public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends UIElement { //TODO RF
     /** Variables */
     private Consumer<ItemPickType> onItemSelected;
 
     /** Constructors */
     public AbstractObjectListPickerScreenOld(ArrayList<ItemPickType> itemsToPick){
-        super(0, 0, 1920, 1080);
+        super(Pos.px(0), Pos.px(0), Dim.px(1920), Dim.px(1080));
         AbstractObjectListPickerScreenOld<ItemPickType> instance = this;
 
-        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, 0, 0, getWidth(), getHeight()));
-        addChildCS(new VerticalListBox<ItemPickType>(40, 1080 - 915, 1850, 875){
+        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+        addChildCS(new VerticalListBox<ItemPickType>(Pos.px(40), Pos.px(1080 - 915), Dim.px(1850), Dim.px(875)){
             @Override
             public void onItemSelectionChanged(ArrayList<ItemPickType> items) {
                 super.onItemSelectionChanged(items);

@@ -9,6 +9,8 @@ import dLib.ui.themes.UITheme;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class Resizeable extends Draggable {
     //region Variables
@@ -30,18 +32,11 @@ public class Resizeable extends Draggable {
 
     //region Constructors
 
-    public Resizeable(Texture image) {
-        super(image);
-        initialize();
+    public Resizeable(Texture image, int width, int height){
+        this(image, Pos.px(0), Pos.px(0), width, height);
     }
-
-    public Resizeable(Texture image, int xPos, int yPos) {
-        super(image, xPos, yPos);
-        initialize();
-    }
-
-    public Resizeable(Texture image, int xPos, int yPos, int width, int height) {
-        super(image, xPos, yPos, width, height);
+    public Resizeable(Texture image, AbstractPosition xPos, AbstractPosition yPos, int width, int height) {
+        super(image, xPos, yPos, Dim.px(width), Dim.px(height));
         initialize();
     }
 
@@ -50,7 +45,7 @@ public class Resizeable extends Draggable {
         clearChildren();
 
         for (int i = 0; i < 4; i++) {
-            resizeNodes[i] = new ResizeNode(0, 0) {
+            resizeNodes[i] = new ResizeNode(Pos.px(0), Pos.px(0)) {
                 @Override
                 protected void onLeftClick() {
                     super.onLeftClick();
@@ -186,8 +181,8 @@ public class Resizeable extends Draggable {
 
         //region Constructors
 
-        public ResizeNode(int xPos, int yPos) {
-            super(UITheme.whitePixel, xPos, yPos, 20, 20);
+        public ResizeNode(AbstractPosition xPos, AbstractPosition yPos) {
+            super(UITheme.whitePixel, xPos, yPos, Dim.px(20), Dim.px(20));
 
             this.renderColor = Color.RED;
         }

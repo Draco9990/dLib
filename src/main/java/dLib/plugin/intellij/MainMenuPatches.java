@@ -7,6 +7,8 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
 public class MainMenuPatches {
     @SpirePatch2(clz = MainMenuScreen.class, method = "render")
@@ -17,7 +19,7 @@ public class MainMenuPatches {
 
         public static void Postfix(SpriteBatch sb){
             if(statusIcon == null){
-                statusIcon = new Renderable(pluginStatusIcon, 1841, 1080-1053, 50, 50){
+                statusIcon = new Renderable(pluginStatusIcon, Pos.px(1841), Pos.px(1080-1053), Dim.px(50), Dim.px(50)){
                     //TODO turn into overlay
                     @Override
                     protected boolean shouldRender() {

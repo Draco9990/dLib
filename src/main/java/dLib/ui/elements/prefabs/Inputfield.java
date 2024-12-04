@@ -11,6 +11,10 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,20 +51,24 @@ public class Inputfield extends UIElement {
 
     //region Constructors
 
-    public Inputfield(String initialValue, int posX, int posY, int width, int height){
+    public Inputfield(String initialValue, AbstractDimension width, AbstractDimension height){
+        this(initialValue, Pos.px(0), Pos.px(0), width, height);
+    }
+
+    public Inputfield(String initialValue, AbstractPosition posX, AbstractPosition posY, AbstractDimension width, AbstractDimension height){
         super(posX, posY, width, height);
 
         preInitialize();
 
-        this.background = new Button(0, 0, width, height).setImage(UIThemeManager.getDefaultTheme().inputfield);
+        this.background = new Button(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()).setImage(UIThemeManager.getDefaultTheme().inputfield);
         addChildNCS(this.background);
 
-        this.textBox = new TextBox(initialValue, 0, 0, width, height).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        this.textBox = new TextBox(initialValue, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         textBox.setPadding(20, 0, 0, 0);
-        addChildCS(textBox);
+        addChildNCS(textBox);
 
-        this.previewTextBox = new TextBox("", 0, 0, width, height){
+        this.previewTextBox = new TextBox("", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()){
             @Override
             protected boolean shouldRender() {
                 return super.shouldRender() && textBox.getText().isEmpty();

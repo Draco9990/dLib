@@ -4,6 +4,9 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.elements.prefabs.NumberInputBoxWithArrows;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class IntegerPropertyEditor extends AbstractPropertyEditor<TIntegerProperty<?>> {
     //region Variables
@@ -15,7 +18,7 @@ public class IntegerPropertyEditor extends AbstractPropertyEditor<TIntegerProper
 
     //region Constructors
 
-    public IntegerPropertyEditor(TIntegerProperty setting, Integer xPos, Integer yPos, Integer width, int height){
+    public IntegerPropertyEditor(TIntegerProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(setting, xPos, yPos, width, height);
     }
 
@@ -24,13 +27,11 @@ public class IntegerPropertyEditor extends AbstractPropertyEditor<TIntegerProper
     //region Methods
 
     @Override
-    protected UIElement buildContent(TIntegerProperty property, Integer width, Integer height) {
-        numberInputBoxWithArrows = new NumberInputBoxWithArrows(0, 0, width, height, NumberInputBoxWithArrows.ENumberType.WHOLE);
+    protected UIElement buildContent(TIntegerProperty property, AbstractDimension width, AbstractDimension height) {
+        numberInputBoxWithArrows = new NumberInputBoxWithArrows(width, height, NumberInputBoxWithArrows.ENumberType.WHOLE);
         numberInputBoxWithArrows.setLinkedProperty(property);
         return numberInputBoxWithArrows;
     }
 
     //endregion
-
-    /** Constructors */
 }

@@ -6,16 +6,12 @@ import dLib.ui.animations.exit.UIAnimation_FadeOut;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
 public class DarkenLayer extends Image {
     public DarkenLayer(){
-        super(UITheme.whitePixel,0, 0, 1920, 1080);
-
-        init();
-    }
-
-    public DarkenLayer(int xPos, int yPos, int width, int height){
-        super(UITheme.whitePixel, xPos, yPos, width, height);
+        super(UITheme.whitePixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
         init();
     }

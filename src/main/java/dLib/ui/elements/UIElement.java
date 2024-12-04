@@ -23,6 +23,8 @@ import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.StaticDimension;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.*;
 import java.util.*;
@@ -37,9 +39,8 @@ public class UIElement {
     protected UIElement parent;
     protected List<UIElementChild> children = new ArrayList<>();
 
-    private IntegerVector2 localPosition = new IntegerVector2(0, 0);
-    private ArrayList<BiConsumer<Integer, Integer>> positionChangedConsumers = new ArrayList<>();
-    private boolean dockedToParent = true;
+    private Pair<AbstractPosition, AbstractPosition> localPosition = new Pair<>(Pos.px(0), Pos.px(0));
+    private ArrayList<Consumer<UIElement>> positionChangedConsumers = new ArrayList<>();
 
     private Pair<AbstractDimension, AbstractDimension> dimensions = new Pair<>(Dim.fill(), Dim.fill());
     private boolean scaleWithParent = true;
@@ -83,10 +84,17 @@ public class UIElement {
 
     //region Constructors
 
-    public UIElement(int xPos, int yPos, int width, int height){
+    public UIElement(){
+        this(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+    }
+    public UIElement(AbstractDimension width, AbstractDimension height){
+        this(Pos.px(0), Pos.px(0), width, height);
+    }
+
+    public UIElement(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
-        localPosition = new IntegerVector2(xPos, yPos);
-        dimensions = new Pair<>(Dim.px(width), Dim.px(height));
+        localPosition = new Pair<>(xPos, yPos);
+        dimensions = new Pair<>(width, height);
 
         String uiStrings = getUIStringsKey();
         if(uiStrings != null){
@@ -98,7 +106,6 @@ public class UIElement {
         setID(data.id.getValue());
 
         setLocalPosition(data.localPosition.getXValue(), data.localPosition.getYValue());
-        setDockedToParent(data.dockedToParent);
 
         dimensions = new Pair<>(Dim.px(data.dimensions.getXValue()), Dim.px(data.dimensions.getYValue()));
         scaleWithParent = data.scaleWithParent;
@@ -110,8 +117,15 @@ public class UIElement {
         setBoundWithinParent(data.boundWithinParent);
         setBorderToBorderBound(data.borderToBorderBound);
 
-        setVisibility(data.isVisible.getValue());
-        setEnabled(data.isEnabled.getValue());
+        if(!data.isVisible.getValue() && !data.isEnabled.getValue()){
+            hideAndDisableInstantly();
+        }
+        else if(!data.isVisible.getValue()){
+            hideInstantly();
+        }
+        else if(!data.isEnabled.getValue()){
+            disable();
+        }
 
         this.darkenedColor = Color.valueOf(data.darkenedColor);
         this.darkenedColorMultiplier = data.darkenedColorMultiplier;
@@ -363,14 +377,13 @@ public class UIElement {
         return setLocalPosition(getLocalPositionX(), newPosition);
     }
     public UIElement setLocalPosition(int newPositionX, int newPositionY){
-        int xDiff = newPositionX - localPosition.x;
-        int yDiff = newPositionY - localPosition.y;
+        AbstractPosition oldPosX = localPosition.getKey();
+        AbstractPosition oldPosY = localPosition.getValue();
 
-        this.localPosition.x = newPositionX;
-        this.localPosition.y = newPositionY;
+        localPosition = new Pair<>(Pos.px(newPositionX), Pos.px(newPositionY));
 
-        if(xDiff != 0 || yDiff != 0){
-            onPositionChanged(xDiff, yDiff);
+        if(oldPosX != localPosition.getKey() || oldPosY != localPosition.getValue()){
+            onPositionChanged();
         }
 
         ensureElementWithinBounds();
@@ -385,7 +398,7 @@ public class UIElement {
         return getLocalPosition().y;
     }
     public final IntegerVector2 getLocalPosition(){
-        return localPosition.copy();
+        return new IntegerVector2(localPosition.getKey().getLocalX(this), localPosition.getValue().getLocalY(this));
     }
 
     public UIElement setLocalPositionCenteredX(int newPos){
@@ -436,15 +449,7 @@ public class UIElement {
         return getWorldPosition().y;
     }
     public final IntegerVector2 getWorldPosition(){
-        if(!hasParent()){
-            return getLocalPosition();
-        }
-        else{
-            IntegerVector2 parentWorld = parent.getWorldPosition();
-            parentWorld.x += getLocalPositionX();
-            parentWorld.y += getLocalPositionY();
-            return parentWorld;
-        }
+        return new IntegerVector2(localPosition.getKey().getWorldX(this), localPosition.getValue().getWorldY(this));
     }
 
     public UIElement setWorldPositionCenteredX(int newPos){
@@ -488,23 +493,6 @@ public class UIElement {
     }
     //endregion
 
-    //region Docking
-    public UIElement dockToParent(){
-        return setDockedToParent(true);
-    }
-    public UIElement undockFromParent(){
-        return setDockedToParent(false);
-    }
-    public UIElement setDockedToParent(boolean dockedToParent){
-        this.dockedToParent = dockedToParent;
-        return this;
-    }
-
-    public boolean isDockedToParent(){
-        return dockedToParent;
-    }
-    //endregion
-
     //region Transforming
 
     public IntegerVector2 worldToLocal(IntegerVector2 worldPosition){
@@ -535,23 +523,19 @@ public class UIElement {
 
     //endregion
 
-    public void onPositionChanged(int diffX, int diffY){
-        for(BiConsumer<Integer, Integer> consumer : positionChangedConsumers) consumer.accept(diffX, diffY);
+    public void onPositionChanged(){
+        for(Consumer<UIElement> consumer : positionChangedConsumers) consumer.accept(this);
 
         for(UIElementChild child : children){
-            child.element.onParentPositionChanged(diffX, diffY);
+            child.element.onParentPositionChanged();
         }
     }
-    public UIElement addOnPositionChangedConsumer(BiConsumer<Integer, Integer> consumer){
+    public UIElement addOnPositionChangedConsumer(Consumer<UIElement> consumer){
         positionChangedConsumers.add(consumer);
         return this;
     }
 
-    protected void onParentPositionChanged(int diffX, int diffY){
-        if(!isDockedToParent()){
-            offset(-diffX, -diffY);
-        }
-    }
+    protected void onParentPositionChanged(){}
 
     //endregion
 
@@ -1098,6 +1082,17 @@ public class UIElement {
         return new IntegerVector2(getWidth(), getHeight());
     }
 
+    public AbstractDimension getWidthRaw(){
+        return dimensions.getKey().cpy();
+    }
+    public AbstractDimension getHeightRaw(){
+        return dimensions.getValue().cpy();
+    }
+    public Pair<AbstractDimension, AbstractDimension> getDimensionsRaw(){
+        return new Pair<>(dimensions.getKey().cpy(), dimensions.getValue().cpy());
+    }
+
+
     public int getWidthUnscaled(){
         return getWidth();
     }
@@ -1325,7 +1320,6 @@ public class UIElement {
         }.setName("Id");
 
         public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Local Position").setValueNames("X", "Y");
-        public boolean dockedToParent = true;
 
         public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)){
             @Override

@@ -2,6 +2,10 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.util.ESelectionMode;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class HorizontalBox extends HorizontalListBox<UIElement> {
     //region Variables
@@ -10,11 +14,17 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
 
     //region Constructors
 
-    public HorizontalBox(int xPos, int yPos, int width, int height) {
+    public HorizontalBox(AbstractPosition xPos, AbstractPosition yPos) {
+        this(xPos, yPos, Dim.fill(), Dim.fill());
+    }
+    public HorizontalBox(AbstractDimension width, AbstractDimension height) {
+        this(Pos.perc(0), Pos.perc(0), width, height);
+    }
+    public HorizontalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         this(xPos, yPos, width, height, false);
     }
 
-    public HorizontalBox(int xPos, int yPos, int width, int height, boolean noInitScrollbar) {
+    public HorizontalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
         super(xPos, yPos, width, height, noInitScrollbar);
 
         reinitializeElements();

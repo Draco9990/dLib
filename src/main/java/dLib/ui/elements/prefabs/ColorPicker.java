@@ -12,6 +12,10 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UITheme;
 import dLib.util.ColorHelpers;
 import dLib.util.TextureManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -29,10 +33,16 @@ public class ColorPicker extends UIElement {
 
     //region Constructors
 
-    public ColorPicker(int xPos, int yPos, int width, int height) {
+    public ColorPicker(AbstractPosition xPos, AbstractPosition yPos){
+        this(xPos, yPos, Dim.fill(), Dim.fill());
+    }
+    public ColorPicker(AbstractDimension width, AbstractDimension height){
+        this(Pos.px(0), Pos.px(0), width, height);
+    }
+    public ColorPicker(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
-        int colorWheelHeight = (int) (height * 0.8f);
+        /*int colorWheelHeight = (int) (height * 0.8f);
         int lightnessHeight = (int) (height * 0.1f);
         int colorWheelWidth = width;
         if(width == height){
@@ -67,7 +77,7 @@ public class ColorPicker extends UIElement {
         };
         addChildNCS(lightnessBar);
 
-        addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/LightnessBar.png"), 0, 0, lightnessBar.getWidth(), lightnessBar.getHeight()));
+        addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/LightnessBar.png"), 0, 0, lightnessBar.g(), lightnessBar.getHeight()));*/
     }
 
     //endregion
@@ -94,7 +104,7 @@ public class ColorPicker extends UIElement {
 
         //region Constructors
 
-        public ColorWheel(int x, int y, int width, int height) {
+        public ColorWheel(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height) {
             super(null, x, y, width, height);
             recreateTexture();
         }

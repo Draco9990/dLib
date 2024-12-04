@@ -5,6 +5,8 @@ import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.EnumBoxWithArrows;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.properties.objects.templates.TEnumProperty;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
 
 public class EnumPropertyEditor extends AbstractPropertyEditor<TEnumProperty<? extends Enum<?>, ?>> {
     //region Variables
@@ -18,7 +20,7 @@ public class EnumPropertyEditor extends AbstractPropertyEditor<TEnumProperty<? e
 
     //region Constructors
 
-    public EnumPropertyEditor(TEnumProperty<? extends Enum<?>, ?> setting, Integer xPos, Integer yPos, Integer width, Integer height){
+    public EnumPropertyEditor(TEnumProperty<? extends Enum<?>, ?> setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(setting, xPos, yPos, width, height);
     }
 
@@ -27,8 +29,8 @@ public class EnumPropertyEditor extends AbstractPropertyEditor<TEnumProperty<? e
     //region Methods
 
     @Override
-    protected UIElement buildContent(TEnumProperty<? extends Enum<?>, ?> property, Integer width, Integer height) {
-        EnumBoxWithArrows box = new EnumBoxWithArrows(0, 0, width, height);
+    protected UIElement buildContent(TEnumProperty<? extends Enum<?>, ?> property, AbstractDimension width, AbstractDimension height) {
+        EnumBoxWithArrows box = new EnumBoxWithArrows(width, height);
         box.setLinkedProperty(property);
         return box;
     }

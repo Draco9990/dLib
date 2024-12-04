@@ -6,6 +6,10 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.prefabs.*;
 import dLib.properties.objects.templates.TProperty;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.util.function.Consumer;
 
@@ -25,40 +29,37 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     //region Constructors
 
-    public AbstractPropertyEditor(PropertyType property, Integer xPos, Integer yPos, Integer width, Integer height){
+    public AbstractPropertyEditor(PropertyType property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
         this.property = property;
-        this.originalHeight = height;
-
-        buildElement(property, width, originalHeight);
+        buildElement(property);
     }
 
     //endregion
 
     //region Methods
 
-    protected void buildElement(PropertyType property, int width, int height){
+    protected void buildElement(PropertyType property){
         if(ui != null){
             removeChild(ui);
             ui = null;
         }
 
-        if(width < 500 && canDisplayMultiline()){
-            setHeight((int) (height * 2f));
-            buildMultiline(property, width, height);
+        if(false){ //TODO add as parameter to build multiline or not
+            buildMultiline(property);
         }
         else{
-            buildSingleLine(property, width, height);
+            buildSingleLine(property);
         }
     }
 
-    private void buildMultiline(PropertyType property, int width, int height){
-        width -= 35;
-        VerticalBox vBox = new VerticalBox(15, 0, width, height, true){
+    private void buildMultiline(PropertyType property){
+        //TODO padding on left and right side
+        VerticalBox vBox = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill(), true){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
-                Hoverable hoverable = new Hoverable(0, 0, item.getWidthUnscaled(), item.getHeightUnscaled()){
+                Hoverable hoverable = new Hoverable(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
                     public void onHovered() {
                         onPropertyHovered(property);
@@ -76,18 +77,18 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
             }
         };
 
-        vBox.addItem(buildTitle(property, width, (int)(height * 0.5f)));
-        vBox.addItem(buildContent(property, width, (int)(height * 0.5f)));
+        vBox.addItem(buildTitle(property, Dim.fill(), Dim.perc(0.5)));
+        vBox.addItem(buildContent(property, Dim.fill(), Dim.perc(0.5)));
         ui = vBox;
         addChildCS(vBox);
     }
 
-    private void buildSingleLine(PropertyType property, int width, int height){
-        width -= 35;
-        HorizontalBox hBox = new HorizontalBox(15, 0, width, height, true){
+    private void buildSingleLine(PropertyType property){
+        //TODO padding on left and right side
+        HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.perc(0), Dim.fill(), Dim.fill(), true){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
-                Hoverable hoverable = new Hoverable(0, 0, item.getWidthUnscaled(), item.getHeightUnscaled()){
+                Hoverable hoverable = new Hoverable(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
                     public void onHovered() {
                         onPropertyHovered(property);
@@ -105,17 +106,17 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
             }
         };
 
-        hBox.addItem(buildTitle(property, (int)(width * 0.8f), height));
-        hBox.addItem(buildContent(property, (int)(width * 0.2f), height));
+        hBox.addItem(buildTitle(property, Dim.perc(0.5), Dim.fill()));
+        hBox.addItem(buildContent(property, Dim.perc(0.5), Dim.fill()));
         ui = hBox;
         addChildCS(hBox);
     }
 
-    protected UIElement buildTitle(PropertyType property, int width, int height){
-        return new TextBox(property.getName(), 0, 0, width, height).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setTextRenderColor(Color.WHITE);
+    protected UIElement buildTitle(PropertyType property, AbstractDimension width, AbstractDimension height){
+        return new TextBox(property.getName(), Pos.perc(0), Pos.perc(0), width, height).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setTextRenderColor(Color.WHITE);
     }
 
-    protected abstract UIElement buildContent(PropertyType property, Integer width, Integer height);
+    protected abstract UIElement buildContent(PropertyType property, AbstractDimension width, AbstractDimension height);
 
     public boolean canDisplayMultiline(){
         return true;

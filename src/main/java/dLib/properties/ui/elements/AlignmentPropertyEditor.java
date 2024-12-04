@@ -7,6 +7,10 @@ import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.util.EnumHelpers;
 import dLib.properties.objects.templates.TAlignmentProperty;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentProperty<?>> {
     //region Variables
@@ -18,7 +22,7 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
 
     //region Constructors
 
-    public AlignmentPropertyEditor(TAlignmentProperty setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public AlignmentPropertyEditor(TAlignmentProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(setting, xPos, yPos, width, height);
     }
 
@@ -27,29 +31,27 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
     //region Methods
 
     @Override
-    protected UIElement buildContent(TAlignmentProperty property, Integer width, Integer height) {
-        HorizontalBox contentBox = new HorizontalBox(0, 0, width, height); //replace with ArrowButton
+    protected UIElement buildContent(TAlignmentProperty property, AbstractDimension width, AbstractDimension height) {
+        HorizontalBox contentBox = new HorizontalBox(width, height); //replace with ArrowButton
+        {
+            leftButton = new TextButton(property.getValue().horizontalAlignment.name(), Dim.perc(45), Dim.fill());
+            leftButton.getButton().addOnLeftClickConsumer(() -> {
+                Alignment alignment = property.getValue();
+                alignment.horizontalAlignment = (Alignment.HorizontalAlignment) EnumHelpers.nextEnum(alignment.horizontalAlignment);
+                property.setValue(alignment);
+            });
+            contentBox.addItem(leftButton);
 
-        int buttonWidth = (int)(0.45f * width);
-        int spacerWidth = (int)(0.1f * width);
+            contentBox.addItem(new Spacer(Dim.perc(10), Dim.fill()));
 
-        leftButton = new TextButton(property.getValue().horizontalAlignment.name(), 0, 0, buttonWidth, height);
-        leftButton.getButton().addOnLeftClickConsumer(() -> {
-            Alignment alignment = property.getValue();
-            alignment.horizontalAlignment = (Alignment.HorizontalAlignment) EnumHelpers.nextEnum(alignment.horizontalAlignment);
-            property.setValue(alignment);
-        });
-        contentBox.addItem(leftButton);
-
-        contentBox.addItem(new Spacer(spacerWidth, height));
-
-        rightButton = new TextButton(property.getValue().verticalAlignment.name(), 0, 0, buttonWidth, height);
-        rightButton.getButton().addOnLeftClickConsumer(() -> {
-            Alignment alignment = property.getValue();
-            alignment.verticalAlignment = (Alignment.VerticalAlignment) EnumHelpers.nextEnum(alignment.verticalAlignment);
-            property.setValue(alignment);
-        });
-        contentBox.addItem(rightButton);
+            rightButton = new TextButton(property.getValue().verticalAlignment.name(), Dim.perc(45), Dim.fill());
+            rightButton.getButton().addOnLeftClickConsumer(() -> {
+                Alignment alignment = property.getValue();
+                alignment.verticalAlignment = (Alignment.VerticalAlignment) EnumHelpers.nextEnum(alignment.verticalAlignment);
+                property.setValue(alignment);
+            });
+            contentBox.addItem(rightButton);
+        }
 
         property.addOnHorizontalAlignmentChangedListener((horizontalAlignment, horizontalAlignment2) -> {
             if(!leftButton.getTextBox().getText().equals(property.getValue().horizontalAlignment.name())){

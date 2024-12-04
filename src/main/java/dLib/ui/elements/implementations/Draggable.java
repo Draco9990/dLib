@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.util.IntegerVector2;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class Draggable extends Interactable{
     //region Variables
@@ -21,10 +25,13 @@ public class Draggable extends Interactable{
     public Draggable(Texture image) {
         super(image);
     }
-    public Draggable(Texture image, int xPos, int yPos) {
-        super(image, xPos, yPos);
+    public Draggable(Texture image, AbstractPosition xPos, AbstractPosition yPos) {
+        this(image, xPos, yPos, Dim.fill(), Dim.fill());
     }
-    public Draggable(Texture image, int xPos, int yPos, int width, int height) {
+    public Draggable(Texture image, AbstractDimension width, AbstractDimension height) {
+        this(image, Pos.perc(0), Pos.perc(0), width, height);
+    }
+    public Draggable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);
     }
 

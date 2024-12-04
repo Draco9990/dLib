@@ -3,6 +3,10 @@ package dLib.ui.elements.prefabs;
 import dLib.properties.objects.templates.TNumericProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class NumberInputBoxWithArrows extends UIElement {
     public Button leftArrow;
@@ -12,21 +16,17 @@ public class NumberInputBoxWithArrows extends UIElement {
 
     private TNumericProperty<?, ?> linkedProperty;
 
-    public NumberInputBoxWithArrows(int xPos, int yPos, int width, int height, ENumberType type) {
+    public NumberInputBoxWithArrows(AbstractDimension width, AbstractDimension height, ENumberType type) {
+        this(Pos.perc(0), Pos.perc(0), width, height, type);
+    }
+    public NumberInputBoxWithArrows(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, ENumberType type) {
         super(xPos, yPos, width, height);
 
-        int arrowDims = height;
-        if(arrowDims * 2 > width){
-            throw new IllegalArgumentException("Width must be at least twice the height");
-        }
-
-        int actualArrowDims = (int) (arrowDims / 2.0f);
-        int arrowPadding = (int) (actualArrowDims / 2.0f);
-        leftArrow = new Button(arrowPadding, arrowPadding, actualArrowDims, actualArrowDims);
+        leftArrow = new Button(Pos.perc(0), Pos.perc(0), Dim.height(), Dim.fill());
         leftArrow.setImage(UIThemeManager.getDefaultTheme().arrow_left);
         addChildNCS(leftArrow);
 
-        inputbox = new Inputfield("", arrowDims, 0, width - arrowDims * 2, height);
+        inputbox = new Inputfield("", Pos.perc(0.25), Pos.perc(0), Dim.fill(), Dim.fill());
         if(type == ENumberType.WHOLE){
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
         }
@@ -35,7 +35,7 @@ public class NumberInputBoxWithArrows extends UIElement {
         }
         addChildNCS(inputbox);
 
-        rightArrow = new Button(width - arrowDims + arrowPadding, arrowPadding, actualArrowDims, actualArrowDims);
+        rightArrow = new Button(Pos.perc(0.75), Pos.perc(0), Dim.height(), Dim.fill());
         rightArrow.setImage(UIThemeManager.getDefaultTheme().arrow_right);
         addChildNCS(rightArrow);
     }

@@ -3,6 +3,8 @@ package dLib.properties.ui.elements;
 import dLib.properties.objects.templates.TStringProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Inputfield;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
 
 public class OnValueCommitedStringPropertyEditor extends StringPropertyEditor{
     //region Variables
@@ -10,7 +12,7 @@ public class OnValueCommitedStringPropertyEditor extends StringPropertyEditor{
 
     //region Constructors
 
-    public OnValueCommitedStringPropertyEditor(TStringProperty setting, Integer xPos, Integer yPos, Integer width, Integer height) {
+    public OnValueCommitedStringPropertyEditor(TStringProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(setting, xPos, yPos, width, height);
     }
 
@@ -19,7 +21,7 @@ public class OnValueCommitedStringPropertyEditor extends StringPropertyEditor{
     //region Methods
 
     @Override
-    protected UIElement buildContent(TStringProperty<?> property, Integer width, Integer height) {
+    protected UIElement buildContent(TStringProperty<?> property, AbstractDimension width, AbstractDimension height) {
         Inputfield element = (Inputfield) super.buildContent(property, width, height);
 
         element.addOnValueCommittedListener(s -> {

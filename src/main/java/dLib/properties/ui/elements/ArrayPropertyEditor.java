@@ -5,6 +5,9 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 public class ArrayPropertyEditor<PropertyType extends TArrayProperty<ItemType, ?>, ItemType> extends AbstractPropertyEditor<PropertyType> {
     //region Variables
@@ -15,7 +18,7 @@ public class ArrayPropertyEditor<PropertyType extends TArrayProperty<ItemType, ?
 
     //region Constructors
 
-    public ArrayPropertyEditor(PropertyType setting, Integer xPos, Integer yPos, int width, int height){
+    public ArrayPropertyEditor(PropertyType setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(setting, xPos, yPos, width, height);
     }
 
@@ -24,8 +27,8 @@ public class ArrayPropertyEditor<PropertyType extends TArrayProperty<ItemType, ?
     //region Methods
 
     @Override
-    protected UIElement buildContent(PropertyType property, Integer width, Integer height) {
-        middleButton = new TextButton("Edit", 0, 0, width, height);
+    protected UIElement buildContent(PropertyType property, AbstractDimension width, AbstractDimension height) {
+        middleButton = new TextButton("Edit", width, height);
         middleButton.getButton().addOnLeftClickConsumer(new Runnable() {
             @Override
             public void run() {

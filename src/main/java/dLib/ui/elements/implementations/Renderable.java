@@ -14,6 +14,10 @@ import dLib.properties.objects.templates.TFloatVector2Property;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.properties.objects.templates.TTextureBindingProperty;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
@@ -33,12 +37,15 @@ public class Renderable extends UIElement {
     //region Constructors
 
     public Renderable(Texture image){
-        this(image, 0, 0);
+        this(image, Pos.perc(0), Pos.perc(0));
     }
-    public Renderable(Texture image, int xPos, int yPos){
-        this(image, xPos, yPos, image.getWidth(), image.getHeight());
+    public Renderable(Texture image, AbstractPosition xPos, AbstractPosition yPos){
+        this(image, xPos, yPos, Dim.px(image.getWidth()), Dim.px(image.getHeight()));
     }
-    public Renderable(Texture image, int xPos, int yPos, int width, int height){
+    public Renderable(Texture image, AbstractDimension width, AbstractDimension height){
+        this(image, Pos.perc(0), Pos.perc(0), width, height);
+    }
+    public Renderable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
         this.image = image == null ? null : new TextureRegion(image);

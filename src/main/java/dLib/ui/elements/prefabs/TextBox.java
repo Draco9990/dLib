@@ -14,6 +14,10 @@ import dLib.properties.ui.elements.OnValueChangedStringPropertyEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.util.FontManager;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
@@ -55,10 +59,19 @@ public class TextBox extends Hoverable {
 
     //region Constructors
 
-    public TextBox(String text, int xPos, int yPos, int width, int height){
+    public TextBox(String text){
+        this(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+    }
+    public TextBox(String text, AbstractPosition xPos, AbstractPosition yPos){
+        this(text, xPos, yPos, Dim.fill(), Dim.fill());
+    }
+    public TextBox(String text, AbstractDimension width, AbstractDimension height){
+        this(text, Pos.px(0), Pos.px(0), width, height);
+    }
+    public TextBox(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this(text, xPos, yPos, width, height, 0, 0.33f);
     }
-    public TextBox(String text, int xPos, int yPos, int width, int height, float xMarginPerc, float yMarginPerc){
+    public TextBox(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, float xMarginPerc, float yMarginPerc){
         super(null, xPos, yPos, width, height);
 
         this.marginPercX = xMarginPerc;

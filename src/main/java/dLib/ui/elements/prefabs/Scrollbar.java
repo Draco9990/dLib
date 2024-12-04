@@ -2,6 +2,8 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Draggable;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -17,13 +19,13 @@ public abstract class Scrollbar extends UIElement {
 
     //region Constructors
 
-    public Scrollbar(int x, int y, int width, int height){
+    public Scrollbar(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height){
         super(x, y, width, height);
 
-        slider = buildSlider(width, height);
+        slider = buildSlider();
     }
 
-    protected abstract Draggable buildSlider(int containerWidth, int containerHeight);
+    protected abstract Draggable buildSlider();
 
     //endregion
 
