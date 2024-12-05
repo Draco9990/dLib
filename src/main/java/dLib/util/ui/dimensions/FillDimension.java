@@ -3,10 +3,6 @@ package dLib.util.ui.dimensions;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.HorizontalItemBox;
 import dLib.ui.elements.prefabs.VerticalItemBox;
-import dLib.util.ui.position.DynamicPosition;
-
-import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public class FillDimension extends AbstractDimension {
     public FillDimension(){

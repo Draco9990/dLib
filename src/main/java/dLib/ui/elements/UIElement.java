@@ -38,10 +38,12 @@ public class UIElement {
     protected UIElement parent;
     protected List<UIElementChild> children = new ArrayList<>();
 
-    private Pair<AbstractPosition, AbstractPosition> localPosition = new Pair<>(Pos.px(0), Pos.px(0));
+    private AbstractPosition localPosX = Pos.px(0);
+    private AbstractPosition localPosY = Pos.px(0);
     private ArrayList<Consumer<UIElement>> positionChangedConsumers = new ArrayList<>();
 
-    private Pair<AbstractDimension, AbstractDimension> dimensions = new Pair<>(Dim.fill(), Dim.fill());
+    private AbstractDimension width = Dim.fill();
+    private AbstractDimension height = Dim.fill();
     private IntegerVector2 lowerLocalBounds = new IntegerVector2(null, null);
     private IntegerVector2 upperLocalBounds = new IntegerVector2(null, null);
     private IntegerVector2 lowerWorldBounds = new IntegerVector2(null, null);
@@ -90,8 +92,10 @@ public class UIElement {
 
     public UIElement(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
-        localPosition = new Pair<>(xPos, yPos);
-        dimensions = new Pair<>(width, height);
+        this.localPosX = xPos;
+        this.localPosY = yPos;
+        this.width = width;
+        this.height = height;
 
         String uiStrings = getUIStringsKey();
         if(uiStrings != null){
@@ -103,8 +107,9 @@ public class UIElement {
         setID(data.id.getValue());
 
         setLocalPosition(data.localPosition.getXValue(), data.localPosition.getYValue());
-
-        dimensions = new Pair<>(Dim.px(data.dimensions.getXValue()), Dim.px(data.dimensions.getYValue()));
+        
+        width = Dim.px(data.dimensions.getXValue());
+        height = Dim.px(data.dimensions.getYValue());
 
         setLowerLocalBounds(data.lowerLocalBound.x, data.lowerLocalBound.y);
         setUpperLocalBounds(data.upperLocalBound.x, data.upperLocalBound.y);
@@ -374,20 +379,13 @@ public class UIElement {
         return setLocalPosition(getLocalPositionX(), newPosition);
     }
     public UIElement setLocalPosition(int newPositionX, int newPositionY){
-        return setLocalPosition(newPositionX, newPositionY, false);
-    }
-    public UIElement setLocalPosition(int newPositionX, int newPositionY, boolean dynamic){
-        AbstractPosition oldPosX = localPosition.getKey();
-        AbstractPosition oldPosY = localPosition.getValue();
+        AbstractPosition oldPosX = localPosX;
+        AbstractPosition oldPosY = localPosY;
 
-        if(!dynamic){
-            localPosition = new Pair<>(Pos.px(newPositionX), Pos.px(newPositionY));
-        }
-        else{
-            localPosition = new Pair<>(Pos.dpx(newPositionX), Pos.dpx(newPositionY));
-        }
+        localPosX = Pos.px(newPositionX);
+        localPosY = Pos.px(newPositionY);
 
-        if(oldPosX != localPosition.getKey() || oldPosY != localPosition.getValue()){
+        if(oldPosX != localPosX || oldPosY != localPosY){
             onPositionChanged();
         }
 
@@ -403,10 +401,7 @@ public class UIElement {
         return getLocalPosition().y;
     }
     public final IntegerVector2 getLocalPosition(){
-        return new IntegerVector2(localPosition.getKey().getLocalX(this), localPosition.getValue().getLocalY(this));
-    }
-    public final Pair<AbstractPosition, AbstractPosition> getLocalPositionRaw(){
-        return new Pair<>(localPosition.getKey().cpy(), localPosition.getValue().cpy());
+        return new IntegerVector2(localPosX.getLocalX(this), localPosY.getLocalY(this));
     }
 
     public UIElement setLocalPositionCenteredX(int newPos){
@@ -457,7 +452,7 @@ public class UIElement {
         return getWorldPosition().y;
     }
     public final IntegerVector2 getWorldPosition(){
-        return new IntegerVector2(localPosition.getKey().getWorldX(this), localPosition.getValue().getWorldY(this));
+        return new IntegerVector2(localPosX.getWorldX(this), localPosY.getWorldY(this));
     }
 
     public UIElement setWorldPositionCenteredX(int newPos){
@@ -700,7 +695,7 @@ public class UIElement {
         int desiredPositionX = getLocalPositionX();
         int desiredPositionY = getLocalPositionY();
 
-        if(!(dimensions.getKey() instanceof StaticDimension)){
+        if(!(width instanceof StaticDimension)){
             int boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
 
             if(upperLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
@@ -721,7 +716,7 @@ public class UIElement {
 
         }
 
-        if(!(dimensions.getValue() instanceof StaticDimension)){
+        if(!(height instanceof StaticDimension)){
             int boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
 
             if(upperLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
@@ -742,8 +737,8 @@ public class UIElement {
         }
 
         if((desiredWidth != null && desiredWidth != getWidth()) || (desiredHeight != null && desiredHeight != getHeight())){
-            setDimensions(desiredWidth == null ? dimensions.getKey() : Dim.px(desiredWidth),
-                    desiredHeight == null ? dimensions.getValue() : Dim.px(desiredHeight));
+            setDimensions(desiredWidth == null ? width : Dim.px(desiredWidth),
+                    desiredHeight == null ? height : Dim.px(desiredHeight));
         }
         else if(desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
             setLocalPosition(desiredPositionX, desiredPositionY);
@@ -1054,13 +1049,13 @@ public class UIElement {
         return setDimensions(null, newHeight);
     }
     public UIElement setDimensions(AbstractDimension newWidth, AbstractDimension newHeight){
-        AbstractDimension oldWidth = dimensions.getKey();
-        AbstractDimension oldHeight = dimensions.getValue();
+        AbstractDimension oldWidth = width;
+        AbstractDimension oldHeight = height;
 
-        dimensions = new Pair<>(newWidth == null ? dimensions.getKey() : newWidth,
-                newHeight == null ? dimensions.getValue() : newHeight);
+        width = newWidth == null ? width : newWidth;
+        height = newHeight == null ? height : newHeight;
 
-        if(!Objects.equals(oldWidth, dimensions.getKey()) || !Objects.equals(oldHeight, dimensions.getValue())){
+        if(!Objects.equals(oldWidth, width) || !Objects.equals(oldHeight, height)){
             onDimensionsChanged();
         }
 
@@ -1086,23 +1081,20 @@ public class UIElement {
     public void onParentDimensionsChanged(){}
 
     public int getWidth(){
-        return dimensions.getKey().getWidth(this);
+        return width.getWidth(this);
     }
     public int getHeight(){
-        return dimensions.getValue().getHeight(this);
+        return height.getHeight(this);
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
     }
 
     public AbstractDimension getWidthRaw(){
-        return dimensions.getKey().cpy();
+        return width.cpy();
     }
     public AbstractDimension getHeightRaw(){
-        return dimensions.getValue().cpy();
-    }
-    public Pair<AbstractDimension, AbstractDimension> getDimensionsRaw(){
-        return new Pair<>(dimensions.getKey().cpy(), dimensions.getValue().cpy());
+        return height.cpy();
     }
 
 

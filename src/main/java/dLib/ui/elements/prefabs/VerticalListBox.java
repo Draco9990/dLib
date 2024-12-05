@@ -60,7 +60,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
         }
 
         for(ItemBoxItem item : items){
-            item.renderForItem.setLocalPosition(itemPadding.x, currentYPos - item.renderForItem.getHeight(), true);
+            item.renderForItem.setLocalPosition(itemPadding.x, currentYPos - item.renderForItem.getHeight());
 
             if(item.renderForItem.overlapsParent()){
                 item.renderForItem.showAndEnable();

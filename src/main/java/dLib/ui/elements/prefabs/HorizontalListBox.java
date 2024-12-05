@@ -58,7 +58,7 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
         }
 
         for(ItemBoxItem item : items){
-            item.renderForItem.setLocalPosition(currentXPos, -itemPadding.y, true);
+            item.renderForItem.setLocalPosition(currentXPos, -itemPadding.y);
 
             if(item.renderForItem.overlapsParent()){
                 item.renderForItem.showAndEnable();
