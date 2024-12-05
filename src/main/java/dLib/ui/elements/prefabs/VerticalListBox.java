@@ -60,7 +60,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
         }
 
         for(ItemBoxItem item : items){
-            item.renderForItem.setLocalPosition(itemPadding.x, currentYPos - item.renderForItem.getHeight()); //TODO RF BOUNDING HEIGHT
+            item.renderForItem.setLocalPosition(itemPadding.x, currentYPos - item.renderForItem.getHeight(), true);
 
             if(item.renderForItem.overlapsParent()){
                 item.renderForItem.showAndEnable();

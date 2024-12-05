@@ -28,7 +28,6 @@ import dLib.util.ui.position.Pos;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class UIElement {
@@ -43,8 +42,6 @@ public class UIElement {
     private ArrayList<Consumer<UIElement>> positionChangedConsumers = new ArrayList<>();
 
     private Pair<AbstractDimension, AbstractDimension> dimensions = new Pair<>(Dim.fill(), Dim.fill());
-    private boolean scaleWithParent = true;
-
     private IntegerVector2 lowerLocalBounds = new IntegerVector2(null, null);
     private IntegerVector2 upperLocalBounds = new IntegerVector2(null, null);
     private IntegerVector2 lowerWorldBounds = new IntegerVector2(null, null);
@@ -108,7 +105,6 @@ public class UIElement {
         setLocalPosition(data.localPosition.getXValue(), data.localPosition.getYValue());
 
         dimensions = new Pair<>(Dim.px(data.dimensions.getXValue()), Dim.px(data.dimensions.getYValue()));
-        scaleWithParent = data.scaleWithParent;
 
         setLowerLocalBounds(data.lowerLocalBound.x, data.lowerLocalBound.y);
         setUpperLocalBounds(data.upperLocalBound.x, data.upperLocalBound.y);
@@ -175,6 +171,7 @@ public class UIElement {
     public final void render(SpriteBatch sb){
         if(!shouldRender()) return;
 
+        boolean pushedScissors = false;
         IntegerVector4 maskBounds = getMaskWorldBounds();
         if(maskBounds != null){
             sb.flush();
@@ -184,12 +181,12 @@ public class UIElement {
 
             OrthographicCamera camera = Reflection.getFieldValue("camera", Gdx.app.getApplicationListener());
             ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), mask, scissors);
-            ScissorStack.pushScissors(scissors);
+            pushedScissors = ScissorStack.pushScissors(scissors);
         }
 
         renderSelf(sb);
 
-        if(maskBounds != null){
+        if(pushedScissors){
             ScissorStack.popScissors();
             sb.flush();
         }
@@ -377,10 +374,18 @@ public class UIElement {
         return setLocalPosition(getLocalPositionX(), newPosition);
     }
     public UIElement setLocalPosition(int newPositionX, int newPositionY){
+        return setLocalPosition(newPositionX, newPositionY, false);
+    }
+    public UIElement setLocalPosition(int newPositionX, int newPositionY, boolean dynamic){
         AbstractPosition oldPosX = localPosition.getKey();
         AbstractPosition oldPosY = localPosition.getValue();
 
-        localPosition = new Pair<>(Pos.px(newPositionX), Pos.px(newPositionY));
+        if(!dynamic){
+            localPosition = new Pair<>(Pos.px(newPositionX), Pos.px(newPositionY));
+        }
+        else{
+            localPosition = new Pair<>(Pos.dpx(newPositionX), Pos.dpx(newPositionY));
+        }
 
         if(oldPosX != localPosition.getKey() || oldPosY != localPosition.getValue()){
             onPositionChanged();
@@ -399,6 +404,9 @@ public class UIElement {
     }
     public final IntegerVector2 getLocalPosition(){
         return new IntegerVector2(localPosition.getKey().getLocalX(this), localPosition.getValue().getLocalY(this));
+    }
+    public final Pair<AbstractPosition, AbstractPosition> getLocalPositionRaw(){
+        return new Pair<>(localPosition.getKey().cpy(), localPosition.getValue().cpy());
     }
 
     public UIElement setLocalPositionCenteredX(int newPos){
@@ -1045,12 +1053,6 @@ public class UIElement {
     public UIElement setHeight(AbstractDimension newHeight){
         return setDimensions(null, newHeight);
     }
-    public UIElement setWidth(int newWidth){
-        return setWidth(Dim.px(newWidth));
-    } //TODO REMOVE
-    public UIElement setHeight(int newHeight){
-        return setHeight(Dim.px(newHeight));
-    } //TODO REMOVE
     public UIElement setDimensions(AbstractDimension newWidth, AbstractDimension newHeight){
         AbstractDimension oldWidth = dimensions.getKey();
         AbstractDimension oldHeight = dimensions.getValue();
@@ -1058,19 +1060,30 @@ public class UIElement {
         dimensions = new Pair<>(newWidth == null ? dimensions.getKey() : newWidth,
                 newHeight == null ? dimensions.getValue() : newHeight);
 
-        if(oldWidth != null && newWidth != null && !oldWidth.equals(newWidth)){
-            for(UIElementChild child : children){
-                child.element.onParentDimensionsChanged(oldWidth, newWidth, oldHeight, newHeight);
-            }
+        if(!Objects.equals(oldWidth, dimensions.getKey()) || !Objects.equals(oldHeight, dimensions.getValue())){
+            onDimensionsChanged();
         }
 
         return this;
     }
+
+    public UIElement setWidth(int newWidth){
+        return setWidth(Dim.px(newWidth));
+    }
+    public UIElement setHeight(int newHeight){
+        return setHeight(Dim.px(newHeight));
+    }
     public UIElement setDimensions(int newWidth, int newHeight){
         return setDimensions(Dim.px(newWidth), Dim.px(newHeight));
-    } //TODO REMOVE
+    }
 
-    public void onParentDimensionsChanged(AbstractDimension oldWidth, AbstractDimension newWidth, AbstractDimension oldHeight, AbstractDimension newHeight){}
+    public void onDimensionsChanged(){
+        for(UIElementChild child : children){
+            child.element.onParentDimensionsChanged();
+        }
+    }
+
+    public void onParentDimensionsChanged(){}
 
     public int getWidth(){
         return dimensions.getKey().getWidth(this);
@@ -1331,7 +1344,6 @@ public class UIElement {
                 };
             }
         }.setValueNames("W", "H"); //TODO make this dimensions
-        public boolean scaleWithParent = true;
 
         public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);
         public IntegerVector2 upperLocalBound = new IntegerVector2(null, null);

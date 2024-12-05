@@ -34,7 +34,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
     // Properties
     protected boolean noInitScrollbar = false; //TODO expose
 
-    protected int itemSpacing = 0;
+    protected int itemSpacing = 1;
     protected boolean invertedItemOrder = false;
 
     protected IntegerVector2 itemPadding = new IntegerVector2(0, 0);
@@ -581,7 +581,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
     public static class ItemBoxData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public IntegerProperty itemSpacing = new IntegerProperty(0).setMinimumValue(0).setName("Item Spacing");
+        public IntegerProperty itemSpacing = new IntegerProperty(1).setMinimumValue(1).setName("Item Spacing");
         public BooleanProperty invertedItemOrder = new BooleanProperty(false).setName("Inverted Item Order");
 
         public IntegerVector2Property itemPadding = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Item Padding").setValueNames("L:", "T:");

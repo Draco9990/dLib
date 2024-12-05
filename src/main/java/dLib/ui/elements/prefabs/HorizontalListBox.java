@@ -58,7 +58,7 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
         }
 
         for(ItemBoxItem item : items){
-            item.renderForItem.setLocalPosition(currentXPos, -itemPadding.y); //TODO RF BOUNDING HEIGHT
+            item.renderForItem.setLocalPosition(currentXPos, -itemPadding.y, true);
 
             if(item.renderForItem.overlapsParent()){
                 item.renderForItem.showAndEnable();

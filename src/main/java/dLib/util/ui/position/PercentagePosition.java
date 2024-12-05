@@ -14,12 +14,14 @@ public class PercentagePosition extends AbstractPosition {
 
     @Override
     public int getLocalX(UIElement element) {
-        return (int)(element.getWidth() * percentage);
+        int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
+        return (int)(parentWidth * percentage);
     }
 
     @Override
     public int getLocalY(UIElement element) {
-        return (int)(element.getHeight() * percentage);
+        int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
+        return (int)(parentHeight * percentage);
     }
 
     @Override
