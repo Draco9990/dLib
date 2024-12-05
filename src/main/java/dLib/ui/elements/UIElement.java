@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
+import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.screens.UIManager;
 import dLib.util.DLibLogger;
@@ -42,6 +43,8 @@ public class UIElement {
     private AbstractPosition localPosX = Pos.px(0);
     private AbstractPosition localPosY = Pos.px(0);
     private ArrayList<Consumer<UIElement>> positionChangedConsumers = new ArrayList<>();
+
+    private Alignment alignment = new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
 
     private AbstractDimension width = Dim.fill();
     private AbstractDimension height = Dim.fill();
@@ -1366,6 +1369,34 @@ public class UIElement {
     }
 
     //endregion Padding
+
+    //region Alignment
+
+    public UIElement setHorizontalAlignment(Alignment.HorizontalAlignment horizontalAlignment){
+        setAlignment(horizontalAlignment, alignment.verticalAlignment);
+        return this;
+    }
+    public UIElement setVerticalAlignment(Alignment.VerticalAlignment verticalAlignment){
+        setAlignment(alignment.horizontalAlignment, verticalAlignment);
+        return this;
+    }
+    public UIElement setAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
+        alignment.horizontalAlignment = horizontalAlignment;
+        alignment.verticalAlignment = verticalAlignment;
+        return this;
+    }
+
+    public Alignment.HorizontalAlignment getHorizontalAlignment(){
+        return alignment.horizontalAlignment;
+    }
+    public Alignment.VerticalAlignment getVerticalAlignment(){
+        return alignment.verticalAlignment;
+    }
+    public Alignment getAlignment(){
+        return alignment;
+    }
+
+    //endregion Alignment
 
     //endregion
 

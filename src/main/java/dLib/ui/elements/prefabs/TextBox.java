@@ -34,8 +34,6 @@ public class TextBox extends Hoverable {
     private BitmapFont font;
     private boolean wrap;
 
-    private Alignment alignment;
-
     private String onTextChangedLine;
 
     private float marginPercX = 0.0f;
@@ -73,7 +71,7 @@ public class TextBox extends Hoverable {
         this.marginPercX = xMarginPerc;
         this.marginPercY = yMarginPerc;
 
-        alignment = new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER);
+        setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER);
         wrap = false;
 
         this.text = text;
@@ -95,8 +93,6 @@ public class TextBox extends Hoverable {
         this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
         //TODO FONT
         this.wrap = data.wrap.getValue();
-
-        alignment = new Alignment(data.alignment.getValue());
 
         this.marginPercX = data.marginPercX;
         this.marginPercY = data.marginPercY;
@@ -142,8 +138,8 @@ public class TextBox extends Hoverable {
 
         if(!wrap){
             FontHelper.layout.setText(getFontForRender(), "lL");
-            if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.LEFT){
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.TOP){
+            if(getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
                     FontHelper.renderFontLeftTopAligned(
                             sb,
                             getFontForRender(),
@@ -152,7 +148,7 @@ public class TextBox extends Hoverable {
                             (renderY + renderHeight) * Settings.yScale,
                             textRenderColor);
                 }
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.CENTER){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
                     FontHelper.renderFontLeft(
                             sb,
                             getFontForRender(),
@@ -161,7 +157,7 @@ public class TextBox extends Hoverable {
                             (renderY + halfHeight) * Settings.yScale,
                             textRenderColor);
                 }
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.BOTTOM){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
                     FontHelper.renderFontLeftDownAligned(
                             sb,
                             getFontForRender(),
@@ -171,8 +167,8 @@ public class TextBox extends Hoverable {
                             textRenderColor);
                 }
             }
-            if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.CENTER){
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.TOP){
+            if(getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
                     FontHelper.renderFontCenteredTopAligned(
                             sb,
                             getFontForRender(),
@@ -181,7 +177,7 @@ public class TextBox extends Hoverable {
                             (renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2,
                             textRenderColor);
                 }
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.CENTER){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
                     FontHelper.renderFontCentered(
                             sb,
                             getFontForRender(),
@@ -190,7 +186,7 @@ public class TextBox extends Hoverable {
                             (renderY + halfHeight) * Settings.yScale,
                             textRenderColor);
                 }
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.BOTTOM){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
                     FontHelper.renderFontCentered(
                             sb,
                             getFontForRender(),
@@ -200,8 +196,8 @@ public class TextBox extends Hoverable {
                             textRenderColor);
                 }
             }
-            if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT){
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.TOP){
+            if(getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
                     FontHelper.renderFontRightTopAligned(
                             sb,
                             getFontForRender(),
@@ -210,7 +206,7 @@ public class TextBox extends Hoverable {
                             (renderY + renderHeight) * Settings.yScale,
                             textRenderColor);
                 }
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.CENTER){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
                     FontHelper.renderFontRightAligned(
                             sb,
                             getFontForRender(),
@@ -219,7 +215,7 @@ public class TextBox extends Hoverable {
                             (renderY + halfHeight) * Settings.yScale,
                             textRenderColor);
                 }
-                if(alignment.verticalAlignment == Alignment.VerticalAlignment.BOTTOM){
+                if(getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
                     FontHelper.renderFontRightAligned(
                             sb,
                             getFontForRender(),
@@ -235,15 +231,15 @@ public class TextBox extends Hoverable {
             getFontForRender().setColor(textRenderColor);
 
             int align = 0;
-            if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.LEFT) align = Align.left;
-            else if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.CENTER) align = Align.center;
-            else if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT) align = Align.right;
+            if(getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT) align = Align.left;
+            else if(getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER) align = Align.center;
+            else if(getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT) align = Align.right;
 
             FontHelper.layout.setText(getFontForRender(), textToRender, Color.WHITE, renderWidth * Settings.xScale, align, true);
 
-            if(alignment.verticalAlignment == Alignment.VerticalAlignment.TOP) renderY = renderY + renderHeight;
-            else if(alignment.verticalAlignment == Alignment.VerticalAlignment.CENTER) renderY = renderY + renderHeight / 2 + (int) (FontHelper.layout.height / 2 / Settings.yScale);
-            else if(alignment.verticalAlignment == Alignment.VerticalAlignment.BOTTOM) renderY = renderY + (int) (FontHelper.layout.height / Settings.yScale);
+            if(getVerticalAlignment() == Alignment.VerticalAlignment.TOP) renderY = renderY + renderHeight;
+            else if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER) renderY = renderY + renderHeight / 2 + (int) (FontHelper.layout.height / 2 / Settings.yScale);
+            else if(getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM) renderY = renderY + (int) (FontHelper.layout.height / Settings.yScale);
 
             getFontForRender().draw(sb, textToRender, renderX * Settings.xScale, renderY * Settings.yScale, renderWidth * Settings.xScale, align, true);
             getFontForRender().getData().setScale(1.0F);
@@ -325,32 +321,6 @@ public class TextBox extends Hoverable {
     }
     public TextBox setMarginPercY(float value){
         marginPercY = value;
-        return this;
-    }
-
-    //endregion
-
-    //region Text Alignment
-
-    public TextBox setHorizontalAlignment(Alignment.HorizontalAlignment alignment){
-        this.alignment.horizontalAlignment = alignment;
-        return this;
-    }
-    public Alignment.HorizontalAlignment getHorizontalAlignment(){
-        return this.alignment.horizontalAlignment;
-    }
-
-    public TextBox setVerticalAlignment(Alignment.VerticalAlignment alignment){
-        this.alignment.verticalAlignment = alignment;
-        return this;
-    }
-    public Alignment.VerticalAlignment getVerticalAlignment(){
-        return alignment.verticalAlignment;
-    }
-
-    public TextBox setAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
-        setHorizontalAlignment(horizontalAlignment);
-        setVerticalAlignment(verticalAlignment);
         return this;
     }
 
@@ -459,8 +429,6 @@ public class TextBox extends Hoverable {
         public ColorProperty textRenderColor = new ColorProperty(Color.WHITE).setName("Render Color");
         //TODO FONT
         public BooleanProperty wrap = new BooleanProperty(false).setName("Wrap");
-
-        public AlignmentProperty alignment = new AlignmentProperty(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER)).setName("Alignment");
 
         public float marginPercX = 0.07f; //TODO Propertize
         public float marginPercY = 0.33f;
