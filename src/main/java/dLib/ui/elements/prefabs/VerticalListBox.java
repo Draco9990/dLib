@@ -51,38 +51,12 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
     public void updateSelf() {
         super.updateSelf();
 
-        if(getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM) updateListBottomTop();
-        else if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER) updateListCentered();
-        else if(getVerticalAlignment() == Alignment.VerticalAlignment.TOP) updateListTopBottom();
+        if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM) updateListBottomTop();
+        else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) updateListCentered();
+        else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP) updateListTopBottom();
     }
 
     private void updateListBottomTop(){
-        int currentYPos = itemBox.getHeight() - itemPadding.y + currentScrollbarOffset;
-
-        for(ItemBoxItem item : originalItems){
-            item.renderForItem.hideAndDisable();
-        }
-
-        for(ItemBoxItem item : items){
-            item.renderForItem.setLocalPosition(itemPadding.x, currentYPos - item.renderForItem.getHeight());
-
-            if(item.renderForItem.overlapsParent()){
-                item.renderForItem.showAndEnable();
-            }
-            else{
-                item.renderForItem.hideAndDisable();
-            }
-
-            if(!item.selected){
-                item.renderForItem.lightenInstantly();
-            }
-            else {
-                item.renderForItem.darkenInstantly();
-            }
-
-            currentYPos -= item.renderForItem.getHeight();
-            currentYPos -= itemSpacing;
-        }
     }
 
     private void updateListCentered(){

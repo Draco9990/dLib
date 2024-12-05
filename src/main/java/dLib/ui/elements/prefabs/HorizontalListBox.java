@@ -48,9 +48,9 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
     public void updateSelf() {
         super.updateSelf();
 
-        if(getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT) updateItemsLeftRight();
-        else if(getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER) updateItemsCentered();
-        else if(getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT) updateItemsRightLeft();
+        if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.LEFT) updateItemsLeftRight();
+        else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER) updateItemsCentered();
+        else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT) updateItemsRightLeft();
     }
 
     private void updateItemsLeftRight(){

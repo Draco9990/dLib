@@ -419,6 +419,13 @@ public class UIElement {
         return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
     }
 
+    public AbstractPosition getLocalPositionXRaw(){
+        return localPosX;
+    }
+    public AbstractPosition getLocalPositionYRaw(){
+        return localPosY;
+    }
+
     public UIElement setLocalPositionCenteredX(int newPos){
         return setLocalPositionCentered(newPos, getLocalPositionCenteredY());
     }

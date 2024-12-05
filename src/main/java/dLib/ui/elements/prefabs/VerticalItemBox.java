@@ -31,7 +31,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
     public VerticalItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
         super(xPos, yPos, width, height, noInitScrollbar);
 
-        setVerticalAlignment(Alignment.VerticalAlignment.TOP);
+        setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
     }
 
     public VerticalItemBox(VerticalItemBoxData data) {
@@ -58,7 +58,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
     protected UIElement buildItemBox() {
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
-        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
+        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, Pos.px(49), Pos.px(0), Dim.fill(), Dim.fill()){
             @Override
             protected void onHovered() {
                 super.onHovered();
@@ -71,6 +71,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
                 trackScrollWheelScroll = false;
             }
         };
+        itemBoxBackground.setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
         itemBoxBackground.setRenderColor(bgColor);
         return itemBoxBackground;
     }
@@ -91,7 +92,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
 
     @Override
     protected Scrollbar buildScrollBar() {
-        Scrollbar scrollbar = new VerticalScrollbar(Pos.px(49), Pos.px(0), Dim.px(scrollbarWidth), Dim.fill()) {
+        Scrollbar scrollbar = new VerticalScrollbar(Pos.px(0), Pos.px(0), Dim.px(scrollbarWidth), Dim.fill()) {
             @Override
             public void onScrollbarScrolled(float percentage) {
                 super.onScrollbarScrolled(percentage);
@@ -99,6 +100,7 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
                 currentScrollbarOffset = recalculateScrollOffset(1 - percentage);
             }
         };
+        scrollbar.setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
 
         return scrollbar;
     }

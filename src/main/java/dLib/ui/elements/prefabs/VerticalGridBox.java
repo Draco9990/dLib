@@ -47,9 +47,9 @@ public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
     public void updateSelf() {
         super.updateSelf();
 
-        if(getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM) updateListBottomTop();
-        else if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER) updateListCentered();
-        else if(getVerticalAlignment() == Alignment.VerticalAlignment.TOP) updateListTopBottom();
+        if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM) updateListBottomTop();
+        else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) updateListCentered();
+        else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP) updateListTopBottom();
     }
 
     private void updateListBottomTop(){

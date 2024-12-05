@@ -33,31 +33,7 @@ public class UC_Editor extends Renderable {
 
         HorizontalBox mainBox = new HorizontalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill(), true);
         {
-            VerticalBox firstColumn = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.perc(0.8f), Dim.fill(), true){
-                @Override
-                public int getWidth() {
-                    int res = super.getWidth();
-                    return res;
-                }
-
-                @Override
-                public int getHeight() {
-                    int res = super.getHeight();
-                    return res;
-                }
-
-                @Override
-                public int getLocalPositionX() {
-                    int res = super.getLocalPositionX();
-                    return res;
-                }
-
-                @Override
-                public int getLocalPositionY() {
-                    int res = super.getLocalPositionY();
-                    return res;
-                }
-            };
+            VerticalBox firstColumn = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.perc(0.8f), Dim.fill(), true);
             {
                 firstColumn.addItem(toolbar = new UC_EditorToolbar());
                 toolbar.setPaddingBottom(Padd.px(10));

@@ -3,7 +3,6 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.properties.objects.*;
-import dLib.properties.objects.templates.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
@@ -11,6 +10,7 @@ import dLib.ui.util.ESelectionMode;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -28,6 +28,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     protected ArrayList<ItemBoxItem> items = new ArrayList<>();
     protected ArrayList<ItemBoxItem> originalItems = new ArrayList<>();
+
+    private Alignment contentAlignment = new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
 
     private String filterText = "";
 
@@ -565,6 +567,34 @@ public abstract class ItemBox<ItemType> extends UIElement {
     protected abstract float recalculateScrollPercentageForItemChange();
 
     //endregion
+
+    //region Content Alignment
+
+    public UIElement setHorizontalContentAlignment(Alignment.HorizontalAlignment horizontalAlignment){
+        setContentAlignment(horizontalAlignment, contentAlignment.verticalAlignment);
+        return this;
+    }
+    public UIElement setVerticalContentAlignment(Alignment.VerticalAlignment verticalAlignment){
+        setContentAlignment(contentAlignment.horizontalAlignment, verticalAlignment);
+        return this;
+    }
+    public UIElement setContentAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
+        contentAlignment.horizontalAlignment = horizontalAlignment;
+        contentAlignment.verticalAlignment = verticalAlignment;
+        return this;
+    }
+
+    public Alignment.HorizontalAlignment getHorizontalContentAlignment(){
+        return contentAlignment.horizontalAlignment;
+    }
+    public Alignment.VerticalAlignment getVerticalContentAlignment(){
+        return contentAlignment.verticalAlignment;
+    }
+    public Alignment getContentAlignment(){
+        return contentAlignment;
+    }
+
+    //endregion Alignment
 
     //endregion
 

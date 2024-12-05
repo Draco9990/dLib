@@ -14,6 +14,10 @@ public class PercentagePosition extends AbstractPosition {
         this.percentage = percentage;
     }
 
+    public float getVal(){
+        return percentage;
+    }
+
     @Override
     public int getLocalX(UIElement element) {
         if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
@@ -28,7 +32,12 @@ public class PercentagePosition extends AbstractPosition {
         else{ //element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT
             int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
 
-            return parentWidth - (int)(parentWidth * percentage);
+            if(element.getWidthRaw() instanceof FillDimension){
+                return getLocalXForRightOffsetFill(element, (int) (parentWidth * percentage));
+            }
+            else{
+                return parentWidth - (int) ((parentWidth - element.getWidth()) * percentage);
+            }
         }
     }
 
@@ -46,7 +55,12 @@ public class PercentagePosition extends AbstractPosition {
         else{ //element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP
             int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
 
-            return parentHeight - (int)(parentHeight * percentage);
+            if(element.getHeightRaw() instanceof FillDimension){
+                return getLocalYForTopOffsetFill(element, (int) (parentHeight * percentage));
+            }
+            else{
+                return parentHeight - (int) ((parentHeight - element.getHeight()) * percentage);
+            }
         }
     }
 

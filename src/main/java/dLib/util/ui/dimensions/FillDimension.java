@@ -4,6 +4,8 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.HorizontalItemBox;
 import dLib.ui.elements.prefabs.VerticalItemBox;
+import dLib.util.ui.position.PercentagePosition;
+import dLib.util.ui.position.StaticPosition;
 
 public class FillDimension extends AbstractDimension {
     public FillDimension(){
@@ -47,61 +49,37 @@ public class FillDimension extends AbstractDimension {
             return (int) ((self.getParent().getWidth() - fillChainStart.getLocalPositionX()) / (float) fillChainCount);
         }
         else{
-            if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-                return calculateLeftToRightFillWidth(self);
-            }
-            else{
-                return calculateRightToLeftFillWidth(self);
-            }
-        }
-    }
-
-    private int calculateLeftToRightFillWidth(UIElement self){
-        Integer resultingWidth = self.getParent().getWidth() - self.getLocalPositionX();
-        for(UIElement sibling : self.getParent().getChildren()){
-            if(sibling == self){
-                continue;
-            }
-
-            if ((sibling.getLocalPositionY() >= self.getLocalPositionY() || sibling.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() + sibling.getHeight() < self.getLocalPositionY()) &&
-                (sibling.getLocalPositionY() < self.getLocalPositionY() || self.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() > self.getLocalPositionY() + self.getHeight())) {
-                continue;
-            }
-
-            if(sibling.getLocalPositionX() < self.getLocalPositionX()){
-                if(sibling.getLocalPositionX() + sibling.getWidth() >= self.getLocalPositionX()){
-                    return 0;
+            int maxWidth = self.getParent().getWidth() - self.getLocalPositionX();
+            if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
+                if(self.getLocalPositionXRaw() instanceof StaticPosition){
+                    maxWidth = maxWidth - ((StaticPosition) self.getLocalPositionXRaw()).getVal();
+                }
+                else if(self.getLocalPositionXRaw() instanceof PercentagePosition){
+                    maxWidth = maxWidth - (int) (self.getParent().getWidth() * ((PercentagePosition) self.getLocalPositionXRaw()).getVal());
                 }
             }
-            else{
-                resultingWidth = Math.min(resultingWidth, sibling.getLocalPositionX() - self.getLocalPositionX());
-            }
-        }
-        return resultingWidth;
-    }
 
-    private int calculateRightToLeftFillWidth(UIElement self){
-        Integer resultingWidth = self.getParent().getWidth() - self.getLocalPositionX();
-        for(UIElement sibling : self.getParent().getChildren()){
-            if(sibling == self){
-                continue;
-            }
+            for(UIElement sibling : self.getParent().getChildren()){
+                if(sibling == self){
+                    continue;
+                }
 
-            if ((sibling.getLocalPositionY() >= self.getLocalPositionY() || sibling.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() + sibling.getHeight() < self.getLocalPositionY()) &&
-                (sibling.getLocalPositionY() < self.getLocalPositionY() || self.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() > self.getLocalPositionY() + self.getHeight())) {
-                continue;
-            }
+                if ((sibling.getLocalPositionY() >= self.getLocalPositionY() || sibling.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() + sibling.getHeight() < self.getLocalPositionY()) &&
+                        (sibling.getLocalPositionY() < self.getLocalPositionY() || self.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() > self.getLocalPositionY() + self.getHeight())) {
+                    continue;
+                }
 
-            if(sibling.getLocalPositionX() > self.getLocalPositionX()){
-                if(sibling.getLocalPositionX() - sibling.getWidth() <= self.getLocalPositionX()){
-                    return 0;
+                if(sibling.getLocalPositionX() < self.getLocalPositionX()){
+                    if(sibling.getLocalPositionX() + sibling.getWidth() >= self.getLocalPositionX()){
+                        return 0;
+                    }
+                }
+                else{
+                    maxWidth = Math.min(maxWidth, sibling.getLocalPositionX() - self.getLocalPositionX());
                 }
             }
-            else{
-                resultingWidth = Math.min(resultingWidth,  self.getLocalPositionX() - sibling.getLocalPositionX());
-            }
+            return maxWidth;
         }
-        return resultingWidth;
     }
 
     @Override
@@ -136,66 +114,42 @@ public class FillDimension extends AbstractDimension {
             return (int) ((self.getParent().getHeight() - fillChainStart.getLocalPositionY()) / (float) fillChainCount);
         }
         else{
-            if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-                return calculateDownToTopFillHeight(self);
-            }
-            else{
-                return calculateTopToBottomFillHeight(self);
-            }
-        }
-    }
-
-    private int calculateDownToTopFillHeight(UIElement self){
-        Integer resultingHeight = self.getParent().getHeight() - self.getLocalPositionY();
-        for(UIElement sibling : self.getParent().getChildren()){
-            if(sibling == self){
-                continue;
+            int resultingHeight = self.getParent().getHeight() - self.getLocalPositionY();
+            if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
+                if(self.getLocalPositionYRaw() instanceof StaticPosition){
+                    resultingHeight = resultingHeight - ((StaticPosition) self.getLocalPositionYRaw()).getVal();
+                }
+                else if(self.getLocalPositionYRaw() instanceof PercentagePosition){
+                    resultingHeight = resultingHeight - (int) (self.getParent().getHeight() * ((PercentagePosition) self.getLocalPositionYRaw()).getVal());
+                }
             }
 
-            if ((sibling.getLocalPositionX() >= self.getLocalPositionX() || sibling.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() + sibling.getWidth() < self.getLocalPositionX()) &&
-                (sibling.getLocalPositionX() < self.getLocalPositionX() || self.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() > self.getLocalPositionX() + self.getWidth())) {
-                continue;
-            }
+            for(UIElement sibling : self.getParent().getChildren()){
+                if(sibling == self){
+                    continue;
+                }
 
-            try{
-                if(sibling.getLocalPositionY() < self.getLocalPositionY()){
-                    if(sibling.getLocalPositionY() + sibling.getHeight() >= self.getLocalPositionY()){
-                        return 0;
+                if ((sibling.getLocalPositionX() >= self.getLocalPositionX() || sibling.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() + sibling.getWidth() < self.getLocalPositionX()) &&
+                        (sibling.getLocalPositionX() < self.getLocalPositionX() || self.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() > self.getLocalPositionX() + self.getWidth())) {
+                    continue;
+                }
+
+                try{
+                    if(sibling.getLocalPositionY() < self.getLocalPositionY()){
+                        if(sibling.getLocalPositionY() + sibling.getHeight() >= self.getLocalPositionY()){
+                            return 0;
+                        }
+                    }
+                    else{
+                        resultingHeight = Math.min(resultingHeight, sibling.getLocalPositionY() - self.getLocalPositionY());
                     }
                 }
-                else{
-                    resultingHeight = Math.min(resultingHeight, sibling.getLocalPositionY() - self.getLocalPositionY());
+                catch (StackOverflowError e) {
+                    System.out.println("Error");
                 }
             }
-            catch (StackOverflowError e) {
-                System.out.println("Error");
-            }
+            return resultingHeight;
         }
-        return resultingHeight;
-    }
-
-    private int calculateTopToBottomFillHeight(UIElement self){
-        Integer resultingHeight = self.getParent().getHeight() - self.getLocalPositionY();
-        for(UIElement sibling : self.getParent().getChildren()){
-            if(sibling == self){
-                continue;
-            }
-
-            if ((sibling.getLocalPositionX() >= self.getLocalPositionX() || sibling.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() + sibling.getWidth() < self.getLocalPositionX()) &&
-                (sibling.getLocalPositionX() < self.getLocalPositionX() || self.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() > self.getLocalPositionX() + self.getWidth())) {
-                continue;
-            }
-
-            if(sibling.getLocalPositionY() > self.getLocalPositionY()){
-                if(sibling.getLocalPositionY() - sibling.getHeight() <= self.getLocalPositionY()){
-                    return 0;
-                }
-            }
-            else{
-                resultingHeight = Math.min(resultingHeight, self.getLocalPositionY() - sibling.getLocalPositionY());
-            }
-        }
-        return resultingHeight;
     }
 
     @Override

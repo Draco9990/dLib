@@ -80,8 +80,6 @@ public class TextBox extends Hoverable {
 
         textRenderColor = Color.WHITE.cpy();
 
-        setPaddingLeft(Padd.px(10));
-
         setClickthrough(true);
     }
 

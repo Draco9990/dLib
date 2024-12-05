@@ -13,6 +13,10 @@ public class StaticPosition extends AbstractPosition {
         this.position = position;
     }
 
+    public int getVal(){
+        return position;
+    }
+
     @Override
     public int getLocalX(UIElement element) {
         if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element.getParent().getParent() instanceof HorizontalItemBox){
@@ -40,43 +44,6 @@ public class StaticPosition extends AbstractPosition {
         }
     }
 
-    private int getLocalXForRightOffsetFill(UIElement element, int pivotPoint){
-        //One day this will cause issues in non vertical boxes not expanding correctly
-        //For future Marino, this is the issue:
-        //Sibling elements are not being checked for their allignments, especially when checking if they are FillDimensions.
-        //That means that elements potentially expanding in the opposite direction will still be flagged as intruding on our space and requireing sharing
-        //I didnt fix it now cause im lazy and its alot of edge cases.
-
-        int lowestX = 0;
-        for(UIElement sibling : element.getParent().getChildren()){
-            if(sibling == element){
-                continue;
-            }
-
-            if ((sibling.getLocalPositionY() >= element.getLocalPositionY() || sibling.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() + sibling.getHeight() < element.getLocalPositionY()) &&
-                (sibling.getLocalPositionY() < element.getLocalPositionY() || element.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() > element.getLocalPositionY() + element.getHeight())) {
-                continue;
-            }
-
-            if (sibling.getLocalPositionX() >= pivotPoint) {
-                continue;
-            }
-
-            if(sibling.getWidthRaw() instanceof FillDimension){
-                lowestX = sibling.getLocalPositionX() + 1;
-                continue;
-            }
-
-            if(sibling.getLocalPositionX() + sibling.getWidth() >= pivotPoint){
-                return pivotPoint;
-            }
-            else if(sibling.getLocalPositionX() < lowestX){
-                lowestX = sibling.getLocalPositionX();
-            }
-        }
-        return lowestX;
-    }
-
     @Override
     public int getLocalY(UIElement element) {
         if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element.getParent().getParent() instanceof VerticalItemBox){
@@ -96,45 +63,12 @@ public class StaticPosition extends AbstractPosition {
             int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
 
             if(element.getHeightRaw() instanceof FillDimension){
-                return getLocalYForTopOffsetFill(element, parentHeight);
+                return getLocalYForTopOffsetFill(element, parentHeight - position);
             }
             else{
                 return parentHeight - element.getHeight() + position;
             }
         }
-    }
-
-    private int getLocalYForTopOffsetFill(UIElement element, int pivotPoint){
-        //if this continues to cause issues insta return if parent is a itembox, and just fill all space if not. who cares.
-
-        int yResult = 0;
-        for(UIElement sibling : element.getParent().getChildren()){
-            if(sibling == element){
-                continue;
-            }
-
-            if ((sibling.getLocalPositionX() >= element.getLocalPositionX() || sibling.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() + sibling.getWidth() < element.getLocalPositionX()) &&
-                (sibling.getLocalPositionX() < element.getLocalPositionX() || element.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() > element.getLocalPositionX() + element.getWidth())) {
-                continue;
-            }
-
-            if (sibling.getLocalPositionY() >= pivotPoint) {
-                continue;
-            }
-
-            if(sibling.getHeightRaw() instanceof FillDimension){
-                yResult = sibling.getLocalPositionY() + 1;
-                continue;
-            }
-
-            if(sibling.getLocalPositionY() + sibling.getHeight() >= pivotPoint){
-                return pivotPoint;
-            }
-            else if(sibling.getLocalPositionY() > yResult){
-                yResult = sibling.getLocalPositionY();
-            }
-        }
-        return yResult;
     }
 
     @Override
