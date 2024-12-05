@@ -3,6 +3,7 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.IntegerProperty;
 import dLib.properties.objects.templates.TIntegerProperty;
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.themes.UIThemeManager;
@@ -29,6 +30,8 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
 
     public VerticalItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
         super(xPos, yPos, width, height, noInitScrollbar);
+
+        setVerticalAlignment(Alignment.VerticalAlignment.TOP);
     }
 
     public VerticalItemBox(VerticalItemBoxData data) {

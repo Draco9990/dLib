@@ -1,16 +1,14 @@
 package dLib.ui.elements.prefabs;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import org.lwjgl.input.Mouse;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
     //region Variables
@@ -53,6 +51,45 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
     public void updateSelf() {
         super.updateSelf();
 
+        if(getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM) updateListBottomTop();
+        else if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER) updateListCentered();
+        else if(getVerticalAlignment() == Alignment.VerticalAlignment.TOP) updateListTopBottom();
+    }
+
+    private void updateListBottomTop(){
+        int currentYPos = itemBox.getHeight() - itemPadding.y + currentScrollbarOffset;
+
+        for(ItemBoxItem item : originalItems){
+            item.renderForItem.hideAndDisable();
+        }
+
+        for(ItemBoxItem item : items){
+            item.renderForItem.setLocalPosition(itemPadding.x, currentYPos - item.renderForItem.getHeight());
+
+            if(item.renderForItem.overlapsParent()){
+                item.renderForItem.showAndEnable();
+            }
+            else{
+                item.renderForItem.hideAndDisable();
+            }
+
+            if(!item.selected){
+                item.renderForItem.lightenInstantly();
+            }
+            else {
+                item.renderForItem.darkenInstantly();
+            }
+
+            currentYPos -= item.renderForItem.getHeight();
+            currentYPos -= itemSpacing;
+        }
+    }
+
+    private void updateListCentered(){
+
+    }
+
+    private void updateListTopBottom(){
         int currentYPos = itemBox.getHeight() - itemPadding.y + currentScrollbarOffset;
 
         for(ItemBoxItem item : originalItems){

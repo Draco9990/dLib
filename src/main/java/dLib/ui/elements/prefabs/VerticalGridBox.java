@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -46,6 +47,20 @@ public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
     public void updateSelf() {
         super.updateSelf();
 
+        if(getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM) updateListBottomTop();
+        else if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER) updateListCentered();
+        else if(getVerticalAlignment() == Alignment.VerticalAlignment.TOP) updateListTopBottom();
+    }
+
+    private void updateListBottomTop(){
+
+    }
+
+    private void updateListCentered(){
+
+    }
+
+    private void updateListTopBottom(){
         int currentYPos = itemBox.getHeight() - itemPadding.y + currentScrollbarOffset;
         int currentXPos = itemPadding.x;
 

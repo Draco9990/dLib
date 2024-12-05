@@ -2,16 +2,13 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import org.lwjgl.input.Mouse;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
     //region Variables
@@ -51,6 +48,12 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
     public void updateSelf() {
         super.updateSelf();
 
+        if(getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT) updateItemsLeftRight();
+        else if(getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER) updateItemsCentered();
+        else if(getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT) updateItemsRightLeft();
+    }
+
+    private void updateItemsLeftRight(){
         int currentXPos = itemPadding.x - currentScrollbarOffset;
 
         for(ItemBoxItem item : originalItems){
@@ -77,6 +80,12 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
             currentXPos += item.renderForItem.getWidth();
             currentXPos += itemSpacing;
         }
+    }
+    private void updateItemsCentered(){
+
+    }
+    private void updateItemsRightLeft(){
+
     }
 
     //endregion

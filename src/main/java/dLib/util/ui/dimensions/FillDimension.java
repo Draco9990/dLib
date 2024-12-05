@@ -24,19 +24,19 @@ public class FillDimension extends AbstractDimension {
             int fillChainCount = 0;
             boolean isPartOfCurrentFillChain = false;
 
-            for (UIElement child : self.getParent().getChildren()){
-                if(child.getWidthRaw() instanceof FillDimension){
-                    if(child == self){
+            for (UIElement sibling : self.getParent().getChildren()){
+                if(sibling.getWidthRaw() instanceof FillDimension){
+                    if(sibling == self){
                         isPartOfCurrentFillChain = true;
                     }
 
                     if(fillChainStart == null){
-                        fillChainStart = child;
+                        fillChainStart = sibling;
                     }
                     fillChainCount++;
                 }
                 else if(isPartOfCurrentFillChain){
-                    return (int) ((child.getLocalPositionX() - fillChainStart.getLocalPositionX()) / (float) fillChainCount);
+                    return (int) ((sibling.getLocalPositionX() - fillChainStart.getLocalPositionX()) / (float) fillChainCount);
                 }
                 else{
                     fillChainStart = null;
@@ -58,23 +58,23 @@ public class FillDimension extends AbstractDimension {
 
     private int calculateLeftToRightFillWidth(UIElement self){
         Integer resultingWidth = self.getParent().getWidth() - self.getLocalPositionX();
-        for(UIElement child : self.getParent().getChildren()){
-            if(child == self){
+        for(UIElement sibling : self.getParent().getChildren()){
+            if(sibling == self){
                 continue;
             }
 
-            if ((child.getLocalPositionY() >= self.getLocalPositionY() || child.getHeightRaw() instanceof FillDimension || child.getLocalPositionY() + child.getHeight() < self.getLocalPositionY()) &&
-                (child.getLocalPositionY() < self.getLocalPositionY() || self.getHeightRaw() instanceof FillDimension || child.getLocalPositionY() > self.getLocalPositionY() + self.getHeight())) {
+            if ((sibling.getLocalPositionY() >= self.getLocalPositionY() || sibling.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() + sibling.getHeight() < self.getLocalPositionY()) &&
+                (sibling.getLocalPositionY() < self.getLocalPositionY() || self.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() > self.getLocalPositionY() + self.getHeight())) {
                 continue;
             }
 
-            if(child.getLocalPositionX() < self.getLocalPositionX()){
-                if(child.getLocalPositionX() + child.getWidth() >= self.getLocalPositionX()){
+            if(sibling.getLocalPositionX() < self.getLocalPositionX()){
+                if(sibling.getLocalPositionX() + sibling.getWidth() >= self.getLocalPositionX()){
                     return 0;
                 }
             }
             else{
-                resultingWidth = Math.min(resultingWidth, child.getLocalPositionX() - self.getLocalPositionX());
+                resultingWidth = Math.min(resultingWidth, sibling.getLocalPositionX() - self.getLocalPositionX());
             }
         }
         return resultingWidth;
@@ -82,23 +82,23 @@ public class FillDimension extends AbstractDimension {
 
     private int calculateRightToLeftFillWidth(UIElement self){
         Integer resultingWidth = self.getParent().getWidth() - self.getLocalPositionX();
-        for(UIElement child : self.getParent().getChildren()){
-            if(child == self){
+        for(UIElement sibling : self.getParent().getChildren()){
+            if(sibling == self){
                 continue;
             }
 
-            if ((child.getLocalPositionY() >= self.getLocalPositionY() || child.getHeightRaw() instanceof FillDimension || child.getLocalPositionY() + child.getHeight() < self.getLocalPositionY()) &&
-                (child.getLocalPositionY() < self.getLocalPositionY() || self.getHeightRaw() instanceof FillDimension || child.getLocalPositionY() > self.getLocalPositionY() + self.getHeight())) {
+            if ((sibling.getLocalPositionY() >= self.getLocalPositionY() || sibling.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() + sibling.getHeight() < self.getLocalPositionY()) &&
+                (sibling.getLocalPositionY() < self.getLocalPositionY() || self.getHeightRaw() instanceof FillDimension || sibling.getLocalPositionY() > self.getLocalPositionY() + self.getHeight())) {
                 continue;
             }
 
-            if(child.getLocalPositionX() > self.getLocalPositionX()){
-                if(child.getLocalPositionX() - child.getWidth() <= self.getLocalPositionX()){
+            if(sibling.getLocalPositionX() > self.getLocalPositionX()){
+                if(sibling.getLocalPositionX() - sibling.getWidth() <= self.getLocalPositionX()){
                     return 0;
                 }
             }
             else{
-                resultingWidth = Math.min(resultingWidth,  self.getLocalPositionX() - child.getLocalPositionX());
+                resultingWidth = Math.min(resultingWidth,  self.getLocalPositionX() - sibling.getLocalPositionX());
             }
         }
         return resultingWidth;
@@ -113,19 +113,19 @@ public class FillDimension extends AbstractDimension {
             int fillChainCount = 0;
             boolean isPartOfCurrentFillChain = false;
 
-            for (UIElement child : self.getParent().getChildren()){
-                if(child.getHeightRaw() instanceof FillDimension){
-                    if(child == self){
+            for (UIElement sibling : self.getParent().getChildren()){
+                if(sibling.getHeightRaw() instanceof FillDimension){
+                    if(sibling == self){
                         isPartOfCurrentFillChain = true;
                     }
 
                     if(fillChainStart == null){
-                        fillChainStart = child;
+                        fillChainStart = sibling;
                     }
                     fillChainCount++;
                 }
                 else if(isPartOfCurrentFillChain){
-                    return (int) ((child.getLocalPositionY() - fillChainStart.getLocalPositionY()) / (float) fillChainCount);
+                    return (int) ((sibling.getLocalPositionY() - fillChainStart.getLocalPositionY()) / (float) fillChainCount);
                 }
                 else{
                     fillChainStart = null;
@@ -147,23 +147,28 @@ public class FillDimension extends AbstractDimension {
 
     private int calculateDownToTopFillHeight(UIElement self){
         Integer resultingHeight = self.getParent().getHeight() - self.getLocalPositionY();
-        for(UIElement child : self.getParent().getChildren()){
-            if(child == self){
+        for(UIElement sibling : self.getParent().getChildren()){
+            if(sibling == self){
                 continue;
             }
 
-            if ((child.getLocalPositionX() >= self.getLocalPositionX() || child.getWidthRaw() instanceof FillDimension || child.getLocalPositionX() + child.getWidth() < self.getLocalPositionX()) &&
-                (child.getLocalPositionX() < self.getLocalPositionX() || self.getWidthRaw() instanceof FillDimension || child.getLocalPositionX() > self.getLocalPositionX() + self.getWidth())) {
+            if ((sibling.getLocalPositionX() >= self.getLocalPositionX() || sibling.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() + sibling.getWidth() < self.getLocalPositionX()) &&
+                (sibling.getLocalPositionX() < self.getLocalPositionX() || self.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() > self.getLocalPositionX() + self.getWidth())) {
                 continue;
             }
 
-            if(child.getLocalPositionY() < self.getLocalPositionY()){
-                if(child.getLocalPositionY() + child.getHeight() >= self.getLocalPositionY()){
-                    return 0;
+            try{
+                if(sibling.getLocalPositionY() < self.getLocalPositionY()){
+                    if(sibling.getLocalPositionY() + sibling.getHeight() >= self.getLocalPositionY()){
+                        return 0;
+                    }
+                }
+                else{
+                    resultingHeight = Math.min(resultingHeight, sibling.getLocalPositionY() - self.getLocalPositionY());
                 }
             }
-            else{
-                resultingHeight = Math.min(resultingHeight, child.getLocalPositionY() - self.getLocalPositionY());
+            catch (StackOverflowError e) {
+                System.out.println("Error");
             }
         }
         return resultingHeight;
@@ -171,23 +176,23 @@ public class FillDimension extends AbstractDimension {
 
     private int calculateTopToBottomFillHeight(UIElement self){
         Integer resultingHeight = self.getParent().getHeight() - self.getLocalPositionY();
-        for(UIElement child : self.getParent().getChildren()){
-            if(child == self){
+        for(UIElement sibling : self.getParent().getChildren()){
+            if(sibling == self){
                 continue;
             }
 
-            if ((child.getLocalPositionX() >= self.getLocalPositionX() || child.getWidthRaw() instanceof FillDimension || child.getLocalPositionX() + child.getWidth() < self.getLocalPositionX()) &&
-                (child.getLocalPositionX() < self.getLocalPositionX() || self.getWidthRaw() instanceof FillDimension || child.getLocalPositionX() > self.getLocalPositionX() + self.getWidth())) {
+            if ((sibling.getLocalPositionX() >= self.getLocalPositionX() || sibling.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() + sibling.getWidth() < self.getLocalPositionX()) &&
+                (sibling.getLocalPositionX() < self.getLocalPositionX() || self.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() > self.getLocalPositionX() + self.getWidth())) {
                 continue;
             }
 
-            if(child.getLocalPositionY() > self.getLocalPositionY()){
-                if(child.getLocalPositionY() - child.getHeight() <= self.getLocalPositionY()){
+            if(sibling.getLocalPositionY() > self.getLocalPositionY()){
+                if(sibling.getLocalPositionY() - sibling.getHeight() <= self.getLocalPositionY()){
                     return 0;
                 }
             }
             else{
-                resultingHeight = Math.min(resultingHeight, self.getLocalPositionY() - child.getLocalPositionY());
+                resultingHeight = Math.min(resultingHeight, self.getLocalPositionY() - sibling.getLocalPositionY());
             }
         }
         return resultingHeight;

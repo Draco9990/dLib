@@ -403,20 +403,20 @@ public class UIElement {
         return this;
     }
 
-    public final int getLocalPositionX(){
-        return getLocalPosition().x;
-    }
-    public final int getLocalPositionY(){
-        return getLocalPosition().y;
-    }
-    public final IntegerVector2 getLocalPosition(){
+    public int getLocalPositionX(){
         int localPosX = this.localPosX.getLocalX(this);
         int paddingX = paddingLeft.getHorizontal(this);
 
+        return localPosX + paddingX;
+    }
+    public int getLocalPositionY(){
         int localPosY = this.localPosY.getLocalY(this);
         int paddingY = paddingBottom.getVertical(this);
 
-        return new IntegerVector2(localPosX + paddingX, localPosY + paddingY);
+        return localPosY + paddingY;
+    }
+    public IntegerVector2 getLocalPosition(){
+        return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
     }
 
     public UIElement setLocalPositionCenteredX(int newPos){
@@ -431,13 +431,13 @@ public class UIElement {
         return setLocalPosition(newPosX - wHalf, newPosY - hHalf);
     }
 
-    public final int getLocalPositionCenteredX(){
+    public int getLocalPositionCenteredX(){
         return getLocalPositionCentered().x;
     }
-    public final int getLocalPositionCenteredY(){
+    public int getLocalPositionCenteredY(){
         return getLocalPositionCentered().y;
     }
-    public final IntegerVector2 getLocalPositionCentered(){
+    public IntegerVector2 getLocalPositionCentered(){
         IntegerVector2 localPosition = getLocalPosition();
         localPosition.x += (int)(getWidth() * 0.5f);
         localPosition.y += (int)(getHeight() * 0.5f);
