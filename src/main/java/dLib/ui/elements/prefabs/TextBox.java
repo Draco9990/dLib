@@ -16,6 +16,7 @@ import dLib.ui.elements.implementations.Hoverable;
 import dLib.util.FontManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
@@ -41,11 +42,6 @@ public class TextBox extends Hoverable {
     private float marginPercY = 0.0f;
 
     private ArrayList<Consumer<String>> onTextChangedConsumers = new ArrayList<>();
-
-    private int paddingLeft = 0;
-    private int paddingTop = 0;
-    private int paddingRight = 0;
-    private int paddingBottom = 0;
 
     private Hitbox textRenderHitbox;
 
@@ -86,7 +82,7 @@ public class TextBox extends Hoverable {
 
         textRenderColor = Color.WHITE.cpy();
 
-        paddingLeft = 10;
+        setPaddingLeft(Padd.px(10));
 
         setClickthrough(true);
     }
@@ -106,11 +102,6 @@ public class TextBox extends Hoverable {
         this.marginPercY = data.marginPercY;
 
         onTextChangedConsumers.add(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
-
-        this.paddingRight = data.paddingRight;
-        this.paddingTop = data.paddingTop;
-        this.paddingLeft = data.paddingLeft;
-        this.paddingBottom = data.paddingBottom;
 
         setFont(FontManager.genericFont);
 
@@ -136,10 +127,10 @@ public class TextBox extends Hoverable {
         float xMargin = marginPercX * getWidth();
         float yMargin = marginPercY * getHeight();
 
-        int renderX = getWorldPositionX() + (int) xMargin + (int)(paddingLeft * Settings.xScale);
-        int renderY = getWorldPositionY() + (int) yMargin + (int)(paddingBottom * Settings.yScale);
-        int renderWidth = getWidth() - (int) xMargin * 2 - paddingLeft - paddingRight;
-        int renderHeight = getHeight() - (int) yMargin * 2 - paddingTop - paddingBottom;
+        int renderX = getWorldPositionX() + (int) xMargin + (int)(getPaddingLeft() * Settings.xScale);
+        int renderY = getWorldPositionY() + (int) yMargin + (int)(getPaddingBottom() * Settings.yScale);
+        int renderWidth = getWidth() - (int) xMargin * 2 - getPaddingLeft() - getPaddingRight();
+        int renderHeight = getHeight() - (int) yMargin * 2 - getPaddingTop() - getPaddingBottom();
 
         float halfWidth = (float) renderWidth / 2;
         float halfHeight = (float) renderHeight / 2;
@@ -339,25 +330,6 @@ public class TextBox extends Hoverable {
 
     //endregion
 
-    //region Text Padding
-
-    public TextBox setPadding(int value){
-        return setPadding(value, value);
-    }
-    public TextBox setPadding(int horizontal, int vertical){
-        return setPadding(horizontal, vertical, horizontal, vertical);
-    }
-    public TextBox setPadding(int left, int top, int right, int bottom){
-        paddingLeft = left;
-        paddingTop = top;
-        paddingRight = right;
-        paddingBottom = bottom;
-
-        return this;
-    }
-
-    //endregion
-
     //region Text Alignment
 
     public TextBox setHorizontalAlignment(Alignment.HorizontalAlignment alignment){
@@ -417,10 +389,10 @@ public class TextBox extends Hoverable {
         int renderWidth = getWidth() - (int) xMargin * 2;
         int renderHeight = getHeight() - (int) yMargin * 2;
 
-        renderWidth -= paddingLeft;
-        renderWidth -= paddingRight;
-        renderHeight -= paddingTop;
-        renderHeight -= paddingBottom;
+        renderWidth -= getPaddingLeft();
+        renderWidth -= getPaddingRight();
+        renderHeight -= getPaddingTop();
+        renderHeight -= getPaddingBottom();
 
         if(fontScaleOverride > 0.0f){
             return fontScaleOverride;
@@ -494,11 +466,6 @@ public class TextBox extends Hoverable {
         public float marginPercY = 0.33f;
 
         public MethodBindingProperty onTextChanged = new MethodBindingProperty().setName("On Text Changed");
-
-        public int paddingRight = 0;
-        public int paddingTop = 0;
-        public int paddingLeft = 0;
-        public int paddingBottom = 0;
 
         public float fontScaleOverride = 0.0f;
 

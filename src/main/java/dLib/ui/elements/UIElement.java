@@ -1352,17 +1352,17 @@ public class UIElement {
         return setPadding(paddingTop, paddingRight, paddingBottom, left);
     }
 
-    public AbstractPadding getPaddingTop(){
-        return paddingTop.cpy();
+    public int getPaddingTop(){
+        return paddingTop.getVertical(this);
     }
-    public AbstractPadding getPaddingRight(){
-        return paddingRight.cpy();
+    public int getPaddingRight(){
+        return paddingRight.getHorizontal(this);
     }
-    public AbstractPadding getPaddingBottom(){
-        return paddingBottom.cpy();
+    public int getPaddingBottom(){
+        return paddingBottom.getVertical(this);
     }
-    public AbstractPadding getPaddingLeft(){
-        return paddingLeft.cpy();
+    public int getPaddingLeft(){
+        return paddingLeft.getHorizontal(this);
     }
 
     //endregion Padding

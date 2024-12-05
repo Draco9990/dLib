@@ -7,6 +7,7 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -35,7 +36,7 @@ public class PropertyEditor extends UIElement {
             descriptionBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
             descriptionBox.setMaxFontScale(0.8f);
             descriptionBox.setMarginPercY(0.1f);
-            descriptionBox.setPadding(20, 0, 0, 0);
+            descriptionBox.setPaddingLeft(Padd.px(20));
             descriptionBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
             descriptionBox.setVerticalAlignment(Alignment.VerticalAlignment.TOP);
             elementList.addItem(descriptionBox);

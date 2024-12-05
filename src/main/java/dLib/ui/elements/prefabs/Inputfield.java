@@ -13,6 +13,7 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -65,7 +66,7 @@ public class Inputfield extends UIElement {
 
         this.textBox = new TextBox(initialValue, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
-        textBox.setPadding(20, 0, 0, 0);
+        textBox.setPaddingLeft(Padd.px(20));
         addChildNCS(textBox);
 
         this.previewTextBox = new TextBox("", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()){
@@ -74,7 +75,7 @@ public class Inputfield extends UIElement {
                 return super.shouldRender() && textBox.getText().isEmpty();
             }
         }.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT).setTextRenderColor(Color.DARK_GRAY);
-        previewTextBox.setPadding(20, 0, 0, 0);
+        previewTextBox.setPaddingLeft(Padd.px(20));
         addChildNCS(this.previewTextBox);
 
         postInitialize();
