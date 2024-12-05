@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Draggable;
+import dLib.ui.elements.implementations.Interactable;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -11,7 +12,7 @@ import java.util.function.Consumer;
 public abstract class Scrollbar extends UIElement {
     //region Variables
 
-    protected Draggable slider;
+    protected Interactable slider;
 
     private ArrayList<Consumer<Float>> onScrollbarScrolledListeners = new ArrayList<>();
 
@@ -25,7 +26,7 @@ public abstract class Scrollbar extends UIElement {
         slider = buildSlider();
     }
 
-    protected abstract Draggable buildSlider();
+    protected abstract Interactable buildSlider();
 
     //endregion
 
@@ -47,7 +48,7 @@ public abstract class Scrollbar extends UIElement {
 
     //region Slider
 
-    public Draggable getSlider(){
+    public Interactable getSlider(){
         return slider;
     }
 

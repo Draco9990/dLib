@@ -7,7 +7,6 @@ import dLib.ui.themes.UIThemeManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
-import dLib.util.ui.position.Pos;
 
 public class ArrayPropertyEditor<PropertyType extends TArrayProperty<ItemType, ?>, ItemType> extends AbstractPropertyEditor<PropertyType> {
     //region Variables
@@ -29,7 +28,7 @@ public class ArrayPropertyEditor<PropertyType extends TArrayProperty<ItemType, ?
     @Override
     protected UIElement buildContent(PropertyType property, AbstractDimension width, AbstractDimension height) {
         middleButton = new TextButton("Edit", width, height);
-        middleButton.getButton().addOnLeftClickConsumer(new Runnable() {
+        middleButton.getButton().addOnLeftClickEvent(new Runnable() {
             @Override
             public void run() {
                 AbstractObjectListPickerScreenOld<ItemType> pickerScreen = new AbstractObjectListPickerScreenOld<ItemType>(property.getAllOptions()) {

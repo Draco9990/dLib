@@ -6,7 +6,6 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.ColorPicker;
 import dLib.ui.elements.prefabs.Image;
 import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.screens.AbstractScreen_DEPRECATED;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.Dim;
@@ -51,7 +50,7 @@ public class ColorPickerScreen extends UIElement {
         addChildNCS(selectedPreview);
 
         TextButton confirmButton = new TextButton("CONFIRM", Pos.px(685), Pos.px(1080-1015), Dim.px(550), Dim.px(150));
-        confirmButton.getButton().addOnLeftClickConsumer(() -> {
+        confirmButton.getButton().addOnLeftClickEvent(() -> {
             onColorChosen(currentColor);
             self.close();
         });

@@ -10,7 +10,6 @@ import dLib.properties.objects.templates.TAlignmentProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
-import dLib.util.ui.position.Pos;
 
 public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentProperty<?>> {
     //region Variables
@@ -35,7 +34,7 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
         HorizontalBox contentBox = new HorizontalBox(width, height); //replace with ArrowButton
         {
             leftButton = new TextButton(property.getValue().horizontalAlignment.name(), Dim.perc(45), Dim.fill());
-            leftButton.getButton().addOnLeftClickConsumer(() -> {
+            leftButton.getButton().addOnLeftClickEvent(() -> {
                 Alignment alignment = property.getValue();
                 alignment.horizontalAlignment = (Alignment.HorizontalAlignment) EnumHelpers.nextEnum(alignment.horizontalAlignment);
                 property.setValue(alignment);
@@ -45,7 +44,7 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
             contentBox.addItem(new Spacer(Dim.perc(10), Dim.fill()));
 
             rightButton = new TextButton(property.getValue().verticalAlignment.name(), Dim.perc(45), Dim.fill());
-            rightButton.getButton().addOnLeftClickConsumer(() -> {
+            rightButton.getButton().addOnLeftClickEvent(() -> {
                 Alignment alignment = property.getValue();
                 alignment.verticalAlignment = (Alignment.VerticalAlignment) EnumHelpers.nextEnum(alignment.verticalAlignment);
                 property.setValue(alignment);

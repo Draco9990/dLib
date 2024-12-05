@@ -42,10 +42,10 @@ public class EnumBoxWithArrows extends UIElement {
 
         linkedProperty = property;
 
-        leftArrow.addOnLeftClickConsumer(property::previous);
-        rightArrow.addOnLeftClickConsumer(property::next);
+        leftArrow.addOnLeftClickEvent(property::previous);
+        rightArrow.addOnLeftClickEvent(property::next);
 
-        enumBox.getButton().addOnLeftClickConsumer(property::next);
+        enumBox.getButton().addOnLeftClickEvent(property::next);
 
         property.addOnValueChangedListener((integer, integer2) -> {
             if(!enumBox.getTextBox().getText().equals(property.getValue().toString())){

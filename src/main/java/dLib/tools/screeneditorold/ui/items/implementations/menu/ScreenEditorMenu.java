@@ -31,31 +31,31 @@ public class ScreenEditorMenu extends UIElement {
 
     private void initializeFileControls(){
         TextButton closeButton = new TextButton("Close", Pos.px(10), Pos.px(10), Dim.px(200), Dim.px(40));
-        closeButton.getButton().addOnLeftClickConsumer(this::close);
+        closeButton.getButton().addOnLeftClickEvent(this::close);
         addChildNCS(closeButton);
 
         TextButton saveButton = new TextButton("Save", Pos.px(10), Pos.px(getHeight() - 100), Dim.px(200), Dim.px(40));
-        saveButton.getButton().addOnLeftClickConsumer(() -> {getParent().getSaveManager().save();});
+        saveButton.getButton().addOnLeftClickEvent(() -> {getParent().getSaveManager().save();});
         addChildNCS(saveButton);
     }
 
     private void initializePropertyControls(){
         TextButton toolbarButton = new TextButton("Toolbar", Pos.px(255), Pos.px(getHeight() - 50), Dim.px(200), Dim.px(40));
-        toolbarButton.getButton().addOnLeftClickConsumer(() -> {
+        toolbarButton.getButton().addOnLeftClickEvent(() -> {
             getParent().hideAllToolbarItems();
             getParent().getToolbarScreen().showAndEnable();
         });
         addChildNCS(toolbarButton);
 
         TextButton propertiesButton = new TextButton("Properties", Pos.px(255), Pos.px(getHeight() - 100), Dim.px(200), Dim.px(40));
-        propertiesButton.getButton().addOnLeftClickConsumer(() -> {
+        propertiesButton.getButton().addOnLeftClickEvent(() -> {
             getParent().hideAllToolbarItems();
             getParent().getPropertiesScreen().showAndEnable();
         });
         addChildNCS(propertiesButton);
 
         TextButton elementsButton = new TextButton("Elements", Pos.px(255), Pos.px(getHeight() - 150), Dim.px(200), Dim.px(40));
-        elementsButton.getButton().addOnLeftClickConsumer(() -> {
+        elementsButton.getButton().addOnLeftClickEvent(() -> {
             getParent().hideAllToolbarItems();
             getParent().getElementListScreen().showAndEnable();
         });

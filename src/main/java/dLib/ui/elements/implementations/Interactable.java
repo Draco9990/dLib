@@ -12,7 +12,6 @@ import dLib.util.GlobalEvents;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
-import dLib.properties.objects.templates.TMethodBindingProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -20,7 +19,9 @@ import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class Interactable extends Hoverable{
@@ -39,16 +40,13 @@ public class Interactable extends Hoverable{
     private String onTriggerSoundKey;
     private String onHoldSoundKey;
 
-    private ArrayList<Runnable> onLeftClickConsumers = new ArrayList<>();
-    private ArrayList<Consumer<Float>> onLeftClickHeldConsumers = new ArrayList<>();
-    private ArrayList<Runnable> onLeftClickReleaseConsumers = new ArrayList<>();
+    private LinkedHashMap<UUID, Runnable> onLeftClickEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Consumer<Float>> onLeftClickHeldEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Runnable> onLeftClickReleaseEvents = new LinkedHashMap<>();
 
-    private ArrayList<Runnable> onRightClickConsumers = new ArrayList<>();
-    private ArrayList<Consumer<Float>> onRightClickHeldConsumers = new ArrayList<>();
-    private ArrayList<Runnable> onRightClickReleaseConsumers = new ArrayList<>();
-
-    private ArrayList<Runnable> onSelectedConsumers = new ArrayList<>(); //TODO MOVE TO UIELEMENT
-    private ArrayList<Runnable> onUnselectedConsumers = new ArrayList<>(); // TODO MOVE TO UIELEMENt
+    private LinkedHashMap<UUID, Runnable> onRightClickEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Consumer<Float>> onRightClickHeldEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Runnable> onRightClickReleaseEvents = new LinkedHashMap<>();
 
     protected String onSelectLine; // Say the Spire mod compatibility //TODO MOve to uiELement
     protected String onTriggeredLine; // Say the Spire mod compatibility
@@ -93,13 +91,13 @@ public class Interactable extends Hoverable{
         this.disabledColor = Color.valueOf(data.disabledColor);
         this.disabledColorMultiplier = data.disabledColorMultiplier;
 
-        if(data.onLeftClick != null) addOnLeftClickConsumer(() -> data.onLeftClick.getValue().executeBinding(getTopParent()));
-        if(data.onLeftClickHeld != null) addOnLeftClickHeldConsumer(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
-        if(data.onLeftClickRelease != null) addOnLeftClickReleaseConsumer(() -> data.onLeftClickRelease.getValue().executeBinding(getTopParent()));
+        if(data.onLeftClick != null) addOnLeftClickEvent(() -> data.onLeftClick.getValue().executeBinding(getTopParent()));
+        if(data.onLeftClickHeld != null) addOnLeftClickHeldEvent(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
+        if(data.onLeftClickRelease != null) addOnLeftClickReleaseEvent(() -> data.onLeftClickRelease.getValue().executeBinding(getTopParent()));
 
-        if(data.onRightClick != null) addOnRightClickConsumer(() -> data.onRightClick.getValue().executeBinding(getTopParent()));
-        if(data.onRightClickHeld != null) addOnRightClickHeldConsumer(deltaTime -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
-        if(data.onRightClickRelease != null) addOnRightClickReleaseConsumer(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent()));
+        if(data.onRightClick != null) addOnRightClickEvent(() -> data.onRightClick.getValue().executeBinding(getTopParent()));
+        if(data.onRightClickHeld != null) addOnRightClickHeldEvent(deltaTime -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
+        if(data.onRightClickRelease != null) addOnRightClickReleaseEvent(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent()));
 
         initialize();
     }
@@ -227,34 +225,47 @@ public class Interactable extends Hoverable{
             }
         }
 
-        select(); //TODO RF Select parents as well
+        select();
 
-        for(Runnable consumer : onLeftClickConsumers) consumer.run();
+        for (Map.Entry<UUID, Runnable> event : onLeftClickEvents.entrySet()) event.getValue().run();
     }
     protected void onLeftClickHeld(float totalDuration){
         if(onHoldSoundKey != null){
             CardCrawlGame.sound.playA(onHoldSoundKey, -0.1F);
         }
 
-        for(Consumer<Float> consumer : onLeftClickHeldConsumers) consumer.accept(totalDuration);
+        for(Map.Entry<UUID, Consumer<Float>> consumer : onLeftClickHeldEvents.entrySet()) consumer.getValue().accept(totalDuration);
     }
     protected void onLeftClickRelease(){
         holdingLeft = false;
 
-        for(Runnable consumer : onLeftClickReleaseConsumers) consumer.run();
+        for(Map.Entry<UUID, Runnable> consumer : onLeftClickReleaseEvents.entrySet()) consumer.getValue().run();
     }
 
-    public Interactable addOnLeftClickConsumer(Runnable consumer){
-        onLeftClickConsumers.add(consumer);
-        return this;
+    public UUID addOnLeftClickEvent(Runnable consumer){
+        UUID newId = UUID.randomUUID();
+        onLeftClickEvents.put(newId, consumer);
+        return newId;
     }
-    public Interactable addOnLeftClickHeldConsumer(Consumer<Float> consumer){
-        onLeftClickHeldConsumers.add(consumer);
-        return this;
+    public UUID addOnLeftClickHeldEvent(Consumer<Float> consumer){
+        UUID newId = UUID.randomUUID();
+        onLeftClickHeldEvents.put(newId, consumer);
+        return newId;
     }
-    public Interactable addOnLeftClickReleaseConsumer(Runnable consumer){
-        onLeftClickReleaseConsumers.add(consumer);
-        return this;
+    public UUID addOnLeftClickReleaseEvent(Runnable consumer){
+        UUID newId = UUID.randomUUID();
+        onLeftClickReleaseEvents.put(newId, consumer);
+        return newId;
+    }
+
+    public void removeOnLeftClickEvent(UUID id){
+        onLeftClickEvents.remove(id);
+    }
+    public void removeOnLeftClickHeldEvent(UUID id){
+        onLeftClickHeldEvents.remove(id);
+    }
+    public void removeOnLeftClickReleaseEvent(UUID id){
+        onLeftClickReleaseEvents.remove(id);
     }
 
     //endregion
@@ -278,28 +289,41 @@ public class Interactable extends Hoverable{
             }
         }
 
-        for(Runnable consumer : onRightClickConsumers) consumer.run();
+        for(Map.Entry<UUID, Runnable> consumer : onRightClickEvents.entrySet()) consumer.getValue().run();
     }
     protected void onRightClickHeld(float totalDuration){
-        for(Consumer<Float> consumer : onRightClickHeldConsumers) consumer.accept(totalDuration);
+        for(Map.Entry<UUID, Consumer<Float>> consumer : onRightClickHeldEvents.entrySet()) consumer.getValue().accept(totalDuration);
     }
     protected void onRightButtonRelease(){
         holdingRight = false;
 
-        for(Runnable consumer : onRightClickReleaseConsumers) consumer.run();
+        for(Map.Entry<UUID, Runnable> consumer : onRightClickReleaseEvents.entrySet()) consumer.getValue().run();
     }
 
-    public Interactable addOnRightClickConsumer(Runnable consumer){
-        onRightClickConsumers.add(consumer);
-        return this;
+    public UUID addOnRightClickEvent(Runnable consumer){
+        UUID newId = UUID.randomUUID();
+        onRightClickEvents.put(newId, consumer);
+        return newId;
     }
-    public Interactable addOnRightClickHeldConsumer(Consumer<Float> consumer){
-        onRightClickHeldConsumers.add(consumer);
-        return this;
+    public UUID addOnRightClickHeldEvent(Consumer<Float> consumer){
+        UUID newId = UUID.randomUUID();
+        onRightClickHeldEvents.put(newId, consumer);
+        return newId;
     }
-    public Interactable addOnRightClickReleaseConsumer(Runnable consumer){
-        onRightClickReleaseConsumers.add(consumer);
-        return this;
+    public UUID addOnRightClickReleaseEvent(Runnable consumer){
+        UUID newId = UUID.randomUUID();
+        onRightClickReleaseEvents.put(newId, consumer);
+        return newId;
+    }
+
+    public void removeOnRightClickEvent(UUID id){
+        onRightClickEvents.remove(id);
+    }
+    public void removeOnRightClickHeldEvent(UUID id){
+        onRightClickHeldEvents.remove(id);
+    }
+    public void removeOnRightClickReleaseEvent(UUID id){
+        onRightClickReleaseEvents.remove(id);
     }
 
     //endregion

@@ -13,6 +13,7 @@ import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
+import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.screens.UIManager;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
@@ -72,8 +73,9 @@ public class UIElement {
     private boolean selected;
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
 
+    private ArrayList<UIElementComponent> components = new ArrayList<>();
+
     protected ArrayList<Runnable> delayedActions =new ArrayList<>();
-    private boolean pendingRefresh = false;
 
     private float totalLifespan = -1f;
     private float remainingLifespan = -1f;
@@ -167,11 +169,6 @@ public class UIElement {
 
         while(!delayedActions.isEmpty()){
             delayedActions.remove(0).run();
-        }
-
-        if(pendingRefresh){
-            pendingRefresh = false;
-            onRefreshElement();
         }
 
         updateLifespan();
@@ -1062,12 +1059,6 @@ public class UIElement {
 
     //endregion
 
-    //region Refresh
-
-    protected void onRefreshElement(){}
-
-    //endregion
-
     //region Width & Height
 
     public UIElement setWidth(AbstractDimension newWidth){
@@ -1404,6 +1395,30 @@ public class UIElement {
     }
 
     //endregion Alignment
+
+    //region Components
+
+    public <T extends UIElementComponent> T addComponent(T component){
+        components.add(component);
+        component.onRegisterComponent(this);
+        return component;
+    }
+
+    public void removeComponent(UIElementComponent component){
+        components.remove(component);
+        component.onUnregisterComponent(this);
+    }
+
+    public <T extends UIElementComponent> T getComponent(Class<T> componentClass){
+        for(UIElementComponent component : components){
+            if(componentClass.isInstance(component)){
+                return (T) component;
+            }
+        }
+        return null;
+    }
+
+    //endregion Components
 
     //endregion
 

@@ -1,6 +1,8 @@
 package dLib.ui.elements.prefabs;
 
+import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Draggable;
+import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -30,13 +32,18 @@ public abstract class VerticalScrollbar extends Scrollbar {
     }
 
     @Override
-    protected Draggable buildSlider() {
-        Draggable slider = new Draggable(UIThemeManager.getDefaultTheme().scrollbar_vertical_train, Pos.px((int) (5 * 1.29f)), Pos.perc(0), Dim.perc(0.7762), Dim.px(60));
-        slider.setCanDragX(false);
-        slider.setBoundWithinParent(true);
-        slider.addOnPositionChangedConsumer((element) -> {
-            onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));
-        });
+    protected Interactable buildSlider() {
+        Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.perc(0), Dim.perc(0.7762), Dim.px(60));
+        {
+            slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_vertical_train);
+            slider.setBoundWithinParent(true);
+            slider.addOnPositionChangedConsumer((element) -> {
+                onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));
+            });
+
+            UIDraggableComponent dragComp = slider.addComponent(new UIDraggableComponent());
+            dragComp.setCanDragX(false);
+        }
         return slider;
     }
 
