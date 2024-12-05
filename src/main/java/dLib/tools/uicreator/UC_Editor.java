@@ -9,6 +9,7 @@ import dLib.ui.elements.prefabs.VerticalBox;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
 
 public class UC_Editor extends Renderable {
@@ -28,12 +29,15 @@ public class UC_Editor extends Renderable {
             VerticalBox firstColumn = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.perc(0.8f), Dim.fill(), true);
             {
                 firstColumn.addItem(toolbar = new UC_EditorToolbar());
+                toolbar.setPaddingBottom(Padd.px(10));
                 firstColumn.addItem(mainScreen = new UC_EditorMainScreen());
             }
             mainBox.addItem(firstColumn);
 
             mainBox.addItem(properties = new UC_EditorProperties());
+            properties.setPaddingLeft(Padd.px(10));
         }
+        mainBox.setPadding(Padd.px(10));
         addChildNCS(mainBox);
     }
 

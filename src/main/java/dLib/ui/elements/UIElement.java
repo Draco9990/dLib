@@ -1,6 +1,5 @@
 package dLib.ui.elements;
 
-import basemod.Pair;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,6 +22,8 @@ import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.StaticDimension;
+import dLib.util.ui.padding.AbstractPadding;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -50,6 +51,11 @@ public class UIElement {
     private IntegerVector2 upperWorldBounds = new IntegerVector2(null, null);
     private boolean boundWithinParent = false;
     private boolean borderToBorderBound = false;
+
+    private AbstractPadding paddingLeft = Padd.px(0);
+    private AbstractPadding paddingBottom = Padd.px(0);
+    private AbstractPadding paddingRight = Padd.px(0);
+    private AbstractPadding paddingTop = Padd.px(0);
 
     private UIElement elementMask = null;
 
@@ -401,7 +407,13 @@ public class UIElement {
         return getLocalPosition().y;
     }
     public final IntegerVector2 getLocalPosition(){
-        return new IntegerVector2(localPosX.getLocalX(this), localPosY.getLocalY(this));
+        int localPosX = this.localPosX.getLocalX(this);
+        int paddingX = paddingLeft.getHorizontal(this);
+
+        int localPosY = this.localPosY.getLocalY(this);
+        int paddingY = paddingBottom.getVertical(this);
+
+        return new IntegerVector2(localPosX + paddingX, localPosY + paddingY);
     }
 
     public UIElement setLocalPositionCenteredX(int newPos){
@@ -452,7 +464,13 @@ public class UIElement {
         return getWorldPosition().y;
     }
     public final IntegerVector2 getWorldPosition(){
-        return new IntegerVector2(localPosX.getWorldX(this), localPosY.getWorldY(this));
+        int worldPosX = this.localPosX.getWorldX(this);
+        int paddingX = paddingLeft.getHorizontal(this);
+
+        int worldPosY = this.localPosY.getWorldY(this);
+        int paddingY = paddingBottom.getVertical(this);
+
+        return new IntegerVector2(worldPosX + paddingX, worldPosY + paddingY);
     }
 
     public UIElement setWorldPositionCenteredX(int newPos){
@@ -1081,10 +1099,14 @@ public class UIElement {
     public void onParentDimensionsChanged(){}
 
     public int getWidth(){
-        return width.getWidth(this);
+        int width = getWidthUnpadded();
+        int padding = paddingLeft.getHorizontal(this) + paddingRight.getHorizontal(this);
+        return width - padding;
     }
     public int getHeight(){
-        return height.getHeight(this);
+        int height = getHeightUnpadded();
+        int padding = paddingBottom.getVertical(this) + paddingTop.getHorizontal(this);
+        return height - padding;
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
@@ -1097,12 +1119,11 @@ public class UIElement {
         return height.cpy();
     }
 
-
-    public int getWidthUnscaled(){
-        return getWidth();
+    public int getWidthUnpadded(){
+        return width.getWidth(this) + paddingLeft.getHorizontal(this);
     }
-    public int getHeightUnscaled(){
-        return getHeight();
+    public int getHeightUnpadded(){
+        return height.getHeight(this) + paddingBottom.getVertical(this);
     }
 
     //endregion
@@ -1301,6 +1322,50 @@ public class UIElement {
     }
 
     //endregion String Tables
+
+    //region Padding
+
+    public UIElement setPadding(AbstractPadding all){
+        return setPadding(all, all, all, all);
+    }
+    public UIElement setPadding(AbstractPadding leftRight, AbstractPadding topBottom){
+        return setPadding(topBottom, leftRight, topBottom, leftRight);
+    }
+    public UIElement setPadding(AbstractPadding top, AbstractPadding right, AbstractPadding bottom, AbstractPadding left){
+        this.paddingTop = top;
+        this.paddingRight = right;
+        this.paddingBottom = bottom;
+        this.paddingLeft = left;
+        return this;
+    }
+
+    public UIElement setPaddingTop(AbstractPadding top){
+        return setPadding(top, paddingRight, paddingBottom, paddingLeft);
+    }
+    public UIElement setPaddingRight(AbstractPadding right){
+        return setPadding(paddingTop, right, paddingBottom, paddingLeft);
+    }
+    public UIElement setPaddingBottom(AbstractPadding bottom){
+        return setPadding(paddingTop, paddingRight, bottom, paddingLeft);
+    }
+    public UIElement setPaddingLeft(AbstractPadding left){
+        return setPadding(paddingTop, paddingRight, paddingBottom, left);
+    }
+
+    public AbstractPadding getPaddingTop(){
+        return paddingTop.cpy();
+    }
+    public AbstractPadding getPaddingRight(){
+        return paddingRight.cpy();
+    }
+    public AbstractPadding getPaddingBottom(){
+        return paddingBottom.cpy();
+    }
+    public AbstractPadding getPaddingLeft(){
+        return paddingLeft.cpy();
+    }
+
+    //endregion Padding
 
     //endregion
 

@@ -29,11 +29,11 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
 
     @Override
     public void update() {
-        float newPos = MathUtils.lerp(this.element.getWorldPositionX(), properties.refPointX - this.element.getWidthUnscaled(), Gdx.graphics.getDeltaTime() * properties.speed);
+        float newPos = MathUtils.lerp(this.element.getWorldPositionX(), properties.refPointX - this.element.getWidth(), Gdx.graphics.getDeltaTime() * properties.speed);
 
         element.setWorldPositionX(Math.round(newPos));
 
-        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - this.element.getWidthUnscaled()) {
+        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - this.element.getWidth()) {
             isPlaying = false;
         }
 
