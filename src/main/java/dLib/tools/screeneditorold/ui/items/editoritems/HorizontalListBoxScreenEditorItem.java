@@ -23,7 +23,7 @@ public class HorizontalListBoxScreenEditorItem extends ScreenEditorItem<Horizont
 
     @Override
     protected HorizontalListBox.HorizontalListBoxData makeDataType() {
-    return new HorizontalListBox.HorizontalListBoxData();
+        return new HorizontalListBox.HorizontalListBoxData();
     }
 
     //endregion

@@ -301,13 +301,17 @@ public abstract class ItemBox<ItemType> extends UIElement {
     //region Item UI
 
     public UIElement makeUIForItem(ItemType item){
-        TextBox box = new TextBox(item.toString(), defaultItemWidth == null ? Dim.fill() : Dim.px(defaultItemWidth), defaultItemHeight == null ? Dim.fill() : Dim.px(defaultItemHeight));
+        TextBox box = new TextBox(itemToString(item), defaultItemWidth == null ? Dim.fill() : Dim.px(defaultItemWidth), defaultItemHeight == null ? Dim.fill() : Dim.px(defaultItemHeight));
         box.setMarginPercX(0.025f).setMarginPercY(0.2f);
         box.setFont(FontHelper.buttonLabelFont);
         box.setTextRenderColor(Color.WHITE);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         return box;
     } //TODO expose with listeners
+
+    public String itemToString(ItemType item){
+        return item.toString();
+    }
 
     public void updateUIForItem(ItemType item, UIElement element){
 

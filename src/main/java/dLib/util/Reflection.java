@@ -2,7 +2,6 @@ package dLib.util;
 
 import com.evacipated.cardcrawl.modthespire.*;
 import com.evacipated.cardcrawl.modthespire.Loader;
-import com.evacipated.cardcrawl.modthespire.lib.SpireField;
 import dLib.DLib;
 import javassist.*;
 import org.apache.commons.lang3.ClassUtils;
@@ -311,7 +310,7 @@ public class Reflection {
 
     /** Returns an implementation of the given method in all classes*/
     public static ArrayList<CtMethod> findMethodsFromClasses(CtBehavior ctBehavior, Class<?> parentClass, boolean includeParent, String methodName, Class<?>... methodParams){
-        return findMethodsFromClasses(ctBehavior, findClassesOfType(parentClass, includeParent), methodName, methodParams);
+        return findMethodsFromClasses(ctBehavior, findClassInfosOfType(parentClass, includeParent), methodName, methodParams);
     }
     public static ArrayList<CtMethod> findMethodsFromClasses(CtBehavior ctBehavior, ArrayList<ClassInfo> classesToSearch, String methodName, Class<?>... methodParams){
         ClassPool classPool = ctBehavior.getDeclaringClass().getClassPool();
@@ -381,7 +380,7 @@ public class Reflection {
     }
 
     public static ArrayList<CtConstructor> findConstructorsFromClasses(CtBehavior ctBehavior, Class<?> parentClass, boolean includeParent){
-        return findConstructorsFromClasses(ctBehavior, findClassesOfType(parentClass, includeParent));
+        return findConstructorsFromClasses(ctBehavior, findClassInfosOfType(parentClass, includeParent));
     }
     public static ArrayList<CtConstructor> findConstructorsFromClasses(CtBehavior ctBehavior, ArrayList<ClassInfo> classesToSearch){
         ClassPool classPool = ctBehavior.getDeclaringClass().getClassPool();
@@ -421,7 +420,20 @@ public class Reflection {
 
     //region Classes
 
-    public static ArrayList<ClassInfo> findClassesOfType(Class<?> parentClass, boolean returnParent){
+    public static <T> ArrayList<Class<? extends T>> findClassesOfType(Class<? extends T> parentClass, boolean returnParent){
+        ArrayList<ClassInfo> classes = findClassInfosOfType(parentClass, returnParent);
+
+        ArrayList<Class<? extends T>> toReturn = new ArrayList<>();
+        for(ClassInfo c : classes){
+            try{
+                toReturn.add((Class<? extends T>) Class.forName(c.getClassName()));
+            }catch (Exception ignored){
+            }
+        }
+        return toReturn;
+    }
+
+    public static ArrayList<ClassInfo> findClassInfosOfType(Class<?> parentClass, boolean returnParent){
         ClassFilter filter = new AndClassFilter(
                 new NotClassFilter(new InterfaceOnlyClassFilter()),
                 new ClassModifiersClassFilter(Modifier.PUBLIC),
