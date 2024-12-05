@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.helpers.input.InputAction;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
 import dLib.plugin.intellij.PluginManager;
+import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.screens.UIManager;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
@@ -50,6 +51,8 @@ public class DLib implements PostInitializeSubscriber{
         FontManager.initialize();
 
         PluginManager.start();
+
+        UCEITemplateManager.initialize();
     }
 
     public static void logError(String message){

@@ -61,7 +61,10 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     protected UIElement buildItemBox() {
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
-        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, Pos.px(0), Pos.px(49), Dim.fill(), Dim.fill()){
+
+        AbstractPosition xPos = noInitScrollbar ? Pos.px(0) : Pos.px(49);
+
+        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, Pos.px(0), xPos, Dim.fill(), Dim.fill()){
             @Override
             protected void onHovered() {
                 super.onHovered();

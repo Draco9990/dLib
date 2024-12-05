@@ -2,6 +2,9 @@ package dLib.tools.uicreator;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.tools.screeneditorold.ui.items.editoritems.ScreenEditorItem;
+import dLib.tools.uicreator.ui.editoritems.UCEditorItem;
+import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
+import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.VerticalBox;
@@ -12,14 +15,12 @@ import dLib.util.Reflection;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
-import sun.reflect.generics.tree.ClassTypeSignature;
-import sun.reflect.generics.tree.FieldTypeSignature;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
 
-public class UC_Editor extends Renderable {
+public class UCEditor extends Renderable {
     public static final Color DARK_GRAY = Color.valueOf("#151515FF");
     public static final Color LIGHT_GRAY = Color.valueOf("#2B2B2BFF");
 
@@ -27,7 +28,7 @@ public class UC_Editor extends Renderable {
     private static UC_EditorProperties properties;
     private static UC_EditorMainScreen mainScreen;
 
-    public UC_Editor(){
+    public UCEditor(){
         super(UITheme.whitePixel, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
         setRenderColor(LIGHT_GRAY);
 
@@ -49,6 +50,14 @@ public class UC_Editor extends Renderable {
         addChildNCS(mainBox);
     }
 
+    //region Methods
+
+    public static void addNewEditorItem(UCEditorItem item){
+        mainScreen.addChildNCS(item);
+    }
+
+    //endregion
+
     //region Subclasses
 
     private static class UC_EditorMainScreen extends Renderable{
@@ -56,7 +65,7 @@ public class UC_Editor extends Renderable {
         public UC_EditorMainScreen() {
             super(UITheme.whitePixel, Dim.fill(), Dim.perc(0.8f));
             Color transparent = new Color(0, 0, 0, 0);
-            setRenderColor(transparent);
+            //setRenderColor(transparent);
         }
     }
 
@@ -79,35 +88,29 @@ public class UC_Editor extends Renderable {
 
         //region Subclasses
 
-        private static class UC_EP_Toolbox extends VerticalListBox<Class<? extends ScreenEditorItem>> {
+        private static class UC_EP_Toolbox extends VerticalListBox<UCEITemplate> {
             public UC_EP_Toolbox() {
                 super(Dim.fill(), Dim.fill());
                 getBackground().setImage(null);
 
                 setSelectionMode(ESelectionMode.SINGLE_NOPERSIST);
 
-                setItems(Reflection.findClassesOfType(ScreenEditorItem.class, false));
-            }
-
-            @Override
-            public String itemToString(Class<? extends ScreenEditorItem> item) {
-                ParameterizedType type = (ParameterizedType) item.getGenericSuperclass();
-                Type actualType = type.getActualTypeArguments()[0];
-
-                try{
-                    String actualTypeName = actualType.getTypeName().split("<")[0];
-                    Class<?> typeClass = Class.forName(actualTypeName);
-                    return typeClass.getSimpleName();
-                }
-                catch (Exception e){
-                    return "";
-                }
+                setItems(UCEITemplateManager.getTemplates());
             }
 
             @Override
             public void show() { //replace with onShowed
                 super.show();
-                setItems(Reflection.findClassesOfType(ScreenEditorItem.class, false));
+                setItems(UCEITemplateManager.getTemplates());
+            }
+
+            @Override
+            public void onItemSelectionChanged(ArrayList<UCEITemplate> items) {
+                super.onItemSelectionChanged(items);
+
+                if(!items.isEmpty()){
+                    ((UCEditor)getTopParent()).addNewEditorItem(items.get(0).makeEditorItem());
+                }
             }
         }
 

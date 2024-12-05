@@ -383,7 +383,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
             onItemSelectionChanged(getCurrentlySelectedItems());
         }
     }
-    public void onItemSelectionChanged(ArrayList<ItemType> item){} //TODO expose
+    public void onItemSelectionChanged(ArrayList<ItemType> items){} //TODO expose
 
     public ArrayList<ItemType> getCurrentlySelectedItems(){
         ArrayList<ItemType> selectedItems = new ArrayList<>();
