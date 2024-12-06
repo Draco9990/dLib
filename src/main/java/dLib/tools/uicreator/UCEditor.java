@@ -6,10 +6,7 @@ import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.Spacer;
-import dLib.ui.elements.prefabs.VerticalBox;
-import dLib.ui.elements.prefabs.VerticalListBox;
+import dLib.ui.elements.prefabs.*;
 import dLib.ui.themes.UITheme;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.ui.dimensions.Dim;
@@ -67,6 +64,25 @@ public class UCEditor extends Renderable {
         public UC_EditorToolbar() {
             super(UITheme.whitePixel, Dim.perc(100), Dim.fill());
             setRenderColor(DARK_GRAY);
+
+            HorizontalBox toolbar = new HorizontalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill(), true);
+            {
+                toolbar.addItem(new Spacer(Dim.px(200), Dim.fill()));
+                toolbar.addItem(new Spacer(Dim.px(10), Dim.fill()));
+
+                VerticalListBox<String> propertiesOptions = new VerticalListBox<>(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill(), true);
+                propertiesOptions.setDefaultItemHeight(30);
+                propertiesOptions.getBackground().setImage(null);
+                propertiesOptions.setItemSpacing(10);
+                {
+                    propertiesOptions.addItem("Toolbox");
+                    propertiesOptions.addItem("Element List");
+                    propertiesOptions.addItem("Properties");
+                }
+                toolbar.addItem(propertiesOptions);
+            }
+            toolbar.setPadding(Padd.px(10));
+            addChildNCS(toolbar);
         }
     }
 
