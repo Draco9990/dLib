@@ -1583,6 +1583,14 @@ public class UIElement {
 
     //endregion Components
 
+    //region Hb
+
+    public Hitbox getHitbox(){
+        return hb;
+    }
+
+    //endregion Hb
+
     //region Hover
 
     protected void onHovered(){

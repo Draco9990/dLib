@@ -74,8 +74,6 @@ public class Renderable extends UIElement {
 
     @Override
     public void renderSelf(SpriteBatch sb) {
-        super.renderSelf(sb);
-
         sb.setColor(getColorForRender());
 
         TextureRegion textureToRender = getTextureForRender();
@@ -86,7 +84,7 @@ public class Renderable extends UIElement {
             sb.flush();  //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
         }
 
-        sb.setColor(Color.WHITE);
+        super.renderSelf(sb);
     }
 
     //endregion
