@@ -1,5 +1,6 @@
 package dLib.ui.elements.components;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.elements.UIElement;
 
 public abstract class UIElementComponent<RequiredElementType extends UIElement> {
@@ -7,5 +8,5 @@ public abstract class UIElementComponent<RequiredElementType extends UIElement> 
     public void onUnregisterComponent(RequiredElementType owner){}
 
     public void onUpdate(RequiredElementType owner){}
-    public void onRender(RequiredElementType owner){}
+    public void onRender(RequiredElementType owner, SpriteBatch sb){}
 }

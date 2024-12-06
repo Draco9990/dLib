@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class Interactable extends Hoverable{
+public class Interactable extends Renderable{
     //region Variables
 
     public TextureRegion hoveredTexture;
@@ -127,11 +127,11 @@ public class Interactable extends Hoverable{
             if(isHovered()){
                 if(InputHelper.justClickedLeft){
                     clickLeft();
-                    if(!isClickthrough()) InputHelper.justClickedLeft = false;
+                    if(!isPassthrough()) InputHelper.justClickedLeft = false;
                 }
                 if(InputHelper.justClickedRight){
                     clickRight();
-                    if(!isClickthrough()) InputHelper.justClickedRight = false;
+                    if(!isPassthrough()) InputHelper.justClickedRight = false;
                 }
 
             }
@@ -447,7 +447,7 @@ public class Interactable extends Hoverable{
         }
     }
 
-    public static class InteractableData extends Hoverable.HoverableData implements Serializable {
+    public static class InteractableData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public TextureBinding hoveredTexture = new TextureNullBinding();

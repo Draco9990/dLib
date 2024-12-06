@@ -9,14 +9,12 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.*;
-import dLib.properties.objects.templates.*;
 import dLib.properties.ui.elements.OnValueChangedStringPropertyEditor;
 import dLib.ui.Alignment;
-import dLib.ui.elements.implementations.Hoverable;
+import dLib.ui.elements.implementations.Renderable;
 import dLib.util.FontManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
@@ -25,7 +23,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public class TextBox extends Hoverable {
+public class TextBox extends Renderable {
     //region Variables
 
     private String text;
@@ -419,7 +417,7 @@ public class TextBox extends Hoverable {
 
     //endregion
 
-    public static class TextBoxData extends Hoverable.HoverableData implements Serializable {
+    public static class TextBoxData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public StringProperty text = new StringProperty("TEXT").setName("Text").setPropertyEditorClass(OnValueChangedStringPropertyEditor.class);

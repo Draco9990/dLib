@@ -3,7 +3,6 @@ package dLib.properties.ui.elements;
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.prefabs.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -59,7 +58,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
         VerticalBox vBox = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill(), true){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
-                Hoverable hoverable = new Hoverable(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
+                UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
                     public void onHovered() {
                         onPropertyHovered(property);
@@ -88,7 +87,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
         HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.perc(0), Dim.fill(), Dim.fill(), true){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
-                Hoverable hoverable = new Hoverable(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
+                UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
                     public void onHovered() {
                         onPropertyHovered(property);

@@ -2,9 +2,8 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.IntegerProperty;
-import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Hoverable;
+import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -64,7 +63,7 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
 
         AbstractPosition xPos = noInitScrollbar ? Pos.px(0) : Pos.px(49);
 
-        Hoverable itemBoxBackground = new Hoverable(UIThemeManager.getDefaultTheme().listbox, Pos.px(0), xPos, Dim.fill(), Dim.fill()){
+        Renderable itemBoxBackground = new Renderable(UIThemeManager.getDefaultTheme().listbox, Pos.px(0), xPos, Dim.fill(), Dim.fill()){
             @Override
             protected void onHovered() {
                 super.onHovered();
@@ -110,8 +109,8 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
     }
 
     @Override
-    public Hoverable getBackground() {
-        return (Hoverable) super.getBackground();
+    public Renderable getBackground() {
+        return (Renderable) super.getBackground();
     }
 
     @Override

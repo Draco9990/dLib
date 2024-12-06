@@ -3,9 +3,7 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.animations.entry.UIAnimation_FadeIn;
 import dLib.ui.animations.exit.UIAnimation_FadeOut;
-import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UITheme;
-import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -41,7 +39,7 @@ public class DarkenLayer extends Image {
     }
 
     @Override
-    public boolean isClickthrough() {
-        return super.isClickthrough();
+    public boolean isPassthrough() {
+        return super.isPassthrough();
     }
 }

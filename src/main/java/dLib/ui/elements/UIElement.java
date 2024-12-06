@@ -8,7 +8,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.localization.UIStrings;
+import dLib.modcompat.ModManager;
+import dLib.patches.InputHelperHoverConsumer;
 import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
@@ -28,6 +31,7 @@ import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
+import sayTheSpire.Output;
 
 import java.io.*;
 import java.util.*;
@@ -40,6 +44,8 @@ public class UIElement {
 
     protected UIElement parent;
     protected List<UIElementChild> children = new ArrayList<>();
+
+    protected Hitbox hb;
 
     private AbstractPosition localPosX = Pos.px(0);
     private AbstractPosition localPosY = Pos.px(0);
@@ -73,6 +79,16 @@ public class UIElement {
     private boolean selected;
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
 
+    private boolean isPassthrough = false;
+
+    private LinkedHashMap<UUID, Runnable> onHoveredEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Consumer<Float>> onHoverTickEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Runnable> onUnHoveredEvents = new LinkedHashMap<>();
+
+    private String onHoverLine; // Say the Spire mod compatibility
+
+    private float totalHoverDuration;
+
     private ArrayList<UIElementComponent> components = new ArrayList<>();
 
     protected ArrayList<Runnable> delayedActions =new ArrayList<>();
@@ -100,7 +116,6 @@ public class UIElement {
     public UIElement(AbstractDimension width, AbstractDimension height){
         this(Pos.px(0), Pos.px(0), width, height);
     }
-
     public UIElement(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         this.localPosX = xPos;
@@ -112,6 +127,8 @@ public class UIElement {
         if(uiStrings != null){
             stringTable = CardCrawlGame.languagePack.getUIString(uiStrings);
         }
+
+        hb = new Hitbox(0, 0, 1, 1);
     }
 
     public UIElement(UIElementData data){
@@ -143,6 +160,14 @@ public class UIElement {
         this.darkenedColorMultiplier = data.darkenedColorMultiplier;
 
         onSelectionStateChangedConsumers.add(aBoolean -> data.onSelectionStateChangedBinding.executeBinding(aBoolean));
+
+        hb = new Hitbox(0, 0, 1, 1);
+
+        addOnHoveredEvent(() -> data.onHovered.executeBinding(getTopParent()));
+        addOnHoverTickEvent((elapsedTime) -> data.onHoverTick.executeBinding(getTopParent(), elapsedTime));
+        addOnUnHoveredEvent(() -> data.onUnhovered.executeBinding(getTopParent()));
+
+        this.isPassthrough = data.isPassthrough;
     }
 
     //endregion
@@ -159,19 +184,100 @@ public class UIElement {
         ensureElementWithinBounds();
     }
     protected void updateSelf(){
-        if(playingAnimation != null){
-            playingAnimation.update();
-            if(!playingAnimation.isPlaying()){
-                playingAnimation.finishInstantly();
-                playingAnimation = null;
+        //Update Components
+        {
+            for(UIElementComponent component : components){
+                component.onUpdate(this);
             }
         }
 
-        while(!delayedActions.isEmpty()){
-            delayedActions.remove(0).run();
+        //Update Hitbox
+        {
+            boolean hbHoveredCache = this.hb.hovered || this.hb.justHovered;
+
+            float targetHbX = getWorldPositionCenteredX() * Settings.xScale;
+            float targetHbY = getWorldPositionCenteredY() * Settings.yScale;
+            float targetHbWidth = getWidth() * Settings.xScale;
+            float targetHbHeight = getHeight() * Settings.yScale;
+
+            IntegerVector4 maskBounds = getMaskWorldBounds();
+            if(maskBounds != null && overlaps(maskBounds) && !within(maskBounds)){
+                if(getWorldPositionX() < maskBounds.x){
+                    float newTargetHbX = (maskBounds.x + getWidth() * 0.5f) * Settings.xScale;
+                    targetHbWidth -= newTargetHbX - targetHbX;
+                    targetHbX = newTargetHbX;
+                }
+                if(getWorldPositionY() < maskBounds.y){
+                    float newTargetHbY = (maskBounds.y + getHeight() * 0.5f) * Settings.yScale;
+                    targetHbHeight -= newTargetHbY - targetHbY;
+                    targetHbY = newTargetHbY;
+                }
+
+
+                if(getWorldPositionX() + getWidth() > maskBounds.x + maskBounds.w){
+                    targetHbWidth = (maskBounds.x + maskBounds.w - getWorldPositionX()) * Settings.xScale;
+                }
+                if(getWorldPositionY() + getHeight() > maskBounds.y + maskBounds.h){
+                    targetHbHeight = (maskBounds.y + maskBounds.h - getWorldPositionY()) * Settings.yScale;
+                    targetHbY = (maskBounds.y + maskBounds.h - (targetHbHeight / Settings.yScale * 0.5f)) * Settings.yScale;
+                }
+            }
+
+            this.hb.resize(targetHbWidth, targetHbHeight);
+            this.hb.move(targetHbX, targetHbY);
+            this.hb.update();
+
+            if((this.hb.justHovered || this.hb.hovered) && InputHelperHoverConsumer.alreadyHovered){
+                this.hb.justHovered = false;
+                this.hb.hovered = false;
+            }
+
+            if(isEnabled()){
+                if(this.hb.justHovered) onHovered();
+                if(this.hb.hovered){
+                    totalHoverDuration += Gdx.graphics.getDeltaTime();
+                    onHoverTick(totalHoverDuration);
+                }
+            }
+
+            if(hbHoveredCache && (!this.hb.hovered && !this.hb.justHovered)){
+                onUnhovered();
+            }
         }
 
-        updateLifespan();
+        //Update Playing Animation
+        {
+            if(playingAnimation != null){
+                playingAnimation.update();
+                if(!playingAnimation.isPlaying()){
+                    playingAnimation.finishInstantly();
+                    playingAnimation = null;
+                }
+            }
+        }
+
+        //Update Delayed Actions
+        {
+            while(!delayedActions.isEmpty()){
+                delayedActions.remove(0).run();
+            }
+        }
+
+        //Update Lifespan
+        {
+            if(totalLifespan == -1) return;
+
+            remainingLifespan -= Gdx.graphics.getDeltaTime();
+            if(remainingLifespan <= 0){
+                hideAndDisable();
+                //TODO wait for animations to finish
+                if(parent != null){
+                    parent.removeChild(this);
+                    dispose();
+                }
+                //TODO fire on death event
+            }
+        }
     }
     protected void updateChildren(){
         for(int i = children.size() - 1; i >= 0; i--){
@@ -206,7 +312,17 @@ public class UIElement {
     }
 
     protected void renderSelf(SpriteBatch sb){
+        //Render Components
+        {
+            for(UIElementComponent component : components){
+                component.onRender(this, sb);
+            }
+        }
 
+        //Render Hitbox
+        {
+            hb.render(sb);
+        }
     }
 
     protected void renderChildren(SpriteBatch sb){
@@ -1253,21 +1369,6 @@ public class UIElement {
 
     //region Lifespan
 
-    public void updateLifespan(){
-        if(totalLifespan == -1) return;
-
-        remainingLifespan -= Gdx.graphics.getDeltaTime();
-        if(remainingLifespan <= 0){
-            hideAndDisable();
-            //TODO wait for animations to finish
-            if(parent != null){
-                parent.removeChild(this);
-                dispose();
-            }
-            //TODO fire on death event
-        }
-    }
-
     public UIElement setLifespan(float lifespan){
         totalLifespan = lifespan;
         remainingLifespan = lifespan;
@@ -1420,6 +1521,82 @@ public class UIElement {
 
     //endregion Components
 
+    //region Hover
+
+    protected void onHovered(){
+        totalHoverDuration = 0.f;
+
+        if(getOnHoverLine() != null){
+            if(ModManager.SayTheSpire.isActive()){
+                Output.text(getOnHoverLine(), true);
+            }
+        }
+
+        for(Map.Entry<UUID, Runnable> entry : onHoveredEvents.entrySet()) entry.getValue().run();
+
+        if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
+    }
+    protected void onHoverTick(float totalTickDuration){
+        for(Map.Entry<UUID, Consumer<Float>> entry : onHoverTickEvents.entrySet()) entry.getValue().accept(totalTickDuration);
+
+        if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
+    }
+    protected void onUnhovered(){
+        totalHoverDuration = 0.f;
+
+        for(Map.Entry<UUID, Runnable> entry : onUnHoveredEvents.entrySet()) entry.getValue().run();
+    }
+
+    public boolean isHovered(){ return (hb.hovered || hb.justHovered); }
+
+    public UUID addOnHoveredEvent(Runnable event){
+        UUID id = UUID.randomUUID();
+        onHoveredEvents.put(id, event);
+        return id;
+    }
+    public void removeOnHoveredEvent(UUID id){
+        onHoveredEvents.remove(id);
+    }
+
+    public UUID addOnHoverTickEvent(Consumer<Float> event){
+        UUID id = UUID.randomUUID();
+        onHoverTickEvents.put(id, event);
+        return id;
+    }
+    public void removeOnHoverTickEvent(UUID id){
+        onHoverTickEvents.remove(id);
+    }
+
+    public UUID addOnUnHoveredEvent(Runnable event){
+        UUID id = UUID.randomUUID();
+        onUnHoveredEvents.put(id, event);
+        return id;
+    }
+    public void removeOnUnHoveredEvent(UUID id){
+        onUnHoveredEvents.remove(id);
+    }
+
+    public void setOnHoverLine(String newLine){
+        this.onHoverLine = newLine;
+    }
+    public String getOnHoverLine(){
+        return onHoverLine;
+    }
+
+    //endregion
+
+    //region Clickthrough
+
+    public void setClickthrough(boolean newValue){
+        isPassthrough = newValue;
+    }
+
+    public boolean isPassthrough(){
+        return isPassthrough || (!isVisible() && !isEnabled());
+    }
+
+    //endregion
+
     //endregion
 
     public static class UIElementChild{
@@ -1470,7 +1647,11 @@ public class UIElement {
 
         public MethodBinding onSelectionStateChangedBinding = new NoneMethodBinding();
 
-        public boolean isSelectable;
+        public MethodBinding onHovered = new NoneMethodBinding();
+        public MethodBinding onHoverTick = new NoneMethodBinding();
+        public MethodBinding onUnhovered = new NoneMethodBinding();
+
+        public boolean isPassthrough = false;
 
         public UIElement makeUIElement(){
             return new UIElement(this);

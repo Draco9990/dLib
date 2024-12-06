@@ -2,13 +2,9 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import dLib.properties.objects.IntegerVector2Property;
-import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Hoverable;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.TexturePathBinding;
-import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -60,7 +56,7 @@ public class Image extends Interactable {
             textureBinding.setValue(new TexturePathBinding("dLibResources/images/ui/themes/WhitePixel.png"));
             dimensions.setValue(new IntegerVector2(100, 100));
 
-            isClickthrough = true;
+            isPassthrough = true;
         }
 
         @Override

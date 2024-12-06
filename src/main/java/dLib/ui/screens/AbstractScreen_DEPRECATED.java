@@ -29,7 +29,7 @@ public final class AbstractScreen_DEPRECATED extends UIElement {
         ArrayList<UIElement> makeLiveItems = data.makeLiveItems();
         for (int i = 0; i < makeLiveItems.size(); i++) {
             UIElement liveElement = makeLiveItems.get(i);
-            addChild(liveElement, data.data.get(i).isSelectable);
+            addChild(liveElement, true);
         }
     }
 
