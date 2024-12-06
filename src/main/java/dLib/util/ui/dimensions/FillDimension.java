@@ -26,6 +26,8 @@ public class FillDimension extends AbstractDimension {
         if(self.getParent() == null) return 1920;
 
         if(self.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && self.getParent().getComponent(UIItemBoxElementHolderComponent.class).isHorizontal()){
+            HorizontalItemBox itemBox = self.getParent().getParent();
+
             int staticWidth = 0;
             int fillElementCount = 0;
             for(UIElement sibling : self.getParent().getChildren()){
@@ -38,6 +40,8 @@ public class FillDimension extends AbstractDimension {
 
                 staticWidth += sibling.getPaddingLeft() + sibling.getPaddingRight();
             }
+
+            staticWidth += (self.getParent().getChildren().size() -1 ) * itemBox.getItemSpacing();
 
             return Math.max((int) ((self.getParent().getWidth() - staticWidth) / (float) fillElementCount), 1);
         }
@@ -80,6 +84,8 @@ public class FillDimension extends AbstractDimension {
         if(self.getParent() == null) return 1080;
 
         if(self.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && self.getParent().getComponent(UIItemBoxElementHolderComponent.class).isVertical()){
+            VerticalItemBox itemBox = self.getParent().getParent();
+
             int staticHeight = 0;
             int fillElementCount = 0;
             for(UIElement sibling : self.getParent().getChildren()){
@@ -89,7 +95,11 @@ public class FillDimension extends AbstractDimension {
                 else{
                     fillElementCount++;
                 }
+
+                staticHeight += sibling.getPaddingTop() + sibling.getPaddingBottom();
             }
+
+            staticHeight += (self.getParent().getChildren().size() -1 ) * itemBox.getItemSpacing();
 
             return Math.max((int) ((self.getParent().getHeight() - staticHeight) / (float) fillElementCount), 1);
         }

@@ -3,9 +3,11 @@ package dLib.tools.uicreator;
 import com.badlogic.gdx.graphics.Color;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
+import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.HorizontalBox;
+import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.VerticalBox;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.themes.UITheme;
@@ -30,17 +32,15 @@ public class UCEditor extends Renderable {
 
         HorizontalBox mainBox = new HorizontalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill(), true);
         {
-            VerticalBox firstColumn = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.perc(0.8f), Dim.fill(), true);
+            VerticalBox firstColumn = new VerticalBox(Pos.perc(0), Pos.px(0), Dim.px(1536), Dim.fill(), true);
             {
                 firstColumn.addItem(toolbar = new UC_EditorToolbar());
-                toolbar.setPaddingBottom(Padd.px(10));
-
+                firstColumn.addItem(new Spacer(Dim.fill(), Dim.px(10)));
                 firstColumn.addItem(mainScreen = new UC_EditorMainScreen());
             }
             mainBox.addItem(firstColumn);
-
+            mainBox.addItem(new Spacer(Dim.px(10), Dim.fill()));
             mainBox.addItem(properties = new UC_EditorProperties());
-            properties.setPaddingLeft(Padd.px(10));
         }
         mainBox.setPadding(Padd.px(10));
         addChildNCS(mainBox);
@@ -59,15 +59,13 @@ public class UCEditor extends Renderable {
     private static class UC_EditorMainScreen extends Renderable{
 
         public UC_EditorMainScreen() {
-            super(UITheme.whitePixel, Dim.fill(), Dim.perc(0.8f));
-            Color transparent = new Color(0, 0, 0, 0);
-            setRenderColor(transparent);
+            super(DLibUIElements.UIEditorElements.transparentBg, Dim.px(1536), Dim.px(864));
         }
     }
 
     private static class UC_EditorToolbar extends Renderable{
         public UC_EditorToolbar() {
-            super(UITheme.whitePixel, Dim.fill(), Dim.perc(0.2f));
+            super(UITheme.whitePixel, Dim.perc(100), Dim.fill());
             setRenderColor(DARK_GRAY);
         }
     }
