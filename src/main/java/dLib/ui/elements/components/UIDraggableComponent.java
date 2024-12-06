@@ -26,6 +26,8 @@ public class UIDraggableComponent extends UIElementComponent<Interactable> {
 
     @Override
     public void onRegisterComponent(Interactable owner) {
+        this.owner = owner;
+
         leftClickEventId = owner.addOnLeftClickEvent(this::onLeftClick);
         leftClickHeldEventId = owner.addOnLeftClickHeldEvent(this::onLeftClickHeld);
     }

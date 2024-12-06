@@ -1,23 +1,19 @@
 package dLib.tools.uicreator;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.tools.screeneditorold.ui.items.editoritems.ScreenEditorItem;
-import dLib.tools.uicreator.ui.editoritems.UCEditorItem;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.VerticalBox;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.themes.UITheme;
 import dLib.ui.util.ESelectionMode;
-import dLib.util.Reflection;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class UCEditor extends Renderable {
@@ -52,7 +48,7 @@ public class UCEditor extends Renderable {
 
     //region Methods
 
-    public static void addNewEditorItem(UCEditorItem item){
+    public static void addNewEditorItem(UIElement item){
         mainScreen.addChildNCS(item);
     }
 
@@ -65,7 +61,7 @@ public class UCEditor extends Renderable {
         public UC_EditorMainScreen() {
             super(UITheme.whitePixel, Dim.fill(), Dim.perc(0.8f));
             Color transparent = new Color(0, 0, 0, 0);
-            //setRenderColor(transparent);
+            setRenderColor(transparent);
         }
     }
 
