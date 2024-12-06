@@ -17,7 +17,7 @@ public class UCEditorComponent extends UIElementComponent<UIElement> {
 
     @Override
     public void onRegisterComponent(UIElement owner) {
-
+        owner.setBoundWithinParent(true);
     }
 
     @Override

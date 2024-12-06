@@ -898,7 +898,7 @@ public class UIElement {
         int desiredPositionX = getLocalPositionX();
         int desiredPositionY = getLocalPositionY();
 
-        if(!(width instanceof StaticDimension)){
+        if(width instanceof StaticDimension){
             int boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
 
             if(upperLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
@@ -919,7 +919,7 @@ public class UIElement {
 
         }
 
-        if(!(height instanceof StaticDimension)){
+        if(height instanceof StaticDimension){
             int boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
 
             if(upperLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
