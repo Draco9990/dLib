@@ -22,9 +22,9 @@ public abstract class VerticalScrollbar extends Scrollbar {
 
         VerticalBox elements = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
         {
-            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_top, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(22)));
-            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_middle, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()));
-            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_bottom, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(22)));
+            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_top, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
+            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_middle, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_bottom, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
         }
         addChildNCS(elements);
 

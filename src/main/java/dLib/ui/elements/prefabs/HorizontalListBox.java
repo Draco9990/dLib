@@ -79,6 +79,7 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
 
             currentXPos += item.renderForItem.getWidth();
             currentXPos += itemSpacing;
+            currentXPos += item.renderForItem.getPaddingRight();
         }
     }
     private void updateItemsCentered(){

@@ -2,10 +2,14 @@ package dLib.util.ui.dimensions;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UIItemBoxElementHolderComponent;
 import dLib.ui.elements.prefabs.HorizontalItemBox;
+import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.elements.prefabs.VerticalItemBox;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.StaticPosition;
+
+import java.util.ArrayList;
 
 public class FillDimension extends AbstractDimension {
     public FillDimension(){
@@ -21,32 +25,21 @@ public class FillDimension extends AbstractDimension {
     public int getWidth(UIElement self) {
         if(self.getParent() == null) return 1920;
 
-        if(self.getParent().getParent() instanceof HorizontalItemBox){
-            UIElement fillChainStart = null;
-            int fillChainCount = 0;
-            boolean isPartOfCurrentFillChain = false;
-
-            for (UIElement sibling : self.getParent().getChildren()){
-                if(sibling.getWidthRaw() instanceof FillDimension){
-                    if(sibling == self){
-                        isPartOfCurrentFillChain = true;
-                    }
-
-                    if(fillChainStart == null){
-                        fillChainStart = sibling;
-                    }
-                    fillChainCount++;
-                }
-                else if(isPartOfCurrentFillChain){
-                    return (int) ((sibling.getLocalPositionX() - fillChainStart.getLocalPositionX()) / (float) fillChainCount);
+        if(self.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && self.getParent().getComponent(UIItemBoxElementHolderComponent.class).isHorizontal()){
+            int staticWidth = 0;
+            int fillElementCount = 0;
+            for(UIElement sibling : self.getParent().getChildren()){
+                if(!(sibling.getWidthRaw() instanceof FillDimension)){ //* Implies sibling != self
+                    staticWidth += sibling.getWidth();
                 }
                 else{
-                    fillChainStart = null;
-                    fillChainCount = 0;
+                    fillElementCount++;
                 }
+
+                staticWidth += sibling.getPaddingLeft() + sibling.getPaddingRight();
             }
 
-            return (int) ((self.getParent().getWidth() - fillChainStart.getLocalPositionX()) / (float) fillChainCount);
+            return Math.max((int) ((self.getParent().getWidth() - staticWidth) / (float) fillElementCount), 1);
         }
         else{
             int maxWidth = self.getParent().getWidth() - self.getLocalPositionX();
@@ -86,32 +79,19 @@ public class FillDimension extends AbstractDimension {
     public int getHeight(UIElement self) {
         if(self.getParent() == null) return 1080;
 
-        if(self.getParent().getParent() instanceof VerticalItemBox){
-            UIElement fillChainStart = null;
-            int fillChainCount = 0;
-            boolean isPartOfCurrentFillChain = false;
-
-            for (UIElement sibling : self.getParent().getChildren()){
-                if(sibling.getHeightRaw() instanceof FillDimension){
-                    if(sibling == self){
-                        isPartOfCurrentFillChain = true;
-                    }
-
-                    if(fillChainStart == null){
-                        fillChainStart = sibling;
-                    }
-                    fillChainCount++;
-                }
-                else if(isPartOfCurrentFillChain){
-                    return (int) ((sibling.getLocalPositionY() - fillChainStart.getLocalPositionY()) / (float) fillChainCount);
+        if(self.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && self.getParent().getComponent(UIItemBoxElementHolderComponent.class).isVertical()){
+            int staticHeight = 0;
+            int fillElementCount = 0;
+            for(UIElement sibling : self.getParent().getChildren()){
+                if(!(sibling.getHeightRaw() instanceof FillDimension)){ //* Implies sibling != self
+                    staticHeight += sibling.getHeight();
                 }
                 else{
-                    fillChainStart = null;
-                    fillChainCount = 0;
+                    fillElementCount++;
                 }
             }
 
-            return (int) ((self.getParent().getHeight() - fillChainStart.getLocalPositionY()) / (float) fillChainCount);
+            return Math.max((int) ((self.getParent().getHeight() - staticHeight) / (float) fillElementCount), 1);
         }
         else{
             int resultingHeight = self.getParent().getHeight() - self.getLocalPositionY();

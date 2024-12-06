@@ -85,12 +85,13 @@ public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
                 item.renderForItem.darkenInstantly();
             }
 
-            currentXPos += item.renderForItem.getWidth() + itemSpacing;
-            if(currentXPos + item.renderForItem.getWidth() + itemSpacing > itemBox.getWidth()){
+            currentXPos += item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight();
+            if(currentXPos + item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight() > itemBox.getWidth()){
                 currentXPos = itemPadding.x;
 
                 currentYPos -= item.renderForItem.getHeight();
                 currentYPos -= itemSpacing;
+                currentYPos -= item.renderForItem.getPaddingBottom();
             }
         }
     }

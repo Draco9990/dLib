@@ -14,12 +14,14 @@ public class PercentagePadding extends AbstractPadding{
 
     @Override
     public int getHorizontal(UIElement owner) {
-        return (int) (owner.getWidthUnpadded() * perc);
+        int parentWidth = owner.getParent() != null ? owner.getParent().getWidth() : 1920;
+        return (int) (parentWidth * perc);
     }
 
     @Override
     public int getVertical(UIElement owner) {
-        return (int) (owner.getHeightUnpadded() * perc);
+        int parentHeight = owner.getParent() != null ? owner.getParent().getHeight() : 1080;
+        return (int) (parentHeight * perc);
     }
 
     @Override

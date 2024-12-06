@@ -2,7 +2,9 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.IntegerProperty;
+import dLib.ui.Orientation;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UIItemBoxElementHolderComponent;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -76,7 +78,10 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
                 trackScrollWheelScroll = false;
             }
         };
-        itemBoxBackground.setRenderColor(bgColor);
+        {
+            itemBoxBackground.setRenderColor(bgColor);
+            itemBoxBackground.addComponent(new UIItemBoxElementHolderComponent(Orientation.OrientationType.HORIZONTAL));
+        }
         return itemBoxBackground;
     }
 

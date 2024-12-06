@@ -45,7 +45,7 @@ public class AutoDimension extends AbstractDimension {
             }
         }
 
-        return bottommostY - topmostY;
+        return topmostY - bottommostY;
     }
 
     @Override

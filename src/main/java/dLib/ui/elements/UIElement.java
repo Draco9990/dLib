@@ -24,6 +24,7 @@ import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.dimensions.FillDimension;
 import dLib.util.ui.dimensions.StaticDimension;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
@@ -642,13 +643,13 @@ public class UIElement {
         return this;
     }
 
-    public final int getWorldPositionX(){
+    public int getWorldPositionX(){
         return getWorldPosition().x;
     }
-    public final int getWorldPositionY(){
+    public int getWorldPositionY(){
         return getWorldPosition().y;
     }
-    public final IntegerVector2 getWorldPosition(){
+    public IntegerVector2 getWorldPosition(){
         int worldPosX = this.localPosX.getWorldX(this);
         int paddingX = paddingLeft.getHorizontal(this);
 
@@ -1278,14 +1279,10 @@ public class UIElement {
     public void onParentDimensionsChanged(){}
 
     public int getWidth(){
-        int width = getWidthUnpadded();
-        int padding = paddingLeft.getHorizontal(this) + paddingRight.getHorizontal(this);
-        return width - padding;
+        return width.getWidth(this) - getPaddingRight();
     }
     public int getHeight(){
-        int height = getHeightUnpadded();
-        int padding = paddingBottom.getVertical(this) + paddingTop.getHorizontal(this);
-        return height - padding;
+        return height.getHeight(this) - getPaddingTop();
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
@@ -1296,13 +1293,6 @@ public class UIElement {
     }
     public AbstractDimension getHeightRaw(){
         return height.cpy();
-    }
-
-    public int getWidthUnpadded(){
-        return width.getWidth(this) + paddingLeft.getHorizontal(this);
-    }
-    public int getHeightUnpadded(){
-        return height.getHeight(this) + paddingBottom.getVertical(this);
     }
 
     //endregion
@@ -1579,6 +1569,10 @@ public class UIElement {
             }
         }
         return null;
+    }
+
+    public boolean hasComponent(Class<? extends UIElementComponent> componentClass){
+        return getComponent(componentClass) != null;
     }
 
     //endregion Components

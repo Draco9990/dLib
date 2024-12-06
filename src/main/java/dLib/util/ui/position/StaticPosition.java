@@ -2,6 +2,7 @@ package dLib.util.ui.position;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UIItemBoxElementHolderComponent;
 import dLib.ui.elements.prefabs.HorizontalItemBox;
 import dLib.ui.elements.prefabs.VerticalItemBox;
 import dLib.util.ui.dimensions.FillDimension;
@@ -19,7 +20,7 @@ public class StaticPosition extends AbstractPosition {
 
     @Override
     public int getLocalX(UIElement element) {
-        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element.getParent().getParent() instanceof HorizontalItemBox){
+        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || (element.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && element.getParent().getComponent(UIItemBoxElementHolderComponent.class).isHorizontal())){
             return position;
         }
         else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
@@ -46,7 +47,7 @@ public class StaticPosition extends AbstractPosition {
 
     @Override
     public int getLocalY(UIElement element) {
-        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element.getParent().getParent() instanceof VerticalItemBox){
+        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || (element.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && element.getParent().getComponent(UIItemBoxElementHolderComponent.class).isVertical())){
             return position;
         }
         else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){

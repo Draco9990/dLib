@@ -21,9 +21,9 @@ public abstract class HorizontalScrollbar extends Scrollbar {
 
         HorizontalBox elements = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
         {
-            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_left, Pos.perc(0), Pos.perc(0), Dim.px(22), Dim.fill()));
-            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_middle, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()));
-            elements.addChildNCS(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_right, Pos.perc(0), Pos.perc(0), Dim.px(22), Dim.fill()));
+            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_left, Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
+            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_middle, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_right, Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
         }
         addChildNCS(elements);
 

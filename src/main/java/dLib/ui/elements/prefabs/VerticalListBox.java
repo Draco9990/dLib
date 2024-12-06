@@ -89,6 +89,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
 
             currentYPos -= item.renderForItem.getHeight();
             currentYPos -= itemSpacing;
+            currentYPos -= item.renderForItem.getPaddingBottom();
         }
     }
 
