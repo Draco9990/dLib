@@ -69,7 +69,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
                         onPropertyUnhovered(property);
                     }
                 };
-                hoverable.setClickthrough(true);
+                hoverable.setPassthrough(true);
                 item.addChildNCS(hoverable);
 
                 return item;
@@ -98,7 +98,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
                         onPropertyUnhovered(property);
                     }
                 };
-                hoverable.setClickthrough(true);
+                hoverable.setPassthrough(true);
                 item.addChildNCS(hoverable);
 
                 return item;

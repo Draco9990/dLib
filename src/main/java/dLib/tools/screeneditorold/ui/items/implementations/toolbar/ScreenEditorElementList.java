@@ -39,8 +39,8 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
                 super.postMakeWrapperForItem(item, itemUI);
 
                 Button button = (Button) itemUI.findChildById("MainSection");
-                button.addOnHoveredConsumer(() -> item.setHighlight(true));
-                button.addOnUnhoveredConsumer(() -> item.setHighlight(false));
+                button.addOnHoveredEvent(() -> item.setHighlight(true));
+                button.addOnUnHoveredEvent(() -> item.setHighlight(false));
             }
         }.setInvertedItemOrder(true).setCanReorder(true).addOnElementsSwappedListener((screenEditorItem, screenEditorItem2) -> {
             ScreenEditorPreview baseScreen = getParent().getPreviewScreen();

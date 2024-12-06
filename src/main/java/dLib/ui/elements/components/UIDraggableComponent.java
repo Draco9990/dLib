@@ -2,14 +2,15 @@ package dLib.ui.elements.components;
 
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 
 import java.util.UUID;
 
-public class UIDraggableComponent extends UIElementComponent<Interactable> {
+public class UIDraggableComponent extends UIElementComponent<UIElement> {
     //region Variables
 
-    private Interactable owner;
+    private UIElement owner;
 
     private boolean canDragX = true;
     private boolean canDragY = true;
@@ -25,7 +26,7 @@ public class UIDraggableComponent extends UIElementComponent<Interactable> {
     //region Constructors
 
     @Override
-    public void onRegisterComponent(Interactable owner) {
+    public void onRegisterComponent(UIElement owner) {
         this.owner = owner;
 
         leftClickEventId = owner.addOnLeftClickEvent(this::onLeftClick);
@@ -33,7 +34,7 @@ public class UIDraggableComponent extends UIElementComponent<Interactable> {
     }
 
     @Override
-    public void onUnregisterComponent(Interactable owner) {
+    public void onUnregisterComponent(UIElement owner) {
         owner.removeOnLeftClickEvent(leftClickEventId);
         owner.removeOnLeftClickHeldEvent(leftClickHeldEventId);
     }

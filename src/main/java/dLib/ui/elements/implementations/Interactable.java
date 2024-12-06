@@ -1,14 +1,10 @@
 package dLib.ui.elements.implementations;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import dLib.modcompat.ModManager;
 import dLib.properties.objects.MethodBindingProperty;
-import dLib.util.GlobalEvents;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
@@ -16,13 +12,8 @@ import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import sayTheSpire.Output;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Consumer;
 
 public class Interactable extends Renderable{
     //region Variables
@@ -36,28 +27,12 @@ public class Interactable extends Renderable{
     private Color disabledColor = Color.WHITE;
     private float disabledColorMultiplier = 0.25f;
 
-    private String onHoverSoundKey;
-    private String onTriggerSoundKey;
+    private String onHoverSoundKey = "UI_HOVER_1";
+    private String onTriggerSoundKey = "UI_CLICK_1";
     private String onHoldSoundKey;
-
-    private LinkedHashMap<UUID, Runnable> onLeftClickEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Consumer<Float>> onLeftClickHeldEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Runnable> onLeftClickReleaseEvents = new LinkedHashMap<>();
-
-    private LinkedHashMap<UUID, Runnable> onRightClickEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Consumer<Float>> onRightClickHeldEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Runnable> onRightClickReleaseEvents = new LinkedHashMap<>();
-
-    protected String onSelectLine; // Say the Spire mod compatibility //TODO MOve to uiELement
-    protected String onTriggeredLine; // Say the Spire mod compatibility
 
     //Temps
 
-    private float totalLeftClickDuration;
-    private float totalRightClickDuration;
-
-    private boolean holdingLeft;
-    private boolean holdingRight;
 
     //endregion
 
@@ -74,7 +49,8 @@ public class Interactable extends Renderable{
     }
     public Interactable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);
-        initialize();
+
+        setPassthrough(true);
     }
 
     public Interactable(InteractableData data){
@@ -98,19 +74,6 @@ public class Interactable extends Renderable{
         if(data.onRightClick != null) addOnRightClickEvent(() -> data.onRightClick.getValue().executeBinding(getTopParent()));
         if(data.onRightClickHeld != null) addOnRightClickHeldEvent(deltaTime -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
         if(data.onRightClickRelease != null) addOnRightClickReleaseEvent(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent()));
-
-        initialize();
-    }
-
-    private void initialize(){
-        this.onHoverSoundKey = "UI_HOVER";
-        this.onTriggerSoundKey = "UI_CLICK_1";
-
-        GlobalEvents.subscribe(Events.PreLeftClickEvent.class, (event) -> {
-            if(event.source != this && isSelected()){
-                deselect(); //TODO RF Move this to UIElement and deselet if child is not source
-            }
-        });
     }
 
     //endregion
@@ -118,45 +81,6 @@ public class Interactable extends Renderable{
     //region Methods
 
     //region Update & Render
-
-    @Override
-    public void updateSelf() {
-        super.updateSelf();
-
-        if(isEnabled()){
-            if(isHovered()){
-                if(InputHelper.justClickedLeft){
-                    clickLeft();
-                    if(!isPassthrough()) InputHelper.justClickedLeft = false;
-                }
-                if(InputHelper.justClickedRight){
-                    clickRight();
-                    if(!isPassthrough()) InputHelper.justClickedRight = false;
-                }
-
-            }
-
-            if(holdingLeft){
-                if(InputHelper.justReleasedClickLeft){
-                    onLeftClickRelease();
-                    return;
-                }
-
-                totalLeftClickDuration += Gdx.graphics.getDeltaTime();
-                onLeftClickHeld(totalLeftClickDuration);
-            }
-
-            if(holdingRight){
-                if(InputHelper.justReleasedClickRight){
-                    onRightButtonRelease();
-                    return;
-                }
-
-                totalRightClickDuration += Gdx.graphics.getDeltaTime();
-                onRightClickHeld(totalRightClickDuration);
-            }
-        }
-    }
 
     //endregion
 
@@ -200,170 +124,27 @@ public class Interactable extends Renderable{
 
     //endregion
 
-    //region Triggers
-
-    //region Left Click
-
-    public void trigger(){ clickLeft(); }
-
-    public void clickLeft(){
-        onLeftClick();
-    }
-
-    protected void onLeftClick(){
-        GlobalEvents.sendMessage(new Events.PreLeftClickEvent(this));
-
-        totalLeftClickDuration = 0.f;
-        holdingLeft = true;
-
-        if(onTriggerSoundKey != null){
-            CardCrawlGame.sound.playA(onTriggerSoundKey, -0.1F);
-        }
-        if(getOnTriggerLine() != null){
-            if(ModManager.SayTheSpire.isActive()){
-                Output.text(getOnTriggerLine(), true);
-            }
-        }
-
-        select();
-
-        for (Map.Entry<UUID, Runnable> event : onLeftClickEvents.entrySet()) event.getValue().run();
-    }
-    protected void onLeftClickHeld(float totalDuration){
-        if(onHoldSoundKey != null){
-            CardCrawlGame.sound.playA(onHoldSoundKey, -0.1F);
-        }
-
-        for(Map.Entry<UUID, Consumer<Float>> consumer : onLeftClickHeldEvents.entrySet()) consumer.getValue().accept(totalDuration);
-    }
-    protected void onLeftClickRelease(){
-        holdingLeft = false;
-
-        for(Map.Entry<UUID, Runnable> consumer : onLeftClickReleaseEvents.entrySet()) consumer.getValue().run();
-    }
-
-    public UUID addOnLeftClickEvent(Runnable consumer){
-        UUID newId = UUID.randomUUID();
-        onLeftClickEvents.put(newId, consumer);
-        return newId;
-    }
-    public UUID addOnLeftClickHeldEvent(Consumer<Float> consumer){
-        UUID newId = UUID.randomUUID();
-        onLeftClickHeldEvents.put(newId, consumer);
-        return newId;
-    }
-    public UUID addOnLeftClickReleaseEvent(Runnable consumer){
-        UUID newId = UUID.randomUUID();
-        onLeftClickReleaseEvents.put(newId, consumer);
-        return newId;
-    }
-
-    public void removeOnLeftClickEvent(UUID id){
-        onLeftClickEvents.remove(id);
-    }
-    public void removeOnLeftClickHeldEvent(UUID id){
-        onLeftClickHeldEvents.remove(id);
-    }
-    public void removeOnLeftClickReleaseEvent(UUID id){
-        onLeftClickReleaseEvents.remove(id);
-    }
-
-    //endregion
-
-    //region Right Click
-
-    public void clickRight(){
-        onRightClick();
-    }
-
-    protected void onRightClick(){
-        totalRightClickDuration = 0.f;
-        holdingRight = true;
-
-        if(onTriggerSoundKey != null){
-            CardCrawlGame.sound.playA(onTriggerSoundKey, -0.1F);
-        }
-        if(getOnTriggerLine() != null){
-            if(ModManager.SayTheSpire.isActive()){
-                Output.text(getOnTriggerLine(), true);
-            }
-        }
-
-        for(Map.Entry<UUID, Runnable> consumer : onRightClickEvents.entrySet()) consumer.getValue().run();
-    }
-    protected void onRightClickHeld(float totalDuration){
-        for(Map.Entry<UUID, Consumer<Float>> consumer : onRightClickHeldEvents.entrySet()) consumer.getValue().accept(totalDuration);
-    }
-    protected void onRightButtonRelease(){
-        holdingRight = false;
-
-        for(Map.Entry<UUID, Runnable> consumer : onRightClickReleaseEvents.entrySet()) consumer.getValue().run();
-    }
-
-    public UUID addOnRightClickEvent(Runnable consumer){
-        UUID newId = UUID.randomUUID();
-        onRightClickEvents.put(newId, consumer);
-        return newId;
-    }
-    public UUID addOnRightClickHeldEvent(Consumer<Float> consumer){
-        UUID newId = UUID.randomUUID();
-        onRightClickHeldEvents.put(newId, consumer);
-        return newId;
-    }
-    public UUID addOnRightClickReleaseEvent(Runnable consumer){
-        UUID newId = UUID.randomUUID();
-        onRightClickReleaseEvents.put(newId, consumer);
-        return newId;
-    }
-
-    public void removeOnRightClickEvent(UUID id){
-        onRightClickEvents.remove(id);
-    }
-    public void removeOnRightClickHeldEvent(UUID id){
-        onRightClickHeldEvents.remove(id);
-    }
-    public void removeOnRightClickReleaseEvent(UUID id){
-        onRightClickReleaseEvents.remove(id);
-    }
-
-    //endregion
-
-    //endregion
-
     //region Trigger Sound
 
     //TODO ADD SPECIFIC FOR LFET AND RIGHT CLICK
-    public Interactable setOnTriggerSoundKey(String key){
+    public void setOnTriggerSoundKey(String key){
         onTriggerSoundKey = key;
-        return this;
     }
-    public Interactable removeOnTriggerSoundKey(){
+    public void removeOnTriggerSoundKey(){
         onTriggerSoundKey = null;
-        return this;
     }
 
-    public Interactable setOnHoldSoundKey(String key){
+    public void setOnHoldSoundKey(String key){
         onHoldSoundKey = key;
-        return this;
     }
-    public Interactable removeOnHoldSoundKey(){
+    public void removeOnHoldSoundKey(){
         onHoldSoundKey = null;
-        return this;
-    }
-
-    public Interactable setOnTriggerLine(String newLine) {
-        this.onTriggeredLine = newLine;
-        return this;
-    }
-    public String getOnTriggerLine(){
-        return onTriggeredLine;
     }
 
     //endregion
 
     //region Hovered
 
-    //TODO MOVE TO HVOERABLE
     @Override
     protected void onHovered() {
         super.onHovered();
@@ -434,18 +215,47 @@ public class Interactable extends Renderable{
 
     //endregion
 
+    //region Sound
+
+    @Override
+    protected void onLeftClick() {
+        if(onTriggerSoundKey != null){
+            CardCrawlGame.sound.playA(onTriggerSoundKey, -0.1F);
+        }
+
+        super.onLeftClick();
+    }
+
+    @Override
+    protected void onLeftClickHeld(float totalDuration) {
+        if(onHoldSoundKey != null){
+            CardCrawlGame.sound.playA(onHoldSoundKey, -0.1F);
+        }
+
+        super.onLeftClickHeld(totalDuration);
+    }
+
+    @Override
+    protected void onRightClick() {
+        if(onTriggerSoundKey != null){
+            CardCrawlGame.sound.playA(onTriggerSoundKey, -0.1F);
+        }
+
+        super.onRightClick();
+    }
+
+    @Override
+    protected void onRightClickHeld(float totalDuration) {
+        if(onHoldSoundKey != null){
+            CardCrawlGame.sound.playA(onHoldSoundKey, -0.1F);
+        }
+
+        super.onRightClickHeld(totalDuration);
+    }
+
     //endregion
 
-    /** Events */
-    public static class Events{
-        public static class PreLeftClickEvent {
-            public Interactable source;
-
-            public PreLeftClickEvent(Interactable source){
-                this.source = source;
-            }
-        }
-    }
+    //endregion
 
     public static class InteractableData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;

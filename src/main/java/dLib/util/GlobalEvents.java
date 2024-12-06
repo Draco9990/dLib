@@ -1,5 +1,8 @@
 package dLib.util;
 
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.implementations.Interactable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -27,5 +30,16 @@ public class GlobalEvents {
         listeners.add((Consumer<Object>) consumer);
 
         subscriberMap.put(eventToListen, listeners);
+    }
+
+    /** Events */
+    public static class Events{
+        public static class PreLeftClickEvent {
+            public UIElement source;
+
+            public PreLeftClickEvent(UIElement source){
+                this.source = source;
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.implementations.Interactable;
+import dLib.ui.elements.implementations.Renderable;
 import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.TexturePathBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -12,7 +13,7 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
-public class Image extends Interactable {
+public class Image extends Renderable {
     //region Variables
     //endregion
 
@@ -27,29 +28,22 @@ public class Image extends Interactable {
     public Image(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);
 
-        setClickthrough(true);
+        setPassthrough(true);
     }
 
     public Image(ImageData data){
         super(data);
 
-        setClickthrough(true);
+        setPassthrough(true);
     }
 
     //endregion
 
     //region Methods
 
-    @Override
-    protected Color getColorForRender() {
-        setDisabledColor(getRenderColor());
-        return super.getColorForRender();
-    }
-
-
     //endregion
 
-    public static class ImageData extends InteractableData implements Serializable {
+    public static class ImageData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public ImageData(){

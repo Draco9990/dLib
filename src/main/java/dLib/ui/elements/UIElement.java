@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
 import dLib.patches.InputHelperHoverConsumer;
@@ -18,10 +19,7 @@ import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.screens.UIManager;
-import dLib.util.DLibLogger;
-import dLib.util.IntegerVector2;
-import dLib.util.IntegerVector4;
-import dLib.util.Reflection;
+import dLib.util.*;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -85,9 +83,27 @@ public class UIElement {
     private LinkedHashMap<UUID, Consumer<Float>> onHoverTickEvents = new LinkedHashMap<>();
     private LinkedHashMap<UUID, Runnable> onUnHoveredEvents = new LinkedHashMap<>();
 
+    private LinkedHashMap<UUID, Runnable> onLeftClickEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Consumer<Float>> onLeftClickHeldEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Runnable> onLeftClickReleaseEvents = new LinkedHashMap<>();
+
+    private LinkedHashMap<UUID, Runnable> onRightClickEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Consumer<Float>> onRightClickHeldEvents = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Runnable> onRightClickReleaseEvents = new LinkedHashMap<>();
+
     private String onHoverLine; // Say the Spire mod compatibility
 
+    protected String onSelectLine; // Say the Spire mod compatibility
+    protected String onTriggeredLine; // Say the Spire mod compatibility
+
     private float totalHoverDuration;
+
+    private float totalLeftClickDuration;
+    private float totalRightClickDuration;
+
+    private boolean holdingLeft;
+    private boolean holdingRight;
+
 
     private ArrayList<UIElementComponent> components = new ArrayList<>();
 
@@ -129,6 +145,12 @@ public class UIElement {
         }
 
         hb = new Hitbox(0, 0, 1, 1);
+
+        GlobalEvents.subscribe(GlobalEvents.Events.PreLeftClickEvent.class, (event) -> {
+            if(event.source != this && isSelected()){
+                deselect();
+            }
+        });
     }
 
     public UIElement(UIElementData data){
@@ -168,6 +190,12 @@ public class UIElement {
         addOnUnHoveredEvent(() -> data.onUnhovered.executeBinding(getTopParent()));
 
         this.isPassthrough = data.isPassthrough;
+
+        GlobalEvents.subscribe(GlobalEvents.Events.PreLeftClickEvent.class, (event) -> {
+            if(event.source != this && isSelected()){
+                deselect();
+            }
+        });
     }
 
     //endregion
@@ -242,6 +270,40 @@ public class UIElement {
 
             if(hbHoveredCache && (!this.hb.hovered && !this.hb.justHovered)){
                 onUnhovered();
+            }
+
+            if(isEnabled()){
+                if(isHovered()){
+                    if(InputHelper.justClickedLeft){
+                        clickLeft();
+                        if(!isPassthrough()) InputHelper.justClickedLeft = false;
+                    }
+                    if(InputHelper.justClickedRight){
+                        clickRight();
+                        if(!isPassthrough()) InputHelper.justClickedRight = false;
+                    }
+
+                }
+
+                if(holdingLeft){
+                    if(InputHelper.justReleasedClickLeft){
+                        onLeftClickRelease();
+                        return;
+                    }
+
+                    totalLeftClickDuration += Gdx.graphics.getDeltaTime();
+                    onLeftClickHeld(totalLeftClickDuration);
+                }
+
+                if(holdingRight){
+                    if(InputHelper.justReleasedClickRight){
+                        onRightButtonRelease();
+                        return;
+                    }
+
+                    totalRightClickDuration += Gdx.graphics.getDeltaTime();
+                    onRightClickHeld(totalRightClickDuration);
+                }
             }
         }
 
@@ -1587,12 +1649,146 @@ public class UIElement {
 
     //region Clickthrough
 
-    public void setClickthrough(boolean newValue){
+    public void setPassthrough(boolean newValue){
         isPassthrough = newValue;
     }
 
     public boolean isPassthrough(){
         return isPassthrough || (!isVisible() && !isEnabled());
+    }
+
+    //endregion
+
+    //region Left Click
+
+    public void trigger(){ clickLeft(); }
+
+    public void clickLeft(){
+        onLeftClick();
+    }
+
+    protected void onLeftClick(){
+        GlobalEvents.sendMessage(new GlobalEvents.Events.PreLeftClickEvent(this));
+
+        totalLeftClickDuration = 0.f;
+        holdingLeft = true;
+
+        if(getOnTriggerLine() != null){
+            if(ModManager.SayTheSpire.isActive()){
+                Output.text(getOnTriggerLine(), true);
+            }
+        }
+
+        select();
+
+        for (Map.Entry<UUID, Runnable> event : onLeftClickEvents.entrySet()) event.getValue().run();
+    }
+    protected void onLeftClickHeld(float totalDuration){
+        for(Map.Entry<UUID, Consumer<Float>> consumer : onLeftClickHeldEvents.entrySet()) consumer.getValue().accept(totalDuration);
+    }
+    protected void onLeftClickRelease(){
+        holdingLeft = false;
+
+        for(Map.Entry<UUID, Runnable> consumer : onLeftClickReleaseEvents.entrySet()) consumer.getValue().run();
+    }
+
+    public UUID addOnLeftClickEvent(Runnable consumer){
+        UUID newId = UUID.randomUUID();
+        onLeftClickEvents.put(newId, consumer);
+        return newId;
+    }
+    public UUID addOnLeftClickHeldEvent(Consumer<Float> consumer){
+        UUID newId = UUID.randomUUID();
+        onLeftClickHeldEvents.put(newId, consumer);
+        return newId;
+    }
+    public UUID addOnLeftClickReleaseEvent(Runnable consumer){
+        UUID newId = UUID.randomUUID();
+        onLeftClickReleaseEvents.put(newId, consumer);
+        return newId;
+    }
+
+    public void removeOnLeftClickEvent(UUID id){
+        onLeftClickEvents.remove(id);
+    }
+    public void removeOnLeftClickHeldEvent(UUID id){
+        onLeftClickHeldEvents.remove(id);
+    }
+    public void removeOnLeftClickReleaseEvent(UUID id){
+        onLeftClickReleaseEvents.remove(id);
+    }
+
+    //endregion
+
+    //region Right Click
+
+    public void clickRight(){
+        onRightClick();
+    }
+
+    protected void onRightClick(){
+        totalRightClickDuration = 0.f;
+        holdingRight = true;
+
+        if(getOnTriggerLine() != null){
+            if(ModManager.SayTheSpire.isActive()){
+                Output.text(getOnTriggerLine(), true);
+            }
+        }
+
+        for(Map.Entry<UUID, Runnable> consumer : onRightClickEvents.entrySet()) consumer.getValue().run();
+    }
+    protected void onRightClickHeld(float totalDuration){
+        for(Map.Entry<UUID, Consumer<Float>> consumer : onRightClickHeldEvents.entrySet()) consumer.getValue().accept(totalDuration);
+    }
+    protected void onRightButtonRelease(){
+        holdingRight = false;
+
+        for(Map.Entry<UUID, Runnable> consumer : onRightClickReleaseEvents.entrySet()) consumer.getValue().run();
+    }
+
+    public UUID addOnRightClickEvent(Runnable consumer){
+        UUID newId = UUID.randomUUID();
+        onRightClickEvents.put(newId, consumer);
+        return newId;
+    }
+    public UUID addOnRightClickHeldEvent(Consumer<Float> consumer){
+        UUID newId = UUID.randomUUID();
+        onRightClickHeldEvents.put(newId, consumer);
+        return newId;
+    }
+    public UUID addOnRightClickReleaseEvent(Runnable consumer){
+        UUID newId = UUID.randomUUID();
+        onRightClickReleaseEvents.put(newId, consumer);
+        return newId;
+    }
+
+    public void removeOnRightClickEvent(UUID id){
+        onRightClickEvents.remove(id);
+    }
+    public void removeOnRightClickHeldEvent(UUID id){
+        onRightClickHeldEvents.remove(id);
+    }
+    public void removeOnRightClickReleaseEvent(UUID id){
+        onRightClickReleaseEvents.remove(id);
+    }
+
+    //endregion
+
+    //region Trigger Lines
+
+    public void setOnSelectLine(String newLine){
+        this.onSelectLine = newLine;
+    }
+    public String getOnSelectLine(){
+        return onSelectLine;
+    }
+
+    public void setOnTriggerLine(String newLine) {
+        this.onTriggeredLine = newLine;
+    }
+    public String getOnTriggerLine(){
+        return onTriggeredLine;
     }
 
     //endregion

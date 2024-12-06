@@ -78,7 +78,7 @@ public class TextBox extends Renderable {
 
         textRenderColor = Color.WHITE.cpy();
 
-        setClickthrough(true);
+        setPassthrough(true);
     }
 
     public TextBox(TextBoxData data){
