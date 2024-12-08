@@ -51,8 +51,8 @@ public abstract class AbstractPosition {
                 continue;
             }
 
-            if ((sibling.getLocalPositionX() >= element.getLocalPositionX() || sibling.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() + sibling.getWidth() < element.getLocalPositionX()) &&
-                    (sibling.getLocalPositionX() < element.getLocalPositionX() || element.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() > element.getLocalPositionX() + element.getWidth())) {
+            if ((sibling.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() >= element.getLocalPositionX() || sibling.getLocalPositionX() + sibling.getWidth() < element.getLocalPositionX()) &&
+                    (element.getWidthRaw() instanceof FillDimension || sibling.getLocalPositionX() < element.getLocalPositionX() || sibling.getLocalPositionX() > element.getLocalPositionX() + element.getWidth())) {
                 continue;
             }
 

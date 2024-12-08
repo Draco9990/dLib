@@ -1,3 +1,16 @@
+--> when dragging elements, it drags ALL elements that are hovered, hjover in general seems to be affecting more than just top layer?
+    -. Could just be caused by images being clickthrough tho
+-. button at the top bar is half half? Also the hierarchy editor same issues
+    --. works fine when just a button tho in hierarchy editor, so it seems text buttons are kinda werid
+    -> a horizontal scrollbar might be eneded for the verticalbox
+    -> Maybe make scrollbars components? And itemboxes would rely on those then? not sure if possible to add scrollbar AFTER inting the itembox
+
+--> add reference element with borders
+--> add ability to swap between two views, whole screen, or focus on the ref element
+    -> to achieve this override Settings.xScale and Settings.yScale, or add a new scaleFactor to the UIElement or smth
+--> zoom in zoom out ability somehow? --> Zoom component
+--> Canvas element that has child with inerted dragging
+
 -- particle sim
 
 --> properties initializer for first time running intellij plugin with project

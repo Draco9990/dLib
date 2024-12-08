@@ -26,10 +26,10 @@ public class TextButton extends UIElement {
     public TextButton(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        button = new Button(xPos, xPos, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
+        button = new Button(xPos, yPos, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
         addChildCS(button);
 
-        label = new TextBox(text, xPos, xPos, width, height);
+        label = new TextBox(text, xPos, yPos, width, height);
         label.setFont(FontHelper.buttonLabelFont);
         addChildNCS(label);
     }

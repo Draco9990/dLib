@@ -3,6 +3,7 @@ package dLib.tools.uicreator;
 import com.badlogic.gdx.graphics.Color;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
+import dLib.tools.uicreator.ui.elements.UCERootElement;
 import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
@@ -19,9 +20,11 @@ public class UCEditor extends Renderable {
     public static final Color DARK_GRAY = Color.valueOf("#151515FF");
     public static final Color LIGHT_GRAY = Color.valueOf("#2B2B2BFF");
 
-    private static UC_EditorToolbar toolbar;
-    private static UC_EditorProperties properties;
-    private static UC_EditorMainScreen mainScreen;
+    public UC_EditorToolbar toolbar;
+    public UC_EditorProperties properties;
+    public UC_EditorMainScreen mainScreen;
+
+    private UCERootElement rootElement;
 
     public UCEditor(){
         super(UITheme.whitePixel, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
@@ -34,6 +37,9 @@ public class UCEditor extends Renderable {
                 firstColumn.addItem(toolbar = new UC_EditorToolbar());
                 firstColumn.addItem(new Spacer(Dim.fill(), Dim.px(10)));
                 firstColumn.addItem(mainScreen = new UC_EditorMainScreen());
+                {
+                    mainScreen.addChildNCS(rootElement = new UCERootElement());
+                }
             }
             mainBox.addItem(firstColumn);
             mainBox.addItem(new Spacer(Dim.px(10), Dim.fill()));
@@ -45,8 +51,8 @@ public class UCEditor extends Renderable {
 
     //region Methods
 
-    public static void addNewEditorItem(UIElement item){
-        mainScreen.addChildNCS(item);
+    public void addNewEditorItem(UIElement item){
+        rootElement.addChildNCS(item);
     }
 
     //endregion
@@ -70,30 +76,58 @@ public class UCEditor extends Renderable {
                 toolbar.addItem(new Spacer(Dim.px(200), Dim.fill()));
                 toolbar.addItem(new Spacer(Dim.px(10), Dim.fill()));
 
-                VerticalListBox<String> propertiesOptions = new VerticalListBox<>(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill(), true);
+                VerticalBox propertiesOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill(), true);
                 propertiesOptions.setDefaultItemHeight(30);
                 propertiesOptions.getBackground().setImage(null);
                 propertiesOptions.setItemSpacing(10);
+                propertiesOptions.disableItemWrapping();
                 {
-                    propertiesOptions.addItem("Toolbox");
-                    propertiesOptions.addItem("Element List");
-                    propertiesOptions.addItem("Properties");
+                    TextButton toolboxButton = new TextButton("Toolbox", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
+                    toolboxButton.addOnLeftClickEvent(() -> {
+                        getProperties().hideAll();
+                        getProperties().toolbox.showAndEnableInstantly();
+                    });
+                    propertiesOptions.addItem(toolboxButton);
+
+                    TextButton elementListButton = new TextButton("Element List", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
+                    elementListButton.addOnLeftClickEvent(() -> {
+                        getProperties().hideAll();
+                        getProperties().hierarchyViewer.showAndEnableInstantly();
+                        getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).rootElement);
+                    });
+                    propertiesOptions.addItem(elementListButton);
+
+                    TextButton propertiesButton = new TextButton("Properties", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
+                    propertiesOptions.addItem(propertiesButton);
                 }
                 toolbar.addItem(propertiesOptions);
             }
             toolbar.setPadding(Padd.px(10));
             addChildNCS(toolbar);
         }
+
+        public UC_EditorProperties getProperties(){
+            return ((UCEditor)getTopParent()).properties;
+        }
     }
 
     private static class UC_EditorProperties extends Renderable{
         public UC_EP_Toolbox toolbox;
+        public HierarchyViewer hierarchyViewer;
 
         public UC_EditorProperties() {
             super(UITheme.whitePixel, Dim.fill(), Dim.fill());
             setRenderColor(DARK_GRAY);
 
             addChildNCS(toolbox = new UC_EP_Toolbox());
+
+            addChildNCS(hierarchyViewer = new HierarchyViewer());
+            hierarchyViewer.hideAndDisableInstantly();
+        }
+
+        public void hideAll(){
+            toolbox.hideAndDisableInstantly();
+            hierarchyViewer.hideAndDisableInstantly();
         }
 
         //region Subclasses
