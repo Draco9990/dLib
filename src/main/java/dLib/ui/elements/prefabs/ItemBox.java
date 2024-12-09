@@ -5,12 +5,14 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.ItemboxChildComponent;
+import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UITheme;
+import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -19,13 +21,10 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public abstract class ItemBox<ItemType> extends UIElement {
+public abstract class ItemBox<ItemType> extends Renderable {
     //region Variables
 
     // Elements
-    protected UIElement itemBox;
-    protected Scrollbar scrollbar;
-
     protected ArrayList<ItemBoxItem> items = new ArrayList<>();
     protected ArrayList<ItemBoxItem> originalItems = new ArrayList<>();
 
@@ -34,12 +33,8 @@ public abstract class ItemBox<ItemType> extends UIElement {
     private String filterText = "";
 
     // Properties
-    protected boolean noInitScrollbar = false; //TODO expose
-
     protected int itemSpacing = 1;
     protected boolean invertedItemOrder = false;
-
-    protected IntegerVector2 itemPadding = new IntegerVector2(0, 0);
 
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
     private int selectionCountLimit = 1;
@@ -54,26 +49,12 @@ public abstract class ItemBox<ItemType> extends UIElement {
     protected Integer defaultItemHeight = null;
 
     private boolean disableItemWrapping = false;
-
-    // Locals
-    protected boolean trackScrollWheelScroll = false;
-
-    protected int currentScrollbarOffset = 0;
-
     //endregion
 
     //region Constructors
 
     public ItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        this(xPos, yPos, width, height, false);
-    }
-
-    public ItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar){
-        super(xPos, yPos, width, height);
-
-        this.noInitScrollbar = noInitScrollbar;
-
-        reinitializeElements(); //TODO move after constructor
+        super(UIThemeManager.getDefaultTheme().listbox, xPos, yPos, width, height);
     }
 
     public ItemBox(ItemBoxData data){
@@ -82,46 +63,15 @@ public abstract class ItemBox<ItemType> extends UIElement {
         this.itemSpacing = data.itemSpacing.getValue();
         this.invertedItemOrder = data.invertedItemOrder.getValue();
 
-        this.itemPadding = data.itemPadding.getValue();
-
         this.setSelectionMode(data.selectionMode.getValue());
         this.setSelectionCountLimit(data.selectionLimit);
 
         this.canReorder = data.canReorder;
-
-        reinitializeElements(); //TODO move after constructor
     }
-
-    protected void reinitializeElements() {
-        //Update the item box
-        if(itemBox != null){
-            removeChild(itemBox);
-            itemBox = null;
-        }
-        this.itemBox = buildItemBox();
-        addChildNCS(itemBox);
-
-        //Update the scrollbar
-        if(!noInitScrollbar){
-            if(scrollbar != null){
-                removeChild(scrollbar);
-                scrollbar = null;
-            }
-            this.scrollbar = buildScrollBar();
-            addChildNCS(scrollbar);
-        }
-    }
-
-    protected abstract UIElement buildItemBox();
-    protected abstract Scrollbar buildScrollBar();
 
     //endregion
 
     //region Methods
-
-    public UIElement getItemBox(){
-        return itemBox;
-    }
 
     //region Item Management
 
@@ -135,10 +85,11 @@ public abstract class ItemBox<ItemType> extends UIElement {
             compositeItem = makeUIForItem(item);
         }
 
-        compositeItem.setElementMask(itemBox);
+        compositeItem.setElementMask(this);
 
         originalItems.add(new ItemBoxItem(item, compositeItem));
-        itemBox.addChildCS(compositeItem);
+        compositeItem.addComponent(new ItemboxChildComponent());
+        addChildCS(compositeItem);
 
         onItemAdded(item);
         return this;
@@ -161,7 +112,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
             compositeItem = makeUIForItem(item);
         }
         originalItems.add(insertIndex, new ItemBoxItem(item, compositeItem));
-        itemBox.addChildCS(compositeItem);
+        addChildCS(compositeItem);
 
         onItemAdded(item);
         return this;
@@ -200,7 +151,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
                 }
 
                 existingItems.remove();
-                itemBox.removeChild(existingItem.renderForItem);
+                removeChild(existingItem.renderForItem);
                 itemsChanged = true;
             }
         }
@@ -225,7 +176,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     public void clearItems(){
         ArrayList<UIElement> childrenToRemove = new ArrayList<>();
-        for(UIElement child : itemBox.getChildren()){
+        for(UIElement child : getChildren()){
             for(ItemBoxItem item : originalItems){
                 if(Objects.equals(item.renderForItem, child)){
                     childrenToRemove.add(child);
@@ -234,14 +185,13 @@ public abstract class ItemBox<ItemType> extends UIElement {
         }
 
         for(UIElement childToRemove : childrenToRemove){
-            itemBox.removeChild(childToRemove);
+            removeChild(childToRemove);
         }
 
         for(ItemBoxItem item : originalItems){
             onItemRemoved(item.item);
         }
         originalItems.clear();
-        if(scrollbar != null) scrollbar.reset();
 
         onItemsCleared();
     }
@@ -267,7 +217,7 @@ public abstract class ItemBox<ItemType> extends UIElement {
         for(ItemBoxItem itemBoxItem : originalItems){
             if(itemBoxItem.item.equals(item)){
                 originalItems.remove(itemBoxItem);
-                itemBox.removeChild(itemBoxItem.renderForItem);
+                removeChild(itemBoxItem.renderForItem);
                 break;
             }
         }
@@ -336,7 +286,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
                 return getSelectionCountLimit() != 0;
             }
         }.setImage(UITheme.whitePixel).setRenderColor(transparent);
-        mainButton.setID("MainSection");
 
         Color hoverColor = mainButton.getHoveredColor().cpy();
         hoverColor.a = 0.4f;
@@ -431,14 +380,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     //endregion
 
-    //region Background
-
-    public UIElement getBackground(){
-        return itemBox;
-    }
-
-    //endregion
-
     //region Reordering
 
     public ItemBox<ItemType> setCanReorder(boolean canReorder){
@@ -514,20 +455,6 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
     //endregion
 
-    //region Padding
-    public ItemBox<ItemType> setLeftPadding(int leftPadding){
-        return setPadding(leftPadding, itemPadding.y);
-    }
-    public ItemBox<ItemType> setTopPadding(int topPadding){
-        return setPadding(itemPadding.x, topPadding);
-    }
-    public ItemBox<ItemType> setPadding(int leftPadding, int topPadding){
-        this.itemPadding = new IntegerVector2(leftPadding, topPadding);
-        return this;
-    }
-
-    //endregion
-
     //region Filter
 
     public ItemBox<ItemType> setFilterText(String filterText){
@@ -552,21 +479,9 @@ public abstract class ItemBox<ItemType> extends UIElement {
 
             items.add(item);
         }
-
-        if(scrollbar != null){
-            scrollbar.setScrollbarScrollPercentageForExternalChange(recalculateScrollPercentageForItemChange());
-        }
     }
 
     //endregion Filter
-
-    //region Scrolling
-
-    protected abstract int recalculateScrollOffset(float scrollPercentage);
-
-    protected abstract float recalculateScrollPercentageForItemChange();
-
-    //endregion
 
     //region Content Alignment
 
@@ -612,13 +527,11 @@ public abstract class ItemBox<ItemType> extends UIElement {
         }
     }
 
-    public static class ItemBoxData extends UIElement.UIElementData implements Serializable {
+    public static class ItemBoxData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public IntegerProperty itemSpacing = new IntegerProperty(1).setMinimumValue(1).setName("Item Spacing");
         public BooleanProperty invertedItemOrder = new BooleanProperty(false).setName("Inverted Item Order");
-
-        public IntegerVector2Property itemPadding = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Item Padding").setValueNames("L:", "T:");
 
         public EnumProperty<ESelectionMode> selectionMode = new EnumProperty<>(ESelectionMode.SINGLE).setName("Selection Mode");
         public int selectionLimit = 1; //TODO allow

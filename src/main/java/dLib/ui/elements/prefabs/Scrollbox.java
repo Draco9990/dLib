@@ -66,9 +66,9 @@ public class Scrollbox extends UIElement {
         redirectChildren = false;
 
         if(alwaysShow){
-            HorizontalBox horizontalBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
+            HorizontalBox horizontalBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
-                VerticalBox firstColumn = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
+                VerticalBox firstColumn = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
                 {
                     firstColumn.addItem(mainBox);
 
@@ -83,7 +83,7 @@ public class Scrollbox extends UIElement {
                 horizontalBox.addItem(firstColumn);
 
                 if(isVertical){
-                    VerticalBox secondColumn = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(verticalScrollbarWidth), Dim.fill(), true);
+                    VerticalBox secondColumn = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(verticalScrollbarWidth), Dim.fill());
                     {
                         secondColumn.addItem(verticalScroll);
                         if(isHorizontal){

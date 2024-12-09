@@ -21,16 +21,12 @@ public class VerticalBox extends VerticalListBox<UIElement> {
         this(Pos.perc(0), Pos.perc(0), width, height);
     }
     public VerticalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        this(xPos, yPos, width, height, false);
-    }
+        super(xPos, yPos, width, height);
 
-    public VerticalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
-        super(xPos, yPos, width, height, noInitScrollbar);
-
-        reinitializeElements();
+        disableItemWrapping();
 
         setSelectionMode(ESelectionMode.NONE);
-        getBackground().setImage(null);
+        setImage(null);
     }
 
     public VerticalBox(VerticalListBoxData data) {

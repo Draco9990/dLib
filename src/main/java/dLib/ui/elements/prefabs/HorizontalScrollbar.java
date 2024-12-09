@@ -5,7 +5,6 @@ import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.Bounds;
-import dLib.util.IntegerVector4;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -21,7 +20,7 @@ public class HorizontalScrollbar extends Scrollbar {
     public HorizontalScrollbar(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height){
         super(x, y, width, height);
 
-        HorizontalBox elements = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
+        HorizontalBox elements = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
             elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_left, Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
             elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_middle, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));

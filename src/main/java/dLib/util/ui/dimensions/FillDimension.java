@@ -2,9 +2,11 @@ package dLib.util.ui.dimensions;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.components.UIItemBoxElementHolderComponent;
-import dLib.ui.elements.prefabs.HorizontalItemBox;
-import dLib.ui.elements.prefabs.VerticalItemBox;
+import dLib.ui.elements.components.ItemboxChildComponent;
+import dLib.ui.elements.prefabs.HorizontalListBox;
+import dLib.ui.elements.prefabs.ItemBox;
+import dLib.ui.elements.prefabs.VerticalGridBox;
+import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.StaticPosition;
 
@@ -22,12 +24,16 @@ public class FillDimension extends AbstractDimension {
     public int getWidth(UIElement self) {
         if(self.getParent() == null) return 1920;
 
-        if(self.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && self.getParent().getComponent(UIItemBoxElementHolderComponent.class).isHorizontal()){
-            HorizontalItemBox itemBox = self.getParent().getParent();
+        if((self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsItem(self)){
+            ItemBox itemBox = self.getParent();
 
             int staticWidth = 0;
             int fillElementCount = 0;
             for(UIElement sibling : self.getParent().getChildren()){
+                if(!sibling.hasComponent(ItemboxChildComponent.class)){
+                    continue;
+                }
+
                 if(!(sibling.getWidthRaw() instanceof FillDimension)){ //* Implies sibling != self
                     staticWidth += sibling.getWidth();
                 }
@@ -61,12 +67,16 @@ public class FillDimension extends AbstractDimension {
     public int getHeight(UIElement self) {
         if(self.getParent() == null) return 1080;
 
-        if(self.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && self.getParent().getComponent(UIItemBoxElementHolderComponent.class).isVertical()){
-            VerticalItemBox itemBox = self.getParent().getParent();
+        if((self.getParent() instanceof VerticalListBox || self.getParent() instanceof VerticalGridBox) && ((ItemBox) self.getParent()).containsItem(self)){
+            ItemBox itemBox = self.getParent();
 
             int staticHeight = 0;
             int fillElementCount = 0;
             for(UIElement sibling : self.getParent().getChildren()){
+                if(!sibling.hasComponent(ItemboxChildComponent.class)){
+                    continue;
+                }
+
                 if(!(sibling.getHeightRaw() instanceof FillDimension)){ //* Implies sibling != self
                     staticHeight += sibling.getHeight();
                 }

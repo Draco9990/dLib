@@ -10,7 +10,7 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
-public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
+public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     //region Variables
 
     //endregion
@@ -23,22 +23,16 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
     public VerticalListBox(AbstractDimension width, AbstractDimension height){
         this(Pos.perc(0), Pos.perc(0), width, height);
     }
-    public VerticalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        this(xPos, yPos, width, height, false);
-    }
+    public VerticalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+        super(xPos, yPos, width, height);
 
-    public VerticalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
-        super(xPos, yPos, width, height, noInitScrollbar);
+        setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
 
         defaultItemHeight = 30;
-
-        reinitializeElements();
     }
 
     public VerticalListBox(VerticalListBoxData data){
         super(data);
-
-        reinitializeElements();
     }
 
     //endregion
@@ -64,7 +58,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
     }
 
     private void updateListTopBottom(){
-        int currentYPos = itemBox.getHeight() - itemPadding.y + currentScrollbarOffset;
+        int currentYPos = getHeight();
 
         for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
@@ -73,7 +67,7 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
         for(ItemBoxItem item : items){
             currentYPos -= item.renderForItem.getPaddingTop();
 
-            item.renderForItem.setLocalPosition(itemPadding.x, currentYPos - item.renderForItem.getHeight());
+            item.renderForItem.setLocalPositionY(currentYPos - item.renderForItem.getHeight());
 
             if(item.renderForItem.overlapsParent()){
                 item.renderForItem.showAndEnable();
@@ -157,35 +151,9 @@ public class VerticalListBox<ItemType> extends VerticalItemBox<ItemType> {
 
     //endregion
 
-    @Override
-    protected int recalculateScrollOffset(float scrollPercentage) {
-        return (int) ((getTotalItemHeight() - itemBox.getHeight()) * scrollPercentage);
-    }
-
-    @Override
-    protected float recalculateScrollPercentageForItemChange() {
-        return currentScrollbarOffset / (float) (getTotalItemHeight() - itemBox.getHeight());
-    }
-
-    @Override
-    protected int getTotalItemHeight() {
-        int totalHeight = 0;
-
-        for (int i = 0; i < items.size(); i++) {
-            ItemBoxItem item = items.get(i);
-            totalHeight += item.renderForItem.getHeight();
-
-            if (i != items.size() - 1) {
-                totalHeight += itemSpacing;
-            }
-        }
-
-        return totalHeight;
-    }
-
     //endregion
 
-    public static class VerticalListBoxData extends VerticalItemBoxData implements Serializable {
+    public static class VerticalListBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override

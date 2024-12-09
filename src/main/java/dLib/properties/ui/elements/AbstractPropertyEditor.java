@@ -55,7 +55,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     private void buildMultiline(PropertyType property){
         //TODO padding on left and right side
-        VerticalBox vBox = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill(), true){
+        VerticalBox vBox = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
@@ -84,7 +84,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     private void buildSingleLine(PropertyType property){
         //TODO padding on left and right side
-        HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.perc(0), Dim.fill(), Dim.fill(), true){
+        HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.perc(0), Dim.fill(), Dim.fill()){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){

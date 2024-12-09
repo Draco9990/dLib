@@ -9,32 +9,24 @@ import dLib.util.ui.position.AbstractPosition;
 import java.io.Serializable;
 
 //Gridboxes do not support elements that change their size after being added. All GridBox items must be identical in dimensions. This is a TODO.
-public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
+public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
     //region Variables
 
     //endregion
 
     //region Constructors
 
-    public VerticalGridBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        this(xPos, yPos, width, height, false);
-    }
-
-    public VerticalGridBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
-        super(xPos, yPos, width, height, noInitScrollbar);
+    public VerticalGridBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+        super(xPos, yPos, width, height);
 
         defaultItemHeight = 75;
         defaultItemWidth = 75;
 
         itemSpacing = 5;
-
-        reinitializeElements();
     }
 
     public VerticalGridBox(VerticalGridBoxData data){
         super(data);
-
-        reinitializeElements();
     }
 
     //endregion
@@ -61,8 +53,8 @@ public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
     }
 
     private void updateListTopBottom(){
-        int currentYPos = itemBox.getHeight() - itemPadding.y + currentScrollbarOffset;
-        int currentXPos = itemPadding.x;
+        int currentYPos = getHeight();
+        int currentXPos = 0;
 
         for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
@@ -86,8 +78,8 @@ public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
             }
 
             currentXPos += item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight();
-            if(currentXPos + item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight() > itemBox.getWidth()){
-                currentXPos = itemPadding.x;
+            if(currentXPos + item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight() > getWidth()){
+                currentXPos = 0;
 
                 currentYPos -= item.renderForItem.getHeight();
                 currentYPos -= itemSpacing;
@@ -111,41 +103,9 @@ public class VerticalGridBox<ItemType> extends VerticalItemBox<ItemType>{
 
     //endregion
 
-    @Override
-    protected int recalculateScrollOffset(float scrollPercentage) {
-        return (int) ((getTotalItemHeight() - itemBox.getHeight()) * scrollPercentage);
-    }
-
-    @Override
-    protected float recalculateScrollPercentageForItemChange() {
-        return (float) currentScrollbarOffset / (float) (getTotalItemHeight() - itemBox.getHeight());
-    }
-
-    @Override
-    protected int getTotalItemHeight() {
-        int totalHeight = itemBox.getHeight() - itemPadding.y;
-        int currentXPos = itemPadding.x;
-
-        for (int i = 0; i < originalItems.size(); i++) {
-            ItemBoxItem item = originalItems.get(i);
-            currentXPos += item.renderForItem.getWidth() + itemSpacing;
-            if (currentXPos + item.renderForItem.getWidth() + itemSpacing > itemBox.getWidth()) {
-                currentXPos = itemPadding.x;
-
-                totalHeight += item.renderForItem.getHeight();
-                totalHeight += itemSpacing;
-            }
-            else if(i == originalItems.size() - 1){
-                totalHeight += item.renderForItem.getHeight();
-            }
-        }
-
-        return totalHeight;
-    }
-
     //endregion
 
-    public static class VerticalGridBoxData extends VerticalItemBoxData implements Serializable {
+    public static class VerticalGridBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override

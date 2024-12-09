@@ -21,13 +21,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     public ScreenEditorElementProperties(){
         super();
 
-        propertiesItemList = (VerticalListBox<TProperty<?, ?>>) new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
-            @Override
-            public UIElement makeUIForItem(TProperty<?, ?> item) {
-                return item.makePropertyEditor(0, 0, getWidth(), 50);
-            }
-        }.setSelectionMode(ESelectionMode.NONE).disableItemWrapping();
-        propertiesItemList.getBackground().setImage(null);
+        propertiesItemList.setImage(null);
         propertiesItemList.setItemSpacing(25);
         addChildNCS(propertiesItemList);
 

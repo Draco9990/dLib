@@ -52,7 +52,7 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
             int childIndex2 = baseScreen.getChildren().indexOf(screenEditorItem2);
             baseScreen.swapChildren(childIndex1, childIndex2);
         });
-        previewItemList.getBackground().setImage(null);
+        previewItemList.setImage(null);
         addChildNCS(previewItemList);
 
         hideAndDisable();

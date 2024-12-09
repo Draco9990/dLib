@@ -2,6 +2,8 @@ package dLib.properties.objects.templates;
 
 import dLib.properties.ui.elements.AbstractPropertyEditor;
 import dLib.util.DLibLogger;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -140,7 +142,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
         return (PropertyType) this;
     }
 
-    public <PropertyEditorClass extends AbstractPropertyEditor> PropertyEditorClass makePropertyEditor(int xPos, int yPos, int width, int height){
+    public <PropertyEditorClass extends AbstractPropertyEditor> PropertyEditorClass makePropertyEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         try{
             if(propertyEditorClass.getConstructors().length == 0) return null;
 

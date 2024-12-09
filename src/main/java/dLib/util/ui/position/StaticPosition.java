@@ -2,9 +2,10 @@ package dLib.util.ui.position;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.components.UIItemBoxElementHolderComponent;
-import dLib.ui.elements.prefabs.HorizontalItemBox;
-import dLib.ui.elements.prefabs.VerticalItemBox;
+import dLib.ui.elements.prefabs.HorizontalListBox;
+import dLib.ui.elements.prefabs.ItemBox;
+import dLib.ui.elements.prefabs.VerticalGridBox;
+import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.util.ui.dimensions.FillDimension;
 
 public class StaticPosition extends AbstractPosition {
@@ -19,55 +20,57 @@ public class StaticPosition extends AbstractPosition {
     }
 
     @Override
-    public int getLocalX(UIElement element) {
-        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || (element.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && element.getParent().getComponent(UIItemBoxElementHolderComponent.class).isHorizontal())){
+    public int getLocalX(UIElement self) {
+        if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT ||
+                (self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsItem(self)){
             return position;
         }
-        else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
+        else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
+            int parentWidth = self.getParent() != null ? self.getParent().getWidth() : 1920;
 
-            if(element.getWidthRaw() instanceof FillDimension){
+            if(self.getWidthRaw() instanceof FillDimension){
                 return 0;
             }
             else{
-                return position + (parentWidth - element.getWidth()) / 2;
+                return position + (parentWidth - self.getWidth()) / 2;
             }
         }
         else{ //element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT
-            int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
+            int parentWidth = self.getParent() != null ? self.getParent().getWidth() : 1920;
 
-            if(element.getWidthRaw() instanceof FillDimension){
+            if(self.getWidthRaw() instanceof FillDimension){
                 return 0;
             }
             else{
-                return parentWidth - element.getWidth() + position;
+                return parentWidth - self.getWidth() + position;
             }
         }
     }
 
     @Override
-    public int getLocalY(UIElement element) {
-        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || (element.getParent().hasComponent(UIItemBoxElementHolderComponent.class) && element.getParent().getComponent(UIItemBoxElementHolderComponent.class).isVertical())){
+    public int getLocalY(UIElement self) {
+        if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM ||
+                (self.getParent() instanceof VerticalListBox || self.getParent() instanceof VerticalGridBox) && ((ItemBox) self.getParent()).containsItem(self)){
             return position;
         }
-        else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
+        else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
+            int parentHeight = self.getParent() != null ? self.getParent().getHeight() : 1080;
 
-            if(element.getHeightRaw() instanceof FillDimension){
+            if(self.getHeightRaw() instanceof FillDimension){
                 return 0;
             }
             else{
-                return position + (parentHeight - element.getHeight()) / 2;
+                return position + (parentHeight - self.getHeight()) / 2;
             }
         }
         else{ //element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP
-            int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
+            int parentHeight = self.getParent() != null ? self.getParent().getHeight() : 1080;
 
-            if(element.getHeightRaw() instanceof FillDimension){
+            if(self.getHeightRaw() instanceof FillDimension){
                 return 0;
             }
             else{
-                return parentHeight - element.getHeight() + position;
+                return parentHeight - self.getHeight() + position;
             }
         }
     }

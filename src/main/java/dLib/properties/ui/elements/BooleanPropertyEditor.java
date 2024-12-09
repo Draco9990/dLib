@@ -29,7 +29,7 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<TBooleanProper
 
     @Override
     protected UIElement buildContent(TBooleanProperty<?> property, AbstractDimension width, AbstractDimension height) {
-        HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), width, height, true);
+        HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), width, height);
 
         button = new Checkbox(Dim.height(), Dim.fill()){
             @Override

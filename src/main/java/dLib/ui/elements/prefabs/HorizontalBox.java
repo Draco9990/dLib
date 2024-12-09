@@ -21,16 +21,12 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
         this(Pos.perc(0), Pos.perc(0), width, height);
     }
     public HorizontalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        this(xPos, yPos, width, height, false);
-    }
+        super(xPos, yPos, width, height);
 
-    public HorizontalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
-        super(xPos, yPos, width, height, noInitScrollbar);
-
-        reinitializeElements();
+        disableItemWrapping();
 
         setSelectionMode(ESelectionMode.NONE);
-        getBackground().setImage(null);
+        setImage(null);
     }
 
     public HorizontalBox(HorizontalListBoxData data) {

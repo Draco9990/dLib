@@ -10,7 +10,7 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
-public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
+public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
     //region Variables
 
     //endregion
@@ -23,19 +23,12 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
     public HorizontalListBox(AbstractDimension width, AbstractDimension height){
         this(Pos.perc(0), Pos.perc(0), width, height);
     }
-    public HorizontalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        this(xPos, yPos, width, height, false);
-    }
-    public HorizontalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, boolean noInitScrollbar) {
-        super(xPos, yPos, width, height, noInitScrollbar);
-
-        reinitializeElements();
+    public HorizontalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+        super(xPos, yPos, width, height);
     }
 
     public HorizontalListBox(HorizontalListBoxData data){
         super(data);
-
-        reinitializeElements();
     }
 
     //endregion
@@ -54,7 +47,7 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
     }
 
     private void updateItemsLeftRight(){
-        int currentXPos = itemPadding.x - currentScrollbarOffset;
+        int currentXPos = 0;
 
         for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();
@@ -62,7 +55,7 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
 
         for(ItemBoxItem item : items){
             currentXPos += item.renderForItem.getPaddingLeft();
-            item.renderForItem.setLocalPosition(currentXPos, -itemPadding.y);
+            item.renderForItem.setLocalPositionX(currentXPos);
 
             if(item.renderForItem.overlapsParent()){
                 item.renderForItem.showAndEnable();
@@ -148,35 +141,9 @@ public class HorizontalListBox<ItemType> extends HorizontalItemBox<ItemType> {
 
     //endregion
 
-    @Override
-    protected int recalculateScrollOffset(float scrollPercentage) {
-        return (int) ((getTotalItemWidth() - itemBox.getWidth()) * scrollPercentage);
-    }
-
-    @Override
-    protected float recalculateScrollPercentageForItemChange() {
-        return currentScrollbarOffset / (float) (getTotalItemWidth() - itemBox.getWidth());
-    }
-
-    @Override
-    protected int getTotalItemWidth() {
-        int totalWidth = 0;
-
-        for (int i = 0; i < items.size(); i++) {
-            ItemBoxItem item = items.get(i);
-            totalWidth += item.renderForItem.getWidth();
-
-            if (i != items.size() - 1) {
-                totalWidth += itemSpacing;
-            }
-        }
-
-        return totalWidth;
-    }
-
     //endregion
 
-    public static class HorizontalListBoxData extends HorizontalItemBoxData implements Serializable {
+    public static class HorizontalListBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override

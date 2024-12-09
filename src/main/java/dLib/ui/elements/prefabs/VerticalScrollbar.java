@@ -1,12 +1,10 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.components.UIDraggableComponent;
-import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.Bounds;
-import dLib.util.IntegerVector4;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -22,7 +20,7 @@ public class VerticalScrollbar extends Scrollbar {
     public VerticalScrollbar(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height){
         super(x, y, width, height);
 
-        VerticalBox elements = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
+        VerticalBox elements = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
             elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_top, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
             elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_middle, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));

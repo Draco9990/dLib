@@ -33,7 +33,7 @@ public class ScreenEditorToolbox extends AbstractScreenEditorToolbar {
                 self.getParent().getPreviewScreen().makeNewPreviewItem(elementMap.get(items.get(0)));
             }
         }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray())));
-        toolElements.getBackground().setImage(null);
+        toolElements.setImage(null);
         addChildNCS(toolElements);
     }
 

@@ -22,11 +22,11 @@ public class HierarchyViewer extends VerticalBox {
         currentLevel.addItem(childButton);
 
         if(!child.getChildren().isEmpty()){
-            HorizontalBox childLevel = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
+            HorizontalBox childLevel = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
                 childLevel.addItem(new Spacer(Dim.px(20), Dim.fill()));
 
-                VerticalBox childList = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill(), true);
+                VerticalBox childList = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
                 {
                     for(UIElement grandChild : child.getChildren()){
                         recursivelyAddChild(grandChild, childList);
