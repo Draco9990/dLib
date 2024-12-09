@@ -27,7 +27,7 @@ public class StaticPosition extends AbstractPosition {
             int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
 
             if(element.getWidthRaw() instanceof FillDimension){
-                return getLocalXForRightOffsetFill(element, (int) (parentWidth / 2f));
+                return 0;
             }
             else{
                 return position + (parentWidth - element.getWidth()) / 2;
@@ -37,7 +37,7 @@ public class StaticPosition extends AbstractPosition {
             int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
 
             if(element.getWidthRaw() instanceof FillDimension){
-                return getLocalXForRightOffsetFill(element, parentWidth);
+                return 0;
             }
             else{
                 return parentWidth - element.getWidth() + position;
@@ -54,7 +54,7 @@ public class StaticPosition extends AbstractPosition {
             int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
 
             if(element.getHeightRaw() instanceof FillDimension){
-                return getLocalYForTopOffsetFill(element, (int) (parentHeight / 2f));
+                return 0;
             }
             else{
                 return position + (parentHeight - element.getHeight()) / 2;
@@ -64,7 +64,7 @@ public class StaticPosition extends AbstractPosition {
             int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
 
             if(element.getHeightRaw() instanceof FillDimension){
-                return getLocalYForTopOffsetFill(element, parentHeight - position);
+                return 0;
             }
             else{
                 return parentHeight - element.getHeight() + position;

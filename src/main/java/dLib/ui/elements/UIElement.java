@@ -644,19 +644,17 @@ public class UIElement {
     }
 
     public int getWorldPositionX(){
-        return getWorldPosition().x;
-    }
-    public int getWorldPositionY(){
-        return getWorldPosition().y;
-    }
-    public IntegerVector2 getWorldPosition(){
         int worldPosX = this.localPosX.getWorldX(this);
         int paddingX = paddingLeft.getHorizontal(this);
-
+        return worldPosX + paddingX;
+    }
+    public int getWorldPositionY(){
         int worldPosY = this.localPosY.getWorldY(this);
         int paddingY = paddingBottom.getVertical(this);
-
-        return new IntegerVector2(worldPosX + paddingX, worldPosY + paddingY);
+        return worldPosY + paddingY;
+    }
+    public IntegerVector2 getWorldPosition(){
+        return new IntegerVector2(getWorldPositionX(), getWorldPositionY());
     }
 
     public UIElement setWorldPositionCenteredX(int newPos){
@@ -1810,7 +1808,7 @@ public class UIElement {
     public static class UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public StringProperty id = new StringProperty(""){
+        public StringProperty id = new StringProperty(getClass() + "_" + UUID.randomUUID()){
             @Override
             public boolean isValidValue(String value) {
                 return !value.isEmpty();

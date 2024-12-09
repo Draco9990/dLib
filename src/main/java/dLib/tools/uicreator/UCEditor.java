@@ -9,6 +9,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.*;
 import dLib.ui.themes.UITheme;
+import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -87,6 +88,7 @@ public class UCEditor extends Renderable {
                         getProperties().hideAll();
                         getProperties().toolbox.showAndEnableInstantly();
                     });
+                    toolboxButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
                     propertiesOptions.addItem(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
@@ -95,9 +97,11 @@ public class UCEditor extends Renderable {
                         getProperties().hierarchyViewer.showAndEnableInstantly();
                         getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).rootElement);
                     });
+                    elementListButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
                     propertiesOptions.addItem(elementListButton);
 
                     TextButton propertiesButton = new TextButton("Properties", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
+                    propertiesButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
                     propertiesOptions.addItem(propertiesButton);
                 }
                 toolbar.addItem(propertiesOptions);

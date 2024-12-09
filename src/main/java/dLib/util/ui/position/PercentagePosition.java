@@ -2,6 +2,7 @@ package dLib.util.ui.position;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.ui.dimensions.FillDimension;
 
 public class PercentagePosition extends AbstractPosition {
@@ -20,20 +21,25 @@ public class PercentagePosition extends AbstractPosition {
 
     @Override
     public int getLocalX(UIElement element) {
-        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
+        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element instanceof TextBox){
             int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
             return (int)(parentWidth * percentage);
         }
         else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
 
-            return parentWidth / 2;
+            if(element.getWidthRaw() instanceof FillDimension){
+                return 0;
+            }
+            else{
+                return parentWidth / 2 - (int) (element.getWidth() * percentage);
+            }
         }
         else{ //element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT
             int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
 
             if(element.getWidthRaw() instanceof FillDimension){
-                return getLocalXForRightOffsetFill(element, (int) (parentWidth * percentage));
+                return 0;
             }
             else{
                 return parentWidth - (int) ((parentWidth - element.getWidth()) * percentage);
@@ -43,20 +49,25 @@ public class PercentagePosition extends AbstractPosition {
 
     @Override
     public int getLocalY(UIElement element) {
-        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
+        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element instanceof TextBox){
             int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
             return (int)(parentHeight * percentage);
         }
         else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
 
-            return parentHeight / 2;
+            if(element.getHeightRaw() instanceof FillDimension){
+                return 0;
+            }
+            else{
+                return parentHeight / 2 - (int) (element.getHeight() * percentage);
+            }
         }
         else{ //element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP
             int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
 
             if(element.getHeightRaw() instanceof FillDimension){
-                return getLocalYForTopOffsetFill(element, (int) (parentHeight * percentage));
+                return 0;
             }
             else{
                 return parentHeight - (int) ((parentHeight - element.getHeight()) * percentage);

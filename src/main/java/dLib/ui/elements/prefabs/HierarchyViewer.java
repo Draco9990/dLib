@@ -1,6 +1,7 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
+import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -37,12 +38,12 @@ public class HierarchyViewer extends VerticalBox {
         }
     }
 
-    private static class HierarchyViewerChildElementButton extends Button {
+    private static class HierarchyViewerChildElementButton extends TextButton {
         private UIElement element;
 
         public HierarchyViewerChildElementButton(UIElement element) {
-            super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-
+            super(element.getId(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
+            getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
             this.element = element;
         }
     }

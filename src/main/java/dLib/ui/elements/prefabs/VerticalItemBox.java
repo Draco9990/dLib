@@ -53,6 +53,15 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
             int scrollDelta = (int)(Math.signum((float) Mouse.getDWheel()));
             scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionY() + scrollDelta * 10);
         }
+
+        if (scrollbar != null) {
+            if(getTotalItemHeight() > itemBox.getHeight()){
+                scrollbar.getSlider().showAndEnableInstantly();
+            }
+            else{
+                scrollbar.getSlider().hideAndDisableInstantly();
+            }
+        }
     }
 
     @Override
@@ -75,27 +84,13 @@ public abstract class VerticalItemBox<ItemType> extends ItemBox<ItemType> {
                 trackScrollWheelScroll = false;
             }
         };
+        itemBoxBackground.setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
+        itemBoxBackground.setRenderColor(bgColor);
         {
-            itemBoxBackground.setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
-            itemBoxBackground.setRenderColor(bgColor);
 
             itemBoxBackground.addComponent(new UIItemBoxElementHolderComponent(Orientation.OrientationType.VERTICAL));
         }
         return itemBoxBackground;
-    }
-
-    @Override
-    public void onItemsChanged() {
-        super.onItemsChanged();
-
-        if (scrollbar != null) {
-            if(getTotalItemHeight() > itemBox.getHeight()){
-                scrollbar.getSlider().showInstantly();
-            }
-            else{
-                scrollbar.getSlider().hideInstantly();
-            }
-        }
     }
 
     @Override

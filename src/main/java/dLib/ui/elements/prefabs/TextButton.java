@@ -58,7 +58,7 @@ public class TextButton extends UIElement {
 
     //endregion
 
-    public static class TextButtonData extends UIElement.UIElementData implements Serializable {
+    public static class TextButtonData extends UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();

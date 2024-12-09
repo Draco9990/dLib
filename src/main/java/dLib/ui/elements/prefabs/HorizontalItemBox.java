@@ -56,6 +56,15 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
             int scrollDelta = (int)(Math.signum((float) Mouse.getDWheel()));
             scrollbar.getSlider().setLocalPositionY(scrollbar.getSlider().getLocalPositionX() + scrollDelta * 10);
         }
+
+        if (scrollbar != null) {
+            if(getTotalItemWidth() > itemBox.getWidth()){
+                scrollbar.getSlider().showAndEnableInstantly();
+            }
+            else{
+                scrollbar.getSlider().hideAndDisableInstantly();
+            }
+        }
     }
 
     @Override
@@ -83,20 +92,6 @@ public abstract class HorizontalItemBox<ItemType> extends ItemBox<ItemType> {
             itemBoxBackground.addComponent(new UIItemBoxElementHolderComponent(Orientation.OrientationType.HORIZONTAL));
         }
         return itemBoxBackground;
-    }
-
-    @Override
-    public void onItemsChanged() {
-        super.onItemsChanged();
-
-        if (scrollbar != null) {
-            if(getTotalItemWidth() > itemBox.getWidth()){
-                scrollbar.getSlider().showInstantly();
-            }
-            else{
-                scrollbar.getSlider().hideInstantly();
-            }
-        }
     }
 
     @Override

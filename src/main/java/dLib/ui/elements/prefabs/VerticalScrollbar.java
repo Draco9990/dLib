@@ -33,17 +33,39 @@ public abstract class VerticalScrollbar extends Scrollbar {
 
     @Override
     protected Interactable buildSlider() {
-        Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.perc(0), Dim.perc(0.7762), Dim.px(60));
-        {
-            slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_vertical_train);
-            slider.setBoundWithinParent(true);
-            slider.addOnPositionChangedConsumer((element) -> {
-                onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));
-            });
+        Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.perc(0), Dim.perc(0.7762), Dim.px(60)){
+            @Override
+            public int getLocalPositionX() {
+                int res = super.getLocalPositionX();
+                return res;
+            }
 
-            UIDraggableComponent dragComp = slider.addComponent(new UIDraggableComponent());
-            dragComp.setCanDragX(false);
-        }
+            @Override
+            public int getLocalPositionY() {
+                int res = super.getLocalPositionY();
+                return res;
+            }
+
+            @Override
+            public int getWidth() {
+                int res = super.getWidth();
+                return res;
+            }
+
+            @Override
+            public int getHeight() {
+                int res = super.getHeight();
+                return res;
+            }
+        };
+        slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_vertical_train);
+        slider.setBoundWithinParent(true);
+        slider.addOnPositionChangedConsumer((element) -> {
+            onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));
+        });
+
+        UIDraggableComponent dragComp = slider.addComponent(new UIDraggableComponent());
+        dragComp.setCanDragX(false);
         return slider;
     }
 
