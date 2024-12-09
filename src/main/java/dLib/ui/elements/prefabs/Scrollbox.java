@@ -72,20 +72,26 @@ public class Scrollbox extends UIElement {
                 {
                     firstColumn.addItem(mainBox);
 
-                    UIElement horizontalScrollParent = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(horizontalScrollbarHeight));
-                    {
-                        horizontalScrollParent.addChildNCS(horizontalScroll);
+                    if(isHorizontal){
+                        UIElement horizontalScrollParent = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(horizontalScrollbarHeight));
+                        {
+                            horizontalScrollParent.addChildNCS(horizontalScroll);
+                        }
+                        firstColumn.addItem(horizontalScrollParent);
                     }
-                    firstColumn.addItem(horizontalScrollParent);
                 }
                 horizontalBox.addItem(firstColumn);
 
-                VerticalBox secondColumn = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(verticalScrollbarWidth), Dim.fill(), true);
-                {
-                    secondColumn.addItem(verticalScroll);
-                    secondColumn.addItem(new Spacer(Dim.fill(), Dim.px(horizontalScrollbarHeight)));
+                if(isVertical){
+                    VerticalBox secondColumn = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(verticalScrollbarWidth), Dim.fill(), true);
+                    {
+                        secondColumn.addItem(verticalScroll);
+                        if(isHorizontal){
+                            secondColumn.addItem(new Spacer(Dim.fill(), Dim.px(horizontalScrollbarHeight)));
+                        }
+                    }
+                    horizontalBox.addItem(secondColumn);
                 }
-                horizontalBox.addItem(secondColumn);
             }
             addChildNCS(horizontalBox);
         }
@@ -95,6 +101,58 @@ public class Scrollbox extends UIElement {
 
         redirectChildren = true;
     }
+
+    //region Scrollbars
+
+    public void setIsVertical(boolean isVertical) {
+        this.isVertical = isVertical;
+        reinitChildLayout();
+    }
+    public void setIsHorizontal(boolean isHorizontal) {
+        this.isHorizontal = isHorizontal;
+        reinitChildLayout();
+    }
+
+    public boolean isVertical() {
+        return isVertical;
+    }
+    public boolean isHorizontal() {
+        return isHorizontal;
+    }
+
+
+    public void setVerticalScrollbarWidth(int verticalScrollbarWidth) {
+        this.verticalScrollbarWidth = verticalScrollbarWidth;
+        reinitChildLayout();
+    }
+
+    public void setHorizontalScrollbarHeight(int horizontalScrollbarHeight) {
+        this.horizontalScrollbarHeight = horizontalScrollbarHeight;
+        reinitChildLayout();
+    }
+
+    public int getVerticalScrollbarWidth() {
+        return verticalScrollbarWidth;
+    }
+
+    public int getHorizontalScrollbarHeight() {
+        return horizontalScrollbarHeight;
+    }
+
+    //endregion
+
+    //region Always Show
+
+    public void setAlwaysShow(boolean alwaysShow) {
+        this.alwaysShow = alwaysShow;
+        reinitChildLayout();
+    }
+
+    public boolean isAlwaysShow() {
+        return alwaysShow;
+    }
+
+    //endregion
 
     //endregion
 }
