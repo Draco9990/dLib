@@ -17,6 +17,7 @@ import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
+import dLib.ui.elements.components.ItemboxChildComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.screens.UIManager;
@@ -651,19 +652,15 @@ public class UIElement {
         int parentWorldX = getParent() != null ?
                 getParent().getWorldPositionX() + (this instanceof ItemBox ? 0 : getParent().getLocalChildOffsetX()) :
                 0;
-        int worldPosX = parentWorldX + getLocalPositionX();
 
-        int paddingX = paddingLeft.getHorizontal(this);
-        return worldPosX + paddingX;
+        return parentWorldX + getLocalPositionX();
     }
     public int getWorldPositionY(){
         int parentWorldY = getParent() != null ?
                 getParent().getWorldPositionY() + (this instanceof ItemBox ? 0 : getParent().getLocalChildOffsetY()) :
                 0;
-        int worldPosY = parentWorldY + getLocalPositionY();
 
-        int paddingY = paddingBottom.getVertical(this);
-        return worldPosY + paddingY;
+        return parentWorldY + getLocalPositionY();
     }
     public IntegerVector2 getWorldPosition(){
         return new IntegerVector2(getWorldPositionX(), getWorldPositionY());
@@ -1349,7 +1346,8 @@ public class UIElement {
     }
 
     public Bounds getBoundsUnscrolled(){
-        return new Bounds(getWorldPositionX() - getTotalLocalChildOffsetY(), getWorldPositionY() - getTotalLocalChildOffsetY(), getWorldPositionX() - getTotalLocalChildOffsetX() + getWidth(), getWorldPositionY() - getTotalLocalChildOffsetY() + getHeight());
+        if(!hasParent()) return getBounds();
+        return new Bounds(getWorldPositionX() - parent.getTotalLocalChildOffsetX(), getWorldPositionY() - parent.getTotalLocalChildOffsetY(), getWorldPositionX() - parent.getTotalLocalChildOffsetX() + getWidth(), getWorldPositionY() - parent.getTotalLocalChildOffsetY() + getHeight());
     }
 
     public boolean overlapsParent(){

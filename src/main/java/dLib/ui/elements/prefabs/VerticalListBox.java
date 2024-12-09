@@ -58,7 +58,7 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     }
 
     private void updateListTopBottom(){
-        int currentYPos = getHeight() - getLocalChildOffsetY();
+        int currentYPos = getHeight();
 
         for(ItemBoxItem item : originalItems){
             item.renderForItem.hideAndDisable();

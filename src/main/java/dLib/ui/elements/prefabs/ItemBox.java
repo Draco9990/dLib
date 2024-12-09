@@ -11,6 +11,7 @@ import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.IntegerVector2;
+import dLib.util.Reflection;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -520,6 +521,29 @@ public abstract class ItemBox<ItemType> extends Renderable {
     }
 
     //endregion Alignment
+
+    //region Local Child Offsets
+
+    @Override
+    public int getLocalChildOffsetX() {
+        if(getParent() == null){
+            return super.getLocalChildOffsetX();
+        }
+
+        //! This is a hack to get the local offset of the parent in case of recursive item boxes
+        return (int)(Reflection.getFieldValue("localChildOffsetX", getParent())) + super.getLocalChildOffsetX();
+    }
+
+    @Override
+    public int getLocalChildOffsetY() {
+        if(getParent() == null){
+            return super.getLocalChildOffsetY();
+        }
+
+        return (int)(Reflection.getFieldValue("localChildOffsetY", getParent())) + super.getLocalChildOffsetY();
+    }
+
+    //endregion
 
     //endregion
 
