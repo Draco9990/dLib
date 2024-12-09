@@ -213,6 +213,16 @@ public abstract class ItemBox<ItemType> extends Renderable {
         return false;
     }
 
+    public boolean containsRenderItem(UIElement renderItem){
+        for(ItemBoxItem itemBoxItem : originalItems){
+            if(itemBoxItem.renderForItem.equals(renderItem)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public ItemBox<ItemType> removeItem(ItemType item){
         for(ItemBoxItem itemBoxItem : originalItems){
             if(itemBoxItem.item.equals(item)){

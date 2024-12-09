@@ -24,7 +24,7 @@ public class FillDimension extends AbstractDimension {
     public int getWidth(UIElement self) {
         if(self.getParent() == null) return 1920;
 
-        if((self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsItem(self)){
+        if((self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
             ItemBox itemBox = self.getParent();
 
             int staticWidth = 0;
@@ -67,7 +67,7 @@ public class FillDimension extends AbstractDimension {
     public int getHeight(UIElement self) {
         if(self.getParent() == null) return 1080;
 
-        if((self.getParent() instanceof VerticalListBox || self.getParent() instanceof VerticalGridBox) && ((ItemBox) self.getParent()).containsItem(self)){
+        if((self.getParent() instanceof VerticalListBox || self.getParent() instanceof VerticalGridBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
             ItemBox itemBox = self.getParent();
 
             int staticHeight = 0;

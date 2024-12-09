@@ -22,7 +22,7 @@ public class StaticPosition extends AbstractPosition {
     @Override
     public int getLocalX(UIElement self) {
         if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT ||
-                (self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsItem(self)){
+                (self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
             return position;
         }
         else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
@@ -50,7 +50,7 @@ public class StaticPosition extends AbstractPosition {
     @Override
     public int getLocalY(UIElement self) {
         if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM ||
-                (self.getParent() instanceof VerticalListBox || self.getParent() instanceof VerticalGridBox) && ((ItemBox) self.getParent()).containsItem(self)){
+                (self.getParent() instanceof VerticalListBox || self.getParent() instanceof VerticalGridBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
             return position;
         }
         else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
