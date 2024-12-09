@@ -4,12 +4,14 @@ import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.Bounds;
+import dLib.util.IntegerVector4;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
-public abstract class HorizontalScrollbar extends Scrollbar {
+public class HorizontalScrollbar extends Scrollbar {
     //region Variables
 
     //endregion
@@ -31,6 +33,24 @@ public abstract class HorizontalScrollbar extends Scrollbar {
     }
 
     @Override
+    protected void updateSelf() {
+        super.updateSelf();
+
+        if(boundElement != null){
+            Bounds childBounds = boundElement.getChildUnscrolledBounds();
+            if(childBounds.right > boundElement.getWorldPositionX() + getWidth()){
+                slider.showAndEnableInstantly();
+            }
+            else if(childBounds.left < boundElement.getWorldPositionX()){
+                slider.showAndEnableInstantly();
+            }
+            else{
+                slider.hideAndDisableInstantly();
+            }
+        }
+    }
+
+    @Override
     protected Interactable buildSlider() {
         Button slider = new Button(Pos.perc(0), Pos.px((int) (5 * 1.29f)), Dim.px(60), Dim.perc(0.7762));
         {
@@ -49,6 +69,26 @@ public abstract class HorizontalScrollbar extends Scrollbar {
     //endregion
 
     //region Methods
+
+
+    @Override
+    public void onScrollbarScrolled(float percentage) {
+        if(boundElement != null){
+            Bounds bounds = boundElement.getChildUnscrolledBounds();
+
+            int boundElementRightX = boundElement.getWorldPositionX() + boundElement.getWidth();
+            int correctionAmount = Math.max(0, bounds.right - boundElementRightX);
+
+            int totalWidth = bounds.right - bounds.left;
+            int overlapAmount = Math.max(0, bounds.right - boundElement.getWorldPositionX());
+            int scrollableArea = totalWidth - overlapAmount + correctionAmount;
+            int offset = (int) (scrollableArea - (scrollableArea * percentage)) - correctionAmount;
+
+            boundElement.setLocalChildOffsetX(offset);
+        }
+
+        super.onScrollbarScrolled(percentage);
+    }
 
     @Override
     public void setScrollbarScrollPercentageForExternalChange(float percentage) {

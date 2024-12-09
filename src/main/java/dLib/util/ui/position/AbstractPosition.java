@@ -76,11 +76,11 @@ public abstract class AbstractPosition {
     }
 
     public int getWorldX(UIElement element){
-        int parentWorldX = element.getParent() != null ? element.getParent().getWorldPositionX() : 0;
+        int parentWorldX = element.getParent() != null ? element.getParent().getWorldPositionX() + element.getParent().getLocalChildOffsetX() : 0;
         return parentWorldX + getLocalX(element);
     }
     public int getWorldY(UIElement element){
-        int parentWorldY = element.getParent() != null ? element.getParent().getWorldPositionY() : 0;
+        int parentWorldY = element.getParent() != null ? element.getParent().getWorldPositionY() + element.getParent().getLocalChildOffsetY() : 0;
         return parentWorldY + getLocalY(element);
     }
 

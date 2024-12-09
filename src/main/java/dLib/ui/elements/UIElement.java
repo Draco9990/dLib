@@ -24,7 +24,6 @@ import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.dimensions.FillDimension;
 import dLib.util.ui.dimensions.StaticDimension;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
@@ -49,6 +48,9 @@ public class UIElement {
     private AbstractPosition localPosX = Pos.px(0);
     private AbstractPosition localPosY = Pos.px(0);
     private ArrayList<Consumer<UIElement>> positionChangedConsumers = new ArrayList<>();
+
+    private int localChildOffsetX = 0;
+    private int localChildOffsetY = 0;
 
     private Alignment alignment = new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
 
@@ -1354,6 +1356,52 @@ public class UIElement {
         return true;
     }
 
+    public Bounds getChildBounds(){
+        return getChildBoundsRecursive(null);
+    }
+    private Bounds getChildBoundsRecursive(Bounds bounds){
+        for(UIElementChild child : children){
+            Bounds childBounds = new Bounds(child.element.getWorldPositionX(), child.element.getWorldPositionY(), child.element.getWorldPositionX() + child.element.getWidth(), child.element.getWorldPositionY() + child.element.getHeight());
+            if(bounds == null){
+                bounds = childBounds;
+            }
+
+            if(childBounds.left < bounds.left) bounds.left = childBounds.left;
+            if(childBounds.bottom < bounds.bottom) bounds.bottom = childBounds.bottom;
+            if(childBounds.right > bounds.right) bounds.right = childBounds.right;
+            if(childBounds.top > bounds.top) bounds.top = childBounds.top;
+
+            bounds = child.element.getChildBoundsRecursive(bounds);
+        }
+
+        return bounds;
+    }
+
+    public Bounds getChildUnscrolledBounds(){
+        return getChildUnscrolledBoundsRecursive(null);
+    }
+    private Bounds getChildUnscrolledBoundsRecursive(Bounds bounds){
+        for(UIElementChild child : children){
+            Bounds childBounds = new Bounds(child.element.getWorldPositionX(), child.element.getWorldPositionY(), child.element.getWorldPositionX() + child.element.getWidth(), child.element.getWorldPositionY() + child.element.getHeight());
+            childBounds.left -= getLocalChildOffsetX();
+            childBounds.right -= getLocalChildOffsetX();
+            childBounds.bottom -= getLocalChildOffsetY();
+            childBounds.top -= getLocalChildOffsetY();
+            if(bounds == null){
+                bounds = childBounds;
+            }
+
+            if(childBounds.left < bounds.left) bounds.left = childBounds.left;
+            if(childBounds.bottom < bounds.bottom) bounds.bottom = childBounds.bottom;
+            if(childBounds.right > bounds.right) bounds.right = childBounds.right;
+            if(childBounds.top > bounds.top) bounds.top = childBounds.top;
+
+            bounds = child.element.getChildUnscrolledBoundsRecursive(bounds);
+        }
+
+        return bounds;
+    }
+
     public boolean withinParent(){
         return parent != null && within(parent);
     }
@@ -1789,6 +1837,24 @@ public class UIElement {
     }
     public String getOnTriggerLine(){
         return onTriggeredLine;
+    }
+
+    //endregion
+
+    //region Local Child Offset
+
+    public void setLocalChildOffsetX(int offset){
+        localChildOffsetX = offset;
+    }
+    public void setLocalChildOffsetY(int offset){
+        localChildOffsetY = offset;
+    }
+
+    public int getLocalChildOffsetX(){
+        return localChildOffsetX;
+    }
+    public int getLocalChildOffsetY(){
+        return localChildOffsetY;
     }
 
     //endregion

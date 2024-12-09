@@ -5,12 +5,14 @@ import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
+import dLib.util.Bounds;
+import dLib.util.IntegerVector4;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
-public abstract class VerticalScrollbar extends Scrollbar {
+public class VerticalScrollbar extends Scrollbar {
     //region Variables
 
     //endregion
@@ -29,6 +31,24 @@ public abstract class VerticalScrollbar extends Scrollbar {
         addChildNCS(elements);
 
         addChildNCS(slider);
+    }
+
+    @Override
+    protected void updateSelf() {
+        super.updateSelf();
+
+        if(boundElement != null){
+            Bounds childBounds = boundElement.getChildUnscrolledBounds();
+            if(childBounds.top > boundElement.getWorldPositionY() + getHeight()){
+                slider.showAndEnableInstantly();
+            }
+            else if(childBounds.bottom < boundElement.getWorldPositionY()){
+                slider.showAndEnableInstantly();
+            }
+            else{
+                slider.hideAndDisableInstantly();
+            }
+        }
     }
 
     @Override
@@ -72,6 +92,26 @@ public abstract class VerticalScrollbar extends Scrollbar {
     //endregion
 
     //region Methods
+
+
+    @Override
+    public void onScrollbarScrolled(float percentage) {
+        if(boundElement != null){
+            Bounds bounds = boundElement.getChildUnscrolledBounds();
+
+            int boundElementTopY = boundElement.getWorldPositionY() + boundElement.getHeight();
+            int correctionAmount = Math.max(0, bounds.top - boundElementTopY);
+
+            int totalHeight = bounds.top - bounds.bottom;
+            int overlapAmount = Math.max(0, bounds.top - boundElement.getWorldPositionY());
+            int scrollableArea = totalHeight - overlapAmount + correctionAmount;
+            int offset = (int) (scrollableArea - (scrollableArea * percentage)) - correctionAmount;
+
+            boundElement.setLocalChildOffsetY(offset);
+        }
+
+        super.onScrollbarScrolled(percentage);
+    }
 
     @Override
     public void setScrollbarScrollPercentageForExternalChange(float percentage) {

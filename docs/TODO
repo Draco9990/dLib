@@ -1,3 +1,5 @@
+--> calculate width and height and pos once per in render, and cache for everyone else there
+
 --> when dragging elements, it drags ALL elements that are hovered, hjover in general seems to be affecting more than just top layer?
     -. Could just be caused by images being clickthrough tho
 -. button at the top bar is half half? Also the hierarchy editor same issues

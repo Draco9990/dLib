@@ -42,6 +42,18 @@ public class IntegerVector4 implements Serializable {
             return null; // No overlap
         }
     }
+    
+    public boolean within(IntegerVector4 other){
+        if (x < other.x || y < other.y) {
+            return false;
+        }
+
+        if (x + w > other.x + other.w || y + h > other.y + other.h) {
+            return false;
+        }
+
+        return true;
+    }
 
     @Override
     public boolean equals(Object obj) {

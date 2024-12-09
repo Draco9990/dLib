@@ -3,6 +3,7 @@ package dLib.ui.elements.prefabs;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Interactable;
+import dLib.util.IntegerVector4;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -15,6 +16,10 @@ public abstract class Scrollbar extends UIElement {
     protected Interactable slider;
 
     private ArrayList<Consumer<Float>> onScrollbarScrolledListeners = new ArrayList<>();
+
+    protected UIElement boundElement;
+
+    protected float currentScrollPercentageCache = 0;
 
     //endregion
 
@@ -36,6 +41,8 @@ public abstract class Scrollbar extends UIElement {
         for(Consumer<Float> listener : onScrollbarScrolledListeners){
             listener.accept(percentage);
         }
+
+        currentScrollPercentageCache = percentage;
     }
 
     public void addOnScrollbarScrolledListener(Consumer<Float> listener){
@@ -50,6 +57,14 @@ public abstract class Scrollbar extends UIElement {
 
     public Interactable getSlider(){
         return slider;
+    }
+
+    //endregion
+
+    //region Bound Element
+
+    public void setBoundElement(UIElement element){
+        boundElement = element;
     }
 
     //endregion
