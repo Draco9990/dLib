@@ -1,9 +1,7 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Draggable;
 import dLib.ui.elements.implementations.Interactable;
-import dLib.util.IntegerVector4;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 

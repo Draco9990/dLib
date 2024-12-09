@@ -12,4 +12,15 @@ public class Bounds {
         this.right = right;
         this.bottom = bottom;
     }
+
+    public boolean overlaps(Bounds other){
+        boolean overlapsHorizontally = (this.right <= other.right && this.right >= other.left) || (this.left >= other.left && this.left <= other.right);
+        boolean overlapsVertically = (this.top <= other.top && this.top >= other.bottom) || (this.bottom >= other.bottom && this.bottom <= other.top);
+
+        return overlapsHorizontally && overlapsVertically;
+    }
+
+    public boolean within(Bounds other){
+        return this.left >= other.left && this.right <= other.right && this.top <= other.top && this.bottom >= other.bottom;
+    }
 }

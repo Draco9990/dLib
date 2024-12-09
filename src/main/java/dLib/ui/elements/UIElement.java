@@ -231,26 +231,27 @@ public class UIElement {
             float targetHbWidth = getWidth() * Settings.xScale;
             float targetHbHeight = getHeight() * Settings.yScale;
 
-            IntegerVector4 maskBounds = getMaskWorldBounds();
-            if(maskBounds != null && overlaps(maskBounds) && !within(maskBounds)){
-                if(getWorldPositionX() < maskBounds.x){
-                    float newTargetHbX = (maskBounds.x + getWidth() * 0.5f) * Settings.xScale;
+            Bounds maskBounds = getMaskWorldBounds();
+            Bounds myBounds = getBounds();
+            if(maskBounds != null && getBounds().overlaps(maskBounds) && !myBounds.within(maskBounds)){
+                if(getWorldPositionX() < maskBounds.left){
+                    float newTargetHbX = (maskBounds.left + getWidth() * 0.5f) * Settings.xScale;
                     targetHbWidth -= newTargetHbX - targetHbX;
                     targetHbX = newTargetHbX;
                 }
-                if(getWorldPositionY() < maskBounds.y){
-                    float newTargetHbY = (maskBounds.y + getHeight() * 0.5f) * Settings.yScale;
+                if(getWorldPositionY() < maskBounds.bottom){
+                    float newTargetHbY = (maskBounds.bottom + getHeight() * 0.5f) * Settings.yScale;
                     targetHbHeight -= newTargetHbY - targetHbY;
                     targetHbY = newTargetHbY;
                 }
 
 
-                if(getWorldPositionX() + getWidth() > maskBounds.x + maskBounds.w){
-                    targetHbWidth = (maskBounds.x + maskBounds.w - getWorldPositionX()) * Settings.xScale;
+                if(getWorldPositionX() + getWidth() > maskBounds.right){
+                    targetHbWidth = (maskBounds.right - getWorldPositionX()) * Settings.xScale;
                 }
-                if(getWorldPositionY() + getHeight() > maskBounds.y + maskBounds.h){
-                    targetHbHeight = (maskBounds.y + maskBounds.h - getWorldPositionY()) * Settings.yScale;
-                    targetHbY = (maskBounds.y + maskBounds.h - (targetHbHeight / Settings.yScale * 0.5f)) * Settings.yScale;
+                if(getWorldPositionY() + getHeight() > maskBounds.top){
+                    targetHbHeight = (maskBounds.top - getWorldPositionY()) * Settings.yScale;
+                    targetHbY = (maskBounds.top - (targetHbHeight / Settings.yScale * 0.5f)) * Settings.yScale;
                 }
             }
 
@@ -354,12 +355,12 @@ public class UIElement {
         if(!shouldRender()) return;
 
         boolean pushedScissors = false;
-        IntegerVector4 maskBounds = getMaskWorldBounds();
+        Bounds maskBounds = getMaskWorldBounds();
         if(maskBounds != null){
             sb.flush();
 
             Rectangle scissors = new Rectangle();
-            Rectangle mask = new Rectangle(maskBounds.x * Settings.xScale, maskBounds.y * Settings.yScale, maskBounds.w * Settings.xScale, maskBounds.h * Settings.yScale);
+            Rectangle mask = new Rectangle(maskBounds.left * Settings.xScale, maskBounds.bottom * Settings.yScale, (maskBounds.right - maskBounds.left) * Settings.xScale, (maskBounds.top - maskBounds.bottom) * Settings.yScale);
 
             OrthographicCamera camera = Reflection.getFieldValue("camera", Gdx.app.getApplicationListener());
             ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), mask, scissors);
@@ -1149,7 +1150,7 @@ public class UIElement {
     }
     public boolean isVisible(){
         if(hasParent() && !parent.isVisible()) return false;
-        return isVisible;
+        return isVisible && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
     }
 
     //endregion
@@ -1167,7 +1168,7 @@ public class UIElement {
     }
     public boolean isEnabled(){
         if(hasParent() && !parent.isEnabled()) return false;
-        return isEnabled;
+        return isEnabled && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
     }
 
     //endregion
@@ -1193,9 +1194,6 @@ public class UIElement {
 
     public boolean isActive(){
         if(hasParent() && !parent.isActive()) return false;
-
-        IntegerVector4 maskBounds = getMaskWorldBounds();
-        //if(maskBounds != null && !overlaps(maskBounds)) return false;
 
         return isVisible() || isEnabled();
     }
@@ -1337,23 +1335,19 @@ public class UIElement {
 
     //region Bounds Methods
 
+    public Bounds getBounds(){
+        return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
+    }
+
+    public Bounds getBoundsUnscrolled(){
+        return new Bounds(getWorldPositionX() - getLocalChildOffsetX(), getWorldPositionY() - getLocalChildOffsetY(), getWorldPositionX() - getLocalChildOffsetX() + getWidth(), getWorldPositionY() - getLocalChildOffsetY() + getHeight());
+    }
+
     public boolean overlapsParent(){
         return parent != null && overlaps(parent);
     }
     public boolean overlaps(UIElement other){
-        return overlaps(new IntegerVector4(other.getWorldPositionX(), other.getWorldPositionY(), other.getWidth(), other.getHeight()));
-    }
-    public boolean overlaps(IntegerVector4 other){
-        IntegerVector2 thisWorldPos = getWorldPosition();
-        IntegerVector2 thisDimensions = getDimensions();
-
-        if (thisWorldPos.y + thisDimensions.y < other.y || thisWorldPos.y > other.y + other.h) {
-            return false;
-        }
-        if (thisWorldPos.x + thisDimensions.x < other.x || thisWorldPos.x > other.x + other.w) {
-            return false;
-        }
-        return true;
+        return getBounds().overlaps(other.getBounds());
     }
 
     public Bounds getChildBounds(){
@@ -1361,7 +1355,7 @@ public class UIElement {
     }
     private Bounds getChildBoundsRecursive(Bounds bounds){
         for(UIElementChild child : children){
-            Bounds childBounds = new Bounds(child.element.getWorldPositionX(), child.element.getWorldPositionY(), child.element.getWorldPositionX() + child.element.getWidth(), child.element.getWorldPositionY() + child.element.getHeight());
+            Bounds childBounds = getBounds();
             if(bounds == null){
                 bounds = childBounds;
             }
@@ -1382,11 +1376,11 @@ public class UIElement {
     }
     private Bounds getChildUnscrolledBoundsRecursive(Bounds bounds){
         for(UIElementChild child : children){
-            Bounds childBounds = new Bounds(child.element.getWorldPositionX(), child.element.getWorldPositionY(), child.element.getWorldPositionX() + child.element.getWidth(), child.element.getWorldPositionY() + child.element.getHeight());
-            childBounds.left -= getLocalChildOffsetX();
-            childBounds.right -= getLocalChildOffsetX();
-            childBounds.bottom -= getLocalChildOffsetY();
-            childBounds.top -= getLocalChildOffsetY();
+            if(!child.element.isActive()){
+                continue;
+            }
+
+            Bounds childBounds = getBoundsUnscrolled();
             if(bounds == null){
                 bounds = childBounds;
             }
@@ -1406,22 +1400,7 @@ public class UIElement {
         return parent != null && within(parent);
     }
     public boolean within(UIElement other){
-        return within(new IntegerVector4(other.getWorldPositionX(), other.getWorldPositionY(), other.getWidth(), other.getHeight()));
-    }
-    public boolean within(IntegerVector4 other){
-        IntegerVector2 thisWorldPos = getWorldPosition();
-
-        IntegerVector2 thisDimensions = getDimensions();
-
-        if (thisWorldPos.x < other.x || thisWorldPos.y < other.y) {
-            return false;
-        }
-
-        if (thisWorldPos.x + thisDimensions.x > other.x + other.w || thisWorldPos.y + thisDimensions.y > other.y + other.h) {
-            return false;
-        }
-
-        return true;
+        return getBounds().within(other.getBounds());
     }
 
     //endregion
@@ -1437,12 +1416,12 @@ public class UIElement {
         return elementMask != null || (hasParent() && parent.hasMaskBounds());
     }
 
-    public IntegerVector4 getMaskWorldBounds(){
-        IntegerVector4 bounds = null;
+    public Bounds getMaskWorldBounds(){
+        Bounds bounds = null;
 
         UIElement mask = elementMask;
         if(mask != null){
-            bounds = new IntegerVector4(mask.getWorldPositionX(), mask.getWorldPositionY(), mask.getWidth(), mask.getHeight());
+            return mask.getBounds();
         }
 
         UIElement current = this;
@@ -1451,12 +1430,7 @@ public class UIElement {
             mask = current.elementMask;
 
             if(mask != null){
-                if(bounds == null){
-                    bounds = new IntegerVector4(mask.getWorldPositionX(), mask.getWorldPositionY(), mask.getWidth(), mask.getHeight());
-                }
-                else{
-                    bounds = bounds.overlap(new IntegerVector4(mask.getWorldPositionX(), mask.getWorldPositionY(), mask.getWidth(), mask.getHeight()));
-                }
+                return mask.getBounds();
             }
         }
 

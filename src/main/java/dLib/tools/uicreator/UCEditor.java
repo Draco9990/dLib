@@ -131,6 +131,7 @@ public class UCEditor extends Renderable {
                 hierarchyViewer.hideAndDisableInstantly();
             }
             propertiesScrollbox.setIsHorizontal(false);
+            addChildNCS(propertiesScrollbox);
         }
 
         public void hideAll(){
