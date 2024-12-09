@@ -1,6 +1,7 @@
 package dLib.util.ui.position;
 
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.prefabs.ItemBox;
 import dLib.util.ui.dimensions.FillDimension;
 
 public abstract class AbstractPosition {
@@ -73,15 +74,6 @@ public abstract class AbstractPosition {
             }
         }
         return yResult;
-    }
-
-    public int getWorldX(UIElement element){
-        int parentWorldX = element.getParent() != null ? element.getParent().getWorldPositionX() + element.getParent().getLocalChildOffsetX() : 0;
-        return parentWorldX + getLocalX(element);
-    }
-    public int getWorldY(UIElement element){
-        int parentWorldY = element.getParent() != null ? element.getParent().getWorldPositionY() + element.getParent().getLocalChildOffsetY() : 0;
-        return parentWorldY + getLocalY(element);
     }
 
     public abstract AbstractPosition cpy();

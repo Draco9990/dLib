@@ -18,6 +18,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.elements.components.UIElementComponent;
+import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.screens.UIManager;
 import dLib.util.*;
 import dLib.util.bindings.method.MethodBinding;
@@ -647,12 +648,20 @@ public class UIElement {
     }
 
     public int getWorldPositionX(){
-        int worldPosX = this.localPosX.getWorldX(this);
+        int parentWorldX = getParent() != null ?
+                getParent().getWorldPositionX() + (this instanceof ItemBox ? 0 : getParent().getLocalChildOffsetX()) :
+                0;
+        int worldPosX = parentWorldX + getLocalPositionX();
+
         int paddingX = paddingLeft.getHorizontal(this);
         return worldPosX + paddingX;
     }
     public int getWorldPositionY(){
-        int worldPosY = this.localPosY.getWorldY(this);
+        int parentWorldY = getParent() != null ?
+                getParent().getWorldPositionY() + (this instanceof ItemBox ? 0 : getParent().getLocalChildOffsetY()) :
+                0;
+        int worldPosY = parentWorldY + getLocalPositionY();
+
         int paddingY = paddingBottom.getVertical(this);
         return worldPosY + paddingY;
     }
@@ -1340,7 +1349,7 @@ public class UIElement {
     }
 
     public Bounds getBoundsUnscrolled(){
-        return new Bounds(getWorldPositionX() - getLocalChildOffsetX(), getWorldPositionY() - getLocalChildOffsetY(), getWorldPositionX() - getLocalChildOffsetX() + getWidth(), getWorldPositionY() - getLocalChildOffsetY() + getHeight());
+        return new Bounds(getWorldPositionX() - getTotalLocalChildOffsetY(), getWorldPositionY() - getTotalLocalChildOffsetY(), getWorldPositionX() - getTotalLocalChildOffsetX() + getWidth(), getWorldPositionY() - getTotalLocalChildOffsetY() + getHeight());
     }
 
     public boolean overlapsParent(){
@@ -1829,6 +1838,14 @@ public class UIElement {
     }
     public int getLocalChildOffsetY(){
         return localChildOffsetY;
+    }
+
+    public int getTotalLocalChildOffsetX(){
+        return localChildOffsetX + (hasParent() ? parent.getTotalLocalChildOffsetX() : 0);
+    }
+
+    public int getTotalLocalChildOffsetY(){
+        return localChildOffsetY + (hasParent() ? parent.getTotalLocalChildOffsetY() : 0);
     }
 
     //endregion
