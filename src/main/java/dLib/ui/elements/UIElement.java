@@ -1,5 +1,6 @@
 package dLib.ui.elements;
 
+import basemod.Pair;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -49,6 +50,10 @@ public class UIElement {
 
     private AbstractPosition localPosX = Pos.px(0);
     private AbstractPosition localPosY = Pos.px(0);
+    private Integer localPosXCache = null;
+    private Integer localPosYCache = null;
+    private Integer worldPosXCache = null;
+    private Integer worldPosYCache = null;
     private ArrayList<Consumer<UIElement>> positionChangedConsumers = new ArrayList<>();
 
     private int localChildOffsetX = 0;
@@ -58,6 +63,8 @@ public class UIElement {
 
     private AbstractDimension width = Dim.fill();
     private AbstractDimension height = Dim.fill();
+    private Integer widthCache = null;
+    private Integer heightCache = null;
     private IntegerVector2 lowerLocalBounds = new IntegerVector2(null, null);
     private IntegerVector2 upperLocalBounds = new IntegerVector2(null, null);
     private IntegerVector2 lowerWorldBounds = new IntegerVector2(null, null);
@@ -282,7 +289,9 @@ public class UIElement {
                 if(isHovered()){
                     if(InputHelper.justClickedLeft){
                         clickLeft();
-                        if(!isPassthrough()) InputHelper.justClickedLeft = false;
+                        if(!isPassthrough()){
+                            InputHelper.justClickedLeft = false;
+                        }
                     }
                     if(InputHelper.justClickedRight){
                         clickRight();
@@ -575,7 +584,7 @@ public class UIElement {
         localPosX = Pos.px(newPositionX);
         localPosY = Pos.px(newPositionY);
 
-        if(oldPosX != localPosX || oldPosY != localPosY){
+        if(!oldPosX.equals(localPosX) || !oldPosY.equals(localPosY)){
             onPositionChanged();
         }
 
@@ -585,16 +594,18 @@ public class UIElement {
     }
 
     public int getLocalPositionX(){
-        int localPosX = this.localPosX.getLocalX(this);
-        int paddingX = paddingLeft.getHorizontal(this);
+        if(localPosXCache == null){
+            localPosXCache = localPosX.getLocalX(this) + paddingLeft.getHorizontal(this);
+        }
 
-        return localPosX + paddingX;
+        return localPosXCache;
     }
     public int getLocalPositionY(){
-        int localPosY = this.localPosY.getLocalY(this);
-        int paddingY = paddingBottom.getVertical(this);
+        if(localPosYCache == null){
+            localPosYCache = localPosY.getLocalY(this) + paddingBottom.getVertical(this);
+        }
 
-        return localPosY + paddingY;
+        return localPosYCache;
     }
     public IntegerVector2 getLocalPosition(){
         return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
@@ -649,18 +660,26 @@ public class UIElement {
     }
 
     public int getWorldPositionX(){
-        int parentWorldX = getParent() != null ?
-                getParent().getWorldPositionX() + (this instanceof ItemBox ? 0 : getParent().getLocalChildOffsetX()) :
-                0;
+        if (worldPosXCache == null) {
+            int parentWorldX = getParent() != null ?
+                    getParent().getWorldPositionX() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetX()) :
+                    0;
 
-        return parentWorldX + getLocalPositionX();
+            worldPosXCache = parentWorldX + getLocalPositionX();
+        }
+
+        return worldPosXCache;
     }
     public int getWorldPositionY(){
-        int parentWorldY = getParent() != null ?
-                getParent().getWorldPositionY() + (this instanceof ItemBox ? 0 : getParent().getLocalChildOffsetY()) :
-                0;
+        if(worldPosYCache == null){
+            int parentWorldY = getParent() != null ?
+                    getParent().getWorldPositionY() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetY()) :
+                    0;
 
-        return parentWorldY + getLocalPositionY();
+            worldPosYCache = parentWorldY + getLocalPositionY();
+        }
+
+        return worldPosYCache;
     }
     public IntegerVector2 getWorldPosition(){
         return new IntegerVector2(getWorldPositionX(), getWorldPositionY());
@@ -738,6 +757,11 @@ public class UIElement {
     //endregion
 
     public void onPositionChanged(){
+        localPosXCache = null;
+        localPosYCache = null;
+        worldPosXCache = null;
+        worldPosYCache = null;
+
         for(Consumer<UIElement> consumer : positionChangedConsumers) consumer.accept(this);
 
         for(UIElementChild child : children){
@@ -749,7 +773,14 @@ public class UIElement {
         return this;
     }
 
-    protected void onParentPositionChanged(){}
+    protected void onParentPositionChanged(){
+        worldPosXCache = null;
+        worldPosYCache = null;
+
+        for(UIElementChild child : children){
+            child.element.onParentPositionChanged();
+        }
+    }
 
     //endregion
 
@@ -1275,6 +1306,9 @@ public class UIElement {
     }
 
     public void onDimensionsChanged(){
+        widthCache = null;
+        heightCache = null;
+
         for(UIElementChild child : children){
             child.element.onParentDimensionsChanged();
         }
@@ -1283,10 +1317,18 @@ public class UIElement {
     public void onParentDimensionsChanged(){}
 
     public int getWidth(){
-        return width.getWidth(this) - getPaddingRight();
+        if(widthCache == null){
+            widthCache = width.getWidth(this) - getPaddingRight();
+        }
+
+        return widthCache;
     }
     public int getHeight(){
-        return height.getHeight(this) - getPaddingTop();
+        if(heightCache == null){
+            heightCache = height.getHeight(this) - getPaddingTop();
+        }
+
+        return heightCache;
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
@@ -1342,6 +1384,8 @@ public class UIElement {
     //region Bounds Methods
 
     public Bounds getBounds(){
+        int worldPosX = getWorldPositionX();
+        int worldPosY = getWorldPositionY();
         return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
     }
 
@@ -1383,7 +1427,7 @@ public class UIElement {
     }
     private Bounds getChildUnscrolledBoundsRecursive(Bounds bounds){
         for(UIElementChild child : children){
-            if(!child.element.isActive()){
+            if(!(this instanceof ItemBox) && !child.element.isActive()){
                 continue;
             }
 
@@ -1826,15 +1870,30 @@ public class UIElement {
 
     public void setLocalChildOffsetX(int offset){
         localChildOffsetX = offset;
+
+        for(UIElementChild child : children){
+            child.element.onParentPositionChanged();
+        }
     }
     public void setLocalChildOffsetY(int offset){
         localChildOffsetY = offset;
+
+        for(UIElementChild child : children){
+            child.element.onParentPositionChanged();
+        }
     }
 
     public int getLocalChildOffsetX(){
         return localChildOffsetX;
     }
     public int getLocalChildOffsetY(){
+        return localChildOffsetY;
+    }
+
+    public final int getLocalChildOffsetXRaw(){
+        return localChildOffsetX;
+    }
+    public final int getLocalChildOffsetYRaw(){
         return localChildOffsetY;
     }
 

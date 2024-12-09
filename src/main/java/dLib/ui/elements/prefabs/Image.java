@@ -33,8 +33,6 @@ public class Image extends Renderable {
 
     public Image(ImageData data){
         super(data);
-
-        setPassthrough(true);
     }
 
     //endregion

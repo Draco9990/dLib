@@ -531,7 +531,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
         }
 
         //! This is a hack to get the local offset of the parent in case of recursive item boxes
-        return (int)(Reflection.getFieldValue("localChildOffsetX", getParent())) + super.getLocalChildOffsetX();
+        return getParent().getLocalChildOffsetXRaw() + super.getLocalChildOffsetX();
     }
 
     @Override
@@ -540,7 +540,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
             return super.getLocalChildOffsetY();
         }
 
-        return (int)(Reflection.getFieldValue("localChildOffsetY", getParent())) + super.getLocalChildOffsetY();
+        return getParent().getLocalChildOffsetYRaw() + super.getLocalChildOffsetY();
     }
 
     //endregion

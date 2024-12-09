@@ -1,8 +1,10 @@
 package dLib.tools.uicreator;
 
 import com.badlogic.gdx.graphics.Color;
+import dLib.tools.uicreator.ui.components.UCEditorComponent;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
+import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
 import dLib.tools.uicreator.ui.elements.UCERootElement;
 import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
@@ -117,7 +119,7 @@ public class UCEditor extends Renderable {
 
     private static class UC_EditorProperties extends Renderable{
         public UC_EP_Toolbox toolbox;
-        public HierarchyViewer hierarchyViewer;
+        public UCEHierarchyViewer hierarchyViewer;
 
         public UC_EditorProperties() {
             super(UITheme.whitePixel, Dim.fill(), Dim.fill());
@@ -127,7 +129,7 @@ public class UCEditor extends Renderable {
             {
                 propertiesScrollbox.addChildNCS(toolbox = new UC_EP_Toolbox());
 
-                propertiesScrollbox.addChildNCS(hierarchyViewer = new HierarchyViewer());
+                propertiesScrollbox.addChildNCS(hierarchyViewer = new UCEHierarchyViewer());
                 hierarchyViewer.hideAndDisableInstantly();
             }
             propertiesScrollbox.setIsHorizontal(false);

@@ -4,8 +4,11 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
+import org.apache.logging.log4j.util.TriConsumer;
 
+import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 public class UIDraggableComponent extends UIElementComponent<UIElement> {
     //region Variables
