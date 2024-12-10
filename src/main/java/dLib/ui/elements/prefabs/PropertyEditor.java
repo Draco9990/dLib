@@ -40,7 +40,7 @@ public class PropertyEditor extends UIElement {
             descriptionBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
             descriptionBox.setMaxFontScale(0.8f);
             descriptionBox.setMarginPercY(0.1f);
-            descriptionBox.setPaddingLeft(Padd.px(20));
+            descriptionBox.setPadding(Padd.px(10), Padd.px(0));
             descriptionBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
             descriptionBox.setVerticalAlignment(Alignment.VerticalAlignment.TOP);
             elementList.addItem(descriptionBox);

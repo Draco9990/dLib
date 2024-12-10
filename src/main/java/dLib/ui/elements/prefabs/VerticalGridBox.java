@@ -56,19 +56,8 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
         int currentYPos = getHeight();
         int currentXPos = 0;
 
-        for(ItemBoxItem item : originalItems){
-            item.renderForItem.hideAndDisable();
-        }
-
         for(ItemBoxItem item : items){
             item.renderForItem.setLocalPosition(currentXPos, currentYPos - item.renderForItem.getHeight());
-
-            if(item.renderForItem.overlapsParent()){
-                item.renderForItem.showAndEnable();
-            }
-            else{
-                item.renderForItem.hideAndDisable();
-            }
 
             if(!item.selected){
                 item.renderForItem.lightenInstantly();

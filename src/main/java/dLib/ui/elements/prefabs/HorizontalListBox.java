@@ -49,27 +49,9 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
     private void updateItemsLeftRight(){
         int currentXPos = 0;
 
-        for(ItemBoxItem item : originalItems){
-            item.renderForItem.hideAndDisable();
-        }
-
         for(ItemBoxItem item : items){
             currentXPos += item.renderForItem.getPaddingLeft();
             item.renderForItem.setLocalPositionX(currentXPos);
-
-            if(item.renderForItem.overlapsParent()){
-                item.renderForItem.showAndEnable();
-            }
-            else{
-                item.renderForItem.hideAndDisable();
-            }
-
-            if(!item.selected){
-                item.renderForItem.lightenInstantly();
-            }
-            else {
-                item.renderForItem.darkenInstantly();
-            }
 
             currentXPos += item.renderForItem.getWidth();
             currentXPos += itemSpacing;

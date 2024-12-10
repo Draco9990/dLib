@@ -1,6 +1,5 @@
 package dLib.ui.elements;
 
-import basemod.Pair;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,7 +17,6 @@ import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
-import dLib.ui.elements.components.ItemboxChildComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.screens.UIManager;
@@ -572,17 +570,20 @@ public class UIElement {
 
     //region Local Position
     public UIElement setLocalPositionX(int newPosition){
-        return setLocalPosition(newPosition, getLocalPositionY());
+        return setLocalPosition(Pos.px(newPosition), getLocalPositionYRaw());
     }
     public UIElement setLocalPositionY(int newPosition){
-        return setLocalPosition(getLocalPositionX(), newPosition);
+        return setLocalPosition(getLocalPositionXRaw(), Pos.px(newPosition));
     }
     public UIElement setLocalPosition(int newPositionX, int newPositionY){
+        return setLocalPosition(Pos.px(newPositionX), Pos.px(newPositionY));
+    }
+    public UIElement setLocalPosition(AbstractPosition newX, AbstractPosition newY){
         AbstractPosition oldPosX = localPosX;
         AbstractPosition oldPosY = localPosY;
 
-        localPosX = Pos.px(newPositionX);
-        localPosY = Pos.px(newPositionY);
+        localPosX = newX;
+        localPosY = newY;
 
         if(!oldPosX.equals(localPosX) || !oldPosY.equals(localPosY)){
             onPositionChanged();
@@ -660,6 +661,7 @@ public class UIElement {
     }
 
     public int getWorldPositionX(){
+        worldPosXCache = null;
         if (worldPosXCache == null) {
             int parentWorldX = getParent() != null ?
                     getParent().getWorldPositionX() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetX()) :
@@ -671,6 +673,7 @@ public class UIElement {
         return worldPosXCache;
     }
     public int getWorldPositionY(){
+        worldPosYCache = null;
         if(worldPosYCache == null){
             int parentWorldY = getParent() != null ?
                     getParent().getWorldPositionY() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetY()) :
@@ -757,12 +760,7 @@ public class UIElement {
     //endregion
 
     public void onPositionChanged(){
-        localPosXCache = null;
-        localPosYCache = null;
-        worldPosXCache = null;
-        worldPosYCache = null;
-        widthCache = null;
-        heightCache = null;
+        invalidateCachesForElementTree();
 
         for(Consumer<UIElement> consumer : positionChangedConsumers) consumer.accept(this);
 
@@ -776,15 +774,6 @@ public class UIElement {
     }
 
     protected void onParentPositionChanged(){
-        worldPosXCache = null;
-        worldPosYCache = null;
-
-        widthCache = null;
-        heightCache = null;
-
-        for(UIElementChild child : children){
-            child.element.onParentPositionChanged();
-        }
     }
 
     //endregion
@@ -1155,6 +1144,41 @@ public class UIElement {
     }
     //endregion
 
+    //region Caches
+
+    private void invalidateCaches(){
+        localPosXCache = null;
+        localPosYCache = null;
+
+        worldPosXCache = null;
+        worldPosYCache = null;
+
+        widthCache = null;
+        heightCache = null;
+    }
+
+    private void invalidateCachesForElementTree(){
+        invalidateCaches();
+        invalidateParentCacheRecursive();
+        invalidateChildrenCacheRecursive();
+    }
+
+    private void invalidateParentCacheRecursive(){
+        if(hasParent()){
+            parent.invalidateCaches();
+            parent.invalidateParentCacheRecursive();
+        }
+    }
+
+    private void invalidateChildrenCacheRecursive(){
+        for(UIElementChild child : children){
+            child.element.invalidateCaches();
+            child.element.invalidateChildrenCacheRecursive();
+        }
+    }
+
+    //endregion
+
     //region Visible & Enabled States
 
     //region Visibility
@@ -1311,23 +1335,13 @@ public class UIElement {
     }
 
     public void onDimensionsChanged(){
-        widthCache = null;
-        heightCache = null;
-
-        worldPosXCache = null;
-        worldPosYCache = null;
-
+        invalidateCachesForElementTree();
         for(UIElementChild child : children){
             child.element.onParentDimensionsChanged();
         }
     }
 
     public void onParentDimensionsChanged(){
-        widthCache = null;
-        heightCache = null;
-
-        worldPosXCache = null;
-        worldPosYCache = null;
     }
 
     public int getWidth(){
@@ -1884,14 +1898,14 @@ public class UIElement {
         localChildOffsetX = offset;
 
         for(UIElementChild child : children){
-            child.element.onParentPositionChanged();
+            child.element.onPositionChanged();
         }
     }
     public void setLocalChildOffsetY(int offset){
         localChildOffsetY = offset;
 
         for(UIElementChild child : children){
-            child.element.onParentPositionChanged();
+            child.element.onPositionChanged();
         }
     }
 

@@ -7,6 +7,7 @@ import dLib.ui.elements.prefabs.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -45,7 +46,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
             ui = null;
         }
 
-        if(canDisplayMultiline() && shouldMultiline){ //TODO add as parameter to build multiline or not
+        if(canDisplayMultiline() && shouldMultiline){
             buildMultiline(property);
         }
         else{
@@ -54,7 +55,6 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
     }
 
     private void buildMultiline(PropertyType property){
-        //TODO padding on left and right side
         VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(100)){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
@@ -75,6 +75,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
                 return item;
             }
         };
+        vBox.setPadding(Padd.px(15), Padd.px(0));
 
         vBox.addItem(buildTitle(property, Dim.fill(), Dim.perc(0.5)));
         vBox.addItem(buildContent(property, Dim.fill(), Dim.perc(0.5)));
@@ -104,6 +105,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
                 return item;
             }
         };
+        hBox.setPadding(Padd.px(15), Padd.px(0));
 
         hBox.addItem(buildTitle(property, Dim.perc(0.5), Dim.fill()));
         hBox.addItem(buildContent(property, Dim.perc(0.5), Dim.fill()));
