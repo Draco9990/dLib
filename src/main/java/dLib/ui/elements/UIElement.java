@@ -24,6 +24,7 @@ import dLib.util.*;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.StaticDimension;
 import dLib.util.ui.padding.AbstractPadding;
@@ -1213,10 +1214,16 @@ public class UIElement {
 
     protected void setVisibility(boolean visible){
         isVisible = visible;
+
+        invalidateCachesForElementTree();
     }
     public boolean isVisible(){
         if(hasParent() && !parent.isVisible()) return false;
         return isVisible && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
+    }
+    public boolean isVisibleNoOverlapCheck(){
+        if(hasParent() && !parent.isVisibleNoOverlapCheck()) return false;
+        return isVisible;
     }
 
     //endregion
@@ -1235,6 +1242,11 @@ public class UIElement {
     public boolean isEnabled(){
         if(hasParent() && !parent.isEnabled()) return false;
         return isEnabled && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
+    }
+
+    public boolean isEnabledNoOverlapCheck(){
+        if(hasParent() && !parent.isEnabledNoOverlapCheck()) return false;
+        return isEnabled;
     }
 
     //endregion
@@ -1262,6 +1274,11 @@ public class UIElement {
         if(hasParent() && !parent.isActive()) return false;
 
         return isVisible() || isEnabled();
+    }
+    public boolean isActiveNoOverlapCheck(){
+        if(hasParent() && !parent.isActiveNoOverlapCheck()) return false;
+
+        return isVisibleNoOverlapCheck() || isEnabledNoOverlapCheck();
     }
 
     //endregion
@@ -1427,33 +1444,16 @@ public class UIElement {
         return getBounds().overlaps(other.getBounds());
     }
 
-    public Bounds getChildBounds(){
-        return getChildBoundsRecursive(null);
-    }
-    private Bounds getChildBoundsRecursive(Bounds bounds){
-        for(UIElementChild child : children){
-            Bounds childBounds = child.element.getBounds();
-            if(bounds == null){
-                bounds = childBounds;
-            }
-
-            if(childBounds.left < bounds.left) bounds.left = childBounds.left;
-            if(childBounds.bottom < bounds.bottom) bounds.bottom = childBounds.bottom;
-            if(childBounds.right > bounds.right) bounds.right = childBounds.right;
-            if(childBounds.top > bounds.top) bounds.top = childBounds.top;
-
-            bounds = child.element.getChildBoundsRecursive(bounds);
-        }
-
-        return bounds;
-    }
-
     public Bounds getChildUnscrolledBounds(){
         return getChildUnscrolledBoundsRecursive(null);
     }
     private Bounds getChildUnscrolledBoundsRecursive(Bounds bounds){
+        /*if(this instanceof ItemBox && getWidthRaw() instanceof AutoDimension && getHeightRaw() instanceof AutoDimension){
+            return bounds;
+        }*/
+
         for(UIElementChild child : children){
-            if(!(this instanceof ItemBox) && !child.element.isActive()){
+            if(!(child.element.isActiveNoOverlapCheck()) && !(this instanceof ItemBox)){
                 continue;
             }
 
@@ -1462,10 +1462,15 @@ public class UIElement {
                 bounds = childBounds;
             }
 
-            if(childBounds.left < bounds.left) bounds.left = childBounds.left;
-            if(childBounds.bottom < bounds.bottom) bounds.bottom = childBounds.bottom;
-            if(childBounds.right > bounds.right) bounds.right = childBounds.right;
-            if(childBounds.top > bounds.top) bounds.top = childBounds.top;
+            if(this instanceof ItemBox && getWidthRaw() instanceof AutoDimension){
+                if(childBounds.left < bounds.left) bounds.left = childBounds.left;
+                if(childBounds.right > bounds.right) bounds.right = childBounds.right;
+            }
+
+            if(this instanceof ItemBox && getHeightRaw() instanceof AutoDimension){
+                if(childBounds.bottom < bounds.bottom) bounds.bottom = childBounds.bottom;
+                if(childBounds.top > bounds.top) bounds.top = childBounds.top;
+            }
 
             bounds = child.element.getChildUnscrolledBoundsRecursive(bounds);
         }
@@ -1948,14 +1953,23 @@ public class UIElement {
     public static class UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public StringProperty id = new StringProperty(getClass() + "_" + UUID.randomUUID()){
+        public StringProperty id = new StringProperty(getClass().getSimpleName() + "_" + UUID.randomUUID()){
             @Override
             public boolean isValidValue(String value) {
                 return !value.isEmpty();
             }
-        }.setName("Id");
+        }
+                .setName("Id")
+                .setDescription("Internal ID of the element. Has to be unique.")
+                .setCategory("General");
 
-        public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0)).setName("Local Position").setValueNames("X", "Y");
+        public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0))
+                .setName("Local Position")
+                .setDescription("Local Position of the element relative to its parent. Can be:\n" +
+                        "* Static: Fixed position in pixels.\n" +
+                        "* Percentage: Position relative to the parent's dimensions.")
+                .setCategory("Transform")
+                .setValueNames("X", "Y");
 
         public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)){
             @Override

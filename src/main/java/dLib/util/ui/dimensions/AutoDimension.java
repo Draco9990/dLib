@@ -15,34 +15,16 @@ public class AutoDimension extends AbstractDimension {
 
     @Override
     public int getWidth(UIElement self) {
-        int leftmostX = Integer.MAX_VALUE;
-        int rightmostX = Integer.MIN_VALUE;
-
-        for(UIElement child : self.getChildren()){
-            int childX = child.getLocalPositionX();
-            if(childX < leftmostX){
-                leftmostX = childX;
-            }
-            if(childX + child.getWidth() > rightmostX){
-                rightmostX = childX + child.getWidth();
-            }
-        }
-
-        return rightmostX - leftmostX;
+        Bounds childBounds = self.getChildUnscrolledBounds();
+        if(childBounds == null) return 1;
+        return childBounds.right - childBounds.left;
     }
 
     @Override
     public int getHeight(UIElement self) {
-        try
-        {
-            Bounds childBounds = self.getChildBounds();
-            return childBounds.top - childBounds.bottom;
-        }catch (StackOverflowError e)
-        {
-            System.out.println("StackOverflowError");
-        }
-
-        return 0;
+        Bounds childBounds = self.getChildUnscrolledBounds();
+        if(childBounds == null) return 1;
+        return childBounds.top - childBounds.bottom;
     }
 
     @Override

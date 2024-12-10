@@ -57,14 +57,11 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
         int currentXPos = 0;
 
         for(ItemBoxItem item : items){
-            item.renderForItem.setLocalPosition(currentXPos, currentYPos - item.renderForItem.getHeight());
+            if(!item.renderForItem.isActiveNoOverlapCheck()){
+                continue;
+            }
 
-            if(!item.selected){
-                item.renderForItem.lightenInstantly();
-            }
-            else {
-                item.renderForItem.darkenInstantly();
-            }
+            item.renderForItem.setLocalPosition(currentXPos, currentYPos - item.renderForItem.getHeight());
 
             currentXPos += item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight();
             if(currentXPos + item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight() > getWidth()){

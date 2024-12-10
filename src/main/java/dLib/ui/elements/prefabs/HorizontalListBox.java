@@ -50,6 +50,10 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
         int currentXPos = 0;
 
         for(ItemBoxItem item : items){
+            if(!item.renderForItem.isActiveNoOverlapCheck()){
+                continue;
+            }
+
             currentXPos += item.renderForItem.getPaddingLeft();
             item.renderForItem.setLocalPositionX(currentXPos);
 

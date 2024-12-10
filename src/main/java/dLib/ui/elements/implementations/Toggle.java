@@ -127,9 +127,9 @@ public class Toggle extends Interactable {
 
     @Override
     public void clickLeft() {
-        super.clickLeft();
-
         toggle();
+
+        super.clickLeft();
     }
 
     //endregion

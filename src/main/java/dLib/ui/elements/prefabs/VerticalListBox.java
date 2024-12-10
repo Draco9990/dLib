@@ -60,8 +60,11 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     private void updateListTopBottom(){
         int currentYPos = getHeight();
 
-
         for(ItemBoxItem item : items){
+            if(!item.renderForItem.isActiveNoOverlapCheck()){
+                continue;
+            }
+
             currentYPos -= item.renderForItem.getPaddingTop();
 
             item.renderForItem.setLocalPositionY(currentYPos - item.renderForItem.getHeight());
