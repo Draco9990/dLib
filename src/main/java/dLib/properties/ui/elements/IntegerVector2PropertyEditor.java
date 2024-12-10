@@ -37,7 +37,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntege
         HorizontalBox horizontalBox = new HorizontalBox(width, height);
         {
             if(property.getXValueName() != null) {
-                TextBox xLabel = new TextBox(property.getXValueName(), Dim.perc(0.2), Dim.fill());
+                TextBox xLabel = new TextBox(property.getXValueName() + ":", Dim.perc(0.2), Dim.fill());
                 horizontalBox.addItem(xLabel);
             }
 
@@ -58,7 +58,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntege
             horizontalBox.addItem(new Spacer(Dim.perc(0.1), Dim.fill()));
 
             if(property.getYValueName() != null){
-                TextBox yLabel = new TextBox(property.getYValueName(), Dim.perc(0.2), Dim.fill());
+                TextBox yLabel = new TextBox(property.getYValueName() + ":", Dim.perc(0.2), Dim.fill());
                 horizontalBox.addItem(yLabel);
             }
 

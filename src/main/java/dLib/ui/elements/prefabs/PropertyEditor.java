@@ -31,6 +31,7 @@ public class PropertyEditor extends UIElement {
             Scrollbox propertyListScrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.8));
             {
                 propertyListScrollbox.addChildNCS(propertyList = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+                propertyList.setItemSpacing(20);
             }
             propertyListScrollbox.setIsHorizontal(false);
             elementList.addItem(propertyListScrollbox);

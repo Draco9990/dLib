@@ -114,7 +114,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
     }
 
     protected UIElement buildTitle(PropertyType property, AbstractDimension width, AbstractDimension height){
-        return new TextBox(property.getName(), Pos.px(0), Pos.px(0), width, height).setTextRenderColor(Color.WHITE).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        return new TextBox(property.getName() + ":", Pos.px(0), Pos.px(0), width, height).setTextRenderColor(Color.WHITE).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
     }
 
     protected abstract UIElement buildContent(PropertyType property, AbstractDimension width, AbstractDimension height);

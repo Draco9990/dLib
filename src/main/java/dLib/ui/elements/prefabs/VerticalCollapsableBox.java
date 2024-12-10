@@ -42,6 +42,7 @@ public class VerticalCollapsableBox extends UIElement {
                         contentBox.hideAndDisable();
                     }
                 });
+                toggleArrow.setToggled(true);
 
                 titleHBox.addItem(titleBox = new TextBox(title, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
                 titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
