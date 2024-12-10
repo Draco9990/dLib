@@ -496,6 +496,18 @@ public class UIElement {
         onChildrenChanged();
         return this;
     }
+    public UIElement replaceChild(UIElement original, UIElement replacement){
+        for(UIElementChild child : children){
+            if(Objects.equals(child.element, original)){
+                child.element.setParent(null);
+                child.element = replacement;
+                replacement.setParent(this);
+                return this;
+            }
+        }
+
+        return this;
+    }
     public UIElement clearChildren(){
         for(UIElementChild child : children){
             if(Objects.equals(child.element.getParent(), this)){
@@ -529,6 +541,14 @@ public class UIElement {
         return new ArrayList<>(children);
     }
 
+    public ArrayList<UIElement> getAllChildren(){
+        ArrayList<UIElement> allChildren = new ArrayList<>();
+        for(UIElementChild child : children){
+            allChildren.add(child.element);
+            allChildren.addAll(child.element.getAllChildren());
+        }
+        return allChildren;
+    }
     public ArrayList<UIElementChild> getAllChildrenRaw(){
         ArrayList<UIElementChild> allChildren = new ArrayList<>();
         for(UIElementChild child : children){

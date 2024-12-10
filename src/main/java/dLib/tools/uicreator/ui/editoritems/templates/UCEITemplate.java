@@ -16,6 +16,10 @@ public abstract class UCEITemplate {
         UIElement.UIElementData elementData = makeElementData();
         wrapElementData(elementData);
 
+        return makeEditorItem(elementData);
+    }
+
+    public UIElement makeEditorItem(UIElement.UIElementData elementData){
         UIElement editorItem = elementData.makeUIElement();
         {
             UIDraggableComponent draggableComp = editorItem.addComponent(new UIDraggableComponent());

@@ -5,6 +5,7 @@ import dLib.tools.uicreator.ui.components.UCEditorComponent;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
+import dLib.tools.uicreator.ui.elements.UCEPropertyEditor;
 import dLib.tools.uicreator.ui.elements.UCERootElement;
 import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
@@ -28,11 +29,13 @@ public class UCEditor extends Renderable {
 
     public UC_EditorMainScreen mainScreen;
 
-    private UCERootElement rootElement;
+    public UCEditorItemTree itemTree;
 
     public UCEditor(){
         super(UITheme.whitePixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         setRenderColor(LIGHT_GRAY);
+
+        UCERootElement rootElement;
 
         HorizontalBox mainBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
@@ -51,13 +54,11 @@ public class UCEditor extends Renderable {
         }
         mainBox.setPadding(Padd.px(10));
         addChildNCS(mainBox);
+
+        itemTree = new UCEditorItemTree(rootElement);
     }
 
     //region Methods
-
-    public void addNewEditorItem(UIElement item){
-        rootElement.addChildNCS(item);
-    }
 
     //endregion
 
@@ -100,7 +101,7 @@ public class UCEditor extends Renderable {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().hierarchyViewer.showAndEnableInstantly();
-                        getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).rootElement);
+                        getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElement);
                     });
                     elementListButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
                     propertiesOptions.addItem(elementListButton);
@@ -121,7 +122,7 @@ public class UCEditor extends Renderable {
         public UCEHierarchyViewer hierarchyViewer;
         public Scrollbox toolbarPropertiesScrollbox;
 
-        public PropertyEditor propertyEditor;
+        public UCEPropertyEditor propertyEditor;
 
         public UC_EditorProperties() {
             super(UITheme.whitePixel, Dim.fill(), Dim.fill());
@@ -137,12 +138,7 @@ public class UCEditor extends Renderable {
             toolbarPropertiesScrollbox.setIsHorizontal(false);
             addChildNCS(toolbarPropertiesScrollbox);
 
-            addChildNCS(propertyEditor = new PropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
-                @Override
-                public boolean shouldBuildMultiline() {
-                    return true;
-                }
-            });
+            addChildNCS(propertyEditor = new UCEPropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
             propertyEditor.hideAndDisableInstantly();
         }
 
@@ -177,18 +173,18 @@ public class UCEditor extends Renderable {
 
                 if(!items.isEmpty()){
                     UIElement element = items.get(0).makeEditorItem();
-                    ((UCEditor)getTopParent()).addNewEditorItem(element);
+                    ((UCEditor)getTopParent()).itemTree.addItem(element, element.getComponent(UCEditorComponent.class).elementData, items.get(0));
 
                     UIElementData elementData = element.getComponent(UCEditorComponent.class).elementData;
 
                     ((UCEditor)getTopParent()).properties.hideAll();
                     ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();
-                    ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData.getEditableProperties());
+                    ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData);
 
                     element.addOnLeftClickEvent(() -> {
                         ((UCEditor)getTopParent()).properties.hideAll();
                         ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();
-                        ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData.getEditableProperties());
+                        ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData);
                     });
                 }
             }

@@ -75,7 +75,7 @@ public class PropertyEditor extends UIElement {
 
         for(String category : propertiesByCategory.keySet()){
             if(!categories.containsKey(category)){
-                categories.put(category, new PropertyGroup(category));
+                categories.put(category, makePropertyGroup(category));
                 addChildNCS(categories.get(category));
             }
             categories.get(category).propertyList.updateItems(propertiesByCategory.get(category));
@@ -84,10 +84,14 @@ public class PropertyEditor extends UIElement {
         propertyList.updateItems(new ArrayList<>(categories.values()));
     }
 
+    protected PropertyGroup makePropertyGroup(String category){
+        return new PropertyGroup(category);
+    }
+
     //region Child Elements
 
     public static class PropertyGroup extends VerticalCollapsableBox{
-        private VerticalListBox<TProperty<?, ?>> propertyList;
+        protected VerticalListBox<TProperty<?, ?>> propertyList;
 
         public PropertyGroup(String categoryName) {
             super(categoryName, Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
