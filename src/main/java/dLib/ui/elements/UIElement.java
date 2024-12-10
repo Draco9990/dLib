@@ -1448,12 +1448,8 @@ public class UIElement {
         return getChildUnscrolledBoundsRecursive(null);
     }
     private Bounds getChildUnscrolledBoundsRecursive(Bounds bounds){
-        /*if(this instanceof ItemBox && getWidthRaw() instanceof AutoDimension && getHeightRaw() instanceof AutoDimension){
-            return bounds;
-        }*/
-
         for(UIElementChild child : children){
-            if(!(child.element.isActiveNoOverlapCheck()) && !(this instanceof ItemBox)){
+            if(!(child.element.isActiveNoOverlapCheck())){
                 continue;
             }
 
