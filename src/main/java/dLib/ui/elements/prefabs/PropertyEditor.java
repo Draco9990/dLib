@@ -48,6 +48,12 @@ public class PropertyEditor extends UIElement {
         addChildNCS(elementList);
     }
 
+    public void clearProperties(){
+        properties.clear();
+        categories.clear();
+        loadProperties();
+    }
+
     public PropertyEditor setProperties(ArrayList<TProperty<?, ?>> properties){
         this.properties = properties;
         loadProperties();
@@ -94,7 +100,7 @@ public class PropertyEditor extends UIElement {
                 propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
                     @Override
                     public UIElement makeUIForItem(TProperty<?, ?> item) {
-                        return item.makePropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill())
+                        return item.makePropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50))
                                 .setOnPropertyHoveredConsumer(property -> {
                                     if(getDescriptionBox() != null){
                                         getDescriptionBox().setText(((TProperty<?, ?>)property).getDescription());

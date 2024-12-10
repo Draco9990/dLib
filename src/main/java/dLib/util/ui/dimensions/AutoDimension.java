@@ -1,6 +1,7 @@
 package dLib.util.ui.dimensions;
 
 import dLib.ui.elements.UIElement;
+import dLib.util.Bounds;
 
 public class AutoDimension extends AbstractDimension {
     public AutoDimension(){
@@ -32,20 +33,9 @@ public class AutoDimension extends AbstractDimension {
 
     @Override
     public int getHeight(UIElement self) {
-        int topmostY = Integer.MAX_VALUE;
-        int bottommostY = Integer.MIN_VALUE;
+        Bounds childBounds = self.getChildBounds();
 
-        for(UIElement child : self.getChildren()){
-            int childY = child.getLocalPositionY();
-            if(childY < topmostY){
-                topmostY = childY;
-            }
-            if(childY + child.getHeight() > bottommostY){
-                bottommostY = childY + child.getHeight();
-            }
-        }
-
-        return topmostY - bottommostY;
+        return childBounds.top - childBounds.bottom;
     }
 
     @Override

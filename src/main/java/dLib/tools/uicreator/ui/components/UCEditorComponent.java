@@ -10,7 +10,7 @@ import dLib.ui.elements.components.UIElementComponent;
 
 public class UCEditorComponent extends UIElementComponent<UIElement> {
 
-    private UIElement.UIElementData elementData;
+    public UIElement.UIElementData elementData;
 
     private boolean hoveredInHierarchy = false;
 

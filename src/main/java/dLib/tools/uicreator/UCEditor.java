@@ -25,6 +25,7 @@ public class UCEditor extends Renderable {
 
     public UC_EditorToolbar toolbar;
     public UC_EditorProperties properties;
+
     public UC_EditorMainScreen mainScreen;
 
     private UCERootElement rootElement;
@@ -88,6 +89,7 @@ public class UCEditor extends Renderable {
                     TextButton toolboxButton = new TextButton("Toolbox", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
                     toolboxButton.addOnLeftClickEvent(() -> {
                         getProperties().hideAll();
+                        getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
                     });
                     toolboxButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
@@ -96,15 +98,12 @@ public class UCEditor extends Renderable {
                     TextButton elementListButton = new TextButton("Element List", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
                     elementListButton.addOnLeftClickEvent(() -> {
                         getProperties().hideAll();
+                        getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().hierarchyViewer.showAndEnableInstantly();
                         getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).rootElement);
                     });
                     elementListButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
                     propertiesOptions.addItem(elementListButton);
-
-                    TextButton propertiesButton = new TextButton("Properties", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
-                    propertiesButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
-                    propertiesOptions.addItem(propertiesButton);
                 }
                 toolbar.addItem(propertiesOptions);
             }
@@ -120,25 +119,33 @@ public class UCEditor extends Renderable {
     private static class UC_EditorProperties extends Renderable{
         public UC_EP_Toolbox toolbox;
         public UCEHierarchyViewer hierarchyViewer;
+        public Scrollbox toolbarPropertiesScrollbox;
+
+        public PropertyEditor propertyEditor;
 
         public UC_EditorProperties() {
             super(UITheme.whitePixel, Dim.fill(), Dim.fill());
             setRenderColor(DARK_GRAY);
 
-            Scrollbox propertiesScrollbox = new Scrollbox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+            toolbarPropertiesScrollbox = new Scrollbox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
             {
-                propertiesScrollbox.addChildNCS(toolbox = new UC_EP_Toolbox());
+                toolbarPropertiesScrollbox.addChildNCS(toolbox = new UC_EP_Toolbox());
 
-                propertiesScrollbox.addChildNCS(hierarchyViewer = new UCEHierarchyViewer());
+                toolbarPropertiesScrollbox.addChildNCS(hierarchyViewer = new UCEHierarchyViewer());
                 hierarchyViewer.hideAndDisableInstantly();
             }
-            propertiesScrollbox.setIsHorizontal(false);
-            addChildNCS(propertiesScrollbox);
+            toolbarPropertiesScrollbox.setIsHorizontal(false);
+            addChildNCS(toolbarPropertiesScrollbox);
+
+            addChildNCS(propertyEditor = new PropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            propertyEditor.hideAndDisableInstantly();
         }
 
         public void hideAll(){
+            toolbarPropertiesScrollbox.hideAndDisableInstantly();
             toolbox.hideAndDisableInstantly();
             hierarchyViewer.hideAndDisableInstantly();
+            propertyEditor.hideAndDisableInstantly();
         }
 
         //region Subclasses
@@ -164,7 +171,20 @@ public class UCEditor extends Renderable {
                 super.onItemSelectionChanged(items);
 
                 if(!items.isEmpty()){
-                    ((UCEditor)getTopParent()).addNewEditorItem(items.get(0).makeEditorItem());
+                    UIElement element = items.get(0).makeEditorItem();
+                    ((UCEditor)getTopParent()).addNewEditorItem(element);
+
+                    UIElementData elementData = element.getComponent(UCEditorComponent.class).elementData;
+
+                    ((UCEditor)getTopParent()).properties.hideAll();
+                    ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();
+                    ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData.getEditableProperties());
+
+                    element.addOnLeftClickEvent(() -> {
+                        ((UCEditor)getTopParent()).properties.hideAll();
+                        ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();
+                        ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData.getEditableProperties());
+                    });
                 }
             }
         }

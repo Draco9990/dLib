@@ -761,6 +761,8 @@ public class UIElement {
         localPosYCache = null;
         worldPosXCache = null;
         worldPosYCache = null;
+        widthCache = null;
+        heightCache = null;
 
         for(Consumer<UIElement> consumer : positionChangedConsumers) consumer.accept(this);
 
@@ -776,6 +778,9 @@ public class UIElement {
     protected void onParentPositionChanged(){
         worldPosXCache = null;
         worldPosYCache = null;
+
+        widthCache = null;
+        heightCache = null;
 
         for(UIElementChild child : children){
             child.element.onParentPositionChanged();
@@ -1314,17 +1319,20 @@ public class UIElement {
         }
     }
 
-    public void onParentDimensionsChanged(){}
+    public void onParentDimensionsChanged(){
+        widthCache = null;
+        heightCache = null;
+    }
 
     public int getWidth(){
-        if(widthCache == null){
+        if(widthCache == null || widthCache <= 0){
             widthCache = width.getWidth(this) - getPaddingRight();
         }
 
         return widthCache;
     }
     public int getHeight(){
-        if(heightCache == null){
+        if(heightCache == null || heightCache <= 0){
             heightCache = height.getHeight(this) - getPaddingTop();
         }
 
@@ -1384,8 +1392,6 @@ public class UIElement {
     //region Bounds Methods
 
     public Bounds getBounds(){
-        int worldPosX = getWorldPositionX();
-        int worldPosY = getWorldPositionY();
         return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
     }
 
@@ -1406,7 +1412,7 @@ public class UIElement {
     }
     private Bounds getChildBoundsRecursive(Bounds bounds){
         for(UIElementChild child : children){
-            Bounds childBounds = getBounds();
+            Bounds childBounds = child.element.getBounds();
             if(bounds == null){
                 bounds = childBounds;
             }
@@ -1431,7 +1437,7 @@ public class UIElement {
                 continue;
             }
 
-            Bounds childBounds = getBoundsUnscrolled();
+            Bounds childBounds = child.element.getBoundsUnscrolled();
             if(bounds == null){
                 bounds = childBounds;
             }
