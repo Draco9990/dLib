@@ -71,6 +71,9 @@ public class UIElement {
     private boolean boundWithinParent = false;
     private boolean borderToBorderBound = false;
 
+    private Bounds calculatedBoundsCache = null;
+    private Bounds calculatedUnscrolledBoundsCache = null;
+
     private AbstractPadding paddingLeft = Padd.px(0);
     private AbstractPadding paddingBottom = Padd.px(0);
     private AbstractPadding paddingRight = Padd.px(0);
@@ -80,6 +83,9 @@ public class UIElement {
 
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
+
+    private Boolean isVisibleCache = null;
+    private Boolean isEnabledCache = null;
 
     private Color darkenedColor = Color.BLACK;
     private float darkenedColorMultiplier = 0.4f;
@@ -1156,6 +1162,12 @@ public class UIElement {
 
         widthCache = null;
         heightCache = null;
+
+        isVisibleCache = null;
+        isEnabledCache = null;
+
+        calculatedBoundsCache = null;
+        calculatedUnscrolledBoundsCache = null;
     }
 
     private void invalidateCachesForElementTree(){
@@ -1218,8 +1230,16 @@ public class UIElement {
         invalidateCachesForElementTree();
     }
     public boolean isVisible(){
-        if(hasParent() && !parent.isVisible()) return false;
-        return isVisible && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
+        if(isVisibleCache == null){
+            if(hasParent() && !parent.isVisible()){
+                isVisibleCache = false;
+            }
+            else{
+                isVisibleCache = isVisible && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
+            }
+        }
+
+        return isVisibleCache;
     }
     public boolean isVisibleNoOverlapCheck(){
         if(hasParent() && !parent.isVisibleNoOverlapCheck()) return false;
@@ -1240,8 +1260,16 @@ public class UIElement {
         isEnabled = enabled;
     }
     public boolean isEnabled(){
-        if(hasParent() && !parent.isEnabled()) return false;
-        return isEnabled && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
+        if(isEnabledCache == null){
+            if(hasParent() && !parent.isEnabled()){
+                isEnabledCache = false;
+            }
+            else{
+                isEnabledCache = isEnabled && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
+            }
+        }
+
+        return isEnabledCache;
     }
 
     public boolean isEnabledNoOverlapCheck(){
@@ -1429,12 +1457,23 @@ public class UIElement {
     //region Bounds Methods
 
     public Bounds getBounds(){
-        return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
+        if(calculatedBoundsCache == null){
+            calculatedBoundsCache = new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
+        }
+
+        return calculatedBoundsCache;
     }
 
     public Bounds getBoundsUnscrolled(){
-        if(!hasParent()) return getBounds();
-        return new Bounds(getWorldPositionX() - parent.getTotalLocalChildOffsetX(), getWorldPositionY() - parent.getTotalLocalChildOffsetY(), getWorldPositionX() - parent.getTotalLocalChildOffsetX() + getWidth(), getWorldPositionY() - parent.getTotalLocalChildOffsetY() + getHeight());
+        if(!hasParent()) {
+            return getBounds();
+        }
+
+        if(calculatedUnscrolledBoundsCache == null){
+            calculatedUnscrolledBoundsCache = new Bounds(getWorldPositionX() - parent.getTotalLocalChildOffsetX(), getWorldPositionY() - parent.getTotalLocalChildOffsetY(), getWorldPositionX() - parent.getTotalLocalChildOffsetX() + getWidth(), getWorldPositionY() - parent.getTotalLocalChildOffsetY() + getHeight());
+        }
+
+        return calculatedUnscrolledBoundsCache;
     }
 
     public boolean overlapsParent(){
