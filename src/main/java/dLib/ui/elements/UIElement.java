@@ -1314,6 +1314,9 @@ public class UIElement {
         widthCache = null;
         heightCache = null;
 
+        worldPosXCache = null;
+        worldPosYCache = null;
+
         for(UIElementChild child : children){
             child.element.onParentDimensionsChanged();
         }
@@ -1322,6 +1325,9 @@ public class UIElement {
     public void onParentDimensionsChanged(){
         widthCache = null;
         heightCache = null;
+
+        worldPosXCache = null;
+        worldPosYCache = null;
     }
 
     public int getWidth(){

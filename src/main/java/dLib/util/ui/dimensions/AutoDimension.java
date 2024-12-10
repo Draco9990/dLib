@@ -33,9 +33,16 @@ public class AutoDimension extends AbstractDimension {
 
     @Override
     public int getHeight(UIElement self) {
-        Bounds childBounds = self.getChildBounds();
+        try
+        {
+            Bounds childBounds = self.getChildBounds();
+            return childBounds.top - childBounds.bottom;
+        }catch (StackOverflowError e)
+        {
+            System.out.println("StackOverflowError");
+        }
 
-        return childBounds.top - childBounds.bottom;
+        return 0;
     }
 
     @Override

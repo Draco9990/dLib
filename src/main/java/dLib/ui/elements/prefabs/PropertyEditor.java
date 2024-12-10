@@ -85,45 +85,37 @@ public class PropertyEditor extends UIElement {
 
     //region Child Elements
 
-    public static class PropertyGroup extends UIElement{
-        private TextBox titleBox;
+    public static class PropertyGroup extends VerticalCollapsableBox{
         private VerticalListBox<TProperty<?, ?>> propertyList;
 
         public PropertyGroup(String categoryName) {
-            super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+            super(categoryName, Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
 
-            VerticalBox elementBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-            {
-                titleBox = new TextBox(categoryName, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                elementBox.addItem(titleBox);
+            propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
+                @Override
+                public UIElement makeUIForItem(TProperty<?, ?> item) {
+                    return item.makePropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), getParentOfType(PropertyEditor.class).shouldBuildMultiline())
+                            .setOnPropertyHoveredConsumer(property -> {
+                                if(getDescriptionBox() != null){
+                                    getDescriptionBox().setText(((TProperty<?, ?>)property).getDescription());
+                                }
+                            })
+                            .setOnPropertyUnhoveredConsumer(property -> {
+                                if(getDescriptionBox() != null){
+                                    getDescriptionBox().setText("");
+                                }
+                            });
+                }
+            };
+            propertyList.setItemSpacing(10);
+            propertyList.setSelectionMode(ESelectionMode.NONE);
+            propertyList.disableItemWrapping();
 
-                propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
-                    @Override
-                    public UIElement makeUIForItem(TProperty<?, ?> item) {
-                        return item.makePropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), getParentOfType(PropertyEditor.class).shouldBuildMultiline())
-                                .setOnPropertyHoveredConsumer(property -> {
-                                    if(getDescriptionBox() != null){
-                                        getDescriptionBox().setText(((TProperty<?, ?>)property).getDescription());
-                                    }
-                                })
-                                .setOnPropertyUnhoveredConsumer(property -> {
-                                    if(getDescriptionBox() != null){
-                                        getDescriptionBox().setText("");
-                                    }
-                                });
-                    }
-                };
-                propertyList.setItemSpacing(10);
-                propertyList.setSelectionMode(ESelectionMode.NONE);
-                propertyList.disableItemWrapping();
+            BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).loadProperties());
 
-                BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).loadProperties());
-
-                propertyList.addOnPropertyAddedConsumer(property -> property.addOnValueChangedListener(updateProperties));
-                propertyList.addOnPropertyRemovedConsumer(property -> property.removeOnValueChangedListener(updateProperties));
-                elementBox.addItem(propertyList);
-            }
-            addChildNCS(elementBox);
+            propertyList.addOnPropertyAddedConsumer(property -> property.addOnValueChangedListener(updateProperties));
+            propertyList.addOnPropertyRemovedConsumer(property -> property.removeOnValueChangedListener(updateProperties));
+            addItem(propertyList);
         }
 
         public TextBox getDescriptionBox() {

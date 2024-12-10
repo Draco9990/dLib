@@ -6,6 +6,7 @@ import dLib.ui.elements.prefabs.HorizontalListBox;
 import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.elements.prefabs.VerticalGridBox;
 import dLib.ui.elements.prefabs.VerticalListBox;
+import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
 public class StaticPosition extends AbstractPosition {
