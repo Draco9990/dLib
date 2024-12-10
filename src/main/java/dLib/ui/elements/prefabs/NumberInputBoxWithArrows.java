@@ -17,16 +17,16 @@ public class NumberInputBoxWithArrows extends UIElement {
     private TNumericProperty<?, ?> linkedProperty;
 
     public NumberInputBoxWithArrows(AbstractDimension width, AbstractDimension height, ENumberType type) {
-        this(Pos.perc(0), Pos.perc(0), width, height, type);
+        this(Pos.px(0), Pos.px(0), width, height, type);
     }
     public NumberInputBoxWithArrows(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, ENumberType type) {
         super(xPos, yPos, width, height);
 
-        leftArrow = new Button(Pos.perc(0), Pos.perc(0), Dim.height(), Dim.fill());
+        leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
         leftArrow.setImage(UIThemeManager.getDefaultTheme().arrow_left);
         addChildNCS(leftArrow);
 
-        inputbox = new Inputfield("", Pos.perc(0.25), Pos.perc(0), Dim.fill(), Dim.fill());
+        inputbox = new Inputfield("", Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
         if(type == ENumberType.WHOLE){
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
         }
@@ -35,7 +35,7 @@ public class NumberInputBoxWithArrows extends UIElement {
         }
         addChildNCS(inputbox);
 
-        rightArrow = new Button(Pos.perc(0.75), Pos.perc(0), Dim.height(), Dim.fill());
+        rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
         rightArrow.setImage(UIThemeManager.getDefaultTheme().arrow_right);
         addChildNCS(rightArrow);
     }

@@ -39,13 +39,13 @@ public class ScreenEditorBaseScreen extends UIElement {
     //region Constructors
 
     public ScreenEditorBaseScreen(String editingClass){
-        super(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+        super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         initialize(editingClass);
 
         preview.makeNewPreviewItem(BackgroundScreenEditorItem.class).setID("Background");
     }
     public ScreenEditorBaseScreen(GeneratedAbstractScreen.GeneratedScreenData initialData){
-        super(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+        super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         initialize(initialData.screenClass);
 
         /*for(ScreenEditorItem item : initialData.getEditorItems()){

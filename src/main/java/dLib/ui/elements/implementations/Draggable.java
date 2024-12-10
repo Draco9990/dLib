@@ -28,7 +28,7 @@ public class Draggable extends Interactable{
         this(image, xPos, yPos, Dim.fill(), Dim.fill());
     }
     public Draggable(Texture image, AbstractDimension width, AbstractDimension height) {
-        this(image, Pos.perc(0), Pos.perc(0), width, height);
+        this(image, Pos.px(0), Pos.px(0), width, height);
     }
     public Draggable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);

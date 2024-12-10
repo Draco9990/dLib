@@ -21,8 +21,8 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
 
     //region Constructors
 
-    public AlignmentPropertyEditor(TAlignmentProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        super(setting, xPos, yPos, width, height);
+    public AlignmentPropertyEditor(TAlignmentProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
+        super(setting, xPos, yPos, width, multiline);
     }
 
     //endregion

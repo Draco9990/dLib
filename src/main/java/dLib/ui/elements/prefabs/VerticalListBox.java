@@ -21,7 +21,7 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
         this(xPos, yPos, Dim.fill(), Dim.fill());
     }
     public VerticalListBox(AbstractDimension width, AbstractDimension height){
-        this(Pos.perc(0), Pos.perc(0), width, height);
+        this(Pos.px(0), Pos.px(0), width, height);
     }
     public VerticalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);

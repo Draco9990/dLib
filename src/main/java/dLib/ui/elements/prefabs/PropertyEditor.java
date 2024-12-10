@@ -26,16 +26,16 @@ public class PropertyEditor extends UIElement {
     public PropertyEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
-        VerticalBox elementList = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+        VerticalBox elementList = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
-            Scrollbox propertyListScrollbox = new Scrollbox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.perc(0.8));
+            Scrollbox propertyListScrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.8));
             {
-                propertyListScrollbox.addChildNCS(propertyList = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()));
+                propertyListScrollbox.addChildNCS(propertyList = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
             }
             propertyListScrollbox.setIsHorizontal(false);
             elementList.addItem(propertyListScrollbox);
 
-            descriptionBox = new TextBox("", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.perc(0.2));
+            descriptionBox = new TextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.2));
             descriptionBox.setWrap(true);
             descriptionBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
             descriptionBox.setMaxFontScale(0.8f);
@@ -90,9 +90,9 @@ public class PropertyEditor extends UIElement {
         private VerticalListBox<TProperty<?, ?>> propertyList;
 
         public PropertyGroup(String categoryName) {
-            super(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+            super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
-            VerticalBox elementBox = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+            VerticalBox elementBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
                 titleBox = new TextBox(categoryName, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                 elementBox.addItem(titleBox);
@@ -100,7 +100,7 @@ public class PropertyEditor extends UIElement {
                 propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
                     @Override
                     public UIElement makeUIForItem(TProperty<?, ?> item) {
-                        return item.makePropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50))
+                        return item.makePropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), getParentOfType(PropertyEditor.class).shouldBuildMultiline())
                                 .setOnPropertyHoveredConsumer(property -> {
                                     if(getDescriptionBox() != null){
                                         getDescriptionBox().setText(((TProperty<?, ?>)property).getDescription());
@@ -129,6 +129,10 @@ public class PropertyEditor extends UIElement {
         public TextBox getDescriptionBox() {
             return (getParentOfType(PropertyEditor.class)).descriptionBox;
         }
+    }
+
+    public boolean shouldBuildMultiline(){
+        return false;
     }
 
     //endregion

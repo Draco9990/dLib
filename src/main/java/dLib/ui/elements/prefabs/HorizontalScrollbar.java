@@ -51,7 +51,7 @@ public class HorizontalScrollbar extends Scrollbar {
 
     @Override
     protected Interactable buildSlider() {
-        Button slider = new Button(Pos.perc(0), Pos.px((int) (5 * 1.29f)), Dim.px(60), Dim.perc(0.7762));
+        Button slider = new Button(Pos.px(0), Pos.px((int) (5 * 1.29f)), Dim.px(60), Dim.perc(0.7762));
         {
             slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_horizontal_train);
             slider.setBoundWithinParent(true);

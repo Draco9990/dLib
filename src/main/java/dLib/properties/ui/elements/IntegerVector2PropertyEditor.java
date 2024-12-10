@@ -1,7 +1,5 @@
 package dLib.properties.ui.elements;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
@@ -25,8 +23,8 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntege
 
     //region Constructors
 
-    public IntegerVector2PropertyEditor(TIntegerVector2Property setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        super(setting, xPos, yPos, width, height);
+    public IntegerVector2PropertyEditor(TIntegerVector2Property setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
+        super(setting, xPos, yPos, width, multiline);
     }
 
     //endregion

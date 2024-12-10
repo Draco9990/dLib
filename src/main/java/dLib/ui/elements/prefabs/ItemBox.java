@@ -56,6 +56,11 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
     public ItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(UIThemeManager.getDefaultTheme().listbox, xPos, yPos, width, height);
+
+        Color bgColor = Color.BLACK.cpy();
+        bgColor.a = 0.4f;
+
+        setRenderColor(bgColor);
     }
 
     public ItemBox(ItemBoxData data){

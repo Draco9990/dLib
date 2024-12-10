@@ -17,20 +17,20 @@ public class EnumBoxWithArrows extends UIElement {
     private TEnumProperty<?, ?> linkedProperty;
 
     public EnumBoxWithArrows(AbstractDimension width, AbstractDimension height) {
-        this(Pos.perc(0), Pos.perc(0), width, height);
+        this(Pos.px(0), Pos.px(0), width, height);
     }
     public EnumBoxWithArrows(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
-        leftArrow = new Button(Pos.perc(0), Pos.perc(0), Dim.perc(0.25), Dim.fill());
+        leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.perc(0.25), Dim.fill());
         leftArrow.setImage(UIThemeManager.getDefaultTheme().arrow_left);
         addChildNCS(leftArrow);
 
-        enumBox = new TextButton("", Pos.perc(0.25), Pos.perc(0), Dim.fill(), Dim.fill());
+        enumBox = new TextButton("", Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
         enumBox.getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);
         addChildNCS(enumBox);
 
-        rightArrow = new Button(Pos.perc(0.75), Pos.perc(0), Dim.height(), Dim.fill());
+        rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
         rightArrow.setImage(UIThemeManager.getDefaultTheme().arrow_right);
         addChildNCS(rightArrow);
     }

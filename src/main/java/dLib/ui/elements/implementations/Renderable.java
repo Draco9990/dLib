@@ -37,13 +37,13 @@ public class Renderable extends UIElement {
     //region Constructors
 
     public Renderable(Texture image){
-        this(image, Pos.perc(0), Pos.perc(0));
+        this(image, Pos.px(0), Pos.px(0));
     }
     public Renderable(Texture image, AbstractPosition xPos, AbstractPosition yPos){
         this(image, xPos, yPos, Dim.px(image.getWidth()), Dim.px(image.getHeight()));
     }
     public Renderable(Texture image, AbstractDimension width, AbstractDimension height){
-        this(image, Pos.perc(0), Pos.perc(0), width, height);
+        this(image, Pos.px(0), Pos.px(0), width, height);
     }
     public Renderable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);

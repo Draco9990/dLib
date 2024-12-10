@@ -31,12 +31,12 @@ public class UCEditor extends Renderable {
     private UCERootElement rootElement;
 
     public UCEditor(){
-        super(UITheme.whitePixel, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+        super(UITheme.whitePixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         setRenderColor(LIGHT_GRAY);
 
-        HorizontalBox mainBox = new HorizontalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+        HorizontalBox mainBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
-            VerticalBox firstColumn = new VerticalBox(Pos.perc(0), Pos.px(0), Dim.px(1536), Dim.fill());
+            VerticalBox firstColumn = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(1536), Dim.fill());
             {
                 firstColumn.addItem(toolbar = new UC_EditorToolbar());
                 firstColumn.addItem(new Spacer(Dim.fill(), Dim.px(10)));
@@ -75,7 +75,7 @@ public class UCEditor extends Renderable {
             super(UITheme.whitePixel, Dim.perc(100), Dim.fill());
             setRenderColor(DARK_GRAY);
 
-            HorizontalBox toolbar = new HorizontalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+            HorizontalBox toolbar = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
                 toolbar.addItem(new Spacer(Dim.px(200), Dim.fill()));
                 toolbar.addItem(new Spacer(Dim.px(10), Dim.fill()));
@@ -86,7 +86,7 @@ public class UCEditor extends Renderable {
                 propertiesOptions.setItemSpacing(10);
                 propertiesOptions.disableItemWrapping();
                 {
-                    TextButton toolboxButton = new TextButton("Toolbox", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
+                    TextButton toolboxButton = new TextButton("Toolbox", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     toolboxButton.addOnLeftClickEvent(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
@@ -95,7 +95,7 @@ public class UCEditor extends Renderable {
                     toolboxButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
                     propertiesOptions.addItem(toolboxButton);
 
-                    TextButton elementListButton = new TextButton("Element List", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.px(30));
+                    TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     elementListButton.addOnLeftClickEvent(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
@@ -127,7 +127,7 @@ public class UCEditor extends Renderable {
             super(UITheme.whitePixel, Dim.fill(), Dim.fill());
             setRenderColor(DARK_GRAY);
 
-            toolbarPropertiesScrollbox = new Scrollbox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill());
+            toolbarPropertiesScrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
                 toolbarPropertiesScrollbox.addChildNCS(toolbox = new UC_EP_Toolbox());
 
@@ -137,7 +137,12 @@ public class UCEditor extends Renderable {
             toolbarPropertiesScrollbox.setIsHorizontal(false);
             addChildNCS(toolbarPropertiesScrollbox);
 
-            addChildNCS(propertyEditor = new PropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            addChildNCS(propertyEditor = new PropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
+                @Override
+                public boolean shouldBuildMultiline() {
+                    return true;
+                }
+            });
             propertyEditor.hideAndDisableInstantly();
         }
 

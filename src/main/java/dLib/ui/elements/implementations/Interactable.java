@@ -27,7 +27,7 @@ public class Interactable extends Renderable{
     private Color disabledColor = Color.WHITE;
     private float disabledColorMultiplier = 0.25f;
 
-    private String onHoverSoundKey = "UI_HOVER_1";
+    private String onHoverSoundKey = "UI_HOVER";
     private String onTriggerSoundKey = "UI_CLICK_1";
     private String onHoldSoundKey;
 
@@ -49,8 +49,6 @@ public class Interactable extends Renderable{
     }
     public Interactable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(image, xPos, yPos, width, height);
-
-        setPassthrough(true);
     }
 
     public Interactable(InteractableData data){

@@ -21,7 +21,7 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
         this(xPos, yPos, Dim.fill(), Dim.fill());
     }
     public HorizontalListBox(AbstractDimension width, AbstractDimension height){
-        this(Pos.perc(0), Pos.perc(0), width, height);
+        this(Pos.px(0), Pos.px(0), width, height);
     }
     public HorizontalListBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);

@@ -142,12 +142,12 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
         return (PropertyType) this;
     }
 
-    public <PropertyEditorClass extends AbstractPropertyEditor> PropertyEditorClass makePropertyEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
+    public <PropertyEditorClass extends AbstractPropertyEditor> PropertyEditorClass makePropertyEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
         try{
             if(propertyEditorClass.getConstructors().length == 0) return null;
 
             Constructor propertyMaker = propertyEditorClass.getConstructors()[0];
-            return (PropertyEditorClass) propertyMaker.newInstance(this, xPos, yPos, width, height);
+            return (PropertyEditorClass) propertyMaker.newInstance(this, xPos, yPos, width, multiline);
         }catch (Exception e){
             DLibLogger.logError("Failed to make a property editor due to " + e.getLocalizedMessage());
             e.printStackTrace();

@@ -12,8 +12,8 @@ public class OnValueChangedStringPropertyEditor extends StringPropertyEditor{
 
     //region Constructors
 
-    public OnValueChangedStringPropertyEditor(TStringProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        super(setting, xPos, yPos, width, height);
+    public OnValueChangedStringPropertyEditor(TStringProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
+        super(setting, xPos, yPos, width, multiline);
     }
 
     //endregion

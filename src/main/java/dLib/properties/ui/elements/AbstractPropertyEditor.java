@@ -28,24 +28,24 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     //region Constructors
 
-    public AbstractPropertyEditor(PropertyType property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(xPos, yPos, width, height);
+    public AbstractPropertyEditor(PropertyType property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
+        super(xPos, yPos, width, Dim.auto());
 
         this.property = property;
-        buildElement(property);
+        buildElement(property, multiline);
     }
 
     //endregion
 
     //region Methods
 
-    protected void buildElement(PropertyType property){
+    protected void buildElement(PropertyType property, boolean shouldMultiline){
         if(ui != null){
             removeChild(ui);
             ui = null;
         }
 
-        if(false){ //TODO add as parameter to build multiline or not
+        if(canDisplayMultiline() && shouldMultiline){ //TODO add as parameter to build multiline or not
             buildMultiline(property);
         }
         else{
@@ -55,7 +55,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     private void buildMultiline(PropertyType property){
         //TODO padding on left and right side
-        VerticalBox vBox = new VerticalBox(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()){
+        VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(100)){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
@@ -84,7 +84,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     private void buildSingleLine(PropertyType property){
         //TODO padding on left and right side
-        HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.perc(0), Dim.fill(), Dim.fill()){
+        HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.px(0), Dim.fill(), Dim.px(50)){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
@@ -112,7 +112,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
     }
 
     protected UIElement buildTitle(PropertyType property, AbstractDimension width, AbstractDimension height){
-        return new TextBox(property.getName(), Pos.perc(0), Pos.perc(0), width, height).setTextRenderColor(Color.WHITE).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        return new TextBox(property.getName(), Pos.px(0), Pos.px(0), width, height).setTextRenderColor(Color.WHITE).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
     }
 
     protected abstract UIElement buildContent(PropertyType property, AbstractDimension width, AbstractDimension height);

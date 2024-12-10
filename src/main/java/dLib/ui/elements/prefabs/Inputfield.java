@@ -61,15 +61,15 @@ public class Inputfield extends UIElement {
 
         preInitialize();
 
-        this.background = new Button(Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()).setImage(UIThemeManager.getDefaultTheme().inputfield);
+        this.background = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setImage(UIThemeManager.getDefaultTheme().inputfield);
         addChildNCS(this.background);
 
-        this.textBox = (TextBox) new TextBox(initialValue, Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        this.textBox = (TextBox) new TextBox(initialValue, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         textBox.setPaddingLeft(Padd.px(20));
         addChildNCS(textBox);
 
-        this.previewTextBox = (TextBox) new TextBox("", Pos.perc(0), Pos.perc(0), Dim.fill(), Dim.fill()){
+        this.previewTextBox = (TextBox) new TextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
             @Override
             protected boolean shouldRender() {
                 return super.shouldRender() && textBox.getText().isEmpty();

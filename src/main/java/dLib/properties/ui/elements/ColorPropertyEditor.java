@@ -7,7 +7,6 @@ import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
 import dLib.properties.objects.templates.TColorProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
-import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -20,8 +19,8 @@ public class ColorPropertyEditor extends AbstractPropertyEditor<TColorProperty<?
 
     //region Constructors
 
-    public ColorPropertyEditor(TColorProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(setting, xPos, yPos, width, height);
+    public ColorPropertyEditor(TColorProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
+        super(setting, xPos, yPos, width, multiline);
     }
 
     //endregion

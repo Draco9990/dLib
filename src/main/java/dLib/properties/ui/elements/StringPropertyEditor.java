@@ -15,8 +15,8 @@ public abstract class StringPropertyEditor extends AbstractPropertyEditor<TStrin
 
     //region Constructors
 
-    public StringPropertyEditor(TStringProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(setting, xPos, yPos, width, height);
+    public StringPropertyEditor(TStringProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
+        super(setting, xPos, yPos, width, multiline);
     }
 
     //endregion

@@ -18,7 +18,7 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
         this(xPos, yPos, Dim.fill(), Dim.fill());
     }
     public HorizontalBox(AbstractDimension width, AbstractDimension height) {
-        this(Pos.perc(0), Pos.perc(0), width, height);
+        this(Pos.px(0), Pos.px(0), width, height);
     }
     public HorizontalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);

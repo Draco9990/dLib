@@ -51,7 +51,7 @@ public class VerticalScrollbar extends Scrollbar {
 
     @Override
     protected Interactable buildSlider() {
-        Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.perc(0), Dim.perc(0.7762), Dim.px(60)){
+        Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.px(0), Dim.perc(0.7762), Dim.px(60)){
             @Override
             public int getLocalPositionX() {
                 int res = super.getLocalPositionX();

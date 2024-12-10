@@ -17,8 +17,8 @@ public class CustomPropertyEditor<PropertyType extends TCustomProperty<ItemType,
 
     //region Constructors
 
-    public CustomPropertyEditor(PropertyType setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(setting, xPos, yPos, width, height);
+    public CustomPropertyEditor(PropertyType setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
+        super(setting, xPos, yPos, width, multiline);
     }
 
     //endregion

@@ -19,8 +19,8 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<TBooleanProper
 
     //region Constructors
 
-    public BooleanPropertyEditor(TBooleanProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(setting, xPos, yPos, width, height);
+    public BooleanPropertyEditor(TBooleanProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
+        super(setting, xPos, yPos, width, multiline);
     }
 
     //endregion

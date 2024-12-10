@@ -2,18 +2,14 @@ package dLib.properties.ui.elements;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
-import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.Spacer;
-import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
-import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.properties.objects.templates.TMethodBindingProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
-import dLib.util.ui.position.Pos;
 
 public class MethodBindingPropertyEditor extends CustomPropertyEditor<TMethodBindingProperty<?>, MethodBinding> {
     //region Variables
@@ -26,8 +22,8 @@ public class MethodBindingPropertyEditor extends CustomPropertyEditor<TMethodBin
 
     //region Constructors
 
-    public MethodBindingPropertyEditor(TMethodBindingProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(setting, xPos, yPos, width, height);
+    public MethodBindingPropertyEditor(TMethodBindingProperty setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
+        super(setting, xPos, yPos, width, multiline);
     }
 
     //endregion
