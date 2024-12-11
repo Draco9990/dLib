@@ -12,10 +12,29 @@ public class TestScreen extends UIElement {
     public TestScreen(){
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
-        Scrollbox scrollbox = new Scrollbox(Pos.px(200), Pos.px(200), Dim.px(400), Dim.px(400));
+        Scrollbox scrollbox = new Scrollbox(Pos.px(200), Pos.px(200), Dim.px(100), Dim.px(600));
         {
-            scrollbox.addChildNCS(new Button(Pos.px(-20), Pos.px(-20), Dim.px(30), Dim.px(30)));
-            scrollbox.addChildNCS(new Button(Pos.px(370), Pos.px(370), Dim.px(30), Dim.px(30)));
+            VerticalBox test;
+            scrollbox.addChildNCS(test = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(500)));
+            {
+                for(int i = 0; i < 100; i++){
+                    test.addItem(new TextButton("Test " + i, Dim.fill(), Dim.px(30)));
+                }
+            }
+            VerticalBox test2;
+            scrollbox.addChildNCS(test2 = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(500)));
+            {
+                for(int i = 100; i < 200; i++){
+                    test2.addItem(new TextButton("Test " + i, Dim.fill(), Dim.px(30)));
+                }
+            }
+            VerticalBox test3;
+            scrollbox.addChildNCS(test3 = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(500)));
+            {
+                for(int i = 2; i < 300; i++){
+                    test3.addItem(new TextButton("Test " + i, Dim.fill(), Dim.px(30)));
+                }
+            }
         }
         addChildNCS(scrollbox);
     }

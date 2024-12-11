@@ -1601,21 +1601,26 @@ public class UIElement {
         return elementMask != null || (hasParent() && parent.hasMaskBounds());
     }
     public Bounds getMaskWorldBounds(){
-        Bounds bounds = null;
+        Bounds currentBounds = null;
 
         UIElement current = this;
         if(current.elementMask != null){
-            return current.elementMask.getWorldBounds();
+            currentBounds = current.elementMask.getWorldBounds();
         }
 
         while(current.hasParent()){
             current = current.getParent();
             if(current.elementMask != null){
-                return current.elementMask.getWorldBounds();
+                if(currentBounds == null){
+                    currentBounds = current.elementMask.getWorldBounds();
+                }
+                else{
+                    currentBounds.clip(current.elementMask.getWorldBounds());
+                }
             }
         }
 
-        return bounds;
+        return currentBounds;
     }
 
     //endregion Masks
