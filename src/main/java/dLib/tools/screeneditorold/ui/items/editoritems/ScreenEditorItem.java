@@ -141,24 +141,9 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     private DataType wrapDataType(DataType elementData){
         //Bind all screen editor specific stuff
         elementData.id.setValue(getId());
-        elementData.id.addOnValueChangedListener(new BiConsumer<String, String>() {
-            @Override
-            public void accept(String s, String s2) {
-                if(!getId().equals(s2)){
-                    setID(s2);
-                }
-            }
-        });
-
         elementData.dimensions.setValue(new IntegerVector2(getWidth(), getHeight()));
-        elementData.dimensions.addOnValueChangedListener((integerVector2, integerVector22) -> {
-            if(!integerVector22.equals(getDimensions())){
-                setDimensions(integerVector22.x, integerVector22.y);
-            }
-        });
 
         for(TProperty<?, ?> property : elementData.getEditableProperties()){
-            property.addOnValueChangedListener((o, o2) -> delayedActions.add(this::remakePreviewElement));
         }
 
         return elementData;

@@ -13,7 +13,7 @@ import dLib.util.ui.position.AbstractPosition;
 
 import java.util.Objects;
 
-public class FloatVector2PropertyEditor extends AbstractPropertyEditor<TFloatVector2Property<?>> {
+public class FloatVector2PropertyEditor extends AbstractPropertyEditor<TFloatVector2Property<TFloatVector2Property>> {
     //region Variables
 
     Inputfield xInput;
@@ -23,7 +23,7 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<TFloatVec
 
     //region Constructors
 
-    public FloatVector2PropertyEditor(TFloatVector2Property setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
+    public FloatVector2PropertyEditor(TFloatVector2Property<TFloatVector2Property> setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
         super(setting, xPos, yPos, width, multiline);
     }
 
@@ -32,7 +32,7 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<TFloatVec
     //region Methods
 
     @Override
-    protected UIElement buildContent(TFloatVector2Property property, AbstractDimension width, AbstractDimension height) {
+    protected UIElement buildContent(TFloatVector2Property<TFloatVector2Property> property, AbstractDimension width, AbstractDimension height) {
         HorizontalBox horizontalBox = new HorizontalBox(width, height);
         {
             if(property.getXValueName() != null) {
@@ -76,7 +76,7 @@ public class FloatVector2PropertyEditor extends AbstractPropertyEditor<TFloatVec
             horizontalBox.addItem(yInput);
         }
 
-        property.addOnValueChangedListener((integerVector2, integerVector22) -> {
+        property.onValueChangedEvent.subscribe(this, (_property, integerVector2, integerVector22) -> {
             TextBox xBox = xInput.getTextBox();
             TextBox yBox = yInput.getTextBox();
 

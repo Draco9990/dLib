@@ -57,5 +57,13 @@ public class GlobalEvents {
                 this.source = source;
             }
         }
+
+        public static class PostElementDestroyEvent{
+            public UIElement source;
+
+            public PostElementDestroyEvent(UIElement source){
+                this.source = source;
+            }
+        }
     }
 }

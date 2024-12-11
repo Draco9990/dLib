@@ -45,7 +45,7 @@ public class ArrayPropertyEditor<PropertyType extends TArrayProperty<ItemType, ?
 
         middleButton.getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);
 
-        property.addOnValueChangedListener((itemType, itemType2) -> middleButton.getTextBox().setText(property.getValueForDisplay()));
+        property.onValueChangedEvent.subscribe(ArrayPropertyEditor.this, (_property, itemType, itemType2) -> middleButton.getTextBox().setText(property.getValueForDisplay()));
 
         return middleButton;
     }

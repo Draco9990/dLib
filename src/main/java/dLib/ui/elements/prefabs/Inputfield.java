@@ -361,12 +361,6 @@ public class Inputfield extends UIElement {
 
         public InputfieldData(){
             buttonData.textureBinding.setValue(new TextureThemeBinding("inputfield"));
-
-            //add children transient property that manages this and below?
-            dimensions.addOnValueChangedListener((integerVector2, integerVector22) -> {
-                buttonData.dimensions.setValue(dimensions.getValue());
-                textboxData.dimensions.setValue(dimensions.getValue());
-            });
         }
 
         @Override

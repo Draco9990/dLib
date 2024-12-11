@@ -39,7 +39,7 @@ public class BooleanPropertyEditor extends AbstractPropertyEditor<TBooleanProper
             }
         }.setToggled(property.getValue());
 
-        property.addOnValueChangedListener((aBoolean, aBoolean2) -> {
+        property.onValueChangedEvent.subscribe(this, (_property, aBoolean, aBoolean2) -> {
             if(button.isToggled() != property.getValue()){
                 button.setToggled(property.getValue());
             }

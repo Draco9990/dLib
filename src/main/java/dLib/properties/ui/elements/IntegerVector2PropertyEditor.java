@@ -13,7 +13,7 @@ import dLib.util.ui.position.AbstractPosition;
 
 import java.util.Objects;
 
-public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntegerVector2Property<?>> {
+public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntegerVector2Property<TIntegerVector2Property>> {
     //region Variables
 
     Inputfield xInput;
@@ -23,7 +23,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntege
 
     //region Constructors
 
-    public IntegerVector2PropertyEditor(TIntegerVector2Property setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
+    public IntegerVector2PropertyEditor(TIntegerVector2Property<TIntegerVector2Property> setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
         super(setting, xPos, yPos, width, multiline);
     }
 
@@ -33,7 +33,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntege
 
 
     @Override
-    protected UIElement buildContent(TIntegerVector2Property property, AbstractDimension width, AbstractDimension height) {
+    protected UIElement buildContent(TIntegerVector2Property<TIntegerVector2Property> property, AbstractDimension width, AbstractDimension height) {
         HorizontalBox horizontalBox = new HorizontalBox(width, height);
         {
             if(property.getXValueName() != null) {
@@ -77,7 +77,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntege
             horizontalBox.addItem(yInput);
         }
 
-        property.addOnValueChangedListener((integerVector2, integerVector22) -> {
+        property.onValueChangedEvent.subscribe(this, (_property, integerVector2, integerVector22) -> {
             TextBox xBox = xInput.getTextBox();
             TextBox yBox = yInput.getTextBox();
 

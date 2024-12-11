@@ -1,11 +1,15 @@
 package dLib.tools.uicreator.ui.elements;
 
+import dLib.properties.objects.templates.TProperty;
 import dLib.tools.uicreator.UCEditor;
 import dLib.ui.elements.prefabs.PropertyEditor;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
+import org.apache.logging.log4j.util.TriConsumer;
 
+import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class UCEPropertyEditor extends PropertyEditor {
     public boolean itemBeingModifiedExternally = false;
@@ -32,10 +36,12 @@ public class UCEPropertyEditor extends PropertyEditor {
     }
 
     public static class UCEPEPropertyGroup extends PropertyGroup{
+        private UUID onValueChangedEventID;
+
         public UCEPEPropertyGroup(String name) {
             super(name);
 
-            BiConsumer refreshElement = (__, ___) -> {
+            TriConsumer refreshElement = (____, __, ___) -> {
                 if(getParentOfType(UCEPropertyEditor.class).itemBeingModifiedExternally){
                     return;
                 }
@@ -46,8 +52,8 @@ public class UCEPropertyEditor extends PropertyEditor {
                 mainEditor.itemTree.refreshItem(editor.currentObject);
             };
 
-            propertyList.addOnPropertyAddedConsumer(property -> property.addOnValueChangedListener(refreshElement));
-            propertyList.addOnPropertyRemovedConsumer(property -> property.removeOnValueChangedListener(refreshElement));
+            propertyList.addOnPropertyAddedConsumer(tProperty -> onValueChangedEventID = tProperty.onValueChangedEvent.subscribeManaged(refreshElement));
+            propertyList.addOnPropertyRemovedConsumer(tProperty -> tProperty.onValueChangedEvent.unsubscribeManaged(onValueChangedEventID));
         }
     }
 }

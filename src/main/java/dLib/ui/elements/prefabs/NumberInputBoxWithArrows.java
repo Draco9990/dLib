@@ -54,7 +54,7 @@ public class NumberInputBoxWithArrows extends UIElement {
 
         inputbox.addOnValueChangedListener(property::setValueFromString);
 
-        property.addOnValueChangedListener((integer, integer2) -> {
+        property.onValueChangedEvent.subscribe(this, (_property, integer, integer2) -> {
             if(!inputbox.getTextBox().getText().equals(property.getValue().toString())){
                 inputbox.getTextBox().setText(property.getValue().toString());
             }

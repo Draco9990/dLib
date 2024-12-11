@@ -2,13 +2,16 @@ package dLib.properties.objects.templates;
 
 import dLib.properties.ui.elements.AbstractPropertyEditor;
 import dLib.util.DLibLogger;
+import dLib.util.UIElementEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
+import org.apache.logging.log4j.util.TriConsumer;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class TProperty<ValueType, PropertyType> implements Serializable {
@@ -26,7 +29,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     protected Class<? extends AbstractPropertyEditor> propertyEditorClass;
 
-    private transient ArrayList<BiConsumer<ValueType, ValueType>> onValueChangedListeners = new ArrayList<>();
+    public transient UIElementEvent<TriConsumer<PropertyType, ValueType, ValueType>> onValueChangedEvent = new UIElementEvent<>();
 
     private transient ArrayList<Function<PropertyType, Boolean>> isPropertyVisibleFunctions = new ArrayList<>();
 
@@ -93,20 +96,12 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     }
 
     public void onValueChanged(ValueType oldValue, ValueType newValue){
-        if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
-        for(BiConsumer<ValueType, ValueType> listener : onValueChangedListeners) listener.accept(oldValue, newValue);
-    }
-
-    public PropertyType addOnValueChangedListener(BiConsumer<ValueType, ValueType> listener){
-        if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
-        onValueChangedListeners.add(listener);
-        return (PropertyType) this;
-    }
-
-    public PropertyType removeOnValueChangedListener(BiConsumer<ValueType, ValueType> listener){
-        if(onValueChangedListeners == null) onValueChangedListeners = new ArrayList<>();
-        onValueChangedListeners.remove(listener);
-        return (PropertyType) this;
+        onValueChangedEvent.invoke(new Consumer<TriConsumer<PropertyType, ValueType, ValueType>>() {
+            @Override
+            public void accept(TriConsumer<PropertyType, ValueType, ValueType> propertyTypeValueTypeValueTypeTriConsumer) {
+                propertyTypeValueTypeValueTypeTriConsumer.accept((PropertyType) this, oldValue, newValue);
+            }
+        });
     }
 
     //endregion

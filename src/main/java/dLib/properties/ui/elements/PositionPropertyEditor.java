@@ -63,7 +63,7 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             yValueChanged.getTextBox().setFontScaleOverride(0.5f);
             horizontalBox.addItem(yValueChanged);
 
-            property.addOnValueChangedListener((oldValue, newValue) -> {
+            property.onValueChangedEvent.subscribe(this, (_property, oldValue, newValue) -> {
                 xValueChanged.setSelectedItem(property.getXPosition());
                 yValueChanged.setSelectedItem(property.getYPosition());
             });
@@ -90,10 +90,10 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
 
 
             if(isXPos){
-                property.addOnValueChangedListener((oldValue, newValue) -> inputfield.getTextBox().setText(String.valueOf(((StaticPosition)newValue.getKey()).getValueRaw())));
+                property.onValueChangedEvent.subscribe(this, (_property, oldValue, newValue) -> inputfield.getTextBox().setText(String.valueOf(((StaticPosition)newValue.getKey()).getValueRaw())));
             }
             else{
-                property.addOnValueChangedListener((oldValue, newValue) -> inputfield.getTextBox().setText(String.valueOf(((StaticPosition)newValue.getValue()).getValueRaw())));
+                property.onValueChangedEvent.subscribe(this, (_property, oldValue, newValue) -> inputfield.getTextBox().setText(String.valueOf(((StaticPosition)newValue.getValue()).getValueRaw())));
             }
 
             return inputfield;

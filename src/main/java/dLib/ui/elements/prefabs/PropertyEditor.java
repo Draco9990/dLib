@@ -10,9 +10,11 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
+import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.UUID;
 import java.util.function.BiConsumer;
 
 public class PropertyEditor extends UIElement {
@@ -93,6 +95,8 @@ public class PropertyEditor extends UIElement {
     public static class PropertyGroup extends VerticalCollapsableBox{
         protected VerticalListBox<TProperty<?, ?>> propertyList;
 
+        private UUID valueChangedEventId;
+
         public PropertyGroup(String categoryName) {
             super(categoryName, Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
 
@@ -116,10 +120,10 @@ public class PropertyEditor extends UIElement {
             propertyList.setSelectionMode(ESelectionMode.NONE);
             propertyList.disableItemWrapping();
 
-            BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).loadProperties());
+            TriConsumer updateProperties = (____, __, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).loadProperties());
 
-            propertyList.addOnPropertyAddedConsumer(property -> property.addOnValueChangedListener(updateProperties));
-            propertyList.addOnPropertyRemovedConsumer(property -> property.removeOnValueChangedListener(updateProperties));
+            propertyList.addOnPropertyAddedConsumer(property -> valueChangedEventId = property.onValueChangedEvent.subscribeManaged(updateProperties));
+            propertyList.addOnPropertyRemovedConsumer(property -> property.onValueChangedEvent.unsubscribeManaged(valueChangedEventId));
             addItem(propertyList);
         }
 
