@@ -1,5 +1,6 @@
 package dLib.tools.uicreator.ui.editoritems.templates;
 
+import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
@@ -29,14 +30,18 @@ public abstract class UCEITemplate {
             editorItem.setLocalPositionY((int) (((StaticPosition) editorItem.getLocalPositionYRaw()).getVal() * 0.8f));
         }
 
-        {
-            UIDraggableComponent draggableComp = editorItem.addComponent(new UIDraggableComponent());
+        UIDraggableComponent draggableComp = editorItem.addComponent(new UIDraggableComponent());
 
-            ElementGroupModifierComponent groupComp = editorItem.addComponent(new ElementGroupModifierComponent(editorItem, "editorItem"));
+        ElementGroupModifierComponent groupComp = editorItem.addComponent(new ElementGroupModifierComponent(editorItem, "editorItem"));
 
-            UCEditorItemComponent editorComp = editorItem.addComponent(new UCEditorItemComponent());
-            //DO stuff with comp
-        }
+        UCEditorItemComponent editorComp = editorItem.addComponent(new UCEditorItemComponent());
+        //DO stuff with comp
+
+        editorItem.addOnLeftClickEvent(() -> {
+            ((UCEditor)editorItem.getTopParent()).properties.hideAll();
+            ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.showAndEnableInstantly();
+            ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.setProperties(elementData);
+        });
         return editorItem;
     }
 

@@ -180,12 +180,6 @@ public class UCEditor extends Renderable {
                     ((UCEditor)getTopParent()).properties.hideAll();
                     ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();
                     ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData);
-
-                    element.addOnLeftClickEvent(() -> {
-                        ((UCEditor)getTopParent()).properties.hideAll();
-                        ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();
-                        ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData);
-                    });
                 }
             }
         }
