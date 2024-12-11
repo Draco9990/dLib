@@ -52,7 +52,7 @@ public class UIElement {
     private AbstractPosition localPosX = Pos.px(0);
     private AbstractPosition localPosY = Pos.px(0);
     private Integer localPosXCache = null;
-    private Integer localPosYCache = null;
+    protected Integer localPosYCache = null;
     private Integer worldPosXCache = null;
     private Integer worldPosYCache = null;
     private HashMap<UUID, Consumer<UIElement>> onPositionChangedEvents = new HashMap<>();
@@ -170,7 +170,7 @@ public class UIElement {
             }
 
             if(this.isContextual()){
-                if(hasParent()){
+                if(!hasParent()){
                     close();
                 }
                 else{

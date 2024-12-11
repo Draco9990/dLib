@@ -126,4 +126,9 @@ public class StaticPosition extends AbstractPosition {
     public String toString() {
         return "Px[" + position + "]";
     }
+
+    @Override
+    public String getSimpleDisplayName() {
+        return "px";
+    }
 }

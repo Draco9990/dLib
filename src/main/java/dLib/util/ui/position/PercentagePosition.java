@@ -93,4 +93,9 @@ public class PercentagePosition extends AbstractPosition {
     public String toString() {
         return "%[" + percentage + "]";
     }
+
+    @Override
+    public String getSimpleDisplayName() {
+        return "%";
+    }
 }

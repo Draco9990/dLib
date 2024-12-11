@@ -23,6 +23,14 @@ public class TPositionProperty<PropertyType> extends TProperty<Pair<AbstractPosi
         return getValue().getValue();
     }
 
+    public void setXPosition(AbstractPosition xPos){
+        setValue(xPos, getYPosition());
+    }
+
+    public void setYPosition(AbstractPosition yPos){
+        setValue(getXPosition(), yPos);
+    }
+
     @Override
     public boolean setValueFromString(String value) {
         throw new UnsupportedOperationException("PositionProperty does not support setting value from string");

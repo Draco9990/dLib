@@ -5,6 +5,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -26,10 +27,10 @@ public class TextButton extends UIElement {
     public TextButton(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        button = new Button(xPos, yPos, width, height).setImage(UIThemeManager.getDefaultTheme().button_large);
+        button = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setImage(UIThemeManager.getDefaultTheme().button_large);
         addChildCS(button);
 
-        label = new TextBox(text, xPos, yPos, width, height);
+        label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         label.setFont(FontHelper.buttonLabelFont);
         addChildNCS(label);
     }

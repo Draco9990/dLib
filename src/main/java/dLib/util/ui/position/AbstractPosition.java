@@ -77,4 +77,6 @@ public abstract class AbstractPosition {
     }
 
     public abstract AbstractPosition cpy();
+
+    public abstract String getSimpleDisplayName();
 }
