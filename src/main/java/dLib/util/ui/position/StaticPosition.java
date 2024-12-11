@@ -43,7 +43,7 @@ public class StaticPosition extends AbstractPosition {
                 return 0;
             }
             else{
-                return parentWidth - self.getWidth() + position;
+                return parentWidth - self.getWidth() - position;
             }
         }
     }
@@ -71,7 +71,7 @@ public class StaticPosition extends AbstractPosition {
                 return 0;
             }
             else{
-                return parentHeight - self.getHeight() + position;
+                return parentHeight - self.getHeight() - position;
             }
         }
     }

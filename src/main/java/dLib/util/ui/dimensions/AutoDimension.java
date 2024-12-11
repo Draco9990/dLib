@@ -15,14 +15,14 @@ public class AutoDimension extends AbstractDimension {
 
     @Override
     public int getWidth(UIElement self) {
-        Bounds childBounds = self.getChildUnscrolledBounds();
+        Bounds childBounds = self.getFullChildLocalBounds();
         if(childBounds == null) return 1;
         return childBounds.right - childBounds.left;
     }
 
     @Override
     public int getHeight(UIElement self) {
-        Bounds childBounds = self.getChildUnscrolledBounds();
+        Bounds childBounds = self.getFullChildLocalBounds();
         if(childBounds == null) return 1;
         return childBounds.top - childBounds.bottom;
     }

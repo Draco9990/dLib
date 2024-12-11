@@ -1466,10 +1466,13 @@ public class UIElement {
     public Bounds getBounds(){
         return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
     }
-
     public Bounds getBoundsUnscrolled(){
         if(!hasParent()) return getBounds();
         return new Bounds(getWorldPositionX() - parent.getTotalLocalChildOffsetX(), getWorldPositionY() - parent.getTotalLocalChildOffsetY(), getWorldPositionX() - parent.getTotalLocalChildOffsetX() + getWidth(), getWorldPositionY() - parent.getTotalLocalChildOffsetY() + getHeight());
+    }
+
+    public Bounds getLocalBounds(){
+        return new Bounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
     }
 
     public boolean overlapsParent(){
@@ -1507,6 +1510,41 @@ public class UIElement {
         }
 
         return bounds;
+    }
+
+    public Bounds getFullChildLocalBounds(){
+        Bounds fullChildBounds = null;
+        for(UIElementChild child : children){
+            if(!(child.element.isActive())){
+                continue;
+            }
+
+            Bounds childBounds = child.element.getFullLocalBounds();
+            if(fullChildBounds == null){
+                fullChildBounds = childBounds;
+                continue;
+            }
+
+            if(childBounds.left < fullChildBounds.left) fullChildBounds.left = childBounds.left;
+            if(childBounds.right > fullChildBounds.right) fullChildBounds.right = childBounds.right;
+            if(childBounds.bottom < fullChildBounds.bottom) fullChildBounds.bottom = childBounds.bottom;
+            if(childBounds.top > fullChildBounds.top) fullChildBounds.top = childBounds.top;
+        }
+        return fullChildBounds;
+    }
+    public Bounds getFullLocalBounds(){
+        Bounds myBounds = getLocalBounds();
+
+        Bounds fullChildBounds = getFullChildLocalBounds();
+
+        if(fullChildBounds != null){
+            if(fullChildBounds.left < 0) myBounds.left += fullChildBounds.left;
+            if(fullChildBounds.right > myBounds.right) myBounds.right += fullChildBounds.right - myBounds.right;
+            if(fullChildBounds.bottom < 0) myBounds.bottom += fullChildBounds.bottom;
+            if(fullChildBounds.top > myBounds.top) myBounds.top += fullChildBounds.top - myBounds.top;
+        }
+
+        return myBounds;
     }
 
     public boolean withinParent(){
