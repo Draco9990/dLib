@@ -25,4 +25,9 @@ public class Alignment {
         CENTER,
         BOTTOM
     }
+
+    @Override
+    public String toString() {
+        return "[" + horizontalAlignment + ", " + verticalAlignment + "]";
+    }
 }

@@ -33,4 +33,9 @@ public class StaticDimension extends AbstractDimension {
     public AbstractDimension cpy() {
         return new StaticDimension(size);
     }
+
+    @Override
+    public String toString() {
+        return "Px[" + size + "]";
+    }
 }

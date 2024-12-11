@@ -27,7 +27,15 @@ public class StaticPosition extends AbstractPosition {
             return position;
         }
         else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            int parentWidth = self.getParent() != null ? self.getParent().getWidth() : 1920;
+            int parentWidth = 1920;
+            if(self.hasParent()){
+                if(self.getParent().getWidthRaw() instanceof AutoDimension && self.getParent().getWidthCache() == null){
+                    return 0;
+                }
+                else{
+                    parentWidth = self.getParent().getWidth();
+                }
+            }
 
             if(self.getWidthRaw() instanceof FillDimension){
                 return 0;
@@ -37,7 +45,15 @@ public class StaticPosition extends AbstractPosition {
             }
         }
         else{ //element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT
-            int parentWidth = self.getParent() != null ? self.getParent().getWidth() : 1920;
+            int parentWidth = 1920;
+            if(self.hasParent()){
+                if(self.getParent().getWidthRaw() instanceof AutoDimension && self.getParent().getWidthCache() == null){
+                    return 0;
+                }
+                else{
+                    parentWidth = self.getParent().getWidth();
+                }
+            }
 
             if(self.getWidthRaw() instanceof FillDimension){
                 return 0;
@@ -55,7 +71,15 @@ public class StaticPosition extends AbstractPosition {
             return position;
         }
         else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            int parentHeight = self.getParent() != null ? self.getParent().getHeight() : 1080;
+            int parentHeight = 1080;
+            if(self.hasParent()){
+                if(self.getParent().getHeightRaw() instanceof AutoDimension && self.getParent().getHeightCache() == null){
+                    return 0;
+                }
+                else{
+                    parentHeight = self.getParent().getHeight();
+                }
+            }
 
             if(self.getHeightRaw() instanceof FillDimension){
                 return 0;
@@ -65,7 +89,15 @@ public class StaticPosition extends AbstractPosition {
             }
         }
         else{ //element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP
-            int parentHeight = self.getParent() != null ? self.getParent().getHeight() : 1080;
+            int parentHeight = 1080;
+            if(self.hasParent()){
+                if(self.getParent().getHeightRaw() instanceof AutoDimension && self.getParent().getHeightCache() == null){
+                    return 0;
+                }
+                else{
+                    parentHeight = self.getParent().getHeight();
+                }
+            }
 
             if(self.getHeightRaw() instanceof FillDimension){
                 return 0;
@@ -88,5 +120,10 @@ public class StaticPosition extends AbstractPosition {
         }
 
         return ((StaticPosition)obj).position == position;
+    }
+
+    @Override
+    public String toString() {
+        return "Px[" + position + "]";
     }
 }

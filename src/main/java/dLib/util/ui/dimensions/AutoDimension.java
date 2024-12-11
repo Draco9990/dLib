@@ -31,4 +31,9 @@ public class AutoDimension extends AbstractDimension {
     public AbstractDimension cpy() {
         return new AutoDimension();
     }
+
+    @Override
+    public String toString() {
+        return "auto";
+    }
 }

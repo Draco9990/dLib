@@ -88,4 +88,9 @@ public class PercentagePosition extends AbstractPosition {
 
         return ((PercentagePosition)obj).percentage == percentage;
     }
+
+    @Override
+    public String toString() {
+        return "%[" + percentage + "]";
+    }
 }

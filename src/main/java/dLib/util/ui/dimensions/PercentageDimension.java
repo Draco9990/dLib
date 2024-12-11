@@ -38,4 +38,9 @@ public class PercentageDimension extends AbstractDimension {
     public AbstractDimension cpy() {
         return new PercentageDimension(percentage);
     }
+
+    @Override
+    public String toString() {
+        return "%[" + percentage + "]";
+    }
 }

@@ -18,6 +18,7 @@ import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
+import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.screens.UIManager;
@@ -89,7 +90,7 @@ public class UIElement {
     private boolean selected;
     private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
 
-    private boolean isPassthrough = false;
+    private boolean isPassthrough = true;
 
     private LinkedHashMap<UUID, Runnable> onHoveredEvents = new LinkedHashMap<>();
     private LinkedHashMap<UUID, Consumer<Float>> onHoverTickEvents = new LinkedHashMap<>();
@@ -163,6 +164,8 @@ public class UIElement {
                 deselect();
             }
         });
+
+        addComponent(new UIDebuggableComponent());
     }
 
     public UIElement(UIElementData data){
@@ -208,6 +211,8 @@ public class UIElement {
                 deselect();
             }
         });
+
+        addComponent(new UIDebuggableComponent());
     }
 
     //endregion
@@ -243,7 +248,7 @@ public class UIElement {
             Bounds maskBounds = getMaskWorldBounds();
             if(maskBounds != null){
                 Bounds myBounds = getBounds();
-                if(getBounds().overlaps(maskBounds)){
+                if(myBounds.overlaps(maskBounds)){
                     if(!myBounds.within(maskBounds)){
                         if(getWorldPositionX() < maskBounds.left){
                             float newTargetHbX = (maskBounds.left + getWidth() * 0.5f) * Settings.xScale;
@@ -668,6 +673,13 @@ public class UIElement {
     }
     public AbstractPosition getLocalPositionYRaw(){
         return localPosY;
+    }
+
+    public Integer getLocalPositionXCache(){
+        return localPosXCache;
+    }
+    public Integer getLocalPositionYCache(){
+        return localPosYCache;
     }
 
     public UIElement setLocalPositionCenteredX(int newPos){
@@ -1422,6 +1434,13 @@ public class UIElement {
         return height.cpy();
     }
 
+    public Integer getWidthCache(){
+        return widthCache;
+    }
+    public Integer getHeightCache(){
+        return heightCache;
+    }
+
     //endregion
 
     //region Animations
@@ -1467,7 +1486,6 @@ public class UIElement {
     public Bounds getBounds(){
         return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
     }
-
     public Bounds getLocalBounds(){
         return new Bounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
     }
@@ -1583,22 +1601,18 @@ public class UIElement {
     public boolean hasMaskBounds(){
         return elementMask != null || (hasParent() && parent.hasMaskBounds());
     }
-
     public Bounds getMaskWorldBounds(){
         Bounds bounds = null;
 
-        UIElement mask = elementMask;
-        if(mask != null){
-            return mask.getBounds();
+        UIElement current = this;
+        if(current.elementMask != null){
+            return current.elementMask.getBounds();
         }
 
-        UIElement current = this;
         while(current.hasParent()){
             current = current.getParent();
-            mask = current.elementMask;
-
-            if(mask != null){
-                return mask.getBounds();
+            if(current.elementMask != null){
+                return current.elementMask.getBounds();
             }
         }
 
@@ -1628,19 +1642,11 @@ public class UIElement {
     //region Top-Level Display
 
     public void open(){
-        open(true);
-    }
-    public void open(boolean closePrevious){
-        UIManager.hideAllUIElements();
         UIManager.openUIElement(this);
     }
 
     public void close(){
-        close(true, false);
-    }
-    public void close(boolean reopenPrevious, boolean closePermanently){
         UIManager.closeUIElement(this);
-        UIManager.reopenPreviousUIElement();
     }
 
     //endregion
@@ -2087,7 +2093,7 @@ public class UIElement {
         public MethodBinding onHoverTick = new NoneMethodBinding();
         public MethodBinding onUnhovered = new NoneMethodBinding();
 
-        public boolean isPassthrough = false;
+        public boolean isPassthrough = true;
 
         public UIElement makeUIElement(){
             return new UIElement(this);

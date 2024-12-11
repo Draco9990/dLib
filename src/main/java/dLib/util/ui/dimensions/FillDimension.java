@@ -110,4 +110,9 @@ public class FillDimension extends AbstractDimension {
     public AbstractDimension cpy() {
         return new FillDimension();
     }
+
+    @Override
+    public String toString() {
+        return "fill";
+    }
 }
