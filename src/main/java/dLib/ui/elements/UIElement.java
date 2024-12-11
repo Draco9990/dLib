@@ -54,7 +54,7 @@ public class UIElement {
     private Integer localPosYCache = null;
     private Integer worldPosXCache = null;
     private Integer worldPosYCache = null;
-    private ArrayList<Consumer<UIElement>> positionChangedConsumers = new ArrayList<>();
+    private HashMap<UUID, Consumer<UIElement>> onPositionChangedEvents = new HashMap<>();
 
     private int localChildOffsetX = 0;
     private int localChildOffsetY = 0;
@@ -818,15 +818,23 @@ public class UIElement {
     public void onPositionChanged(){
         invalidateCachesForElementTree();
 
-        for(Consumer<UIElement> consumer : positionChangedConsumers) consumer.accept(this);
+        for(Consumer<UIElement> consumer : onPositionChangedEvents.values()){
+            consumer.accept(this);
+        }
 
         for(UIElementChild child : children){
             child.element.onParentPositionChanged();
         }
     }
-    public UIElement addOnPositionChangedConsumer(Consumer<UIElement> consumer){
-        positionChangedConsumers.add(consumer);
-        return this;
+
+    public UUID addOnPositionChangedConsumer(Consumer<UIElement> consumer){
+        UUID id = UUID.randomUUID();
+        onPositionChangedEvents.put(id, consumer);
+        return id;
+    }
+
+    public void removeOnPositionChangedConsumer(UUID id){
+        onPositionChangedEvents.remove(id);
     }
 
     protected void onParentPositionChanged(){

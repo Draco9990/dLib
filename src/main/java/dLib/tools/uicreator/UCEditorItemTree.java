@@ -13,6 +13,10 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
         this.rootElement = rootElement;
     }
 
+    public UCEditorItemTreeEntry findEntry(UIElement element){
+        return stream().filter(e -> e.element == element).findFirst().orElse(null);
+    }
+
     public void addItem(UIElement element, UIElement.UIElementData elementData, UCEITemplate template){
         UCEditorItemTreeEntry entry = new UCEditorItemTreeEntry(element, elementData, template);
         add(entry);

@@ -1,6 +1,5 @@
 package dLib.ui.elements.prefabs;
 
-import dLib.tools.uicreator.ui.components.UCEditorComponent;
 import dLib.ui.elements.UIElement;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.Dim;

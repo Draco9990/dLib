@@ -8,6 +8,8 @@ import dLib.util.ui.position.AbstractPosition;
 import java.util.function.BiConsumer;
 
 public class UCEPropertyEditor extends PropertyEditor {
+    public boolean itemBeingModifiedExternally = false;
+
     private UIElementData currentObject;
 
     public UCEPropertyEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
@@ -34,6 +36,10 @@ public class UCEPropertyEditor extends PropertyEditor {
             super(name);
 
             BiConsumer refreshElement = (__, ___) -> {
+                if(getParentOfType(UCEPropertyEditor.class).itemBeingModifiedExternally){
+                    return;
+                }
+
                 UCEPropertyEditor editor = getParentOfType(UCEPropertyEditor.class);
                 UCEditor mainEditor = getParentOfType(UCEditor.class);
 

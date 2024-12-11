@@ -24,6 +24,8 @@ public class UIDraggableComponent extends UIElementComponent<UIElement> {
     private UUID leftClickEventId;
     private UUID leftClickHeldEventId;
 
+    private HashMap<UUID, Runnable> onDraggedEvents = new HashMap<>();
+
     //endregion
 
     //region Constructors
@@ -76,6 +78,22 @@ public class UIDraggableComponent extends UIElementComponent<UIElement> {
         int yPos = canDragY ? (int) ((InputHelper.mY - yDragOffset) / Settings.yScale) : owner.getWorldPositionY();
 
         owner.setWorldPosition(xPos, yPos);
+
+        onDraggedEvents.forEach((uuid, runnable) -> runnable.run());
+    }
+
+    //endregion
+
+    //region Events
+
+    public UUID addOnDraggedEvent(Runnable event){
+        UUID id = UUID.randomUUID();
+        onDraggedEvents.put(id, event);
+        return id;
+    }
+
+    public void removeOnDraggedEvent(UUID id){
+        onDraggedEvents.remove(id);
     }
 
     //endregion

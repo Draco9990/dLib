@@ -4,23 +4,40 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import dLib.tools.uicreator.UCEditor;
+import dLib.tools.uicreator.UCEditorItemTree;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIElementComponent;
+import dLib.util.IntegerVector2;
 
-public class UCEditorComponent extends UIElementComponent<UIElement> {
+import java.util.UUID;
 
-    public UIElement.UIElementData elementData;
+public class UCEditorItemComponent extends UIElementComponent<UIElement> {
 
     private boolean hoveredInHierarchy = false;
 
-    public UCEditorComponent(UIElement.UIElementData elementData){
-        this.elementData = elementData;
+    private UUID onPositionChangedEventID;
+
+    public UCEditorItemComponent(){
     }
 
     @Override
     public void onRegisterComponent(UIElement owner) {
         owner.setBoundWithinParent(true);
+
+        onPositionChangedEventID = owner.addOnPositionChangedConsumer((element) -> {
+            UCEditor editor = element.getParentOfType(UCEditor.class);
+
+            UCEditorItemTree.UCEditorItemTreeEntry entry = editor.itemTree.findEntry(element);
+            if(entry != null){
+                if(entry.elementData.localPosition.getXValue() != element.getLocalPositionX() || entry.elementData.localPosition.getYValue() != element.getLocalPositionY()){
+                    editor.properties.propertyEditor.itemBeingModifiedExternally = true;
+                    entry.elementData.localPosition.setValue(new IntegerVector2(element.getLocalPositionX(), element.getLocalPositionY()));
+                    editor.properties.propertyEditor.itemBeingModifiedExternally = false;
+                }
+            }
+        });
     }
 
     @Override

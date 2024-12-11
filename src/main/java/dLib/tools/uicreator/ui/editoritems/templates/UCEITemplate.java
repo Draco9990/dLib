@@ -1,6 +1,6 @@
 package dLib.tools.uicreator.ui.editoritems.templates;
 
-import dLib.tools.uicreator.ui.components.UCEditorComponent;
+import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIDraggableComponent;
@@ -12,11 +12,11 @@ public abstract class UCEITemplate {
         this.displayName = displayName;
     }
 
-    public UIElement makeEditorItem(){
-        UIElement.UIElementData elementData = makeElementData();
+    public UIElement.UIElementData makeElementData(){
+        UIElement.UIElementData elementData = generateElementData();
         wrapElementData(elementData);
 
-        return makeEditorItem(elementData);
+        return elementData;
     }
 
     public UIElement makeEditorItem(UIElement.UIElementData elementData){
@@ -26,7 +26,7 @@ public abstract class UCEITemplate {
 
             ElementGroupModifierComponent groupComp = editorItem.addComponent(new ElementGroupModifierComponent(editorItem, "editorItem"));
 
-            UCEditorComponent editorComp = editorItem.addComponent(new UCEditorComponent(elementData));
+            UCEditorItemComponent editorComp = editorItem.addComponent(new UCEditorItemComponent());
             //DO stuff with comp
         }
         return editorItem;
@@ -36,7 +36,7 @@ public abstract class UCEITemplate {
         data.isPassthrough = false;
     }
 
-    protected abstract UIElement.UIElementData makeElementData();
+    protected abstract UIElement.UIElementData generateElementData();
 
     @Override
     public String toString() {

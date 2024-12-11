@@ -1,6 +1,6 @@
 package dLib.tools.uicreator.ui.elements;
 
-import dLib.tools.uicreator.ui.components.UCEditorComponent;
+import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.prefabs.HierarchyViewer;
@@ -19,7 +19,7 @@ public class UCEHierarchyViewer extends HierarchyViewer {
         public UCEHierarchyViewerChildElementButton(UIElement addingElement) {
             super(addingElement);
 
-            if(!addingElement.hasComponent(UCEditorComponent.class)){
+            if(!addingElement.hasComponent(UCEditorItemComponent.class)){
                 return;
             }
 
@@ -29,12 +29,12 @@ public class UCEHierarchyViewer extends HierarchyViewer {
             });
 
             getButton().addOnHoveredEvent(() -> {
-                UCEditorComponent component = element.getComponent(UCEditorComponent.class);
+                UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(true);
             });
 
             getButton().addOnUnHoveredEvent(() -> {
-                UCEditorComponent component = element.getComponent(UCEditorComponent.class);
+                UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(false);
             });
         }

@@ -9,7 +9,7 @@ public class UCEITImage extends UCEITemplate {
     }
 
     @Override
-    protected UIElement.UIElementData makeElementData() {
+    protected UIElement.UIElementData generateElementData() {
         return new Image.ImageData();
     }
 }

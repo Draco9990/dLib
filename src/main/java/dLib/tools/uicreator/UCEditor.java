@@ -1,7 +1,7 @@
 package dLib.tools.uicreator;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.tools.uicreator.ui.components.UCEditorComponent;
+import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
@@ -64,14 +64,14 @@ public class UCEditor extends Renderable {
 
     //region Subclasses
 
-    private static class UC_EditorMainScreen extends Renderable{
+    public static class UC_EditorMainScreen extends Renderable{
 
         public UC_EditorMainScreen() {
             super(DLibUIElements.UIEditorElements.transparentBg, Dim.px(1536), Dim.px(864));
         }
     }
 
-    private static class UC_EditorToolbar extends Renderable{
+    public static class UC_EditorToolbar extends Renderable{
         public UC_EditorToolbar() {
             super(UITheme.whitePixel, Dim.perc(100), Dim.fill());
             setRenderColor(DARK_GRAY);
@@ -117,7 +117,7 @@ public class UCEditor extends Renderable {
         }
     }
 
-    private static class UC_EditorProperties extends Renderable{
+    public static class UC_EditorProperties extends Renderable{
         public UC_EP_Toolbox toolbox;
         public UCEHierarchyViewer hierarchyViewer;
         public Scrollbox toolbarPropertiesScrollbox;
@@ -151,7 +151,7 @@ public class UCEditor extends Renderable {
 
         //region Subclasses
 
-        private static class UC_EP_Toolbox extends VerticalListBox<UCEITemplate> {
+        public static class UC_EP_Toolbox extends VerticalListBox<UCEITemplate> {
             public UC_EP_Toolbox() {
                 super(Dim.fill(), Dim.fill());
                 setImage(null);
@@ -172,10 +172,9 @@ public class UCEditor extends Renderable {
                 super.onItemSelectionChanged(items);
 
                 if(!items.isEmpty()){
-                    UIElement element = items.get(0).makeEditorItem();
-                    ((UCEditor)getTopParent()).itemTree.addItem(element, element.getComponent(UCEditorComponent.class).elementData, items.get(0));
-
-                    UIElementData elementData = element.getComponent(UCEditorComponent.class).elementData;
+                    UIElementData elementData = items.get(0).makeElementData();
+                    UIElement element = items.get(0).makeEditorItem(elementData);
+                    ((UCEditor)getTopParent()).itemTree.addItem(element, elementData, items.get(0));
 
                     ((UCEditor)getTopParent()).properties.hideAll();
                     ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();
