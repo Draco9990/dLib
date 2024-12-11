@@ -638,8 +638,6 @@ public class UIElement {
             onPositionChanged();
         }
 
-        ensureElementWithinBounds();
-
         return this;
     }
 

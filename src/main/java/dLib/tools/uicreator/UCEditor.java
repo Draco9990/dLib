@@ -46,6 +46,7 @@ public class UCEditor extends Renderable {
                 firstColumn.addItem(mainScreen = new UC_EditorMainScreen());
                 {
                     mainScreen.addChildNCS(rootElement = new UCERootElement());
+                    rootElement.setID("Root");
                 }
             }
             mainBox.addItem(firstColumn);
@@ -88,7 +89,7 @@ public class UCEditor extends Renderable {
                 propertiesOptions.disableItemWrapping();
                 {
                     TextButton toolboxButton = new TextButton("Toolbox", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    toolboxButton.addOnLeftClickEvent(() -> {
+                    toolboxButton.button.addOnLeftClickEvent(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
@@ -97,7 +98,7 @@ public class UCEditor extends Renderable {
                     propertiesOptions.addItem(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    elementListButton.addOnLeftClickEvent(() -> {
+                    elementListButton.button.addOnLeftClickEvent(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().hierarchyViewer.showAndEnableInstantly();

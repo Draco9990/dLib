@@ -31,9 +31,11 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
 
             UCEditorItemTree.UCEditorItemTreeEntry entry = editor.itemTree.findEntry(element);
             if(entry != null){
-                if(entry.elementData.localPosition.getXValue() != element.getLocalPositionX() || entry.elementData.localPosition.getYValue() != element.getLocalPositionY()){
+                int localPositionXScaled = (int) (element.getLocalPositionX() * 1.25f);
+                int localPositionYScaled = (int) (element.getLocalPositionY() * 1.25f);
+                if(entry.elementData.localPosition.getXValue() != localPositionXScaled || entry.elementData.localPosition.getYValue() != localPositionYScaled){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
-                    entry.elementData.localPosition.setValue(new IntegerVector2(element.getLocalPositionX(), element.getLocalPositionY()));
+                    entry.elementData.localPosition.setValue(new IntegerVector2(localPositionXScaled, localPositionYScaled));
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
             }

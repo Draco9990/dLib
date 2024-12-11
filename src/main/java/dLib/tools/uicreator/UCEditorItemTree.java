@@ -28,8 +28,11 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
         UCEditorItemTreeEntry entry = stream().filter(e -> e.elementData == elementData).findFirst().orElse(null);
         if(entry != null){
             UIElement elementToAdd = entry.template.makeEditorItem(elementData);
-            entry.element.getParent().replaceChild(entry.element, elementToAdd);
+            UIElement previousElement = entry.element;
+
             entry.element = elementToAdd;
+
+            previousElement.getParent().replaceChild(previousElement, elementToAdd);
         }
     }
 

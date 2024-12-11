@@ -25,10 +25,12 @@ public class OnValueCommitedStringPropertyEditor extends StringPropertyEditor{
         Inputfield element = (Inputfield) super.buildContent(property, width, height);
 
         element.addOnValueCommittedListener(s -> {
-            property.setValue(input.getTextBox().getText());
-            if(!input.getTextBox().getText().equals(property.getValue())){
-                input.getTextBox().setText(property.getValue());
-            }
+            delayedActions.add(() -> {
+                property.setValue(input.getTextBox().getText());
+                if(!input.getTextBox().getText().equals(property.getValue())){
+                    input.getTextBox().setText(property.getValue());
+                }
+            });
         });
 
         if(property.getCharacterLimit() != -1){
