@@ -41,5 +41,21 @@ public class GlobalEvents {
                 this.source = source;
             }
         }
+
+        public static class PreHoverEvent{
+            public UIElement source;
+
+            public PreHoverEvent(UIElement source){
+                this.source = source;
+            }
+        }
+
+        public static class PreForceFocusChangeEvent{
+            public UIElement source;
+
+            public PreForceFocusChangeEvent(UIElement source){
+                this.source = source;
+            }
+        }
     }
 }

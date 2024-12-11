@@ -135,6 +135,11 @@ public class UIElement {
 
     private UIStrings stringTable = null;
 
+    private boolean isContextual = false;
+    private boolean isModal = false;
+
+    private boolean drawControllerFocusOnOpen = false;
+
     //endregion
 
     //region Constructors
@@ -162,6 +167,28 @@ public class UIElement {
         GlobalEvents.subscribe(GlobalEvents.Events.PreLeftClickEvent.class, (event) -> {
             if(event.source != this && isSelected()){
                 deselect();
+            }
+
+            if(this.isContextual()){
+                if(hasParent()){
+                    close();
+                }
+                else{
+                    getParent().removeChild(this);
+                }
+            }
+        });
+
+        GlobalEvents.subscribe(GlobalEvents.Events.PreForceFocusChangeEvent.class, (event) -> {
+            if(event.source != this && isSelected()){
+                deselect();
+            }
+        });
+
+        GlobalEvents.subscribe(GlobalEvents.Events.PreHoverEvent.class, (event) -> {
+            if(event.source != this && isHovered() && !isPassthrough()){
+                this.hb.unhover();
+                onUnhovered();
             }
         });
 
@@ -2031,6 +2058,43 @@ public class UIElement {
 
     public int getTotalLocalChildOffsetY(){
         return localChildOffsetY + (hasParent() ? parent.getTotalLocalChildOffsetY() : 0);
+    }
+
+    //endregion
+
+    //region Contextuality & Modality
+
+    public void setContextual(boolean contextual){
+        this.isContextual = contextual;
+
+        if(isContextual){
+            this.isModal = false;
+        }
+    }
+    public boolean isContextual(){
+        return isContextual;
+    }
+
+    public void setModal(boolean modal){
+        this.isModal = modal;
+
+        if(isModal){
+            this.isContextual = false;
+        }
+    }
+    public boolean isModal(){
+        return isModal;
+    }
+
+    //endregion
+
+    //region Focus Drawing
+
+    public void setDrawControllerFocusOnOpen(boolean drawControllerFocusOnOpen){
+        this.drawControllerFocusOnOpen = drawControllerFocusOnOpen;
+    }
+    public boolean shouldDrawControllerFocusOnOpen(){
+        return drawControllerFocusOnOpen;
     }
 
     //endregion

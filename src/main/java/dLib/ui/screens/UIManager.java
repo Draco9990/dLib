@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import dLib.ui.elements.UIElement;
 import dLib.util.Help;
+import dLib.util.Reflection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,14 @@ public class UIManager {
 
     public static void openUIElement(UIElement element){ //TODO draw 'focus' to the first element
         uiElements.add(element);
+        if(element.shouldDrawControllerFocusOnOpen()){
+            UIElement selectedElement = getCurrentlySelectedElement();
+            if(selectedElement != null){
+                selectedElement.deselect();
+            }
+
+            selectNextElement(element, false);
+        }
     }
     public static void reopenPreviousUIElement(){
         if(uiElements.isEmpty()){
@@ -91,14 +100,19 @@ public class UIManager {
 
     private static boolean selectNextElement(UIElement topParent, Boolean foundSelectedElement){
         ArrayList<UIElement.UIElementChild> children = topParent.getAllChildrenRaw();
-        for (UIElement.UIElementChild child : children) {
-            if(child.element.isSelected()){
-                foundSelectedElement = true;
+        for (int i = 0; i < children.size(); i++) {
+            UIElement.UIElementChild child = children.get(i);
+
+            if (child.element.isSelected()) {
+                Reflection.setFieldValue("value", foundSelectedElement, true);
                 child.element.deselect();
-            }
-            else if(foundSelectedElement && !child.element.isSelected() && child.isControllerSelectable){
+            } else if (foundSelectedElement && !child.element.isSelected() && child.isControllerSelectable) {
                 child.element.select();
                 return true;
+            }
+
+            if (foundSelectedElement && child.element.isModal()) {
+                i--;
             }
         }
 
@@ -109,13 +123,18 @@ public class UIManager {
         ArrayList<UIElement.UIElementChild> children = topParent.getAllChildrenRaw();
         for (int i = children.size() - 1; i >= 0; i--) {
             UIElement.UIElementChild child = children.get(i);
+
             if(child.element.isSelected()){
-                foundSelectedElement = true;
+                Reflection.setFieldValue("value", foundSelectedElement, true);
                 child.element.deselect();
             }
             else if(foundSelectedElement && !child.element.isSelected() && child.isControllerSelectable){
                 child.element.select();
                 return true;
+            }
+
+            if(foundSelectedElement && child.element.isModal()){
+                i++;
             }
         }
 
