@@ -10,6 +10,8 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.util.IntegerVector2;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.StaticPosition;
 
 import java.util.UUID;
 
@@ -31,11 +33,19 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
 
             UCEditorItemTree.UCEditorItemTreeEntry entry = editor.itemTree.findEntry(element);
             if(entry != null){
-                int localPositionXScaled = (int) (element.getLocalPositionX() * 1.25f);
-                int localPositionYScaled = (int) (element.getLocalPositionY() * 1.25f);
-                if(entry.elementData.localPosition.getXValue() != localPositionXScaled || entry.elementData.localPosition.getYValue() != localPositionYScaled){
+                AbstractPosition localPositionX = element.getLocalPositionXRaw();
+                AbstractPosition localPositionY = element.getLocalPositionYRaw();
+
+                if(localPositionX instanceof StaticPosition){
+                    localPositionX = new StaticPosition((int) (((StaticPosition) localPositionX).getValueRaw() * 1.25f));
+                }
+                if(localPositionY instanceof StaticPosition){
+                    localPositionY = new StaticPosition((int) (((StaticPosition) localPositionY).getValueRaw() * 1.25f));
+                }
+
+                if(entry.elementData.localPosition.getXPosition() != localPositionX || entry.elementData.localPosition.getYPosition() != localPositionY){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
-                    entry.elementData.localPosition.setValue(new IntegerVector2(localPositionXScaled, localPositionYScaled));
+                    entry.elementData.localPosition.setValue(localPositionX, localPositionY);
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
             }

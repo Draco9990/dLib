@@ -45,7 +45,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     }
 
     public ScreenEditorItem(DataType elementData){
-        super(null, Pos.px(elementData.localPosition.getXValue()), Pos.px(elementData.localPosition.getYValue()), elementData.dimensions.getXValue(), elementData.dimensions.getYValue());
+        super(null, Pos.px(0), Pos.px(0), elementData.dimensions.getXValue(), elementData.dimensions.getYValue());
         this.elementData = wrapDataType(elementData);
         remakePreviewElement();
     }
@@ -150,16 +150,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
             }
         });
 
-        elementData.localPosition.setValue(getLocalPosition());
-        elementData.localPosition.addOnValueChangedListener(new BiConsumer<IntegerVector2, IntegerVector2>() {
-            @Override
-            public void accept(IntegerVector2 integerVector2, IntegerVector2 integerVector22) {
-                if(!getLocalPosition().equals(integerVector22)){
-                    setLocalPosition(integerVector22.x, integerVector22.y);
-                }
-            }
-        });
-
         elementData.dimensions.setValue(new IntegerVector2(getWidth(), getHeight()));
         elementData.dimensions.addOnValueChangedListener((integerVector2, integerVector22) -> {
             if(!integerVector22.equals(getDimensions())){
@@ -218,10 +208,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     @Override
     public void onPositionChanged() {
         super.onPositionChanged();
-
-        if(elementData != null && !elementData.localPosition.getValue().equals(getLocalPosition())){
-            elementData.localPosition.setValue(getLocalPosition());
-        }
 
         remakePreviewElement();
     }

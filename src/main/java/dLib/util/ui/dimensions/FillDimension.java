@@ -52,7 +52,7 @@ public class FillDimension extends AbstractDimension {
             int maxWidth = self.getParent().getWidth() - self.getLocalPositionX();
             if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
                 if(self.getLocalPositionXRaw() instanceof StaticPosition){
-                    maxWidth -= ((StaticPosition) self.getLocalPositionXRaw()).getVal();
+                    maxWidth -= ((StaticPosition) self.getLocalPositionXRaw()).getValueRaw();
                 }
                 else if(self.getLocalPositionXRaw() instanceof PercentagePosition){
                     maxWidth -= (int) (maxWidth * ((PercentagePosition) self.getLocalPositionXRaw()).getVal());
@@ -95,7 +95,7 @@ public class FillDimension extends AbstractDimension {
             int maxHeight = self.getParent().getHeight() - self.getLocalPositionY();
             if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
                 if(self.getLocalPositionYRaw() instanceof StaticPosition){
-                    maxHeight -= ((StaticPosition) self.getLocalPositionYRaw()).getVal();
+                    maxHeight -= ((StaticPosition) self.getLocalPositionYRaw()).getValueRaw();
                 }
                 else if(self.getLocalPositionYRaw() instanceof PercentagePosition){
                     maxHeight -= (int) (maxHeight * ((PercentagePosition) self.getLocalPositionYRaw()).getVal());

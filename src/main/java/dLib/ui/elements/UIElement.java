@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
 import dLib.patches.InputHelperHoverConsumer;
 import dLib.properties.objects.*;
+import dLib.properties.objects.templates.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
@@ -170,7 +171,7 @@ public class UIElement {
     public UIElement(UIElementData data){
         setID(data.id.getValue());
 
-        setLocalPosition(data.localPosition.getXValue(), data.localPosition.getYValue());
+        setLocalPosition(data.localPosition.getXPosition(), data.localPosition.getYPosition());
         
         width = Dim.px(data.dimensions.getXValue());
         height = Dim.px(data.dimensions.getYValue());
@@ -2059,13 +2060,12 @@ public class UIElement {
                 .setDescription("Internal ID of the element. Has to be unique.")
                 .setCategory("General");
 
-        public IntegerVector2Property localPosition = new IntegerVector2Property(new IntegerVector2(0, 0))
+        public PositionProperty localPosition = new PositionProperty(Pos.px(0), Pos.px(0))
                 .setName("Local Position")
                 .setDescription("Local Position of the element relative to its parent. Can be:\n" +
                         "* Static: Fixed position in pixels.\n" +
                         "* Percentage: Position relative to the parent's dimensions.")
-                .setCategory("Transform")
-                .setValueNames("X", "Y");
+                .setCategory("Transform");
 
         public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)){
             @Override

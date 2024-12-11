@@ -24,10 +24,10 @@ public abstract class UCEITemplate {
     public UIElement makeEditorItem(UIElement.UIElementData elementData){
         UIElement editorItem = elementData.makeUIElement();
         if(editorItem.getLocalPositionXRaw() instanceof StaticPosition){
-            editorItem.setLocalPositionX((int) (((StaticPosition) editorItem.getLocalPositionXRaw()).getVal() * 0.8f));
+            editorItem.setLocalPositionX((int) (((StaticPosition) editorItem.getLocalPositionXRaw()).getValueRaw() * 0.8f));
         }
         if(editorItem.getLocalPositionYRaw() instanceof StaticPosition){
-            editorItem.setLocalPositionY((int) (((StaticPosition) editorItem.getLocalPositionYRaw()).getVal() * 0.8f));
+            editorItem.setLocalPositionY((int) (((StaticPosition) editorItem.getLocalPositionYRaw()).getValueRaw() * 0.8f));
         }
 
         UIDraggableComponent draggableComp = editorItem.addComponent(new UIDraggableComponent());

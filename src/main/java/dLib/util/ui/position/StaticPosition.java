@@ -16,7 +16,7 @@ public class StaticPosition extends AbstractPosition {
         this.position = position;
     }
 
-    public int getVal(){
+    public int getValueRaw(){
         return position;
     }
 
