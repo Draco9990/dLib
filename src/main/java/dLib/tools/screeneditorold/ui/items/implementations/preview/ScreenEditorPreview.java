@@ -31,7 +31,6 @@ public class ScreenEditorPreview extends UIElement {
         addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()));
 
         grid = new Renderable(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ScreenEditorGrid.png"), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw());
-        grid.setParent(this);
     }
 
     //endregion

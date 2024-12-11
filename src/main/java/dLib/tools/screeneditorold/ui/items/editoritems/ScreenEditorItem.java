@@ -133,7 +133,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
     protected void remakePreviewElement(){
         previewElement = (ElementType) elementData.makeUIElement();
-        previewElement.setParent(getParent());
     }
     public Class<? extends UIElement> getElementClass(){
         return previewElement.getClass();
@@ -180,14 +179,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     }
 
     //endregion
-
-    @Override
-    public UIElement setParent(UIElement parent) {
-        if(previewElement != null){
-            previewElement.setParent(parent);
-        }
-        return super.setParent(parent);
-    }
 
     //region ID
 

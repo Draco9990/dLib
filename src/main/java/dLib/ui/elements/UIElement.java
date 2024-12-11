@@ -428,10 +428,27 @@ public class UIElement {
     //region Parent & Children
 
     //region Parent
-    public UIElement setParent(UIElement parent){
+    private UIElement setParent(UIElement parent){
         this.parent = parent;
+        onParentChanged();
         return this;
     }
+
+    public void reparent(UIElement newParent){
+        boolean csSelectable = false;
+        if(parent != null){
+            for(UIElementChild child : parent.children){
+                if(child.element == this){
+                    csSelectable = child.isControllerSelectable;
+                    parent.removeChild(this);
+                    break;
+                }
+            }
+        }
+
+        newParent.addChild(this, csSelectable);
+    }
+
     public <T extends UIElement> T getParent(){
         return (T) parent;
     }
@@ -448,6 +465,10 @@ public class UIElement {
         if(parent == null) return null;
         if(parentType.isAssignableFrom(parent.getClass())) return (T) parent;
         return parent.getParentOfType(parentType);
+    }
+
+    public void onParentChanged(){
+        ensureElementWithinBounds();
     }
 
     //endregion
