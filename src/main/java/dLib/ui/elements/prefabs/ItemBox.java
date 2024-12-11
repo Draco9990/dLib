@@ -157,7 +157,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
                 }
 
                 existingItems.remove();
-                removeChild(existingItem.renderForItem);
+                existingItem.renderForItem.destroy();
                 itemsChanged = true;
             }
         }
@@ -191,7 +191,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
         }
 
         for(UIElement childToRemove : childrenToRemove){
-            removeChild(childToRemove);
+            childToRemove.destroy();
         }
 
         for(ItemBoxItem item : originalItems){
@@ -233,7 +233,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
         for(ItemBoxItem itemBoxItem : originalItems){
             if(itemBoxItem.item.equals(item)){
                 originalItems.remove(itemBoxItem);
-                removeChild(itemBoxItem.renderForItem);
+                itemBoxItem.renderForItem.destroy();
                 break;
             }
         }

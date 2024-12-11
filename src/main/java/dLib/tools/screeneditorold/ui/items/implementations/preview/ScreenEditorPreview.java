@@ -93,7 +93,7 @@ public class ScreenEditorPreview extends UIElement {
         item.setBoundWithinParent(true);
     }
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
-        removeChild(itemToDelete);
+        itemToDelete.destroy();
 
         PluginMessageSender.Send_RemoveVariableFromClass(getParent().getEditingScreen(), itemToDelete.getId());
     }

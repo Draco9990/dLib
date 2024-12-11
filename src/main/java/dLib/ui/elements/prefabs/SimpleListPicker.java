@@ -13,12 +13,9 @@ public class SimpleListPicker<OptionType> extends UIElement {
     private Consumer<OptionType> onOptionSelected;
 
     public SimpleListPicker(int right, int top, ArrayList<OptionType> options, Consumer<OptionType> inOnOptionSelected) {
-        super(Pos.px(right), Pos.px(top), Dim.px(400), Dim.px(300));
+        super(Pos.px(right-400), Pos.px(top-300), Dim.px(400), Dim.px(300));
 
         setContextual(true);
-
-        setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
-        setVerticalAlignment(Alignment.VerticalAlignment.TOP);
 
         onOptionSelected = inOnOptionSelected;
 
@@ -34,32 +31,17 @@ public class SimpleListPicker<OptionType> extends UIElement {
                     parent.close();
                 }
             }
+
+            @Override
+            public String itemToString(OptionType item) {
+                return SimpleListPicker.this.itemToString(item);
+            }
         };
         listBox.setItems(options);
         addChildNCS(listBox);
     }
 
-    @Override
-    public int getWidth() {
-        int res = super.getWidth();
-        return res;
-    }
-
-    @Override
-    public int getHeight() {
-        int res = super.getHeight();
-        return res;
-    }
-
-    @Override
-    public int getLocalPositionX() {
-        int res = super.getLocalPositionX();
-        return res;
-    }
-
-    @Override
-    public int getLocalPositionY() {
-        int res = super.getLocalPositionY();
-        return res;
+    public String itemToString(OptionType item) {
+        return item.toString();
     }
 }

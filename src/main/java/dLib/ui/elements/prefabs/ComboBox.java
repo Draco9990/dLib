@@ -29,7 +29,12 @@ public class ComboBox<OptionType> extends TextButton{
             int buttonX = getButton().getWorldPositionX();
             int buttonY = getButton().getWorldPositionY();
 
-            SimpleListPicker<OptionType> picker = new SimpleListPicker<>(buttonX, buttonY, options, this::setSelectedItem);
+            SimpleListPicker<OptionType> picker = new SimpleListPicker<OptionType>(buttonX, buttonY, options, this::setSelectedItem) {
+                @Override
+                public String itemToString(OptionType item) {
+                    return ComboBox.this.itemToString(item);
+                }
+            };
             picker.open();
         });
         getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);

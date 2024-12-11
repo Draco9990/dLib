@@ -20,8 +20,6 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     private ItemBox ui;
 
-    protected int originalHeight;
-
     public Consumer<PropertyType> onPropertyHovered;
     public Consumer<PropertyType> onPropertyUnhovered;
 
@@ -42,7 +40,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     protected void buildElement(PropertyType property, boolean shouldMultiline){
         if(ui != null){
-            removeChild(ui);
+            ui.destroy();
             ui = null;
         }
 

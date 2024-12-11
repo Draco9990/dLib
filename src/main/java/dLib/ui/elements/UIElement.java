@@ -170,12 +170,7 @@ public class UIElement {
             }
 
             if(this.isContextual()){
-                if(!hasParent()){
-                    close();
-                }
-                else{
-                    getParent().removeChild(this);
-                }
+                destroy();
             }
         });
 
@@ -240,6 +235,28 @@ public class UIElement {
         });
 
         addComponent(new UIDebuggableComponent());
+    }
+
+    //endregion
+
+    //region Destructors
+
+    public void destroy(){
+        if(hasParent()){
+            parent.removeChild(this);
+            dispose();
+        }
+        else{
+            close();
+        }
+
+        for (int i = 0; i < children.size(); i++) {
+            UIElementChild child = children.get(i);
+            child.element.destroy();
+        }
+    }
+
+    public void onDestroyed(){
     }
 
     //endregion
@@ -382,10 +399,7 @@ public class UIElement {
             if(remainingLifespan <= 0){
                 hideAndDisable();
                 //TODO wait for animations to finish
-                if(parent != null){
-                    parent.removeChild(this);
-                    dispose();
-                }
+                destroy();
                 //TODO fire on death event
             }
         }
