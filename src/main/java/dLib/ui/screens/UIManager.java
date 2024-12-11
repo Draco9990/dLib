@@ -203,7 +203,7 @@ public class UIManager {
             @SpireInsertPatch(rloc=6)
             public static void Insert(){
                 if(!CardCrawlGame.isInARun()){
-                    for(int i = 0; i < uiElements.size(); i++){
+                    for(int i = uiElements.size() - 1; i >= 0; i--){
                         uiElements.get(i).update();
                     }
                     updateInput();
@@ -227,7 +227,7 @@ public class UIManager {
         public static class CustomScreenUpdatePatch_InGame{
             public static void Postfix(){
                 if(CardCrawlGame.isInARun()){
-                    for (int i = 0; i < uiElements.size(); i++) {
+                    for (int i = uiElements.size() - 1; i >= 0; i--) {
                         uiElements.get(i).update();
                     }
                     updateInput();

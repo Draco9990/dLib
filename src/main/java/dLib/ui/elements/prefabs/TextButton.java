@@ -13,8 +13,8 @@ import java.io.Serializable;
 public class TextButton extends UIElement {
     //region Variables
 
-    private Button button;
-    private TextBox label;
+    public Button button;
+    public TextBox label;
 
     //endregion
 

@@ -45,17 +45,14 @@ public class UIDebuggerScreen extends UIElement {
 
                 addItem(new TextButton("D", Dim.px(50), Dim.px(50)));
 
-                addItem(new TextButton("i", Dim.px(50), Dim.px(50)){
-                    @Override
-                    protected void onLeftClick() {
-                        super.onLeftClick();
-
-                        UIDebuggerElementList topScreen = getParentOfType(UIDebuggerElementList.class);
-                        if(topScreen.elementInfo.isVisible()){
-                            topScreen.elementInfo.hideAndDisableInstantly();
-                        }else{
-                            topScreen.elementInfo.showAndEnableInstantly();
-                        }
+                TextButton informationButton = new TextButton("i", Dim.px(50), Dim.px(50));
+                addItem(informationButton);
+                informationButton.button.addOnLeftClickEvent(() -> {
+                    UIDebuggerElementList topScreen = getParentOfType(UIDebuggerElementList.class);
+                    if(topScreen.elementInfo.isVisible()){
+                        topScreen.elementInfo.hideAndDisableInstantly();
+                    }else{
+                        topScreen.elementInfo.showAndEnableInstantly();
                     }
                 });
             }

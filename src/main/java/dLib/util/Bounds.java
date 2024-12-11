@@ -28,4 +28,20 @@ public class Bounds {
     public boolean within(Bounds other){
         return this.left >= other.left && this.right <= other.right && this.top <= other.top && this.bottom >= other.bottom;
     }
+
+    public boolean clip(Bounds mask){
+        if (this.left < mask.left) {
+            this.left = mask.left;
+        }
+        if (this.right > mask.right) {
+            this.right = mask.right;
+        }
+        if (this.top > mask.top) {
+            this.top = mask.top;
+        }
+        if (this.bottom < mask.bottom) {
+            this.bottom = mask.bottom;
+        }
+        return this.left < this.right && this.bottom < this.top;
+    }
 }

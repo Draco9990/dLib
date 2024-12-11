@@ -26,7 +26,6 @@ import dLib.util.*;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
-import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.StaticDimension;
 import dLib.util.ui.padding.AbstractPadding;
@@ -247,28 +246,22 @@ public class UIElement {
 
             Bounds maskBounds = getMaskWorldBounds();
             if(maskBounds != null){
-                Bounds myBounds = getBounds();
+                Bounds myBounds = getWorldBounds();
                 if(myBounds.overlaps(maskBounds)){
                     if(!myBounds.within(maskBounds)){
-                        if(getWorldPositionX() < maskBounds.left){
-                            float newTargetHbX = (maskBounds.left + getWidth() * 0.5f) * Settings.xScale;
-                            targetHbWidth -= newTargetHbX - targetHbX;
-                            targetHbX = newTargetHbX;
-                        }
-                        if(getWorldPositionY() < maskBounds.bottom){
-                            float newTargetHbY = (maskBounds.bottom + getHeight() * 0.5f) * Settings.yScale;
-                            targetHbHeight -= newTargetHbY - targetHbY;
-                            targetHbY = newTargetHbY;
-                        }
+                        myBounds.clip(maskBounds);
 
+                        targetHbWidth = myBounds.right - myBounds.left;
+                        targetHbHeight = myBounds.top - myBounds.bottom;
 
-                        if(getWorldPositionX() + getWidth() > maskBounds.right){
-                            targetHbWidth = (maskBounds.right - getWorldPositionX()) * Settings.xScale;
-                        }
-                        if(getWorldPositionY() + getHeight() > maskBounds.top){
-                            targetHbHeight = (maskBounds.top - getWorldPositionY()) * Settings.yScale;
-                            targetHbY = (maskBounds.top - (targetHbHeight / Settings.yScale * 0.5f)) * Settings.yScale;
-                        }
+                        targetHbX = myBounds.left + targetHbWidth * 0.5f;
+                        targetHbY = myBounds.bottom + targetHbHeight * 0.5f;
+
+                        targetHbWidth *= Settings.xScale;
+                        targetHbHeight *= Settings.yScale;
+
+                        targetHbX *= Settings.xScale;
+                        targetHbY *= Settings.yScale;
                     }
                 }
                 else{
@@ -1483,7 +1476,7 @@ public class UIElement {
 
     //region Bounds Methods
 
-    public Bounds getBounds(){
+    public Bounds getWorldBounds(){
         return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
     }
     public Bounds getLocalBounds(){
@@ -1494,7 +1487,7 @@ public class UIElement {
         return parent != null && overlaps(parent);
     }
     public boolean overlaps(UIElement other){
-        return getBounds().overlaps(other.getBounds());
+        return getWorldBounds().overlaps(other.getWorldBounds());
     }
 
     public Bounds getFullChildLocalBounds(){
@@ -1536,7 +1529,7 @@ public class UIElement {
         return parent != null && within(parent);
     }
     public boolean within(UIElement other){
-        return getBounds().within(other.getBounds());
+        return getWorldBounds().within(other.getWorldBounds());
     }
 
     public boolean hasHorizontalChildrenOOB(){
@@ -1606,13 +1599,13 @@ public class UIElement {
 
         UIElement current = this;
         if(current.elementMask != null){
-            return current.elementMask.getBounds();
+            return current.elementMask.getWorldBounds();
         }
 
         while(current.hasParent()){
             current = current.getParent();
             if(current.elementMask != null){
-                return current.elementMask.getBounds();
+                return current.elementMask.getWorldBounds();
             }
         }
 

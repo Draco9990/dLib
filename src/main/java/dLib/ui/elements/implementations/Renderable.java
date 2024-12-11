@@ -52,6 +52,8 @@ public class Renderable extends UIElement {
         this.renderColor = Color.WHITE.cpy();
 
         this.renderDimensionsPerc = new Vector2(1.f, 1.f);
+
+        setPassthrough(false);
     }
 
     public Renderable(RenderableData data){
