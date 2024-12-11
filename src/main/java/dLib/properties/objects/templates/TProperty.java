@@ -67,6 +67,8 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
         return false;
     }
     protected void setValue_internal(ValueType value){
+        if(value == this.value) return;
+
         ValueType oldValue = this.value;
         this.value = value;
         onValueChanged(oldValue, value);

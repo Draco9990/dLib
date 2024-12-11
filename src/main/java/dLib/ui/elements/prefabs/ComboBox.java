@@ -29,7 +29,7 @@ public class ComboBox<OptionType> extends TextButton{
             int buttonX = getButton().getWorldPositionX();
             int buttonY = getButton().getWorldPositionY();
 
-            SimpleListPicker<OptionType> picker = new SimpleListPicker<>(buttonX, buttonY, options, this::setCurrentlySelectedItem);
+            SimpleListPicker<OptionType> picker = new SimpleListPicker<>(buttonX, buttonY, options, this::setSelectedItem);
             picker.open();
         });
         getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);
@@ -42,7 +42,7 @@ public class ComboBox<OptionType> extends TextButton{
         return canBeNull;
     }
 
-    public void setCurrentlySelectedItem(OptionType option){
+    public void setSelectedItem(OptionType option){
         if(option == currentOption) return;
         if(option == null && !canBeNull) return;
 

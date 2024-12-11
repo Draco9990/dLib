@@ -310,7 +310,11 @@ public class Inputfield extends UIElement {
     private void removeLastCharacter(){
         if(this.textBox.getText().isEmpty()) return;
 
-        this.textBox.setText(this.textBox.getText().substring(0, this.textBox.getText().length()-1));
+        String newText = this.textBox.getText().substring(0, this.textBox.getText().length()-1);
+        if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE)){
+            newText = "0";
+        }
+        this.textBox.setText(newText);
     }
 
     public void resetInputProcessor(){
