@@ -1,5 +1,6 @@
 package dLib.ui.elements;
 
+import basemod.Pair;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -1466,10 +1467,6 @@ public class UIElement {
     public Bounds getBounds(){
         return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
     }
-    public Bounds getBoundsUnscrolled(){
-        if(!hasParent()) return getBounds();
-        return new Bounds(getWorldPositionX() - parent.getTotalLocalChildOffsetX(), getWorldPositionY() - parent.getTotalLocalChildOffsetY(), getWorldPositionX() - parent.getTotalLocalChildOffsetX() + getWidth(), getWorldPositionY() - parent.getTotalLocalChildOffsetY() + getHeight());
-    }
 
     public Bounds getLocalBounds(){
         return new Bounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
@@ -1480,36 +1477,6 @@ public class UIElement {
     }
     public boolean overlaps(UIElement other){
         return getBounds().overlaps(other.getBounds());
-    }
-
-    public Bounds getChildUnscrolledBounds(){
-        return getChildUnscrolledBoundsRecursive(null);
-    }
-    private Bounds getChildUnscrolledBoundsRecursive(Bounds bounds){
-        for(UIElementChild child : children){
-            if(!(child.element.isActive())){
-                continue;
-            }
-
-            Bounds childBounds = child.element.getBoundsUnscrolled();
-            if(bounds == null){
-                bounds = childBounds;
-            }
-
-            if(this instanceof ItemBox && getWidthRaw() instanceof AutoDimension){
-                if(childBounds.left < bounds.left) bounds.left = childBounds.left;
-                if(childBounds.right > bounds.right) bounds.right = childBounds.right;
-            }
-
-            if(this instanceof ItemBox && getHeightRaw() instanceof AutoDimension){
-                if(childBounds.bottom < bounds.bottom) bounds.bottom = childBounds.bottom;
-                if(childBounds.top > bounds.top) bounds.top = childBounds.top;
-            }
-
-            bounds = child.element.getChildUnscrolledBoundsRecursive(bounds);
-        }
-
-        return bounds;
     }
 
     public Bounds getFullChildLocalBounds(){
@@ -1552,6 +1519,56 @@ public class UIElement {
     }
     public boolean within(UIElement other){
         return getBounds().within(other.getBounds());
+    }
+
+    public boolean hasHorizontalChildrenOOB(){
+        Pair<Integer, Integer> OOBAmount = getHorizontalChildrenOOBAmount();
+        return OOBAmount.getKey() > 0 || OOBAmount.getValue() > 0;
+    }
+    public Pair<Integer, Integer> getHorizontalChildrenOOBAmount(){
+        Bounds myBounds = getLocalBounds();
+        Bounds fullChildBounds = getFullChildLocalBounds();
+
+        if (fullChildBounds == null) {
+            return new Pair<>(0, 0);
+        }
+
+        int leftOOBAmount = 0;
+        int rightOOBAmount = 0;
+
+        if(fullChildBounds.left < 0) {
+            leftOOBAmount = -fullChildBounds.left;
+        }
+        if(fullChildBounds.right > myBounds.right){
+            rightOOBAmount = fullChildBounds.right - myBounds.right;
+        }
+
+        return new Pair<>(leftOOBAmount, rightOOBAmount);
+    }
+
+    public boolean hasVerticalChildrenOOB(){
+        Pair<Integer, Integer> OOBAmount = getVerticalChildrenOOBAmount();
+        return OOBAmount.getKey() > 0 || OOBAmount.getValue() > 0;
+    }
+    public Pair<Integer, Integer> getVerticalChildrenOOBAmount(){
+        Bounds myBounds = getLocalBounds();
+        Bounds fullChildBounds = getFullChildLocalBounds();
+
+        if (fullChildBounds == null) {
+            return new Pair<>(0, 0);
+        }
+
+        int bottomOOBAmount = 0;
+        int topOOBAmount = 0;
+
+        if(fullChildBounds.bottom < 0) {
+            bottomOOBAmount = -fullChildBounds.bottom;
+        }
+        if(fullChildBounds.top > myBounds.top){
+            topOOBAmount = fullChildBounds.top - myBounds.top;
+        }
+
+        return new Pair<>(bottomOOBAmount, topOOBAmount);
     }
 
     //endregion

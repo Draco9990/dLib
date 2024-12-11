@@ -1,3 +1,6 @@
+--> Add percentage padding but in a smart way
+-> instead of haivng it request element width/height, instead change it so that it accepts methods to 'modify' the final element x, y, widht, height.
+
 --> calculate width and height and pos once per in render, and cache for everyone else there
 
 --> when dragging elements, it drags ALL elements that are hovered, hjover in general seems to be affecting more than just top layer?

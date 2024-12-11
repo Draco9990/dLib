@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import basemod.Pair;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
@@ -36,11 +37,7 @@ public class VerticalScrollbar extends Scrollbar {
         super.updateSelf();
 
         if(boundElement != null){
-            Bounds childBounds = boundElement.getChildUnscrolledBounds();
-            if(childBounds.top > boundElement.getWorldPositionY() + getHeight()){
-                slider.showAndEnableInstantly();
-            }
-            else if(childBounds.bottom < boundElement.getWorldPositionY()){
+            if(boundElement.hasVerticalChildrenOOB()){
                 slider.showAndEnableInstantly();
             }
             else{
@@ -95,15 +92,10 @@ public class VerticalScrollbar extends Scrollbar {
     @Override
     public void onScrollbarScrolled(float percentage) {
         if(boundElement != null){
-            Bounds bounds = boundElement.getChildUnscrolledBounds();
+            Pair<Integer, Integer> oobAmounts = boundElement.getVerticalChildrenOOBAmount();
 
-            int boundElementTopY = boundElement.getWorldPositionY() + boundElement.getHeight();
-            int correctionAmount = Math.max(0, bounds.top - boundElementTopY);
-
-            int totalHeight = bounds.top - bounds.bottom;
-            int overlapAmount = Math.max(0, bounds.top - boundElement.getWorldPositionY());
-            int scrollableArea = totalHeight - overlapAmount + correctionAmount;
-            int offset = (int) (scrollableArea - (scrollableArea * percentage)) - correctionAmount;
+            int scrollableArea = oobAmounts.getKey() + oobAmounts.getValue();
+            int offset = (int) (scrollableArea - (scrollableArea * percentage)) - oobAmounts.getValue();
 
             boundElement.setLocalChildOffsetY(offset);
         }

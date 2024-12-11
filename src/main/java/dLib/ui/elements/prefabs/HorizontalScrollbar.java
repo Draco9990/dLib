@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import basemod.Pair;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
@@ -36,11 +37,7 @@ public class HorizontalScrollbar extends Scrollbar {
         super.updateSelf();
 
         if(boundElement != null){
-            Bounds childBounds = boundElement.getChildUnscrolledBounds();
-            if(childBounds.right > boundElement.getWorldPositionX() + getWidth()){
-                slider.showAndEnableInstantly();
-            }
-            else if(childBounds.left < boundElement.getWorldPositionX()){
+            if(boundElement.hasHorizontalChildrenOOB()){
                 slider.showAndEnableInstantly();
             }
             else{
@@ -73,15 +70,10 @@ public class HorizontalScrollbar extends Scrollbar {
     @Override
     public void onScrollbarScrolled(float percentage) {
         if(boundElement != null){
-            Bounds bounds = boundElement.getChildUnscrolledBounds();
+            Pair<Integer, Integer> oobAmounts = boundElement.getHorizontalChildrenOOBAmount();
 
-            int boundElementRightX = boundElement.getWorldPositionX() + boundElement.getWidth();
-            int correctionAmount = Math.max(0, bounds.right - boundElementRightX);
-
-            int totalWidth = bounds.right - bounds.left;
-            int overlapAmount = Math.max(0, bounds.right - boundElement.getWorldPositionX());
-            int scrollableArea = totalWidth - overlapAmount + correctionAmount;
-            int offset = (int) (scrollableArea - (scrollableArea * percentage)) - correctionAmount;
+            int scrollableArea = oobAmounts.getKey() + oobAmounts.getValue();
+            int offset = (int) (scrollableArea - (scrollableArea * percentage)) - oobAmounts.getValue();
 
             boundElement.setLocalChildOffsetX(offset);
         }
