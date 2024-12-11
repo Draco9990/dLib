@@ -240,26 +240,34 @@ public class UIElement {
             float targetHbHeight = getHeight() * Settings.yScale;
 
             Bounds maskBounds = getMaskWorldBounds();
-            Bounds myBounds = getBounds();
-            if(maskBounds != null && getBounds().overlaps(maskBounds) && !myBounds.within(maskBounds)){
-                if(getWorldPositionX() < maskBounds.left){
-                    float newTargetHbX = (maskBounds.left + getWidth() * 0.5f) * Settings.xScale;
-                    targetHbWidth -= newTargetHbX - targetHbX;
-                    targetHbX = newTargetHbX;
-                }
-                if(getWorldPositionY() < maskBounds.bottom){
-                    float newTargetHbY = (maskBounds.bottom + getHeight() * 0.5f) * Settings.yScale;
-                    targetHbHeight -= newTargetHbY - targetHbY;
-                    targetHbY = newTargetHbY;
-                }
+            if(maskBounds != null){
+                Bounds myBounds = getBounds();
+                if(getBounds().overlaps(maskBounds)){
+                    if(!myBounds.within(maskBounds)){
+                        if(getWorldPositionX() < maskBounds.left){
+                            float newTargetHbX = (maskBounds.left + getWidth() * 0.5f) * Settings.xScale;
+                            targetHbWidth -= newTargetHbX - targetHbX;
+                            targetHbX = newTargetHbX;
+                        }
+                        if(getWorldPositionY() < maskBounds.bottom){
+                            float newTargetHbY = (maskBounds.bottom + getHeight() * 0.5f) * Settings.yScale;
+                            targetHbHeight -= newTargetHbY - targetHbY;
+                            targetHbY = newTargetHbY;
+                        }
 
 
-                if(getWorldPositionX() + getWidth() > maskBounds.right){
-                    targetHbWidth = (maskBounds.right - getWorldPositionX()) * Settings.xScale;
+                        if(getWorldPositionX() + getWidth() > maskBounds.right){
+                            targetHbWidth = (maskBounds.right - getWorldPositionX()) * Settings.xScale;
+                        }
+                        if(getWorldPositionY() + getHeight() > maskBounds.top){
+                            targetHbHeight = (maskBounds.top - getWorldPositionY()) * Settings.yScale;
+                            targetHbY = (maskBounds.top - (targetHbHeight / Settings.yScale * 0.5f)) * Settings.yScale;
+                        }
+                    }
                 }
-                if(getWorldPositionY() + getHeight() > maskBounds.top){
-                    targetHbHeight = (maskBounds.top - getWorldPositionY()) * Settings.yScale;
-                    targetHbY = (maskBounds.top - (targetHbHeight / Settings.yScale * 0.5f)) * Settings.yScale;
+                else{
+                    targetHbWidth = 0;
+                    targetHbHeight = 0;
                 }
             }
 
@@ -1260,10 +1268,6 @@ public class UIElement {
     }
     public boolean isVisible(){
         if(hasParent() && !parent.isVisible()) return false;
-        return isVisible && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
-    }
-    public boolean isVisibleNoOverlapCheck(){
-        if(hasParent() && !parent.isVisibleNoOverlapCheck()) return false;
         return isVisible;
     }
 
@@ -1282,11 +1286,6 @@ public class UIElement {
     }
     public boolean isEnabled(){
         if(hasParent() && !parent.isEnabled()) return false;
-        return isEnabled && (!hasMaskBounds() || getBounds().overlaps(getMaskWorldBounds()));
-    }
-
-    public boolean isEnabledNoOverlapCheck(){
-        if(hasParent() && !parent.isEnabledNoOverlapCheck()) return false;
         return isEnabled;
     }
 
@@ -1315,11 +1314,6 @@ public class UIElement {
         if(hasParent() && !parent.isActive()) return false;
 
         return isVisible() || isEnabled();
-    }
-    public boolean isActiveNoOverlapCheck(){
-        if(hasParent() && !parent.isActiveNoOverlapCheck()) return false;
-
-        return isVisibleNoOverlapCheck() || isEnabledNoOverlapCheck();
     }
 
     //endregion
@@ -1490,7 +1484,7 @@ public class UIElement {
     }
     private Bounds getChildUnscrolledBoundsRecursive(Bounds bounds){
         for(UIElementChild child : children){
-            if(!(child.element.isActiveNoOverlapCheck())){
+            if(!(child.element.isActive())){
                 continue;
             }
 

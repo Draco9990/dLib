@@ -61,7 +61,7 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
         int currentYPos = getHeight();
 
         for(ItemBoxItem item : items){
-            if(!item.renderForItem.isActiveNoOverlapCheck()){
+            if(!item.renderForItem.isActive()){
                 continue;
             }
 
