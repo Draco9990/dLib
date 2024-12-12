@@ -15,7 +15,7 @@ public class PercentagePosition extends AbstractPosition {
         this.percentage = percentage;
     }
 
-    public float getVal(){
+    public float getValueRaw(){
         return percentage;
     }
 

@@ -255,10 +255,12 @@ public class UIElement {
             child.element.destroy();
         }
 
-        GlobalEvents.sendMessage(new GlobalEvents.Events.PostElementDestroyEvent(this));
+        onDestroyed();
     }
 
     public void onDestroyed(){
+        GlobalEvents.sendMessage(new GlobalEvents.Events.PostElementDestroyEvent(this));
+        delayedActions.clear();
     }
 
     //endregion

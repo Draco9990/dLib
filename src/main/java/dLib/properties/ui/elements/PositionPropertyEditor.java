@@ -9,11 +9,18 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.StaticPosition;
-import org.apache.logging.log4j.util.TriConsumer;
+import org.apache.logging.log4j.util.BiConsumer;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProperty<? extends TPositionProperty>> {
+
+    private UIElement xInputVal;
+    private UIElement yInputVal;
+
+    private ComboBox<AbstractPosition> xValueChanged;
+    private ComboBox<AbstractPosition> yValueChanged;
 
     public PositionPropertyEditor(TPositionProperty<? extends TPositionProperty> property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
         super(property, xPos, yPos, width, multiline);
@@ -30,9 +37,10 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             TextBox xLabel = new TextBox("X:", Dim.perc(0.1), Dim.fill());
             horizontalBox.addItem(xLabel);
 
-            horizontalBox.addItem(buildPositionValueBox(property, property.getXPosition(), true));
+            buildXPositionValueBox(property, property.getXPosition());
+            horizontalBox.addItem(xInputVal);
 
-            ComboBox<AbstractPosition> xValueChanged = new ComboBox<AbstractPosition>(property.getXPosition(), positionOptions, Dim.perc(0.1f), Dim.px(15)){
+            xValueChanged = new ComboBox<AbstractPosition>(property.getXPosition(), positionOptions, Dim.perc(0.1f), Dim.px(15)){
                 @Override
                 public String itemToString(AbstractPosition item) {
                     return item.getSimpleDisplayName();
@@ -50,9 +58,10 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             TextBox yLabel = new TextBox("Y:", Dim.perc(0.1), Dim.fill());
             horizontalBox.addItem(yLabel);
 
-            horizontalBox.addItem(buildPositionValueBox(property, property.getYPosition(), false));
+            buildYPositionValueBox(property, property.getYPosition());
+            horizontalBox.addItem(yInputVal);
 
-            ComboBox<AbstractPosition> yValueChanged = new ComboBox<AbstractPosition>(property.getYPosition(), positionOptions, Dim.perc(0.1f), Dim.px(15)){
+            yValueChanged = new ComboBox<AbstractPosition>(property.getYPosition(), positionOptions, Dim.perc(0.1f), Dim.px(15)){
                 @Override
                 public String itemToString(AbstractPosition item) {
                     return item.getSimpleDisplayName();
@@ -64,41 +73,104 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             });
             yValueChanged.getTextBox().setFontScaleOverride(0.5f);
             horizontalBox.addItem(yValueChanged);
-
-            property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
-                xValueChanged.setSelectedItem(property.getXPosition());
-                yValueChanged.setSelectedItem(property.getYPosition());
-            });
         }
+
+        property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
+            delayedActions.add(() -> {
+                if(oldValue.getKey().getClass() != newValue.getKey().getClass()){
+                    xValueChanged.setSelectedItem(property.getXPosition());
+                    buildXPositionValueBox(property, property.getXPosition());
+                }
+
+                if(oldValue.getValue().getClass() != newValue.getValue().getClass()){
+                    yValueChanged.setSelectedItem(property.getYPosition());
+                    buildYPositionValueBox(property, property.getYPosition());
+                }
+            });
+        });
 
         return horizontalBox;
     }
 
-    private UIElement buildPositionValueBox(TPositionProperty<? extends TPositionProperty> property, AbstractPosition positionValue, boolean isXPos){
+    private void buildXPositionValueBox(TPositionProperty<? extends TPositionProperty> property, AbstractPosition positionValue){
+        UIElement builtValueBox = buildPositionValueBox(positionValue);
+
+        if(xInputVal != null){
+            xInputVal.getParent().replaceChild(xInputVal, builtValueBox);
+        }
+
+        xInputVal = builtValueBox;
+
+        if(positionValue instanceof StaticPosition){
+            Inputfield inputfield = (Inputfield) builtValueBox;
+            inputfield.addOnValueChangedListener(s -> property.setXPosition(new StaticPosition(Integer.parseInt(s))));
+
+            property.onValueChangedEvent.subscribe(xInputVal, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> {
+                if(abstractPositionAbstractPositionPair.getKey().getClass() == abstractPositionAbstractPositionPair2.getKey().getClass()){
+                    ((Inputfield)xInputVal).getTextBox().setText(String.valueOf(((StaticPosition)abstractPositionAbstractPositionPair2.getKey()).getValueRaw()));
+                }
+            });
+        }
+        else if(positionValue instanceof PercentagePosition){
+            Inputfield inputfield = (Inputfield) builtValueBox;
+            inputfield.addOnValueChangedListener(s -> property.setXPosition(new PercentagePosition(Float.parseFloat(s))));
+
+            property.onValueChangedEvent.subscribe(xInputVal, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> {
+                if(abstractPositionAbstractPositionPair.getKey().getClass() == abstractPositionAbstractPositionPair2.getKey().getClass()){
+                    ((Inputfield)yInputVal).getTextBox().setText(String.valueOf(((PercentagePosition)abstractPositionAbstractPositionPair2.getKey()).getValueRaw()));
+                }
+            });
+        }
+    }
+
+    private void buildYPositionValueBox(TPositionProperty<? extends TPositionProperty> property, AbstractPosition positionValue){
+        UIElement builtValueBox = buildPositionValueBox(positionValue);
+
+        if(yInputVal != null){
+            yInputVal.getParent().replaceChild(yInputVal, builtValueBox);
+        }
+        else{
+            yInputVal = builtValueBox;
+        }
+
+        if(positionValue instanceof StaticPosition){
+            Inputfield inputfield = (Inputfield) builtValueBox;
+            inputfield.addOnValueChangedListener(s -> property.setYPosition(new StaticPosition(Integer.parseInt(s))));
+
+            property.onValueChangedEvent.subscribe(yInputVal, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> {
+                if(abstractPositionAbstractPositionPair.getValue().getClass() == abstractPositionAbstractPositionPair2.getValue().getClass()){
+                    inputfield.getTextBox().setText(String.valueOf(((StaticPosition)abstractPositionAbstractPositionPair2.getValue()).getValueRaw()));
+                }
+            });
+        }
+        else if(positionValue instanceof PercentagePosition){
+            Inputfield inputfield = (Inputfield) builtValueBox;
+            inputfield.addOnValueChangedListener(s -> property.setYPosition(new PercentagePosition(Float.parseFloat(s))));
+
+            property.onValueChangedEvent.subscribe(yInputVal, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> {
+                if(abstractPositionAbstractPositionPair.getValue().getClass() == abstractPositionAbstractPositionPair2.getValue().getClass()){
+                    inputfield.getTextBox().setText(String.valueOf(((PercentagePosition)abstractPositionAbstractPositionPair2.getValue()).getValueRaw()));
+                }
+            });
+        }
+    }
+
+    private UIElement buildPositionValueBox(AbstractPosition positionValue){
+        UIElement builtValueBox = null;
+
         if(positionValue instanceof StaticPosition){
             Inputfield inputfield = new Inputfield(String.valueOf(((StaticPosition)positionValue).getValueRaw()), Dim.perc(0.25f), Dim.fill());
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
 
-            if(isXPos){
-                inputfield.addOnValueChangedListener((newVal) -> {
-                    property.setXPosition(new StaticPosition(Integer.parseInt(newVal)));
-                });
-            }
-            else{
-                inputfield.addOnValueChangedListener((newVal) -> {
-                    property.setYPosition(new StaticPosition(Integer.parseInt(newVal)));
-                });
-            }
-
-            property.onValueChangedEvent.subscribe(inputfield, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> delayedActions.add(() -> {
-                UIElement newElement = buildPositionValueBox(property, isXPos ? property.getXPosition() : property.getYPosition(), isXPos);
-                inputfield.getParent().replaceChild(inputfield, newElement);
-            }));
-
-            return inputfield;
+            builtValueBox = inputfield;
         }
-        else{
-            return new Spacer(Dim.fill(), Dim.fill());
+        else if(positionValue instanceof PercentagePosition){
+            Inputfield inputfield = new Inputfield(String.valueOf(((PercentagePosition)positionValue).getValueRaw()), Dim.perc(0.25f), Dim.fill());
+            inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL);
+
+            builtValueBox = inputfield;
         }
+
+        return builtValueBox;
     }
 }
