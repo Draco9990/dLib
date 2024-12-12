@@ -169,7 +169,7 @@ public class UIElement {
                 deselect();
             }
 
-            if(this.isContextual()){
+            if(this.isContextual() && event.source != this && !event.source.isDescendantOf(this)){
                 destroy();
             }
         });
@@ -254,6 +254,8 @@ public class UIElement {
             UIElementChild child = children.get(i);
             child.element.destroy();
         }
+
+        GlobalEvents.sendMessage(new GlobalEvents.Events.PostElementDestroyEvent(this));
     }
 
     public void onDestroyed(){
@@ -569,9 +571,13 @@ public class UIElement {
     public UIElement replaceChild(UIElement original, UIElement replacement){
         for(UIElementChild child : children){
             if(Objects.equals(child.element, original)){
-                child.element.setParent(null);
+                UIElement oldElement = child.element;
+                oldElement.setParent(null);
+
                 child.element = replacement;
                 replacement.setParent(this);
+
+                oldElement.destroy();
                 return this;
             }
         }
@@ -651,6 +657,12 @@ public class UIElement {
         }
 
         return null;
+    }
+
+    public boolean isDescendantOf(UIElement parent){
+        if(this.parent == null) return false;
+        if(this.parent == parent) return true;
+        return this.parent.isDescendantOf(parent);
     }
 
     //endregion

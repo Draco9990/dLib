@@ -5,12 +5,12 @@ import dLib.util.DLibLogger;
 import dLib.util.UIElementEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
+import org.apache.logging.log4j.util.BiConsumer;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -29,7 +29,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     protected Class<? extends AbstractPropertyEditor> propertyEditorClass;
 
-    public transient UIElementEvent<TriConsumer<PropertyType, ValueType, ValueType>> onValueChangedEvent = new UIElementEvent<>();
+    public transient UIElementEvent<BiConsumer<ValueType, ValueType>> onValueChangedEvent = new UIElementEvent<>();
 
     private transient ArrayList<Function<PropertyType, Boolean>> isPropertyVisibleFunctions = new ArrayList<>();
 
@@ -96,12 +96,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     }
 
     public void onValueChanged(ValueType oldValue, ValueType newValue){
-        onValueChangedEvent.invoke(new Consumer<TriConsumer<PropertyType, ValueType, ValueType>>() {
-            @Override
-            public void accept(TriConsumer<PropertyType, ValueType, ValueType> propertyTypeValueTypeValueTypeTriConsumer) {
-                propertyTypeValueTypeValueTypeTriConsumer.accept((PropertyType) this, oldValue, newValue);
-            }
-        });
+        onValueChangedEvent.invoke(propertyTypeValueTypeValueTypeTriConsumer -> propertyTypeValueTypeValueTypeTriConsumer.accept(oldValue, newValue));
     }
 
     //endregion

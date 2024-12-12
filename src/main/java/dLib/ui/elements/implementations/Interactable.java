@@ -281,7 +281,7 @@ public class Interactable extends Renderable{
 
         public InteractableData(){
             //TODO handle serialization
-            id.onValueChangedEvent.subscribeManaged((_property, s, s2) -> {
+            id.onValueChangedEvent.subscribeManaged((s, s2) -> {
                 onLeftClick.setDNCMethodName(s2 + "_onLeftClick");
                 onLeftClickHeld.setDNCMethodName(s2 + "_onLeftClickHeld");
                 onLeftClickRelease.setDNCMethodName(s2 + "_onLeftClickRelease");

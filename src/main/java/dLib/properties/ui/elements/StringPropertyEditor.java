@@ -27,7 +27,7 @@ public abstract class StringPropertyEditor extends AbstractPropertyEditor<TStrin
     protected UIElement buildContent(TStringProperty<?> property, AbstractDimension width, AbstractDimension height) {
         input = new Inputfield(property.getValue(), width, height);
 
-        property.onValueChangedEvent.subscribe(this, (_property, s, s2) -> {
+        property.onValueChangedEvent.subscribe(this, (s, s2) -> {
             if(!input.getTextBox().getText().equals(property.getValue())){
                 input.getTextBox().setText(property.getValue());
             }

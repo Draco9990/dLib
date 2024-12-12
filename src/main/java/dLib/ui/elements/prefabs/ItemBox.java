@@ -266,6 +266,32 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
     //endregion
 
+    //region Item Management Overrides
+
+    @Override
+    public UIElement replaceChild(UIElement original, UIElement replacement) {
+        for(ItemBoxItem item : originalItems){
+            if(item.renderForItem.equals(original)){
+                item.renderForItem = replacement;
+                if(item.item.equals(original)) item.item = (ItemType) original;
+                break;
+            }
+        }
+
+        for(ItemBoxItem item : items){
+            if(item.renderForItem.equals(original)){
+                item.renderForItem = replacement;
+                if(item.item.equals(original)) item.item = (ItemType) original;
+                break;
+            }
+        }
+
+        return super.replaceChild(original, replacement);
+    }
+
+
+    //endregion
+
     //region Item UI
 
     public UIElement makeUIForItem(ItemType item){

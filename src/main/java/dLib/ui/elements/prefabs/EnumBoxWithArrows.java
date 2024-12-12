@@ -47,7 +47,7 @@ public class EnumBoxWithArrows extends UIElement {
 
         enumBox.getButton().addOnLeftClickEvent(property::next);
 
-        property.onValueChangedEvent.subscribe(this, (_property, integer, integer2) -> {
+        property.onValueChangedEvent.subscribe(this, (integer, integer2) -> {
             if(!enumBox.getTextBox().getText().equals(property.getValue().toString())){
                 enumBox.getTextBox().setText(property.getValueForDisplay());
             }

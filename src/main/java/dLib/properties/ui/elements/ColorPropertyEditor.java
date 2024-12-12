@@ -45,7 +45,7 @@ public class ColorPropertyEditor extends AbstractPropertyEditor<TColorProperty<T
             }
         }.setImage(UITheme.whitePixel).setRenderColor(property.getColorValue());
 
-        property.onValueChangedEvent.subscribe(this, (tColorProperty, s, s2) -> middleButton.setRenderColor(property.getColorValue()));
+        property.onValueChangedEvent.subscribe(this, (s, s2) -> middleButton.setRenderColor(property.getColorValue()));
 
         return middleButton;
     }

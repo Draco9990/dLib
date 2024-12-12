@@ -77,7 +77,7 @@ public class IntegerVector2PropertyEditor extends AbstractPropertyEditor<TIntege
             horizontalBox.addItem(yInput);
         }
 
-        property.onValueChangedEvent.subscribe(this, (_property, integerVector2, integerVector22) -> {
+        property.onValueChangedEvent.subscribe(this, (integerVector2, integerVector22) -> {
             TextBox xBox = xInput.getTextBox();
             TextBox yBox = yInput.getTextBox();
 

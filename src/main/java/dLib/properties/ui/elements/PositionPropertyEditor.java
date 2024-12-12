@@ -1,5 +1,6 @@
 package dLib.properties.ui.elements;
 
+import basemod.Pair;
 import dLib.properties.objects.templates.TPositionProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.*;
@@ -8,17 +9,18 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.StaticPosition;
+import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.ArrayList;
 
-public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProperty<?>> {
+public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProperty<? extends TPositionProperty>> {
 
-    public PositionPropertyEditor(TPositionProperty<?> property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
+    public PositionPropertyEditor(TPositionProperty<? extends TPositionProperty> property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
         super(property, xPos, yPos, width, multiline);
     }
 
     @Override
-    protected UIElement buildContent(TPositionProperty<?> property, AbstractDimension width, AbstractDimension height) {
+    protected UIElement buildContent(TPositionProperty<? extends TPositionProperty> property, AbstractDimension width, AbstractDimension height) {
         ArrayList<AbstractPosition> positionOptions = new ArrayList<>();
         positionOptions.add(new StaticPosition(0));
         positionOptions.add(new PercentagePosition(0));
@@ -63,7 +65,7 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             yValueChanged.getTextBox().setFontScaleOverride(0.5f);
             horizontalBox.addItem(yValueChanged);
 
-            property.onValueChangedEvent.subscribe(this, (_property, oldValue, newValue) -> {
+            property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
                 xValueChanged.setSelectedItem(property.getXPosition());
                 yValueChanged.setSelectedItem(property.getYPosition());
             });
@@ -72,7 +74,7 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
         return horizontalBox;
     }
 
-    private UIElement buildPositionValueBox(TPositionProperty<?> property, AbstractPosition positionValue, boolean isXPos){
+    private UIElement buildPositionValueBox(TPositionProperty<? extends TPositionProperty> property, AbstractPosition positionValue, boolean isXPos){
         if(positionValue instanceof StaticPosition){
             Inputfield inputfield = new Inputfield(String.valueOf(((StaticPosition)positionValue).getValueRaw()), Dim.perc(0.25f), Dim.fill());
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
@@ -88,13 +90,10 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
                 });
             }
 
-
-            if(isXPos){
-                property.onValueChangedEvent.subscribe(this, (_property, oldValue, newValue) -> inputfield.getTextBox().setText(String.valueOf(((StaticPosition)newValue.getKey()).getValueRaw())));
-            }
-            else{
-                property.onValueChangedEvent.subscribe(this, (_property, oldValue, newValue) -> inputfield.getTextBox().setText(String.valueOf(((StaticPosition)newValue.getValue()).getValueRaw())));
-            }
+            property.onValueChangedEvent.subscribe(inputfield, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> delayedActions.add(() -> {
+                UIElement newElement = buildPositionValueBox(property, isXPos ? property.getXPosition() : property.getYPosition(), isXPos);
+                inputfield.getParent().replaceChild(inputfield, newElement);
+            }));
 
             return inputfield;
         }

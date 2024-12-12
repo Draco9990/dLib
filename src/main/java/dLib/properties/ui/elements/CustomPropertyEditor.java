@@ -43,7 +43,7 @@ public class CustomPropertyEditor<PropertyType extends TCustomProperty<ItemType,
         });
         middleButton.getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);
 
-        property.onValueChangedEvent.subscribe(this, (_property, itemType, itemType2) -> middleButton.getTextBox().setText(property.getValueForDisplay()));
+        property.onValueChangedEvent.subscribe(this, (itemType, itemType2) -> middleButton.getTextBox().setText(property.getValueForDisplay()));
 
         return middleButton;
     }

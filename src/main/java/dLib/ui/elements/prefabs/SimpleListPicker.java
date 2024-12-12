@@ -33,6 +33,11 @@ public class SimpleListPicker<OptionType> extends UIElement {
             }
 
             @Override
+            public void updateSelf() {
+                super.updateSelf();
+            }
+
+            @Override
             public String itemToString(OptionType item) {
                 return SimpleListPicker.this.itemToString(item);
             }
