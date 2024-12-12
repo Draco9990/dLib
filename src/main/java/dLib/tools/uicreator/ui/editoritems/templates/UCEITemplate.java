@@ -5,6 +5,7 @@ import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIDraggableComponent;
+import dLib.ui.elements.components.UIResizeableComponent;
 import dLib.util.ui.position.StaticPosition;
 
 public abstract class UCEITemplate {
@@ -31,6 +32,8 @@ public abstract class UCEITemplate {
         }
 
         UIDraggableComponent draggableComp = editorItem.addComponent(new UIDraggableComponent());
+
+        UIResizeableComponent resizeableComp = editorItem.addComponent(new UIResizeableComponent());
 
         ElementGroupModifierComponent groupComp = editorItem.addComponent(new ElementGroupModifierComponent(editorItem, "editorItem"));
 

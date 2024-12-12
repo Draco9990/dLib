@@ -76,6 +76,30 @@ public class PercentagePosition extends AbstractPosition {
     }
 
     @Override
+    public void offsetHorizontal(UIElement element, int amount) {
+        int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
+
+        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
+            percentage += (float)amount / parentWidth;
+        }
+        else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
+            percentage -= (float)amount / parentWidth;
+        }
+    }
+
+    @Override
+    public void offsetVertical(UIElement element, int amount) {
+        int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
+
+        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
+            percentage += (float)amount / parentHeight;
+        }
+        else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
+            percentage -= (float)amount / parentHeight;
+        }
+    }
+
+    @Override
     public AbstractPosition cpy() {
         return new PercentagePosition(percentage);
     }

@@ -7,11 +7,13 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.properties.objects.templates.TProperty;
 import dLib.util.SerializationHelpers;
+import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public abstract class ScreenEditorItem<ElementType extends UIElement, DataType extends UIElement.UIElementData> extends Resizeable {
+public abstract class ScreenEditorItem<ElementType extends UIElement, DataType extends UIElement.UIElementData> extends Interactable {
     //region Variables
 
     private ScreenEditorBaseScreen screenEditor;
@@ -39,13 +41,13 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
 
 
     public ScreenEditorItem(AbstractPosition xPos, AbstractPosition yPos, int width, int height){
-        super(null, xPos, yPos, width, height);
+        super(null, xPos, yPos, Dim.perc(width), Dim.px(height));
         elementData = wrapDataType(makeDataType());
         remakePreviewElement();
     }
 
     public ScreenEditorItem(DataType elementData){
-        super(null, Pos.px(0), Pos.px(0), elementData.dimensions.getXValue(), elementData.dimensions.getYValue());
+        super(null, Pos.px(0), Pos.px(0), Dim.px(elementData.dimensions.getXValue()), Dim.px(elementData.dimensions.getYValue()));
         this.elementData = wrapDataType(elementData);
         remakePreviewElement();
     }

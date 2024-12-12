@@ -117,7 +117,7 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
 
             property.onValueChangedEvent.subscribe(xInputVal, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> {
                 if(abstractPositionAbstractPositionPair.getKey().getClass() == abstractPositionAbstractPositionPair2.getKey().getClass()){
-                    ((Inputfield)yInputVal).getTextBox().setText(String.valueOf(((PercentagePosition)abstractPositionAbstractPositionPair2.getKey()).getValueRaw()));
+                    ((Inputfield)xInputVal).getTextBox().setText(String.valueOf(((PercentagePosition)abstractPositionAbstractPositionPair2.getKey()).getValueRaw()));
                 }
             });
         }
@@ -129,9 +129,8 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
         if(yInputVal != null){
             yInputVal.getParent().replaceChild(yInputVal, builtValueBox);
         }
-        else{
-            yInputVal = builtValueBox;
-        }
+
+        yInputVal = builtValueBox;
 
         if(positionValue instanceof StaticPosition){
             Inputfield inputfield = (Inputfield) builtValueBox;
@@ -139,7 +138,7 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
 
             property.onValueChangedEvent.subscribe(yInputVal, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> {
                 if(abstractPositionAbstractPositionPair.getValue().getClass() == abstractPositionAbstractPositionPair2.getValue().getClass()){
-                    inputfield.getTextBox().setText(String.valueOf(((StaticPosition)abstractPositionAbstractPositionPair2.getValue()).getValueRaw()));
+                    ((Inputfield)yInputVal).getTextBox().setText(String.valueOf(((StaticPosition)abstractPositionAbstractPositionPair2.getValue()).getValueRaw()));
                 }
             });
         }
@@ -149,7 +148,7 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
 
             property.onValueChangedEvent.subscribe(yInputVal, (abstractPositionAbstractPositionPair, abstractPositionAbstractPositionPair2) -> {
                 if(abstractPositionAbstractPositionPair.getValue().getClass() == abstractPositionAbstractPositionPair2.getValue().getClass()){
-                    inputfield.getTextBox().setText(String.valueOf(((PercentagePosition)abstractPositionAbstractPositionPair2.getValue()).getValueRaw()));
+                    ((Inputfield)yInputVal).getTextBox().setText(String.valueOf(((PercentagePosition)abstractPositionAbstractPositionPair2.getValue()).getValueRaw()));
                 }
             });
         }

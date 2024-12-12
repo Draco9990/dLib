@@ -109,6 +109,26 @@ public class StaticPosition extends AbstractPosition {
     }
 
     @Override
+    public void offsetHorizontal(UIElement element, int amount) {
+        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
+            position += amount;
+        }
+        else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
+            position -= amount;
+        }
+    }
+
+    @Override
+    public void offsetVertical(UIElement element, int amount) {
+        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
+            position += amount;
+        }
+        else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
+            position -= amount;
+        }
+    }
+
+    @Override
     public AbstractPosition cpy() {
         return new StaticPosition(position);
     }

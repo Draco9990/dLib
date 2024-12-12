@@ -11,6 +11,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -70,7 +71,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
         return false;
     }
     protected void setValue_internal(ValueType value){
-        if(value == this.value) return;
+        if(Objects.equals(this.value, value)) return;
 
         ValueType oldValue = this.value;
         this.value = value;

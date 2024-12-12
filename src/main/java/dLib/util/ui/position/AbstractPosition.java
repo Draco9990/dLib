@@ -79,4 +79,7 @@ public abstract class AbstractPosition {
     public abstract AbstractPosition cpy();
 
     public abstract String getSimpleDisplayName();
+
+    public abstract void offsetHorizontal(UIElement element, int amount);
+    public abstract void offsetVertical(UIElement element, int amount);
 }

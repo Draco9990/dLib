@@ -834,7 +834,14 @@ public class UIElement {
         return this;
     }
     public UIElement offset(int xOffset, int yOffset){
-        setLocalPosition(getLocalPositionX() + xOffset, getLocalPositionY() + yOffset);
+        AbstractPosition xCopy = getLocalPositionXRaw().cpy();
+        AbstractPosition yCopy = getLocalPositionYRaw().cpy();
+
+        xCopy.offsetHorizontal(this, xOffset);
+        yCopy.offsetVertical(this, yOffset);
+
+        setLocalPosition(xCopy, yCopy);
+
         return this;
     }
     //endregion
@@ -1972,6 +1979,10 @@ public class UIElement {
     }
     public void removeOnLeftClickReleaseEvent(UUID id){
         onLeftClickReleaseEvents.remove(id);
+    }
+
+    public boolean isHeld(){
+        return holdingLeft;
     }
 
     //endregion
