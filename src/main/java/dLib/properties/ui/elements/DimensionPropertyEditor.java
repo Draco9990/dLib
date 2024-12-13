@@ -4,6 +4,7 @@ import dLib.properties.objects.templates.TDimensionProperty;
 import dLib.properties.objects.templates.TPositionProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.*;
+import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.*;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PercentagePosition;
@@ -173,6 +174,30 @@ public class DimensionPropertyEditor extends AbstractPropertyEditor<TDimensionPr
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL);
 
             builtValueBox = inputfield;
+        }
+        else if(positionValue instanceof FillDimension){
+            TextBox textBox = new TextBox("fill", Dim.perc(0.25f), Dim.fill());
+            textBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
+
+            builtValueBox = textBox;
+        }
+        else if(positionValue instanceof AutoDimension){
+            TextBox textBox = new TextBox("auto", Dim.perc(0.25f), Dim.fill());
+            textBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
+
+            builtValueBox = textBox;
+        }
+        else if(positionValue instanceof WidthMirrorDimension){
+            TextBox textBox = new TextBox("width", Dim.perc(0.25f), Dim.fill());
+            textBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
+
+            builtValueBox = textBox;
+        }
+        else if(positionValue instanceof HeightMirrorDimension){
+            TextBox textBox = new TextBox("height", Dim.perc(0.25f), Dim.fill());
+            textBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
+
+            builtValueBox = textBox;
         }
 
         return builtValueBox;
