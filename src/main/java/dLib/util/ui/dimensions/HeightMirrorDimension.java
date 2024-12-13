@@ -14,6 +14,16 @@ public class HeightMirrorDimension extends AbstractDimension{
     }
 
     @Override
+    public void resizeWidthBy(UIElement self, int amount) {
+
+    }
+
+    @Override
+    public void resizeHeightBy(UIElement self, int amount) {
+
+    }
+
+    @Override
     public AbstractDimension cpy() {
         return new HeightMirrorDimension();
     }

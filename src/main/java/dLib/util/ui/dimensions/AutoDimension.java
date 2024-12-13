@@ -1,7 +1,7 @@
 package dLib.util.ui.dimensions;
 
 import dLib.ui.elements.UIElement;
-import dLib.util.Bounds;
+import dLib.util.ui.bounds.StaticBounds;
 
 public class AutoDimension extends AbstractDimension {
     public AutoDimension(){
@@ -15,16 +15,26 @@ public class AutoDimension extends AbstractDimension {
 
     @Override
     public int getWidth(UIElement self) {
-        Bounds childBounds = self.getFullChildLocalBounds();
+        StaticBounds childBounds = self.getFullChildLocalBounds();
         if(childBounds == null) return 1;
         return childBounds.right - childBounds.left;
     }
 
     @Override
     public int getHeight(UIElement self) {
-        Bounds childBounds = self.getFullChildLocalBounds();
+        StaticBounds childBounds = self.getFullChildLocalBounds();
         if(childBounds == null) return 1;
         return childBounds.top - childBounds.bottom;
+    }
+
+    @Override
+    public void resizeWidthBy(UIElement self, int amount) {
+
+    }
+
+    @Override
+    public void resizeHeightBy(UIElement self, int amount) {
+
     }
 
     @Override

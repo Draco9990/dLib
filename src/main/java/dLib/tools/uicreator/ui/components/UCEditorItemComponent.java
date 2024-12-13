@@ -10,6 +10,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.util.IntegerVector2;
+import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.StaticPosition;
 
@@ -26,7 +27,7 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
 
     @Override
     public void onRegisterComponent(UIElement owner) {
-        owner.setBoundWithinParent(true);
+        owner.setContainerBounds(Bound.parent(owner));
 
         onPositionChangedEventID = owner.addOnPositionChangedConsumer((element) -> {
             UCEditor editor = element.getParentOfType(UCEditor.class);

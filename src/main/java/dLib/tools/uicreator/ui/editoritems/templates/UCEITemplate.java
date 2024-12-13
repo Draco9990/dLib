@@ -33,7 +33,7 @@ public abstract class UCEITemplate {
 
         UIDraggableComponent draggableComp = editorItem.addComponent(new UIDraggableComponent());
 
-        UIResizeableComponent resizeableComp = editorItem.addComponent(new UIResizeableComponent());
+        UIResizeableComponent resizeableComp = editorItem.addComponent(new UIResizeableComponent(editorItem));
 
         ElementGroupModifierComponent groupComp = editorItem.addComponent(new ElementGroupModifierComponent(editorItem, "editorItem"));
 

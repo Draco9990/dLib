@@ -1,5 +1,6 @@
 package dLib.util.ui.dimensions;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
 public class StaticDimension extends AbstractDimension {
@@ -27,6 +28,24 @@ public class StaticDimension extends AbstractDimension {
     @Override
     public int getHeight(UIElement self) {
         return size;
+    }
+
+    @Override
+    public void resizeWidthBy(UIElement self, int amount) {
+        if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
+            size += amount;
+        } else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
+            size -= amount;
+        }
+    }
+
+    @Override
+    public void resizeHeightBy(UIElement self, int amount) {
+        if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
+            size += amount;
+        } else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
+            size -= amount;
+        }
     }
 
     @Override

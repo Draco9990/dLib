@@ -5,7 +5,7 @@ import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UIThemeManager;
-import dLib.util.Bounds;
+import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -51,7 +51,7 @@ public class HorizontalScrollbar extends Scrollbar {
         Button slider = new Button(Pos.px(0), Pos.px((int) (5 * 1.29f)), Dim.px(60), Dim.perc(0.7762));
         {
             slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_horizontal_train);
-            slider.setBoundWithinParent(true);
+            slider.setContainerBounds(Bound.parent(slider));
             slider.addOnPositionChangedConsumer((element) -> {
                 onScrollbarScrolled((float) slider.getLocalPositionX() / (getWidth() - slider.getWidth()));
             });

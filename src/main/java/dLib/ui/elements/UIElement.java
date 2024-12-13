@@ -26,6 +26,9 @@ import dLib.ui.screens.UIManager;
 import dLib.util.*;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.NoneMethodBinding;
+import dLib.util.ui.bounds.AbstractBounds;
+import dLib.util.ui.bounds.Bound;
+import dLib.util.ui.bounds.StaticBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.StaticDimension;
@@ -66,12 +69,8 @@ public class UIElement {
     private AbstractDimension height = Dim.fill();
     private Integer widthCache = null;
     private Integer heightCache = null;
-    private IntegerVector2 lowerLocalBounds = new IntegerVector2(null, null);
-    private IntegerVector2 upperLocalBounds = new IntegerVector2(null, null);
-    private IntegerVector2 lowerWorldBounds = new IntegerVector2(null, null);
-    private IntegerVector2 upperWorldBounds = new IntegerVector2(null, null);
-    private boolean boundWithinParent = false;
-    private boolean borderToBorderBound = false;
+    private AbstractBounds containerBounds = null;
+    private BoundCalculationType boundCalculationType = BoundCalculationType.CONTAINS;
 
     private AbstractPadding paddingLeft = Padd.px(0);
     private AbstractPadding paddingBottom = Padd.px(0);
@@ -198,13 +197,6 @@ public class UIElement {
         width = Dim.px(data.dimensions.getXValue());
         height = Dim.px(data.dimensions.getYValue());
 
-        setLowerLocalBounds(data.lowerLocalBound.x, data.lowerLocalBound.y);
-        setUpperLocalBounds(data.upperLocalBound.x, data.upperLocalBound.y);
-        setLowerWorldBounds(data.lowerWorldBound.x, data.lowerWorldBound.y);
-        setUpperWorldBounds(data.upperWorldBound.x, data.upperWorldBound.y);
-        setBoundWithinParent(data.boundWithinParent);
-        setBorderToBorderBound(data.borderToBorderBound);
-
         if(!data.isVisible.getValue() && !data.isEnabled.getValue()){
             hideAndDisableInstantly();
         }
@@ -293,9 +285,9 @@ public class UIElement {
             float targetHbWidth = getWidth() * Settings.xScale;
             float targetHbHeight = getHeight() * Settings.yScale;
 
-            Bounds maskBounds = getMaskWorldBounds();
+            StaticBounds maskBounds = getMaskWorldBounds();
             if(maskBounds != null){
-                Bounds myBounds = getWorldBounds();
+                StaticBounds myBounds = getWorldBounds();
                 if(myBounds.overlaps(maskBounds)){
                     if(!myBounds.within(maskBounds)){
                         myBounds.clip(maskBounds);
@@ -418,7 +410,7 @@ public class UIElement {
         if(!shouldRender()) return;
 
         boolean pushedScissors = false;
-        Bounds maskBounds = getMaskWorldBounds();
+        StaticBounds maskBounds = getMaskWorldBounds();
         if(maskBounds != null){
             sb.flush();
 
@@ -521,7 +513,6 @@ public class UIElement {
     }
 
     public void onParentChanged(){
-        ensureElementWithinBounds();
     }
 
     //endregion
@@ -905,150 +896,53 @@ public class UIElement {
 
     //region Bounds
 
-    //region Lower Bounds
-
-    public UIElement setLowerLocalBoundX(Integer bound){
-        return setLowerLocalBounds(bound, lowerLocalBounds.y);
-    }
-    public final UIElement unsetLowerLocalBoundX(){
-        return setLowerLocalBoundX(null);
-    }
-    public final UIElement setLowerLocalBoundY(Integer bound){
-        return setLowerLocalBounds(lowerLocalBounds.x, bound);
-    }
-    public final UIElement unsetLowerLocalBoundY(){
-        return setLowerLocalBoundY(null);
-    }
-    public UIElement setLowerLocalBounds(Integer boundX, Integer boundY){
-        lowerLocalBounds.x = boundX;
-        lowerLocalBounds.y = boundY;
-
-        ensureElementWithinBounds();
-
-        return this;
+    public void setContainerBounds(AbstractBounds bounds){
+        containerBounds = bounds;
     }
 
-    public IntegerVector2 getLowerLocalBounds(){
-        IntegerVector2 lowerBound = lowerLocalBounds.copy();
-
-        IntegerVector2 lowerWorldBoundConverted = worldToLocal(lowerWorldBounds);
-        if(lowerBound.x == null || (lowerWorldBoundConverted.x != null && lowerWorldBoundConverted.x < lowerBound.x)) lowerBound.x = lowerWorldBoundConverted.x;
-        if(lowerBound.y == null || (lowerWorldBoundConverted.y != null && lowerWorldBoundConverted.y < lowerBound.y)) lowerBound.y = lowerWorldBoundConverted.y;
-
-        if(isBoundWithinParent() && hasParent()){
-            lowerBound.x = 0;
-            lowerBound.y = 0;
+    public AbstractBounds getContainerBounds(){
+        if(containerBounds != null){
+            return containerBounds;
         }
 
-        return lowerBound;
+        if(hasParent()){
+            return parent.getContainerBounds();
+        }
+
+        return null;
     }
 
-    public UIElement setLowerWorldBoundX(Integer bound){
-        return setLowerWorldBounds(bound, lowerWorldBounds.y);
-    }
-    public final UIElement unsetLowerWorldBoundX(){
-        return setLowerWorldBoundX(null);
-    }
-    public final UIElement setLowerWorldBoundY(Integer bound){
-        return setLowerWorldBounds(lowerWorldBounds.x, bound);
-    }
-    public final UIElement unsetLowerWorldBoundY(){
-        return setLowerWorldBoundY(null);
-    }
-    public UIElement setLowerWorldBounds(Integer boundX, Integer boundY){
-        lowerWorldBounds.x = boundX;
-        lowerWorldBounds.y = boundY;
+    public StaticBounds getLocalContainerBounds(){
+        Integer worldLeft = containerBounds.getWorldLeft(this);
+        Integer worldRight = containerBounds.getWorldRight(this);
+        Integer worldTop = containerBounds.getWorldTop(this);
+        Integer worldBottom = containerBounds.getWorldBottom(this);
 
-        ensureElementWithinBounds();
+        IntegerVector2 localBottomLeft = worldToLocal(new IntegerVector2(worldLeft, worldBottom));
+        IntegerVector2 localTopRight = worldToLocal(new IntegerVector2(worldRight, worldTop));
 
-        return this;
+        int horizontalOffset = 0;
+        int verticalOffset = 0;
+
+        if(boundCalculationType == BoundCalculationType.CONTAINS_HALF){
+            horizontalOffset = (int) (getWidth() * 0.5f);
+            verticalOffset = (int) (getHeight() * 0.5f);
+        }
+        else if(boundCalculationType == BoundCalculationType.OVERLAPS){
+            horizontalOffset = getWidth();
+            verticalOffset = getHeight();
+        }
+
+        return Bound.constant(localBottomLeft.x - horizontalOffset, localBottomLeft.y - verticalOffset, localTopRight.x + horizontalOffset, localTopRight.y + verticalOffset);
     }
 
     //endregion
-
-    //region Upper Bounds
-
-    public UIElement setUpperLocalBoundX(Integer bound){
-        return setUpperLocalBounds(bound, upperLocalBounds.y);
-    }
-    public final UIElement unsetUpperLocalBoundX(){
-        return setUpperLocalBoundX(null);
-    }
-    public final UIElement setUpperLocalBoundY(Integer bound){
-        return setUpperLocalBounds(upperLocalBounds.x, bound);
-    }
-    public final UIElement unsetUpperLocalBoundY(){
-        return setUpperLocalBoundY(null);
-    }
-    public UIElement setUpperLocalBounds(Integer boundX, Integer boundY){
-        upperLocalBounds.x = boundX;
-        upperLocalBounds.y = boundY;
-
-        ensureElementWithinBounds();
-
-        return this;
-    }
-
-    public IntegerVector2 getUpperLocalBounds(){
-        IntegerVector2 upperBound = upperLocalBounds.copy();
-
-        IntegerVector2 upperWorldBoundsConverted = worldToLocal(upperWorldBounds);
-        if(upperBound.x == null || (upperWorldBoundsConverted.x != null && upperWorldBoundsConverted.x > upperBound.x)) upperBound.x = upperWorldBoundsConverted.x;
-        if(upperBound.y == null || (upperWorldBoundsConverted.y != null && upperWorldBoundsConverted.y > upperBound.y)) upperBound.y = upperWorldBoundsConverted.y;
-
-        if(isBoundWithinParent() && hasParent()){
-            upperBound.x = parent.getWidth();
-            upperBound.y = parent.getHeight();
-        }
-
-        return upperBound;
-    }
-
-    public UIElement setUpperWorldBoundX(Integer bound){
-        return setUpperWorldBounds(bound, upperWorldBounds.y);
-    }
-    public final UIElement unsetUpperWorldBoundX(){
-        return setUpperWorldBoundX(null);
-    }
-    public final UIElement setUpperWorldBoundY(Integer bound){
-        return setUpperWorldBounds(upperWorldBounds.x, bound);
-    }
-    public final UIElement unsetUpperWorldBoundY(){
-        return setUpperWorldBoundY(null);
-    }
-    public UIElement setUpperWorldBounds(Integer boundX, Integer boundY){
-        upperWorldBounds.x = boundX;
-        upperWorldBounds.y = boundY;
-
-        ensureElementWithinBounds();
-
-        return this;
-    }
-
-    //endregion
-
-    public UIElement setBoundWithinParent(boolean boundWithinParent){
-        this.boundWithinParent = boundWithinParent;
-        if(boundWithinParent){
-            ensureElementWithinBounds();
-        }
-        return this;
-    }
-    public boolean isBoundWithinParent(){
-        return boundWithinParent;
-    }
-
-    public UIElement setBorderToBorderBound(boolean borderToBorderBound){
-        this.borderToBorderBound = borderToBorderBound;
-        return this;
-    }
-    public boolean isBorderToBorderBound(){
-        return borderToBorderBound;
-    }
 
     private void ensureElementWithinBounds(){
-        IntegerVector2 lowerLocalBounds = getLowerLocalBounds();
-        IntegerVector2 upperLocalBounds = getUpperLocalBounds();
+        AbstractBounds containerBounds = getContainerBounds();
+        if(containerBounds == null) return;
+
+        StaticBounds localContainerBounds = getLocalContainerBounds();
 
         Integer desiredWidth = null;
         Integer desiredHeight = null;
@@ -1057,52 +951,54 @@ public class UIElement {
         int desiredPositionY = getLocalPositionY();
 
         if(width instanceof StaticDimension){
-            int boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
-
-            if(upperLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
-                desiredPositionX = upperLocalBounds.x - (borderToBorderBound ? 0 : getWidth());
-                boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
+            int boundBoxUpperPosX = desiredPositionX + getWidth();
+            
+            if(localContainerBounds.right != null && boundBoxUpperPosX > localContainerBounds.right){
+                desiredPositionX = localContainerBounds.right - getWidth();
+                boundBoxUpperPosX = desiredPositionX + getWidth();
             }
 
-            if(lowerLocalBounds.x != null && desiredPositionX < lowerLocalBounds.x){
-                desiredPositionX = lowerLocalBounds.x;
-                boundBoxUpperPosX = desiredPositionX + (borderToBorderBound ? 0 : getWidth());
+            if(localContainerBounds.left != null && desiredPositionX < localContainerBounds.left){
+                desiredPositionX = localContainerBounds.left;
+                boundBoxUpperPosX = desiredPositionX + getWidth();
             }
 
             desiredWidth = getWidth();
 
-            if(upperLocalBounds.x != null && lowerLocalBounds.x != null && boundBoxUpperPosX > upperLocalBounds.x){
-                desiredWidth = upperLocalBounds.x - lowerLocalBounds.x;
+            if(localContainerBounds.right != null && localContainerBounds.left != null && boundBoxUpperPosX > localContainerBounds.right){
+                desiredWidth = localContainerBounds.right - localContainerBounds.left;
             }
 
         }
 
         if(height instanceof StaticDimension){
-            int boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
+            int boundBoxUpperPosY = desiredPositionY + getHeight();
 
-            if(upperLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
-                desiredPositionY = upperLocalBounds.y - (borderToBorderBound ? 0 : getHeight());
-                boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
+            if(localContainerBounds.top != null && boundBoxUpperPosY > localContainerBounds.top){
+                desiredPositionY = localContainerBounds.top - getHeight();
+                boundBoxUpperPosY = desiredPositionY + getHeight();
             }
 
-            if(lowerLocalBounds.y != null && desiredPositionY < lowerLocalBounds.y){
-                desiredPositionY = lowerLocalBounds.y;
-                boundBoxUpperPosY = desiredPositionY + (borderToBorderBound ? 0 : getHeight());
+            if(localContainerBounds.bottom != null && desiredPositionY < localContainerBounds.bottom){
+                desiredPositionY = localContainerBounds.bottom;
+                boundBoxUpperPosY = desiredPositionY + getHeight();
             }
 
             desiredHeight = getHeight();
 
-            if(upperLocalBounds.y != null && lowerLocalBounds.y != null && boundBoxUpperPosY > upperLocalBounds.y){
-                desiredHeight = upperLocalBounds.y - lowerLocalBounds.y;
+            if(localContainerBounds.top != null && localContainerBounds.bottom != null && boundBoxUpperPosY > localContainerBounds.top){
+                desiredHeight = localContainerBounds.top - localContainerBounds.bottom;
             }
         }
 
-        if((desiredWidth != null && desiredWidth != getWidth()) || (desiredHeight != null && desiredHeight != getHeight())){
-            setDimensions(desiredWidth == null ? width : Dim.px(desiredWidth),
-                    desiredHeight == null ? height : Dim.px(desiredHeight));
+        if(desiredWidth == null) desiredWidth = getWidth();
+        if(desiredHeight == null) desiredHeight = getHeight();
+
+        if(desiredWidth != getWidth() || desiredHeight != getHeight()){
+            resizeBy(desiredWidth - getWidth(), desiredHeight - getHeight());
         }
         else if(desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
-            setLocalPosition(desiredPositionX, desiredPositionY);
+            offset(desiredPositionX - getLocalPositionX(), desiredPositionY - getLocalPositionY());
         }
     }
 
@@ -1503,6 +1399,16 @@ public class UIElement {
         return heightCache;
     }
 
+    public void resizeBy(int widthDiff, int heightDiff){
+        AbstractDimension widthCopy = width.cpy();
+        AbstractDimension heightCopy = height.cpy();
+
+        widthCopy.resizeWidthBy(this, widthDiff);
+        heightCopy.resizeHeightBy(this, heightDiff);
+
+        setDimensions(widthCopy, heightCopy);
+    }
+
     //endregion
 
     //region Animations
@@ -1545,11 +1451,11 @@ public class UIElement {
 
     //region Bounds Methods
 
-    public Bounds getWorldBounds(){
-        return new Bounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
+    public StaticBounds getWorldBounds(){
+        return new StaticBounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
     }
-    public Bounds getLocalBounds(){
-        return new Bounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
+    public StaticBounds getLocalBounds(){
+        return new StaticBounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
     }
 
     public boolean overlapsParent(){
@@ -1559,14 +1465,14 @@ public class UIElement {
         return getWorldBounds().overlaps(other.getWorldBounds());
     }
 
-    public Bounds getFullChildLocalBounds(){
-        Bounds fullChildBounds = null;
+    public StaticBounds getFullChildLocalBounds(){
+        StaticBounds fullChildBounds = null;
         for(UIElementChild child : children){
             if(!(child.element.isActive())){
                 continue;
             }
 
-            Bounds childBounds = child.element.getFullLocalBounds();
+            StaticBounds childBounds = child.element.getFullLocalBounds();
             if(fullChildBounds == null){
                 fullChildBounds = childBounds;
                 continue;
@@ -1579,10 +1485,10 @@ public class UIElement {
         }
         return fullChildBounds;
     }
-    public Bounds getFullLocalBounds(){
-        Bounds myBounds = getLocalBounds();
+    public StaticBounds getFullLocalBounds(){
+        StaticBounds myBounds = getLocalBounds();
 
-        Bounds fullChildBounds = getFullChildLocalBounds();
+        StaticBounds fullChildBounds = getFullChildLocalBounds();
 
         if(fullChildBounds != null){
             if(fullChildBounds.left < 0) myBounds.left += fullChildBounds.left;
@@ -1606,8 +1512,8 @@ public class UIElement {
         return OOBAmount.getKey() > 0 || OOBAmount.getValue() > 0;
     }
     public Pair<Integer, Integer> getHorizontalChildrenOOBAmount(){
-        Bounds myBounds = getLocalBounds();
-        Bounds fullChildBounds = getFullChildLocalBounds();
+        StaticBounds myBounds = getLocalBounds();
+        StaticBounds fullChildBounds = getFullChildLocalBounds();
 
         if (fullChildBounds == null) {
             return new Pair<>(0, 0);
@@ -1631,8 +1537,8 @@ public class UIElement {
         return OOBAmount.getKey() > 0 || OOBAmount.getValue() > 0;
     }
     public Pair<Integer, Integer> getVerticalChildrenOOBAmount(){
-        Bounds myBounds = getLocalBounds();
-        Bounds fullChildBounds = getFullChildLocalBounds();
+        StaticBounds myBounds = getLocalBounds();
+        StaticBounds fullChildBounds = getFullChildLocalBounds();
 
         if (fullChildBounds == null) {
             return new Pair<>(0, 0);
@@ -1663,8 +1569,8 @@ public class UIElement {
     public boolean hasMaskBounds(){
         return elementMask != null || (hasParent() && parent.hasMaskBounds());
     }
-    public Bounds getMaskWorldBounds(){
-        Bounds currentBounds = null;
+    public StaticBounds getMaskWorldBounds(){
+        StaticBounds currentBounds = null;
 
         UIElement current = this;
         if(current.elementMask != null){
@@ -2140,6 +2046,12 @@ public class UIElement {
 
     //endregion
 
+    public enum BoundCalculationType{
+        CONTAINS,
+        CONTAINS_HALF,
+        OVERLAPS,
+    }
+
     public static class UIElementChild{
         public UIElement element;
         public boolean isControllerSelectable;
@@ -2180,13 +2092,6 @@ public class UIElement {
                 };
             }
         }.setValueNames("W", "H"); //TODO make this dimensions
-
-        public IntegerVector2 lowerLocalBound = new IntegerVector2(null, null);
-        public IntegerVector2 upperLocalBound = new IntegerVector2(null, null);
-        public IntegerVector2 lowerWorldBound = new IntegerVector2(null, null);
-        public IntegerVector2 upperWorldBound = new IntegerVector2(null, null);
-        public boolean boundWithinParent = false;
-        public boolean borderToBorderBound = false;
 
         public BooleanProperty isVisible = new BooleanProperty(true).setName("Visible");
         public BooleanProperty isEnabled = new BooleanProperty(true).setName("Enabled");

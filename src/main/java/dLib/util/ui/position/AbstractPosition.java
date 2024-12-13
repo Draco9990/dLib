@@ -42,7 +42,6 @@ public abstract class AbstractPosition {
         }
         return lowestX;
     }
-
     protected int getLocalYForTopOffsetFill(UIElement element, int pivotPoint){
         //if this continues to cause issues insta return if parent is a itembox, and just fill all space if not. who cares.
 

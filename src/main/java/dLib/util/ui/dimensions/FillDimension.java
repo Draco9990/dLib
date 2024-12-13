@@ -107,6 +107,16 @@ public class FillDimension extends AbstractDimension {
     }
 
     @Override
+    public void resizeWidthBy(UIElement self, int amount) {
+        return;
+    }
+
+    @Override
+    public void resizeHeightBy(UIElement self, int amount) {
+        return;
+    }
+
+    @Override
     public AbstractDimension cpy() {
         return new FillDimension();
     }

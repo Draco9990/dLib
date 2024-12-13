@@ -1,5 +1,6 @@
 package dLib.util.ui.dimensions;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
 public class PercentageDimension extends AbstractDimension {
@@ -20,6 +21,24 @@ public class PercentageDimension extends AbstractDimension {
 
         PercentageDimension pd = (PercentageDimension) obj;
         return pd.percentage == this.percentage;
+    }
+
+    @Override
+    public void resizeWidthBy(UIElement self, int amount) {
+        if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
+            percentage += amount;
+        } else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
+            percentage -= amount;
+        }
+    }
+
+    @Override
+    public void resizeHeightBy(UIElement self, int amount) {
+        if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
+            percentage += amount;
+        } else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
+            percentage -= amount;
+        }
     }
 
     @Override

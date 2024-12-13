@@ -8,6 +8,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.DLibLogger;
 import dLib.util.TextureManager;
+import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -90,7 +91,7 @@ public class ScreenEditorPreview extends UIElement {
         }
         item.setID(idPrefix + i);
 
-        item.setBoundWithinParent(true);
+        item.setContainerBounds(Bound.parent(this));
     }
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         itemToDelete.destroy();
