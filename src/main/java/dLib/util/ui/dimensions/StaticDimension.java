@@ -48,9 +48,18 @@ public class StaticDimension extends AbstractDimension {
         }
     }
 
+    public int getValueRaw(){
+        return size;
+    }
+
     @Override
     public AbstractDimension cpy() {
         return new StaticDimension(size);
+    }
+
+    @Override
+    public String getSimpleDisplayName() {
+        return "px";
     }
 
     @Override

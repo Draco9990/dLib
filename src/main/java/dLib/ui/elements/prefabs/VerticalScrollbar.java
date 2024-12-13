@@ -75,7 +75,7 @@ public class VerticalScrollbar extends Scrollbar {
         };
         slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_vertical_train);
         slider.setContainerBounds(Bound.parent(slider));
-        slider.addOnPositionChangedConsumer((element) -> {
+        slider.onPositionChangedEvent.subscribeManaged((element) -> {
             onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));
         });
 

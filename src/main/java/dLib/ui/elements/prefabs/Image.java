@@ -46,7 +46,7 @@ public class Image extends Renderable {
 
         public ImageData(){
             textureBinding.setValue(new TexturePathBinding("dLibResources/images/ui/themes/WhitePixel.png"));
-            dimensions.setValue(new IntegerVector2(100, 100));
+            dimensions.setValue(Dim.px(100), Dim.px(100));
 
             isPassthrough = true;
         }

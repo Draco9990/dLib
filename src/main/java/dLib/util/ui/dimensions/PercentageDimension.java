@@ -53,9 +53,18 @@ public class PercentageDimension extends AbstractDimension {
         return (int) (parentHeight * percentage);
     }
 
+    public float getValueRaw(){
+        return percentage;
+    }
+
     @Override
     public AbstractDimension cpy() {
         return new PercentageDimension(percentage);
+    }
+
+    @Override
+    public String getSimpleDisplayName() {
+        return "%";
     }
 
     @Override

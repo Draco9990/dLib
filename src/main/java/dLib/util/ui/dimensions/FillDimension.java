@@ -122,6 +122,11 @@ public class FillDimension extends AbstractDimension {
     }
 
     @Override
+    public String getSimpleDisplayName() {
+        return "fill";
+    }
+
+    @Override
     public String toString() {
         return "fill";
     }

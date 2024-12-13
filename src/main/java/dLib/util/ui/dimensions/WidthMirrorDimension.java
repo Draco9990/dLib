@@ -27,4 +27,9 @@ public class WidthMirrorDimension extends AbstractDimension{
     public AbstractDimension cpy() {
         return new WidthMirrorDimension();
     }
+
+    @Override
+    public String getSimpleDisplayName() {
+        return "mirror (width)";
+    }
 }

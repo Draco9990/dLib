@@ -43,6 +43,11 @@ public class AutoDimension extends AbstractDimension {
     }
 
     @Override
+    public String getSimpleDisplayName() {
+        return "auto";
+    }
+
+    @Override
     public String toString() {
         return "auto";
     }

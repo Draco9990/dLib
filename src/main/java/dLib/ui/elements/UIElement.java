@@ -15,7 +15,7 @@ import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
 import dLib.patches.InputHelperHoverConsumer;
 import dLib.properties.objects.*;
-import dLib.properties.objects.templates.PositionProperty;
+import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
@@ -58,7 +58,7 @@ public class UIElement {
     protected Integer localPosYCache = null;
     private Integer worldPosXCache = null;
     private Integer worldPosYCache = null;
-    private HashMap<UUID, Consumer<UIElement>> onPositionChangedEvents = new HashMap<>();
+    public UIElementEvent<Consumer<UIElement>> onPositionChangedEvent = new UIElementEvent<>();
 
     private int localChildOffsetX = 0;
     private int localChildOffsetY = 0;
@@ -71,6 +71,7 @@ public class UIElement {
     private Integer heightCache = null;
     private AbstractBounds containerBounds = null;
     private BoundCalculationType containerBoundCalculationType = BoundCalculationType.CONTAINS;
+    public UIElementEvent<Consumer<UIElement>> onDimensionsChangedEvent = new UIElementEvent<>();
 
     private AbstractPadding paddingLeft = Padd.px(0);
     private AbstractPadding paddingBottom = Padd.px(0);
@@ -194,8 +195,8 @@ public class UIElement {
 
         setLocalPosition(data.localPosition.getXPosition(), data.localPosition.getYPosition());
         
-        width = Dim.px(data.dimensions.getXValue());
-        height = Dim.px(data.dimensions.getYValue());
+        width = data.dimensions.getWidth();
+        height = data.dimensions.getHeight();
 
         if(!data.isVisible.getValue() && !data.isEnabled.getValue()){
             hideAndDisableInstantly();
@@ -870,23 +871,11 @@ public class UIElement {
     public void onPositionChanged(){
         invalidateCachesForElementTree();
 
-        for(Consumer<UIElement> consumer : onPositionChangedEvents.values()){
-            consumer.accept(this);
-        }
+        onPositionChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(UIElement.this));
 
         for(UIElementChild child : children){
             child.element.onParentPositionChanged();
         }
-    }
-
-    public UUID addOnPositionChangedConsumer(Consumer<UIElement> consumer){
-        UUID id = UUID.randomUUID();
-        onPositionChangedEvents.put(id, consumer);
-        return id;
-    }
-
-    public void removeOnPositionChangedConsumer(UUID id){
-        onPositionChangedEvents.remove(id);
     }
 
     protected void onParentPositionChanged(){
@@ -1364,9 +1353,12 @@ public class UIElement {
 
     public void onDimensionsChanged(){
         invalidateCachesForElementTree();
+
         for(UIElementChild child : children){
             child.element.onParentDimensionsChanged();
         }
+
+        onDimensionsChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(UIElement.this));
     }
 
     public void onParentDimensionsChanged(){
@@ -2087,16 +2079,15 @@ public class UIElement {
                         "* Percentage: Position relative to the parent's dimensions.")
                 .setCategory("Transform");
 
-        public IntegerVector2Property dimensions = new IntegerVector2Property(new IntegerVector2(1, 1)){
-            @Override
-            public void onValueChanged(IntegerVector2 oldValue, IntegerVector2 newValue) {
-                super.onValueChanged(oldValue, newValue);
-
-                for(UIElementData subElement : Reflection.getFieldValuesByClass(UIElementData.class, getSelf())){
-                    subElement.dimensions.setValue(newValue.copy());
-                };
-            }
-        }.setValueNames("W", "H"); //TODO make this dimensions
+        public DimensionProperty dimensions = new DimensionProperty(Dim.px(1), Dim.px(1))
+                .setName("Dimensions")
+                .setDescription("Dimensions of the element. Can be:\n" +
+                        "* Static: Fixed dimensions in pixels.\n" +
+                        "* Percentage: Dimensions relative to the parent's dimensions.\n" +
+                        "* Fill: Fills the parent's dimensions starting from it's position.\n" +
+                        "* Auto: Automatically adjusts the dimensions based on the content size of its children.\n" +
+                        "* Mirror width/height: Mirrors the selected dimension")
+                .setCategory("Transform");
 
         public BooleanProperty isVisible = new BooleanProperty(true).setName("Visible");
         public BooleanProperty isEnabled = new BooleanProperty(true).setName("Enabled");

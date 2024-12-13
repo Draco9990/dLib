@@ -52,7 +52,7 @@ public class HorizontalScrollbar extends Scrollbar {
         {
             slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_horizontal_train);
             slider.setContainerBounds(Bound.parent(slider));
-            slider.addOnPositionChangedConsumer((element) -> {
+            slider.onPositionChangedEvent.subscribeManaged((element) -> {
                 onScrollbarScrolled((float) slider.getLocalPositionX() / (getWidth() - slider.getWidth()));
             });
 

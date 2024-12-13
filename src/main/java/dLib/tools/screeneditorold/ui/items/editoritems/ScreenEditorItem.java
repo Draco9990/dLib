@@ -47,7 +47,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     }
 
     public ScreenEditorItem(DataType elementData){
-        super(null, Pos.px(0), Pos.px(0), Dim.px(elementData.dimensions.getXValue()), Dim.px(elementData.dimensions.getYValue()));
+        super(null, Pos.px(0), Pos.px(0), elementData.dimensions.getWidth(), elementData.dimensions.getHeight());
         this.elementData = wrapDataType(elementData);
         remakePreviewElement();
     }
@@ -143,7 +143,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     private DataType wrapDataType(DataType elementData){
         //Bind all screen editor specific stuff
         elementData.id.setValue(getId());
-        elementData.dimensions.setValue(new IntegerVector2(getWidth(), getHeight()));
+        elementData.dimensions.setValue(getWidthRaw(), getHeightRaw());
 
         for(TProperty<?, ?> property : elementData.getEditableProperties()){
         }
@@ -216,11 +216,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         }
 
         super.setDimensions(newWidth, newHeight);
-
-        if(elementData != null) {
-            if(newWidth != -1 && !Objects.equals(elementData.dimensions.getXValue(), newWidth)) elementData.dimensions.setXValue(newWidth);
-            if(newHeight != -1 && !Objects.equals(elementData.dimensions.getYValue(), newHeight)) elementData.dimensions.setYValue(newHeight);
-        }
 
         remakePreviewElement();
 

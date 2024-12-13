@@ -9,18 +9,15 @@ import dLib.tools.uicreator.UCEditorItemTree;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIElementComponent;
-import dLib.util.IntegerVector2;
 import dLib.util.ui.bounds.Bound;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.StaticDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.StaticPosition;
-
-import java.util.UUID;
 
 public class UCEditorItemComponent extends UIElementComponent<UIElement> {
 
     private boolean hoveredInHierarchy = false;
-
-    private UUID onPositionChangedEventID;
 
     public UCEditorItemComponent(){
     }
@@ -29,7 +26,7 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
     public void onRegisterComponent(UIElement owner) {
         owner.setContainerBounds(Bound.parent(owner));
 
-        onPositionChangedEventID = owner.addOnPositionChangedConsumer((element) -> {
+        owner.onPositionChangedEvent.subscribeManaged((element) -> {
             UCEditor editor = element.getParentOfType(UCEditor.class);
 
             UCEditorItemTree.UCEditorItemTreeEntry entry = editor.itemTree.findEntry(element);
@@ -47,6 +44,29 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
                 if(entry.elementData.localPosition.getXPosition() != localPositionX || entry.elementData.localPosition.getYPosition() != localPositionY){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
                     entry.elementData.localPosition.setValue(localPositionX, localPositionY);
+                    editor.properties.propertyEditor.itemBeingModifiedExternally = false;
+                }
+            }
+        });
+
+        owner.onDimensionsChangedEvent.subscribeManaged((element) -> {
+            UCEditor editor = element.getParentOfType(UCEditor.class);
+
+            UCEditorItemTree.UCEditorItemTreeEntry entry = editor.itemTree.findEntry(element);
+            if(entry != null){
+                AbstractDimension width = element.getWidthRaw();
+                AbstractDimension height = element.getHeightRaw();
+
+                if(width instanceof StaticDimension){
+                    width = new StaticDimension((int) (((StaticDimension) width).getValueRaw() * 1.25f));
+                }
+                if(height instanceof StaticDimension){
+                    height = new StaticDimension((int) (((StaticDimension) height).getValueRaw() * 1.25f));
+                }
+
+                if(entry.elementData.dimensions.getWidth() != width || entry.elementData.dimensions.getHeight() != height){
+                    editor.properties.propertyEditor.itemBeingModifiedExternally = true;
+                    entry.elementData.dimensions.setValue(width, height);
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
             }

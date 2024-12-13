@@ -27,4 +27,9 @@ public class HeightMirrorDimension extends AbstractDimension{
     public AbstractDimension cpy() {
         return new HeightMirrorDimension();
     }
+
+    @Override
+    public String getSimpleDisplayName() {
+        return "mirror (height)";
+    }
 }

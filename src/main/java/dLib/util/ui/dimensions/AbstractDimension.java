@@ -14,4 +14,6 @@ public abstract class AbstractDimension {
     public abstract void resizeHeightBy(UIElement self, int amount);
 
     public abstract AbstractDimension cpy();
+
+    public abstract String getSimpleDisplayName();
 }
