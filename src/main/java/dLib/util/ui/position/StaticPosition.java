@@ -4,7 +4,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.HorizontalListBox;
 import dLib.ui.elements.prefabs.ItemBox;
-import dLib.ui.elements.prefabs.VerticalGridBox;
+import dLib.ui.elements.prefabs.GridItemBox;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
@@ -67,7 +67,7 @@ public class StaticPosition extends AbstractPosition {
     @Override
     public int getLocalY(UIElement self) {
         if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM ||
-                (self.getParent() instanceof VerticalListBox || self.getParent() instanceof VerticalGridBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
+                (self.getParent() instanceof VerticalListBox || self.getParent() instanceof GridItemBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
             return position;
         }
         else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){

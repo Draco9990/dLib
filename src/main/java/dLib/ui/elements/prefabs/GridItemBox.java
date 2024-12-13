@@ -9,14 +9,14 @@ import dLib.util.ui.position.AbstractPosition;
 import java.io.Serializable;
 
 //Gridboxes do not support elements that change their size after being added. All GridBox items must be identical in dimensions. This is a TODO.
-public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
+public class GridItemBox<ItemType> extends ItemBox<ItemType>{
     //region Variables
 
     //endregion
 
     //region Constructors
 
-    public VerticalGridBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+    public GridItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
         defaultItemHeight = 75;
@@ -25,7 +25,7 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
         itemSpacing = 5;
     }
 
-    public VerticalGridBox(VerticalGridBoxData data){
+    public GridItemBox(GridBoxData data){
         super(data);
     }
 
@@ -91,12 +91,12 @@ public class VerticalGridBox<ItemType> extends ItemBox<ItemType>{
 
     //endregion
 
-    public static class VerticalGridBoxData extends ItemBoxData implements Serializable {
+    public static class GridBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override
         public UIElement makeUIElement() {
-            return new VerticalGridBox<>(this);
+            return new GridItemBox<>(this);
         }
     }
 }

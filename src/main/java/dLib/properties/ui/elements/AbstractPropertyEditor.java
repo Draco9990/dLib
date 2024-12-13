@@ -53,7 +53,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
     }
 
     private void buildMultiline(PropertyType property){
-        VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(100)){
+        VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
@@ -75,15 +75,15 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
         };
         vBox.setPadding(Padd.px(15), Padd.px(0));
 
-        vBox.addItem(buildTitle(property, Dim.fill(), Dim.perc(0.5)));
-        vBox.addItem(buildContent(property, Dim.fill(), Dim.perc(0.5)));
+        vBox.addItem(buildTitle(property, Dim.fill(), Dim.px(50)));
+        vBox.addItem(buildContent(property, Dim.fill(), Dim.px(50)));
         ui = vBox;
         addChildCS(vBox);
     }
 
     private void buildSingleLine(PropertyType property){
         //TODO padding on left and right side
-        HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.px(0), Dim.fill(), Dim.px(50)){
+        HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.px(0), Dim.fill(), Dim.auto()){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
@@ -105,8 +105,8 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
         };
         hBox.setPadding(Padd.px(15), Padd.px(0));
 
-        hBox.addItem(buildTitle(property, Dim.perc(0.5), Dim.fill()));
-        hBox.addItem(buildContent(property, Dim.perc(0.5), Dim.fill()));
+        hBox.addItem(buildTitle(property, Dim.perc(0.5), Dim.px(50)));
+        hBox.addItem(buildContent(property, Dim.perc(0.5), Dim.px(50)));
         ui = hBox;
         addChildCS(hBox);
     }

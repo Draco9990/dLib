@@ -2089,6 +2089,11 @@ public class UIElement {
                         "* Mirror width/height: Mirrors the selected dimension")
                 .setCategory("Transform");
 
+        public AlignmentProperty alignment = new AlignmentProperty(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM)
+                .setName("Alignment")
+                .setDescription("Alignment of the element within its parent.")
+                .setCategory("Transform");
+
         public BooleanProperty isVisible = new BooleanProperty(true).setName("Visible");
         public BooleanProperty isEnabled = new BooleanProperty(true).setName("Enabled");
 

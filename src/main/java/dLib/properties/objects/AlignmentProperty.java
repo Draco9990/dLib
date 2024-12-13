@@ -11,4 +11,8 @@ public class AlignmentProperty extends TAlignmentProperty<AlignmentProperty> imp
     public AlignmentProperty(Alignment value) {
         super(value);
     }
+
+    public AlignmentProperty(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment) {
+        this(new Alignment(horizontalAlignment, verticalAlignment));
+    }
 }

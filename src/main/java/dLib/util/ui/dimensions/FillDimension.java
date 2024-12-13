@@ -5,7 +5,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
 import dLib.ui.elements.prefabs.HorizontalListBox;
 import dLib.ui.elements.prefabs.ItemBox;
-import dLib.ui.elements.prefabs.VerticalGridBox;
+import dLib.ui.elements.prefabs.GridItemBox;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.StaticPosition;
@@ -67,7 +67,7 @@ public class FillDimension extends AbstractDimension {
     public int getHeight(UIElement self) {
         if(self.getParent() == null) return 1080;
 
-        if((self.getParent() instanceof VerticalListBox || self.getParent() instanceof VerticalGridBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
+        if((self.getParent() instanceof VerticalListBox || self.getParent() instanceof GridItemBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
             ItemBox itemBox = self.getParent();
 
             int staticHeight = 0;

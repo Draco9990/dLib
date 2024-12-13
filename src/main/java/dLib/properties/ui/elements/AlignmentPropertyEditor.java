@@ -2,9 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.Spacer;
-import dLib.ui.elements.prefabs.TextButton;
+import dLib.ui.elements.prefabs.*;
 import dLib.util.EnumHelpers;
 import dLib.properties.objects.templates.TAlignmentProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -31,39 +29,13 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
 
     @Override
     protected UIElement buildContent(TAlignmentProperty property, AbstractDimension width, AbstractDimension height) {
-        HorizontalBox contentBox = new HorizontalBox(width, height); //replace with ArrowButton
-        {
-            leftButton = new TextButton(property.getValue().horizontalAlignment.name(), Dim.perc(45), Dim.fill());
-            leftButton.getButton().addOnLeftClickEvent(() -> {
-                Alignment alignment = property.getValue();
-                alignment.horizontalAlignment = (Alignment.HorizontalAlignment) EnumHelpers.nextEnum(alignment.horizontalAlignment);
-                property.setValue(alignment);
-            });
-            contentBox.addItem(leftButton);
-
-            contentBox.addItem(new Spacer(Dim.perc(10), Dim.fill()));
-
-            rightButton = new TextButton(property.getValue().verticalAlignment.name(), Dim.perc(45), Dim.fill());
-            rightButton.getButton().addOnLeftClickEvent(() -> {
-                Alignment alignment = property.getValue();
-                alignment.verticalAlignment = (Alignment.VerticalAlignment) EnumHelpers.nextEnum(alignment.verticalAlignment);
-                property.setValue(alignment);
-            });
-            contentBox.addItem(rightButton);
+        PredefinedGrid grid = new PredefinedGrid(3, 3, width, Dim.width());
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                grid.setGridSlotElement(i, j, new Button(Dim.fill(), Dim.fill()));
+            }
         }
-
-        property.addOnHorizontalAlignmentChangedListener((horizontalAlignment, horizontalAlignment2) -> {
-            if(!leftButton.getTextBox().getText().equals(property.getValue().horizontalAlignment.name())){
-                leftButton.getTextBox().setText(property.getValue().horizontalAlignment.name());
-            }
-        });
-        property.addOnVerticalAlignmentChangedListener((verticalAlignment, verticalAlignment2) -> {
-            if(!rightButton.getTextBox().getText().equals(property.getValue().verticalAlignment.name())){
-                rightButton.getTextBox().setText(property.getValue().verticalAlignment.name());
-            }
-        });
-
-        return contentBox;
+        return grid;
     }
 
     @Override

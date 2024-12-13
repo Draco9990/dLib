@@ -1,9 +1,9 @@
 package dLib.tools.screeneditorold.ui.items.editoritems;
 
-import dLib.ui.elements.prefabs.VerticalGridBox;
+import dLib.ui.elements.prefabs.GridItemBox;
 import dLib.util.ui.position.Pos;
 
-public class VerticalGridBoxScreenEditorItem extends ScreenEditorItem<VerticalGridBox<Object>, VerticalGridBox.VerticalGridBoxData> {
+public class VerticalGridBoxScreenEditorItem extends ScreenEditorItem<GridItemBox<Object>, GridItemBox.GridBoxData> {
     //region Variables
     //endregion
 
@@ -13,7 +13,7 @@ public class VerticalGridBoxScreenEditorItem extends ScreenEditorItem<VerticalGr
         super(Pos.px(0), Pos.px(0), 500, 500);
     }
 
-    public VerticalGridBoxScreenEditorItem(VerticalGridBox.VerticalGridBoxData elementData) {
+    public VerticalGridBoxScreenEditorItem(GridItemBox.GridBoxData elementData) {
         super(elementData);
     }
 
@@ -22,8 +22,8 @@ public class VerticalGridBoxScreenEditorItem extends ScreenEditorItem<VerticalGr
     //region Methods
 
     @Override
-    protected VerticalGridBox.VerticalGridBoxData makeDataType() {
-        return new VerticalGridBox.VerticalGridBoxData();
+    protected GridItemBox.GridBoxData makeDataType() {
+        return new GridItemBox.GridBoxData();
     }
 
     //endregion
