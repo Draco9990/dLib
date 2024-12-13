@@ -7,6 +7,7 @@ public class ParentBounds extends ElementBounds{
 
     public ParentBounds(UIElement child) {
         super(child.getParent());
+        this.child = child;
     }
 
     @Override

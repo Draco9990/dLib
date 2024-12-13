@@ -128,6 +128,8 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             setHorizontalAlignment(hAlign);
             setVerticalAlignment(vAlign);
 
+            setContainerBoundCalculationType(BoundCalculationType.CONTAINS_HALF);
+
             addComponent(new UIDraggableComponent());
         }
 

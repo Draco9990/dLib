@@ -70,7 +70,7 @@ public class UIElement {
     private Integer widthCache = null;
     private Integer heightCache = null;
     private AbstractBounds containerBounds = null;
-    private BoundCalculationType boundCalculationType = BoundCalculationType.CONTAINS;
+    private BoundCalculationType containerBoundCalculationType = BoundCalculationType.CONTAINS;
 
     private AbstractPadding paddingLeft = Padd.px(0);
     private AbstractPadding paddingBottom = Padd.px(0);
@@ -913,6 +913,9 @@ public class UIElement {
     }
 
     public StaticBounds getLocalContainerBounds(){
+        AbstractBounds containerBounds = getContainerBounds();
+        if(containerBounds == null) return null;
+
         Integer worldLeft = containerBounds.getWorldLeft(this);
         Integer worldRight = containerBounds.getWorldRight(this);
         Integer worldTop = containerBounds.getWorldTop(this);
@@ -924,11 +927,11 @@ public class UIElement {
         int horizontalOffset = 0;
         int verticalOffset = 0;
 
-        if(boundCalculationType == BoundCalculationType.CONTAINS_HALF){
+        if(containerBoundCalculationType == BoundCalculationType.CONTAINS_HALF){
             horizontalOffset = (int) (getWidth() * 0.5f);
             verticalOffset = (int) (getHeight() * 0.5f);
         }
-        else if(boundCalculationType == BoundCalculationType.OVERLAPS){
+        else if(containerBoundCalculationType == BoundCalculationType.OVERLAPS){
             horizontalOffset = getWidth();
             verticalOffset = getHeight();
         }
@@ -936,13 +939,15 @@ public class UIElement {
         return Bound.constant(localBottomLeft.x - horizontalOffset, localBottomLeft.y - verticalOffset, localTopRight.x + horizontalOffset, localTopRight.y + verticalOffset);
     }
 
+    public void setContainerBoundCalculationType(BoundCalculationType type){
+        containerBoundCalculationType = type;
+    }
+
     //endregion
 
     private void ensureElementWithinBounds(){
-        AbstractBounds containerBounds = getContainerBounds();
-        if(containerBounds == null) return;
-
         StaticBounds localContainerBounds = getLocalContainerBounds();
+        if(localContainerBounds == null) return;
 
         Integer desiredWidth = null;
         Integer desiredHeight = null;
