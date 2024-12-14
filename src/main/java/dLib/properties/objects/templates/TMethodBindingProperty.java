@@ -1,5 +1,6 @@
 package dLib.properties.objects.templates;
 
+import basemod.Pair;
 import dLib.properties.ui.elements.MethodBindingPropertyEditor;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
@@ -16,10 +17,10 @@ public abstract class TMethodBindingProperty<PropertyType> extends TCustomProper
 
     //region Variables
 
-    private Class<?> dnc_returnType = void.class;
-    private String dnc_methodName = "MethodBinding_" + UUID.randomUUID().toString().replace("-", "");
-    private LinkedHashMap<String, Class<?>> dnc_params = new LinkedHashMap<>();
-    private String dnc_methodBody = "{\n//IMPLEMENTATION HERE\n}";
+    private Class<?> dynamic_returnType = void.class;
+    private String dynamic_methodName = "MethodBinding_" + UUID.randomUUID().toString().replace("-", "");
+    private LinkedHashMap<String, Class<?>> dynamic_params = new LinkedHashMap<>();
+    private String dynamic_methodBody = "{\n//IMPLEMENTATION HERE\n}";
 
     private boolean dynamicBindingOnly = false;
     private boolean noDynamicBinding = false;
@@ -68,40 +69,47 @@ public abstract class TMethodBindingProperty<PropertyType> extends TCustomProper
 
     //region Dynamic Method Creation
 
-    public TMethodBindingProperty setDNCReturnType(Class<?> returnType){
-        this.dnc_returnType = returnType;
+    public TMethodBindingProperty setDynamicCreationReturnType(Class<?> returnType){
+        this.dynamic_returnType = returnType;
         return this;
     }
-    public Class<?> getDNCReturnType(){
-        return dnc_returnType;
+    public Class<?> getDynamicCreationReturnType(){
+        return dynamic_returnType;
     }
 
-    public PropertyType setDNCMethodName(String methodName){
-        this.dnc_methodName = methodName;
+    public PropertyType setDynamicCreationMethodName(String methodName){
+        this.dynamic_methodName = methodName;
         return (PropertyType) this;
     }
-    public String getDNCMethodName(){
-        return dnc_methodName;
+    public String getDynamicCreationMethodName(){
+        return dynamic_methodName;
     }
 
-    public PropertyType addDNCParameter(String paramName, Class<?> paramType){
-        dnc_params.put(paramName, paramType);
+    public PropertyType addDynamicCreationParameter(String paramName, Class<?> paramType){
+        dynamic_params.put(paramName, paramType);
         return (PropertyType) this;
     }
-    public PropertyType setDNCParameters(LinkedHashMap<String, Class<?>> paramsIn){
-        this.dnc_params = paramsIn;
+    public PropertyType setDynamicCreationParameters(LinkedHashMap<String, Class<?>> paramsIn){
+        this.dynamic_params = paramsIn;
         return (PropertyType) this;
     }
-    public LinkedHashMap<String, Class<?>> getDNCParameters(){
-        return dnc_params;
+    @SafeVarargs
+    public final PropertyType setDynamicCreationParameters(Pair<String, Class<?>>... params){
+        for(Pair<String, Class<?>> param : params){
+            dynamic_params.put(param.getKey(), param.getValue());
+        }
+        return (PropertyType) this;
+    }
+    public LinkedHashMap<String, Class<?>> getDynamicCreationParameters(){
+        return dynamic_params;
     }
 
-    public PropertyType setDNCMethodBody(String body){
-        this.dnc_methodBody = body;
+    public PropertyType setDynamicCreationMethodBody(String body){
+        this.dynamic_methodBody = body;
         return (PropertyType) this;
     }
-    public String getDNCMethodBody(){
-        return dnc_methodBody;
+    public String getDynamicCreationMethodBody(){
+        return dynamic_methodBody;
     }
 
     //endregion

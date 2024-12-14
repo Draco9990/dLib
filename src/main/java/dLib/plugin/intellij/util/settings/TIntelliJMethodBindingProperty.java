@@ -35,7 +35,7 @@ public class TIntelliJMethodBindingProperty<PropertyType> extends TMethodBinding
             ((DynamicMethodBinding) newValue).addOnBoundMethodChangedConsumer((oldVal, newVal) -> {
                 if(!newVal.isEmpty()){
                     if(oldVal.isEmpty() ){
-                        PluginMessageSender.Send_AddMethodToClass(screenEditor.getEditingScreen(), getDNCReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
+                        PluginMessageSender.Send_AddMethodToClass(screenEditor.getEditingScreen(), getDynamicCreationReturnType().getName(), newVal, parameters, "{\n\t// TODO: Method implementation here\n}");
                     }
                     else{
                         PluginMessageSender.Send_RenameMethodInClass(screenEditor.getEditingScreen(), oldVal, newVal, parameters);
@@ -50,7 +50,7 @@ public class TIntelliJMethodBindingProperty<PropertyType> extends TMethodBinding
 
     private LinkedHashMap<String, String> getConvertedParameters(){
         LinkedHashMap<String, String> convertedParameters = new LinkedHashMap<>();
-        for(Map.Entry<String, Class<?>> param : getDNCParameters().entrySet()){
+        for(Map.Entry<String, Class<?>> param : getDynamicCreationParameters().entrySet()){
             convertedParameters.put(param.getKey(), param.getValue().getName());
         }
         return convertedParameters;

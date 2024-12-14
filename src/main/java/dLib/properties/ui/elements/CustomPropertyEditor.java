@@ -28,7 +28,7 @@ public class CustomPropertyEditor<PropertyType extends TCustomProperty<ItemType,
     @Override
     protected UIElement buildContent(PropertyType property, AbstractDimension width, AbstractDimension height) {
         middleButton = new TextButton("Edit", width, height);
-        middleButton.getButton().addOnLeftClickEvent(new Runnable() {
+        middleButton.getButton().onLeftClickEvent.subscribe(this, new Runnable() {
             @Override
             public void run() {
                 AbstractObjectListPickerScreenOld<ItemType> pickerScreen = new AbstractObjectListPickerScreenOld<ItemType>(property.getAllOptions()) {

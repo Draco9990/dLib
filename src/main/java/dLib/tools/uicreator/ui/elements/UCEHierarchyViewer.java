@@ -23,17 +23,17 @@ public class UCEHierarchyViewer extends HierarchyViewer {
                 return;
             }
 
-            getButton().addOnLeftClickEvent(() -> {
+            getButton().onLeftClickEvent.subscribeManaged(() -> {
                 ElementGroupModifierComponent component = element.getComponent(ElementGroupModifierComponent.class);
                 component.select();
             });
 
-            getButton().addOnHoveredEvent(() -> {
+            getButton().onHoveredEvent.subscribeManaged(() -> {
                 UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(true);
             });
 
-            getButton().addOnUnHoveredEvent(() -> {
+            getButton().onHoveredEvent.subscribeManaged(() -> {
                 UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(false);
             });

@@ -65,13 +65,13 @@ public class Interactable extends Renderable{
         this.disabledColor = Color.valueOf(data.disabledColor);
         this.disabledColorMultiplier = data.disabledColorMultiplier;
 
-        if(data.onLeftClick != null) addOnLeftClickEvent(() -> data.onLeftClick.getValue().executeBinding(getTopParent()));
-        if(data.onLeftClickHeld != null) addOnLeftClickHeldEvent(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
-        if(data.onLeftClickRelease != null) addOnLeftClickReleaseEvent(() -> data.onLeftClickRelease.getValue().executeBinding(getTopParent()));
+        if(data.onLeftClick != null) onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(getTopParent()));
+        if(data.onLeftClickHeld != null) onLeftClickHeldEvent.subscribeManaged(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
+        if(data.onLeftClickRelease != null) onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(getTopParent()));
 
-        if(data.onRightClick != null) addOnRightClickEvent(() -> data.onRightClick.getValue().executeBinding(getTopParent()));
-        if(data.onRightClickHeld != null) addOnRightClickHeldEvent(deltaTime -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
-        if(data.onRightClickRelease != null) addOnRightClickReleaseEvent(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent()));
+        if(data.onRightClick != null) onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(getTopParent()));
+        if(data.onRightClickHeld != null) onRightClickHeldEvent.subscribeManaged(deltaTime -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
+        if(data.onRightClickRelease != null) onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent()));
     }
 
     //endregion
@@ -272,23 +272,23 @@ public class Interactable extends Renderable{
         //TODO ON HOLD KEY
 
         public MethodBindingProperty onLeftClick = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click");
-        public MethodBindingProperty onLeftClickHeld = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click Held").addDNCParameter("holdDuration", float.class);
+        public MethodBindingProperty onLeftClickHeld = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click Held").addDynamicCreationParameter("holdDuration", float.class);
         public MethodBindingProperty onLeftClickRelease = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click Release");
 
         public MethodBindingProperty onRightClick = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click");
-        public MethodBindingProperty onRightClickHeld = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click Held").addDNCParameter("holdDuration", float.class);
+        public MethodBindingProperty onRightClickHeld = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click Held").addDynamicCreationParameter("holdDuration", float.class);
         public MethodBindingProperty onRightClickRelease = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click Release");
 
         public InteractableData(){
             //TODO handle serialization
             id.onValueChangedEvent.subscribeManaged((s, s2) -> {
-                onLeftClick.setDNCMethodName(s2 + "_onLeftClick");
-                onLeftClickHeld.setDNCMethodName(s2 + "_onLeftClickHeld");
-                onLeftClickRelease.setDNCMethodName(s2 + "_onLeftClickRelease");
+                onLeftClick.setDynamicCreationMethodName(s2 + "_onLeftClick");
+                onLeftClickHeld.setDynamicCreationMethodName(s2 + "_onLeftClickHeld");
+                onLeftClickRelease.setDynamicCreationMethodName(s2 + "_onLeftClickRelease");
 
-                onRightClick.setDNCMethodName(s2 + "_onRightClick");
-                onRightClickHeld.setDNCMethodName(s2 + "_onRightClickHeld");
-                onRightClickRelease.setDNCMethodName(s2 + "_onRightClickRelease");
+                onRightClick.setDynamicCreationMethodName(s2 + "_onRightClick");
+                onRightClickHeld.setDynamicCreationMethodName(s2 + "_onRightClickHeld");
+                onRightClickRelease.setDynamicCreationMethodName(s2 + "_onRightClickRelease");
             });
         }
 

@@ -9,8 +9,25 @@
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/util/settings/TIntelliJMethodBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/util/settings/TIntelliJMethodBindingProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TMethodBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TMethodBindingProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/ArrayPropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/ArrayPropertyEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/CustomPropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/CustomPropertyEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/screensold/preeditor/ScreenEditorNewScreenScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/screensold/preeditor/ScreenEditorNewScreenScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/ui/items/implementations/menu/ScreenEditorMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/ui/items/implementations/menu/ScreenEditorMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/ui/items/implementations/toolbar/ScreenEditorElementList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/ui/items/implementations/toolbar/ScreenEditorElementList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/UCEHierarchyViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/UCEHierarchyViewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/UCERootElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/UCERootElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uidebugger/ui/UIDebuggerScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uidebugger/ui/UIDebuggerScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Checkbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/prefabs/Checkbox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/ElementGroupModifierComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/ElementGroupModifierComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIDebuggableComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIDebuggableComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIDraggableComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIDraggableComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIResizeableComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIResizeableComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Interactable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureBinding.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,7 +302,7 @@
       <workItem from="1733850618812" duration="5586000" />
       <workItem from="1733908844020" duration="960000" />
       <workItem from="1734006047714" duration="14842000" />
-      <workItem from="1734088518840" duration="22218000" />
+      <workItem from="1734088518840" duration="25487000" />
     </task>
     <servers />
   </component>

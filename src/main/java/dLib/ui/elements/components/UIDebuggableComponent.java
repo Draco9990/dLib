@@ -27,21 +27,21 @@ public class UIDebuggableComponent extends UIElementComponent{
         if(!initialized){
             initialized = true;
 
-            onHoverEventID = owner.addOnHoveredEvent(() -> {
+            onHoverEventID = owner.onHoveredEvent.subscribeManaged(() -> {
                 UIDebuggerScreen debuggerScreen = getUIDebuggerScreen();
                 if(debuggerScreen != null){
                     debuggerScreen.elementList.elementInfo.setText(generateDebugTextForUIElement(owner));
                 }
             });
 
-            onUnHoverEventID = owner.addOnUnHoveredEvent(() -> {
+            onUnHoverEventID = owner.onUnhoveredEvent.subscribeManaged(() -> {
                 UIDebuggerScreen debuggerScreen = getUIDebuggerScreen();
                 if(debuggerScreen != null){
                     debuggerScreen.elementList.elementInfo.setText("");
                 }
             });
 
-            onLeftClickEventID = owner.addOnLeftClickEvent(() -> {
+            onLeftClickEventID = owner.onLeftClickEvent.subscribeManaged(() -> {
                 System.out.println("Left clicked on " + owner);
             });
         }
@@ -52,14 +52,14 @@ public class UIDebuggableComponent extends UIElementComponent{
         super.onUnregisterComponent(owner);
 
         if(onHoverEventID != null){
-            owner.removeOnHoveredEvent(onHoverEventID);
+            owner.onHoveredEvent.unsubscribeManaged(onHoverEventID);
         }
         if(onUnHoverEventID != null){
-            owner.removeOnUnHoveredEvent(onUnHoverEventID);
+            owner.onUnhoveredEvent.unsubscribeManaged(onUnHoverEventID);
         }
 
         if(onLeftClickEventID != null){
-            owner.removeOnLeftClickEvent(onLeftClickEventID);
+            owner.onLeftClickEvent.unsubscribeManaged(onLeftClickEventID);
         }
     }
 

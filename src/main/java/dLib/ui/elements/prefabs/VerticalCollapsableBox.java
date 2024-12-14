@@ -35,7 +35,7 @@ public class VerticalCollapsableBox extends UIElement {
             HorizontalBox titleHBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
             {
                 titleHBox.addItem(toggleArrow = new Toggle(UIThemeManager.getDefaultTheme().arrow_right, UIThemeManager.getDefaultTheme().arrow_down, Pos.px(0), Pos.px(0), Dim.px(50), Dim.px(50)));
-                toggleArrow.addOnLeftClickEvent(() -> {
+                toggleArrow.onLeftClickEvent.subscribeManaged(() -> {
                     if(toggleArrow.isToggled()) {
                         contentBox.showAndEnable();
                     } else {

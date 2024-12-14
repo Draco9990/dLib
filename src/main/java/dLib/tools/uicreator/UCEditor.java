@@ -89,7 +89,7 @@ public class UCEditor extends Renderable {
                 propertiesOptions.disableItemWrapping();
                 {
                     TextButton toolboxButton = new TextButton("Toolbox", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    toolboxButton.button.addOnLeftClickEvent(() -> {
+                    toolboxButton.button.onLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
@@ -98,7 +98,7 @@ public class UCEditor extends Renderable {
                     propertiesOptions.addItem(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    elementListButton.button.addOnLeftClickEvent(() -> {
+                    elementListButton.button.onLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().hierarchyViewer.showAndEnableInstantly();

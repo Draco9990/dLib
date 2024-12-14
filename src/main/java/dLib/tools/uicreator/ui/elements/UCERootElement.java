@@ -8,6 +8,6 @@ public class UCERootElement extends UIElement {
     public UCERootElement(){
         super();
 
-        addOnLeftClickEvent(() -> ElementGroupModifierComponent.deselectGroupComponents("editorItem"));
+        onLeftClickEvent.subscribeManaged(() -> ElementGroupModifierComponent.deselectGroupComponents("editorItem"));
     }
 }

@@ -24,8 +24,6 @@ import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.screens.UIManager;
 import dLib.util.*;
-import dLib.util.bindings.method.MethodBinding;
-import dLib.util.bindings.method.NoneMethodBinding;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.bounds.StaticBounds;
@@ -50,7 +48,7 @@ public class UIElement {
     protected UIElement parent;
     protected List<UIElementChild> children = new ArrayList<>();
 
-    protected Hitbox hb;
+    protected Hitbox hb = new Hitbox(0, 0, 1, 1);
 
     private AbstractPosition localPosX = Pos.px(0);
     private AbstractPosition localPosY = Pos.px(0);
@@ -92,17 +90,17 @@ public class UIElement {
 
     private boolean isPassthrough = true;
 
-    private LinkedHashMap<UUID, Runnable> onHoveredEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Consumer<Float>> onHoverTickEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Runnable> onUnHoveredEvents = new LinkedHashMap<>();
+    public UIElementEvent<Runnable> onHoveredEvent = new UIElementEvent<>();
+    public UIElementEvent<Consumer<Float>> onHoverTickEvent = new UIElementEvent<>();
+    public UIElementEvent<Runnable> onUnhoveredEvent = new UIElementEvent<>();
 
-    private LinkedHashMap<UUID, Runnable> onLeftClickEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Consumer<Float>> onLeftClickHeldEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Runnable> onLeftClickReleaseEvents = new LinkedHashMap<>();
+    public UIElementEvent<Runnable> onLeftClickEvent = new UIElementEvent<>();
+    public UIElementEvent<Consumer<Float>> onLeftClickHeldEvent = new UIElementEvent<>();
+    public UIElementEvent<Runnable> onLeftClickReleaseEvent = new UIElementEvent<>();
 
-    private LinkedHashMap<UUID, Runnable> onRightClickEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Consumer<Float>> onRightClickHeldEvents = new LinkedHashMap<>();
-    private LinkedHashMap<UUID, Runnable> onRightClickReleaseEvents = new LinkedHashMap<>();
+    public UIElementEvent<Runnable> onRightClickEvent = new UIElementEvent<>();
+    public UIElementEvent<Consumer<Float>> onRightClickHeldEvent = new UIElementEvent<>();
+    public UIElementEvent<Runnable> onRightClickReleaseEvent = new UIElementEvent<>();
 
     private String onHoverLine; // Say the Spire mod compatibility
 
@@ -116,7 +114,6 @@ public class UIElement {
 
     private boolean holdingLeft;
     private boolean holdingRight;
-
 
     private ArrayList<UIElementComponent> components = new ArrayList<>();
 
@@ -162,32 +159,7 @@ public class UIElement {
             stringTable = CardCrawlGame.languagePack.getUIString(uiStrings);
         }
 
-        hb = new Hitbox(0, 0, 1, 1);
-
-        GlobalEvents.subscribe(GlobalEvents.Events.PreLeftClickEvent.class, (event) -> {
-            if(event.source != this && isSelected()){
-                deselect();
-            }
-
-            if(this.isContextual() && event.source != this && !event.source.isDescendantOf(this)){
-                destroy();
-            }
-        });
-
-        GlobalEvents.subscribe(GlobalEvents.Events.PreForceFocusChangeEvent.class, (event) -> {
-            if(event.source != this && isSelected()){
-                deselect();
-            }
-        });
-
-        GlobalEvents.subscribe(GlobalEvents.Events.PreHoverEvent.class, (event) -> {
-            if(event.source != this && isHovered() && !isPassthrough()){
-                this.hb.unhover();
-                onUnhovered();
-            }
-        });
-
-        addComponent(new UIDebuggableComponent());
+        commonInitialize();
     }
 
     public UIElement(UIElementData data){
@@ -210,22 +182,36 @@ public class UIElement {
             disable();
         }
 
-        this.darkenedColor = Color.valueOf(data.darkenedColor);
-        this.darkenedColorMultiplier = data.darkenedColorMultiplier;
+        this.isPassthrough = data.isPassthrough.getValue();
 
-        onSelectionStateChangedConsumers.add(aBoolean -> data.onSelectionStateChangedBinding.executeBinding(aBoolean));
+        onHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
+        onHoverTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(getTopParent(), time)); //* TODO replace with first non-native parent when nativity is added
+        onUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
 
-        hb = new Hitbox(0, 0, 1, 1);
+        commonInitialize();
+    }
 
-        addOnHoveredEvent(() -> data.onHovered.executeBinding(getTopParent()));
-        addOnHoverTickEvent((elapsedTime) -> data.onHoverTick.executeBinding(getTopParent(), elapsedTime));
-        addOnUnHoveredEvent(() -> data.onUnhovered.executeBinding(getTopParent()));
-
-        this.isPassthrough = data.isPassthrough;
-
+    private void commonInitialize(){
         GlobalEvents.subscribe(GlobalEvents.Events.PreLeftClickEvent.class, (event) -> {
             if(event.source != this && isSelected()){
                 deselect();
+            }
+
+            if(this.isContextual() && event.source != this && !event.source.isDescendantOf(this)){
+                destroy();
+            }
+        });
+
+        GlobalEvents.subscribe(GlobalEvents.Events.PreForceFocusChangeEvent.class, (event) -> {
+            if(event.source != this && isSelected()){
+                deselect();
+            }
+        });
+
+        GlobalEvents.subscribe(GlobalEvents.Events.PreHoverEvent.class, (event) -> {
+            if(event.source != this && isHovered() && !isPassthrough()){
+                this.hb.unhover();
+                onUnhovered();
             }
         });
 
@@ -1762,49 +1748,22 @@ public class UIElement {
             }
         }
 
-        for(Map.Entry<UUID, Runnable> entry : onHoveredEvents.entrySet()) entry.getValue().run();
+        onHoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
 
         if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
     }
     protected void onHoverTick(float totalTickDuration){
-        for(Map.Entry<UUID, Consumer<Float>> entry : onHoverTickEvents.entrySet()) entry.getValue().accept(totalTickDuration);
+        onHoverTickEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalTickDuration));
 
         if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
     }
     protected void onUnhovered(){
         totalHoverDuration = 0.f;
 
-        for(Map.Entry<UUID, Runnable> entry : onUnHoveredEvents.entrySet()) entry.getValue().run();
+        onUnhoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
 
     public boolean isHovered(){ return (hb.hovered || hb.justHovered); }
-
-    public UUID addOnHoveredEvent(Runnable event){
-        UUID id = UUID.randomUUID();
-        onHoveredEvents.put(id, event);
-        return id;
-    }
-    public void removeOnHoveredEvent(UUID id){
-        onHoveredEvents.remove(id);
-    }
-
-    public UUID addOnHoverTickEvent(Consumer<Float> event){
-        UUID id = UUID.randomUUID();
-        onHoverTickEvents.put(id, event);
-        return id;
-    }
-    public void removeOnHoverTickEvent(UUID id){
-        onHoverTickEvents.remove(id);
-    }
-
-    public UUID addOnUnHoveredEvent(Runnable event){
-        UUID id = UUID.randomUUID();
-        onUnHoveredEvents.put(id, event);
-        return id;
-    }
-    public void removeOnUnHoveredEvent(UUID id){
-        onUnHoveredEvents.remove(id);
-    }
 
     public void setOnHoverLine(String newLine){
         this.onHoverLine = newLine;
@@ -1849,41 +1808,15 @@ public class UIElement {
 
         select();
 
-        for (Map.Entry<UUID, Runnable> event : onLeftClickEvents.entrySet()) event.getValue().run();
+        onLeftClickEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
     protected void onLeftClickHeld(float totalDuration){
-        for(Map.Entry<UUID, Consumer<Float>> consumer : onLeftClickHeldEvents.entrySet()) consumer.getValue().accept(totalDuration);
+        onLeftClickHeldEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalDuration));
     }
     protected void onLeftClickRelease(){
         holdingLeft = false;
 
-        for(Map.Entry<UUID, Runnable> consumer : onLeftClickReleaseEvents.entrySet()) consumer.getValue().run();
-    }
-
-    public UUID addOnLeftClickEvent(Runnable consumer){
-        UUID newId = UUID.randomUUID();
-        onLeftClickEvents.put(newId, consumer);
-        return newId;
-    }
-    public UUID addOnLeftClickHeldEvent(Consumer<Float> consumer){
-        UUID newId = UUID.randomUUID();
-        onLeftClickHeldEvents.put(newId, consumer);
-        return newId;
-    }
-    public UUID addOnLeftClickReleaseEvent(Runnable consumer){
-        UUID newId = UUID.randomUUID();
-        onLeftClickReleaseEvents.put(newId, consumer);
-        return newId;
-    }
-
-    public void removeOnLeftClickEvent(UUID id){
-        onLeftClickEvents.remove(id);
-    }
-    public void removeOnLeftClickHeldEvent(UUID id){
-        onLeftClickHeldEvents.remove(id);
-    }
-    public void removeOnLeftClickReleaseEvent(UUID id){
-        onLeftClickReleaseEvents.remove(id);
+        onLeftClickReleaseEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
 
     public boolean isHeld(){
@@ -1908,41 +1841,15 @@ public class UIElement {
             }
         }
 
-        for(Map.Entry<UUID, Runnable> consumer : onRightClickEvents.entrySet()) consumer.getValue().run();
+        onRightClickEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
     protected void onRightClickHeld(float totalDuration){
-        for(Map.Entry<UUID, Consumer<Float>> consumer : onRightClickHeldEvents.entrySet()) consumer.getValue().accept(totalDuration);
+        onRightClickHeldEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalDuration));
     }
     protected void onRightButtonRelease(){
         holdingRight = false;
 
-        for(Map.Entry<UUID, Runnable> consumer : onRightClickReleaseEvents.entrySet()) consumer.getValue().run();
-    }
-
-    public UUID addOnRightClickEvent(Runnable consumer){
-        UUID newId = UUID.randomUUID();
-        onRightClickEvents.put(newId, consumer);
-        return newId;
-    }
-    public UUID addOnRightClickHeldEvent(Consumer<Float> consumer){
-        UUID newId = UUID.randomUUID();
-        onRightClickHeldEvents.put(newId, consumer);
-        return newId;
-    }
-    public UUID addOnRightClickReleaseEvent(Runnable consumer){
-        UUID newId = UUID.randomUUID();
-        onRightClickReleaseEvents.put(newId, consumer);
-        return newId;
-    }
-
-    public void removeOnRightClickEvent(UUID id){
-        onRightClickEvents.remove(id);
-    }
-    public void removeOnRightClickHeldEvent(UUID id){
-        onRightClickHeldEvents.remove(id);
-    }
-    public void removeOnRightClickReleaseEvent(UUID id){
-        onRightClickReleaseEvents.remove(id);
+        onRightClickReleaseEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
 
     //endregion
@@ -2104,17 +2011,24 @@ public class UIElement {
                 .setName("Enabled")
                 .setDescription("Whether or not the element is interactable with.")
                 .setCategory("General");
+        public BooleanProperty isPassthrough = new BooleanProperty(false)
+                .setName("Passthrough")
+                .setDescription("Whether or not the element allows interactions to pass through it to elements underneath it.")
+                .setCategory("General");
 
-        public String darkenedColor = Color.BLACK.toString();
-        public float darkenedColorMultiplier = 0.25f;
-
-        public MethodBinding onSelectionStateChangedBinding = new NoneMethodBinding();
-
-        public MethodBinding onHovered = new NoneMethodBinding();
-        public MethodBinding onHoverTick = new NoneMethodBinding();
-        public MethodBinding onUnhovered = new NoneMethodBinding();
-
-        public boolean isPassthrough = true;
+        public MethodBindingProperty onHovered = new MethodBindingProperty()
+                .setName("On Hovered")
+                .setDescription("Method to call when the element is hovered.")
+                .setCategory("Events");
+        public MethodBindingProperty onHoverTick = new MethodBindingProperty()
+                .setName("On Hover Tick")
+                .setDescription("Method to call every tick the element is hovered.")
+                .setCategory("Events")
+                .setDynamicCreationParameters(new Pair<>("hoverDeltaTime", Float.class));
+        public MethodBindingProperty onUnhovered = new MethodBindingProperty()
+                .setName("On Unhovered")
+                .setDescription("Method to call when the element is unhovered.")
+                .setCategory("Events");
 
         public UIElement makeUIElement(){
             return new UIElement(this);

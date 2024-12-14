@@ -50,7 +50,7 @@ public class ColorPickerScreen extends UIElement {
         addChildNCS(selectedPreview);
 
         TextButton confirmButton = new TextButton("CONFIRM", Pos.px(685), Pos.px(1080-1015), Dim.px(550), Dim.px(150));
-        confirmButton.getButton().addOnLeftClickEvent(() -> {
+        confirmButton.getButton().onLeftClickEvent.subscribeManaged(() -> {
             onColorChosen(currentColor);
             self.close();
         });

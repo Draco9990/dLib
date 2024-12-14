@@ -47,10 +47,10 @@ public class NumberInputBoxWithArrows extends UIElement {
 
         linkedProperty = property;
 
-        leftArrow.addOnLeftClickEvent(property::decrement);
-        leftArrow.addOnLeftClickHeldEvent(aFloat -> property.decrement());
-        rightArrow.addOnLeftClickEvent(property::increment);
-        rightArrow.addOnLeftClickHeldEvent(aFloat -> property.increment());
+        leftArrow.onLeftClickEvent.subscribeManaged(property::decrement);
+        leftArrow.onLeftClickHeldEvent.subscribeManaged(aFloat -> property.decrement());
+        rightArrow.onLeftClickEvent.subscribeManaged(property::increment);
+        rightArrow.onLeftClickHeldEvent.subscribeManaged(aFloat -> property.increment());
 
         inputbox.addOnValueChangedListener(property::setValueFromString);
 

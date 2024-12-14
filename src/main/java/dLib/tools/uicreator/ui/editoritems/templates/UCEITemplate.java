@@ -49,7 +49,7 @@ public abstract class UCEITemplate {
         UCEditorItemComponent editorComp = editorItem.addComponent(new UCEditorItemComponent());
         //DO stuff with comp
 
-        editorItem.addOnLeftClickEvent(() -> {
+        editorItem.onLeftClickEvent.subscribeManaged(() -> {
             ((UCEditor)editorItem.getTopParent()).properties.hideAll();
             ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.showAndEnableInstantly();
             ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.setProperties(elementData);

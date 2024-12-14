@@ -34,10 +34,10 @@ public class ElementGroupModifierComponent extends UIElementComponent<UIElement>
     public void onRegisterComponent(UIElement owner) {
         super.onRegisterComponent(owner);
 
-        multiSelectComponentID = owner.addOnLeftClickEvent(this::select);
+        multiSelectComponentID = owner.onLeftClickEvent.subscribeManaged(this::select);
 
         if(owner.hasComponent(UIDraggableComponent.class)){
-            onDragStartEventID = owner.addOnLeftClickEvent(() -> {
+            onDragStartEventID = owner.onLeftClickEvent.subscribeManaged(() -> {
                 for(ElementGroupModifierComponent comp : groupComponents.get(groupName)){
                     if(comp != this && comp.isSelected && comp.owner.hasComponent(UIDraggableComponent.class)){
                         comp.owner.getComponent(UIDraggableComponent.class).onLeftClick();
@@ -45,7 +45,7 @@ public class ElementGroupModifierComponent extends UIElementComponent<UIElement>
                 }
             });
 
-            onDragEventID = owner.addOnLeftClickHeldEvent((delta) -> {
+            onDragEventID = owner.onLeftClickHeldEvent.subscribeManaged((delta) -> {
                 for(ElementGroupModifierComponent comp : groupComponents.get(groupName)){
                     if(comp != this && comp.isSelected && comp.owner.hasComponent(UIDraggableComponent.class)){
                         comp.owner.getComponent(UIDraggableComponent.class).onLeftClickHeld(delta);
@@ -59,11 +59,11 @@ public class ElementGroupModifierComponent extends UIElementComponent<UIElement>
     public void onUnregisterComponent(UIElement owner) {
         super.onUnregisterComponent(owner);
 
-        owner.removeOnLeftClickEvent(multiSelectComponentID);
+        owner.onLeftClickHeldEvent.unsubscribeManaged(multiSelectComponentID);
 
         if(owner.hasComponent(UIDraggableComponent.class)){
-            owner.removeOnLeftClickEvent(onDragStartEventID);
-            owner.removeOnLeftClickHeldEvent(onDragEventID);
+            owner.onLeftClickEvent.unsubscribeManaged(onDragStartEventID);
+            owner.onLeftClickHeldEvent.unsubscribeManaged(onDragEventID);
         }
     }
 

@@ -31,12 +31,6 @@ public class ScreenEditorNewScreenScreen extends UIElement {
         addChildCS(inputfield);
 
         TextButton proceedButton = new TextButton("CREATE", Pos.px(683), Pos.px(1080-896), Dim.px(532), Dim.px(101));
-        proceedButton.getButton().addOnLeftClickEvent(new Runnable() {
-            @Override
-            public void run() {
-                PluginManager.sendMessage("createNewScreen", inputfield.getTextBox().getText());
-            }
-        });
         addChildCS(proceedButton);
     }
 }

@@ -25,7 +25,7 @@ public class ComboBox<OptionType> extends TextButton{
 
         getTextBox().setText(itemToString(initialOption));
 
-        getButton().addOnLeftClickEvent(() -> {
+        getButton().onLeftClickEvent.subscribeManaged(() -> {
             int buttonX = getButton().getWorldPositionX();
             int buttonY = getButton().getWorldPositionY();
 
