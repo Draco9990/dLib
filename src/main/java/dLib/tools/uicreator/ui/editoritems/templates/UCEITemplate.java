@@ -58,7 +58,7 @@ public abstract class UCEITemplate {
     }
 
     private void wrapElementData(UIElement.UIElementData data){
-        data.isPassthrough = false;
+        data.isPassthrough.setValue(false);
     }
 
     protected abstract UIElement.UIElementData generateElementData();
