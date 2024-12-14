@@ -10,7 +10,12 @@ import java.util.function.BiConsumer;
 public class DynamicMethodBinding extends MethodBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** Variables */
+    //For property editors
+    private static final String PROPERTY_EDITOR_LONG_NAME = "Dynamic Method Binding";
+    private static final String PROPERTY_EDITOR_SHORT_NAME = "dyn";
+
+    //region Variables
+
     private StringProperty methodToExecute = new StringProperty(""){
         @Override
         public boolean isValidValue(String value) {
@@ -20,6 +25,8 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
     };
 
     private transient ArrayList<BiConsumer<String, String>> onBoundMethodChangedConsumers = new ArrayList<>();
+
+    //endregion Variables
 
     /** Constructors */
     public DynamicMethodBinding(String methodName){

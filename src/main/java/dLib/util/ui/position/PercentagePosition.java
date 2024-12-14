@@ -119,7 +119,7 @@ public class PercentagePosition extends AbstractPosition {
     }
 
     @Override
-    public String getSimpleDisplayName() {
+    public String getFullDisplayName() {
         return "%";
     }
 }

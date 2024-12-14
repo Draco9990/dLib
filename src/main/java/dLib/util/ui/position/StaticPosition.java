@@ -148,7 +148,7 @@ public class StaticPosition extends AbstractPosition {
     }
 
     @Override
-    public String getSimpleDisplayName() {
+    public String getFullDisplayName() {
         return "px";
     }
 }

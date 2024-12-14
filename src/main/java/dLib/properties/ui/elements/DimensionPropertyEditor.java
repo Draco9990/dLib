@@ -46,7 +46,7 @@ public class DimensionPropertyEditor extends AbstractPropertyEditor<TDimensionPr
             buildXPositionValueBox(property, property.getWidth());
             horizontalBox.addItem(xInputVal);
 
-            xValueChanged = new ComboBox<AbstractDimension>(property.getWidth(), widthPositionOptions, Dim.perc(0.1f), Dim.px(15)){
+            xValueChanged = new ComboBox<AbstractDimension>(property.getWidth(), widthPositionOptions, Dim.px(28), Dim.px(15)){
                 @Override
                 public String itemToString(AbstractDimension item) {
                     return item.getSimpleDisplayName();
@@ -67,7 +67,7 @@ public class DimensionPropertyEditor extends AbstractPropertyEditor<TDimensionPr
             buildYPositionValueBox(property, property.getHeight());
             horizontalBox.addItem(yInputVal);
 
-            yValueChanged = new ComboBox<AbstractDimension>(property.getHeight(), heightPositionOptions, Dim.perc(0.1f), Dim.px(15)){
+            yValueChanged = new ComboBox<AbstractDimension>(property.getHeight(), heightPositionOptions, Dim.px(28), Dim.px(15)){
                 @Override
                 public String itemToString(AbstractDimension item) {
                     return item.getSimpleDisplayName();

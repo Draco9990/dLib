@@ -1,6 +1,5 @@
 package dLib.properties.ui.elements;
 
-import basemod.Pair;
 import dLib.properties.objects.templates.TPositionProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.*;
@@ -9,10 +8,8 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.StaticPosition;
-import org.apache.logging.log4j.util.BiConsumer;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProperty<? extends TPositionProperty>> {
 
@@ -40,10 +37,10 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             buildXPositionValueBox(property, property.getXPosition());
             horizontalBox.addItem(xInputVal);
 
-            xValueChanged = new ComboBox<AbstractPosition>(property.getXPosition(), positionOptions, Dim.perc(0.1f), Dim.px(15)){
+            xValueChanged = new ComboBox<AbstractPosition>(property.getXPosition(), positionOptions, Dim.px(28), Dim.px(15)){
                 @Override
                 public String itemToString(AbstractPosition item) {
-                    return item.getSimpleDisplayName();
+                    return item.getFullDisplayName();
                 }
             };
             xValueChanged.addOnSelectedItemChangedEvent((classComboBox, option) -> {
@@ -61,10 +58,10 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             buildYPositionValueBox(property, property.getYPosition());
             horizontalBox.addItem(yInputVal);
 
-            yValueChanged = new ComboBox<AbstractPosition>(property.getYPosition(), positionOptions, Dim.perc(0.1f), Dim.px(15)){
+            yValueChanged = new ComboBox<AbstractPosition>(property.getYPosition(), positionOptions, Dim.px(28), Dim.px(15)){
                 @Override
                 public String itemToString(AbstractPosition item) {
-                    return item.getSimpleDisplayName();
+                    return item.getFullDisplayName();
                 }
             };
             yValueChanged.addOnSelectedItemChangedEvent((classComboBox, option) -> {

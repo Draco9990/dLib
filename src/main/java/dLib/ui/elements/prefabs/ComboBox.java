@@ -23,7 +23,7 @@ public class ComboBox<OptionType> extends TextButton{
     public ComboBox(OptionType initialOption, ArrayList<OptionType> options, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(initialOption.toString(), xPos, yPos, width, height);
 
-        getTextBox().setText(itemToString(initialOption));
+        getTextBox().setText(itemToStringShort(initialOption));
 
         getButton().onLeftClickEvent.subscribeManaged(() -> {
             int buttonX = getButton().getWorldPositionX();
@@ -32,7 +32,7 @@ public class ComboBox<OptionType> extends TextButton{
             SimpleListPicker<OptionType> picker = new SimpleListPicker<OptionType>(buttonX, buttonY, options, this::setSelectedItem) {
                 @Override
                 public String itemToString(OptionType item) {
-                    return ComboBox.this.itemToString(item);
+                    return ComboBox.this.itemToStringLong(item);
                 }
             };
             picker.open();
@@ -52,7 +52,7 @@ public class ComboBox<OptionType> extends TextButton{
         if(option == null && !canBeNull) return;
 
         currentOption = option;
-        getTextBox().setText(itemToString(option));
+        getTextBox().setText(itemToStringShort(option));
 
         onSelectedItemChangedEvents.forEach((id, event) -> event.accept(this, option));
     }
@@ -72,5 +72,15 @@ public class ComboBox<OptionType> extends TextButton{
     public String itemToString(OptionType item){
         if(item == null) return "None";
         return item.toString();
+    }
+
+    public String itemToStringLong(OptionType item){
+        if(item == null) return "None";
+        return itemToString(item);
+    }
+
+    public String itemToStringShort(OptionType item){
+        if(item == null) return "None";
+        return itemToString(item);
     }
 }

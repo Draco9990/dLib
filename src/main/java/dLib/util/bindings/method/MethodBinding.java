@@ -1,10 +1,11 @@
 package dLib.util.bindings.method;
 
 import dLib.util.bindings.Binding;
+import dLib.util.bindings.ResourceBinding;
 
 import java.io.Serializable;
 
-public abstract class MethodBinding extends Binding implements Serializable {
+public abstract class MethodBinding extends ResourceBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Binding */

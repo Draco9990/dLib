@@ -5,7 +5,7 @@ import dLib.ui.screens.UIManager;
 
 import java.io.Serializable;
 
-public class CloseScreenMethodBinding extends MethodBinding implements Serializable {
+public class CloseScreenMethodBinding extends StaticMethodBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Binding */

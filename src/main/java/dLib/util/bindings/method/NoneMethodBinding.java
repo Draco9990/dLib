@@ -2,7 +2,7 @@ package dLib.util.bindings.method;
 
 import java.io.Serializable;
 
-public class NoneMethodBinding extends MethodBinding implements Serializable {
+public class NoneMethodBinding extends StaticMethodBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Binding */
