@@ -5,11 +5,11 @@ import basemod.interfaces.PostInitializeSubscriber;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
+import dLib.code.LinkedEditorManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
 import dLib.plugin.intellij.PluginManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
-import dLib.ui.screens.UIManager;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
 import org.apache.logging.log4j.LogManager;
@@ -53,6 +53,8 @@ public class DLib implements PostInitializeSubscriber{
         PluginManager.start();
 
         UCEITemplateManager.initialize();
+
+        LinkedEditorManager.initialize();
     }
 
     public static void logError(String message){

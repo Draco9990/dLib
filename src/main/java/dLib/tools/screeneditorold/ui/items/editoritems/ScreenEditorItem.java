@@ -8,9 +8,7 @@ import dLib.plugin.intellij.PluginMessageSender;
 import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
-import dLib.ui.elements.implementations.Resizeable;
 import dLib.util.DLibLogger;
-import dLib.util.IntegerVector2;
 import dLib.properties.objects.templates.TProperty;
 import dLib.util.SerializationHelpers;
 import dLib.util.ui.dimensions.Dim;
@@ -19,8 +17,6 @@ import dLib.util.ui.position.Pos;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.function.BiConsumer;
 
 public abstract class ScreenEditorItem<ElementType extends UIElement, DataType extends UIElement.UIElementData> extends Interactable {
     //region Variables
@@ -172,7 +168,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
             elementData.id.setValue(getId());
         }
 
-        if(oldId != null) PluginMessageSender.Send_RenameVariableInClass(screenEditor.getEditingScreen(), oldId, newId);
+        if(oldId != null) PluginMessageSender.send_renameVariableInClass(screenEditor.getEditingScreen(), oldId, newId);
 
         return this;
     }

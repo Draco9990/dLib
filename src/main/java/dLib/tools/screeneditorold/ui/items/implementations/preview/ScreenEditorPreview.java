@@ -58,7 +58,7 @@ public class ScreenEditorPreview extends UIElement {
             ScreenEditorItem<?, ?> copy = template.newInstance();
 
             validatePreviewItem(copy);
-            PluginMessageSender.Send_AddVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
+            PluginMessageSender.send_addVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
             addPreviewItem(copy);
             return copy;
         }catch (Exception e){
@@ -75,7 +75,7 @@ public class ScreenEditorPreview extends UIElement {
         }
 
         validatePreviewItem(copy);
-        PluginMessageSender.Send_AddVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
+        PluginMessageSender.send_addVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
 
         addPreviewItem(copy);
 
@@ -96,7 +96,7 @@ public class ScreenEditorPreview extends UIElement {
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         itemToDelete.destroy();
 
-        PluginMessageSender.Send_RemoveVariableFromClass(getParent().getEditingScreen(), itemToDelete.getId());
+        PluginMessageSender.send_removeVariableFromClass(getParent().getEditingScreen(), itemToDelete.getId());
     }
 
     //endregion

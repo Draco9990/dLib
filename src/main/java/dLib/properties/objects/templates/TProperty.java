@@ -28,6 +28,8 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     protected ValueType defaultValue;
     protected ValueType value;
 
+    protected ValueType previousValue;
+
     protected Class<? extends AbstractPropertyEditor> propertyEditorClass;
 
     public transient UIElementEvent<BiConsumer<ValueType, ValueType>> onValueChangedEvent = new UIElementEvent<>();
@@ -75,6 +77,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
         ValueType oldValue = this.value;
         this.value = value;
+        this.previousValue = oldValue;
         onValueChanged(oldValue, value);
     }
 
@@ -98,6 +101,10 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     public void onValueChanged(ValueType oldValue, ValueType newValue){
         onValueChangedEvent.invoke(propertyTypeValueTypeValueTypeTriConsumer -> propertyTypeValueTypeValueTypeTriConsumer.accept(oldValue, newValue));
+    }
+
+    public ValueType getPreviousValue(){
+        return previousValue;
     }
 
     //endregion

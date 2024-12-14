@@ -282,13 +282,13 @@ public class Interactable extends Renderable{
         public InteractableData(){
             //TODO handle serialization
             id.onValueChangedEvent.subscribeManaged((s, s2) -> {
-                onLeftClick.setDynamicCreationMethodName(s2 + "_onLeftClick");
-                onLeftClickHeld.setDynamicCreationMethodName(s2 + "_onLeftClickHeld");
-                onLeftClickRelease.setDynamicCreationMethodName(s2 + "_onLeftClickRelease");
+                onLeftClick.setDynamicCreationDefaultMethodName(s2 + "_onLeftClick");
+                onLeftClickHeld.setDynamicCreationDefaultMethodName(s2 + "_onLeftClickHeld");
+                onLeftClickRelease.setDynamicCreationDefaultMethodName(s2 + "_onLeftClickRelease");
 
-                onRightClick.setDynamicCreationMethodName(s2 + "_onRightClick");
-                onRightClickHeld.setDynamicCreationMethodName(s2 + "_onRightClickHeld");
-                onRightClickRelease.setDynamicCreationMethodName(s2 + "_onRightClickRelease");
+                onRightClick.setDynamicCreationDefaultMethodName(s2 + "_onRightClick");
+                onRightClickHeld.setDynamicCreationDefaultMethodName(s2 + "_onRightClickHeld");
+                onRightClickRelease.setDynamicCreationDefaultMethodName(s2 + "_onRightClickRelease");
             });
         }
 

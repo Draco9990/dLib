@@ -4,6 +4,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.*;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.Reflection;
+import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.properties.objects.templates.TMethodBindingProperty;
@@ -14,12 +15,16 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodBindingProperty<? extends TMethodBindingProperty>> {
     //region Variables
 
     UIElement propertyEditorElement;
+
+    Button bindDynamicBindingButton;
 
     //endregion
 
@@ -43,26 +48,39 @@ public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodB
         {
             mainBox.addItem(buildPropertyEditorForBinding(property));
 
-            ComboBox<Class<? extends MethodBinding>> methodBindingType = new ComboBox<Class<? extends MethodBinding>>(StaticMethodBinding.class, methodBindingOptions, Dim.px(28), Dim.px(15)){
-                @Override
-                public String itemToStringShort(Class<? extends MethodBinding> item) {
-                    return Reflection.getFieldValue("PROPERTY_EDITOR_SHORT_NAME", item);
+            VerticalBox methodBindingOptionsBox = new VerticalBox(Dim.px(28), Dim.fill());
+            {
+                VerticalBox extraOptionsBox = new VerticalBox(Dim.fill(), Dim.fill());
+                {
+                    extraOptionsBox.addItem(bindDynamicBindingButton = new Button(Dim.fill(), Dim.px(15)));
+                    bindDynamicBindingButton.setImage(TextureManager.getTexture("dLibResources/images/ui/uieditor/BindButton.png"));
+                    bindDynamicBindingButton.hideAndDisableInstantly();
+                    bindDynamicBindingButton.onLeftClickEvent.subscribeManaged(() -> bindDynamicBindingButton.hideAndDisableInstantly());
                 }
+                methodBindingOptionsBox.addItem(extraOptionsBox);
 
-                @Override
-                public String itemToStringLong(Class<? extends MethodBinding> item) {
-                    return Reflection.getFieldValue("PROPERTY_EDITOR_LONG_NAME", item);
-                }
-            };
-            methodBindingType.addOnSelectedItemChangedEvent((classComboBox, aClass) -> {
-                if(aClass == StaticMethodBinding.class){
-                    property.setValue(new NoneMethodBinding());
-                }
-                else if(aClass == DynamicMethodBinding.class){
-                    property.setValue(new DynamicMethodBinding(""));
-                }
-            });
-            mainBox.addItem(methodBindingType);
+                ComboBox<Class<? extends MethodBinding>> methodBindingType = new ComboBox<Class<? extends MethodBinding>>(StaticMethodBinding.class, methodBindingOptions, Dim.px(28), Dim.px(15)){
+                    @Override
+                    public String itemToStringShort(Class<? extends MethodBinding> item) {
+                        return Reflection.getFieldValue("PROPERTY_EDITOR_SHORT_NAME", item);
+                    }
+
+                    @Override
+                    public String itemToStringLong(Class<? extends MethodBinding> item) {
+                        return Reflection.getFieldValue("PROPERTY_EDITOR_LONG_NAME", item);
+                    }
+                };
+                methodBindingType.addOnSelectedItemChangedEvent((classComboBox, aClass) -> {
+                    if(aClass == StaticMethodBinding.class){
+                        property.setValue(new NoneMethodBinding());
+                    }
+                    else if(aClass == DynamicMethodBinding.class){
+                        property.setValue(new DynamicMethodBinding(property.getDynamicCreationDefaultMethodName()));
+                    }
+                });
+                methodBindingOptionsBox.addItem(methodBindingType);
+            }
+            mainBox.addItem(methodBindingOptionsBox);
         }
 
         property.onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
@@ -91,6 +109,13 @@ public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodB
         }
         else if(property.getValue() instanceof DynamicMethodBinding){
             createdElement = new Inputfield(((DynamicMethodBinding) property.getValue()).getBoundMethod(), Dim.fill(), Dim.fill());
+            ((Inputfield)createdElement).getTextBox().addOnTextChangedConsumer(s -> {
+                ((DynamicMethodBinding) property.getValue()).setBoundMethod(s);
+
+                if(Objects.equals(((DynamicMethodBinding) property.getValue()).getBoundMethodRaw().getPreviousValue(), "")){ //TODO replace with a check if the method already exists perhaps
+                    bindDynamicBindingButton.showAndEnableInstantly();
+                }
+            });
 
             property.onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
                 if(methodBinding instanceof DynamicMethodBinding && methodBinding2 instanceof DynamicMethodBinding){

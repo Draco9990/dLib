@@ -1,6 +1,8 @@
 package dLib.properties.objects.templates;
 
 import basemod.Pair;
+import dLib.code.LinkedEditor;
+import dLib.code.LinkedEditorManager;
 import dLib.properties.ui.elements.MethodBindingPropertyEditor;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
@@ -8,9 +10,7 @@ import dLib.util.bindings.method.MethodBindingHelpers;
 import dLib.util.bindings.method.NoneMethodBinding;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class TMethodBindingProperty<PropertyType> extends TCustomProperty<MethodBinding, PropertyType> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -18,12 +18,14 @@ public abstract class TMethodBindingProperty<PropertyType> extends TCustomProper
     //region Variables
 
     private Class<?> dynamic_returnType = void.class;
-    private String dynamic_methodName = "MethodBinding_" + UUID.randomUUID().toString().replace("-", "");
+    private String dynamic_defaultMethodName = "MethodBinding_" + UUID.randomUUID().toString().replace("-", "");
     private LinkedHashMap<String, Class<?>> dynamic_params = new LinkedHashMap<>();
     private String dynamic_methodBody = "{\n//IMPLEMENTATION HERE\n}";
 
     private boolean dynamicBindingOnly = false;
     private boolean noDynamicBinding = false;
+
+    private boolean dynamicCreated = false;
 
     //endregion
 
@@ -64,25 +66,51 @@ public abstract class TMethodBindingProperty<PropertyType> extends TCustomProper
         return true;
     }
 
+    @Override
+    public void onValueChanged(MethodBinding oldValue, MethodBinding newValue) {
+        super.onValueChanged(oldValue, newValue);
+
+        if(newValue instanceof DynamicMethodBinding){
+            dynamicCreated = false;
+            ((DynamicMethodBinding) newValue).addOnBoundMethodChangedConsumer((oldVal, newVal) -> {
+                if(dynamicCreated){
+                    LinkedEditor editor = LinkedEditorManager.get().getActiveEditor();
+                    if(editor == null){
+                        return;
+                    }
+
+                    editor.renameMethodInClass(oldVal, newVal, getDynamicCreationParametersAsStringMap());
+                }
+            });
+        }
+        else if(oldValue instanceof DynamicMethodBinding && !((DynamicMethodBinding) oldValue).getBoundMethod().isEmpty()){
+            LinkedEditor editor = LinkedEditorManager.get().getActiveEditor();
+            if(editor == null){
+                return;
+            }
+
+            editor.removeMethodFromClass(((DynamicMethodBinding) oldValue).getBoundMethod(), getDynamicCreationParametersAsStringMap());
+        }
+    }
 
     //endregion
 
     //region Dynamic Method Creation
 
-    public TMethodBindingProperty setDynamicCreationReturnType(Class<?> returnType){
+    public PropertyType setDynamicCreationReturnType(Class<?> returnType){
         this.dynamic_returnType = returnType;
-        return this;
+        return (PropertyType) this;
     }
     public Class<?> getDynamicCreationReturnType(){
         return dynamic_returnType;
     }
 
-    public PropertyType setDynamicCreationMethodName(String methodName){
-        this.dynamic_methodName = methodName;
+    public PropertyType setDynamicCreationDefaultMethodName(String methodName){
+        this.dynamic_defaultMethodName = methodName;
         return (PropertyType) this;
     }
-    public String getDynamicCreationMethodName(){
-        return dynamic_methodName;
+    public String getDynamicCreationDefaultMethodName(){
+        return dynamic_defaultMethodName;
     }
 
     public PropertyType addDynamicCreationParameter(String paramName, Class<?> paramType){
@@ -110,6 +138,27 @@ public abstract class TMethodBindingProperty<PropertyType> extends TCustomProper
     }
     public String getDynamicCreationMethodBody(){
         return dynamic_methodBody;
+    }
+
+    public void createDynamicMethod(){
+        if(dynamicCreated || !(getValue() instanceof DynamicMethodBinding)){
+            return;
+        }
+
+        LinkedEditor editor = LinkedEditorManager.get().getActiveEditor();
+        if(editor == null){
+            return;
+        }
+
+        editor.addMethodToClass(getDynamicCreationReturnType().getName(), ((DynamicMethodBinding) getValue()).getBoundMethod(), getDynamicCreationParametersAsStringMap(), getDynamicCreationMethodBody());
+    }
+
+    public LinkedHashMap<String, String> getDynamicCreationParametersAsStringMap(){
+        LinkedHashMap<String, String> convertedParameters = new LinkedHashMap<>();
+        for(Map.Entry<String, Class<?>> param : getDynamicCreationParameters().entrySet()){
+            convertedParameters.put(param.getKey(), param.getValue().getName());
+        }
+        return convertedParameters;
     }
 
     //endregion

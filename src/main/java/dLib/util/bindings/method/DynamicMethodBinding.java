@@ -38,7 +38,7 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
         return methodToExecute.getValue();
     }
 
-    public StringProperty getBoundMethodSetting(){
+    public StringProperty getBoundMethodRaw(){
         return methodToExecute;
     }
 
