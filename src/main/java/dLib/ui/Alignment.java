@@ -21,9 +21,9 @@ public class Alignment {
     }
 
     public enum VerticalAlignment {
-        TOP,
+        BOTTOM,
         CENTER,
-        BOTTOM
+        TOP
     }
 
     @Override

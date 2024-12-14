@@ -198,6 +198,8 @@ public class UIElement {
         width = data.dimensions.getWidth();
         height = data.dimensions.getHeight();
 
+        setAlignment(data.alignment.getHorizontalAlignment(), data.alignment.getVerticalAlignment());
+
         if(!data.isVisible.getValue() && !data.isEnabled.getValue()){
             hideAndDisableInstantly();
         }
