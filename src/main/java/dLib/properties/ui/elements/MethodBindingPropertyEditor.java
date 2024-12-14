@@ -12,9 +12,9 @@ import dLib.util.bindings.method.StaticMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
-import org.apache.logging.log4j.util.BiConsumer;
 
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodBindingProperty<? extends TMethodBindingProperty>> {
     //region Variables
@@ -54,6 +54,14 @@ public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodB
                     return Reflection.getFieldValue("PROPERTY_EDITOR_LONG_NAME", item);
                 }
             };
+            methodBindingType.addOnSelectedItemChangedEvent((classComboBox, aClass) -> {
+                if(aClass == StaticMethodBinding.class){
+                    property.setValue(new NoneMethodBinding());
+                }
+                else if(aClass == DynamicMethodBinding.class){
+                    property.setValue(new DynamicMethodBinding(""));
+                }
+            });
             mainBox.addItem(methodBindingType);
         }
 

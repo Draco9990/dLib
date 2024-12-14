@@ -286,6 +286,10 @@ public abstract class ItemBox<ItemType> extends Renderable {
             }
         }
 
+        if(!replacement.hasComponent(ItemboxChildComponent.class)){
+            replacement.addComponent(new ItemboxChildComponent());
+        }
+
         return super.replaceChild(original, replacement);
     }
 
