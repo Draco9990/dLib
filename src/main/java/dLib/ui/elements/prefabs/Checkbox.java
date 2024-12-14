@@ -21,7 +21,7 @@ public class Checkbox extends Toggle {
         this(xPos, yPos, Dim.fill(), Dim.fill());
     }
     public Checkbox(AbstractDimension width, AbstractDimension height){
-        this(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        this(Pos.px(0), Pos.px(0), width, height);
     }
     public Checkbox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(UIThemeManager.getDefaultTheme().checkbox_unchecked, UIThemeManager.getDefaultTheme().checkbox_checked, xPos, yPos, width, height);

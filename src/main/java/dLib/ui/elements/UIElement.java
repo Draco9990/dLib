@@ -2072,7 +2072,7 @@ public class UIElement {
         }
                 .setName("Id")
                 .setDescription("Internal ID of the element. Has to be unique.")
-                .setCategory("General");
+                .setCategory("Core");
 
         public PositionProperty localPosition = new PositionProperty(Pos.px(0), Pos.px(0))
                 .setName("Local Position")
@@ -2096,8 +2096,14 @@ public class UIElement {
                 .setDescription("Alignment of the element within its parent.")
                 .setCategory("Transform");
 
-        public BooleanProperty isVisible = new BooleanProperty(true).setName("Visible");
-        public BooleanProperty isEnabled = new BooleanProperty(true).setName("Enabled");
+        public BooleanProperty isVisible = new BooleanProperty(true)
+                .setName("Visible")
+                .setDescription("Whether or not the element is rendered/visible.")
+                .setCategory("General");
+        public BooleanProperty isEnabled = new BooleanProperty(true)
+                .setName("Enabled")
+                .setDescription("Whether or not the element is interactable with.")
+                .setCategory("General");
 
         public String darkenedColor = Color.BLACK.toString();
         public float darkenedColorMultiplier = 0.25f;
