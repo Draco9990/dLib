@@ -8,9 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/staticbindings/CloseTargetedMethodBinding.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/mousestates/MouseStateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/mousestates/MouseStateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/MethodBindingPropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/MethodBindingPropertyEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/bindings/RelativeUIElementBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/bindings/RelativeUIElementBinding.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/mousestates/ReferencePickerMouseState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/mousestates/ReferencePickerMouseState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/staticbindings/StaticMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/staticbindings/StaticMethodBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/events/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/events/Event.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,11 +112,11 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.util.bindings.method.staticbindings" />
       <recent name="dLib.commands.objects" />
       <recent name="dLib.util.ui.events" />
       <recent name="dLib.properties.ui.elements" />
       <recent name="dLib.properties.objects" />
-      <recent name="dLib.properties.objects.templates" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -286,7 +291,7 @@
       <workItem from="1733908844020" duration="960000" />
       <workItem from="1734006047714" duration="14842000" />
       <workItem from="1734088518840" duration="28779000" />
-      <workItem from="1734214112927" duration="19995000" />
+      <workItem from="1734214112927" duration="25264000" />
     </task>
     <servers />
   </component>

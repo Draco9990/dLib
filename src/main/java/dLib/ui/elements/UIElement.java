@@ -15,12 +15,10 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
 import dLib.modcompat.saythespire.SayTheSpireIntegration;
-import dLib.mousestates.MouseStateManager;
 import dLib.patches.InputHelperHoverConsumer;
 import dLib.properties.objects.*;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
-import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.bindings.RelativeUIElementBinding;
@@ -596,7 +594,8 @@ public class UIElement implements Disposable {
         return this;
     }
 
-    protected void onChildrenChanged(){ //TODO Expose
+    protected void onChildrenChanged(){
+        invalidateCachesForElementTree();
     }
 
     public UIElementChild getFirstChild(){
@@ -1970,7 +1969,7 @@ public class UIElement implements Disposable {
         return parent.getRelativePath() + "." + getId();
     }
 
-    public UIElement getChildFromPath(String path){
+    public UIElement findChildFromPath(String path){
         if(path.isEmpty()) return null;
 
         path = path.replace(getRelativePath() + ".", "");
@@ -2067,11 +2066,6 @@ public class UIElement implements Disposable {
                 .setName("On Unhovered")
                 .setDescription("Method to call when the element is unhovered.")
                 .setCategory("Events");
-
-        public UCUIElementBindingProperty test = new UCUIElementBindingProperty(new RelativeUIElementBinding())
-                .setName("Test")
-                .setDescription("Test")
-                .setCategory("Test");
 
         public UIElement makeUIElement(){
             return new UIElement(this);

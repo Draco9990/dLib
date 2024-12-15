@@ -6,12 +6,13 @@ import dLib.util.events.globalevents.PostDisposeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 public class Event<EventType> {
-    private HashMap<UUID, EventType> subscribers = new HashMap<>();
+    private ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
 
-    private HashMap<Disposable, ArrayList<UUID>> boundsObjects = new HashMap<>();
+    private ConcurrentHashMap<Disposable, ArrayList<UUID>> boundsObjects = new ConcurrentHashMap<>();
 
     public Event(){
         GlobalEvents.registeredEvents.add(this);

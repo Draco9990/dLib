@@ -20,7 +20,7 @@ public class RelativeUIElementBinding extends UIElementBinding implements Serial
             return null;
         }
 
-        return ((UIElement) params[0]).getChildFromPath(getObjectRelativePath());
+        return ((UIElement) params[0]).findChildFromPath(getObjectRelativePath());
     }
 
     public String getObjectRelativePath() {

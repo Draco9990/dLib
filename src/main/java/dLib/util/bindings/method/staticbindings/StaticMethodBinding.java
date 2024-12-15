@@ -25,5 +25,9 @@ public abstract class StaticMethodBinding extends MethodBinding implements Seria
         declaredParams.add(param);
     }
 
+    public ArrayList<TProperty<?, ?>> getDeclaredParams() {
+        return declaredParams;
+    }
+
     //endregion Methods
 }

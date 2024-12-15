@@ -60,6 +60,11 @@ public class ReferencePickerMouseState extends MouseState {
             }
 
             onReferencePicked.accept(preUILeftClickEvent.source);
+            exitMouseState();
+
+            for(UUID renderEventId : renderEvents.values()){
+                preUILeftClickEvent.source.postRenderEvent.unsubscribeManaged(renderEventId);
+            }
         });
     }
 
