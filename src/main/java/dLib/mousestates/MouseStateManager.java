@@ -58,6 +58,10 @@ public class MouseStateManager {
         return true;
     }
 
+    public boolean isInExternalState() {
+        return currentState != null;
+    }
+
     //endregion
 
     //region Patches

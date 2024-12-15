@@ -15,10 +15,12 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
 import dLib.modcompat.saythespire.SayTheSpireIntegration;
+import dLib.mousestates.MouseStateManager;
 import dLib.patches.InputHelperHoverConsumer;
 import dLib.properties.objects.*;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
+import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.bindings.RelativeUIElementBinding;
@@ -1000,8 +1002,6 @@ public class UIElement implements Disposable {
             offset(desiredPositionX - getLocalPositionX(), desiredPositionY - getLocalPositionY());
         }
     }
-
-    //endregion
 
     //region Interactions
     public boolean onLeftInteraction(){
