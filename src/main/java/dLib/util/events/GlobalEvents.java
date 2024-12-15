@@ -4,58 +4,45 @@ import com.badlogic.gdx.utils.Disposable;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.globalevents.GlobalEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class GlobalEvents {
-    /** Variables */
-    private static HashMap<Class<? extends GlobalEvent>, ArrayList<Consumer<GlobalEvent>>> subscriberMap = new HashMap<>();
+    //region Variables
 
-    /** Methods */
+    private static HashMap<Class<? extends GlobalEvent>, Event<Consumer<GlobalEvent>>> subscriberMap = new HashMap<>();
+
+    //endregion
+
+    //region Methods
+
     public static void sendMessage(GlobalEvent message){
         if(subscriberMap.containsKey(message.getClass())){
-            for(Consumer<GlobalEvent> listener : subscriberMap.get(message.getClass())){
-                listener.accept(message);
-            }
+            subscriberMap.get(message.getClass()).invoke(consumer -> consumer.accept(message));
         }
     }
 
-    public static <T extends GlobalEvent> void subscribe(Class<T> eventToListen, Consumer<T> consumer){
+    public static <T extends GlobalEvent> UUID subscribeManaged(Class<T> eventToListen, Consumer<T> consumer){
         if(!subscriberMap.containsKey(eventToListen)){
-            subscriberMap.put(eventToListen, new ArrayList<>());
+            subscriberMap.put(eventToListen, new Event<>());
         }
 
-        ArrayList<Consumer<GlobalEvent>> listeners = subscriberMap.get(eventToListen);
-        listeners.add((Consumer<GlobalEvent>) consumer);
-
-        subscriberMap.put(eventToListen, listeners);
+        return subscriberMap.get(eventToListen).subscribeManaged((Consumer<GlobalEvent>) consumer);
+    }
+    public static void unsubscribeManaged(Class<? extends GlobalEvent> eventToListen, UUID id){
+        if(subscriberMap.containsKey(eventToListen)){
+            subscriberMap.get(eventToListen).unsubscribeManaged(id);
+        }
     }
 
-    /** Events */
-    public static class Events{
-        public static class PreLeftClickEvent extends GlobalEvent{
-            public UIElement source;
-
-            public PreLeftClickEvent(UIElement source){
-                this.source = source;
-            }
+    public static <T extends GlobalEvent> void subscribe(Disposable owner, Class<T> eventToListen, Consumer<T> consumer){
+        if(!subscriberMap.containsKey(eventToListen)){
+            subscriberMap.put(eventToListen, new Event<>());
         }
 
-        public static class PreHoverEvent extends GlobalEvent{
-            public UIElement source;
-
-            public PreHoverEvent(UIElement source){
-                this.source = source;
-            }
-        }
-
-        public static class PreForceFocusChangeEvent extends GlobalEvent{
-            public UIElement source;
-
-            public PreForceFocusChangeEvent(UIElement source){
-                this.source = source;
-            }
-        }
+        subscriberMap.get(eventToListen).subscribe(owner, (Consumer<GlobalEvent>) consumer);
     }
+
+    //endregion Methods
 }

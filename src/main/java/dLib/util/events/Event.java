@@ -1,7 +1,6 @@
 package dLib.util.events;
 
 import com.badlogic.gdx.utils.Disposable;
-import dLib.ui.elements.UIElement;
 import dLib.util.events.globalevents.PostDisposeEvent;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class Event<EventType> {
     private HashMap<Disposable, ArrayList<UUID>> boundsObjects = new HashMap<>();
 
     public Event(){
-        GlobalEvents.subscribe(PostDisposeEvent.class, event -> {
+        GlobalEvents.subscribeManaged(PostDisposeEvent.class, event -> {
             for(UUID element : boundsObjects.getOrDefault(event.source, new ArrayList<>())){
                 subscribers.remove(element);
             }

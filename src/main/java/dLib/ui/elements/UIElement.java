@@ -34,6 +34,9 @@ import dLib.util.ui.bounds.StaticBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.StaticDimension;
+import dLib.util.ui.events.PreUIHoverEvent;
+import dLib.util.ui.events.PreUILeftClickEvent;
+import dLib.util.ui.events.PreUIUnhoverEvent;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
@@ -93,6 +96,13 @@ public class UIElement implements Disposable {
 
     private boolean isPassthrough = true;
 
+    //region Events
+
+    public Event<Runnable> preUpdateEvent = new Event<>();
+    public Event<Runnable> postUpdateEvent = new Event<>();
+    public Event<Consumer<SpriteBatch>> preRenderEvent = new Event<>();
+    public Event<Consumer<SpriteBatch>> postRenderEvent = new Event<>();
+
     public Event<Runnable> onHoveredEvent = new Event<>();
     public Event<Consumer<Float>> onHoverTickEvent = new Event<>();
     public Event<Runnable> onUnhoveredEvent = new Event<>();
@@ -104,6 +114,8 @@ public class UIElement implements Disposable {
     public Event<Runnable> onRightClickEvent = new Event<>();
     public Event<Consumer<Float>> onRightClickHeldEvent = new Event<>();
     public Event<Runnable> onRightClickReleaseEvent = new Event<>();
+
+    //endregion Events
 
     private String onHoverLine; // Say the Spire mod compatibility
 
@@ -195,7 +207,7 @@ public class UIElement implements Disposable {
     }
 
     private void commonInitialize(){
-        GlobalEvents.subscribe(GlobalEvents.Events.PreLeftClickEvent.class, (event) -> {
+        GlobalEvents.subscribeManaged(PreUILeftClickEvent.class, (event) -> {
             if(event.source != this && isSelected()){
                 deselect();
             }
@@ -205,13 +217,13 @@ public class UIElement implements Disposable {
             }
         });
 
-        GlobalEvents.subscribe(GlobalEvents.Events.PreForceFocusChangeEvent.class, (event) -> {
+        /*GlobalEvents.subscribeManaged(GlobalEvents.Events.PreForceFocusChangeEvent.class, (event) -> {
             if(event.source != this && isSelected()){
                 deselect();
             }
-        });
+        });*/ //TODO
 
-        GlobalEvents.subscribe(GlobalEvents.Events.PreHoverEvent.class, (event) -> {
+        GlobalEvents.subscribeManaged(PreUIHoverEvent.class, (event) -> {
             if(event.source != this && isHovered() && !isPassthrough()){
                 this.hb.unhover();
                 onUnhovered();
@@ -251,7 +263,10 @@ public class UIElement implements Disposable {
         if(!shouldUpdate()) return;
 
         updateChildren();
+
+        preUpdateEvent.invoke(Runnable::run);
         updateSelf();
+        postUpdateEvent.invoke(Runnable::run);
 
         ensureElementWithinBounds();
     }
@@ -409,7 +424,9 @@ public class UIElement implements Disposable {
             pushedScissors = ScissorStack.pushScissors(scissors);
         }
 
+        preRenderEvent.invoke(spriteBatchConsumer -> spriteBatchConsumer.accept(sb));
         renderSelf(sb);
+        postRenderEvent.invoke(spriteBatchConsumer -> spriteBatchConsumer.accept(sb));
 
         if(pushedScissors){
             ScissorStack.popScissors();
@@ -1730,6 +1747,8 @@ public class UIElement implements Disposable {
     //region Hover
 
     protected void onHovered(){
+        GlobalEvents.sendMessage(new PreUIHoverEvent(this));
+
         totalHoverDuration = 0.f;
 
         if(getOnHoverLine() != null){
@@ -1748,6 +1767,8 @@ public class UIElement implements Disposable {
         if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
     }
     protected void onUnhovered(){
+        GlobalEvents.sendMessage(new PreUIUnhoverEvent(this));
+
         totalHoverDuration = 0.f;
 
         onUnhoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
@@ -1785,7 +1806,7 @@ public class UIElement implements Disposable {
     }
 
     protected void onLeftClick(){
-        GlobalEvents.sendMessage(new GlobalEvents.Events.PreLeftClickEvent(this));
+        GlobalEvents.sendMessage(new PreUILeftClickEvent(this));
 
         totalLeftClickDuration = 0.f;
         holdingLeft = true;
