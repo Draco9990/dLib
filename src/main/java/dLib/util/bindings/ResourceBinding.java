@@ -1,6 +1,6 @@
 package dLib.util.bindings;
 
-public abstract class ResourceBinding extends Binding{
+public abstract class ResourceBinding<ResourceType> extends Binding{
 
-    public abstract boolean isValid();
+    public abstract ResourceType getBoundObject(Object... params);
 }

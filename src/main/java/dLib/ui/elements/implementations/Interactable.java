@@ -54,8 +54,8 @@ public class Interactable extends Renderable{
     public Interactable(InteractableData data){
         super(data);
 
-        Texture hoveredTextureT = data.hoveredTexture.getBoundTexture();
-        Texture disabledTextureT = data.disabledTexture.getBoundTexture();
+        Texture hoveredTextureT = data.hoveredTexture.getBoundObject();
+        Texture disabledTextureT = data.disabledTexture.getBoundObject();
         if(hoveredTextureT != null) this.hoveredTexture = new TextureRegion(hoveredTextureT);
         if(disabledTextureT != null) this.disabledTexture = new TextureRegion(disabledTextureT);
 

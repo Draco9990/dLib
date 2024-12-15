@@ -102,12 +102,12 @@ public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodB
     private UIElement buildPropertyEditorForBinding(TMethodBindingProperty<? extends TMethodBindingProperty> property){
         UIElement createdElement = null;
         if(property.getValue() instanceof StaticMethodBinding){
-            createdElement = new TextButton(property.getValue().getFullDisplayName(), Dim.fill(), Dim.fill());
+            createdElement = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
             ((TextButton)createdElement).getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);
 
             property.onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
                 if(methodBinding instanceof StaticMethodBinding && methodBinding2 instanceof StaticMethodBinding){
-                    ((TextButton) propertyEditorElement).getTextBox().setText(methodBinding2.getFullDisplayName());
+                    ((TextButton) propertyEditorElement).getTextBox().setText(methodBinding2.getDisplayValue());
                 }
             });
         }

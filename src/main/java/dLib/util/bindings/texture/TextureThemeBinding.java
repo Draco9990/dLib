@@ -6,7 +6,6 @@ import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 
 public class TextureThemeBinding extends TextureBinding implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -21,7 +20,7 @@ public class TextureThemeBinding extends TextureBinding implements Serializable 
 
     /** Bindings */
     @Override
-    public Texture getBoundTexture() {
+    public Texture getBoundObject(Object... params) {
         try{
             return Reflection.getFieldValue(themeFieldName, UIThemeManager.getDefaultTheme());
         }catch (Exception e){
@@ -31,18 +30,7 @@ public class TextureThemeBinding extends TextureBinding implements Serializable 
     }
 
     @Override
-    public boolean isValid() {
-        return themeFieldName != null && !themeFieldName.isEmpty() && getBoundTexture() != null;
-    }
-
-    /** Name */
-    @Override
-    public String getShortDisplayName() {
-        return themeFieldName;
-    }
-
-    @Override
-    public String getFullDisplayName() {
+    public String getDisplayValue() {
         return "theme/" + themeFieldName;
     }
 }

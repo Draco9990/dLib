@@ -40,7 +40,7 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             xValueChanged = new ComboBox<AbstractPosition>(property.getXPosition(), positionOptions, Dim.px(28), Dim.px(15)){
                 @Override
                 public String itemToString(AbstractPosition item) {
-                    return item.getFullDisplayName();
+                    return item.getDisplayValue();
                 }
             };
             xValueChanged.addOnSelectedItemChangedEvent((classComboBox, option) -> {
@@ -61,7 +61,7 @@ public class PositionPropertyEditor extends AbstractPropertyEditor<TPositionProp
             yValueChanged = new ComboBox<AbstractPosition>(property.getYPosition(), positionOptions, Dim.px(28), Dim.px(15)){
                 @Override
                 public String itemToString(AbstractPosition item) {
-                    return item.getFullDisplayName();
+                    return item.getDisplayValue();
                 }
             };
             yValueChanged.addOnSelectedItemChangedEvent((classComboBox, option) -> {

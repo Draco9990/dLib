@@ -1961,6 +1961,31 @@ public class UIElement implements Disposable {
 
     //endregion
 
+    //region Path
+
+    public String getRelativePath(){
+        if(!hasParent()) return getId();
+        return parent.getElementPath() + "." + getId();
+    }
+
+    public UIElement getChildFromPath(String path){
+        if(path.isEmpty()) return null;
+
+        path = path.replace(getRelativePath() + ".", "");
+
+        String[] pathParts = path.split("\\.");
+        UIElement currentElement = this;
+
+        for(String pathPart : pathParts){
+            currentElement = currentElement.findChildById(pathPart);
+            if(currentElement == null) return null;
+        }
+
+        return currentElement;
+    }
+
+    //endregion Path
+
     //endregion
 
     public enum BoundCalculationType{
@@ -1989,7 +2014,7 @@ public class UIElement implements Disposable {
             }
         }
                 .setName("Id")
-                .setDescription("Internal ID of the element. Has to be unique.")
+                .setDescription("Internal ID of the element. Has to be unique relative to its siblings.")
                 .setCategory("Core");
 
         public PositionProperty localPosition = new PositionProperty(Pos.px(0), Pos.px(0))

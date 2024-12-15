@@ -18,24 +18,12 @@ public class TexturePathBinding extends TextureBinding implements Serializable {
 
     /** Bindings */
     @Override
-    public Texture getBoundTexture() {
+    public Texture getBoundObject(Object... params) {
         return TextureManager.getTexture(imagePath);
     }
 
     @Override
-    public boolean isValid() {
-        return getBoundTexture() != null;
-    }
-
-    /** Name */
-    @Override
-    public String getShortDisplayName() {
-        String[] path = imagePath.split("\\\\");
-        return path[path.length - 1];
-    }
-
-    @Override
-    public String getFullDisplayName() {
+    public String getDisplayValue() {
         return imagePath;
     }
 }

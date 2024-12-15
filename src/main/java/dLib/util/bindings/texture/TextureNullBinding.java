@@ -1,7 +1,6 @@
 package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
-import dLib.util.TextureManager;
 
 import java.io.Serializable;
 
@@ -9,25 +8,14 @@ import java.io.Serializable;
 public class TextureNullBinding extends TextureBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** Bindings */
     @Override
-    public String getShortDisplayName() {
-        return "NULL";
-    }
-
-    @Override
-    public String getFullDisplayName() {
+    public String getDisplayValue() {
         return "NULL";
     }
 
     /** Display */
     @Override
-    public boolean isValid() {
-        return true;
-    }
-
-    @Override
-    public Texture getBoundTexture() {
+    public Texture getBoundObject(Object... params) {
         return null;
     }
 }

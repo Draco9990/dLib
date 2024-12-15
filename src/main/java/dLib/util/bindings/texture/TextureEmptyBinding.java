@@ -8,25 +8,14 @@ import java.io.Serializable;
 public class TextureEmptyBinding extends TextureBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** Bindings */
     @Override
-    public String getShortDisplayName() {
-        return "EMPTY";
-    }
-
-    @Override
-    public String getFullDisplayName() {
+    public String getDisplayValue() {
         return "EMPTY";
     }
 
     /** Display */
     @Override
-    public boolean isValid() {
-        return true;
-    }
-
-    @Override
-    public Texture getBoundTexture() {
+    public Texture getBoundObject(Object... params) {
         return TextureManager.getTexture("dLibResources/images/ui/BlankPixel.png");
     }
 }

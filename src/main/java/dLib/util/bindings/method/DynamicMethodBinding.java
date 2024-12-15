@@ -59,25 +59,14 @@ public class DynamicMethodBinding extends MethodBinding implements Serializable 
     }
 
     /** Validity */
-
     @Override
-    public boolean isValid() {
-        return methodToExecute != null && !methodToExecute.getValue().isEmpty();
-    }
-
-    @Override
-    public String getShortDisplayName() {
+    public String getDisplayValue() {
         return methodToExecute.getValue().isEmpty() ? "CUSTOM" : methodToExecute.getValue();
     }
 
     @Override
-    public String getFullDisplayName() {
-        return getShortDisplayName();
-    }
-
-    @Override
     public Object executeBinding(Object target, Object... args) {
-        if(isValid()){
+        if(methodToExecute != null && methodToExecute.getValue().isEmpty()){
             return Reflection.invokeMethod(methodToExecute.getValue(), target, args);
         }
         return null;

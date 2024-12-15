@@ -10,23 +10,13 @@ public class NoneMethodBinding extends StaticMethodBinding implements Serializab
 
     /** Binding */
     @Override
-    public boolean isValid() {
-        return true;
-    }
-
-    @Override
     public Object executeBinding(Object invoker, Object... args) {
         return null;
     }
 
     /** Name */
     @Override
-    public String getShortDisplayName() {
+    public String getDisplayValue() {
         return "NONE";
-    }
-
-    @Override
-    public String getFullDisplayName() {
-        return getShortDisplayName();
     }
 }

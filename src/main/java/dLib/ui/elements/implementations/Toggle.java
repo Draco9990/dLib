@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
-import dLib.properties.objects.templates.TBooleanProperty;
-import dLib.properties.objects.templates.TTextureBindingProperty;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
@@ -60,9 +58,9 @@ public class Toggle extends Interactable {
 
         this.toggled = data.isToggled.getValue();
 
-        Texture toggledTextureT = data.toggledTexture.getValue().getBoundTexture();
-        Texture toggledHoveredTextureT = data.toggledHoveredTexture.getBoundTexture();
-        Texture toggledDisabledTextureT = data.toggledDisabledTexture.getBoundTexture();
+        Texture toggledTextureT = data.toggledTexture.getValue().getBoundObject();
+        Texture toggledHoveredTextureT = data.toggledHoveredTexture.getBoundObject();
+        Texture toggledDisabledTextureT = data.toggledDisabledTexture.getBoundObject();
         this.toggledTexture = toggledTextureT == null ? null : new TextureRegion(toggledTextureT);
         this.toggledHoveredTexture = toggledHoveredTextureT == null ? null : new TextureRegion(toggledHoveredTextureT);
         this.toggledDisabledTexture = toggledDisabledTextureT == null ? null : new TextureRegion(toggledDisabledTextureT);

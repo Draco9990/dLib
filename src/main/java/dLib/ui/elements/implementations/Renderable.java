@@ -9,11 +9,8 @@ import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.ColorProperty;
 import dLib.properties.objects.FloatVector2Property;
 import dLib.properties.objects.TextureBindingProperty;
-import dLib.properties.objects.templates.TColorProperty;
-import dLib.properties.objects.templates.TFloatVector2Property;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.texture.TextureEmptyBinding;
-import dLib.properties.objects.templates.TTextureBindingProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -59,7 +56,7 @@ public class Renderable extends UIElement {
     public Renderable(RenderableData data){
         super(data);
 
-        Texture texture = data.textureBinding.getValue().getBoundTexture();
+        Texture texture = data.textureBinding.getValue().getBoundObject();
         this.image = texture == null ? null : new TextureRegion(texture);
         this.renderColor = data.renderColor.getColorValue();
 
