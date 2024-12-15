@@ -205,6 +205,14 @@ public class UIElement implements Disposable {
         onHoverTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(getTopParent(), time)); //* TODO replace with first non-native parent when nativity is added
         onUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
 
+        onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
+        onLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().executeBinding(getTopParent(), time)); //* TODO replace with first non-native parent when nativity is added
+        onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
+
+        onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
+        onRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), time)); //* TODO replace with first non-native parent when nativity is added
+        onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
+
         commonInitialize();
     }
 
@@ -2065,6 +2073,34 @@ public class UIElement implements Disposable {
         public MethodBindingProperty onUnhovered = new MethodBindingProperty()
                 .setName("On Unhovered")
                 .setDescription("Method to call when the element is unhovered.")
+                .setCategory("Events");
+
+        public MethodBindingProperty onLeftClick = new MethodBindingProperty()
+                .setName("On Left Click")
+                .setDescription("Method to call when the element is left clicked.")
+                .setCategory("Events");
+        public MethodBindingProperty onLeftClickHeld = new MethodBindingProperty()
+                .setName("On Left Click Held")
+                .setDescription("Method to call every tick the element is left clicked.")
+                .setCategory("Events")
+                .setDynamicCreationParameters(new Pair<>("clickDuration", Float.class));
+        public MethodBindingProperty onLeftClickRelease = new MethodBindingProperty()
+                .setName("On Left Click Release")
+                .setDescription("Method to call when the element is released after being left clicked.")
+                .setCategory("Events");
+
+        public MethodBindingProperty onRightClick = new MethodBindingProperty()
+                .setName("On Right Click")
+                .setDescription("Method to call when the element is right clicked.")
+                .setCategory("Events");
+        public MethodBindingProperty onRightClickHeld = new MethodBindingProperty()
+                .setName("On Right Click Held")
+                .setDescription("Method to call every tick the element is right clicked.")
+                .setCategory("Events")
+                .setDynamicCreationParameters(new Pair<>("clickDuration", Float.class));
+        public MethodBindingProperty onRightClickRelease = new MethodBindingProperty()
+                .setName("On Right Click Release")
+                .setDescription("Method to call when the element is released after being right clicked.")
                 .setCategory("Events");
 
         public UIElement makeUIElement(){

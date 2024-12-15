@@ -267,29 +267,7 @@ public class Interactable extends Renderable{
         public String disabledColor = Color.WHITE.toString();
         public float disabledColorMultiplier = 0.25f;
 
-        //TODO ON HOVER KEY
-        //TODO ON TRIGGER KEY
-        //TODO ON HOLD KEY
-
-        public MethodBindingProperty onLeftClick = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click");
-        public MethodBindingProperty onLeftClickHeld = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click Held").addDynamicCreationParameter("holdDuration", float.class);
-        public MethodBindingProperty onLeftClickRelease = new MethodBindingProperty(new NoneMethodBinding()).setName("On Left Click Release");
-
-        public MethodBindingProperty onRightClick = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click");
-        public MethodBindingProperty onRightClickHeld = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click Held").addDynamicCreationParameter("holdDuration", float.class);
-        public MethodBindingProperty onRightClickRelease = new MethodBindingProperty(new NoneMethodBinding()).setName("On Right Click Release");
-
         public InteractableData(){
-            //TODO handle serialization
-            id.onValueChangedEvent.subscribeManaged((s, s2) -> {
-                onLeftClick.setDynamicCreationDefaultMethodName(s2 + "_onLeftClick");
-                onLeftClickHeld.setDynamicCreationDefaultMethodName(s2 + "_onLeftClickHeld");
-                onLeftClickRelease.setDynamicCreationDefaultMethodName(s2 + "_onLeftClickRelease");
-
-                onRightClick.setDynamicCreationDefaultMethodName(s2 + "_onRightClick");
-                onRightClickHeld.setDynamicCreationDefaultMethodName(s2 + "_onRightClickHeld");
-                onRightClickRelease.setDynamicCreationDefaultMethodName(s2 + "_onRightClickRelease");
-            });
         }
 
         @Override
