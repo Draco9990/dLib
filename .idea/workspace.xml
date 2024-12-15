@@ -8,22 +8,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/code/LinkedEditor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/code/LinkedEditorManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/IntelliJEditor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginMessageSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginMessageSender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/util/settings/TIntelliJMethodBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/util/settings/TIntelliJMethodBindingProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TMethodBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TMethodBindingProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/code/LinkedEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/LinkedEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/code/LinkedEditorManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/LinkedEditorManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/IntelliJEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/editors/intellij/IntelliJEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/MainMenuPatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/external/MainMenuPatches.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/MessageAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/external/MessageAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/NetworkMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/external/NetworkMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/external/ExternalEditorCommunicationClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/external/ExternalEditorCommunicationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/plugin/intellij/PluginMessageSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/code/external/ExternalEditorMessageSender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/MethodBindingPropertyEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/MethodBindingPropertyEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/screensold/preeditor/ScreenEditorNewScreenScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/screensold/preeditor/ScreenEditorNewScreenScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/ui/items/editoritems/ScreenEditorItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/ui/items/editoritems/ScreenEditorItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/ui/items/implementations/preview/ScreenEditorPreview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/ui/items/implementations/preview/ScreenEditorPreview.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/implementations/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/DynamicMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/DynamicMethodBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/images/ui/uieditor/BindButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dLibResources/images/ui/uieditor/BindButton.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/images/ui/uieditor/ResetButton.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/util/ScreenEditorSaveManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/screeneditorold/util/ScreenEditorSaveManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/CloseScreenMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/CloseScreenMethodBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/NoneMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/NoneMethodBinding.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -299,7 +302,7 @@
       <workItem from="1733908844020" duration="960000" />
       <workItem from="1734006047714" duration="14842000" />
       <workItem from="1734088518840" duration="28779000" />
-      <workItem from="1734214112927" duration="2659000" />
+      <workItem from="1734214112927" duration="4542000" />
     </task>
     <servers />
   </component>

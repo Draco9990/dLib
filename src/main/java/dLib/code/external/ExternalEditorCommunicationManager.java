@@ -1,18 +1,16 @@
-package dLib.plugin.intellij;
+package dLib.code.external;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
-public class PluginManager {
+public class ExternalEditorCommunicationManager {
     /** Variables */
-    private static PluginClient client;
+    private static ExternalEditorCommunicationClient client;
 
     private static List<NetworkMessage> pendingMessages;
 
@@ -25,7 +23,7 @@ public class PluginManager {
 
         pendingMessages = Collections.synchronizedList(new ArrayList<>());
 
-        client = new PluginClient();
+        client = new ExternalEditorCommunicationClient();
         client.initialize();
     }
 

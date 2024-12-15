@@ -8,6 +8,9 @@ import java.io.Serializable;
 public class CloseScreenMethodBinding extends StaticMethodBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //For property editors
+    private static final String PROPERTY_EDITOR_LONG_NAME = "Close";
+
     /** Binding */
     @Override
     public boolean isValid() {

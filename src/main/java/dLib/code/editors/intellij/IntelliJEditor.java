@@ -1,4 +1,4 @@
-package dLib.plugin.intellij;
+package dLib.code.editors.intellij;
 
 import dLib.code.LinkedEditor;
 

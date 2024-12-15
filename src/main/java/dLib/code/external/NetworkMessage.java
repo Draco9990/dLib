@@ -1,4 +1,4 @@
-package dLib.plugin.intellij;
+package dLib.code.external;
 
 import com.google.gson.Gson;
 

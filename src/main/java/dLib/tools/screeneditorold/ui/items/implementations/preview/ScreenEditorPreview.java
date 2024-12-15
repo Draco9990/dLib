@@ -1,7 +1,7 @@
 package dLib.tools.screeneditorold.ui.items.implementations.preview;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dLib.plugin.intellij.PluginMessageSender;
+import dLib.code.external.ExternalEditorMessageSender;
 import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 import dLib.tools.screeneditorold.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.elements.UIElement;
@@ -58,7 +58,7 @@ public class ScreenEditorPreview extends UIElement {
             ScreenEditorItem<?, ?> copy = template.newInstance();
 
             validatePreviewItem(copy);
-            PluginMessageSender.send_addVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
+            ExternalEditorMessageSender.send_addVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
             addPreviewItem(copy);
             return copy;
         }catch (Exception e){
@@ -75,7 +75,7 @@ public class ScreenEditorPreview extends UIElement {
         }
 
         validatePreviewItem(copy);
-        PluginMessageSender.send_addVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
+        ExternalEditorMessageSender.send_addVariableToClass(getParent().getEditingScreen(), copy.getElementClass(), copy.getId());
 
         addPreviewItem(copy);
 
@@ -96,7 +96,7 @@ public class ScreenEditorPreview extends UIElement {
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         itemToDelete.destroy();
 
-        PluginMessageSender.send_removeVariableFromClass(getParent().getEditingScreen(), itemToDelete.getId());
+        ExternalEditorMessageSender.send_removeVariableFromClass(getParent().getEditingScreen(), itemToDelete.getId());
     }
 
     //endregion

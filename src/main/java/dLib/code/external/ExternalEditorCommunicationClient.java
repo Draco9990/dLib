@@ -1,16 +1,15 @@
-package dLib.plugin.intellij;
+package dLib.code.external;
 
 import dLib.util.DLibLogger;
 
 import java.io.EOFException;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class PluginClient {
+public class ExternalEditorCommunicationClient {
     /** Variables */
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -20,7 +19,7 @@ public class PluginClient {
     private boolean terminate;
 
     /** Constructors */
-    public PluginClient(){
+    public ExternalEditorCommunicationClient(){
     }
 
     public boolean initialize(){
@@ -58,7 +57,7 @@ public class PluginClient {
                                 NetworkMessage networkMessage = NetworkMessage.fromString((String) receivedMessage);
 
                                 if(networkMessage != null){
-                                    PluginManager.addMessage(networkMessage);
+                                    ExternalEditorCommunicationManager.addMessage(networkMessage);
                                 }
                             }
                         }

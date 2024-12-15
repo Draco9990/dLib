@@ -6,8 +6,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
-import dLib.plugin.intellij.PluginManager;
-import dLib.test.TestScreen;
+import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.tools.screeneditorold.screensold.preeditor.ScreenEditorNewScreenScreen;
 import dLib.tools.uicreator.UCEditor;
 import dLib.util.DLibConfigManager;
@@ -43,10 +42,10 @@ public class MainMenuButtonPatches {
     public static class EffectPatcher{
         public static SpireReturn Prefix(MenuButton __instance){
             if(__instance.result == Enums.DEVELOPER){
-                if(!PluginManager.isEnabled()) PluginManager.enable();
-                if(!PluginManager.isRunning()) PluginManager.start();
+                if(!ExternalEditorCommunicationManager.isEnabled()) ExternalEditorCommunicationManager.enable();
+                if(!ExternalEditorCommunicationManager.isRunning()) ExternalEditorCommunicationManager.start();
 
-                if(PluginManager.isRunning()){
+                if(ExternalEditorCommunicationManager.isRunning()){
                     ScreenEditorNewScreenScreen screen = new ScreenEditorNewScreenScreen();
                     screen.open();
                 }

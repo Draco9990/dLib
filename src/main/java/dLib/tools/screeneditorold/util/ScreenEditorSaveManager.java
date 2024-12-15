@@ -1,6 +1,6 @@
 package dLib.tools.screeneditorold.util;
 
-import dLib.plugin.intellij.PluginManager;
+import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 import dLib.tools.screeneditorold.ui.items.editoritems.ScreenEditorItem;
 import dLib.ui.screens.GeneratedAbstractScreen;
@@ -32,7 +32,7 @@ public class ScreenEditorSaveManager {
 
         String[] scrName = screenData.screenClass.split("\\.");
 
-        PluginManager.sendMessage("saveScreen", scrName[scrName.length - 1], SerializationHelpers.toString(screenData));
+        ExternalEditorCommunicationManager.sendMessage("saveScreen", scrName[scrName.length - 1], SerializationHelpers.toString(screenData));
     }
 
     //endregion

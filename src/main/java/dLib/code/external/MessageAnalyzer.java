@@ -1,4 +1,4 @@
-package dLib.plugin.intellij;
+package dLib.code.external;
 
 import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 

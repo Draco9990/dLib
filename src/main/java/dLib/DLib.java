@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.helpers.input.InputAction;
 import dLib.code.LinkedEditorManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
-import dLib.plugin.intellij.PluginManager;
+import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.FontManager;
@@ -50,7 +50,7 @@ public class DLib implements PostInitializeSubscriber{
         UIThemeManager.initialize();
         FontManager.initialize();
 
-        PluginManager.start();
+        ExternalEditorCommunicationManager.start();
 
         UCEITemplateManager.initialize();
 

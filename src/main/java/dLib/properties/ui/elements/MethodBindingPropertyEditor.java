@@ -55,7 +55,13 @@ public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodB
                     extraOptionsBox.addItem(bindDynamicBindingButton = new Button(Dim.fill(), Dim.px(15)));
                     bindDynamicBindingButton.setImage(TextureManager.getTexture("dLibResources/images/ui/uieditor/BindButton.png"));
                     bindDynamicBindingButton.hideAndDisableInstantly();
-                    bindDynamicBindingButton.onLeftClickEvent.subscribeManaged(() -> bindDynamicBindingButton.hideAndDisableInstantly());
+                    bindDynamicBindingButton.onLeftClickEvent.subscribeManaged(() -> {
+                        if(property.getValue() instanceof DynamicMethodBinding){
+                            ((DynamicMethodBinding) property.getValue()).setBoundMethod(property.getDynamicCreationDefaultMethodName());
+                            property.createDynamicMethod();
+                        }
+                        bindDynamicBindingButton.hideAndDisableInstantly();
+                    });
                 }
                 methodBindingOptionsBox.addItem(extraOptionsBox);
 
@@ -75,7 +81,8 @@ public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodB
                         property.setValue(new NoneMethodBinding());
                     }
                     else if(aClass == DynamicMethodBinding.class){
-                        property.setValue(new DynamicMethodBinding(property.getDynamicCreationDefaultMethodName()));
+                        property.setValue(new DynamicMethodBinding(""));
+                        bindDynamicBindingButton.showAndEnableInstantly();
                     }
                 });
                 methodBindingOptionsBox.addItem(methodBindingType);
@@ -111,16 +118,10 @@ public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodB
             createdElement = new Inputfield(((DynamicMethodBinding) property.getValue()).getBoundMethod(), Dim.fill(), Dim.fill());
             ((Inputfield)createdElement).getTextBox().addOnTextChangedConsumer(s -> {
                 ((DynamicMethodBinding) property.getValue()).setBoundMethod(s);
-
-                if(Objects.equals(((DynamicMethodBinding) property.getValue()).getBoundMethodRaw().getPreviousValue(), "")){ //TODO replace with a check if the method already exists perhaps
-                    bindDynamicBindingButton.showAndEnableInstantly();
-                }
             });
 
-            property.onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
-                if(methodBinding instanceof DynamicMethodBinding && methodBinding2 instanceof DynamicMethodBinding){
-                    ((Inputfield) propertyEditorElement).getTextBox().setText(((DynamicMethodBinding) methodBinding2).getBoundMethod());
-                }
+            ((DynamicMethodBinding) property.getValue()).getBoundMethodRaw().onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
+                ((Inputfield) propertyEditorElement).getTextBox().setText(methodBinding2);
             });
         }
 

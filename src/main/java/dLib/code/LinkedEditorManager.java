@@ -1,10 +1,8 @@
 package dLib.code;
 
-import dLib.plugin.intellij.IntelliJEditor;
-import dLib.plugin.intellij.PluginManager;
+import dLib.code.editors.intellij.IntelliJEditor;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 public class LinkedEditorManager {
 
@@ -21,6 +19,9 @@ public class LinkedEditorManager {
 
     public static void initialize(){
         get().registerEditor(new IntelliJEditor());
+
+        get().setActiveEditor(get().registeredEditors.get(0)); //TODO: User selection or maybe not needed at all, maybe any that reply and can connect just work?
+        //And then settings can check if there's a currently active editor and the editor would introduce itself
     }
 
     //endregion

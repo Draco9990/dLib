@@ -1,4 +1,4 @@
-package dLib.plugin.intellij;
+package dLib.code.external;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,12 +23,12 @@ public class MainMenuPatches {
                     //TODO turn into overlay
                     @Override
                     protected boolean shouldRender() {
-                        return PluginManager.isEnabled();
+                        return ExternalEditorCommunicationManager.isEnabled();
                     }
 
                     @Override
                     protected Color getColorForRender() {
-                        return (PluginManager.isRunning() ? Color.GREEN : Color.RED);
+                        return (ExternalEditorCommunicationManager.isRunning() ? Color.GREEN : Color.RED);
                     }
                 };
             }

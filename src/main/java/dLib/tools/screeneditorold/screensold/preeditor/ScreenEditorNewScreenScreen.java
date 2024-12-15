@@ -1,13 +1,11 @@
 package dLib.tools.screeneditorold.screensold.preeditor;
 
-import dLib.plugin.intellij.PluginManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Image;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.themes.UIThemeManager;
-import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 

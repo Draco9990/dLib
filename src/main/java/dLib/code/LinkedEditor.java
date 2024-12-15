@@ -1,6 +1,6 @@
 package dLib.code;
 
-import dLib.plugin.intellij.PluginManager;
+import dLib.code.external.ExternalEditorCommunicationManager;
 
 import java.util.LinkedHashMap;
 
@@ -26,26 +26,26 @@ public class LinkedEditor {
     //region Callbacks
 
     public void addMethodToClass(String returnType, String methodName, LinkedHashMap<String, String> methodParameters, String methodBody){
-        PluginManager.sendMessage("addMethod", getWorkingClass(), returnType, methodName, methodParameters, methodBody);
+        ExternalEditorCommunicationManager.sendMessage("addMethod", getWorkingClass(), returnType, methodName, methodParameters, methodBody);
     }
     public void renameMethodInClass(String oldMethodName, String newMethodName, LinkedHashMap<String, String> methodParameters){
-        PluginManager.sendMessage("renameMethod", getWorkingClass(), oldMethodName, newMethodName, methodParameters);
+        ExternalEditorCommunicationManager.sendMessage("renameMethod", getWorkingClass(), oldMethodName, newMethodName, methodParameters);
     }
     public void removeMethodFromClass(String methodName, LinkedHashMap<String, String> methodParameters){
-        PluginManager.sendMessage("removeMethod", getWorkingClass(), methodName, methodParameters);
+        ExternalEditorCommunicationManager.sendMessage("removeMethod", getWorkingClass(), methodName, methodParameters);
     }
 
     public void addVariableToClass(Class<?> variableType, String variableName){
         addVariableToClass(variableType.getName(), variableName);
     }
     public void addVariableToClass(String variableType, String variableName){
-        PluginManager.sendMessage("addVariable", getWorkingClass(), variableType, variableName);
+        ExternalEditorCommunicationManager.sendMessage("addVariable", getWorkingClass(), variableType, variableName);
     }
     public void renameVariableInClass(String oldName, String newName){
-        PluginManager.sendMessage("renameVariable", getWorkingClass(), oldName, newName);
+        ExternalEditorCommunicationManager.sendMessage("renameVariable", getWorkingClass(), oldName, newName);
     }
     public void removeVariableFromClass(String variableName){
-        PluginManager.sendMessage("removeVariable", getWorkingClass(), variableName);
+        ExternalEditorCommunicationManager.sendMessage("removeVariable", getWorkingClass(), variableName);
     }
 
     //endregion
