@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.patches.InputHelperHoverConsumer;
 import dLib.properties.objects.*;
 import dLib.properties.objects.PositionProperty;
@@ -37,7 +38,6 @@ import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import sayTheSpire.Output;
 
 import java.io.*;
 import java.util.*;
@@ -225,6 +225,7 @@ public class UIElement implements Disposable {
 
     //region Destructors
 
+    @Override
     public void dispose(){
         if(hasParent()){
             parent.removeChild(this);
@@ -1733,7 +1734,7 @@ public class UIElement implements Disposable {
 
         if(getOnHoverLine() != null){
             if(ModManager.SayTheSpire.isActive()){
-                Output.text(getOnHoverLine(), true);
+                SayTheSpireIntegration.Output(getOnHoverLine());
             }
         }
 
@@ -1791,7 +1792,7 @@ public class UIElement implements Disposable {
 
         if(getOnTriggerLine() != null){
             if(ModManager.SayTheSpire.isActive()){
-                Output.text(getOnTriggerLine(), true);
+                SayTheSpireIntegration.Output(getOnTriggerLine());
             }
         }
 
@@ -1826,7 +1827,7 @@ public class UIElement implements Disposable {
 
         if(getOnTriggerLine() != null){
             if(ModManager.SayTheSpire.isActive()){
-                Output.text(getOnTriggerLine(), true);
+                SayTheSpireIntegration.Output(getOnTriggerLine());
             }
         }
 

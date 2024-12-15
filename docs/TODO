@@ -1,3 +1,6 @@
+--> Finish mouse state
+--> add timer to delayed actions
+
 --> Add percentage padding but in a smart way
 -> instead of haivng it request element width/height, instead change it so that it accepts methods to 'modify' the final element x, y, widht, height.
 
