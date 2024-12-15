@@ -40,7 +40,7 @@ public abstract class AbstractPropertyEditor<PropertyType extends TProperty<?, ?
 
     protected void buildElement(PropertyType property, boolean shouldMultiline){
         if(ui != null){
-            ui.destroy();
+            ui.dispose();
             ui = null;
         }
 

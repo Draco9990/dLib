@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
+import com.badlogic.gdx.utils.Disposable;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
@@ -24,6 +25,8 @@ import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.screens.UIManager;
 import dLib.util.*;
+import dLib.util.events.Event;
+import dLib.util.events.GlobalEvents;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.bounds.StaticBounds;
@@ -40,7 +43,7 @@ import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class UIElement {
+public class UIElement implements Disposable {
     //region Variables
 
     protected String ID;
@@ -56,7 +59,7 @@ public class UIElement {
     protected Integer localPosYCache = null;
     private Integer worldPosXCache = null;
     private Integer worldPosYCache = null;
-    public UIElementEvent<Consumer<UIElement>> onPositionChangedEvent = new UIElementEvent<>();
+    public Event<Consumer<UIElement>> onPositionChangedEvent = new Event<>();
 
     private int localChildOffsetX = 0;
     private int localChildOffsetY = 0;
@@ -69,7 +72,7 @@ public class UIElement {
     private Integer heightCache = null;
     private AbstractBounds containerBounds = null;
     private BoundCalculationType containerBoundCalculationType = BoundCalculationType.CONTAINS;
-    public UIElementEvent<Consumer<UIElement>> onDimensionsChangedEvent = new UIElementEvent<>();
+    public Event<Consumer<UIElement>> onDimensionsChangedEvent = new Event<>();
 
     private AbstractPadding paddingLeft = Padd.px(0);
     private AbstractPadding paddingBottom = Padd.px(0);
@@ -90,17 +93,17 @@ public class UIElement {
 
     private boolean isPassthrough = true;
 
-    public UIElementEvent<Runnable> onHoveredEvent = new UIElementEvent<>();
-    public UIElementEvent<Consumer<Float>> onHoverTickEvent = new UIElementEvent<>();
-    public UIElementEvent<Runnable> onUnhoveredEvent = new UIElementEvent<>();
+    public Event<Runnable> onHoveredEvent = new Event<>();
+    public Event<Consumer<Float>> onHoverTickEvent = new Event<>();
+    public Event<Runnable> onUnhoveredEvent = new Event<>();
 
-    public UIElementEvent<Runnable> onLeftClickEvent = new UIElementEvent<>();
-    public UIElementEvent<Consumer<Float>> onLeftClickHeldEvent = new UIElementEvent<>();
-    public UIElementEvent<Runnable> onLeftClickReleaseEvent = new UIElementEvent<>();
+    public Event<Runnable> onLeftClickEvent = new Event<>();
+    public Event<Consumer<Float>> onLeftClickHeldEvent = new Event<>();
+    public Event<Runnable> onLeftClickReleaseEvent = new Event<>();
 
-    public UIElementEvent<Runnable> onRightClickEvent = new UIElementEvent<>();
-    public UIElementEvent<Consumer<Float>> onRightClickHeldEvent = new UIElementEvent<>();
-    public UIElementEvent<Runnable> onRightClickReleaseEvent = new UIElementEvent<>();
+    public Event<Runnable> onRightClickEvent = new Event<>();
+    public Event<Consumer<Float>> onRightClickHeldEvent = new Event<>();
+    public Event<Runnable> onRightClickReleaseEvent = new Event<>();
 
     private String onHoverLine; // Say the Spire mod compatibility
 
@@ -198,7 +201,7 @@ public class UIElement {
             }
 
             if(this.isContextual() && event.source != this && !event.source.isDescendantOf(this)){
-                destroy();
+                dispose();
             }
         });
 
@@ -222,10 +225,9 @@ public class UIElement {
 
     //region Destructors
 
-    public void destroy(){
+    public void dispose(){
         if(hasParent()){
             parent.removeChild(this);
-            dispose();
         }
         else{
             close();
@@ -233,14 +235,9 @@ public class UIElement {
 
         for (int i = 0; i < children.size(); i++) {
             UIElementChild child = children.get(i);
-            child.element.destroy();
+            child.element.dispose();
         }
 
-        onDestroyed();
-    }
-
-    public void onDestroyed(){
-        GlobalEvents.sendMessage(new GlobalEvents.Events.PostElementDestroyEvent(this));
         delayedActions.clear();
     }
 
@@ -384,7 +381,7 @@ public class UIElement {
             if(remainingLifespan <= 0){
                 hideAndDisable();
                 //TODO wait for animations to finish
-                destroy();
+                dispose();
                 //TODO fire on death event
             }
         }
@@ -559,7 +556,7 @@ public class UIElement {
                 child.element = replacement;
                 replacement.setParent(this);
 
-                oldElement.destroy();
+                oldElement.dispose();
                 return this;
             }
         }
@@ -1424,14 +1421,6 @@ public class UIElement {
         }
     }
 
-    //endregion
-
-    //region Resource Management
-    public void dispose(){
-        for(UIElementChild child : children){
-            child.element.dispose();
-        }
-    }
     //endregion
 
     //region Bounds Methods

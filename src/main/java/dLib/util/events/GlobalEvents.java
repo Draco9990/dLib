@@ -1,40 +1,40 @@
-package dLib.util;
+package dLib.util.events;
 
+import com.badlogic.gdx.utils.Disposable;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Interactable;
+import dLib.util.events.globalevents.GlobalEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 public class GlobalEvents {
     /** Variables */
-    private static HashMap<Class<?>, ArrayList<Consumer<Object>>> subscriberMap = new HashMap<>();
+    private static HashMap<Class<? extends GlobalEvent>, ArrayList<Consumer<GlobalEvent>>> subscriberMap = new HashMap<>();
 
     /** Methods */
-    public static void sendMessage(Object message){
+    public static void sendMessage(GlobalEvent message){
         if(subscriberMap.containsKey(message.getClass())){
-            for(Consumer<Object> listener : subscriberMap.get(message.getClass())){
+            for(Consumer<GlobalEvent> listener : subscriberMap.get(message.getClass())){
                 listener.accept(message);
             }
         }
     }
 
-    public static <T> void subscribe(Class<T> eventToListen, Consumer<T> consumer){
+    public static <T extends GlobalEvent> void subscribe(Class<T> eventToListen, Consumer<T> consumer){
         if(!subscriberMap.containsKey(eventToListen)){
             subscriberMap.put(eventToListen, new ArrayList<>());
         }
 
-        ArrayList<Consumer<Object>> listeners = subscriberMap.get(eventToListen);
-        listeners.add((Consumer<Object>) consumer);
+        ArrayList<Consumer<GlobalEvent>> listeners = subscriberMap.get(eventToListen);
+        listeners.add((Consumer<GlobalEvent>) consumer);
 
         subscriberMap.put(eventToListen, listeners);
     }
 
     /** Events */
     public static class Events{
-        public static class PreLeftClickEvent {
+        public static class PreLeftClickEvent extends GlobalEvent{
             public UIElement source;
 
             public PreLeftClickEvent(UIElement source){
@@ -42,7 +42,7 @@ public class GlobalEvents {
             }
         }
 
-        public static class PreHoverEvent{
+        public static class PreHoverEvent extends GlobalEvent{
             public UIElement source;
 
             public PreHoverEvent(UIElement source){
@@ -50,18 +50,10 @@ public class GlobalEvents {
             }
         }
 
-        public static class PreForceFocusChangeEvent{
+        public static class PreForceFocusChangeEvent extends GlobalEvent{
             public UIElement source;
 
             public PreForceFocusChangeEvent(UIElement source){
-                this.source = source;
-            }
-        }
-
-        public static class PostElementDestroyEvent{
-            public UIElement source;
-
-            public PostElementDestroyEvent(UIElement source){
                 this.source = source;
             }
         }

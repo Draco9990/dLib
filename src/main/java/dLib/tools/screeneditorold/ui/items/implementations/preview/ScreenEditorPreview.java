@@ -94,7 +94,7 @@ public class ScreenEditorPreview extends UIElement {
         item.setContainerBounds(Bound.parent(this));
     }
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
-        itemToDelete.destroy();
+        itemToDelete.dispose();
 
         ExternalEditorMessageSender.send_removeVariableFromClass(getParent().getEditingScreen(), itemToDelete.getId());
     }

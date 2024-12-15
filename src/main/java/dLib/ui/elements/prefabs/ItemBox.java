@@ -10,8 +10,6 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
-import dLib.util.IntegerVector2;
-import dLib.util.Reflection;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -157,7 +155,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
                 }
 
                 existingItems.remove();
-                existingItem.renderForItem.destroy();
+                existingItem.renderForItem.dispose();
                 itemsChanged = true;
             }
         }
@@ -191,7 +189,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
         }
 
         for(UIElement childToRemove : childrenToRemove){
-            childToRemove.destroy();
+            childToRemove.dispose();
         }
 
         for(ItemBoxItem item : originalItems){
@@ -233,7 +231,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
         for(ItemBoxItem itemBoxItem : originalItems){
             if(itemBoxItem.item.equals(item)){
                 originalItems.remove(itemBoxItem);
-                itemBoxItem.renderForItem.destroy();
+                itemBoxItem.renderForItem.dispose();
                 break;
             }
         }

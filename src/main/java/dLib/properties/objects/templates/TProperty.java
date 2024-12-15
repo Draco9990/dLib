@@ -2,17 +2,15 @@ package dLib.properties.objects.templates;
 
 import dLib.properties.ui.elements.AbstractPropertyEditor;
 import dLib.util.DLibLogger;
-import dLib.util.UIElementEvent;
+import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 import org.apache.logging.log4j.util.BiConsumer;
-import org.apache.logging.log4j.util.TriConsumer;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class TProperty<ValueType, PropertyType> implements Serializable {
@@ -32,7 +30,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     protected Class<? extends AbstractPropertyEditor> propertyEditorClass;
 
-    public transient UIElementEvent<BiConsumer<ValueType, ValueType>> onValueChangedEvent = new UIElementEvent<>();
+    public transient Event<BiConsumer<ValueType, ValueType>> onValueChangedEvent = new Event<>();
 
     private transient ArrayList<Function<PropertyType, Boolean>> isPropertyVisibleFunctions = new ArrayList<>();
 
