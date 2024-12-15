@@ -6,13 +6,12 @@ import dLib.code.LinkedEditorManager;
 import dLib.properties.ui.elements.MethodBindingPropertyEditor;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
-import dLib.util.bindings.method.MethodBindingHelpers;
 import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
 
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class TMethodBindingProperty<PropertyType> extends TCustomProperty<MethodBinding, PropertyType> implements Serializable {
+public abstract class TMethodBindingProperty<PropertyType> extends TProperty<MethodBinding, PropertyType> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -184,11 +183,6 @@ public abstract class TMethodBindingProperty<PropertyType> extends TCustomProper
     }
 
     //endregion
-
-    @Override
-    public ArrayList<MethodBinding> getAllOptions() {
-        return MethodBindingHelpers.getPremadeMethodBindings();
-    }
 
     //endregion
 }
