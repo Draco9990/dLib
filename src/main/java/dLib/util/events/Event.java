@@ -14,13 +14,7 @@ public class Event<EventType> {
     private HashMap<Disposable, ArrayList<UUID>> boundsObjects = new HashMap<>();
 
     public Event(){
-        GlobalEvents.subscribeManaged(PostDisposeEvent.class, event -> {
-            for(UUID element : boundsObjects.getOrDefault(event.source, new ArrayList<>())){
-                subscribers.remove(element);
-            }
-
-            boundsObjects.remove(event.source);
-        });
+        GlobalEvents.registeredEvents.add(this);
     }
 
     public UUID subscribeManaged(EventType event){
@@ -49,5 +43,13 @@ public class Event<EventType> {
         for(EventType event : subscribers.values()){
             consumer.accept(event);
         }
+    }
+
+    void postObjectDisposed(PostDisposeEvent event){
+        for(UUID element : boundsObjects.getOrDefault(event.source, new ArrayList<>())){
+            subscribers.remove(element);
+        }
+
+        boundsObjects.remove(event.source);
     }
 }

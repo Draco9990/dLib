@@ -3,13 +3,17 @@ package dLib.util.events;
 import com.badlogic.gdx.utils.Disposable;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.globalevents.GlobalEvent;
+import dLib.util.events.globalevents.PostDisposeEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 public class GlobalEvents {
     //region Variables
+
+    static ArrayList<Event<?>> registeredEvents = new ArrayList<>();
 
     private static HashMap<Class<? extends GlobalEvent>, Event<Consumer<GlobalEvent>>> subscriberMap = new HashMap<>();
 
@@ -20,6 +24,12 @@ public class GlobalEvents {
     public static void sendMessage(GlobalEvent message){
         if(subscriberMap.containsKey(message.getClass())){
             subscriberMap.get(message.getClass()).invoke(consumer -> consumer.accept(message));
+        }
+
+        if(message instanceof PostDisposeEvent){
+            for(Event<?> event : registeredEvents){
+                event.postObjectDisposed((PostDisposeEvent) message);
+            }
         }
     }
 

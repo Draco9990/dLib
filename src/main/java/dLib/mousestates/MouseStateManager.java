@@ -59,4 +59,18 @@ public class MouseStateManager {
     }
 
     //endregion
+
+    //region Patches
+
+    @SpirePatch2(clz = InputHelper.class, method = "updateFirst")
+    public static class MouseStateUpdater {
+        public static void Postfix() {
+            MouseStateManager manager = MouseStateManager.get();
+            if(manager.currentState != null) {
+                manager.currentState.update();
+            }
+        }
+    }
+
+    //endregion
 }
