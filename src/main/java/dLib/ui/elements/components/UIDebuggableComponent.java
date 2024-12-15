@@ -64,7 +64,7 @@ public class UIDebuggableComponent extends UIElementComponent{
     }
 
     public UIDebuggerScreen getUIDebuggerScreen(){
-        return UIManager.getOpenScreenOfType(UIDebuggerScreen.class);
+        return UIManager.getOpenElementOfType(UIDebuggerScreen.class);
     }
 
     private String generateDebugTextForUIElement(UIElement element){

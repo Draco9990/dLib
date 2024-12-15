@@ -21,9 +21,11 @@ import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
+import dLib.ui.bindings.RelativeUIElementBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.prefabs.ItemBox;
+import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.screens.UIManager;
 import dLib.util.*;
 import dLib.util.events.Event;
@@ -1965,7 +1967,7 @@ public class UIElement implements Disposable {
 
     public String getRelativePath(){
         if(!hasParent()) return getId();
-        return parent.getElementPath() + "." + getId();
+        return parent.getRelativePath() + "." + getId();
     }
 
     public UIElement getChildFromPath(String path){
@@ -2065,6 +2067,11 @@ public class UIElement implements Disposable {
                 .setName("On Unhovered")
                 .setDescription("Method to call when the element is unhovered.")
                 .setCategory("Events");
+
+        public UCUIElementBindingProperty test = new UCUIElementBindingProperty(new RelativeUIElementBinding())
+                .setName("Test")
+                .setDescription("Test")
+                .setCategory("Test");
 
         public UIElement makeUIElement(){
             return new UIElement(this);

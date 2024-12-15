@@ -14,7 +14,6 @@ import dLib.util.Help;
 import dLib.util.Reflection;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UIManager {
 
@@ -60,7 +59,7 @@ public class UIManager {
         }
     }
 
-    public static <UIElementClass> UIElementClass getOpenScreenOfType(Class<UIElementClass> screenClass){
+    public static <UIElementClass> UIElementClass getOpenElementOfType(Class<UIElementClass> screenClass){
         for (UIElement uiElement : uiElements) {
             if(screenClass.isInstance(uiElement)){
                 return (UIElementClass) uiElement;

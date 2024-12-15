@@ -5,7 +5,7 @@ import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
 
-public class RelativeUIElementBinding extends UIBinding implements Serializable {
+public class RelativeUIElementBinding extends UIElementBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private StringProperty objectRelativePath = new StringProperty("");
