@@ -8,16 +8,13 @@ import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.properties.objects.templates.TMethodBindingProperty;
-import dLib.util.bindings.method.NoneMethodBinding;
-import dLib.util.bindings.method.StaticMethodBinding;
+import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
+import dLib.util.bindings.method.staticbindings.StaticMethodBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class MethodBindingPropertyEditor extends AbstractPropertyEditor<TMethodBindingProperty<? extends TMethodBindingProperty>> {
     //region Variables

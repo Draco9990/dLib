@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import dLib.properties.objects.MethodBindingProperty;
-import dLib.util.bindings.method.NoneMethodBinding;
+import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureNullBinding;
 import dLib.util.ui.dimensions.AbstractDimension;

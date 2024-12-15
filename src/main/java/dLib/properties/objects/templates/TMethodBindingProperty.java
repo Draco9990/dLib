@@ -7,7 +7,7 @@ import dLib.properties.ui.elements.MethodBindingPropertyEditor;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.MethodBindingHelpers;
-import dLib.util.bindings.method.NoneMethodBinding;
+import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
 
 import java.io.Serializable;
 import java.util.*;
