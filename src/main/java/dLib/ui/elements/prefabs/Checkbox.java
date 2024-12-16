@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.implementations.Toggle;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -24,7 +25,7 @@ public class Checkbox extends Toggle {
         this(Pos.px(0), Pos.px(0), width, height);
     }
     public Checkbox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        super(UIThemeManager.getDefaultTheme().checkbox_unchecked, UIThemeManager.getDefaultTheme().checkbox_checked, xPos, yPos, width, height);
+        super(UICommonResources.checkbox_unchecked, UICommonResources.checkbox_checked, xPos, yPos, width, height);
     }
 
     public Checkbox(CheckboxData data) {

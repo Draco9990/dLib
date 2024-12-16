@@ -3,6 +3,7 @@ package dLib.properties.ui.elements;
 import dLib.properties.objects.templates.TArrayProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextButton;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.screens.AbstractObjectListPickerScreenOld;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -43,7 +44,7 @@ public class ArrayPropertyEditor<PropertyType extends TArrayProperty<ItemType, ?
             }
         });
 
-        middleButton.getButton().setImage(UIThemeManager.getDefaultTheme().button_large_square);
+        middleButton.getButton().setImage(UICommonResources.button02_horizontal);
 
         property.onValueChangedEvent.subscribe(ArrayPropertyEditor.this, (itemType, itemType2) -> middleButton.getTextBox().setText(property.getValueForDisplay()));
 

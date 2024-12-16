@@ -6,6 +6,7 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.ColorPicker;
 import dLib.ui.elements.prefabs.Image;
 import dLib.ui.elements.prefabs.TextButton;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.Dim;
@@ -26,8 +27,6 @@ public class ColorPickerScreen extends UIElement {
 
         ColorPickerScreen self = this;
 
-        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
-
         ColorPicker colorWheel = new ColorPicker(Pos.px(235), Pos.px(1080-654), Dim.px(550), Dim.px(550));
         colorWheel.getColorWheel().addColorHoveredConsumer(new Consumer<Color>() {
             @Override
@@ -43,10 +42,10 @@ public class ColorPickerScreen extends UIElement {
         });
         addChildNCS(colorWheel);
 
-        hoverPreview = new Renderable(UITheme.whitePixel, Pos.px(273), Pos.px(1080-596), Dim.px(475), Dim.px(33));
+        hoverPreview = new Renderable(UICommonResources.white_pixel, Pos.px(273), Pos.px(1080-596), Dim.px(475), Dim.px(33));
         addChildNCS(hoverPreview);
 
-        selectedPreview = new Renderable(UITheme.whitePixel, Pos.px(50), Pos.px(1080-850), Dim.px(1810), Dim.px(80));
+        selectedPreview = new Renderable(UICommonResources.white_pixel, Pos.px(50), Pos.px(1080-850), Dim.px(1810), Dim.px(80));
         addChildNCS(selectedPreview);
 
         TextButton confirmButton = new TextButton("CONFIRM", Pos.px(685), Pos.px(1080-1015), Dim.px(550), Dim.px(150));

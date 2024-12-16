@@ -20,7 +20,6 @@ public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends UI
         super(Pos.px(0), Pos.px(0), Dim.px(1920), Dim.px(1080));
         AbstractObjectListPickerScreenOld<ItemPickType> instance = this;
 
-        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
         addChildCS(new VerticalListBox<ItemPickType>(Pos.px(40), Pos.px(1080 - 915), Dim.px(1850), Dim.px(875)){
             @Override
             public void onItemSelectionChanged(ArrayList<ItemPickType> items) {

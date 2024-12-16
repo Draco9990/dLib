@@ -7,6 +7,7 @@ import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.elements.implementations.Toggle;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UITheme;
 import dLib.util.TextureManager;
 import dLib.util.ui.dimensions.Dim;
@@ -21,7 +22,7 @@ public class ScreenEditorMenu extends UIElement {
 
     public ScreenEditorMenu(){
         super(Pos.px(10), Pos.px(1080-220), Dim.px(1490), Dim.px(210));
-        addChildNCS(new Renderable(UITheme.whitePixel, Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()).setRenderColor(Color.valueOf("#242424FF")));
+        addChildNCS(new Renderable(UICommonResources.white_pixel, Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()).setRenderColor(Color.valueOf("#242424FF")));
 
         initializeFileControls();
         initializePropertyControls();

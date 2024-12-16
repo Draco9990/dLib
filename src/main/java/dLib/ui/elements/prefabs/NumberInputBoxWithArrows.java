@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import dLib.properties.objects.templates.TNumericProperty;
 import dLib.ui.elements.UIElement;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -23,7 +24,7 @@ public class NumberInputBoxWithArrows extends UIElement {
         super(xPos, yPos, width, height);
 
         leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
-        leftArrow.setImage(UIThemeManager.getDefaultTheme().arrow_left);
+        leftArrow.setImage(UICommonResources.arrow_left);
         addChildNCS(leftArrow);
 
         inputbox = new Inputfield("", Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
@@ -36,7 +37,7 @@ public class NumberInputBoxWithArrows extends UIElement {
         addChildNCS(inputbox);
 
         rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
-        rightArrow.setImage(UIThemeManager.getDefaultTheme().arrow_right);
+        rightArrow.setImage(UICommonResources.arrow_right);
         addChildNCS(rightArrow);
     }
 

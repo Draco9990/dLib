@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Toggle;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -34,7 +35,7 @@ public class VerticalCollapsableBox extends UIElement {
         {
             HorizontalBox titleHBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
             {
-                titleHBox.addItem(toggleArrow = new Toggle(UIThemeManager.getDefaultTheme().arrow_right, UIThemeManager.getDefaultTheme().arrow_down, Pos.px(0), Pos.px(0), Dim.px(50), Dim.px(50)));
+                titleHBox.addItem(toggleArrow = new Toggle(UICommonResources.arrow_right, UICommonResources.arrow_down, Pos.px(0), Pos.px(0), Dim.px(50), Dim.px(50)));
                 toggleArrow.onLeftClickEvent.subscribeManaged(() -> {
                     if(toggleArrow.isToggled()) {
                         contentBox.showAndEnable();

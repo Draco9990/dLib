@@ -80,6 +80,9 @@ public class Reflection {
         ArrayList<T> fieldValues = new ArrayList<>();
         try{
             for(Field field : classFields){
+                if(source instanceof Class<?> && Modifier.isStatic(field.getModifiers())){
+                    continue;
+                }
                 fieldValues.add((T) field.get(source));
             }
         }catch (IllegalAccessException e) {

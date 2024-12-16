@@ -12,6 +12,7 @@ import dLib.tools.screeneditorold.util.ScreenEditorProperties;
 import dLib.tools.screeneditorold.util.ScreenEditorSaveManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.screens.GeneratedAbstractScreen;
 import dLib.ui.themes.UITheme;
 import dLib.util.ui.dimensions.Dim;
@@ -58,7 +59,7 @@ public class ScreenEditorBaseScreen extends UIElement {
     private void initialize(String editingClass){
         this.editingScreen = editingClass;
 
-        addChildNCS(new Renderable(UITheme.whitePixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setRenderColor(Color.valueOf("#151515FF")));
+        addChildNCS(new Renderable(UICommonResources.white_pixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setRenderColor(Color.valueOf("#151515FF")));
 
         menu = new ScreenEditorMenu();
         addChildNCS(menu);

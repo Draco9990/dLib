@@ -4,6 +4,7 @@ import basemod.Pair;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -23,9 +24,9 @@ public class VerticalScrollbar extends Scrollbar {
 
         VerticalBox elements = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
-            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_top, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
-            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_middle, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
-            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_vertical_bottom, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
+            elements.addItem(new Renderable(UICommonResources.scrollbar_vertical_top, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
+            elements.addItem(new Renderable(UICommonResources.scrollbar_vertical_mid, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            elements.addItem(new Renderable(UICommonResources.scrollbar_vertical_bottom, Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
         }
         addChildNCS(elements);
 
@@ -73,7 +74,7 @@ public class VerticalScrollbar extends Scrollbar {
                 return res;
             }
         };
-        slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_vertical_train);
+        slider.setImage(UICommonResources.scrollbar_vertical_train);
         slider.setContainerBounds(Bound.parent(slider));
         slider.onPositionChangedEvent.subscribeManaged((element) -> {
             onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));

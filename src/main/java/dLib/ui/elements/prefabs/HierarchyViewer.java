@@ -1,6 +1,7 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
@@ -43,7 +44,7 @@ public class HierarchyViewer extends VerticalBox {
 
         public HierarchyViewerChildElementButton(UIElement element) {
             super(element.getId(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-            getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
+            getButton().setImage(UICommonResources.itembox_itembg_horizontal);
             this.element = element;
         }
     }

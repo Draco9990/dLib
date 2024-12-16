@@ -3,6 +3,7 @@ package dLib.properties.ui.elements;
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UITheme;
 import dLib.util.screens.ColorPickerScreen;
 import dLib.properties.objects.templates.TColorProperty;
@@ -43,7 +44,7 @@ public class ColorPropertyEditor extends AbstractPropertyEditor<TColorProperty<T
                 };
                 colorPickerScreen.open();
             }
-        }.setImage(UITheme.whitePixel).setRenderColor(property.getColorValue());
+        }.setImage(UICommonResources.white_pixel).setRenderColor(property.getColorValue());
 
         property.onValueChangedEvent.subscribe(this, (s, s2) -> middleButton.setRenderColor(property.getColorValue()));
 

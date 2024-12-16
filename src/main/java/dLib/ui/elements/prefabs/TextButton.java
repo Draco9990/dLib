@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -27,7 +28,7 @@ public class TextButton extends UIElement {
     public TextButton(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        button = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setImage(UIThemeManager.getDefaultTheme().button_large);
+        button = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setImage(UICommonResources.button01_horizontal);
         addChildCS(button);
 
         label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());

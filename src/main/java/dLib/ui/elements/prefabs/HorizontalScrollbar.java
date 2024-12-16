@@ -4,6 +4,7 @@ import basemod.Pair;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -23,9 +24,9 @@ public class HorizontalScrollbar extends Scrollbar {
 
         HorizontalBox elements = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
-            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_left, Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
-            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_middle, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
-            elements.addItem(new Renderable(UIThemeManager.getDefaultTheme().scrollbar_horizontal_right, Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
+            elements.addItem(new Renderable(UICommonResources.scrollbar_horizontal_left, Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
+            elements.addItem(new Renderable(UICommonResources.scrollbar_horizontal_mid, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            elements.addItem(new Renderable(UICommonResources.scrollbar_horizontal_right, Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
         }
         addChildNCS(elements);
 
@@ -50,7 +51,7 @@ public class HorizontalScrollbar extends Scrollbar {
     protected Interactable buildSlider() {
         Button slider = new Button(Pos.px(0), Pos.px((int) (5 * 1.29f)), Dim.px(60), Dim.perc(0.7762));
         {
-            slider.setImage(UIThemeManager.getDefaultTheme().scrollbar_horizontal_train);
+            slider.setImage(UICommonResources.scrollbar_horizontal_train);
             slider.setContainerBounds(Bound.parent(slider));
             slider.onPositionChangedEvent.subscribeManaged((element) -> {
                 onScrollbarScrolled((float) slider.getLocalPositionX() / (getWidth() - slider.getWidth()));

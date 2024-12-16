@@ -11,6 +11,7 @@ import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.elements.prefabs.*;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
@@ -32,7 +33,7 @@ public class UCEditor extends Renderable {
     public UCEditorItemTree itemTree;
 
     public UCEditor(){
-        super(UITheme.whitePixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        super(UICommonResources.white_pixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         setRenderColor(LIGHT_GRAY);
 
         UCERootElement rootElement;
@@ -74,7 +75,7 @@ public class UCEditor extends Renderable {
 
     public static class UC_EditorToolbar extends Renderable{
         public UC_EditorToolbar() {
-            super(UITheme.whitePixel, Dim.perc(100), Dim.fill());
+            super(UICommonResources.white_pixel, Dim.perc(100), Dim.fill());
             setRenderColor(DARK_GRAY);
 
             HorizontalBox toolbar = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -94,7 +95,7 @@ public class UCEditor extends Renderable {
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
                     });
-                    toolboxButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
+                    toolboxButton.getButton().setImage(UICommonResources.itembox_itembg_horizontal);
                     propertiesOptions.addItem(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
@@ -104,7 +105,7 @@ public class UCEditor extends Renderable {
                         getProperties().hierarchyViewer.showAndEnableInstantly();
                         getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElement);
                     });
-                    elementListButton.getButton().setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
+                    elementListButton.getButton().setImage(UICommonResources.itembox_itembg_horizontal);
                     propertiesOptions.addItem(elementListButton);
                 }
                 toolbar.addItem(propertiesOptions);
@@ -126,7 +127,7 @@ public class UCEditor extends Renderable {
         public UCEPropertyEditor propertyEditor;
 
         public UC_EditorProperties() {
-            super(UITheme.whitePixel, Dim.fill(), Dim.fill());
+            super(UICommonResources.white_pixel, Dim.fill(), Dim.fill());
             setRenderColor(DARK_GRAY);
 
             toolbarPropertiesScrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());

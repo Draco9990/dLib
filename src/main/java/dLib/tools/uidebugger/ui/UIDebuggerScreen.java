@@ -6,6 +6,7 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.elements.prefabs.VerticalBox;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
@@ -62,7 +63,7 @@ public class UIDebuggerScreen extends UIElement {
             public UIDebuggerElementInfo(){
                 super("", Dim.px(600), Dim.px(400));
 
-                setImage(UIThemeManager.getDefaultTheme().inputfield);
+                setImage(UICommonResources.inputfield);
                 hideAndDisableInstantly();
 
                 setMarginPercY(0.1f);

@@ -16,8 +16,6 @@ public class ScreenEditorNewScreenScreen extends UIElement {
     public ScreenEditorNewScreenScreen(){
         super(Pos.px(0), Pos.px(0), Dim.px(1920), Dim.px(1080));
 
-        addChildNCS(new Image(UIThemeManager.getDefaultTheme().background, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
-
         addChildNCS(new TextBox("Enter screen name:", Pos.px(539), Pos.px(1080-572), Dim.px(798), Dim.px(105)));
 
         Inputfield.InputfieldData test = new Inputfield.InputfieldData();

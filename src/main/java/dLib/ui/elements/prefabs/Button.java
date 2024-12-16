@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.implementations.Interactable;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -24,7 +25,7 @@ public class Button extends Interactable {
         this(Pos.px(0), Pos.px(0), width, height);
     }
     public Button(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        super(UIThemeManager.getDefaultTheme().button_small, xPos, yPos, width, height);
+        super(UICommonResources.button03_horizontal, xPos, yPos, width, height);
     }
 
     public Button(ButtonData data){

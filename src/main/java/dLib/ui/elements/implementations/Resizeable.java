@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.UIElement;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UITheme;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -182,7 +183,7 @@ public class Resizeable extends Draggable {
         //region Constructors
 
         public ResizeNode(AbstractPosition xPos, AbstractPosition yPos) {
-            super(UITheme.whitePixel, xPos, yPos, Dim.px(20), Dim.px(20));
+            super(UICommonResources.white_pixel, xPos, yPos, Dim.px(20), Dim.px(20));
 
             this.renderColor = Color.RED;
         }

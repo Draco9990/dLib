@@ -11,6 +11,7 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.mousestates.ReferencePickerMouseState;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.screens.UIManager;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -51,7 +52,7 @@ public class UCUIElementBindingPropertyEditor extends AbstractPropertyEditor<UCU
             mainBox.addItem(referenceButton);
 
             bindingBox = new TextBox(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
-            bindingBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
+            bindingBox.setImage(UICommonResources.inputfield);
             mainBox.addItem(bindingBox);
         }
 

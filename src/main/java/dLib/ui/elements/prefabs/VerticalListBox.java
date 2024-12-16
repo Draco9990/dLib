@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -87,7 +88,7 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     @Override
     public UIElement makeUIForItem(ItemType item) {
         TextBox box = (TextBox) super.makeUIForItem(item);
-        box.setImage(UIThemeManager.getDefaultTheme().itemBoxVerticalItemBg);
+        box.setImage(UICommonResources.itembox_itembg_horizontal);
         return box;
     }
 

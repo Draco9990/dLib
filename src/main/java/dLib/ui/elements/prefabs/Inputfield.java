@@ -9,6 +9,7 @@ import dLib.properties.objects.IntegerProperty;
 import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -61,7 +62,7 @@ public class Inputfield extends UIElement {
 
         preInitialize();
 
-        this.background = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setImage(UIThemeManager.getDefaultTheme().inputfield);
+        this.background = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setImage(UICommonResources.inputfield);
         addChildNCS(this.background);
 
         this.textBox = (TextBox) new TextBox(initialValue, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);

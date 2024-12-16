@@ -7,6 +7,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
 import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UITheme;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
@@ -53,7 +54,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
     //region Constructors
 
     public ItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(UIThemeManager.getDefaultTheme().listbox, xPos, yPos, width, height);
+        super(UICommonResources.white_pixel, xPos, yPos, width, height);
 
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
@@ -329,7 +330,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
             public boolean isActive() {
                 return getSelectionCountLimit() != 0;
             }
-        }.setImage(UITheme.whitePixel).setRenderColor(transparent);
+        }.setImage(UICommonResources.white_pixel).setRenderColor(transparent);
 
         Color hoverColor = mainButton.getHoveredColor().cpy();
         hoverColor.a = 0.4f;

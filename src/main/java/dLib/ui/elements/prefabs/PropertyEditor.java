@@ -3,6 +3,7 @@ package dLib.ui.elements.prefabs;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -40,7 +41,7 @@ public class PropertyEditor extends UIElement {
 
             descriptionBox = new TextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.2));
             descriptionBox.setWrap(true);
-            descriptionBox.setImage(UIThemeManager.getDefaultTheme().inputfield);
+            descriptionBox.setImage(UICommonResources.inputfield);
             descriptionBox.setMaxFontScale(0.8f);
             descriptionBox.setMarginPercY(0.1f);
             descriptionBox.setPadding(Padd.px(10), Padd.px(0));

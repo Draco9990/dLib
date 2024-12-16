@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
+import dLib.ui.resources.UICommonResources;
 import dLib.ui.themes.UITheme;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -121,7 +122,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
         public boolean pendingRemoval = false;
 
         public ResizeNode(AbstractPosition xPos, AbstractPosition yPos, Alignment.HorizontalAlignment hAlign, Alignment.VerticalAlignment vAlign) {
-            super(UITheme.whitePixel, xPos, yPos, Dim.px(30), Dim.px(30));
+            super(UICommonResources.white_pixel, xPos, yPos, Dim.px(30), Dim.px(30));
 
             setRenderColor(Color.RED);
 
