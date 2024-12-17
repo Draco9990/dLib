@@ -14,8 +14,6 @@ public abstract class TBooleanProperty<PropertyType> extends TProperty<Boolean, 
 
     public TBooleanProperty(boolean defaultValue){
         super(defaultValue);
-
-        propertyEditorClass = BooleanValueEditor.class;
     }
 
     //endregion

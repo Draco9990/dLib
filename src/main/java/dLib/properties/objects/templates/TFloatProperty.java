@@ -23,8 +23,6 @@ public abstract class TFloatProperty<PropertyType> extends TNumericProperty<Floa
     }
     public TFloatProperty(Float currentValue, Float minimumValue, Float maximumValue, Float incrementAmount, Float decrementAmount){
         super(currentValue, minimumValue, maximumValue, incrementAmount, decrementAmount);
-
-        propertyEditorClass = FloatValueEditor.class;
     }
 
     //endregion

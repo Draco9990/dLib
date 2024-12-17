@@ -1,10 +1,10 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.ValueEditorManager;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
-import dLib.ui.themes.UIThemeManager;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -104,17 +104,24 @@ public class PropertyEditor extends UIElement {
             propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
                 @Override
                 public UIElement makeUIForItem(TProperty<?, ?> item) {
-                    return item.makeEditorFor(getParentOfType(PropertyEditor.class).shouldBuildMultiline())
-                            .setOnPropertyHoveredConsumer(property -> {
-                                if(getDescriptionBox() != null){
-                                    getDescriptionBox().setText(((TProperty<?, ?>)property).getDescription());
-                                }
-                            })
-                            .setOnPropertyUnhoveredConsumer(property -> {
-                                if(getDescriptionBox() != null){
-                                    getDescriptionBox().setText("");
-                                }
-                            });
+                    //TODO getParentOfType(PropertyEditor.class).shouldBuildMultiline()
+                    UIElement editor = ValueEditorManager.makeEditorFor(item, Dim.fill(), Dim.px(50));
+                    if(editor == null) {
+                        return new Spacer(Dim.fill(), Dim.px(1)); //TODO breakpoint to verify none fire before removing
+                    }
+
+                    editor.onHoveredEvent.subscribe(PropertyGroup.this, () -> {
+                        if(getDescriptionBox() != null){
+                            getDescriptionBox().setText(item.getDescription());
+                        }
+                    });
+                    editor.onUnhoveredEvent.subscribe(PropertyGroup.this, () -> {
+                        if(getDescriptionBox() != null){
+                            getDescriptionBox().setText("");
+                        }
+                    });
+
+                    return editor;
                 }
             };
             propertyList.setItemSpacing(10);

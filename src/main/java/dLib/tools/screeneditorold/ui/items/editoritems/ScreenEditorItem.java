@@ -43,7 +43,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     }
 
     public ScreenEditorItem(DataType elementData){
-        super(null, Pos.px(0), Pos.px(0), elementData.dimensions.getWidth(), elementData.dimensions.getHeight());
+        super(null, Pos.px(0), Pos.px(0), elementData.width.getValue(), elementData.height.getValue());
         this.elementData = wrapDataType(elementData);
         remakePreviewElement();
     }
@@ -139,7 +139,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     private DataType wrapDataType(DataType elementData){
         //Bind all screen editor specific stuff
         elementData.id.setValue(getId());
-        elementData.dimensions.setValue(getWidthRaw(), getHeightRaw());
 
         for(TProperty<?, ?> property : elementData.getEditableProperties()){
         }

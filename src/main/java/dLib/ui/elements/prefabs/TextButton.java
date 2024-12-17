@@ -3,7 +3,6 @@ package dLib.ui.elements.prefabs;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
-import dLib.ui.themes.UIThemeManager;
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;

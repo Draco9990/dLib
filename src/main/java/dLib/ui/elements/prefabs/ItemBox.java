@@ -8,8 +8,8 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.resources.UICommonResources;
-import dLib.ui.themes.UITheme;
-import dLib.ui.themes.UIThemeManager;
+
+
 import dLib.ui.util.ESelectionMode;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;

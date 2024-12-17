@@ -1,7 +1,6 @@
 package dLib.tools.screeneditorold.screensold;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.tools.screeneditorold.ui.items.editoritems.BackgroundScreenEditorItem;
 import dLib.tools.screeneditorold.ui.items.implementations.menu.ScreenEditorMenu;
 import dLib.tools.screeneditorold.ui.items.implementations.preview.ScreenEditorPreview;
 import dLib.tools.screeneditorold.ui.items.implementations.toolbar.ScreenEditorElementList;
@@ -14,7 +13,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.screens.GeneratedAbstractScreen;
-import dLib.ui.themes.UITheme;
+
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -42,8 +41,6 @@ public class ScreenEditorBaseScreen extends UIElement {
     public ScreenEditorBaseScreen(String editingClass){
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         initialize(editingClass);
-
-        preview.makeNewPreviewItem(BackgroundScreenEditorItem.class).setID("Background");
     }
     public ScreenEditorBaseScreen(GeneratedAbstractScreen.GeneratedScreenData initialData){
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());

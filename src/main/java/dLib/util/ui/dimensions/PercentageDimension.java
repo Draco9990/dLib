@@ -1,5 +1,9 @@
 package dLib.util.ui.dimensions;
 
+import dLib.properties.objects.DimensionProperty;
+import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.PercentageDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
@@ -51,6 +55,16 @@ public class PercentageDimension extends AbstractDimension {
     public int getHeight(UIElement self) {
         int parentHeight = self.getParent() != null ? self.getParent().getHeight() : 1080;
         return (int) (parentHeight * percentage);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new PercentageDimensionValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new PercentageDimensionValueEditor((DimensionProperty) property, width, height);
     }
 
     public float getValueRaw(){

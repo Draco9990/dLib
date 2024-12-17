@@ -15,7 +15,6 @@ public abstract class TColorProperty<PropertyType> extends TProperty<String, Pro
 
     public TColorProperty(Color value) {
         super(value.toString());
-        propertyEditorClass = ColorValueEditor.class;
     }
 
     //endregion

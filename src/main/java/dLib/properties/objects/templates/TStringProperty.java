@@ -17,7 +17,6 @@ public abstract class TStringProperty<PropertyType extends TStringProperty<Prope
 
     public TStringProperty(String defaultValue){
         super(defaultValue);
-        propertyEditorClass = OnValueCommitedStringValueEditor.class;
     }
 
     //endregion

@@ -3,7 +3,7 @@ package dLib.ui.elements.prefabs;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.resources.UICommonResources;
-import dLib.ui.themes.UIThemeManager;
+
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;

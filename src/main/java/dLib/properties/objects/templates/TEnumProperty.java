@@ -18,8 +18,6 @@ public abstract class TEnumProperty<T extends Enum<T>, PropertyType> extends TPr
 
     public TEnumProperty(Enum<T> value) {
         super(value);
-
-        propertyEditorClass = EnumValueEditor.class;
     }
 
     //endregion

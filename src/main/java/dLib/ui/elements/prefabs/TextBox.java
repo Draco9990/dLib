@@ -419,7 +419,7 @@ public class TextBox extends Renderable {
     public static class TextBoxData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public StringProperty text = new StringProperty("TEXT").setName("Text").setPropertyEditorClass(OnValueChangedStringPropertyEditor.class);
+        public StringProperty text = new StringProperty("TEXT").setName("Text");
 
         public ColorProperty textRenderColor = new ColorProperty(Color.WHITE).setName("Render Color");
         //TODO FONT

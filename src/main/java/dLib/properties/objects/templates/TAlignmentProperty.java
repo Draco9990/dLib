@@ -20,8 +20,6 @@ public abstract class TAlignmentProperty<PropertyType extends TAlignmentProperty
 
     public TAlignmentProperty(Alignment value) {
         super(value);
-
-        propertyEditorClass = AlignmentValueEditor.class;
     }
 
     //endregion

@@ -41,9 +41,14 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
                     localPositionY = new StaticPosition((int) (((StaticPosition) localPositionY).getValueRaw() * 1.25f));
                 }
 
-                if(entry.elementData.localPosition.getXPosition() != localPositionX || entry.elementData.localPosition.getYPosition() != localPositionY){
+                if(entry.elementData.localPositionX.getValue() != localPositionX){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
-                    entry.elementData.localPosition.setValue(localPositionX, localPositionY);
+                    entry.elementData.localPositionX.setValue(localPositionX);
+                    editor.properties.propertyEditor.itemBeingModifiedExternally = false;
+                }
+                if(entry.elementData.localPositionY.getValue() != localPositionY){
+                    editor.properties.propertyEditor.itemBeingModifiedExternally = true;
+                    entry.elementData.localPositionY.setValue(localPositionY);
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
             }
@@ -64,9 +69,14 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
                     height = new StaticDimension((int) (((StaticDimension) height).getValueRaw() * 1.25f));
                 }
 
-                if(entry.elementData.dimensions.getWidth() != width || entry.elementData.dimensions.getHeight() != height){
+                if(entry.elementData.width.getValue() != width){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
-                    entry.elementData.dimensions.setValue(width, height);
+                    entry.elementData.width.setValue(width);
+                    editor.properties.propertyEditor.itemBeingModifiedExternally = false;
+                }
+                if(entry.elementData.height.getValue() != height){
+                    editor.properties.propertyEditor.itemBeingModifiedExternally = true;
+                    entry.elementData.height.setValue(height);
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
             }

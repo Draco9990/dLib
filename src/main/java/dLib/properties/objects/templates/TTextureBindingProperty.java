@@ -1,10 +1,7 @@
 package dLib.properties.objects.templates;
 
-import dLib.util.bindings.texture.TextureBindingHelpers;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureEmptyBinding;
-
-import java.util.ArrayList;
 
 public abstract class TTextureBindingProperty<PropertyType> extends TProperty<TextureBinding, PropertyType> {
     //region Variables

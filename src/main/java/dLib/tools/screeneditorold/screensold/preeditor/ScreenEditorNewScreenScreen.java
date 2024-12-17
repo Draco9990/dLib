@@ -5,7 +5,7 @@ import dLib.ui.elements.prefabs.Image;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.themes.UIThemeManager;
+
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -19,7 +19,6 @@ public class ScreenEditorNewScreenScreen extends UIElement {
         addChildNCS(new TextBox("Enter screen name:", Pos.px(539), Pos.px(1080-572), Dim.px(798), Dim.px(105)));
 
         Inputfield.InputfieldData test = new Inputfield.InputfieldData();
-        test.dimensions.setValue(Dim.px(800), Dim.px(121));
         inputfield = new Inputfield(test);
         //inputfield = new Inputfield("", 538, 1080-713, 800, 121);
         inputfield.setLocalPosition(538, 1080-713);

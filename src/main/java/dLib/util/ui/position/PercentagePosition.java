@@ -1,5 +1,6 @@
 package dLib.util.ui.position;
 
+import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PercentagePositionValueEditor;
@@ -110,7 +111,7 @@ public class PercentagePosition extends AbstractPosition {
 
     @Override
     public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new PercentagePositionValueEditor(property, width, height);
+        return new PercentagePositionValueEditor((PositionProperty) property, width, height);
     }
 
     @Override

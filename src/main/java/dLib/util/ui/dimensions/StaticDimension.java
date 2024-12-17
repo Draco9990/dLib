@@ -1,5 +1,6 @@
 package dLib.util.ui.dimensions;
 
+import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.StaticDimensionValueEditor;
@@ -58,7 +59,7 @@ public class StaticDimension extends AbstractDimension {
 
     @Override
     public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new StaticDimensionValueEditor(property, width, height);
+        return new StaticDimensionValueEditor((DimensionProperty) property, width, height);
     }
 
     public int getValueRaw(){

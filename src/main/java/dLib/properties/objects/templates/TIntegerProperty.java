@@ -23,8 +23,6 @@ public abstract class TIntegerProperty<PropertyType> extends TNumericProperty<In
     }
     public TIntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue, Integer incrementAmount, Integer decrementAmount){
         super(currentValue, minimumValue, maximumValue, incrementAmount, decrementAmount);
-
-        propertyEditorClass = IntegerValueEditor.class;
     }
 
     //endregion

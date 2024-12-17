@@ -10,7 +10,7 @@ import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
-import dLib.ui.themes.UIThemeManager;
+
 import dLib.util.bindings.texture.TextureThemeBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;

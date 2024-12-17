@@ -10,7 +10,7 @@ import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
 import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
-import dLib.ui.themes.UIThemeManager;
+
 import dLib.util.FontManager;
 import dLib.util.bindings.texture.textureresource.TextureResourceManager;
 import org.apache.logging.log4j.LogManager;

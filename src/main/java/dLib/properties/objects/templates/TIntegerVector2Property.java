@@ -24,8 +24,6 @@ public abstract class TIntegerVector2Property<PropertyType> extends TProperty<In
 
     public TIntegerVector2Property(IntegerVector2 value) {
         super(value);
-
-        propertyEditorClass = IntegerVector2ValueEditor.class;
     }
 
     //endregion

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
-import dLib.ui.themes.UITheme;
+
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
