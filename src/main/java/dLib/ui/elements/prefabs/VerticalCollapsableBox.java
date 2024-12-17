@@ -24,7 +24,7 @@ public class VerticalCollapsableBox extends UIElement {
     //region Constructors
 
     public VerticalCollapsableBox(String title) {
-        this(title, Dim.fill(), Dim.fill());
+        this(title, Dim.fill(), Dim.auto());
     }
     public VerticalCollapsableBox(String title, AbstractDimension width, AbstractDimension height) {
         this(title, Pos.px(0), Pos.px(0), width, height);

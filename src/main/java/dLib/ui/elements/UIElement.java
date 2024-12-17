@@ -155,7 +155,7 @@ public class UIElement implements Disposable, IEditableValue {
     private boolean isContextual = false;
     private boolean isModal = false;
 
-    private boolean drawControllerFocusOnOpen = false;
+    private boolean drawFocusOnOpen = false;
 
     //endregion
 
@@ -1964,11 +1964,11 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Focus Drawing
 
-    public void setDrawControllerFocusOnOpen(boolean drawControllerFocusOnOpen){
-        this.drawControllerFocusOnOpen = drawControllerFocusOnOpen;
+    public void setDrawFocusOnOpen(boolean drawControllerFocusOnOpen){
+        this.drawFocusOnOpen = drawControllerFocusOnOpen;
     }
-    public boolean shouldDrawControllerFocusOnOpen(){
-        return drawControllerFocusOnOpen;
+    public boolean shouldDrawFocusOnOpen(){
+        return drawFocusOnOpen;
     }
 
     //endregion

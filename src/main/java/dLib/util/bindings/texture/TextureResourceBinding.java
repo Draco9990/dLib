@@ -52,7 +52,7 @@ public class TextureResourceBinding extends TextureBinding implements Serializab
             return new TextureRegion((Texture) textureResult);
         }
         else{
-            throw new IllegalArgumentException("The field " + fieldName + " in class " + resourceClass.getName() + " is not a Texture or TextureRegion");
+            return null;
         }
     }
 

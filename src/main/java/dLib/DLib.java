@@ -12,7 +12,6 @@ import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 
 import dLib.util.FontManager;
-import dLib.util.bindings.texture.textureresource.TextureResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,8 +55,6 @@ public class DLib implements PostInitializeSubscriber{
         UCEITemplateManager.initialize();
 
         LinkedEditorManager.initialize();
-
-        TextureResourceManager.initialize();
     }
 
     public static void logError(String message){

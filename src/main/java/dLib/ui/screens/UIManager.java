@@ -27,7 +27,7 @@ public class UIManager {
 
     public static void openUIElement(UIElement element){ //TODO draw 'focus' to the first element
         uiElements.add(element);
-        if(element.shouldDrawControllerFocusOnOpen()){
+        if(element.shouldDrawFocusOnOpen()){
             UIElement selectedElement = getCurrentlySelectedElement();
             if(selectedElement != null){
                 selectedElement.deselect();

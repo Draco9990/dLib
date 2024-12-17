@@ -176,7 +176,10 @@ public class Renderable extends UIElement {
     public static class RenderableData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureResourceBinding(UICommonResources.class, "white_pixel")).setName("Image");
+        public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureResourceBinding(UICommonResources.class, "white_pixel"))
+                .setName("Image")
+                .setDescription("Image to render as this element.")
+                .setCategory("Render");
 
         public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
 
