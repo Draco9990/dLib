@@ -20,6 +20,7 @@ import sayTheSpire.Output;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class TextBox extends Renderable {
@@ -254,7 +255,7 @@ public class TextBox extends Renderable {
     //region Text
 
     public void setText(String text){
-        if(!this.text.equals(text)){
+        if(!Objects.equals(this.text, text)){
             this.text = text;
 
             onTextChanged(text);
