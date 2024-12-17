@@ -9,7 +9,7 @@ import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class IntegerValueEditor extends AbstractValueEditor<Integer> {
+public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProperty> {
     //region Variables
 
     public Button leftArrow;
@@ -21,50 +21,33 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer> {
 
     //region Constructors
 
-    public IntegerValueEditor(Integer value, AbstractDimension width, AbstractDimension height) {
-        super(width, height);
+    public IntegerValueEditor(Integer value, AbstractDimension width, AbstractDimension height){
+        this(new IntegerProperty(value), width, height);
+    }
+
+    public IntegerValueEditor(IntegerProperty property, AbstractDimension width, AbstractDimension height) {
+        super(property, width, height);
 
         {
             leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
             leftArrow.setImage(UICommonResources.arrow_left);
-            leftArrow.onLeftClickEvent.subscribe(this, () -> {
-                if(boundProperty instanceof IntegerProperty){
-                    ((IntegerProperty) boundProperty).decrement();
-                }
-                else{
-                    Integer currValue = Integer.parseInt(inputbox.getTextBox().getText());
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(currValue - 1));
-                }
-            });
+            leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
             addChildNCS(leftArrow);
 
-            inputbox = new Inputfield(String.valueOf(value), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
+            inputbox = new Inputfield(property.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-            inputbox.addOnValueChangedListener(s -> {
-                if(boundProperty instanceof IntegerProperty){
-                    boundProperty.setValueFromString(s);
-                }
-                else{
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(Integer.parseInt(s)));
-                }
-            });
+            inputbox.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
             addChildNCS(inputbox);
 
             rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
             rightArrow.setImage(UICommonResources.arrow_right);
-            rightArrow.onLeftClickEvent.subscribe(this, () -> {
-                if(boundProperty instanceof IntegerProperty){
-                    ((IntegerProperty) boundProperty).increment();
-                }
-                else{
-                    Integer currValue = Integer.parseInt(inputbox.getTextBox().getText());
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(currValue + 1));
-                }
-            });
+            rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
             addChildNCS(rightArrow);
         }
 
-        onValueChangedEvent.subscribe(this, (newVal) -> {
+        boundProperty.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
+            if(!isEditorValidForPropertyChange()) return;
+
             if(!inputbox.getTextBox().getText().equals(String.valueOf(newVal))){
                 inputbox.getTextBox().setText(String.valueOf(newVal));
             }

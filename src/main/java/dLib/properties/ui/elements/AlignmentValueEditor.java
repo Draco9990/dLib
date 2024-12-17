@@ -1,6 +1,7 @@
 package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Texture;
+import dLib.properties.objects.AlignmentProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.elements.prefabs.*;
@@ -11,7 +12,7 @@ import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
 
-public class AlignmentValueEditor extends AbstractValueEditor<Alignment> {
+public class AlignmentValueEditor extends AbstractValueEditor<Alignment, AlignmentProperty> {
     //region Variables
 
     private Toggle[][] alignmentButtons;
@@ -20,8 +21,12 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment> {
 
     //region Constructors
 
-    public AlignmentValueEditor(Alignment value, AbstractDimension width, AbstractDimension height) {
-        super(width, Dim.width());
+    public AlignmentValueEditor(Alignment value, AbstractDimension width, AbstractDimension height){
+        this(new AlignmentProperty(value), width, height);
+    }
+
+    public AlignmentValueEditor(AlignmentProperty property, AbstractDimension width, AbstractDimension height) {
+        super(property, width, Dim.width());
 
         alignmentButtons = new Toggle[3][3];
 
@@ -55,12 +60,12 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment> {
                         Alignment.HorizontalAlignment halign = (Alignment.HorizontalAlignment) allHorizontalAlignments.get(finalI);
                         Alignment.VerticalAlignment valign = (Alignment.VerticalAlignment) allVerticalAlignments.get(finalJ);
 
-                        setValueEvent.invoke(objectConsumer -> objectConsumer.accept(new Alignment(halign, valign)));
+                        boundProperty.setValue(new Alignment(halign, valign));
                     }
                 };
 
-                int currentHAlign = value.horizontalAlignment.ordinal();
-                int currentVAlign = value.verticalAlignment.ordinal();
+                int currentHAlign = property.getHorizontalAlignment().ordinal();
+                int currentVAlign = property.getVerticalAlignment().ordinal();
 
                 if(i == currentHAlign && j == currentVAlign){
                     alignmentButtons[i][j].setToggled(true);
@@ -70,9 +75,11 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment> {
             }
         }
 
-        onValueChangedEvent.subscribe(this, (newAlignment) -> {
-            int newHAlign = newAlignment.horizontalAlignment.ordinal();
-            int newVAlign = newAlignment.verticalAlignment.ordinal();
+        boundProperty.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
+            if(!isEditorValidForPropertyChange()) return;
+
+            int newHAlign = newValue.horizontalAlignment.ordinal();
+            int newVAlign = newValue.verticalAlignment.ordinal();
 
             for(int i = 0; i < 3; i++){
                 for(int j = 0; j < 3; j++){

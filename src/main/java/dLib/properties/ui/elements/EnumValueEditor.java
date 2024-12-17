@@ -9,7 +9,7 @@ import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class EnumValueEditor extends AbstractValueEditor<Enum<?>> {
+public class EnumValueEditor extends AbstractValueEditor<Enum<?>, EnumProperty> {
     //region Variables
 
     Button leftArrow;
@@ -17,62 +17,38 @@ public class EnumValueEditor extends AbstractValueEditor<Enum<?>> {
 
     TextButton enumBox;
 
-    Enum<?> currentValue;
-
     //endregion
 
     //region Constructors
 
-    public EnumValueEditor(Enum<?> value, AbstractDimension width, AbstractDimension height) {
-        super(width, height);
+    public EnumValueEditor(Enum<?> value, AbstractDimension width, AbstractDimension height){
+        this(new EnumProperty(value), width, height);
+    }
 
-        this.currentValue = value;
+    public EnumValueEditor(EnumProperty<?> property, AbstractDimension width, AbstractDimension height) {
+        super(property, width, height);
 
         {
             leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.perc(0.25), Dim.fill());
             leftArrow.setImage(UICommonResources.arrow_left);
-            leftArrow.onLeftClickEvent.subscribe(this, () -> {
-                if(boundProperty instanceof EnumProperty){
-                    EnumProperty enumProperty = (EnumProperty) boundProperty;
-                    enumProperty.previous();
-                }
-                else{
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.previousEnum(currentValue)));
-                }
-            });
+            leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
             addChildNCS(leftArrow);
 
-            enumBox = new TextButton(EnumHelpers.betterToString(value), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
+            enumBox = new TextButton(boundProperty.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
             enumBox.getButton().setImage(UICommonResources.button02_horizontal);
-            enumBox.getButton().onLeftClickEvent.subscribe(this, () -> {
-                if(boundProperty instanceof EnumProperty){
-                    EnumProperty enumProperty = (EnumProperty) boundProperty;
-                    enumProperty.next();
-                }
-                else{
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.nextEnum(currentValue)));
-                }
-            });
+            enumBox.getButton().onLeftClickEvent.subscribe(this, () -> boundProperty.next());
             addChildNCS(enumBox);
 
             rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
             rightArrow.setImage(UICommonResources.arrow_right);
-            rightArrow.onLeftClickEvent.subscribe(this, () -> {
-                if(boundProperty instanceof EnumProperty){
-                    EnumProperty enumProperty = (EnumProperty) boundProperty;
-                    enumProperty.next();
-                }
-                else{
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.nextEnum(currentValue)));
-                }
-            });
+            rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
             addChildNCS(rightArrow);
         }
 
-        onValueChangedEvent.subscribe(this, (newValue) -> {
-            if(!enumBox.getTextBox().getText().equals(newValue.toString())){
-                enumBox.getTextBox().setText(newValue.toString());
-            }
+        property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
+            if(!isEditorValidForPropertyChange()) return;
+
+            enumBox.getTextBox().setText(boundProperty.getValueForDisplay());
         });
     }
 

@@ -10,7 +10,7 @@ import dLib.util.ui.position.Pos;
 
 import java.util.function.Consumer;
 
-public class FloatValueEditor extends AbstractValueEditor<Float> {
+public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> {
     //region Variables
 
     public Button leftArrow;
@@ -22,50 +22,39 @@ public class FloatValueEditor extends AbstractValueEditor<Float> {
 
     //region Constructors
 
-    public FloatValueEditor(Float value, AbstractDimension width, AbstractDimension height) {
-        super(width, height);
+    public FloatValueEditor(Float value, AbstractDimension width, AbstractDimension height){
+        this(new FloatProperty(value), width, height);
+    }
+
+    public FloatValueEditor(FloatProperty property, AbstractDimension width, AbstractDimension height) {
+        super(property, width, height);
 
         {
             leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
             leftArrow.setImage(UICommonResources.arrow_left);
             leftArrow.onLeftClickEvent.subscribe(this, () -> {
-                if(boundProperty instanceof FloatProperty){
-                    ((FloatProperty) boundProperty).decrement();
-                }
-                else{
-                    Float currValue = Float.parseFloat(inputbox.getTextBox().getText());
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(currValue - 1));
-                }
+                boundProperty.decrement();
             });
             addChildNCS(leftArrow);
 
-            inputbox = new Inputfield(String.valueOf(value), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
+            inputbox = new Inputfield(boundProperty.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL);
             inputbox.addOnValueChangedListener(s -> {
-                if(boundProperty instanceof FloatProperty){
-                    boundProperty.setValueFromString(s);
-                }
-                else{
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(Float.parseFloat(s)));
-                }
+                boundProperty.setValueFromString(s);
             });
             addChildNCS(inputbox);
 
             rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
             rightArrow.setImage(UICommonResources.arrow_right);
             rightArrow.onLeftClickEvent.subscribe(this, () -> {
-                if(boundProperty instanceof FloatProperty){
-                    ((FloatProperty) boundProperty).increment();
-                }
-                else{
-                    Float currValue = Float.parseFloat(inputbox.getTextBox().getText());
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(currValue + 1));
-                }
+                boundProperty.increment();
             });
             addChildNCS(rightArrow);
         }
 
-        onValueChangedEvent.subscribe(this, (newVal) -> {
+        property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
+            if(!isEditorValidForPropertyChange()) return;
+
             if(!inputbox.getTextBox().getText().equals(String.valueOf(newVal))){
                 inputbox.getTextBox().setText(String.valueOf(newVal));
             }

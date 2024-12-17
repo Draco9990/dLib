@@ -1,5 +1,6 @@
 package dLib.properties.ui.elements;
 
+import dLib.properties.objects.BooleanProperty;
 import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.elements.prefabs.Checkbox;
 import dLib.ui.elements.prefabs.HorizontalBox;
@@ -8,7 +9,7 @@ import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class BooleanValueEditor extends AbstractValueEditor<Boolean> {
+public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProperty> {
     //region Variables
 
     Toggle button;
@@ -18,7 +19,11 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean> {
     //region Constructors
 
     public BooleanValueEditor(Boolean value, AbstractDimension width, AbstractDimension height) {
-        super(width, height);
+        this(new BooleanProperty(value), width, height);
+    }
+
+    public BooleanValueEditor(BooleanProperty property, AbstractDimension width, AbstractDimension height){
+        super(property, width, height);
 
         HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), width, height);
         {
@@ -28,13 +33,15 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean> {
                 @Override
                 public void toggle() {
                     super.toggle();
-                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(isToggled()));
+                    boundProperty.setValue(isToggled());
                 }
-            }.setToggled(value);
+            }.setToggled(property.getValue());
             box.addItem(button);
         }
 
-        onValueChangedEvent.subscribe(this, (newVal) -> {
+        property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
+            if(!isEditorValidForPropertyChange()) return;
+
             if(button.isToggled() != newVal){
                 button.setToggled(newVal);
             }
@@ -42,7 +49,6 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean> {
 
         addChildNCS(box);
     }
-
 
     //endregion
 }

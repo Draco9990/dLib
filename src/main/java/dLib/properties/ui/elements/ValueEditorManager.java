@@ -10,10 +10,7 @@ public class ValueEditorManager {
         }
 
         //return all manual editors
-        if(value.getClass().isArray()){
-            return new ArrayValueEditor(value, width, height);
-        }
-        else if(value instanceof Boolean){
+        if(value instanceof Boolean){
             return new BooleanValueEditor(((Boolean) value), width, height);
         }
         else if(value instanceof Color){

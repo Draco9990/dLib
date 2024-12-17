@@ -42,7 +42,7 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
     }
 
     public PropertyValueEditor(TProperty<?, ?> property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
-        super(xPos, yPos, width, Dim.auto());
+        super(property, xPos, yPos, width, Dim.auto());
 
         this.property = property;
         this.multiline = multiline;
@@ -56,7 +56,6 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
 
         property.onValueChangedPureEvent.subscribe(this, () -> {
             if(property.getPreviousValue().getClass() == property.getValue().getClass()){
-                contentEditor.onValueChangedEvent.invoke(o -> ((Consumer)(o)).accept(property.getValue()));
                 return;
             }
 
@@ -132,20 +131,13 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
     }
 
     private void buildValueContent(AbstractDimension width, AbstractDimension height){
-        AbstractValueEditor builtContent = ValueEditorManager.makeEditorFor(property.getValue(), width, height);
-        builtContent.boundProperty = property;
+        AbstractValueEditor builtContent = ValueEditorManager.makeEditorFor(property, width, height);
 
         if(contentEditor != null){
             contentEditor.getParent().replaceChild(contentEditor, builtContent);
         }
 
         contentEditor = builtContent;
-
-        builtContent.setValueEvent.subscribe(this, (Consumer<Object>) o -> {
-            if(!property.setValueFromObject(o)){
-                onValueChangedEvent.invoke(o1 -> ((Consumer)(o1)).accept(property.getValue()));
-            }
-        });
     }
 
     //endregion

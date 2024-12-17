@@ -64,9 +64,6 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     //region Value
 
-    public final boolean setValueFromObject(Object newValue){
-        return setValue((ValueType) newValue);
-    }
     public final boolean setValue(ValueType newValue){
         ValueType sanitized = sanitizeValue(newValue);
         if(isValidValue(sanitized)){
@@ -161,6 +158,11 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     @Override
     public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
         return new PropertyValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new PropertyValueEditor(property, width, height);
     }
 
     //endregion

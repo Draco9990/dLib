@@ -10,27 +10,33 @@ import dLib.util.ui.position.AbstractPosition;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public abstract class AbstractValueEditor<ValueType> extends UIElement {
+public abstract class AbstractValueEditor<ValueType, PropertyType extends TProperty> extends UIElement {
     //region Variables
 
-    public Event<Consumer<ValueType>> onValueChangedEvent = new Event<>();
-
-    public Event<Consumer<Object>> setValueEvent = new Event<>();
-
-    protected TProperty<ValueType, ? extends TProperty> boundProperty;
+    protected PropertyType boundProperty;
 
     //endregion
 
     //region Constructors
 
-    public AbstractValueEditor(AbstractDimension width, AbstractDimension height) {
+    public AbstractValueEditor(PropertyType property, AbstractDimension width, AbstractDimension height) {
         super(width, height);
+        this.boundProperty = property;
     }
 
-    public AbstractValueEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+    public AbstractValueEditor(PropertyType property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
+        this.boundProperty = property;
     }
 
+
+    //endregion
+
+    //region Methods
+
+    protected boolean isEditorValidForPropertyChange(){
+        return boundProperty.getPreviousValue().getClass() == boundProperty.getValue().getClass();
+    }
 
     //endregion
 }
