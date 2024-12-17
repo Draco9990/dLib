@@ -1,7 +1,6 @@
 package dLib.properties.objects.templates;
 
 import com.badlogic.gdx.math.Vector2;
-import dLib.properties.ui.elements.FloatVector2PropertyEditor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,8 +29,6 @@ public abstract class TFloatVector2Property<PropertyType> extends TProperty<Vect
 
     public TFloatVector2Property(Vector2 value) {
         super(value);
-
-        propertyEditorClass = FloatVector2PropertyEditor.class;
     }
 
     //endregion

@@ -1,6 +1,7 @@
 package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -40,6 +41,10 @@ public class ValueEditorManager {
         else if(value instanceof String){
             if(someValue instanceof StringProperty) return new OnValueCommitedStringValueEditor(((StringProperty) someValue), width, height);
             else return new OnValueCommitedStringValueEditor(((String) value), width, height);
+        }
+        else if(value instanceof Vector2){
+            if(someValue instanceof FloatVector2Property) return new FloatVector2ValueEditor(((FloatVector2Property) someValue), width, height);
+            else return new FloatVector2ValueEditor(((Vector2) value), width, height);
         }
 
         return null;
