@@ -6,6 +6,7 @@ import dLib.properties.objects.TextureBindingProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.ComboBox;
+import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
@@ -45,7 +46,7 @@ public class TextureBindingValueEditor<ValueType> extends AbstractValueEditor<Va
                 boundProperty.setValue(new TextureNoneBinding());
             }
             else if(aClass == TextureResourceBinding.class){
-                boundProperty.setValue(new TextureResourceBinding(ImageMaster.class, ""));
+                boundProperty.setValue(new TextureResourceBinding(UICommonResources.class, "white_pixel"));
             }
         });
 

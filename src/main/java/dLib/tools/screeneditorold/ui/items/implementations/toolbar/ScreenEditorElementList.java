@@ -5,6 +5,7 @@ import dLib.tools.screeneditorold.ui.items.implementations.preview.ScreenEditorP
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.VerticalListBox;
+import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -52,7 +53,7 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
             int childIndex2 = baseScreen.getChildren().indexOf(screenEditorItem2);
             baseScreen.swapChildren(childIndex1, childIndex2);
         });
-        previewItemList.setImage(null);
+        previewItemList.setImage(new TextureNoneBinding());
         addChildNCS(previewItemList);
 
         hideAndDisable();

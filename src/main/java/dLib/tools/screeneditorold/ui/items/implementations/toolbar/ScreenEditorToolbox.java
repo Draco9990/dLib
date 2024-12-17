@@ -3,6 +3,7 @@ package dLib.tools.screeneditorold.ui.items.implementations.toolbar;
 import com.badlogic.gdx.utils.OrderedMap;
 import dLib.tools.screeneditorold.ui.items.editoritems.*;
 import dLib.ui.elements.prefabs.VerticalListBox;
+import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -33,7 +34,7 @@ public class ScreenEditorToolbox extends AbstractScreenEditorToolbar {
                 self.getParent().getPreviewScreen().makeNewPreviewItem(elementMap.get(items.get(0)));
             }
         }.setItems(new ArrayList<>(Arrays.asList(elementMap.orderedKeys().toArray())));
-        toolElements.setImage(null);
+        toolElements.setImage(new TextureNoneBinding());
         addChildNCS(toolElements);
     }
 

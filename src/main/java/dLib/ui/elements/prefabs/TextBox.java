@@ -12,6 +12,7 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.FontManager;
+import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -64,7 +65,7 @@ public class TextBox extends Renderable {
         this(text, xPos, yPos, width, height, 0, 0.33f);
     }
     public TextBox(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, float xMarginPerc, float yMarginPerc){
-        super(null, xPos, yPos, width, height);
+        super(new TextureNoneBinding(), xPos, yPos, width, height);
 
         this.marginPercX = xMarginPerc;
         this.marginPercY = yMarginPerc;

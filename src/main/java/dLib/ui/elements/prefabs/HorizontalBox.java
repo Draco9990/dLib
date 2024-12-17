@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.util.ESelectionMode;
+import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -26,7 +27,7 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
         disableItemWrapping();
 
         setSelectionMode(ESelectionMode.NONE);
-        setImage(null);
+        setImage(new TextureNoneBinding());
     }
 
     public HorizontalBox(HorizontalListBoxData data) {

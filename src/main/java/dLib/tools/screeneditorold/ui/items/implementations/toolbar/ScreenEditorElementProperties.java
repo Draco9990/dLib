@@ -5,6 +5,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.VerticalListBox;
 import dLib.ui.util.ESelectionMode;
 import dLib.properties.objects.templates.TProperty;
+import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -21,7 +22,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     public ScreenEditorElementProperties(){
         super();
 
-        propertiesItemList.setImage(null);
+        propertiesItemList.setImage(new TextureNoneBinding());
         propertiesItemList.setItemSpacing(25);
         addChildNCS(propertiesItemList);
 

@@ -58,7 +58,7 @@ public class TextureResourceBinding extends TextureBinding implements Serializab
 
     @Override
     public String getDisplayValue() {
-        return "";
+        return resourceClass.getSimpleName() + "." + fieldName;
     }
 
     @Override
