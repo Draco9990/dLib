@@ -1,6 +1,6 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.IntegerVector2PropertyEditor;
+import dLib.properties.ui.elements.IntegerVector2ValueEditor;
 import dLib.util.IntegerVector2;
 
 import java.io.Serializable;
@@ -25,7 +25,7 @@ public abstract class TIntegerVector2Property<PropertyType> extends TProperty<In
     public TIntegerVector2Property(IntegerVector2 value) {
         super(value);
 
-        propertyEditorClass = IntegerVector2PropertyEditor.class;
+        propertyEditorClass = IntegerVector2ValueEditor.class;
     }
 
     //endregion
