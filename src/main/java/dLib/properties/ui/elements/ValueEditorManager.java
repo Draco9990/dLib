@@ -43,8 +43,8 @@ public class ValueEditorManager {
             else return new OnValueCommitedStringValueEditor(((String) value));
         }
         else if(value instanceof Vector2){
-            if(object instanceof FloatVector2Property) return new FloatVector2ValueEditor(((FloatVector2Property) object), width, height);
-            else return new FloatVector2ValueEditor(((Vector2) value), width, height);
+            if(object instanceof FloatVector2Property) return new FloatVector2ValueEditor(((FloatVector2Property) object));
+            else return new FloatVector2ValueEditor(((Vector2) value));
         }
 
         return null;
