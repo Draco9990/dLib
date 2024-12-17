@@ -1,18 +1,10 @@
 package dLib.util.bindings.method.editors;
 
 import dLib.properties.objects.MethodBindingProperty;
-import dLib.properties.objects.templates.TMethodBindingProperty;
-import dLib.properties.objects.templates.TProperty;
-import dLib.properties.ui.elements.ValueEditorManager;
 import dLib.ui.elements.prefabs.*;
 import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
-import dLib.util.bindings.method.staticbindings.StaticMethodBinding;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.padding.Padd;
-
-import java.util.Map;
 
 public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<DynamicMethodBinding> {
 
@@ -20,14 +12,14 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
 
     Button bindDynamicBindingButton;
 
-    public DynamicMethodBindingValueEditor(DynamicMethodBinding value, AbstractDimension width, AbstractDimension height) {
-        this(new MethodBindingProperty(value), width, height);
+    public DynamicMethodBindingValueEditor(DynamicMethodBinding value) {
+        this(new MethodBindingProperty(value));
     }
 
-    public DynamicMethodBindingValueEditor(MethodBindingProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public DynamicMethodBindingValueEditor(MethodBindingProperty property) {
+        super(property);
 
-        HorizontalBox propertyValueBox = new HorizontalBox(width, Dim.px(50));
+        HorizontalBox propertyValueBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             dynamicMethodBinding = new Inputfield(((DynamicMethodBinding) property.getValue()).getBoundMethod(), Dim.fill(), Dim.fill());
             dynamicMethodBinding.getTextBox().addOnTextChangedConsumer(s -> ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(s));

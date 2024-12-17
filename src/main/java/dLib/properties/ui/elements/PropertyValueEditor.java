@@ -1,22 +1,18 @@
 package dLib.properties.ui.elements;
 
-import com.badlogic.gdx.graphics.Color;
-import dLib.properties.objects.Property;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.HorizontalBox;
+import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.elements.prefabs.VerticalBox;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
-import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import org.apache.logging.log4j.util.BiConsumer;
 
-import java.util.Objects;
 import java.util.function.Consumer;
 
 public class PropertyValueEditor<PropertyType extends TProperty> extends AbstractValueEditor<PropertyType, PropertyType> {
@@ -33,10 +29,14 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
     //region Constructors
 
-    public PropertyValueEditor(TProperty<?, ?> property, AbstractDimension width, AbstractDimension height) {
-        super((PropertyType) property, width, height);
+    public PropertyValueEditor(TProperty<?, ?> property) {
+        this((PropertyType) property, false);
+    }
 
-        this.multiline = false;
+    public PropertyValueEditor(TProperty<?, ?> property, boolean multiline) {
+        super((PropertyType) property);
+
+        this.multiline = multiline;
 
         if(multiline){
             buildMultiline();
@@ -87,6 +87,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         vBox.setPadding(Padd.px(15), Padd.px(0));
 
         vBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
+        buildValueContent(Dim.fill(), Dim.auto());
         vBox.addItem(contentEditor);
         addChildCS(vBox);
     }
@@ -114,7 +115,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         };
         hBox.setPadding(Padd.px(15), Padd.px(0));
 
-        hBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.perc(0.5), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
+        hBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.5), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
 
         buildValueContent(Dim.perc(0.5), Dim.px(50));
         hBox.addItem(contentEditor);
@@ -122,7 +123,8 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
     }
 
     protected void buildValueContent(AbstractDimension width, AbstractDimension height){
-        AbstractValueEditor builtContent = ValueEditorManager.makeEditorFor(boundProperty, width, height);
+        UIElement builtContent = ValueEditorManager.makeEditorFor(boundProperty, width, height);
+        if(builtContent == null) builtContent = new Spacer(width, height); //TODO remove Fallback
 
         if(contentEditor != null){
             contentEditor.getParent().replaceChild(contentEditor, builtContent);

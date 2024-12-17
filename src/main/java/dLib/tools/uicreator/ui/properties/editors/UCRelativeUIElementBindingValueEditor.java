@@ -5,29 +5,25 @@ import dLib.mousestates.MouseStateManager;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.bindings.RelativeUIElementBinding;
-import dLib.ui.bindings.UIElementBinding;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.mousestates.ReferencePickerMouseState;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.screens.UIManager;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import org.apache.logging.log4j.util.BiConsumer;
 
 public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingValueEditor<RelativeUIElementBinding> {
     private TextBox bindingBox;
 
-    public UCRelativeUIElementBindingValueEditor(RelativeUIElementBinding value, AbstractDimension width, AbstractDimension height) {
-        this(new UCUIElementBindingProperty(value), width, height);
+    public UCRelativeUIElementBindingValueEditor(RelativeUIElementBinding value) {
+        this(new UCUIElementBindingProperty(value));
     }
 
-    public UCRelativeUIElementBindingValueEditor(UCUIElementBindingProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public UCRelativeUIElementBindingValueEditor(UCUIElementBindingProperty property) {
+        super(property);
 
-        HorizontalBox mainContentBox = new HorizontalBox(width, height);
+        HorizontalBox mainContentBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             Button referenceButton = new Button(Dim.height(), Dim.fill());
             referenceButton.setImage(new Texture("dLibResources/images/ui/uieditor/reference.png"));

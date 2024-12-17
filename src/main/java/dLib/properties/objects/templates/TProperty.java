@@ -149,13 +149,17 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     //region Editor
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new PropertyValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new PropertyValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new PropertyValueEditor(property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new PropertyValueEditor(property);
+    }
+
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, boolean tryMultiline) {
+        return new PropertyValueEditor(this, tryMultiline);
     }
 
     //endregion

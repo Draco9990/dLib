@@ -28,13 +28,13 @@ public class WidthMirrorDimension extends AbstractDimension{
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new WidthMirrorDimensionValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new WidthMirrorDimensionValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new WidthMirrorDimensionValueEditor((DimensionProperty) property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new WidthMirrorDimensionValueEditor((DimensionProperty) property);
     }
 
     @Override

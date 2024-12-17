@@ -6,7 +6,6 @@ import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.elements.prefabs.Spacer;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.util.IntegerVector2;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.Objects;
@@ -21,14 +20,14 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
 
     //region Constructors
 
-    public IntegerVector2ValueEditor(IntegerVector2 val, AbstractDimension width, AbstractDimension height) {
-        this(new IntegerVector2Property(val), width, height);
+    public IntegerVector2ValueEditor(IntegerVector2 val) {
+        this(new IntegerVector2Property(val));
     }
 
-    public IntegerVector2ValueEditor(IntegerVector2Property property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public IntegerVector2ValueEditor(IntegerVector2Property property) {
+        super(property);
 
-        HorizontalBox mainContentBox = new HorizontalBox(width, height);
+        HorizontalBox mainContentBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             if(property.getXValueName() != null) {
                 TextBox xLabel = new TextBox(property.getXValueName() + ":", Dim.perc(0.2), Dim.fill());

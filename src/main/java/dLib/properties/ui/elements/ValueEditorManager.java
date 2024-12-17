@@ -7,43 +7,43 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.util.ui.dimensions.AbstractDimension;
 
 public class ValueEditorManager {
-    public static AbstractValueEditor makeEditorFor(Object someValue, AbstractDimension width, AbstractDimension height){
-        Object value = someValue;
-        if(someValue instanceof TProperty){
-            value = ((TProperty) someValue).getValue();
+    public static AbstractValueEditor makeEditorFor(Object object, AbstractDimension width, AbstractDimension height){
+        Object value = object;
+        if(object instanceof TProperty){
+            value = ((TProperty) object).getValue();
         }
 
         if(IEditableValue.class.isAssignableFrom(value.getClass())){
-            return ((IEditableValue) value).makeEditorFor(width, height);
+            return ((IEditableValue) value).makeEditorFor();
         }
 
         //return all manual editors
         if(value instanceof Boolean){
-            if(someValue instanceof BooleanProperty) return new BooleanValueEditor(((BooleanProperty) someValue), width, height);
-            else return new BooleanValueEditor(((Boolean) value), width, height);
+            if(object instanceof BooleanProperty) return new BooleanValueEditor(((BooleanProperty) object));
+            else return new BooleanValueEditor(((Boolean) value));
         }
         else if(value instanceof Color){
-            if(someValue instanceof ColorProperty) return new ColorValueEditor(((ColorProperty) someValue), width, height);
-            else return new ColorValueEditor(((Color) value), width, height);
+            if(object instanceof ColorProperty) return new ColorValueEditor(((ColorProperty) object));
+            else return new ColorValueEditor(((Color) value));
         }
         else if(value instanceof Enum){
-            if(someValue instanceof EnumProperty) return new EnumValueEditor(((EnumProperty) someValue), width, height);
-            else return new EnumValueEditor(((Enum) value), width, height);
+            if(object instanceof EnumProperty) return new EnumValueEditor(((EnumProperty) object));
+            else return new EnumValueEditor(((Enum) value));
         }
         else if(value instanceof Float){
-            if(someValue instanceof FloatProperty) return new FloatValueEditor(((FloatProperty) someValue), width, height);
-            else return new FloatValueEditor(((Float) value), width, height);
+            if(object instanceof FloatProperty) return new FloatValueEditor(((FloatProperty) object));
+            else return new FloatValueEditor(((Float) value));
         }
         else if(value instanceof Integer){
-            if(someValue instanceof IntegerProperty) return new IntegerValueEditor(((IntegerProperty) someValue), width, height);
+            if(object instanceof IntegerProperty) return new IntegerValueEditor(((IntegerProperty) object), width, height);
             else return new IntegerValueEditor(((Integer) value), width, height);
         }
         else if(value instanceof String){
-            if(someValue instanceof StringProperty) return new OnValueCommitedStringValueEditor(((StringProperty) someValue), width, height);
-            else return new OnValueCommitedStringValueEditor(((String) value), width, height);
+            if(object instanceof StringProperty) return new OnValueCommitedStringValueEditor(((StringProperty) object));
+            else return new OnValueCommitedStringValueEditor(((String) value));
         }
         else if(value instanceof Vector2){
-            if(someValue instanceof FloatVector2Property) return new FloatVector2ValueEditor(((FloatVector2Property) someValue), width, height);
+            if(object instanceof FloatVector2Property) return new FloatVector2ValueEditor(((FloatVector2Property) object), width, height);
             else return new FloatVector2ValueEditor(((Vector2) value), width, height);
         }
 

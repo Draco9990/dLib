@@ -105,7 +105,7 @@ public class PropertyEditor extends UIElement {
                 @Override
                 public UIElement makeUIForItem(TProperty<?, ?> item) {
                     //TODO getParentOfType(PropertyEditor.class).shouldBuildMultiline()
-                    UIElement editor = ValueEditorManager.makeEditorFor(item, Dim.fill(), Dim.px(50));
+                    UIElement editor = item.makeEditorFor(Dim.fill(), true);
                     if(editor == null) {
                         return new Spacer(Dim.fill(), Dim.px(1)); //TODO breakpoint to verify none fire before removing
                     }

@@ -3,12 +3,6 @@ package dLib.properties.ui.elements;
 import dLib.properties.objects.PositionProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.ComboBox;
-import dLib.util.Reflection;
-import dLib.util.bindings.method.DynamicMethodBinding;
-import dLib.util.bindings.method.MethodBinding;
-import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
-import dLib.util.bindings.method.staticbindings.StaticMethodBinding;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PercentagePosition;
@@ -17,8 +11,8 @@ import dLib.util.ui.position.StaticPosition;
 import java.util.ArrayList;
 
 public class PositionValueEditor<ValueType> extends AbstractValueEditor<ValueType, PositionProperty> {
-    public PositionValueEditor(PositionProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public PositionValueEditor(PositionProperty property) {
+        super(property);
     }
 
     protected UIElement makeSwapComboBox(){

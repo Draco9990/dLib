@@ -5,7 +5,6 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.properties.ui.elements.IntegerVector2ValueEditor;
-import dLib.util.ui.dimensions.AbstractDimension;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -27,13 +26,13 @@ public class IntegerVector2 implements Serializable, IEditableValue {
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new IntegerVector2ValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new IntegerVector2ValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new IntegerVector2ValueEditor((IntegerVector2Property) property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new IntegerVector2ValueEditor((IntegerVector2Property) property);
     }
 
     @Override

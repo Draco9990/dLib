@@ -6,7 +6,6 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.elements.UIElement;
-import dLib.util.ui.dimensions.AbstractDimension;
 
 import java.io.Serializable;
 
@@ -34,13 +33,13 @@ public class RelativeUIElementBinding extends UIElementBinding implements Serial
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new UCRelativeUIElementBindingValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new UCRelativeUIElementBindingValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new UCRelativeUIElementBindingValueEditor((UCUIElementBindingProperty) property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new UCRelativeUIElementBindingValueEditor((UCUIElementBindingProperty) property);
     }
 
     public String getObjectRelativePath() {

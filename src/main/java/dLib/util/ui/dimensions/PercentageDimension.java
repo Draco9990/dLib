@@ -58,13 +58,13 @@ public class PercentageDimension extends AbstractDimension {
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new PercentageDimensionValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new PercentageDimensionValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new PercentageDimensionValueEditor((DimensionProperty) property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new PercentageDimensionValueEditor((DimensionProperty) property);
     }
 
     public float getValueRaw(){

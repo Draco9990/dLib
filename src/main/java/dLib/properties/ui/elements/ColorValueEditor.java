@@ -5,7 +5,7 @@ import dLib.properties.objects.ColorProperty;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.screens.ColorPickerScreen;
-import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
 public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> {
@@ -17,14 +17,14 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
 
     //region Constructors
 
-    public ColorValueEditor(Color color, AbstractDimension width, AbstractDimension height) {
-        this(new ColorProperty(color), width, height);
+    public ColorValueEditor(Color color) {
+        this(new ColorProperty(color));
     }
 
-    public ColorValueEditor(ColorProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public ColorValueEditor(ColorProperty property) {
+        super(property);
 
-        middleButton = (Button) new Button(Pos.px(0), Pos.px(0), width, height){
+        middleButton = (Button) new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50)){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();

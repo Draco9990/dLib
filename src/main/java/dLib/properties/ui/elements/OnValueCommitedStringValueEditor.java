@@ -1,7 +1,6 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.StringProperty;
-import dLib.util.ui.dimensions.AbstractDimension;
 
 public class OnValueCommitedStringValueEditor extends StringValueEditor {
     //region Variables
@@ -9,12 +8,12 @@ public class OnValueCommitedStringValueEditor extends StringValueEditor {
 
     //region Constructors
 
-    public OnValueCommitedStringValueEditor(String value, AbstractDimension width, AbstractDimension height){
-        this(new StringProperty(value), width, height);
+    public OnValueCommitedStringValueEditor(String value){
+        this(new StringProperty(value));
     }
 
-    public OnValueCommitedStringValueEditor(StringProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public OnValueCommitedStringValueEditor(StringProperty property) {
+        super(property);
 
         inputfield.addOnValueCommittedListener(s -> boundProperty.setValueFromString(s));
     }

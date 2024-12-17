@@ -4,24 +4,22 @@ import dLib.properties.objects.DimensionProperty;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.dimensions.HeightMirrorDimension;
 import dLib.util.ui.dimensions.WidthMirrorDimension;
 
 public class WidthMirrorDimensionValueEditor extends DimensionValueEditor<WidthMirrorDimension> {
     private TextBox textBox;
 
-    public WidthMirrorDimensionValueEditor(WidthMirrorDimension value, AbstractDimension width, AbstractDimension height){
-        this(new DimensionProperty(value), width, height);
+    public WidthMirrorDimensionValueEditor(WidthMirrorDimension value){
+        this(new DimensionProperty(value));
     }
 
-    public WidthMirrorDimensionValueEditor(DimensionProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public WidthMirrorDimensionValueEditor(DimensionProperty property) {
+        super(property);
 
-        HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.fill());
+        HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());
         {
-            textBox = new TextBox(property.getValueForDisplay(), Dim.fill(), Dim.fill());
+            textBox = new TextBox(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
             textBox.setImage(UICommonResources.inputfield);
             contentBox.addItem(textBox);
 

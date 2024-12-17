@@ -42,13 +42,13 @@ public class AutoDimension extends AbstractDimension {
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new AutoDimensionValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new AutoDimensionValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new AutoDimensionValueEditor((DimensionProperty) property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new AutoDimensionValueEditor((DimensionProperty) property);
     }
 
     @Override

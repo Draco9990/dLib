@@ -2,7 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.properties.objects.StringProperty;
 import dLib.ui.elements.prefabs.Inputfield;
-import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
 
 public abstract class StringValueEditor extends AbstractValueEditor<String, StringProperty> {
     //region Variables
@@ -13,14 +13,10 @@ public abstract class StringValueEditor extends AbstractValueEditor<String, Stri
 
     //region Constructors
 
-    public StringValueEditor(String value, AbstractDimension width, AbstractDimension height){
-        this(new StringProperty(value), width, height);
-    }
+    public StringValueEditor(StringProperty property) {
+        super(property);
 
-    public StringValueEditor(StringProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
-
-        inputfield = new Inputfield(property.getValueForDisplay(), width, height);
+        inputfield = new Inputfield(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;

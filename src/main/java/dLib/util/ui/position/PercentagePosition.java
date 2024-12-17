@@ -7,7 +7,6 @@ import dLib.properties.ui.elements.PercentagePositionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextBox;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
 public class PercentagePosition extends AbstractPosition {
@@ -105,13 +104,13 @@ public class PercentagePosition extends AbstractPosition {
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new PercentagePositionValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new PercentagePositionValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new PercentagePositionValueEditor((PositionProperty) property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new PercentagePositionValueEditor((PositionProperty) property);
     }
 
     @Override

@@ -4,11 +4,8 @@ import dLib.properties.objects.FloatProperty;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
-
-import java.util.function.Consumer;
 
 public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> {
     //region Variables
@@ -22,29 +19,29 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
 
     //region Constructors
 
-    public FloatValueEditor(Float value, AbstractDimension width, AbstractDimension height){
-        this(new FloatProperty(value), width, height);
+    public FloatValueEditor(Float value){
+        this(new FloatProperty(value));
     }
 
-    public FloatValueEditor(FloatProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public FloatValueEditor(FloatProperty property) {
+        super(property);
 
         {
-            leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
+            leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.px(50));
             leftArrow.setImage(UICommonResources.arrow_left);
             leftArrow.onLeftClickEvent.subscribe(this, () -> {
                 boundProperty.decrement();
             });
             addChildNCS(leftArrow);
 
-            inputbox = new Inputfield(boundProperty.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
+            inputbox = new Inputfield(boundProperty.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.px(50));
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL);
             inputbox.addOnValueChangedListener(s -> {
                 boundProperty.setValueFromString(s);
             });
             addChildNCS(inputbox);
 
-            rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
+            rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.px(50));
             rightArrow.setImage(UICommonResources.arrow_right);
             rightArrow.onLeftClickEvent.subscribe(this, () -> {
                 boundProperty.increment();

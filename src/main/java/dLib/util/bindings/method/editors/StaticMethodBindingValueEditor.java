@@ -8,26 +8,24 @@ import dLib.ui.elements.prefabs.*;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
 import dLib.util.bindings.method.staticbindings.StaticMethodBinding;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
-import dLib.util.ui.position.Pos;
 
 public class StaticMethodBindingValueEditor extends MethodBindingValueEditor<StaticMethodBinding> {
 
     private ComboBox<Class<? extends StaticMethodBinding>> selectedMethodBinding;
     private VerticalBox methodBindingArgumentsBox;
 
-    public StaticMethodBindingValueEditor(StaticMethodBinding value, AbstractDimension width, AbstractDimension height) {
-        this(new MethodBindingProperty(value), width, height);
+    public StaticMethodBindingValueEditor(StaticMethodBinding value) {
+        this(new MethodBindingProperty(value));
     }
 
-    public StaticMethodBindingValueEditor(MethodBindingProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public StaticMethodBindingValueEditor(MethodBindingProperty property) {
+        super(property);
 
         VerticalBox mainContentBox = new VerticalBox(Dim.fill(), Dim.auto());
         {
-            HorizontalBox propertyValueBox = new HorizontalBox(width, Dim.px(50));
+            HorizontalBox propertyValueBox = new HorizontalBox(Dim.fill(), Dim.px(50));
             {
                 selectedMethodBinding = new ComboBox<Class<? extends StaticMethodBinding>>(
                         NoneMethodBinding.class,

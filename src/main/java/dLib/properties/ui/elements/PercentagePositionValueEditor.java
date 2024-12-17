@@ -3,24 +3,22 @@ package dLib.properties.ui.elements;
 import dLib.properties.objects.PositionProperty;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.PercentagePosition;
-import dLib.util.ui.position.StaticPosition;
 
 public class PercentagePositionValueEditor extends PositionValueEditor<PercentagePosition> {
     private Inputfield inputfield;
 
-    public PercentagePositionValueEditor(PercentagePosition value, AbstractDimension width, AbstractDimension height){
-        this(new PositionProperty(value), width, height);
+    public PercentagePositionValueEditor(PercentagePosition value){
+        this(new PositionProperty(value));
     }
 
-    public PercentagePositionValueEditor(PositionProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public PercentagePositionValueEditor(PositionProperty property) {
+        super(property);
 
-        HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.fill());
+        HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());
         {
-            inputfield = new Inputfield(property.getValueForDisplay(), Dim.fill(), Dim.fill());
+            inputfield = new Inputfield(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL);
             inputfield.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
             contentBox.addItem(inputfield);

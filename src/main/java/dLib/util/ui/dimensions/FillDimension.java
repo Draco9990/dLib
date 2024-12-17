@@ -121,13 +121,13 @@ public class FillDimension extends AbstractDimension {
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new FillDimensionValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new FillDimensionValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new FillDimensionValueEditor((DimensionProperty) property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new FillDimensionValueEditor((DimensionProperty) property);
     }
 
     @Override

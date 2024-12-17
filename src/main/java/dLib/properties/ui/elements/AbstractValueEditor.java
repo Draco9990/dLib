@@ -1,14 +1,9 @@
 package dLib.properties.ui.elements;
 
-import dLib.properties.objects.Property;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.elements.UIElement;
-import dLib.util.events.Event;
-import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
-
-import java.util.Objects;
-import java.util.function.Consumer;
 
 public abstract class AbstractValueEditor<ValueType, PropertyType extends TProperty> extends UIElement {
     //region Variables
@@ -19,13 +14,13 @@ public abstract class AbstractValueEditor<ValueType, PropertyType extends TPrope
 
     //region Constructors
 
-    public AbstractValueEditor(PropertyType property, AbstractDimension width, AbstractDimension height) {
-        super(width, height);
+    public AbstractValueEditor(PropertyType property) {
+        super(Dim.fill(), Dim.auto());
         this.boundProperty = property;
     }
 
-    public AbstractValueEditor(PropertyType property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        super(xPos, yPos, width, height);
+    public AbstractValueEditor(PropertyType property, AbstractPosition xPos, AbstractPosition yPos) {
+        super(xPos, yPos, Dim.fill(), Dim.auto());
         this.boundProperty = property;
     }
 

@@ -9,14 +9,13 @@ import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
 import dLib.util.bindings.method.staticbindings.StaticMethodBinding;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
 
 public class MethodBindingValueEditor<ValueType> extends AbstractValueEditor<ValueType, MethodBindingProperty> {
-    public MethodBindingValueEditor(MethodBindingProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public MethodBindingValueEditor(MethodBindingProperty property) {
+        super(property);
     }
 
     protected UIElement makeSwapComboBox(){

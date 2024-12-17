@@ -5,7 +5,6 @@ import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.elements.prefabs.Checkbox;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Spacer;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -18,18 +17,18 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
 
     //region Constructors
 
-    public BooleanValueEditor(Boolean value, AbstractDimension width, AbstractDimension height) {
-        this(new BooleanProperty(value), width, height);
+    public BooleanValueEditor(Boolean value) {
+        this(new BooleanProperty(value));
     }
 
-    public BooleanValueEditor(BooleanProperty property, AbstractDimension width, AbstractDimension height){
-        super(property, width, height);
+    public BooleanValueEditor(BooleanProperty property){
+        super(property);
 
-        HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), width, height);
+        HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
         {
-            box.addItem(new Spacer(Dim.fill(), Dim.fill()));
+            box.addItem(new Spacer(Dim.fill(), Dim.px(1)));
 
-            button = new Checkbox(Dim.height(), Dim.fill()){
+            button = new Checkbox(Dim.height(), Dim.px(50)){
                 @Override
                 public void toggle() {
                     super.toggle();

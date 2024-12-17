@@ -1,19 +1,15 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.DimensionProperty;
-import dLib.properties.objects.PositionProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.ComboBox;
 import dLib.util.ui.dimensions.*;
-import dLib.util.ui.position.AbstractPosition;
-import dLib.util.ui.position.PercentagePosition;
-import dLib.util.ui.position.StaticPosition;
 
 import java.util.ArrayList;
 
 public class DimensionValueEditor<ValueType extends AbstractDimension> extends AbstractValueEditor<ValueType, DimensionProperty> {
-    public DimensionValueEditor(DimensionProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+    public DimensionValueEditor(DimensionProperty property) {
+        super(property);
     }
 
     protected UIElement makeSwapComboBox(){

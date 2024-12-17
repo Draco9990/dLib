@@ -1,6 +1,5 @@
 package dLib.properties.ui.elements;
 
-import dLib.properties.objects.FloatProperty;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.Inputfield;
@@ -26,7 +25,7 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
     }
 
     public IntegerValueEditor(IntegerProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+        super(property);
 
         {
             leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());

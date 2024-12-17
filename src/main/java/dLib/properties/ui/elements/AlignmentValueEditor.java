@@ -7,7 +7,6 @@ import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.elements.prefabs.*;
 import dLib.util.EnumHelpers;
 import dLib.util.TextureManager;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
@@ -21,19 +20,19 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
 
     //region Constructors
 
-    public AlignmentValueEditor(Alignment value, AbstractDimension width, AbstractDimension height){
-        this(new AlignmentProperty(value), width, height);
+    public AlignmentValueEditor(Alignment value){
+        this(new AlignmentProperty(value));
     }
 
-    public AlignmentValueEditor(AlignmentProperty property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, Dim.width());
+    public AlignmentValueEditor(AlignmentProperty property) {
+        super(property);
 
         alignmentButtons = new Toggle[3][3];
 
         ArrayList<Enum<Alignment.HorizontalAlignment>> allHorizontalAlignments = EnumHelpers.getAllEntries(Alignment.HorizontalAlignment.LEFT);
         ArrayList<Enum<Alignment.VerticalAlignment>> allVerticalAlignments = EnumHelpers.getAllEntries(Alignment.VerticalAlignment.BOTTOM);
 
-        PredefinedGrid grid = new PredefinedGrid(3, 3, width, Dim.width());
+        PredefinedGrid grid = new PredefinedGrid(3, 3, Dim.fill(), Dim.width());
         for(int i = 0; i < 3; i++){
             for(int j = 2; j >= 0; j--){
                 String textureLoc = "dLibResources/images/ui/themes/basic/alignment/align" + i + j + ".png";

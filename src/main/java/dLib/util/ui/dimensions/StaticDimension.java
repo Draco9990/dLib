@@ -53,13 +53,13 @@ public class StaticDimension extends AbstractDimension {
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new StaticDimensionValueEditor(this, width, height);
+    public AbstractValueEditor makeEditorFor() {
+        return new StaticDimensionValueEditor(this);
     }
 
     @Override
-    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
-        return new StaticDimensionValueEditor((DimensionProperty) property, width, height);
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new StaticDimensionValueEditor((DimensionProperty) property);
     }
 
     public int getValueRaw(){

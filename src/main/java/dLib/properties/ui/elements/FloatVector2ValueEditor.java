@@ -24,7 +24,7 @@ public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatV
     }
 
     public FloatVector2ValueEditor(FloatVector2Property property, AbstractDimension width, AbstractDimension height) {
-        super(property, width, height);
+        super(property);
 
         HorizontalBox mainContentBox = new HorizontalBox(width, height);
         {
