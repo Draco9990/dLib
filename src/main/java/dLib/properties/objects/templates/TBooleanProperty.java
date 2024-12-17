@@ -1,6 +1,6 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.BooleanPropertyEditor;
+import dLib.properties.ui.elements.BooleanValueEditor;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ public abstract class TBooleanProperty<PropertyType> extends TProperty<Boolean, 
     public TBooleanProperty(boolean defaultValue){
         super(defaultValue);
 
-        propertyEditorClass = BooleanPropertyEditor.class;
+        propertyEditorClass = BooleanValueEditor.class;
     }
 
     //endregion

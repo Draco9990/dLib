@@ -1,6 +1,6 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.OnValueCommitedStringPropertyEditor;
+import dLib.properties.ui.elements.OnValueCommitedStringValueEditor;
 
 import java.io.Serializable;
 
@@ -17,7 +17,7 @@ public abstract class TStringProperty<PropertyType extends TStringProperty<Prope
 
     public TStringProperty(String defaultValue){
         super(defaultValue);
-        propertyEditorClass = OnValueCommitedStringPropertyEditor.class;
+        propertyEditorClass = OnValueCommitedStringValueEditor.class;
     }
 
     //endregion

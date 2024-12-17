@@ -1,6 +1,6 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.IntegerPropertyEditor;
+import dLib.properties.ui.elements.IntegerValueEditor;
 
 import java.io.Serializable;
 
@@ -24,7 +24,7 @@ public abstract class TIntegerProperty<PropertyType> extends TNumericProperty<In
     public TIntegerProperty(Integer currentValue, Integer minimumValue, Integer maximumValue, Integer incrementAmount, Integer decrementAmount){
         super(currentValue, minimumValue, maximumValue, incrementAmount, decrementAmount);
 
-        propertyEditorClass = IntegerPropertyEditor.class;
+        propertyEditorClass = IntegerValueEditor.class;
     }
 
     //endregion

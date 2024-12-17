@@ -1,6 +1,6 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.ArrayPropertyEditor;
+import dLib.properties.ui.elements.ArrayValueEditor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public abstract class TArrayProperty<ArrayItemClass, PropertyType extends TArray
     public TArrayProperty(ArrayList<ArrayItemClass> defaultValue){
         super(defaultValue);
 
-        propertyEditorClass = ArrayPropertyEditor.class;
+        propertyEditorClass = ArrayValueEditor.class;
     }
 
     public ArrayList<ArrayItemClass> getAllOptions() {

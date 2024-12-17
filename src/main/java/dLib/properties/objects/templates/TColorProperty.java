@@ -1,7 +1,7 @@
 package dLib.properties.objects.templates;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.properties.ui.elements.ColorPropertyEditor;
+import dLib.properties.ui.elements.ColorValueEditor;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ public abstract class TColorProperty<PropertyType> extends TProperty<String, Pro
 
     public TColorProperty(Color value) {
         super(value.toString());
-        propertyEditorClass = ColorPropertyEditor.class;
+        propertyEditorClass = ColorValueEditor.class;
     }
 
     //endregion

@@ -1,6 +1,6 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.EnumPropertyEditor;
+import dLib.properties.ui.elements.EnumValueEditor;
 import dLib.util.EnumHelpers;
 
 import java.io.Serializable;
@@ -19,7 +19,7 @@ public abstract class TEnumProperty<T extends Enum<T>, PropertyType> extends TPr
     public TEnumProperty(Enum<T> value) {
         super(value);
 
-        propertyEditorClass = EnumPropertyEditor.class;
+        propertyEditorClass = EnumValueEditor.class;
     }
 
     //endregion
