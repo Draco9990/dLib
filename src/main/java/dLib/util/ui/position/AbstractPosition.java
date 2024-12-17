@@ -1,9 +1,10 @@
 package dLib.util.ui.position;
 
+import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.Binding;
 
-public abstract class AbstractPosition extends Binding {
+public abstract class AbstractPosition extends Binding implements IEditableValue {
     public AbstractPosition(){
 
     }

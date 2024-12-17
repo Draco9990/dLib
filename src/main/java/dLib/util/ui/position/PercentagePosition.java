@@ -1,8 +1,12 @@
 package dLib.util.ui.position;
 
+import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.PercentagePositionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.TextBox;
+import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
 public class PercentagePosition extends AbstractPosition {
@@ -97,6 +101,16 @@ public class PercentagePosition extends AbstractPosition {
         else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             percentage -= (float)amount / parentHeight;
         }
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new PercentagePositionValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new PercentagePositionValueEditor(property, width, height);
     }
 
     @Override

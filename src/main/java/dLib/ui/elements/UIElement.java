@@ -25,6 +25,7 @@ import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValu
 import dLib.tools.uicreator.ui.properties.editors.UCUIElementBindingValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
+import dLib.ui.bindings.RelativeUIElementBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.prefabs.ItemBox;
@@ -185,7 +186,7 @@ public class UIElement implements Disposable, IEditableValue {
     public UIElement(UIElementData data){
         setID(data.id.getValue());
 
-        setLocalPosition(data.localPosition.getXPosition(), data.localPosition.getYPosition());
+        setLocalPosition(data.localPositionX.getValue(), data.localPositionY.getValue());
         
         width = data.dimensions.getWidth();
         height = data.dimensions.getHeight();
@@ -2002,7 +2003,7 @@ public class UIElement implements Disposable, IEditableValue {
 
     @Override
     public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
-        return new UCRelativeUIElementBindingValueEditor(this, width, height);
+        return new UCRelativeUIElementBindingValueEditor(new RelativeUIElementBinding(this), width, height);
     }
 
     @Override
@@ -2043,9 +2044,15 @@ public class UIElement implements Disposable, IEditableValue {
                 .setDescription("Internal ID of the element. Has to be unique relative to its siblings.")
                 .setCategory("Core");
 
-        public PositionProperty localPosition = new PositionProperty(Pos.px(0), Pos.px(0))
-                .setName("Local Position")
-                .setDescription("Local Position of the element relative to its parent. Can be:\n" +
+        public PositionProperty localPositionX = new PositionProperty(Pos.px(0), Pos.px(0))
+                .setName("Local X Position")
+                .setDescription("Local X Position of the element relative to its parent. Can be:\n" +
+                        "* Static: Fixed position in pixels.\n" +
+                        "* Percentage: Position relative to the parent's dimensions.")
+                .setCategory("Transform");
+        public PositionProperty localPositionY = new PositionProperty(Pos.px(0), Pos.px(0))
+                .setName("Local Y Position")
+                .setDescription("Local Y Position of the element relative to its parent. Can be:\n" +
                         "* Static: Fixed position in pixels.\n" +
                         "* Percentage: Position relative to the parent's dimensions.")
                 .setCategory("Transform");
@@ -2142,26 +2149,11 @@ public class UIElement implements Disposable, IEditableValue {
 
         public void filterInnerProperties(ArrayList<TProperty<?, ?>> properties){
             properties.remove(id);
-            properties.remove(localPosition);
+            properties.remove(localPositionX);
+            properties.remove(localPositionY);
             properties.remove(dimensions);
             properties.remove(isVisible);
             properties.remove(isEnabled);
-        }
-
-        public static UIElementData deserializeFromString(String s){
-            byte[] data = Base64.getDecoder().decode(s);
-            try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
-                return (UIElementData) ois.readObject();
-            }catch (Exception e){
-                DLibLogger.log("Failed to deserialize AbstractScreenData due to " + e.getLocalizedMessage());
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        public UIElementData getSelf(){
-            return this;
         }
     }
 }

@@ -32,7 +32,6 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     protected ValueType previousValue;
 
-    public transient Event<Runnable> onValueChangedPureEvent = new Event<>();
     public transient Event<BiConsumer<ValueType, ValueType>> onValueChangedEvent = new Event<>();
 
     private transient ArrayList<Function<PropertyType, Boolean>> isPropertyVisibleFunctions = new ArrayList<>();
@@ -101,7 +100,6 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     }
 
     public void onValueChanged(ValueType oldValue, ValueType newValue){
-        onValueChangedPureEvent.invoke(runnable -> {});
         onValueChangedEvent.invoke(propertyTypeValueTypeValueTypeTriConsumer -> propertyTypeValueTypeValueTypeTriConsumer.accept(oldValue, newValue));
     }
 

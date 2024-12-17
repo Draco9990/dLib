@@ -1,11 +1,16 @@
 package dLib.util.ui.position;
 
+import dLib.properties.objects.PositionProperty;
+import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.StaticPositionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.prefabs.HorizontalListBox;
 import dLib.ui.elements.prefabs.ItemBox;
 import dLib.ui.elements.prefabs.GridItemBox;
 import dLib.ui.elements.prefabs.VerticalListBox;
+import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
@@ -126,6 +131,16 @@ public class StaticPosition extends AbstractPosition {
         else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             position -= amount;
         }
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new StaticPositionValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new StaticPositionValueEditor((PositionProperty) property, width, height);
     }
 
     @Override

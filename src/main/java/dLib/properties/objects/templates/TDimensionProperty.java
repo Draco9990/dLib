@@ -2,7 +2,6 @@ package dLib.properties.objects.templates;
 
 import basemod.Pair;
 import dLib.properties.ui.elements.DimensionPropertyEditor;
-import dLib.properties.ui.elements.PositionPropertyEditor;
 import dLib.util.ui.dimensions.AbstractDimension;
 
 public class TDimensionProperty<PropertyType> extends TProperty<Pair<AbstractDimension, AbstractDimension>, PropertyType>{

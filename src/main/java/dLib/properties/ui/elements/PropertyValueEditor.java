@@ -19,15 +19,12 @@ import org.apache.logging.log4j.util.BiConsumer;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
+public class PropertyValueEditor<PropertyType extends TProperty> extends AbstractValueEditor<PropertyType, PropertyType> {
     //region Variables
 
-    private TProperty<?, ?> property;
+    protected boolean multiline;
 
-    private boolean multiline;
-
-    private Class<? extends AbstractValueEditor> contentEditorClass;
-    private AbstractValueEditor contentEditor;
+    protected UIElement contentEditor;
 
     public Event<Consumer<TProperty<?, ?>>> onPropertyHovered = new Event<>();
     public Event<Consumer<TProperty<?, ?>>> onPropertyUnhovered = new Event<>();
@@ -36,16 +33,10 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
 
     //region Constructors
 
-
     public PropertyValueEditor(TProperty<?, ?> property, AbstractDimension width, AbstractDimension height) {
-        this(property, Pos.px(0), Pos.px(0), width, false);
-    }
+        super((PropertyType) property, width, height);
 
-    public PropertyValueEditor(TProperty<?, ?> property, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
-        super(property, xPos, yPos, width, Dim.auto());
-
-        this.property = property;
-        this.multiline = multiline;
+        this.multiline = false;
 
         if(multiline){
             buildMultiline();
@@ -54,8 +45,8 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
             buildSingleLine();
         }
 
-        property.onValueChangedPureEvent.subscribe(this, () -> {
-            if(property.getPreviousValue().getClass() == property.getValue().getClass()){
+        property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
+            if(oldVal.getClass() == newVal.getClass()){
                 return;
             }
 
@@ -79,12 +70,12 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
                     public void onHovered() {
-                        onPropertyHovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(property));
+                        onPropertyHovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(boundProperty));
                     }
 
                     @Override
                     public void onUnhovered() {
-                        onPropertyUnhovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(property));
+                        onPropertyUnhovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(boundProperty));
                     }
                 };
                 hoverable.setPassthrough(true);
@@ -95,7 +86,7 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
         };
         vBox.setPadding(Padd.px(15), Padd.px(0));
 
-        vBox.addItem(new TextBox(property.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
+        vBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
         vBox.addItem(contentEditor);
         addChildCS(vBox);
     }
@@ -107,12 +98,12 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
                     public void onHovered() {
-                        onPropertyHovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(property));
+                        onPropertyHovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(boundProperty));
                     }
 
                     @Override
                     public void onUnhovered() {
-                        onPropertyUnhovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(property));
+                        onPropertyUnhovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(boundProperty));
                     }
                 };
                 hoverable.setPassthrough(true);
@@ -123,15 +114,15 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
         };
         hBox.setPadding(Padd.px(15), Padd.px(0));
 
-        hBox.addItem(new TextBox(property.getName() + ":", Pos.px(0), Pos.px(0), Dim.perc(0.5), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
+        hBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.perc(0.5), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
 
         buildValueContent(Dim.perc(0.5), Dim.px(50));
         hBox.addItem(contentEditor);
         addChildNCS(hBox);
     }
 
-    private void buildValueContent(AbstractDimension width, AbstractDimension height){
-        AbstractValueEditor builtContent = ValueEditorManager.makeEditorFor(property, width, height);
+    protected void buildValueContent(AbstractDimension width, AbstractDimension height){
+        AbstractValueEditor builtContent = ValueEditorManager.makeEditorFor(boundProperty, width, height);
 
         if(contentEditor != null){
             contentEditor.getParent().replaceChild(contentEditor, builtContent);
