@@ -25,5 +25,6 @@ public class HeightMirrorDimensionValueEditor extends DimensionValueEditor<Heigh
 
             contentBox.addItem(makeSwapComboBox());
         }
+        addChildNCS(contentBox);
     }
 }

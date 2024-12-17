@@ -25,6 +25,7 @@ public class StaticDimensionValueEditor extends DimensionValueEditor<StaticDimen
 
             contentBox.addItem(makeSwapComboBox());
         }
+        addChildNCS(contentBox);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

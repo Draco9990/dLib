@@ -25,5 +25,6 @@ public class WidthMirrorDimensionValueEditor extends DimensionValueEditor<WidthM
 
             contentBox.addItem(makeSwapComboBox());
         }
+        addChildNCS(contentBox);
     }
 }

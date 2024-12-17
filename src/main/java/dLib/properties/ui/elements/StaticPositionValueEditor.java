@@ -25,6 +25,7 @@ public class StaticPositionValueEditor extends PositionValueEditor<StaticPositio
 
             contentBox.addItem(makeSwapComboBox());
         }
+        addChildNCS(contentBox);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
