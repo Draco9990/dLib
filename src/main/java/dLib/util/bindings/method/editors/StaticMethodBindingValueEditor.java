@@ -28,7 +28,7 @@ public class StaticMethodBindingValueEditor extends MethodBindingValueEditor<Sta
             HorizontalBox propertyValueBox = new HorizontalBox(Dim.fill(), Dim.px(50));
             {
                 selectedMethodBinding = new ComboBox<Class<? extends StaticMethodBinding>>(
-                        NoneMethodBinding.class,
+                        (Class<? extends StaticMethodBinding>) property.getValue().getClass(),
                         Reflection.findClassesOfType(StaticMethodBinding.class, false),
                         Dim.fill(),
                         Dim.fill()){
