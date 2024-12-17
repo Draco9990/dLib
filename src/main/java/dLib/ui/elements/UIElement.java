@@ -19,9 +19,12 @@ import dLib.patches.InputHelperHoverConsumer;
 import dLib.properties.objects.*;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.IEditableValue;
+import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
+import dLib.tools.uicreator.ui.properties.editors.UCUIElementBindingValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
-import dLib.ui.bindings.RelativeUIElementBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.prefabs.ItemBox;
@@ -48,7 +51,7 @@ import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class UIElement implements Disposable {
+public class UIElement implements Disposable, IEditableValue {
     //region Variables
 
     protected String ID;
@@ -1994,6 +1997,20 @@ public class UIElement implements Disposable {
     }
 
     //endregion Path
+
+    //region Self Property Editor
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new UCRelativeUIElementBindingValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new UCRelativeUIElementBindingValueEditor((UCUIElementBindingProperty) property, width, height);
+    }
+
+    //endregion
 
     //endregion
 

@@ -53,10 +53,8 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
             propertyValueBox.addItem(methodBindingOptionsBox);
         }
 
-        property.onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
-            if(!isEditorValidForPropertyChange()) return;
-
-            dynamicMethodBinding.getTextBox().setText(((DynamicMethodBinding) methodBinding2).getBoundMethod());
+        ((DynamicMethodBinding)property.getValue()).getBoundMethodRaw().onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
+            dynamicMethodBinding.getTextBox().setText(methodBinding2);
         });
 
         addChildNCS(propertyValueBox);
