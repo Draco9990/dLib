@@ -1,20 +1,15 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.AbstractPropertyEditor;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.properties.ui.elements.PropertyValueEditor;
-import dLib.util.DLibLogger;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
-import dLib.util.ui.position.AbstractPosition;
 import org.apache.logging.log4j.util.BiConsumer;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class TProperty<ValueType, PropertyType> implements Serializable, IEditableValue {

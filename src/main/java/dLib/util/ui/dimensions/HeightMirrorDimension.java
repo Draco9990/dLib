@@ -1,5 +1,9 @@
 package dLib.util.ui.dimensions;
 
+import dLib.properties.objects.DimensionProperty;
+import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.HeightMirrorDimensionValueEditor;
 import dLib.ui.elements.UIElement;
 
 public class HeightMirrorDimension extends AbstractDimension{
@@ -21,6 +25,16 @@ public class HeightMirrorDimension extends AbstractDimension{
     @Override
     public void resizeHeightBy(UIElement self, int amount) {
 
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new HeightMirrorDimensionValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new HeightMirrorDimensionValueEditor((DimensionProperty) property, width, height);
     }
 
     @Override

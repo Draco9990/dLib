@@ -1,5 +1,8 @@
 package dLib.util.ui.dimensions;
 
+import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.StaticDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
@@ -46,6 +49,16 @@ public class StaticDimension extends AbstractDimension {
         } else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             size -= amount;
         }
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new StaticDimensionValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new StaticDimensionValueEditor(property, width, height);
     }
 
     public int getValueRaw(){

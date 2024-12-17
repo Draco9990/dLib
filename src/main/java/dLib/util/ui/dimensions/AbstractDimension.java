@@ -1,8 +1,9 @@
 package dLib.util.ui.dimensions;
 
+import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.elements.UIElement;
 
-public abstract class AbstractDimension {
+public abstract class AbstractDimension implements IEditableValue {
     public AbstractDimension(){
 
     }

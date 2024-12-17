@@ -1,5 +1,9 @@
 package dLib.util.ui.dimensions;
 
+import dLib.properties.objects.DimensionProperty;
+import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.FillDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
@@ -108,12 +112,22 @@ public class FillDimension extends AbstractDimension {
 
     @Override
     public void resizeWidthBy(UIElement self, int amount) {
-        return;
+
     }
 
     @Override
     public void resizeHeightBy(UIElement self, int amount) {
-        return;
+
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new FillDimensionValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new FillDimensionValueEditor((DimensionProperty) property, width, height);
     }
 
     @Override

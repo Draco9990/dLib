@@ -1,5 +1,9 @@
 package dLib.util.ui.dimensions;
 
+import dLib.properties.objects.DimensionProperty;
+import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.AutoDimensionValueEditor;
 import dLib.ui.elements.UIElement;
 import dLib.util.ui.bounds.StaticBounds;
 
@@ -35,6 +39,16 @@ public class AutoDimension extends AbstractDimension {
     @Override
     public void resizeHeightBy(UIElement self, int amount) {
 
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new AutoDimensionValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new AutoDimensionValueEditor((DimensionProperty) property, width, height);
     }
 
     @Override

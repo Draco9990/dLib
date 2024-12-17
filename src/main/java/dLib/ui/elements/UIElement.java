@@ -188,8 +188,8 @@ public class UIElement implements Disposable, IEditableValue {
 
         setLocalPosition(data.localPositionX.getValue(), data.localPositionY.getValue());
         
-        width = data.dimensions.getWidth();
-        height = data.dimensions.getHeight();
+        width = data.width.getValue();
+        height = data.height.getValue();
 
         setAlignment(data.alignment.getHorizontalAlignment(), data.alignment.getVerticalAlignment());
 
@@ -2044,27 +2044,36 @@ public class UIElement implements Disposable, IEditableValue {
                 .setDescription("Internal ID of the element. Has to be unique relative to its siblings.")
                 .setCategory("Core");
 
-        public PositionProperty localPositionX = new PositionProperty(Pos.px(0), Pos.px(0))
+        public PositionProperty localPositionX = new PositionProperty(Pos.px(0))
                 .setName("Local X Position")
                 .setDescription("Local X Position of the element relative to its parent. Can be:\n" +
                         "* Static: Fixed position in pixels.\n" +
                         "* Percentage: Position relative to the parent's dimensions.")
                 .setCategory("Transform");
-        public PositionProperty localPositionY = new PositionProperty(Pos.px(0), Pos.px(0))
+        public PositionProperty localPositionY = new PositionProperty(Pos.px(0))
                 .setName("Local Y Position")
                 .setDescription("Local Y Position of the element relative to its parent. Can be:\n" +
                         "* Static: Fixed position in pixels.\n" +
                         "* Percentage: Position relative to the parent's dimensions.")
                 .setCategory("Transform");
 
-        public DimensionProperty dimensions = new DimensionProperty(Dim.px(1), Dim.px(1))
-                .setName("Dimensions")
-                .setDescription("Dimensions of the element. Can be:\n" +
+        public DimensionProperty width = new DimensionProperty(Dim.px(1))
+                .setName("Width")
+                .setDescription("Width of the element. Can be:\n" +
                         "* Static: Fixed dimensions in pixels.\n" +
                         "* Percentage: Dimensions relative to the parent's dimensions.\n" +
                         "* Fill: Fills the parent's dimensions starting from it's position.\n" +
                         "* Auto: Automatically adjusts the dimensions based on the content size of its children.\n" +
-                        "* Mirror width/height: Mirrors the selected dimension")
+                        "* Mirror height: Mirrors the value of the height dimension.")
+                .setCategory("Transform");
+        public DimensionProperty height = new DimensionProperty(Dim.px(1))
+                .setName("Height")
+                .setDescription("Height of the element. Can be:\n" +
+                        "* Static: Fixed dimensions in pixels.\n" +
+                        "* Percentage: Dimensions relative to the parent's dimensions.\n" +
+                        "* Fill: Fills the parent's dimensions starting from it's position.\n" +
+                        "* Auto: Automatically adjusts the dimensions based on the content size of its children.\n" +
+                        "* Mirror width: Mirrors the value of the width dimension.")
                 .setCategory("Transform");
 
         public AlignmentProperty alignment = new AlignmentProperty(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM)
@@ -2151,7 +2160,8 @@ public class UIElement implements Disposable, IEditableValue {
             properties.remove(id);
             properties.remove(localPositionX);
             properties.remove(localPositionY);
-            properties.remove(dimensions);
+            properties.remove(width);
+            properties.remove(height);
             properties.remove(isVisible);
             properties.remove(isEnabled);
         }

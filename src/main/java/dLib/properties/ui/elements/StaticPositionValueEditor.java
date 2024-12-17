@@ -11,6 +11,10 @@ import dLib.util.ui.position.StaticPosition;
 public class StaticPositionValueEditor extends PositionValueEditor<StaticPosition> {
     private Inputfield inputfield;
 
+    public StaticPositionValueEditor(StaticPosition value, AbstractDimension width, AbstractDimension height){
+        this(new PositionProperty(value), width, height);
+    }
+
     public StaticPositionValueEditor(PositionProperty property, AbstractDimension width, AbstractDimension height) {
         super(property, width, height);
 
