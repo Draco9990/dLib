@@ -7,6 +7,7 @@ import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.elements.prefabs.*;
 import dLib.util.EnumHelpers;
 import dLib.util.TextureManager;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
                 Texture alignmentTexture = TextureManager.getTexture(textureLoc);
                 int finalI = i;
                 int finalJ = j;
-                alignmentButtons[i][j] = new Toggle(alignmentTexture, Dim.fill(), Dim.fill()){
+                alignmentButtons[i][j] = new Toggle(Tex.stat(alignmentTexture), Dim.fill(), Dim.fill()){
                     @Override
                     public void toggle() {
                         if(isToggled()){

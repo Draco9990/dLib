@@ -6,12 +6,11 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.IntegerProperty;
-import dLib.properties.objects.templates.TIntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
 
-import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -62,7 +61,8 @@ public class Inputfield extends UIElement {
 
         preInitialize();
 
-        this.background = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setImage(UICommonResources.inputfield);
+        this.background = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        this.background.setImage(Tex.stat(UICommonResources.inputfield));
         addChildNCS(this.background);
 
         this.textBox = (TextBox) new TextBox(initialValue, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
@@ -361,7 +361,7 @@ public class Inputfield extends UIElement {
         Inputfield.EInputfieldPreset inputfieldPreset = Inputfield.EInputfieldPreset.GENERIC;
 
         public InputfieldData(){
-            buttonData.textureBinding.setValue(new TextureThemeBinding("inputfield"));
+            super();
         }
 
         @Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
 import dLib.util.TextureManager;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -26,7 +27,7 @@ public class PasswordBox extends UIElement {
             box.addItem(inputfield);
 
             showPasswordButton = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
-            showPasswordButton.setImage(TextureManager.getTexture("dLibResources/images/ui/common/peekButton.png"));
+            showPasswordButton.setImage(Tex.stat(TextureManager.getTexture("dLibResources/images/ui/common/peekButton.png")));
             showPasswordButton.onLeftClickEvent.subscribeManaged(() -> {
                 inputfield.getTextBox().setObscureText(false);
             });

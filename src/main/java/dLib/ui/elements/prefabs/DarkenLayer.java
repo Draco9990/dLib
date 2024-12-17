@@ -5,12 +5,13 @@ import dLib.ui.animations.entry.UIAnimation_FadeIn;
 import dLib.ui.animations.exit.UIAnimation_FadeOut;
 import dLib.ui.resources.UICommonResources;
 
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
 public class DarkenLayer extends Image { //TODO redo
     public DarkenLayer(){
-        super(UICommonResources.white_pixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        super(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
         init();
     }

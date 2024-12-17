@@ -1,7 +1,6 @@
 package dLib.ui.elements.implementations;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -10,7 +9,9 @@ import dLib.properties.objects.ColorProperty;
 import dLib.properties.objects.FloatVector2Property;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.ui.elements.UIElement;
-import dLib.util.bindings.texture.TextureEmptyBinding;
+import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -21,7 +22,7 @@ import java.io.Serializable;
 public class Renderable extends UIElement {
     //region Variables
 
-    protected TextureRegion image;
+    protected TextureBinding image;
 
     protected Color renderColor;
 
@@ -33,19 +34,19 @@ public class Renderable extends UIElement {
 
     //region Constructors
 
-    public Renderable(Texture image){
-        this(image, Pos.px(0), Pos.px(0));
+    public Renderable(TextureBinding imageBinding){
+        this(imageBinding, Pos.px(0), Pos.px(0));
     }
-    public Renderable(Texture image, AbstractPosition xPos, AbstractPosition yPos){
-        this(image, xPos, yPos, Dim.px(image.getWidth()), Dim.px(image.getHeight()));
+    public Renderable(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
+        this(imageBinding, xPos, yPos, Dim.px(imageBinding.getBoundObject().getRegionWidth()), Dim.px(imageBinding.getBoundObject().getRegionHeight()));
     }
-    public Renderable(Texture image, AbstractDimension width, AbstractDimension height){
-        this(image, Pos.px(0), Pos.px(0), width, height);
+    public Renderable(TextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
+        this(imageBinding, Pos.px(0), Pos.px(0), width, height);
     }
-    public Renderable(Texture image, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
+    public Renderable(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        this.image = image == null ? null : new TextureRegion(image);
+        this.image = imageBinding;
         this.renderColor = Color.WHITE.cpy();
 
         this.renderDimensionsPerc = new Vector2(1.f, 1.f);
@@ -56,8 +57,7 @@ public class Renderable extends UIElement {
     public Renderable(RenderableData data){
         super(data);
 
-        Texture texture = data.textureBinding.getValue().getBoundObject();
-        this.image = texture == null ? null : new TextureRegion(texture);
+        this.image = data.textureBinding.getValue();
         this.renderColor = data.renderColor.getColorValue();
 
         this.renderColorAlphaMultiplier = data.renderColorAlphaMultiplier;
@@ -90,15 +90,12 @@ public class Renderable extends UIElement {
 
     //region Image
 
-    public Renderable setImage(Texture image){
-        if(image == null) this.image = null;
-        else this.image = new TextureRegion(image);
-        return this;
+    public void setImage(TextureBinding image){
+        this.image = image;
     }
-    public Texture getImage() { return image.getTexture(); }
 
     protected TextureRegion getTextureForRender(){
-        return image;
+        return image.getBoundObject();
     }
 
     //endregion
@@ -179,7 +176,7 @@ public class Renderable extends UIElement {
     public static class RenderableData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureEmptyBinding()).setName("Image");
+        public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureResourceBinding(UICommonResources.class, "white_pixel")).setName("Image");
 
         public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
 

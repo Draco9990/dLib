@@ -4,6 +4,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
 
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -88,7 +89,7 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     @Override
     public UIElement makeUIForItem(ItemType item) {
         TextBox box = (TextBox) super.makeUIForItem(item);
-        box.setImage(UICommonResources.itembox_itembg_horizontal);
+        box.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
         return box;
     }
 

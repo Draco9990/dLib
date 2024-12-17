@@ -15,6 +15,9 @@ import dLib.ui.resources.UICommonResources;
 
 
 import dLib.ui.util.ESelectionMode;
+import dLib.util.bindings.texture.Tex;
+import dLib.util.bindings.texture.TextureNoneBinding;
+import dLib.util.bindings.texture.TextureStaticBinding;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -33,7 +36,7 @@ public class UCEditor extends Renderable {
     public UCEditorItemTree itemTree;
 
     public UCEditor(){
-        super(UICommonResources.white_pixel, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        super(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         setRenderColor(LIGHT_GRAY);
 
         UCERootElement rootElement;
@@ -69,13 +72,13 @@ public class UCEditor extends Renderable {
     public static class UC_EditorMainScreen extends Renderable{
 
         public UC_EditorMainScreen() {
-            super(DLibUIElements.UIEditorElements.transparentBg, Dim.px(1536), Dim.px(864));
+            super(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(1536), Dim.px(864));
         }
     }
 
     public static class UC_EditorToolbar extends Renderable{
         public UC_EditorToolbar() {
-            super(UICommonResources.white_pixel, Dim.perc(100), Dim.fill());
+            super(Tex.stat(UICommonResources.white_pixel), Dim.perc(100), Dim.fill());
             setRenderColor(DARK_GRAY);
 
             HorizontalBox toolbar = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -85,7 +88,7 @@ public class UCEditor extends Renderable {
 
                 VerticalBox propertiesOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill());
                 propertiesOptions.setDefaultItemHeight(30);
-                propertiesOptions.setImage(null);
+                propertiesOptions.setImage(new TextureNoneBinding());
                 propertiesOptions.setItemSpacing(10);
                 propertiesOptions.disableItemWrapping();
                 {
@@ -95,7 +98,7 @@ public class UCEditor extends Renderable {
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
                     });
-                    toolboxButton.getButton().setImage(UICommonResources.itembox_itembg_horizontal);
+                    toolboxButton.getButton().setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
                     propertiesOptions.addItem(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
@@ -105,7 +108,7 @@ public class UCEditor extends Renderable {
                         getProperties().hierarchyViewer.showAndEnableInstantly();
                         getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElement);
                     });
-                    elementListButton.getButton().setImage(UICommonResources.itembox_itembg_horizontal);
+                    elementListButton.getButton().setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
                     propertiesOptions.addItem(elementListButton);
                 }
                 toolbar.addItem(propertiesOptions);
@@ -127,7 +130,7 @@ public class UCEditor extends Renderable {
         public UCEPropertyEditor propertyEditor;
 
         public UC_EditorProperties() {
-            super(UICommonResources.white_pixel, Dim.fill(), Dim.fill());
+            super(Tex.stat(UICommonResources.white_pixel), Dim.fill(), Dim.fill());
             setRenderColor(DARK_GRAY);
 
             toolbarPropertiesScrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -156,7 +159,7 @@ public class UCEditor extends Renderable {
         public static class UC_EP_Toolbox extends VerticalListBox<UCEITemplate> {
             public UC_EP_Toolbox() {
                 super(Dim.fill(), Dim.fill());
-                setImage(null);
+                setImage(new TextureNoneBinding());
 
                 setSelectionMode(ESelectionMode.SINGLE_NOPERSIST);
 

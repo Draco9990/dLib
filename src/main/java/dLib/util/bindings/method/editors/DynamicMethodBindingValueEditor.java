@@ -4,6 +4,7 @@ import dLib.properties.objects.MethodBindingProperty;
 import dLib.ui.elements.prefabs.*;
 import dLib.util.TextureManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
 public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<DynamicMethodBinding> {
@@ -29,7 +30,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
             VerticalBox methodBindingOptionsBox = new VerticalBox(Dim.px(28), Dim.fill());
             {
                 bindDynamicBindingButton = new Button(Dim.fill(), Dim.px(15));
-                bindDynamicBindingButton.setImage(TextureManager.getTexture("dLibResources/images/ui/uieditor/BindButton.png"));
+                bindDynamicBindingButton.setImage(Tex.stat(TextureManager.getTexture("dLibResources/images/ui/uieditor/BindButton.png")));
                 bindDynamicBindingButton.hideAndDisableInstantly();
                 bindDynamicBindingButton.onLeftClickEvent.subscribe(this, () -> {
                     if(boundProperty.getValue() instanceof DynamicMethodBinding){

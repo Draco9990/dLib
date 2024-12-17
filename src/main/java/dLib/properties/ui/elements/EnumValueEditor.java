@@ -4,6 +4,7 @@ import dLib.properties.objects.EnumProperty;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -28,17 +29,17 @@ public class EnumValueEditor extends AbstractValueEditor<Enum<?>, EnumProperty> 
 
         {
             leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.perc(0.25), Dim.px(50));
-            leftArrow.setImage(UICommonResources.arrow_left);
+            leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
             addChildNCS(leftArrow);
 
             enumBox = new TextButton(boundProperty.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.px(50));
-            enumBox.getButton().setImage(UICommonResources.button02_horizontal);
+            enumBox.getButton().setImage(Tex.stat(UICommonResources.button02_horizontal));
             enumBox.getButton().onLeftClickEvent.subscribe(this, () -> boundProperty.next());
             addChildNCS(enumBox);
 
             rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.px(50));
-            rightArrow.setImage(UICommonResources.arrow_right);
+            rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
             addChildNCS(rightArrow);
         }

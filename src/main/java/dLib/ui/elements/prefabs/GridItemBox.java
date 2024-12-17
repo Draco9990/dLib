@@ -4,6 +4,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
 
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -84,7 +85,7 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType>{
     @Override
     public UIElement makeUIForItem(ItemType item) {
         TextBox box = (TextBox) super.makeUIForItem(item);
-        box.setImage(UICommonResources.button03_square);
+        box.setImage(Tex.stat(UICommonResources.button03_square));
         return box;
     }
 

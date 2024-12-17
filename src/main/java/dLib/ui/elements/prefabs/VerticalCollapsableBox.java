@@ -6,6 +6,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.resources.UICommonResources;
 
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -35,7 +36,7 @@ public class VerticalCollapsableBox extends UIElement {
         {
             HorizontalBox titleHBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
             {
-                titleHBox.addItem(toggleArrow = new Toggle(UICommonResources.arrow_right, UICommonResources.arrow_down, Pos.px(0), Pos.px(0), Dim.px(50), Dim.px(50)));
+                titleHBox.addItem(toggleArrow = new Toggle(Tex.stat(UICommonResources.arrow_right), Tex.stat(UICommonResources.arrow_down), Pos.px(0), Pos.px(0), Dim.px(50), Dim.px(50)));
                 toggleArrow.onLeftClickEvent.subscribeManaged(() -> {
                     if(toggleArrow.isToggled()) {
                         contentBox.showAndEnable();

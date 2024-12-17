@@ -9,6 +9,7 @@ import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.resources.UICommonResources;
 
 
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -42,10 +43,10 @@ public class ColorPickerScreen extends UIElement {
         });
         addChildNCS(colorWheel);
 
-        hoverPreview = new Renderable(UICommonResources.white_pixel, Pos.px(273), Pos.px(1080-596), Dim.px(475), Dim.px(33));
+        hoverPreview = new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(273), Pos.px(1080-596), Dim.px(475), Dim.px(33));
         addChildNCS(hoverPreview);
 
-        selectedPreview = new Renderable(UICommonResources.white_pixel, Pos.px(50), Pos.px(1080-850), Dim.px(1810), Dim.px(80));
+        selectedPreview = new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(50), Pos.px(1080-850), Dim.px(1810), Dim.px(80));
         addChildNCS(selectedPreview);
 
         TextButton confirmButton = new TextButton("CONFIRM", Pos.px(685), Pos.px(1080-1015), Dim.px(550), Dim.px(150));

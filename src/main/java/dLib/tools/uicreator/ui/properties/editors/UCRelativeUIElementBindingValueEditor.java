@@ -11,6 +11,7 @@ import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.mousestates.ReferencePickerMouseState;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.screens.UIManager;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
 public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingValueEditor<RelativeUIElementBinding> {
@@ -26,7 +27,7 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
         HorizontalBox mainContentBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             Button referenceButton = new Button(Dim.height(), Dim.fill());
-            referenceButton.setImage(new Texture("dLibResources/images/ui/uieditor/reference.png"));
+            referenceButton.setImage(Tex.stat(new Texture("dLibResources/images/ui/uieditor/reference.png")));
             referenceButton.onLeftClickEvent.subscribe(this, () -> {
                 UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
                 if(editor == null){
@@ -42,7 +43,7 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
             mainContentBox.addItem(referenceButton);
 
             bindingBox = new TextBox(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
-            bindingBox.setImage(UICommonResources.inputfield);
+            bindingBox.setImage(Tex.stat(UICommonResources.inputfield));
             mainContentBox.addItem(bindingBox);
         }
 

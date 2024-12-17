@@ -4,6 +4,7 @@ import dLib.properties.objects.DimensionProperty;
 import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.Dim;
 
@@ -20,7 +21,7 @@ public class AutoDimensionValueEditor extends DimensionValueEditor<AutoDimension
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());
         {
             textBox = new TextBox(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
-            textBox.setImage(UICommonResources.inputfield);
+            textBox.setImage(Tex.stat(UICommonResources.inputfield));
             contentBox.addItem(textBox);
 
             contentBox.addItem(makeSwapComboBox());

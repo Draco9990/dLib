@@ -11,6 +11,7 @@ import dLib.ui.resources.UICommonResources;
 
 
 import dLib.ui.util.ESelectionMode;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -54,7 +55,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
     //region Constructors
 
     public ItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(UICommonResources.white_pixel, xPos, yPos, width, height);
+        super(Tex.stat(UICommonResources.white_pixel), xPos, yPos, width, height);
 
         Color bgColor = Color.BLACK.cpy();
         bgColor.a = 0.4f;
@@ -319,7 +320,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
         Color transparent = Color.WHITE.cpy();
         transparent.a = 0f;
-        Button mainButton = (Button) new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
+        Button mainButton = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
@@ -330,7 +331,9 @@ public abstract class ItemBox<ItemType> extends Renderable {
             public boolean isActive() {
                 return getSelectionCountLimit() != 0;
             }
-        }.setImage(UICommonResources.white_pixel).setRenderColor(transparent);
+        };
+        mainButton.setImage(Tex.stat(UICommonResources.white_pixel));
+        mainButton.setRenderColor(transparent);
 
         Color hoverColor = mainButton.getHoveredColor().cpy();
         hoverColor.a = 0.4f;

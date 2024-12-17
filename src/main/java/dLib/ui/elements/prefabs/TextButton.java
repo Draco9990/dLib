@@ -3,7 +3,7 @@ package dLib.ui.elements.prefabs;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.bindings.texture.TextureThemeBinding;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -27,7 +27,8 @@ public class TextButton extends UIElement {
     public TextButton(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        button = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setImage(UICommonResources.button01_horizontal);
+        button = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        button.setImage(Tex.stat(UICommonResources.button01_horizontal));
         addChildCS(button);
 
         label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -66,7 +67,7 @@ public class TextButton extends UIElement {
         public Button.ButtonData buttonData = new Button.ButtonData();
 
         public TextButtonData(){
-            buttonData.textureBinding.setValue(new TextureThemeBinding("button_small"));
+            super();
         }
 
         @Override

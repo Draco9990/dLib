@@ -1,7 +1,6 @@
 package dLib.properties.objects.templates;
 
 import dLib.util.bindings.texture.TextureBinding;
-import dLib.util.bindings.texture.TextureEmptyBinding;
 
 public abstract class TTextureBindingProperty<PropertyType> extends TProperty<TextureBinding, PropertyType> {
     //region Variables
@@ -11,10 +10,6 @@ public abstract class TTextureBindingProperty<PropertyType> extends TProperty<Te
 
     public TTextureBindingProperty(TextureBinding value) {
         super(value);
-    }
-
-    public TTextureBindingProperty() {
-        super(new TextureEmptyBinding());
     }
 
     //endregion

@@ -6,6 +6,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.resources.UICommonResources;
 
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
@@ -122,7 +123,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
         public boolean pendingRemoval = false;
 
         public ResizeNode(AbstractPosition xPos, AbstractPosition yPos, Alignment.HorizontalAlignment hAlign, Alignment.VerticalAlignment vAlign) {
-            super(UICommonResources.white_pixel, xPos, yPos, Dim.px(30), Dim.px(30));
+            super(Tex.stat(UICommonResources.white_pixel), xPos, yPos, Dim.px(30), Dim.px(30));
 
             setRenderColor(Color.RED);
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.properties.objects.ColorProperty;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.screens.ColorPickerScreen;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
@@ -37,7 +38,9 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
                 };
                 colorPickerScreen.open();
             }
-        }.setImage(UICommonResources.white_pixel).setRenderColor(property.getColorValue());
+        };
+        middleButton.setImage(Tex.stat(UICommonResources.white_pixel));
+        middleButton.setRenderColor(property.getColorValue());
 
         property.onValueChangedEvent.subscribe(this, (oldColor, newColor) -> {
             if(!isEditorValidForPropertyChange()) return;

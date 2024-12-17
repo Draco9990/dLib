@@ -2,6 +2,7 @@ package dLib.ui.elements.prefabs;
 
 import dLib.ui.resources.UICommonResources;
 
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
@@ -38,7 +39,7 @@ public class ComboBox<OptionType> extends TextButton{
             };
             picker.open();
         });
-        getButton().setImage(UICommonResources.button02_horizontal);
+        getButton().setImage(Tex.stat(UICommonResources.button02_horizontal));
     }
 
     public void setCanBeNull(boolean canBeNull) {

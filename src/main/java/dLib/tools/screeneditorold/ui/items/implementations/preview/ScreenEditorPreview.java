@@ -8,6 +8,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.DLibLogger;
 import dLib.util.TextureManager;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
@@ -29,9 +30,9 @@ public class ScreenEditorPreview extends UIElement {
     public ScreenEditorPreview(){
         super(Pos.px(10), Pos.px(10), Dim.fill(), Dim.fill());
 
-        addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/Transparent.png"), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()));
+        addChildNCS(new Renderable(Tex.stat(TextureManager.getTexture("dLibResources/images/ui/Transparent.png")), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()));
 
-        grid = new Renderable(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ScreenEditorGrid.png"), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw());
+        grid = new Renderable(Tex.stat(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ScreenEditorGrid.png")), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw());
     }
 
     //endregion

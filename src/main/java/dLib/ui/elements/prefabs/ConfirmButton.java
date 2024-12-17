@@ -8,6 +8,7 @@ import dLib.ui.animations.entry.UIAnimation_SlideInRight;
 import dLib.ui.animations.exit.UIAnimation_SlideOutLeft;
 import dLib.ui.animations.exit.UIAnimation_SlideOutRight;
 import dLib.util.TextureManager;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -15,7 +16,7 @@ public class ConfirmButton extends TextButton{
     public ConfirmButton() {
         super("Confirm", Pos.px(1650), Pos.px(1080-950), Dim.px(270), Dim.px(90));
 
-        this.getButton().setImage(TextureManager.getTexture("dLibResources/images/ui/common/ConfirmButton.png"));
+        this.getButton().setImage(Tex.stat(TextureManager.getTexture("dLibResources/images/ui/common/ConfirmButton.png")));
 
         this.getTextBox().setDimensions(186, 51);
         this.getTextBox().setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);

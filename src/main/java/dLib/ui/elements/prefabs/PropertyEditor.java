@@ -5,6 +5,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -39,7 +40,7 @@ public class PropertyEditor extends UIElement {
 
             descriptionBox = new TextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.2));
             descriptionBox.setWrap(true);
-            descriptionBox.setImage(UICommonResources.inputfield);
+            descriptionBox.setImage(Tex.stat(UICommonResources.inputfield));
             descriptionBox.setMaxFontScale(0.8f);
             descriptionBox.setMarginPercY(0.1f);
             descriptionBox.setPadding(Padd.px(10), Padd.px(0));
