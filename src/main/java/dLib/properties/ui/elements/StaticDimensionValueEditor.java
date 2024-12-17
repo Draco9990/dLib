@@ -5,6 +5,7 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.StaticDimension;
+import dLib.util.ui.position.StaticPosition;
 
 public class StaticDimensionValueEditor extends DimensionValueEditor<StaticDimension> {
     private Inputfield inputfield;
@@ -18,7 +19,7 @@ public class StaticDimensionValueEditor extends DimensionValueEditor<StaticDimen
 
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());
         {
-            inputfield = new Inputfield(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
+            inputfield = new Inputfield(String.valueOf(((StaticDimension)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
             inputfield.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
             contentBox.addItem(inputfield);
@@ -30,8 +31,8 @@ public class StaticDimensionValueEditor extends DimensionValueEditor<StaticDimen
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputfield.getTextBox().getText().equals(boundProperty.getValueForDisplay())){
-                inputfield.getTextBox().setText(boundProperty.getValueForDisplay());
+            if(!inputfield.getTextBox().getText().equals(String.valueOf(((StaticDimension)boundProperty.getValue()).getValueRaw()))){
+                inputfield.getTextBox().setText(String.valueOf(((StaticDimension)boundProperty.getValue()).getValueRaw()));
             }
         });
     }

@@ -5,6 +5,7 @@ import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.PercentageDimension;
+import dLib.util.ui.position.PercentagePosition;
 
 public class PercentageDimensionValueEditor extends DimensionValueEditor<PercentageDimension> {
     private Inputfield inputfield;
@@ -18,7 +19,7 @@ public class PercentageDimensionValueEditor extends DimensionValueEditor<Percent
 
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());
         {
-            inputfield = new Inputfield(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
+            inputfield = new Inputfield(String.valueOf(((PercentageDimension)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
             inputfield.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
             contentBox.addItem(inputfield);
@@ -30,8 +31,8 @@ public class PercentageDimensionValueEditor extends DimensionValueEditor<Percent
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputfield.getTextBox().getText().equals(boundProperty.getValueForDisplay())){
-                inputfield.getTextBox().setText(boundProperty.getValueForDisplay());
+            if(!inputfield.getTextBox().getText().equals(String.valueOf(((PercentageDimension)boundProperty.getValue()).getValueRaw()))){
+                inputfield.getTextBox().setText(String.valueOf(((PercentageDimension)boundProperty.getValue()).getValueRaw()));
             }
         });
     }
