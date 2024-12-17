@@ -28,6 +28,11 @@ public class HeightMirrorDimension extends AbstractDimension{
     }
 
     @Override
+    public void setValueFromString(String value) {
+
+    }
+
+    @Override
     public AbstractValueEditor makeEditorFor() {
         return new HeightMirrorDimensionValueEditor(this);
     }

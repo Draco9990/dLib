@@ -13,6 +13,8 @@ public class TPositionProperty<PropertyType> extends TProperty<AbstractPosition,
 
     @Override
     public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("PositionProperty does not support setting value from string");
+        AbstractPosition newVal = getValue().cpy();
+        newVal.setValueFromString(value);
+        return setValue(newVal);
     }
 }

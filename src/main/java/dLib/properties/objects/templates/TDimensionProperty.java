@@ -9,6 +9,8 @@ public class TDimensionProperty<PropertyType> extends TProperty<AbstractDimensio
 
     @Override
     public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("PositionProperty does not support setting value from string");
+        AbstractDimension newVal = getValue().cpy();
+        newVal.setValueFromString(value);
+        return setValue(newVal);
     }
 }

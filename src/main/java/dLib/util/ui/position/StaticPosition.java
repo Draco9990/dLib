@@ -133,6 +133,11 @@ public class StaticPosition extends AbstractPosition {
     }
 
     @Override
+    public void setValueFromString(String value) {
+        position = Integer.parseInt(value);
+    }
+
+    @Override
     public AbstractValueEditor makeEditorFor() {
         return new StaticPositionValueEditor(this);
     }

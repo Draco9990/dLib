@@ -53,6 +53,11 @@ public class StaticDimension extends AbstractDimension {
     }
 
     @Override
+    public void setValueFromString(String value) {
+        size = Integer.parseInt(value);
+    }
+
+    @Override
     public AbstractValueEditor makeEditorFor() {
         return new StaticDimensionValueEditor(this);
     }

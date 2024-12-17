@@ -14,7 +14,8 @@ public class ValueEditorManager {
         }
 
         if(IEditableValue.class.isAssignableFrom(value.getClass())){
-            return ((IEditableValue) value).makeEditorFor();
+            if(object instanceof TProperty) return ((IEditableValue) value).makeEditorFor(((TProperty) object));
+            else return ((IEditableValue) value).makeEditorFor();
         }
 
         //return all manual editors

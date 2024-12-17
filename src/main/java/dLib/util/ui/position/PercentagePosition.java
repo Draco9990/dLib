@@ -104,6 +104,11 @@ public class PercentagePosition extends AbstractPosition {
     }
 
     @Override
+    public void setValueFromString(String value) {
+        percentage = Float.parseFloat(value);
+    }
+
+    @Override
     public AbstractValueEditor makeEditorFor() {
         return new PercentagePositionValueEditor(this);
     }

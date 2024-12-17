@@ -58,6 +58,11 @@ public class PercentageDimension extends AbstractDimension {
     }
 
     @Override
+    public void setValueFromString(String value) {
+        percentage = Float.parseFloat(value);
+    }
+
+    @Override
     public AbstractValueEditor makeEditorFor() {
         return new PercentageDimensionValueEditor(this);
     }

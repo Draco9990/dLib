@@ -1,7 +1,6 @@
 package dLib.ui.elements.prefabs;
 
 import dLib.properties.objects.templates.TProperty;
-import dLib.properties.ui.elements.ValueEditorManager;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
@@ -12,7 +11,6 @@ import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 import org.apache.logging.log4j.util.BiConsumer;
-import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -105,7 +103,7 @@ public class PropertyEditor extends UIElement {
                 @Override
                 public UIElement makeUIForItem(TProperty<?, ?> item) {
                     //TODO getParentOfType(PropertyEditor.class).shouldBuildMultiline()
-                    UIElement editor = item.makeEditorFor(Dim.fill(), true);
+                    UIElement editor = item.makeEditorFor(true);
                     if(editor == null) {
                         return new Spacer(Dim.fill(), Dim.px(1)); //TODO breakpoint to verify none fire before removing
                     }

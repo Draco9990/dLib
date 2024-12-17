@@ -12,6 +12,8 @@ public abstract class AbstractPosition extends Binding implements IEditableValue
     public abstract int getLocalX(UIElement element);
     public abstract int getLocalY(UIElement element);
 
+    public abstract void setValueFromString(String value);
+
     public abstract AbstractPosition cpy();
 
     @Override

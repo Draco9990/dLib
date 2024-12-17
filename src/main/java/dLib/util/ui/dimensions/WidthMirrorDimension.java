@@ -28,6 +28,11 @@ public class WidthMirrorDimension extends AbstractDimension{
     }
 
     @Override
+    public void setValueFromString(String value) {
+
+    }
+
+    @Override
     public AbstractValueEditor makeEditorFor() {
         return new WidthMirrorDimensionValueEditor(this);
     }

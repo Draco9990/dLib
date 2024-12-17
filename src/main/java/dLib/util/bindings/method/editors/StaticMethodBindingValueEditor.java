@@ -79,7 +79,7 @@ public class StaticMethodBindingValueEditor extends MethodBindingValueEditor<Sta
         methodBindingArgumentsBox.clearItems();
 
         for(TProperty<?, ?> param : ((StaticMethodBinding)property.getValue()).getDeclaredParams()){
-            methodBindingArgumentsBox.addItem(ValueEditorManager.makeEditorFor(param, Dim.fill(), Dim.px(50)));
+            methodBindingArgumentsBox.addItem(param.makeEditorFor(true));
         }
     }
 }

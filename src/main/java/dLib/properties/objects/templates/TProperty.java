@@ -4,7 +4,6 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.properties.ui.elements.PropertyValueEditor;
 import dLib.util.events.Event;
-import dLib.util.ui.dimensions.AbstractDimension;
 import org.apache.logging.log4j.util.BiConsumer;
 
 import java.io.Serializable;
@@ -158,7 +157,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
         return new PropertyValueEditor(property);
     }
 
-    public AbstractValueEditor makeEditorFor(AbstractDimension width, boolean tryMultiline) {
+    public AbstractValueEditor makeEditorFor(boolean tryMultiline) {
         return new PropertyValueEditor(this, tryMultiline);
     }
 

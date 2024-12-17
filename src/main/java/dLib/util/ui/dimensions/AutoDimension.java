@@ -32,6 +32,11 @@ public class AutoDimension extends AbstractDimension {
     }
 
     @Override
+    public void setValueFromString(String value) {
+
+    }
+
+    @Override
     public void resizeWidthBy(UIElement self, int amount) {
 
     }
