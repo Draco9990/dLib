@@ -28,6 +28,7 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
         {
             valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
             valueBox.getButton().setImage(Tex.stat(UICommonResources.button02_horizontal));
+            contentBox.addItem(valueBox);
             contentBox.addItem(makeSwapComboBox());
         }
 

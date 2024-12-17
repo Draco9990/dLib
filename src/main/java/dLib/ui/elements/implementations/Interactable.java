@@ -16,8 +16,8 @@ import java.io.Serializable;
 public class Interactable extends Renderable{
     //region Variables
 
-    public TextureBinding hoveredTexture;
-    public TextureBinding disabledTexture;
+    public TextureBinding hoveredTexture = new TextureNoneBinding();
+    public TextureBinding disabledTexture = new TextureNoneBinding();
 
     private Color hoveredColor = Color.BLACK;
     private float hoveredColorMultiplier = 0.25f;
