@@ -1,7 +1,7 @@
 package dLib.properties.objects.templates;
 
 import dLib.ui.Alignment;
-import dLib.properties.ui.elements.AlignmentPropertyEditor;
+import dLib.properties.ui.elements.AlignmentValueEditor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public abstract class TAlignmentProperty<PropertyType extends TAlignmentProperty
     public TAlignmentProperty(Alignment value) {
         super(value);
 
-        propertyEditorClass = AlignmentPropertyEditor.class;
+        propertyEditorClass = AlignmentValueEditor.class;
     }
 
     //endregion

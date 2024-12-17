@@ -6,7 +6,7 @@ import dLib.util.bindings.texture.TextureEmptyBinding;
 
 import java.util.ArrayList;
 
-public abstract class TTextureBindingProperty<PropertyType> extends TCustomProperty<TextureBinding, PropertyType> {
+public abstract class TTextureBindingProperty<PropertyType> extends TProperty<TextureBinding, PropertyType> {
     //region Variables
     //endregion
 
@@ -27,11 +27,6 @@ public abstract class TTextureBindingProperty<PropertyType> extends TCustomPrope
     @Override
     public boolean setValueFromString(String value) {
         throw new UnsupportedOperationException("TextureBindingProperty does not support setting values from strings");
-    }
-
-    @Override
-    public ArrayList<TextureBinding> getAllOptions() {
-        return TextureBindingHelpers.getAllImageBindings();
     }
 
     //endregion

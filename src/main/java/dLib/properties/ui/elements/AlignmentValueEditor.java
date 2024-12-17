@@ -2,24 +2,17 @@ package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.ui.Alignment;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Toggle;
 import dLib.ui.elements.prefabs.*;
 import dLib.util.EnumHelpers;
-import dLib.properties.objects.templates.TAlignmentProperty;
 import dLib.util.TextureManager;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.position.AbstractPosition;
-import org.apache.logging.log4j.util.BiConsumer;
 
 import java.util.ArrayList;
 
-public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentProperty<? extends TAlignmentProperty>> {
+public class AlignmentValueEditor extends AbstractValueEditor<Alignment> {
     //region Variables
-
-    TextButton leftButton;
-    TextButton rightButton;
 
     private Toggle[][] alignmentButtons;
 
@@ -27,16 +20,9 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
 
     //region Constructors
 
-    public AlignmentPropertyEditor(TAlignmentProperty<? extends TAlignmentProperty> setting, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline) {
-        super(setting, xPos, yPos, width, multiline);
-    }
+    public AlignmentValueEditor(Alignment value, AbstractDimension width, AbstractDimension height) {
+        super(width, Dim.width());
 
-    //endregion
-
-    //region Methods
-
-    @Override
-    protected UIElement buildContent(TAlignmentProperty<? extends TAlignmentProperty> property, AbstractDimension width, AbstractDimension height) {
         alignmentButtons = new Toggle[3][3];
 
         ArrayList<Enum<Alignment.HorizontalAlignment>> allHorizontalAlignments = EnumHelpers.getAllEntries(Alignment.HorizontalAlignment.LEFT);
@@ -69,12 +55,12 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
                         Alignment.HorizontalAlignment halign = (Alignment.HorizontalAlignment) allHorizontalAlignments.get(finalI);
                         Alignment.VerticalAlignment valign = (Alignment.VerticalAlignment) allVerticalAlignments.get(finalJ);
 
-                        property.setValue(new Alignment(halign, valign));
+                        setValueEvent.invoke(objectConsumer -> objectConsumer.accept(new Alignment(halign, valign)));
                     }
                 };
 
-                int currentHAlign = property.getHorizontalAlignment().ordinal();
-                int currentVAlign = property.getVerticalAlignment().ordinal();
+                int currentHAlign = value.horizontalAlignment.ordinal();
+                int currentVAlign = value.verticalAlignment.ordinal();
 
                 if(i == currentHAlign && j == currentVAlign){
                     alignmentButtons[i][j].setToggled(true);
@@ -84,9 +70,9 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
             }
         }
 
-        property.onValueChangedEvent.subscribe(this, (alignment, alignment2) -> {
-            int newHAlign = property.getHorizontalAlignment().ordinal();
-            int newVAlign = property.getVerticalAlignment().ordinal();
+        onValueChangedEvent.subscribe(this, (newAlignment) -> {
+            int newHAlign = newAlignment.horizontalAlignment.ordinal();
+            int newVAlign = newAlignment.verticalAlignment.ordinal();
 
             for(int i = 0; i < 3; i++){
                 for(int j = 0; j < 3; j++){
@@ -100,19 +86,7 @@ public class AlignmentPropertyEditor extends AbstractPropertyEditor<TAlignmentPr
             }
         });
 
-        return grid;
-    }
-
-    @Override
-    public boolean onLeftInteraction() {
-        leftButton.getButton().trigger();
-        return true;
-    }
-
-    @Override
-    public boolean onRightInteraction() {
-        rightButton.getButton().trigger();
-        return true;
+        addChildNCS(grid);
     }
 
     //endregion

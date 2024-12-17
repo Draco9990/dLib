@@ -1,6 +1,9 @@
 package dLib.properties.objects.templates;
 
 import dLib.properties.ui.elements.AbstractPropertyEditor;
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.IEditableValue;
+import dLib.properties.ui.elements.PropertyValueEditor;
 import dLib.util.DLibLogger;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -11,9 +14,10 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class TProperty<ValueType, PropertyType> implements Serializable {
+public abstract class TProperty<ValueType, PropertyType> implements Serializable, IEditableValue {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -28,8 +32,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     protected ValueType previousValue;
 
-    protected Class<? extends AbstractPropertyEditor> propertyEditorClass;
-
+    public transient Event<Runnable> onValueChangedPureEvent = new Event<>();
     public transient Event<BiConsumer<ValueType, ValueType>> onValueChangedEvent = new Event<>();
 
     private transient ArrayList<Function<PropertyType, Boolean>> isPropertyVisibleFunctions = new ArrayList<>();
@@ -61,6 +64,9 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     //region Value
 
+    public final boolean setValueFromObject(Object newValue){
+        return setValue((ValueType) newValue);
+    }
     public final boolean setValue(ValueType newValue){
         ValueType sanitized = sanitizeValue(newValue);
         if(isValidValue(sanitized)){
@@ -98,6 +104,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     }
 
     public void onValueChanged(ValueType oldValue, ValueType newValue){
+        onValueChangedPureEvent.invoke(runnable -> {});
         onValueChangedEvent.invoke(propertyTypeValueTypeValueTypeTriConsumer -> propertyTypeValueTypeValueTypeTriConsumer.accept(oldValue, newValue));
     }
 
@@ -133,29 +140,6 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     //endregion Category
 
-    //region Property Editor
-
-    public PropertyType setPropertyEditorClass(Class<? extends AbstractPropertyEditor> propertyEditorClass){
-        this.propertyEditorClass = propertyEditorClass;
-        return (PropertyType) this;
-    }
-
-    public <PropertyEditorClass extends AbstractPropertyEditor> PropertyEditorClass makePropertyEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, boolean multiline){
-        try{
-            if(propertyEditorClass.getConstructors().length == 0) return null;
-
-            Constructor propertyMaker = propertyEditorClass.getConstructors()[0];
-            return (PropertyEditorClass) propertyMaker.newInstance(this, xPos, yPos, width, multiline);
-        }catch (Exception e){
-            DLibLogger.logError("Failed to make a property editor due to " + e.getLocalizedMessage());
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    //endregion Property Editor
-
     //region Visibility
 
     public boolean isVisible(){
@@ -168,6 +152,15 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     public PropertyType addIsPropertyVisibleFunction(Function<PropertyType, Boolean> f){
         isPropertyVisibleFunctions.add(f);
         return (PropertyType) this;
+    }
+
+    //endregion
+
+    //region Editor
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new PropertyValueEditor(this, width, height);
     }
 
     //endregion

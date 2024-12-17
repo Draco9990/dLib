@@ -1,6 +1,6 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.FloatPropertyEditor;
+import dLib.properties.ui.elements.FloatValueEditor;
 
 import java.io.Serializable;
 
@@ -24,7 +24,7 @@ public abstract class TFloatProperty<PropertyType> extends TNumericProperty<Floa
     public TFloatProperty(Float currentValue, Float minimumValue, Float maximumValue, Float incrementAmount, Float decrementAmount){
         super(currentValue, minimumValue, maximumValue, incrementAmount, decrementAmount);
 
-        propertyEditorClass = FloatPropertyEditor.class;
+        propertyEditorClass = FloatValueEditor.class;
     }
 
     //endregion

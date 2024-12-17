@@ -9,7 +9,6 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.*;
-import dLib.properties.ui.elements.OnValueChangedStringPropertyEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.FontManager;

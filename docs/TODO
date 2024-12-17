@@ -1,3 +1,5 @@
+--> Before compiling fix all todos in value editors
+
 --> hue shifting an image, editing saturation and lightness too
 --> root element add Elementproperty in an array for users to declare custom events
     -> Method binding new static property that invokes one of the events
