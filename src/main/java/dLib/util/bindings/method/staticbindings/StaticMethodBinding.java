@@ -1,7 +1,11 @@
 package dLib.util.bindings.method.staticbindings;
 
+import dLib.properties.objects.MethodBindingProperty;
 import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.util.bindings.method.MethodBinding;
+import dLib.util.bindings.method.editors.StaticMethodBindingValueEditor;
+import dLib.util.ui.dimensions.AbstractDimension;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +31,16 @@ public abstract class StaticMethodBinding extends MethodBinding implements Seria
 
     public ArrayList<TProperty<?, ?>> getDeclaredParams() {
         return declaredParams;
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
+        return new StaticMethodBindingValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new StaticMethodBindingValueEditor((MethodBindingProperty) property, width, height);
     }
 
     //endregion Methods

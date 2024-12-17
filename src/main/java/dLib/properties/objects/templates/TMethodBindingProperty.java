@@ -3,7 +3,6 @@ package dLib.properties.objects.templates;
 import basemod.Pair;
 import dLib.code.LinkedEditor;
 import dLib.code.LinkedEditorManager;
-import dLib.properties.ui.elements.MethodBindingPropertyEditor;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
 import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
@@ -32,8 +31,6 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Met
 
     public TMethodBindingProperty(MethodBinding value) {
         super(value);
-
-        propertyEditorClass = MethodBindingPropertyEditor.class;
     }
 
     public TMethodBindingProperty() {

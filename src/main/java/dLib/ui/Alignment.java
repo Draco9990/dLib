@@ -1,5 +1,7 @@
 package dLib.ui;
 
+import dLib.properties.objects.AlignmentProperty;
+import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.AlignmentValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
@@ -22,6 +24,11 @@ public class Alignment implements IEditableValue {
     @Override
     public AbstractValueEditor makeEditorFor(AbstractDimension width, AbstractDimension height) {
         return new AlignmentValueEditor(this, width, height);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property, AbstractDimension width, AbstractDimension height) {
+        return new AlignmentValueEditor((AlignmentProperty) property, width, height);
     }
 
     public enum HorizontalAlignment {
