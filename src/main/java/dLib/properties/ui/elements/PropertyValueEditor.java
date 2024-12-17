@@ -133,6 +133,7 @@ public class PropertyValueEditor extends AbstractValueEditor<TProperty<?, ?>> {
 
     private void buildValueContent(AbstractDimension width, AbstractDimension height){
         AbstractValueEditor builtContent = ValueEditorManager.makeEditorFor(property.getValue(), width, height);
+        builtContent.boundProperty = property;
 
         if(contentEditor != null){
             contentEditor.getParent().replaceChild(contentEditor, builtContent);

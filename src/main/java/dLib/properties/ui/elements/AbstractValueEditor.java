@@ -1,5 +1,7 @@
 package dLib.properties.ui.elements;
 
+import dLib.properties.objects.Property;
+import dLib.properties.objects.templates.TProperty;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -12,7 +14,10 @@ public abstract class AbstractValueEditor<ValueType> extends UIElement {
     //region Variables
 
     public Event<Consumer<ValueType>> onValueChangedEvent = new Event<>();
+
     public Event<Consumer<Object>> setValueEvent = new Event<>();
+
+    protected TProperty<ValueType, ? extends TProperty> boundProperty;
 
     //endregion
 

@@ -104,7 +104,7 @@ public class PropertyEditor extends UIElement {
             propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
                 @Override
                 public UIElement makeUIForItem(TProperty<?, ?> item) {
-                    return item.makePropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), getParentOfType(PropertyEditor.class).shouldBuildMultiline())
+                    return item.makeEditorFor(getParentOfType(PropertyEditor.class).shouldBuildMultiline())
                             .setOnPropertyHoveredConsumer(property -> {
                                 if(getDescriptionBox() != null){
                                     getDescriptionBox().setText(((TProperty<?, ?>)property).getDescription());

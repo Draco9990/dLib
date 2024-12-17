@@ -1,5 +1,6 @@
 package dLib.properties.ui.elements;
 
+import dLib.properties.objects.EnumProperty;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.resources.UICommonResources;
@@ -31,21 +32,39 @@ public class EnumValueEditor extends AbstractValueEditor<Enum<?>> {
             leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.perc(0.25), Dim.fill());
             leftArrow.setImage(UICommonResources.arrow_left);
             leftArrow.onLeftClickEvent.subscribe(this, () -> {
-                setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.previousEnum(currentValue)));
+                if(boundProperty instanceof EnumProperty){
+                    EnumProperty enumProperty = (EnumProperty) boundProperty;
+                    enumProperty.previous();
+                }
+                else{
+                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.previousEnum(currentValue)));
+                }
             });
             addChildNCS(leftArrow);
 
-            enumBox = new TextButton("", Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
+            enumBox = new TextButton(EnumHelpers.betterToString(value), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
             enumBox.getButton().setImage(UICommonResources.button02_horizontal);
             enumBox.getButton().onLeftClickEvent.subscribe(this, () -> {
-                setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.nextEnum(currentValue)));
+                if(boundProperty instanceof EnumProperty){
+                    EnumProperty enumProperty = (EnumProperty) boundProperty;
+                    enumProperty.next();
+                }
+                else{
+                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.nextEnum(currentValue)));
+                }
             });
             addChildNCS(enumBox);
 
             rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
             rightArrow.setImage(UICommonResources.arrow_right);
             rightArrow.onLeftClickEvent.subscribe(this, () -> {
-                setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.nextEnum(currentValue)));
+                if(boundProperty instanceof EnumProperty){
+                    EnumProperty enumProperty = (EnumProperty) boundProperty;
+                    enumProperty.next();
+                }
+                else{
+                    setValueEvent.invoke(objectConsumer -> objectConsumer.accept(EnumHelpers.nextEnum(currentValue)));
+                }
             });
             addChildNCS(rightArrow);
         }

@@ -46,4 +46,8 @@ public class EnumHelpers {
 
         return allEntries;
     }
+
+    public static String betterToString(Enum<?> e){
+        return e.name().toLowerCase().replace("_", " ");
+    }
 }
