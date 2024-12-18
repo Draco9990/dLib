@@ -90,6 +90,8 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     public UIElement makeUIForItem(ItemType item) {
         TextBox box = (TextBox) super.makeUIForItem(item);
         box.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
+        box.setMaxFontScale(1.0f);
+        box.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         return box;
     }
 

@@ -65,7 +65,7 @@ public class Inputfield extends UIElement {
         this.background.setImage(Tex.stat(UICommonResources.inputfield));
         addChildNCS(this.background);
 
-        this.textBox = (TextBox) new TextBox(initialValue, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        this.textBox = (TextBox) new TextBox(initialValue, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         textBox.setPaddingLeft(Padd.px(20));
         addChildNCS(textBox);
@@ -75,7 +75,7 @@ public class Inputfield extends UIElement {
             protected boolean shouldRender() {
                 return super.shouldRender() && textBox.getText().isEmpty();
             }
-        }.setTextRenderColor(Color.DARK_GRAY).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        }.setTextRenderColor(Color.DARK_GRAY).setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         previewTextBox.setPaddingLeft(Padd.px(20));
         addChildNCS(this.previewTextBox);
 

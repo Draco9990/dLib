@@ -43,8 +43,8 @@ public class PropertyEditor extends UIElement {
             descriptionBox.setImage(Tex.stat(UICommonResources.inputfield));
             descriptionBox.setMaxFontScale(0.8f);
             descriptionBox.setPadding(Padd.px(10), Padd.px(0));
-            descriptionBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
-            descriptionBox.setVerticalAlignment(Alignment.VerticalAlignment.TOP);
+            descriptionBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+            descriptionBox.setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
             elementList.addItem(descriptionBox);
         }
         addChildNCS(elementList);

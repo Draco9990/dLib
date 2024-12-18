@@ -88,7 +88,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         };
         vBox.setPadding(Padd.px(15), Padd.px(0));
 
-        vBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
+        vBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50)).setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT));
         buildValueContent(Dim.fill(), Dim.auto());
         vBox.addItem(contentEditor);
         addChildCS(vBox);
@@ -117,7 +117,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         };
         hBox.setPadding(Padd.px(15), Padd.px(0));
 
-        hBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.5), Dim.px(50)).setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT));
+        hBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.5), Dim.px(50)).setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT));
 
         buildValueContent(Dim.perc(0.5), Dim.px(50));
         hBox.addItem(contentEditor);

@@ -47,7 +47,7 @@ public class VerticalCollapsableBox extends UIElement {
                 toggleArrow.setToggled(true);
 
                 titleHBox.addItem(titleBox = new TextBox(title, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
-                titleBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+                titleBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
             }
             Color renderColor = Color.BLACK.cpy();
             renderColor.a = 0.6f;

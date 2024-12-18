@@ -19,7 +19,7 @@ public class ConfirmButton extends TextButton{
         this.getButton().setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButton.png"));
 
         this.getTextBox().setWidth(186);
-        this.getTextBox().setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        this.getTextBox().setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         this.getTextBox().setFont(FontHelper.buttonLabelFont);
         this.getTextBox().setLocalPositionX(65);
         this.getTextBox().setFontScaleOverride(1f);

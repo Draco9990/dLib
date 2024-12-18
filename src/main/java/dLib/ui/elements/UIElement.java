@@ -291,7 +291,7 @@ public class UIElement implements Disposable, IEditableValue {
         {
             if(pendingHide){
                 boolean canHide = true;
-                for(UIElement child : getAllChildren()){
+                for(UIElement child : getChildren()){
                     if(child.isVisible() && child.playingAnimation instanceof UIExitAnimation){
                         canHide = false;
                         break;
@@ -1238,7 +1238,7 @@ public class UIElement implements Disposable, IEditableValue {
 
         if(exitAnimation == null){
             pendingHide = true;
-            for(UIElement child : getAllChildren()){
+            for(UIElement child : getChildren()){
                 if(child.isVisible() && child.exitAnimation != null){
                     child.playAnimation(child.exitAnimation);
                 }
@@ -1261,7 +1261,7 @@ public class UIElement implements Disposable, IEditableValue {
         pendingHide = false;
         playAnimation(entryAnimation);
 
-        for(UIElement child : getAllChildren()){
+        for(UIElement child : getChildren()){
             if(child.isVisible() && child.entryAnimation != null){
                 child.playAnimation(child.entryAnimation);
             }
