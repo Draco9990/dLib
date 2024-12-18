@@ -20,6 +20,8 @@ public class Reflection {
 
     private static final LinkedHashMap<Class<?>, LinkedHashMap<String, Field>> fieldMap = new LinkedHashMap();
 
+    private static final LinkedHashMap<Class<?>, ArrayList<ClassInfo>> classHierarchyMap = new LinkedHashMap();
+
     //Returns value of a field from the object or its parent classes
     public static <T> T getFieldValue(String fieldName, Object source){
         if(fieldName == null){
@@ -437,22 +439,33 @@ public class Reflection {
     }
 
     public static ArrayList<ClassInfo> findClassInfosOfType(Class<?> parentClass, boolean returnParent){
+        if(classHierarchyMap.containsKey(parentClass)){
+            ArrayList<ClassInfo> toReturn = new ArrayList<>(classHierarchyMap.get(parentClass));
+            if(returnParent){
+                toReturn.removeIf(classInfo -> classInfo.getClassName().equals(parentClass.getName()));
+            }
+            return toReturn;
+        }
+
         ClassFilter filter = new AndClassFilter(
                 new NotClassFilter(new InterfaceOnlyClassFilter()),
                 new ClassModifiersClassFilter(Modifier.PUBLIC),
                 (
-                        returnParent
-                                ? new OrClassFilter(
+                        new OrClassFilter(
                                 new SubclassClassFilter(parentClass),
                                 (classInfo, classFinder) -> classInfo.getClassName().equals(parentClass.getName()))
-                                : new SubclassClassFilter(parentClass)
                 )
         );
 
         ArrayList<ClassInfo> foundClasses = new ArrayList<>();
         generateClassFinder().findClasses(foundClasses, filter);
 
-        return foundClasses;
+        classHierarchyMap.put(parentClass, foundClasses);
+        ArrayList<ClassInfo> toReturn = new ArrayList<>(foundClasses);
+        if(returnParent){
+            toReturn.removeIf(classInfo -> classInfo.getClassName().equals(parentClass.getName()));
+        }
+        return toReturn;
     }
 
     public static ArrayList<Class<?>> getAllClassesFromFile(URL path) {
