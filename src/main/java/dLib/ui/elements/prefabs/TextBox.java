@@ -35,12 +35,7 @@ public class TextBox extends Renderable {
 
     private String onTextChangedLine;
 
-    private float marginPercX = 0.0f;
-    private float marginPercY = 0.0f;
-
     private ArrayList<Consumer<String>> onTextChangedConsumers = new ArrayList<>();
-
-    private Hitbox textRenderHitbox;
 
     private float minFontScale = 0.0f;
     private float fontScaleOverride = 0.0f;
@@ -62,13 +57,7 @@ public class TextBox extends Renderable {
         this(text, Pos.px(0), Pos.px(0), width, height);
     }
     public TextBox(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        this(text, xPos, yPos, width, height, 0, 0.33f);
-    }
-    public TextBox(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height, float xMarginPerc, float yMarginPerc){
         super(new TextureNoneBinding(), xPos, yPos, width, height);
-
-        this.marginPercX = xMarginPerc;
-        this.marginPercY = yMarginPerc;
 
         setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER);
         wrap = false;
@@ -90,9 +79,6 @@ public class TextBox extends Renderable {
         this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
         //TODO FONT
         this.wrap = data.wrap.getValue();
-
-        this.marginPercX = data.marginPercX;
-        this.marginPercY = data.marginPercY;
 
         onTextChangedConsumers.add(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
 
@@ -117,13 +103,10 @@ public class TextBox extends Renderable {
 
         getFontForRender().getData().setScale(fontScale);
 
-        float xMargin = marginPercX * getWidth();
-        float yMargin = marginPercY * getHeight();
-
-        int renderX = getWorldPositionX() + (int) xMargin + (int)(getPaddingLeft() * Settings.xScale);
-        int renderY = getWorldPositionY() + (int) yMargin + (int)(getPaddingBottom() * Settings.yScale);
-        int renderWidth = getWidth() - (int) xMargin * 2 - getPaddingLeft() - getPaddingRight();
-        int renderHeight = getHeight() - (int) yMargin * 2 - getPaddingTop() - getPaddingBottom();
+        int renderX = getWorldPositionX() + (int)(getPaddingLeft() * Settings.xScale);
+        int renderY = getWorldPositionY() + (int)(getPaddingBottom() * Settings.yScale);
+        int renderWidth = getWidth() - getPaddingLeft() - getPaddingRight();
+        int renderHeight = getHeight() - getPaddingTop() - getPaddingBottom();
 
         float halfWidth = (float) renderWidth / 2;
         float halfHeight = (float) renderHeight / 2;
@@ -310,19 +293,6 @@ public class TextBox extends Renderable {
 
     //endregion
 
-    //region Text Margin
-
-    public TextBox setMarginPercX(float value){
-        marginPercX = value;
-        return this;
-    }
-    public TextBox setMarginPercY(float value){
-        marginPercY = value;
-        return this;
-    }
-
-    //endregion
-
     //region Text Wrap
 
     public TextBox setWrap(boolean wrap){
@@ -350,11 +320,8 @@ public class TextBox extends Renderable {
 
         float fontScale = 0.1F;
 
-        float xMargin = marginPercX * getWidth();
-        float yMargin = marginPercY * getHeight();
-
-        int renderWidth = getWidth() - (int) xMargin * 2;
-        int renderHeight = getHeight() - (int) yMargin * 2;
+        int renderWidth = getWidth();
+        int renderHeight = getHeight();
 
         renderWidth -= getPaddingLeft();
         renderWidth -= getPaddingRight();
@@ -426,9 +393,6 @@ public class TextBox extends Renderable {
         public ColorProperty textRenderColor = new ColorProperty(Color.WHITE).setName("Render Color");
         //TODO FONT
         public BooleanProperty wrap = new BooleanProperty(false).setName("Wrap");
-
-        public float marginPercX = 0.07f; //TODO Propertize
-        public float marginPercY = 0.33f;
 
         public MethodBindingProperty onTextChanged = new MethodBindingProperty().setName("On Text Changed");
 

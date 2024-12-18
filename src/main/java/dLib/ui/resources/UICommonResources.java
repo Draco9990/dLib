@@ -58,4 +58,5 @@ public class UICommonResources implements ITextureResource {
     public static final Texture background_big = ImageMaster.loadImage("dLibResources/images/ui/common/bgs/big.png");
 
     public static final Texture xButton = ImageMaster.loadImage("dLibResources/images/ui/common/xButton.png");
+    public static final Texture deleteButton = ImageMaster.loadImage("dLibResources/images/ui/common/DeleteButton.png");
 }

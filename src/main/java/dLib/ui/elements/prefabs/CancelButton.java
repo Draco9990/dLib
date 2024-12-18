@@ -15,9 +15,9 @@ public class CancelButton extends TextButton{
 
         this.getButton().setImage(Tex.stat("dLibResources/images/ui/common/CancelButton.png"));
 
-        this.getTextBox().setDimensions(186, 54);
+        this.getTextBox().setWidth(Dim.px(186));
         this.getTextBox().setFont(FontHelper.buttonLabelFont);
-        this.getTextBox().setLocalPosition(27, 27);
+        this.getTextBox().setLocalPositionX(27);
         this.getTextBox().setFontScaleOverride(1f);
 
         this.setEntryAnimation(new UIAnimation_SlideInRight(this));

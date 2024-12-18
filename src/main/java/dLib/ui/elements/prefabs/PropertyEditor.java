@@ -11,7 +11,7 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import org.apache.logging.log4j.util.BiConsumer;
+import java.util.function.BiConsumer;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -42,7 +42,6 @@ public class PropertyEditor extends UIElement {
             descriptionBox.setWrap(true);
             descriptionBox.setImage(Tex.stat(UICommonResources.inputfield));
             descriptionBox.setMaxFontScale(0.8f);
-            descriptionBox.setMarginPercY(0.1f);
             descriptionBox.setPadding(Padd.px(10), Padd.px(0));
             descriptionBox.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
             descriptionBox.setVerticalAlignment(Alignment.VerticalAlignment.TOP);

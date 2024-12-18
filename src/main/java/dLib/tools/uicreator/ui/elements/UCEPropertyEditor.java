@@ -5,7 +5,7 @@ import dLib.tools.uicreator.UCEditor;
 import dLib.ui.elements.prefabs.PropertyEditor;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
-import org.apache.logging.log4j.util.BiConsumer;
+import java.util.function.BiConsumer;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.UUID;

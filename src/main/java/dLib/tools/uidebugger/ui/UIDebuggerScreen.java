@@ -66,8 +66,6 @@ public class UIDebuggerScreen extends UIElement {
 
                 setImage(Tex.stat(UICommonResources.inputfield));
                 hideAndDisableInstantly();
-
-                setMarginPercY(0.1f);
             }
         }
     }

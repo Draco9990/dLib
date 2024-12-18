@@ -302,7 +302,6 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
     public UIElement makeUIForItem(ItemType item){
         TextBox box = new TextBox(itemToString(item), defaultItemWidth == null ? Dim.fill() : Dim.px(defaultItemWidth), defaultItemHeight == null ? Dim.fill() : Dim.px(defaultItemHeight));
-        box.setMarginPercX(0.025f).setMarginPercY(0.2f);
         box.setFont(FontHelper.buttonLabelFont);
         box.setTextRenderColor(Color.WHITE);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
@@ -524,10 +523,12 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
         for(ItemBoxItem item : originalItems){
             if(!filterCheck(filterText, item.item)){
+                item.renderForItem.hideAndDisableInstantly();
                 continue;
             }
 
             items.add(item);
+            item.renderForItem.showAndEnableInstantly();
         }
     }
 

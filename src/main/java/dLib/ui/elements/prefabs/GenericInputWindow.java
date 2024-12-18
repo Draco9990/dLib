@@ -67,7 +67,7 @@ public class GenericInputWindow extends UIElement {
             setEntryAnimation(new UIAnimation_SlideInUp(this));
             setExitAnimation(new UIAnimation_SlideOutDown(this));
 
-            addChildNCS(new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49)).setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.GOLD).setFontScaleOverride(1f).setMarginPercX(0).setMarginPercY(0));
+            addChildNCS(new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49)).setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.GOLD).setFontScaleOverride(1f));
 
             if(properties.canCancel){
                 cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));

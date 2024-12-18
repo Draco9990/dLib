@@ -1260,6 +1260,12 @@ public class UIElement implements Disposable, IEditableValue {
         setVisibility(true);
         pendingHide = false;
         playAnimation(entryAnimation);
+
+        for(UIElement child : getAllChildren()){
+            if(child.isVisible() && child.entryAnimation != null){
+                child.playAnimation(child.entryAnimation);
+            }
+        }
     }
     public void showInstantly(){
         if(isVisible) return;
