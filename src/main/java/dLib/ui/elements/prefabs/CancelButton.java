@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.animations.entry.UIAnimation_SlideInRight;
 import dLib.ui.animations.exit.UIAnimation_SlideOutLeft;
-import dLib.util.TextureManager;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
@@ -18,7 +17,7 @@ public class CancelButton extends TextButton{
         this.getTextBox().setWidth(Dim.px(186));
         this.getTextBox().setFont(FontHelper.buttonLabelFont);
         this.getTextBox().setLocalPositionX(27);
-        this.getTextBox().setFontScaleOverride(1f);
+        this.getTextBox().setFontScale(1f);
 
         this.setEntryAnimation(new UIAnimation_SlideInRight(this));
         this.setExitAnimation(new UIAnimation_SlideOutLeft(this));

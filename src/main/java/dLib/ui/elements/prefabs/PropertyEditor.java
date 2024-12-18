@@ -40,7 +40,7 @@ public class PropertyEditor extends UIElement {
 
             descriptionBox = new ImageTextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.2));
             descriptionBox.textBox.setWrap(true);
-            descriptionBox.textBox.setMaxFontScale(0.8f);
+            descriptionBox.textBox.setFontScale(0.8f);
             descriptionBox.textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
             descriptionBox.textBox.setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
             elementList.addItem(descriptionBox);

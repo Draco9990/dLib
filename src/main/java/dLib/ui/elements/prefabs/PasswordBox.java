@@ -21,7 +21,7 @@ public class PasswordBox extends UIElement {
         {
             inputfield = new Inputfield("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             inputfield.getTextBox().setFont(FontHelper.cardTitleFont);
-            inputfield.getTextBox().setMaxFontScale(0.8f);
+            inputfield.getTextBox().setFontScale(0.8f);
             inputfield.getTextBox().setTextRenderColor(Color.WHITE);
             inputfield.getTextBox().setObscureText(true);
             box.addItem(inputfield);

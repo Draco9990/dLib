@@ -81,7 +81,6 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
     public UIElement makeUIForItem(ItemType item) {
         ImageTextBox box = (ImageTextBox) super.makeUIForItem(item);
         box.setImage(Tex.stat(UICommonResources.itembox_itembg_vertical));
-        box.textBox.setMaxFontScale(1.0f);
         return box;
     }
 

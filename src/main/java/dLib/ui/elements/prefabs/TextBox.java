@@ -6,16 +6,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.Hitbox;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Renderable;
 import dLib.util.FontManager;
-import dLib.util.bindings.texture.TextureNoneBinding;
+import dLib.util.ui.bounds.StaticBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
@@ -38,9 +37,7 @@ public class TextBox extends UIElement {
 
     private ArrayList<Consumer<String>> onTextChangedConsumers = new ArrayList<>();
 
-    private float minFontScale = 0.0f;
-    private float fontScaleOverride = 0.0f;
-    private float maxFontScale = 0.0f;
+    private float fontScale = 0.85f;
 
     private boolean obscureText = false;
 
@@ -67,10 +64,9 @@ public class TextBox extends UIElement {
         this.text = text;
 
         setFont(FontHelper.cardTitleFont);
+        setPadding(Padd.px(10));
 
         textRenderColor = Color.WHITE.cpy();
-
-        setMaxFontScale(1f);
 
         setPassthrough(true);
     }
@@ -102,8 +98,6 @@ public class TextBox extends UIElement {
         super.renderSelf(sb);
 
         if(text == null || text.isEmpty()) return;
-
-        float fontScale = calculateFontScale();
 
         getFontForRender().getData().setScale(fontScale);
 
@@ -319,6 +313,29 @@ public class TextBox extends UIElement {
 
     //endregion
 
+    //region Mask
+
+    @Override
+    public StaticBounds getMaskWorldBounds() {
+        StaticBounds superBounds = super.getMaskWorldBounds();
+        StaticBounds myBounds = getWorldBounds();
+        myBounds.left -= getPaddingLeft();
+        myBounds.right += getPaddingRight();
+        myBounds.top += getPaddingTop();
+        myBounds.bottom -= getPaddingBottom();
+
+        if(superBounds == null){
+            return myBounds;
+        }
+        else{
+            superBounds.clip(myBounds);
+            return superBounds;
+        }
+    }
+
+
+    //endregion
+
     //region Content Alignment
 
     public UIElement setHorizontalContentAlignment(Alignment.HorizontalAlignment horizontalAlignment){
@@ -347,59 +364,12 @@ public class TextBox extends UIElement {
 
     //endregion Alignment
 
-    protected float calculateFontScale(){
-        if(text == null || text.isEmpty()) return 0.1f;
-
-        float fontScale = 0.1F;
-
-        int renderWidth = getWidth();
-        int renderHeight = getHeight();
-
-        renderWidth -= getPaddingLeft();
-        renderWidth -= getPaddingRight();
-        renderHeight -= getPaddingTop();
-        renderHeight -= getPaddingBottom();
-
-        if(fontScaleOverride > 0.0f){
-            return fontScaleOverride;
-        }
-
-        while(true){
-            getFontForRender().getData().setScale(fontScale);
-            FontHelper.layout.setText(getFontForRender(), text, Color.BLACK, renderWidth * Settings.xScale, 0, wrap);
-            if(FontHelper.layout.height > renderHeight * Settings.yScale || (!wrap && FontHelper.layout.width > renderWidth * Settings.xScale)) {
-                getFontForRender().getData().setScale(1);
-                float calculatedScale = Math.max(fontScale - 0.1F, 0.1f);
-
-                if(minFontScale > 0.0f){
-                    calculatedScale = Math.max(calculatedScale, minFontScale);
-                }
-                if(maxFontScale > 0.0f){
-                    calculatedScale = Math.min(calculatedScale, maxFontScale);
-                }
-
-                return calculatedScale;
-            }
-            fontScale+=0.1F;
-        }
-    }
     public boolean containsNonASCIICharacters(){
         return this.text != null && !this.text.isEmpty() && !this.text.matches("\\A\\p{ASCII}*\\z");
     }
 
-    public TextBox setFontScaleOverride(float fontScaleOverride){
-        this.fontScaleOverride = fontScaleOverride;
-        return this;
-    }
-
-    public TextBox setMinFontScale(float minFontScale){
-        this.minFontScale = minFontScale;
-        return this;
-    }
-
-    public TextBox setMaxFontScale(float maxFontScale){
-        this.maxFontScale = maxFontScale;
-        return this;
+    public void setFontScale(float fontScale){
+        this.fontScale = fontScale;
     }
 
     //region Obscure Text

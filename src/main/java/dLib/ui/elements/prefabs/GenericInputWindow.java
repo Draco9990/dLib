@@ -6,7 +6,6 @@ import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
-import dLib.util.TextureManager;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.Dim;
@@ -67,12 +66,12 @@ public class GenericInputWindow extends UIElement {
             setEntryAnimation(new UIAnimation_SlideInUp(this));
             setExitAnimation(new UIAnimation_SlideOutDown(this));
 
-            addChildNCS(new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49)).setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.GOLD).setFontScaleOverride(1f));
+            addChildNCS(new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49)).setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.GOLD));
 
             if(properties.canCancel){
                 cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));
                 cancelButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/CancelButtonSmall.png"));
-                cancelButton.getTextBox().setFontScaleOverride(0.9f).setTextRenderColor(Color.WHITE);
+                cancelButton.getTextBox().setFontScale(0.9f);
                 cancelButton.onLeftClickEvent.subscribe(this, () -> {
                     getParentOfType(GenericInputWindow.class).hideAndDisable();
                 });
@@ -81,7 +80,7 @@ public class GenericInputWindow extends UIElement {
 
             confirmButton = new TextButton(confirmButtonText, Pos.px(536), Pos.px(18), Dim.px(173), Dim.px(74));
             confirmButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButtonSmall.png"));
-            confirmButton.getTextBox().setFontScaleOverride(0.9f).setTextRenderColor(Color.WHITE);
+            confirmButton.getTextBox().setFontScale(0.9f);
             confirmButton.onLeftClickEvent.subscribe(this, () -> {
                 getParentOfType(GenericInputWindow.class).onConfirm.invoke(consumer -> {
                     if(properties.isPassword){
@@ -100,7 +99,8 @@ public class GenericInputWindow extends UIElement {
             }
             else{
                 inputBox = new Inputfield("", Pos.px(24), Pos.px(155), Dim.px(658), Dim.px(61));
-                inputBox.getTextBox().setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.WHITE).setMaxFontScale(0.8f);
+                inputBox.getTextBox().setFont(FontHelper.buttonLabelFont);
+                inputBox.getTextBox().setFontScale(0.8f);
                 addChildCS(inputBox);
             }
         }

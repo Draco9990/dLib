@@ -39,7 +39,7 @@ public class ReferencePickerMouseState extends MouseState {
                 return;
             }
 
-            UUID renderEventId = preUIHoverEvent.source.postRenderEvent.subscribeManaged(sb -> {
+            UUID renderEventId = preUIHoverEvent.source.postRenderEvent.subscribe(ReferencePickerMouseState.this, sb -> {
                 sb.setColor(Color.YELLOW);
                 sb.draw(ImageMaster.DEBUG_HITBOX_IMG, preUIHoverEvent.source.getWorldPositionX() * Settings.xScale, preUIHoverEvent.source.getWorldPositionY() * Settings.yScale, preUIHoverEvent.source.getWidth() * Settings.xScale, preUIHoverEvent.source.getHeight() * Settings.yScale);
                 sb.flush();

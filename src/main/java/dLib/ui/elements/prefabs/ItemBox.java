@@ -303,7 +303,6 @@ public abstract class ItemBox<ItemType> extends Renderable {
     public UIElement makeUIForItem(ItemType item){
         ImageTextBox box = new ImageTextBox(itemToString(item), defaultItemWidth == null ? Dim.fill() : Dim.px(defaultItemWidth), defaultItemHeight == null ? Dim.fill() : Dim.px(defaultItemHeight));
         box.textBox.setFont(FontHelper.buttonLabelFont);
-        box.textBox.setTextRenderColor(Color.WHITE);
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         return box;
     } //TODO expose with listeners

@@ -53,7 +53,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
             }
 
             if(this.multiline){
-                buildValueContent(Dim.fill(), Dim.fill());
+                buildValueContent(Dim.fill(), Dim.auto());
             }
             else{
                 buildValueContent(Dim.fill(), Dim.px(50));
@@ -95,7 +95,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
     }
 
     private void buildSingleLine(){
-        HorizontalBox hBox = new HorizontalBox(Pos.px(15), Pos.px(0), Dim.fill(), Dim.auto()){
+        HorizontalBox hBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
             @Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
@@ -117,16 +117,16 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         };
         hBox.setPadding(Padd.px(15), Padd.px(0));
 
-        hBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.5), Dim.px(50)).setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT));
+        hBox.addItem(new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.75), Dim.px(50)).setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT));
 
-        buildValueContent(Dim.perc(0.5), Dim.px(50));
+        buildValueContent(Dim.perc(0.25), Dim.px(50));
         hBox.addItem(contentEditor);
         addChildNCS(hBox);
     }
 
     protected void buildValueContent(AbstractDimension width, AbstractDimension height){
         UIElement builtContent = ValueEditorManager.makeEditorFor(boundProperty, width, height);
-        if(builtContent == null) builtContent = new Spacer(width, height); //TODO remove Fallback
+        if(builtContent == null) builtContent = new Spacer(width, Dim.px(1)); //TODO remove Fallback
 
         if(contentEditor != null){
             contentEditor.getParent().replaceChild(contentEditor, builtContent);
