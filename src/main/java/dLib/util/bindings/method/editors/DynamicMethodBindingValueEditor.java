@@ -30,7 +30,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
             VerticalBox methodBindingOptionsBox = new VerticalBox(Dim.px(28), Dim.fill());
             {
                 bindDynamicBindingButton = new Button(Dim.fill(), Dim.px(15));
-                bindDynamicBindingButton.setImage(Tex.stat"dLibResources/images/ui/uieditor/BindButton.png")));
+                bindDynamicBindingButton.setImage(Tex.stat("dLibResources/images/ui/uieditor/BindButton.png"));
                 bindDynamicBindingButton.hideAndDisableInstantly();
                 bindDynamicBindingButton.onLeftClickEvent.subscribe(this, () -> {
                     if(boundProperty.getValue() instanceof DynamicMethodBinding){

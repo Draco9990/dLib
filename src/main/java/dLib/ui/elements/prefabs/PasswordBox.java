@@ -27,7 +27,7 @@ public class PasswordBox extends UIElement {
             box.addItem(inputfield);
 
             showPasswordButton = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
-            showPasswordButton.setImage(Tex.stat"dLibResources/images/ui/common/peekButton.png")));
+            showPasswordButton.setImage(Tex.stat("dLibResources/images/ui/common/peekButton.png"));
             showPasswordButton.onLeftClickEvent.subscribeManaged(() -> {
                 inputfield.getTextBox().setObscureText(false);
             });
