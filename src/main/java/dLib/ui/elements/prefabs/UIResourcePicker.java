@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
@@ -17,6 +18,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -45,21 +47,12 @@ public class UIResourcePicker extends UIElement {
             cancelButton.getButton().setImage(Tex.stat(UICommonResources.cancelButtonSmall));
             addChildCS(cancelButton);
 
-            TextButton confirmButton = new TextButton("Confirm", Pos.px(1626), Pos.px(1080-930), Dim.px(173), Dim.px(74));
-            confirmButton.getButton().onLeftClickEvent.subscribe(this, () -> {
-                UIResourcePicker parent = getParentOfType(UIResourcePicker.class);
-                parent.onResourceSelected.accept(null, null);
-                parent.close();
-            });
-            confirmButton.getButton().setImage(Tex.stat(UICommonResources.confirmButtonSmall));
-            addChildCS(confirmButton);
-
             Scrollbox scrollbox = new Scrollbox(Pos.px(336), Pos.px(1080-922), Dim.px(1242), Dim.px(814));
             scrollbox.setIsHorizontal(false);
             {
                 VerticalBox mainBox = new VerticalBox(Dim.fill(), Dim.fill());
                 {
-                    HashMap<Class<?>, ArrayList<Field>> resources = new HashMap<>();
+                    LinkedHashMap<Class<?>, ArrayList<Field>> resources = new LinkedHashMap<>();
                     for(Field texture : Reflection.getFieldsByClass(Texture.class, ImageMaster.class)){
                         if(Modifier.isStatic(texture.getModifiers())){
                             if(!resources.containsKey(texture.getDeclaringClass())){
@@ -106,11 +99,13 @@ public class UIResourcePicker extends UIElement {
                                 return item;
                             }
                         };
+                        fieldBox.setItemSpacing(10);
                         {
                             for(Field field : entry.getValue()){
                                 fieldBox.addItem(new ResourcePickerWindowResource(entry.getKey(), field));
                             }
                         }
+
                         classBox.addItem(fieldBox);
                         mainBox.addItem(classBox);
                     }
@@ -131,9 +126,22 @@ public class UIResourcePicker extends UIElement {
             public ResourcePickerWindowResource(Class<?> clazz, Field field) {
                 super(Dim.px(150), Dim.px(225));
 
+                Button button = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+                button.setImage(Tex.stat(UICommonResources.white_pixel));
+                Color darkTransparent = new Color(0, 0, 0, 0.4f);
+                button.setRenderColor(darkTransparent);
+                button.onLeftClickEvent.subscribe(this, () -> {
+                    UIResourcePicker parent = getParentOfType(UIResourcePicker.class);
+                    parent.onResourceSelected.accept(clazz, field.getName());
+                    parent.close();
+                });
+                addChildNCS(button);
+
                 VerticalBox contentBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
                 {
                     Image image = new Image(Tex.resource(clazz, field.getName()), Dim.fill(), Dim.fill());
+                    image.setPreserveAspectRatio(true);
+                    image.setNoUpscale(true);
                     contentBox.addItem(image);
 
                     TextBox box = new TextBox(field.getName(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(75));

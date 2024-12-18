@@ -30,6 +30,9 @@ public class Renderable extends UIElement {
 
     protected Vector2 renderDimensionsPerc;
 
+    private boolean preserveAspectRatio = false;
+    private boolean noUpscale = false;
+
     //endregion
 
     //region Constructors
@@ -79,7 +82,41 @@ public class Renderable extends UIElement {
         if(textureToRender != null){
             textureToRender.setRegionWidth((int)(textureToRender.getTexture().getWidth() * getRenderWidthPerc()));
             textureToRender.setRegionHeight((int)(textureToRender.getTexture().getHeight() * getRenderHeightPerc()));
-            sb.draw(textureToRender, getWorldPositionX() * Settings.xScale, getWorldPositionY() * Settings.yScale, getWidth() * Settings.xScale * getRenderWidthPerc(), getHeight() * Settings.yScale * getRenderHeightPerc());
+
+            float renderPosX = getWorldPositionX() * Settings.xScale;
+            float renderPosY = getWorldPositionY() * Settings.yScale;
+            float renderWidth = getWidth() * Settings.xScale * getRenderWidthPerc();
+            float renderHeight = getHeight() * Settings.yScale * getRenderHeightPerc();
+
+            if(isPreservingAspectRatio()){
+                float aspectRatio = (float)textureToRender.getRegionWidth() / (float)textureToRender.getRegionHeight();
+                if(aspectRatio > 1){
+                    renderHeight = renderWidth / aspectRatio;
+                }
+                else {
+                    renderWidth = renderHeight * aspectRatio;
+                }
+
+                //Adjust render position to center the image
+                renderPosX += (getWidth() * Settings.xScale - renderWidth) / 2;
+                renderPosY += (getHeight() * Settings.yScale - renderHeight) / 2;
+            }
+
+            if(isNoUpscale()){
+                if(renderWidth > textureToRender.getRegionWidth()){
+                    renderWidth = textureToRender.getRegionWidth();
+                }
+                if(renderHeight > textureToRender.getRegionHeight()){
+                    renderHeight = textureToRender.getRegionHeight();
+                }
+
+                //Adjust render position to center the image
+                renderPosX += (getWidth() * Settings.xScale - renderWidth) / 2;
+                renderPosY += (getHeight() * Settings.yScale - renderHeight) / 2;
+            }
+
+            sb.draw(textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
+
             sb.flush();  //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
         }
 
@@ -167,6 +204,32 @@ public class Renderable extends UIElement {
 
     public Vector2 getRenderDimensionsPerc(){
         return renderDimensionsPerc;
+    }
+
+    //endregion
+
+    //region Aspect Ratio
+
+    public Renderable setPreserveAspectRatio(boolean preserveAspectRatio){
+        this.preserveAspectRatio = preserveAspectRatio;
+        return this;
+    }
+
+    public boolean isPreservingAspectRatio(){
+        return preserveAspectRatio;
+    }
+
+    //endregion
+
+    //region No Upscale
+
+    public Renderable setNoUpscale(boolean noUpscale){
+        this.noUpscale = noUpscale;
+        return this;
+    }
+
+    public boolean isNoUpscale(){
+        return noUpscale;
     }
 
     //endregion
