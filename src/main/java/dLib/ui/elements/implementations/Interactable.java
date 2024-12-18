@@ -90,7 +90,7 @@ public class Interactable extends Renderable{
     @Override
     protected Color getColorForRender() {
         if(!isEnabled()){
-            if(disabledTexture == null){
+            if(disabledTexture.getBoundObject() == null){
                 Color colorToRender = getDisabledColor().cpy();
                 if(disabledColorMultiplier != 1.0f){
                     colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - disabledColorMultiplier);
@@ -102,7 +102,7 @@ public class Interactable extends Renderable{
             }
         }
         else if(isHovered()){
-            if(hoveredTexture == null){
+            if(hoveredTexture.getBoundObject() == null){
                 Color colorToRender = getHoveredColor().cpy();
                 if(hoveredColorMultiplier != 1.0f){
                     colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - hoveredColorMultiplier);

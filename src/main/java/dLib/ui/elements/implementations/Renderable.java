@@ -293,7 +293,7 @@ public class Renderable extends UIElement {
 
         public float renderColorAlphaMultiplier = 1.0f;
 
-        public FloatVector2Property renderDimensionsPerc = new FloatVector2Property(new Vector2(1, 1)).setName("Render Dimensions Perc").setValueNames("W", "H").setMinimumX(0).setMinimumY(0).setMaximumX(1).setMaximumY(1);
+        public FloatVector2Property renderDimensionsPerc = new FloatVector2Property(new Vector2(1, 1)).setName("Render Dimensions Perc").setValueNames("W", "H").setMinimumX(0f).setMinimumY(0f).setMaximumX(1f).setMaximumY(1f);
 
         @Override
         public UIElement makeUIElement() {

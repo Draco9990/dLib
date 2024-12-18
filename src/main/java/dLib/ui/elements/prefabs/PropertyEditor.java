@@ -78,7 +78,6 @@ public class PropertyEditor extends UIElement {
         for(String category : propertiesByCategory.keySet()){
             if(!categories.containsKey(category)){
                 categories.put(category, makePropertyGroup(category));
-                addChildNCS(categories.get(category));
             }
             categories.get(category).propertyList.updateItems(propertiesByCategory.get(category));
         }
