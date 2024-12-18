@@ -51,6 +51,6 @@ public class RelativeUIElementBinding extends UIElementBinding implements Serial
 
     @Override
     public String getDisplayValue() {
-        return "";
+        return objectRelativePath.getValue();
     }
 }
