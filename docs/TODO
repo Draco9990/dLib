@@ -1,3 +1,7 @@
+--> rename modal to controller only modal
+--> add regular modal
+--. remove controlelr selectable, make it check if of type Interactable
+
 --> modal windows test & f
 
 --. allows negative to integer and float properties

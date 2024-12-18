@@ -73,6 +73,9 @@ public class GenericInputWindow extends UIElement {
                 cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));
                 cancelButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/CancelButtonSmall.png"));
                 cancelButton.getTextBox().setFontScaleOverride(0.9f).setTextRenderColor(Color.WHITE);
+                cancelButton.onLeftClickEvent.subscribe(this, () -> {
+                    getParentOfType(GenericInputWindow.class).hideAndDisable();
+                });
                 addChildCS(cancelButton);
             }
 
