@@ -33,7 +33,7 @@ public class UCEHierarchyViewer extends HierarchyViewer {
                 component.setHoveredInHierarchy(true);
             });
 
-            getButton().onHoveredEvent.subscribeManaged(() -> {
+            getButton().onUnhoveredEvent.subscribeManaged(() -> {
                 UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(false);
             });
