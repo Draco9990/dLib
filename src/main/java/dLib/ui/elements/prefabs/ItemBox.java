@@ -61,6 +61,8 @@ public abstract class ItemBox<ItemType> extends Renderable {
         bgColor.a = 0.4f;
 
         setRenderColor(bgColor);
+
+        setPassthrough(true);
     }
 
     public ItemBox(ItemBoxData data){

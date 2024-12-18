@@ -93,12 +93,7 @@ public class UIResourcePicker extends UIElement {
                         VerticalCollapsableBox classBox = new VerticalCollapsableBox(entry.getKey().getSimpleName());
                         classBox.setPaddingLeft(Padd.px(50));
 
-                        GridItemBox<ResourcePickerWindowResource> fieldBox = new GridItemBox<ResourcePickerWindowResource>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
-                            @Override
-                            public UIElement makeUIForItem(ResourcePickerWindowResource item) {
-                                return item;
-                            }
-                        };
+                        GridBox fieldBox = new GridBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
                         fieldBox.setItemSpacing(10);
                         {
                             for(Field field : entry.getValue()){
@@ -142,6 +137,7 @@ public class UIResourcePicker extends UIElement {
                     Image image = new Image(Tex.resource(clazz, field.getName()), Dim.fill(), Dim.fill());
                     image.setPreserveAspectRatio(true);
                     image.setNoUpscale(true);
+                    image.setPassthrough(true);
                     contentBox.addItem(image);
 
                     TextBox box = new TextBox(field.getName(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(75));
