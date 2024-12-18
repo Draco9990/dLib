@@ -1,0 +1,38 @@
+package dLib.ui.elements.prefabs;
+
+import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.texture.Tex;
+import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
+import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
+
+public class ImageTextBox extends Renderable {
+    public TextBox textBox;
+
+    public ImageTextBox(String text) {
+        super(Tex.stat(UICommonResources.inputfield));
+        init(text);
+    }
+    public ImageTextBox(String text, AbstractPosition xPos, AbstractPosition yPos) {
+        super(Tex.stat(UICommonResources.inputfield), xPos, yPos);
+        init(text);
+    }
+    public ImageTextBox(String text, AbstractDimension width, AbstractDimension height) {
+        super(Tex.stat(UICommonResources.inputfield), width, height);
+        init(text);
+    }
+    public ImageTextBox(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+        super(Tex.stat(UICommonResources.inputfield), xPos, yPos, width, height);
+        init(text);
+    }
+
+    private void init(String text){
+        textBox = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        textBox.setPadding(Padd.perc(0.1f), Padd.perc(0.05f));
+        addChildNCS(textBox);
+    }
+}

@@ -30,14 +30,14 @@ public class UIDebuggableComponent extends UIElementComponent{
             onHoverEventID = owner.onHoveredEvent.subscribeManaged(() -> {
                 UIDebuggerScreen debuggerScreen = getUIDebuggerScreen();
                 if(debuggerScreen != null){
-                    debuggerScreen.elementList.elementInfo.setText(generateDebugTextForUIElement(owner));
+                    debuggerScreen.elementList.elementInfo.textBox.setText(generateDebugTextForUIElement(owner));
                 }
             });
 
             onUnHoverEventID = owner.onUnhoveredEvent.subscribeManaged(() -> {
                 UIDebuggerScreen debuggerScreen = getUIDebuggerScreen();
                 if(debuggerScreen != null){
-                    debuggerScreen.elementList.elementInfo.setText("");
+                    debuggerScreen.elementList.elementInfo.textBox.setText("");
                 }
             });
 

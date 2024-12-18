@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class TextBox extends Renderable {
+public class TextBox extends UIElement {
     //region Variables
 
     private String text;
@@ -60,7 +60,7 @@ public class TextBox extends Renderable {
         this(text, Pos.px(0), Pos.px(0), width, height);
     }
     public TextBox(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
-        super(new TextureNoneBinding(), xPos, yPos, width, height);
+        super(xPos, yPos, width, height);
 
         wrap = false;
 
@@ -69,6 +69,8 @@ public class TextBox extends Renderable {
         setFont(FontHelper.cardTitleFont);
 
         textRenderColor = Color.WHITE.cpy();
+
+        setMaxFontScale(1f);
 
         setPassthrough(true);
     }
@@ -415,7 +417,7 @@ public class TextBox extends Renderable {
 
     //endregion
 
-    public static class TextBoxData extends RenderableData implements Serializable {
+    public static class TextBoxData extends UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public StringProperty text = new StringProperty("TEXT").setName("Text");

@@ -2,6 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.properties.objects.DimensionProperty;
 import dLib.ui.elements.prefabs.HorizontalBox;
+import dLib.ui.elements.prefabs.ImageTextBox;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
@@ -9,7 +10,7 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.FillDimension;
 
 public class FillDimensionValueEditor extends DimensionValueEditor<FillDimension> {
-    private TextBox textBox;
+    private ImageTextBox textBox;
 
     public FillDimensionValueEditor(FillDimension value){
         this(new DimensionProperty(value));
@@ -20,8 +21,7 @@ public class FillDimensionValueEditor extends DimensionValueEditor<FillDimension
 
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());
         {
-            textBox = new TextBox(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
-            textBox.setImage(Tex.stat(UICommonResources.inputfield));
+            textBox = new ImageTextBox(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
             contentBox.addItem(textBox);
 
             contentBox.addItem(makeSwapComboBox());

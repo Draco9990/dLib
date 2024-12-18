@@ -87,7 +87,7 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType>{
 
     @Override
     public UIElement makeUIForItem(ItemType item) {
-        TextBox box = (TextBox) super.makeUIForItem(item);
+        ImageTextBox box = (ImageTextBox) super.makeUIForItem(item);
         box.setImage(Tex.stat(UICommonResources.button03_square));
         return box;
     }

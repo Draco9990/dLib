@@ -7,6 +7,7 @@ import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.bindings.RelativeUIElementBinding;
 import dLib.ui.elements.prefabs.Button;
 import dLib.ui.elements.prefabs.HorizontalBox;
+import dLib.ui.elements.prefabs.ImageTextBox;
 import dLib.ui.elements.prefabs.TextBox;
 import dLib.ui.mousestates.ReferencePickerMouseState;
 import dLib.ui.resources.UICommonResources;
@@ -15,7 +16,7 @@ import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
 public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingValueEditor<RelativeUIElementBinding> {
-    private TextBox bindingBox;
+    private ImageTextBox bindingBox;
 
     public UCRelativeUIElementBindingValueEditor(RelativeUIElementBinding value) {
         this(new UCUIElementBindingProperty(value));
@@ -42,18 +43,17 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
             });
             mainContentBox.addItem(referenceButton);
 
-            bindingBox = new TextBox(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
-            bindingBox.setImage(Tex.stat(UICommonResources.inputfield));
+            bindingBox = new ImageTextBox(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
             mainContentBox.addItem(bindingBox);
         }
 
         if(property.getValue() instanceof RelativeUIElementBinding){
             RelativeUIElementBinding binding = (RelativeUIElementBinding) property.getValue();
-            binding.getObjectRelativePathRaw().onValueChangedEvent.subscribe(this, (s, s2) -> bindingBox.setText(s2));
+            binding.getObjectRelativePathRaw().onValueChangedEvent.subscribe(this, (s, s2) -> bindingBox.textBox.setText(s2));
         }
 
         ((RelativeUIElementBinding) property.getValue()).getObjectRelativePathRaw().onValueChangedEvent.subscribe(this, (uiElementBinding, uiElementBinding2) -> {
-            bindingBox.setText(uiElementBinding2);
+            bindingBox.textBox.setText(uiElementBinding2);
         });
 
         addChildNCS(mainContentBox);

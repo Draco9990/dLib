@@ -2,10 +2,7 @@ package dLib.tools.uidebugger.ui;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.TextBox;
-import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.elements.prefabs.VerticalBox;
+import dLib.ui.elements.prefabs.*;
 import dLib.ui.resources.UICommonResources;
 
 import dLib.util.bindings.texture.Tex;
@@ -60,11 +57,10 @@ public class UIDebuggerScreen extends UIElement {
             }
         }
 
-        public static class UIDebuggerElementInfo extends TextBox {
+        public static class UIDebuggerElementInfo extends ImageTextBox {
             public UIDebuggerElementInfo(){
                 super("", Dim.px(600), Dim.px(400));
 
-                setImage(Tex.stat(UICommonResources.inputfield));
                 hideAndDisableInstantly();
             }
         }

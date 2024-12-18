@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.UUID;
 
 public class PropertyEditor extends UIElement {
-    public TextBox descriptionBox;
+    public ImageTextBox descriptionBox;
 
     private ArrayList<TProperty<?, ?>> properties = new ArrayList<>();
     private VerticalBox propertyList;
@@ -38,13 +38,11 @@ public class PropertyEditor extends UIElement {
             propertyListScrollbox.setIsHorizontal(false);
             elementList.addItem(propertyListScrollbox);
 
-            descriptionBox = new TextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.2));
-            descriptionBox.setWrap(true);
-            descriptionBox.setImage(Tex.stat(UICommonResources.inputfield));
-            descriptionBox.setMaxFontScale(0.8f);
-            descriptionBox.setPadding(Padd.px(10), Padd.px(0));
-            descriptionBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
-            descriptionBox.setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
+            descriptionBox = new ImageTextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.2));
+            descriptionBox.textBox.setWrap(true);
+            descriptionBox.textBox.setMaxFontScale(0.8f);
+            descriptionBox.textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+            descriptionBox.textBox.setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
             elementList.addItem(descriptionBox);
         }
         addChildNCS(elementList);
@@ -133,7 +131,7 @@ public class PropertyEditor extends UIElement {
         }
 
         public TextBox getDescriptionBox() {
-            return (getParentOfType(PropertyEditor.class)).descriptionBox;
+            return (getParentOfType(PropertyEditor.class)).descriptionBox.textBox;
         }
     }
 
