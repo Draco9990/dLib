@@ -1,5 +1,7 @@
 package dLib.properties.ui.elements;
 
+import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.templates.TBooleanProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
@@ -36,9 +38,9 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
     public PropertyValueEditor(TProperty<?, ?> property, boolean multiline) {
         super((PropertyType) property);
 
-        this.multiline = multiline;
+        this.multiline = multiline && !(property instanceof TBooleanProperty); //Fuck it we hard-code
 
-        if(multiline){
+        if(this.multiline){
             buildMultiline();
         }
         else{
@@ -50,7 +52,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
                 return;
             }
 
-            if(multiline){
+            if(this.multiline){
                 buildValueContent(Dim.fill(), Dim.fill());
             }
             else{
