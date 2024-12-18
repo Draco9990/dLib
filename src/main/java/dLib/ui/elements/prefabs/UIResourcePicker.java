@@ -10,6 +10,7 @@ import dLib.util.Reflection;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.textureresource.ITextureResource;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
 
 import java.lang.reflect.Field;
@@ -37,7 +38,7 @@ public class UIResourcePicker extends UIElement {
             super(Tex.stat(UICommonResources.background_big), Dim.fill(), Dim.fill());
 
             TextButton cancelButton = new TextButton("Cancel", Pos.px(126), Pos.px(1080-930), Dim.px(161), Dim.px(74));
-            cancelButton.onLeftClickEvent.subscribe(this, () -> {
+            cancelButton.getButton().onLeftClickEvent.subscribe(this, () -> {
                 UIResourcePicker parent = getParentOfType(UIResourcePicker.class);
                 parent.close();
             });
@@ -45,7 +46,7 @@ public class UIResourcePicker extends UIElement {
             addChildCS(cancelButton);
 
             TextButton confirmButton = new TextButton("Confirm", Pos.px(1626), Pos.px(1080-930), Dim.px(173), Dim.px(74));
-            confirmButton.onLeftClickEvent.subscribe(this, () -> {
+            confirmButton.getButton().onLeftClickEvent.subscribe(this, () -> {
                 UIResourcePicker parent = getParentOfType(UIResourcePicker.class);
                 parent.onResourceSelected.accept(null, null);
                 parent.close();
@@ -97,6 +98,7 @@ public class UIResourcePicker extends UIElement {
 
                     for(Map.Entry<Class<?>, ArrayList<Field>> entry : resources.entrySet()){
                         VerticalCollapsableBox classBox = new VerticalCollapsableBox(entry.getKey().getSimpleName());
+                        classBox.setPaddingLeft(Padd.px(50));
 
                         GridItemBox<ResourcePickerWindowResource> fieldBox = new GridItemBox<ResourcePickerWindowResource>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
                             @Override
@@ -129,7 +131,7 @@ public class UIResourcePicker extends UIElement {
             public ResourcePickerWindowResource(Class<?> clazz, Field field) {
                 super(Dim.px(150), Dim.px(225));
 
-                VerticalBox contentBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(150));
+                VerticalBox contentBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
                 {
                     Image image = new Image(Tex.resource(clazz, field.getName()), Dim.fill(), Dim.fill());
                     contentBox.addItem(image);

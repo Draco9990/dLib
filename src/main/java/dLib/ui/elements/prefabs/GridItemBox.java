@@ -25,6 +25,8 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType>{
         defaultItemWidth = 75;
 
         itemSpacing = 5;
+
+        setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
     }
 
     public GridItemBox(GridBoxData data){
@@ -63,9 +65,6 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType>{
                 continue;
             }
 
-            item.renderForItem.setLocalPosition(currentXPos, currentYPos - item.renderForItem.getHeight());
-
-            currentXPos += item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight();
             if(currentXPos + item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight() > getWidth()){
                 currentXPos = 0;
 
@@ -73,6 +72,10 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType>{
                 currentYPos -= itemSpacing;
                 currentYPos -= item.renderForItem.getPaddingBottom();
             }
+
+            item.renderForItem.setLocalPosition(currentXPos, currentYPos - item.renderForItem.getHeight());
+
+            currentXPos += item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight();
         }
     }
 
