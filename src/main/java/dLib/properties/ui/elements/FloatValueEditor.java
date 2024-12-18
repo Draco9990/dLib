@@ -36,7 +36,7 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
             addChildNCS(leftArrow);
 
             inputbox = new Inputfield(boundProperty.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.px(50));
-            inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL);
+            inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
             inputbox.addOnValueChangedListener(s -> {
                 boundProperty.setValueFromString(s);
             });

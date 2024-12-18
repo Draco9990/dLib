@@ -5,11 +5,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
-import dLib.properties.objects.ColorProperty;
-import dLib.properties.objects.FloatVector2Property;
-import dLib.properties.objects.TextureBindingProperty;
+import dLib.properties.objects.*;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -32,6 +31,9 @@ public class Renderable extends UIElement {
 
     private boolean preserveAspectRatio = false;
     private boolean noUpscale = false;
+
+    private IntegerVector2 renderOffset = new IntegerVector2(0, 0);
+    private Vector2 renderScaleOffset = new Vector2(1, 1);
 
     //endregion
 
@@ -66,6 +68,9 @@ public class Renderable extends UIElement {
         this.renderColorAlphaMultiplier = data.renderColorAlphaMultiplier;
 
         this.renderDimensionsPerc = data.renderDimensionsPerc.getValue();
+
+        this.renderOffset = data.positionOffset.getValue();
+        this.renderScaleOffset = data.renderScaleOffset.getValue();
     }
 
     //endregion
@@ -114,6 +119,12 @@ public class Renderable extends UIElement {
                 renderPosX += (getWidth() * Settings.xScale - renderWidth) / 2;
                 renderPosY += (getHeight() * Settings.yScale - renderHeight) / 2;
             }
+
+            renderPosX += renderOffset.x;
+            renderPosY += renderOffset.y;
+
+            renderWidth *= renderScaleOffset.x;
+            renderHeight *= renderScaleOffset.y;
 
             sb.draw(textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
 
@@ -234,6 +245,28 @@ public class Renderable extends UIElement {
 
     //endregion
 
+    //region Scale Offsets
+
+    public Renderable setRenderOffset(IntegerVector2 offset){
+        renderOffset = offset;
+        return this;
+    }
+
+    public IntegerVector2 getRenderOffset(){
+        return renderOffset;
+    }
+
+    public Renderable setRenderScaleOffset(Vector2 offset){
+        renderScaleOffset = offset;
+        return this;
+    }
+
+    public Vector2 getRenderScaleOffset(){
+        return renderScaleOffset;
+    }
+
+    //endregion Scale offsets
+
     //endregion
 
     public static class RenderableData extends UIElement.UIElementData implements Serializable {
@@ -243,6 +276,18 @@ public class Renderable extends UIElement {
                 .setName("Image")
                 .setDescription("Image to render as this element.")
                 .setCategory("Render");
+
+        public IntegerVector2Property positionOffset = new IntegerVector2Property(new IntegerVector2(0, 0))
+                .setName("X Position Offset")
+                .setDescription("Offset for the render position of the rendered image.")
+                .setCategory("Render")
+                .setValueNames("X", "Y");
+
+        public FloatVector2Property renderScaleOffset = new FloatVector2Property(new Vector2(1, 1))
+                .setName("Render Scale Offset")
+                .setDescription("Offset for the scale of the rendered image.")
+                .setCategory("Render")
+                .setValueNames("W", "H");
 
         public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
 

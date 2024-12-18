@@ -17,11 +17,11 @@ public abstract class TFloatVector2Property<PropertyType> extends TProperty<Vect
     private transient ArrayList<BiConsumer<Float, Float>> onXValueChangedListeners = new ArrayList<>();
     private transient ArrayList<BiConsumer<Float, Float>> onYValueChangedListeners = new ArrayList<>();
 
-    private float minimumX;
-    private float maximumX;
+    private Float minimumX;
+    private Float maximumX;
 
-    private float minimumY;
-    private float maximumY;
+    private Float minimumY;
+    private Float maximumY;
 
     //endregion
 
@@ -99,11 +99,11 @@ public abstract class TFloatVector2Property<PropertyType> extends TProperty<Vect
 
     @Override
     public Vector2 sanitizeValue(Vector2 newValue) {
-        if(newValue.x < minimumX) newValue.x = minimumX;
-        if(newValue.x > maximumX) newValue.x = maximumX;
+        if(minimumX != null && newValue.x < minimumX) newValue.x = minimumX;
+        if(maximumX != null && newValue.x > maximumX) newValue.x = maximumX;
 
-        if(newValue.y < minimumY) newValue.y = minimumY;
-        if(newValue.y > maximumY) newValue.y = maximumY;
+        if(minimumY != null && newValue.y < minimumY) newValue.y = minimumY;
+        if(maximumY != null && newValue.y > maximumY) newValue.y = maximumY;
 
         return super.sanitizeValue(newValue);
     }
@@ -136,7 +136,7 @@ public abstract class TFloatVector2Property<PropertyType> extends TProperty<Vect
 
     //region Value Bounds
 
-    public PropertyType setMinimumX(float minimumX){
+    public PropertyType setMinimumX(Float minimumX){
         this.minimumX = minimumX;
         return (PropertyType) this;
     }
@@ -145,7 +145,7 @@ public abstract class TFloatVector2Property<PropertyType> extends TProperty<Vect
         return minimumX;
     }
 
-    public PropertyType setMaximumX(float maximumX){
+    public PropertyType setMaximumX(Float maximumX){
         this.maximumX = maximumX;
         return (PropertyType) this;
     }
@@ -154,7 +154,7 @@ public abstract class TFloatVector2Property<PropertyType> extends TProperty<Vect
         return maximumX;
     }
 
-    public PropertyType setMinimumY(float minimumY){
+    public PropertyType setMinimumY(Float minimumY){
         this.minimumY = minimumY;
         return (PropertyType) this;
     }
@@ -163,7 +163,7 @@ public abstract class TFloatVector2Property<PropertyType> extends TProperty<Vect
         return minimumY;
     }
 
-    public PropertyType setMaximumY(float maximumY){
+    public PropertyType setMaximumY(Float maximumY){
         this.maximumY = maximumY;
         return (PropertyType) this;
     }

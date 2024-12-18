@@ -36,7 +36,7 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
         PredefinedGrid grid = new PredefinedGrid(3, 3, Dim.fill(), Dim.width());
         for(int i = 0; i < 3; i++){
             for(int j = 2; j >= 0; j--){
-                String textureLoc = "dLibResources/images/ui/themes/basic/alignment/align" + i + j + ".png";
+                String textureLoc = "dLibResources/images/ui/common/alignment/" + i + j + ".png";
                 Texture alignmentTexture = TextureManager.getTexture(textureLoc);
                 int finalI = i;
                 int finalJ = j;

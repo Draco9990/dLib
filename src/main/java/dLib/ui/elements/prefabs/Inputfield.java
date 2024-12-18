@@ -130,9 +130,30 @@ public class Inputfield extends UIElement {
                     }
 
                     boolean respectsPreset = preset != EInputfieldPreset.GENERIC;
-                    if(preset == EInputfieldPreset.NUMERICAL_DECIMAL || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE){
+                    if(preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE
+                            || preset == EInputfieldPreset.NUMERICAL_DECIMAL || preset == EInputfieldPreset.NUMERICAL_WHOLE){
                         if (c < '0' || c > '9') {
-                            if(c != '.' || preset != EInputfieldPreset.NUMERICAL_DECIMAL || textBox.getText().contains(".")){
+                            if(c == '.'){
+                                if(textBox.getText().contains(".")){
+                                    respectsPreset = false;
+                                }
+                                if(preset != EInputfieldPreset.NUMERICAL_DECIMAL && preset != EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE){
+                                    respectsPreset = false;
+                                }
+                            }
+                            else if(c == '-'){
+                                respectsPreset = false;
+
+                                if(preset == EInputfieldPreset.NUMERICAL_WHOLE || preset == EInputfieldPreset.NUMERICAL_DECIMAL){
+                                    if(textBox.getText().startsWith("-")){
+                                        textBox.setText(textBox.getText().substring(1));
+                                    }
+                                    else{
+                                        textBox.setText("-" + textBox.getText());
+                                    }
+                                }
+                            }
+                            else{
                                 respectsPreset = false;
                             }
                         }
@@ -312,7 +333,7 @@ public class Inputfield extends UIElement {
         if(this.textBox.getText().isEmpty()) return;
 
         String newText = this.textBox.getText().substring(0, this.textBox.getText().length()-1);
-        if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE)){
+        if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE)){
             newText = "0";
         }
         this.textBox.setText(newText);
@@ -343,8 +364,10 @@ public class Inputfield extends UIElement {
 
     public enum EInputfieldPreset {
         GENERIC,
+        NUMERICAL_WHOLE,
+        NUMERICAL_DECIMAL,
         NUMERICAL_WHOLE_POSITIVE,
-        NUMERICAL_DECIMAL
+        NUMERICAL_DECIMAL_POSITIVE
     }
 
     public static class InputfieldData extends UIElement.UIElementData implements Serializable {

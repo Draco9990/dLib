@@ -32,7 +32,7 @@ public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatV
                 mainContentBox.addItem(xLabel);
             }
 
-            xInput = new Inputfield(String.valueOf(property.getXValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+            xInput = new Inputfield(String.valueOf(property.getXValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
             xInput.getTextBox().addOnTextChangedConsumer(s -> {
                 Vector2 currentVal = boundProperty.getValue();
                 currentVal.x = Float.parseFloat(s);
@@ -47,11 +47,11 @@ public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatV
                 mainContentBox.addItem(yLabel);
             }
 
-            yInput = new Inputfield(String.valueOf(property.getYValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
+            yInput = new Inputfield(String.valueOf(property.getYValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
             yInput.getTextBox().addOnTextChangedConsumer(s -> {
-                Vector2 currentVal = property.getValue();
+                Vector2 currentVal = boundProperty.getValue();
                 currentVal.y = Float.parseFloat(s);
-                property.setValue(currentVal);
+                boundProperty.setValue(currentVal);
             });
             mainContentBox.addItem(yInput);
         }
@@ -62,11 +62,11 @@ public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatV
             TextBox xBox = xInput.getTextBox();
             TextBox yBox = yInput.getTextBox();
 
-            if(!xBox.getText().equals(property.getValueForDisplay())){
-                xBox.setText(property.getValueForDisplay());
+            if(!xBox.getText().equals(boundProperty.getValueForDisplay())){
+                xBox.setText(String.valueOf(boundProperty.getXValue()));
             }
-            if(!yBox.getText().equals(property.getValueForDisplay())){
-                yBox.setText(property.getValueForDisplay());
+            if(!yBox.getText().equals(boundProperty.getValueForDisplay())){
+                yBox.setText(String.valueOf(boundProperty.getYValue()));
             }
         });
 
