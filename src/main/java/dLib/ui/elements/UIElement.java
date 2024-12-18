@@ -24,6 +24,7 @@ import dLib.properties.ui.elements.IEditableValue;
 import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
+import dLib.ui.animations.exit.UIExitAnimation;
 import dLib.ui.bindings.RelativeUIElementBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
@@ -92,6 +93,8 @@ public class UIElement implements Disposable, IEditableValue {
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
 
+    private boolean pendingHide = false;
+
     private Color darkenedColor = Color.BLACK;
     private float darkenedColorMultiplier = 0.4f;
     protected boolean isDarkened = false;
@@ -145,7 +148,7 @@ public class UIElement implements Disposable, IEditableValue {
     //TODO: Expose to data and screen editor
     private UIAnimation entryAnimation;
     private UIAnimation reentryAnimation; //TODO
-    private UIAnimation exitAnimation;
+    private UIExitAnimation exitAnimation;
     private UIAnimation animation;
 
     private UIAnimation playingAnimation;
@@ -284,6 +287,23 @@ public class UIElement implements Disposable, IEditableValue {
         ensureElementWithinBounds();
     }
     protected void updateSelf(){
+        //Update Visibility
+        {
+            if(pendingHide){
+                boolean canHide = true;
+                for(UIElement child : getAllChildren()){
+                    if(child.isVisible() && child.playingAnimation instanceof UIExitAnimation){
+                        canHide = false;
+                        break;
+                    }
+                }
+                if(canHide){
+                    pendingHide = false;
+                    setVisibility(false);
+                }
+            }
+        }
+
         //Update Components
         {
             for(UIElementComponent component : components){
@@ -1217,7 +1237,12 @@ public class UIElement implements Disposable, IEditableValue {
         if(!isVisible) return;
 
         if(exitAnimation == null){
-            setVisibility(false);
+            pendingHide = true;
+            for(UIElement child : getAllChildren()){
+                if(child.isVisible() && child.exitAnimation != null){
+                    child.playAnimation(child.exitAnimation);
+                }
+            }
         }
         else{
             playAnimation(exitAnimation);
@@ -1233,6 +1258,7 @@ public class UIElement implements Disposable, IEditableValue {
         if(isVisible) return;
 
         setVisibility(true);
+        pendingHide = false;
         playAnimation(entryAnimation);
     }
     public void showInstantly(){
@@ -1425,19 +1451,16 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Animations
 
-    public UIElement setEntryAnimation(UIAnimation entryAnimation){
+    public void setEntryAnimation(UIAnimation entryAnimation){
         this.entryAnimation = entryAnimation;
-        return this;
     }
 
-    public UIElement setExitAnimation(UIAnimation exitAnimation){
+    public void setExitAnimation(UIExitAnimation exitAnimation){
         this.exitAnimation = exitAnimation;
-        return this;
     }
 
-    public UIElement setAnimation(UIAnimation animation){
+    public void setAnimation(UIAnimation animation){
         this.animation = animation;
-        return this;
     }
 
     public void playAnimation(UIAnimation animation){
@@ -1969,6 +1992,10 @@ public class UIElement implements Disposable, IEditableValue {
     }
     public boolean shouldDrawFocusOnOpen(){
         return drawFocusOnOpen;
+    }
+
+    public void focus(){
+        //TODO
     }
 
     //endregion

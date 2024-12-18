@@ -30,9 +30,9 @@ public class ScreenEditorPreview extends UIElement {
     public ScreenEditorPreview(){
         super(Pos.px(10), Pos.px(10), Dim.fill(), Dim.fill());
 
-        addChildNCS(new Renderable(Tex.stat(TextureManager.getTexture("dLibResources/images/ui/Transparent.png")), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()));
+        addChildNCS(new Renderable(Tex.stat"dLibResources/images/ui/Transparent.png")), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()));
 
-        grid = new Renderable(Tex.stat(TextureManager.getTexture("dLibResources/images/ui/screeneditor/ScreenEditorGrid.png")), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw());
+        grid = new Renderable(Tex.stat"dLibResources/images/ui/screeneditor/ScreenEditorGrid.png")), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw());
     }
 
     //endregion

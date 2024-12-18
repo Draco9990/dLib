@@ -7,39 +7,34 @@ import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Renderable;
 import dLib.util.TextureManager;
+import dLib.util.bindings.texture.Tex;
+import dLib.util.events.Event;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
-//NREDO
+import java.util.function.Consumer;
 
-/*
 public class GenericInputWindow extends UIElement {
-    public DarkenLayer darkenLayer;
+    protected DarkenLayer darkenLayer;
+    protected InternalPasswordWindow popup;
 
-    public InternalPasswordWindow popup;
+    public Event<Consumer<String>> onConfirm = new Event<>();
 
     public GenericInputWindow(String title, String confirmButtonText) {
         this(title, confirmButtonText, new ElementProperties());
     }
 
     public GenericInputWindow(String title, String confirmButtonText, ElementProperties properties){
-        super(0, 0, 1920, 1080);
+        super();
 
         darkenLayer = new DarkenLayer();
         addChildNCS(darkenLayer);
 
         popup = new InternalPasswordWindow(title, confirmButtonText, properties);
-        addChildCS(popup);
-    }
+        addChildNCS(popup);
 
-    @Override
-    public void hide() {
-        darkenLayer.lighten();
-        popup.hide();
-    }
-
-    @Override
-    public void show() {
-        darkenLayer.darken();
-        popup.show();
+        setModal(true);
+        setDrawFocusOnOpen(true);
     }
 
     @Override
@@ -59,7 +54,7 @@ public class GenericInputWindow extends UIElement {
         if(popup.passwordBox != null) popup.passwordBox.inputfield.getTextBox().setText("");
     }
 
-    public static class InternalPasswordWindow extends UIElement{
+    public static class InternalPasswordWindow extends Renderable{
         public TextButton cancelButton;
         public TextButton confirmButton;
 
@@ -67,33 +62,41 @@ public class GenericInputWindow extends UIElement {
         public PasswordBox passwordBox;
 
         public InternalPasswordWindow(String title, String confirmButtonText, ElementProperties properties){
-            super(0, 0, 1920, 1080);
+            super(Tex.stat("dLibResources/images/ui/common/GenericInputWindowBackground.png"), Pos.px(603), Pos.px(323), Dim.px(699), Dim.px(369));
 
             setEntryAnimation(new UIAnimation_SlideInUp(this));
             setExitAnimation(new UIAnimation_SlideOutDown(this));
 
-            addChildNCS(new Renderable(TextureManager.getTexture("dLibResources/images/ui/common/GenericInputWindowBackground.png"), 603, 1080-757));
-
-            addChildNCS(new TextBox(title, 637, 1080-471, 643, 49).setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.GOLD).setFontScaleOverride(1f).setMarginPercX(0).setMarginPercY(0));
+            addChildNCS(new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49)).setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.GOLD).setFontScaleOverride(1f).setMarginPercX(0).setMarginPercY(0));
 
             if(properties.canCancel){
-                cancelButton = new TextButton("Cancel", 598, 1080-739, 161, 74);
-                cancelButton.getButton().setImage(TextureManager.getTexture("dLibResources/images/ui/common/CancelButtonSmall.png"));
+                cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));
+                cancelButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/CancelButtonSmall.png"));
                 cancelButton.getTextBox().setFontScaleOverride(0.9f).setTextRenderColor(Color.WHITE);
                 addChildCS(cancelButton);
             }
 
-            confirmButton = new TextButton(confirmButtonText, 1139, 1080-739, 173, 74);
-            confirmButton.getButton().setImage(TextureManager.getTexture("dLibResources/images/ui/common/ConfirmButtonSmall.png"));
+            confirmButton = new TextButton(confirmButtonText, Pos.px(536), Pos.px(18), Dim.px(173), Dim.px(74));
+            confirmButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButtonSmall.png"));
             confirmButton.getTextBox().setFontScaleOverride(0.9f).setTextRenderColor(Color.WHITE);
+            confirmButton.onLeftClickEvent.subscribe(this, () -> {
+                getParentOfType(GenericInputWindow.class).onConfirm.invoke(consumer -> {
+                    if(properties.isPassword){
+                        consumer.accept(passwordBox.inputfield.getTextBox().getText());
+                    }
+                    else{
+                        consumer.accept(inputBox.getTextBox().getText());
+                    }
+                });
+            });
             addChildCS(confirmButton);
 
             if(properties.isPassword){
-                passwordBox = new PasswordBox(627, 1080-602, 658, 61);
+                passwordBox = new PasswordBox(Pos.px(24), Pos.px(155), Dim.px(658), Dim.px(61));
                 addChildCS(passwordBox);
             }
             else{
-                inputBox = new Inputfield("", 627, 1080-602, 658, 61);
+                inputBox = new Inputfield("", Pos.px(24), Pos.px(155), Dim.px(658), Dim.px(61));
                 inputBox.getTextBox().setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.WHITE).setMaxFontScale(0.8f);
                 addChildCS(inputBox);
             }
@@ -105,4 +108,3 @@ public class GenericInputWindow extends UIElement {
         public boolean canCancel = true;
     }
 }
-*/

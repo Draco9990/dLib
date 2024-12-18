@@ -13,7 +13,7 @@ public class CancelButton extends TextButton{
     public CancelButton() {
         super("Cancel", Pos.px(0), Pos.px(1080-949), Dim.px(278), Dim.px(102));
 
-        this.getButton().setImage(Tex.stat(TextureManager.getTexture("dLibResources/images/ui/common/CancelButton.png")));
+        this.getButton().setImage(Tex.stat"dLibResources/images/ui/common/CancelButton.png")));
 
         this.getTextBox().setDimensions(186, 54);
         this.getTextBox().setFont(FontHelper.buttonLabelFont);

@@ -56,4 +56,6 @@ public class UICommonResources implements ITextureResource {
     public static final Texture itembox_itembg_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/itembox/itembg_horizontal.png");
 
     public static final Texture background_big = ImageMaster.loadImage("dLibResources/images/ui/common/bgs/big.png");
+
+    public static final Texture xButton = ImageMaster.loadImage("dLibResources/images/ui/common/xButton.png");
 }

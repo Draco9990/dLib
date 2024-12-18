@@ -6,7 +6,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.elements.implementations.Renderable;
 
-public class UIAnimation_FadeOut extends UIAnimation {
+public class UIAnimation_FadeOut extends UIExitAnimation {
 
     private AnimationProperties properties;
 

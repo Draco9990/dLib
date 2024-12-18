@@ -2,6 +2,7 @@ package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import dLib.util.TextureManager;
 
 public class Tex {
     public static TextureStaticBinding stat(TextureRegion region) {
@@ -9,6 +10,9 @@ public class Tex {
     }
     public static TextureStaticBinding stat(Texture texture) {
         return new TextureStaticBinding(texture);
+    }
+    public static TextureStaticBinding stat(String texturePath){
+        return new TextureStaticBinding(TextureManager.getTexture(texturePath));
     }
 
     public static TextureResourceBinding resource(Class<?> clazz, String fieldName) {
