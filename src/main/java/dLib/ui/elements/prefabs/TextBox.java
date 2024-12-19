@@ -37,7 +37,7 @@ public class TextBox extends UIElement {
 
     private ArrayList<Consumer<String>> onTextChangedConsumers = new ArrayList<>();
 
-    private float fontScale = 0.85f;
+    private float fontScale = 0.8f;
 
     private boolean obscureText = false;
 

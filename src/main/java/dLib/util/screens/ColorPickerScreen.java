@@ -29,18 +29,6 @@ public class ColorPickerScreen extends UIElement {
         ColorPickerScreen self = this;
 
         ColorPicker colorWheel = new ColorPicker(Pos.px(235), Pos.px(1080-654), Dim.px(550), Dim.px(550));
-        colorWheel.getColorWheel().addColorHoveredConsumer(new Consumer<Color>() {
-            @Override
-            public void accept(Color color) {
-                hoverPreview.setRenderColor(color);
-            }
-        });
-        colorWheel.getColorWheel().addColorSelectedConsumer(new Consumer<Color>() {
-            @Override
-            public void accept(Color color) {
-                onColorSelectedChanged(color);
-            }
-        });
         addChildNCS(colorWheel);
 
         hoverPreview = new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(273), Pos.px(1080-596), Dim.px(475), Dim.px(33));
