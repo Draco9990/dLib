@@ -43,6 +43,7 @@ public class HorizontalScrollbar extends Scrollbar {
                 slider.showAndEnableInstantly();
             }
             else{
+                onScrollbarScrolled(0);
                 slider.hideAndDisableInstantly();
             }
         }

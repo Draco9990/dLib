@@ -105,6 +105,9 @@ public abstract class TFloatVector2Property<PropertyType> extends TProperty<Vect
         if(minimumY != null && newValue.y < minimumY) newValue.y = minimumY;
         if(maximumY != null && newValue.y > maximumY) newValue.y = maximumY;
 
+        newValue.x = (float) Math.round(newValue.x * 100) / 100;
+        newValue.y = (float) Math.round(newValue.y * 100) / 100;
+
         return super.sanitizeValue(newValue);
     }
 

@@ -10,9 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 public class Event<EventType> {
-    private ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
+    protected ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<Disposable, ArrayList<UUID>> boundsObjects = new ConcurrentHashMap<>();
+    protected ConcurrentHashMap<Disposable, ArrayList<UUID>> boundsObjects = new ConcurrentHashMap<>();
 
     public Event(){
         GlobalEvents.registeredEvents.add(this);

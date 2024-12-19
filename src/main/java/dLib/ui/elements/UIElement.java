@@ -2045,6 +2045,16 @@ public class UIElement implements Disposable, IEditableValue {
 
     //endregion
 
+    //region Mouse States
+
+    public boolean hasMouseStateEvent(){
+        if(!MouseStateManager.get().isInExternalState()) return true;
+
+        MouseState event = MouseStateManager.get().getCurrentState();
+    }
+
+    //endregion
+
     //endregion
 
     public enum BoundCalculationType{

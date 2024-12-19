@@ -62,6 +62,10 @@ public class MouseStateManager {
         return currentState != null;
     }
 
+    public MouseState getCurrentState() {
+        return currentState;
+    }
+
     //endregion
 
     //region Patches

@@ -43,6 +43,7 @@ public class VerticalScrollbar extends Scrollbar {
                 slider.showAndEnableInstantly();
             }
             else{
+                onScrollbarScrolled(0);
                 slider.hideAndDisableInstantly();
             }
         }
@@ -50,31 +51,7 @@ public class VerticalScrollbar extends Scrollbar {
 
     @Override
     protected Interactable buildSlider() {
-        Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.px(0), Dim.perc(0.7762), Dim.px(60)){
-            @Override
-            public int getLocalPositionX() {
-                int res = super.getLocalPositionX();
-                return res;
-            }
-
-            @Override
-            public int getLocalPositionY() {
-                int res = super.getLocalPositionY();
-                return res;
-            }
-
-            @Override
-            public int getWidth() {
-                int res = super.getWidth();
-                return res;
-            }
-
-            @Override
-            public int getHeight() {
-                int res = super.getHeight();
-                return res;
-            }
-        };
+        Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.px(0), Dim.perc(0.7762), Dim.px(60));
         slider.setImage(Tex.stat(UICommonResources.scrollbar_vertical_train));
         slider.setContainerBounds(Bound.parent(slider));
         slider.onPositionChangedEvent.subscribeManaged((element) -> {

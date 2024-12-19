@@ -18,11 +18,7 @@ public class UCEPropertyEditor extends PropertyEditor {
 
     public UCEPropertyEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
-    }
-
-    @Override
-    public boolean shouldBuildMultiline() {
-        return true;
+        setTryMultiline(true);
     }
 
     public void setProperties(UIElementData elementData){
@@ -32,14 +28,14 @@ public class UCEPropertyEditor extends PropertyEditor {
 
     @Override
     protected PropertyGroup makePropertyGroup(String category) {
-        return new UCEPEPropertyGroup(category);
+        return new UCEPEPropertyGroup(category, shouldBuildMultiline());
     }
 
     public static class UCEPEPropertyGroup extends PropertyGroup{
         private UUID onValueChangedEventID;
 
-        public UCEPEPropertyGroup(String name) {
-            super(name);
+        public UCEPEPropertyGroup(String name, boolean shouldMultiline) {
+            super(name, shouldMultiline);
 
             BiConsumer refreshElement = (__, ___) -> {
                 if(getParentOfType(UCEPropertyEditor.class).itemBeingModifiedExternally){

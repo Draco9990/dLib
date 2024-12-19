@@ -2,6 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.properties.objects.EnumProperty;
 import dLib.ui.elements.prefabs.Button;
+import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
@@ -27,22 +28,24 @@ public class EnumValueEditor extends AbstractValueEditor<Enum<?>, EnumProperty> 
     public EnumValueEditor(EnumProperty<?> property) {
         super(property);
 
+        HorizontalBox box = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
-            leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.perc(0.25), Dim.px(50));
+            leftArrow = new Button(Dim.height(), Dim.px(50));
             leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
-            addChildNCS(leftArrow);
+            box.addItem(leftArrow);
 
-            enumBox = new TextButton(boundProperty.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.px(50));
+            enumBox = new TextButton(boundProperty.getValueForDisplay(), Dim.fill(), Dim.px(50));
             enumBox.getButton().setImage(Tex.stat(UICommonResources.button02_horizontal));
             enumBox.getButton().onLeftClickEvent.subscribe(this, () -> boundProperty.next());
-            addChildNCS(enumBox);
+            box.addItem(enumBox);
 
-            rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.px(50));
+            rightArrow = new Button(Dim.height(), Dim.px(50));
             rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
-            addChildNCS(rightArrow);
+            box.addItem(rightArrow);
         }
+        addChildNCS(box);
 
         property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;

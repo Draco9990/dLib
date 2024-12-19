@@ -33,6 +33,7 @@ public class TextButton extends UIElement {
 
         label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         label.setFont(FontHelper.buttonLabelFont);
+        label.setFontScale(0.65f);
         addChildNCS(label);
     }
 

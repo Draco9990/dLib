@@ -64,6 +64,12 @@ public abstract class TFloatProperty<PropertyType> extends TNumericProperty<Floa
 
     //endregion
 
+
+    @Override
+    public Float sanitizeValue(Float newValue) {
+        return (float) Math.round(newValue * 100) / 100;
+    }
+
     @Override
     public boolean setValueFromString(String value) {
         return setValue(Float.parseFloat(value));

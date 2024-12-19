@@ -2,10 +2,11 @@ package dLib.properties.ui.elements;
 
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.elements.prefabs.Button;
+import dLib.ui.elements.prefabs.HorizontalBox;
 import dLib.ui.elements.prefabs.Inputfield;
+import dLib.ui.elements.prefabs.VerticalBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -21,29 +22,33 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
 
     //region Constructors
 
-    public IntegerValueEditor(Integer value, AbstractDimension width, AbstractDimension height){
-        this(new IntegerProperty(value), width, height);
+    public IntegerValueEditor(Integer value){
+        this(new IntegerProperty(value));
     }
 
-    public IntegerValueEditor(IntegerProperty property, AbstractDimension width, AbstractDimension height) {
+    public IntegerValueEditor(IntegerProperty property) {
         super(property);
 
+        HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
         {
-            leftArrow = new Button(Pos.px(0), Pos.px(0), Dim.height(), Dim.fill());
+            leftArrow = new Button(Dim.height(), Dim.px(50));
             leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
-            addChildNCS(leftArrow);
+            leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
+            box.addItem(leftArrow);
 
-            inputbox = new Inputfield(property.getValueForDisplay(), Pos.perc(0.25), Pos.px(0), Dim.fill(), Dim.fill());
+            inputbox = new Inputfield(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
             inputbox.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
-            addChildNCS(inputbox);
+            box.addItem(inputbox);
 
-            rightArrow = new Button(Pos.perc(0.75), Pos.px(0), Dim.height(), Dim.fill());
+            rightArrow = new Button(Dim.height(), Dim.px(50));
             rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
-            addChildNCS(rightArrow);
+            rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
+            box.addItem(rightArrow);
         }
+        addChildNCS(box);
 
         boundProperty.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

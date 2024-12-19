@@ -36,8 +36,8 @@ public class ValueEditorManager {
             else return new FloatValueEditor(((Float) value));
         }
         else if(value instanceof Integer){
-            if(object instanceof IntegerProperty) return new IntegerValueEditor(((IntegerProperty) object), width, height);
-            else return new IntegerValueEditor(((Integer) value), width, height);
+            if(object instanceof IntegerProperty) return new IntegerValueEditor(((IntegerProperty) object));
+            else return new IntegerValueEditor(((Integer) value));
         }
         else if(value instanceof String){
             if(object instanceof StringProperty) return new OnValueCommitedStringValueEditor(((StringProperty) object));

@@ -1,4 +1,3 @@
---> Spacer
 --> IIsInteractable method in UIElement
 -> Mouse interaction context only have elements active if there's a subscribed event for the active mouse context
     -> Call only mouse context events

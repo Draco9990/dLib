@@ -25,6 +25,8 @@ public class PropertyEditor extends UIElement {
 
     private LinkedHashMap<String, PropertyGroup> categories = new LinkedHashMap<>();
 
+    private boolean tryMultiline = false;
+
     public PropertyEditor(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
@@ -46,6 +48,14 @@ public class PropertyEditor extends UIElement {
             elementList.addItem(descriptionBox);
         }
         addChildNCS(elementList);
+    }
+
+    public void setTryMultiline(boolean tryMultiline){
+        this.tryMultiline = tryMultiline;
+    }
+
+    public boolean shouldBuildMultiline(){
+        return tryMultiline;
     }
 
     public void clearProperties(){
@@ -83,7 +93,7 @@ public class PropertyEditor extends UIElement {
     }
 
     protected PropertyGroup makePropertyGroup(String category){
-        return new PropertyGroup(category);
+        return new PropertyGroup(category, shouldBuildMultiline());
     }
 
     //region Child Elements
@@ -93,14 +103,18 @@ public class PropertyEditor extends UIElement {
 
         private UUID valueChangedEventId;
 
-        public PropertyGroup(String categoryName) {
+        private boolean multiline;
+
+        public PropertyGroup(String categoryName, boolean multiline) {
             super(categoryName, Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+
+            this.multiline = multiline;
 
             propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
                 @Override
                 public UIElement makeUIForItem(TProperty<?, ?> item) {
                     //TODO getParentOfType(PropertyEditor.class).shouldBuildMultiline()
-                    UIElement editor = item.makeEditorFor(true);
+                    UIElement editor = item.makeEditorFor(getParentOfType(PropertyGroup.class).multiline);
                     if(editor == null) {
                         return new Spacer(Dim.fill(), Dim.px(1)); //TODO breakpoint to verify none fire before removing
                     }
@@ -133,10 +147,6 @@ public class PropertyEditor extends UIElement {
         public TextBox getDescriptionBox() {
             return (getParentOfType(PropertyEditor.class)).descriptionBox.textBox;
         }
-    }
-
-    public boolean shouldBuildMultiline(){
-        return false;
     }
 
     //endregion
