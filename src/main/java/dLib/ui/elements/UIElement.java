@@ -1203,8 +1203,10 @@ public class UIElement implements Disposable, IEditableValue {
         worldPosXCache = null;
         worldPosYCache = null;
 
-        widthCache = null;
-        heightCache = null;
+        if(playingAnimation == null){
+            widthCache = null;
+            heightCache = null;
+        }
     }
 
     private void invalidateCachesForElementTree(){
@@ -1648,7 +1650,14 @@ public class UIElement implements Disposable, IEditableValue {
     //region Top-Level Display
 
     public void open(){
+        boolean shouldAnimate = isVisible();
+        if(shouldAnimate){
+            hideAndDisableInstantly();
+        }
         UIManager.openUIElement(this);
+        if(shouldAnimate){
+            showAndEnable();
+        }
     }
 
     public void close(){

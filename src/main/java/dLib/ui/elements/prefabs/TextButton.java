@@ -6,6 +6,7 @@ import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
@@ -34,6 +35,7 @@ public class TextButton extends UIElement {
         label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         label.setFont(FontHelper.buttonLabelFont);
         label.setFontScale(0.65f);
+        label.setPadding(Padd.px(10));
         addChildNCS(label);
     }
 

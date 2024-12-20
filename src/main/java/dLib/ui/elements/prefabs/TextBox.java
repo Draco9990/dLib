@@ -64,7 +64,6 @@ public class TextBox extends UIElement {
         this.text = text;
 
         setFont(FontHelper.cardTitleFont);
-        setPadding(Padd.px(10));
 
         textRenderColor = Color.WHITE.cpy();
 

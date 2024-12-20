@@ -365,8 +365,18 @@ public abstract class ItemBox<ItemType> extends Renderable {
         }
 
         for(ItemBoxItem item : items){
-            if(item.item.equals(selectedItem) && !selectionMode.equals(ESelectionMode.SINGLE_NOPERSIST)){
-                item.selected = true;
+            if(selectionMode == ESelectionMode.SINGLE_NOPERSIST){
+                item.selected = false;
+                continue;
+            }
+
+            if(item.item.equals(selectedItem)){
+                if(selectionMode == ESelectionMode.SINGLE){
+                    item.selected = true;
+                }
+                else{
+                    item.selected = !item.selected;
+                }
             }
             else if(selectionMode == ESelectionMode.SINGLE){
                 item.selected = false;
@@ -407,6 +417,14 @@ public abstract class ItemBox<ItemType> extends Renderable {
         if(selectionMode.equals(ESelectionMode.NONE)) return 0;
         else if(selectionMode.equals(ESelectionMode.SINGLE)) return 1;
         else return selectionCountLimit;
+    }
+
+    public void deselectAllItems(){
+        for(ItemBoxItem item : items){
+            item.selected = false;
+        }
+
+        onItemSelectionChanged(new ArrayList<>());
     }
 
     //endregion

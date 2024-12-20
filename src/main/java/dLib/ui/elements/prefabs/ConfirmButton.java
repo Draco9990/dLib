@@ -11,7 +11,7 @@ import dLib.util.ui.position.Pos;
 
 public class ConfirmButton extends TextButton{
     public ConfirmButton() {
-        super("Confirm", Pos.px(1650), Pos.px(1080-950), Dim.px(270), Dim.px(90));
+        super("Confirm", Pos.px(1650), Pos.px(130), Dim.px(270), Dim.px(90));
 
         this.getButton().setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButton.png"));
 

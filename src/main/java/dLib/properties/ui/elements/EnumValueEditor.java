@@ -9,7 +9,7 @@ import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class EnumValueEditor extends AbstractValueEditor<Enum<?>, EnumProperty> {
+public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueEditor<OfType, EnumProperty<OfType>> {
     //region Variables
 
     Button leftArrow;
@@ -21,11 +21,11 @@ public class EnumValueEditor extends AbstractValueEditor<Enum<?>, EnumProperty> 
 
     //region Constructors
 
-    public EnumValueEditor(Enum<?> value){
+    public EnumValueEditor(OfType value){
         this(new EnumProperty(value));
     }
 
-    public EnumValueEditor(EnumProperty<?> property) {
+    public EnumValueEditor(EnumProperty<OfType> property) {
         super(property);
 
         HorizontalBox box = new HorizontalBox(Dim.fill(), Dim.px(50));

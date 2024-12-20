@@ -13,12 +13,7 @@ public class DarkenLayer extends Image {
     public DarkenLayer(){
         super(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
-        init();
-    }
-
-    private void init(){
         setRenderColor(new Color(0, 0, 0, 0.85f));
-        hideAndDisableInstantly();
 
         setEntryAnimation(new UIAnimation_FadeIn(this));
         setExitAnimation(new UIAnimation_FadeOut(this));

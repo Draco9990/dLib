@@ -32,6 +32,7 @@ public class ImageTextBox extends Renderable {
 
     private void init(String text){
         textBox = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        textBox.setPadding(Padd.px(10));
         addChildNCS(textBox);
     }
 }

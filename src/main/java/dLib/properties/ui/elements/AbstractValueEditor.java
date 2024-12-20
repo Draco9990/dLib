@@ -8,7 +8,7 @@ import dLib.util.ui.position.AbstractPosition;
 public abstract class AbstractValueEditor<ValueType, PropertyType extends TProperty> extends UIElement {
     //region Variables
 
-    protected PropertyType boundProperty;
+    public PropertyType boundProperty;
 
     //endregion
 

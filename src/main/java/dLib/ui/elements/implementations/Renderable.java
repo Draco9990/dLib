@@ -277,6 +277,11 @@ public class Renderable extends UIElement {
                 .setDescription("Image to render as this element.")
                 .setCategory("Render");
 
+        public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy())
+                .setName("Render Color")
+                .setDescription("Color to render the image with. Not the same as performing a hue shift of the image.")
+                .setCategory("Render");
+
         public IntegerVector2Property positionOffset = new IntegerVector2Property(new IntegerVector2(0, 0))
                 .setName("X Position Offset")
                 .setDescription("Offset for the render position of the rendered image.")
@@ -288,8 +293,6 @@ public class Renderable extends UIElement {
                 .setDescription("Offset for the scale of the rendered image.")
                 .setCategory("Render")
                 .setValueNames("W", "H");
-
-        public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy()).setName("Render Color");
 
         public float renderColorAlphaMultiplier = 1.0f;
 

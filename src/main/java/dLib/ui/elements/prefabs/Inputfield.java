@@ -79,6 +79,8 @@ public class Inputfield extends UIElement {
         previewTextBox.setPaddingLeft(Padd.px(20));
         addChildNCS(this.previewTextBox);
 
+        textBox.setPadding(Padd.px(10));
+
         postInitialize();
     }
 
