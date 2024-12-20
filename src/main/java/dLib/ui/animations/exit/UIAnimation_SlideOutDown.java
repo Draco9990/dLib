@@ -25,20 +25,20 @@ public class UIAnimation_SlideOutDown extends UIExitAnimation {
     public void start() {
         super.start();
 
-        origElementY = element.getWorldPositionY();
+        origElementY = element.getLocalPositionY();
     }
 
     @Override
     public void update() {
-        float lerpPos = Math.abs(MathUtils.lerp(element.getWorldPositionY(), origElementY + Math.max(element.getHeight() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed));
-        float absPos = Math.abs(element.getWorldPositionY());
+        float lerpPos = Math.abs(MathUtils.lerp(element.getLocalPositionY(), origElementY + Math.max(element.getHeight() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed));
+        float absPos = Math.abs(element.getLocalPositionY());
         float lerpDistance = Math.abs(lerpPos - absPos);
 
-        float newPos = element.getWorldPositionY() - lerpDistance;
+        float newPos = element.getLocalPositionY() - lerpDistance;
 
-        element.setWorldPositionY((int) newPos);
+        element.setLocalPositionY((int) newPos);
 
-        if (element.getWorldPositionY() - Settings.UI_SNAP_THRESHOLD < properties.refPointY - element.getHeight()) {
+        if (element.getLocalPositionY() - Settings.UI_SNAP_THRESHOLD < properties.refPointY - element.getHeight()) {
             isPlaying = false;
         }
     }
@@ -47,7 +47,7 @@ public class UIAnimation_SlideOutDown extends UIExitAnimation {
     public void finishInstantly() {
         super.finishInstantly();
 
-        element.setWorldPositionY(origElementY);
+        element.setLocalPositionY(origElementY);
     }
 
     public static class AnimationProperties{

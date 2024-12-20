@@ -10,13 +10,12 @@ import dLib.util.ui.position.Pos;
 
 public class CancelButton extends TextButton{
     public CancelButton() {
-        super("Cancel", Pos.px(0), Pos.px(1080-949), Dim.px(278), Dim.px(102));
+        super("Cancel", Pos.px(0), Pos.px(131), Dim.px(278), Dim.px(102));
 
         this.getButton().setImage(Tex.stat("dLibResources/images/ui/common/CancelButton.png"));
 
-        this.getTextBox().setWidth(Dim.px(186));
-        this.getTextBox().setFont(FontHelper.buttonLabelFont);
-        this.getTextBox().setLocalPositionX(27);
+        this.getTextBox().setDimensions(186, 54);
+        this.getTextBox().setLocalPosition(27, 27);
         this.getTextBox().setFontScale(1f);
 
         this.setEntryAnimation(new UIAnimation_SlideInRight(this));

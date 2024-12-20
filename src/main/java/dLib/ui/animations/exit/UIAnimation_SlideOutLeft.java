@@ -24,35 +24,27 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
     public void start() {
         super.start();
 
-        origElementX = element.getWorldPositionX();
+        origElementX = element.getLocalPositionX();
     }
 
     @Override
     public void update() {
-        float newPos = MathUtils.lerp(this.element.getWorldPositionX(), properties.refPointX - this.element.getWidth(), Gdx.graphics.getDeltaTime() * properties.speed);
+        float lerpPos = MathUtils.lerp(element.getLocalPositionX(), origElementX + Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed);
+        float lerpDistance = Math.abs(lerpPos - element.getLocalPositionX());
+        float newPos = element.getLocalPositionX() - lerpDistance;
 
-        element.setWorldPositionX(Math.round(newPos));
+        element.setLocalPositionX(Math.round(newPos));
 
-        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - this.element.getWidth()) {
+        if (element.getLocalPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - element.getWidth()) {
             isPlaying = false;
         }
-
-        /*float lerpPos = MathUtils.lerp(element.getWorldPositionX(), origElementX + Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed);
-        float lerpDistance = Math.abs(lerpPos - element.getWorldPositionX());
-        float newPos = element.getWorldPositionX() - lerpDistance;
-
-        element.setWorldPositionX(Math.round(newPos));
-
-        if (element.getWorldPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - element.getWidth()) {
-            isPlaying = false;
-        }*/
     }
 
     @Override
     public void finishInstantly() {
         super.finishInstantly();
 
-        element.setWorldPositionX(origElementX);
+        element.setLocalPositionX(origElementX);
     }
 
     public static class AnimationProperties{

@@ -25,17 +25,17 @@ public class UIAnimation_SlideInUp extends UIAnimation {
     public void start() {
         super.start();
 
-        origElementY = element.getWorldPositionY();
-        element.setWorldPositionY(properties.refPointY - element.getHeight());
+        origElementY = element.getLocalPositionY();
+        element.setLocalPositionY(properties.refPointY - element.getHeight());
     }
 
     @Override
     public void update() {
-        float newPos = MathUtils.lerp(this.element.getWorldPositionY(), origElementY, Gdx.graphics.getDeltaTime() * properties.speed);
+        float newPos = MathUtils.lerp(this.element.getLocalPositionY(), origElementY, Gdx.graphics.getDeltaTime() * properties.speed);
 
-        element.setWorldPositionY((int) newPos);
+        element.setLocalPositionY((int) newPos);
 
-        if (element.getWorldPositionY() + Settings.UI_SNAP_THRESHOLD >= origElementY) {
+        if (element.getLocalPositionY() + Settings.UI_SNAP_THRESHOLD >= origElementY) {
             isPlaying = false;
         }
     }
@@ -44,7 +44,7 @@ public class UIAnimation_SlideInUp extends UIAnimation {
     public void finishInstantly() {
         super.finishInstantly();
 
-        element.setWorldPositionY(origElementY);
+        element.setLocalPositionY(origElementY);
     }
 
     public static class AnimationProperties{

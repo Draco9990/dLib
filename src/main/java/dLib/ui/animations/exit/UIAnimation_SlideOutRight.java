@@ -24,18 +24,18 @@ public class UIAnimation_SlideOutRight extends UIExitAnimation {
     public void start() {
         super.start();
 
-        origElementX = element.getWorldPositionX();
+        origElementX = element.getLocalPositionX();
     }
 
     @Override
     public void update() {
-        float lerpPos = MathUtils.lerp(element.getWorldPositionX(), origElementX - Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed);
-        float lerpDistance = Math.abs(lerpPos - element.getWorldPositionX());
-        float newPos = element.getWorldPositionX() + lerpDistance;
+        float lerpPos = MathUtils.lerp(element.getLocalPositionX(), origElementX - Math.max(element.getWidth() * 0.02f, 3), Gdx.graphics.getDeltaTime() * properties.speed);
+        float lerpDistance = Math.abs(lerpPos - element.getLocalPositionX());
+        float newPos = element.getLocalPositionX() + lerpDistance;
 
-        element.setWorldPositionX(Math.round(newPos));
+        element.setLocalPositionX(Math.round(newPos));
 
-        if (element.getWorldPositionX() + Settings.UI_SNAP_THRESHOLD >= properties.refPointX) {
+        if (element.getLocalPositionX() + Settings.UI_SNAP_THRESHOLD >= properties.refPointX) {
             isPlaying = false;
         }
     }
@@ -44,7 +44,7 @@ public class UIAnimation_SlideOutRight extends UIExitAnimation {
     public void finishInstantly() {
         super.finishInstantly();
 
-        element.setWorldPositionX(origElementX);
+        element.setLocalPositionX(origElementX);
     }
 
     public static class AnimationProperties{
