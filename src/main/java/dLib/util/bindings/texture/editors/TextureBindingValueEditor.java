@@ -36,7 +36,7 @@ public class TextureBindingValueEditor<ValueType> extends AbstractValueEditor<Va
         };
         comboBox.getTextBox().setFontScale(0.2f);
 
-        comboBox.addOnSelectedItemChangedEvent((classComboBox, aClass) -> {
+        comboBox.onSelectionChangedEvent.subscribe(comboBox, (aClass) -> {
             if(aClass == TextureNoneBinding.class){
                 boundProperty.setValue(new TextureNoneBinding());
             }

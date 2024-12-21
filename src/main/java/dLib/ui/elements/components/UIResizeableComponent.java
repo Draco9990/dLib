@@ -3,7 +3,7 @@ package dLib.ui.elements.components;
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Interactable;
+import dLib.ui.elements.items.Interactable;
 import dLib.ui.resources.UICommonResources;
 
 import dLib.util.bindings.texture.Tex;

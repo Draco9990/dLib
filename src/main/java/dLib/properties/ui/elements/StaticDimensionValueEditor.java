@@ -1,11 +1,10 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.DimensionProperty;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.Inputfield;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.input.Inputfield;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.StaticDimension;
-import dLib.util.ui.position.StaticPosition;
 
 public class StaticDimensionValueEditor extends DimensionValueEditor<StaticDimension> {
     private Inputfield inputfield;

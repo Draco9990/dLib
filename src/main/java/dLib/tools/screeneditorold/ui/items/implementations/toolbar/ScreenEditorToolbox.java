@@ -2,7 +2,7 @@ package dLib.tools.screeneditorold.ui.items.implementations.toolbar;
 
 import com.badlogic.gdx.utils.OrderedMap;
 import dLib.tools.screeneditorold.ui.items.editoritems.*;
-import dLib.ui.elements.prefabs.VerticalListBox;
+import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;

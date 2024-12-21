@@ -3,13 +3,9 @@ package dLib.tools.screeneditorold.ui.items.implementations.menu;
 import com.badlogic.gdx.graphics.Color;
 import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Renderable;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.elements.implementations.Toggle;
+import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
 
-import dLib.util.TextureManager;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;

@@ -1,13 +1,12 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.FloatProperty;
-import dLib.ui.elements.prefabs.Button;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.Inputfield;
+import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.position.Pos;
 
 public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> {
     //region Variables

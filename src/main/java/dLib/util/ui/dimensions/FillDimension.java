@@ -7,10 +7,10 @@ import dLib.properties.ui.elements.FillDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
-import dLib.ui.elements.prefabs.HorizontalListBox;
-import dLib.ui.elements.prefabs.ItemBox;
-import dLib.ui.elements.prefabs.GridItemBox;
-import dLib.ui.elements.prefabs.VerticalListBox;
+import dLib.ui.elements.items.itembox.HorizontalListBox;
+import dLib.ui.elements.items.itembox.ItemBox;
+import dLib.ui.elements.items.itembox.GridItemBox;
+import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.StaticPosition;
 

@@ -28,7 +28,7 @@ import dLib.ui.animations.exit.UIExitAnimation;
 import dLib.ui.bindings.RelativeUIElementBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
-import dLib.ui.elements.prefabs.ItemBox;
+import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.screens.UIManager;
 import dLib.util.*;

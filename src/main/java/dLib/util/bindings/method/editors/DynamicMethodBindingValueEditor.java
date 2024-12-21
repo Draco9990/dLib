@@ -1,8 +1,10 @@
 package dLib.util.bindings.method.editors;
 
 import dLib.properties.objects.MethodBindingProperty;
-import dLib.ui.elements.prefabs.*;
-import dLib.util.TextureManager;
+import dLib.ui.elements.items.*;
+import dLib.ui.elements.items.input.Inputfield;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;

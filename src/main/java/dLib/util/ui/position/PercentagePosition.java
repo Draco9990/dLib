@@ -6,7 +6,7 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PercentagePositionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.TextBox;
+import dLib.ui.elements.items.text.TextBox;
 import dLib.util.ui.dimensions.FillDimension;
 
 public class PercentagePosition extends AbstractPosition {

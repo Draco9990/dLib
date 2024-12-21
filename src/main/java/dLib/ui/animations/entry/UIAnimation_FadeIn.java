@@ -1,12 +1,9 @@
 package dLib.ui.animations.entry;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
-import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.animations.UIAnimation;
-import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.elements.items.Renderable;
 
 public class UIAnimation_FadeIn extends UIAnimation {
 

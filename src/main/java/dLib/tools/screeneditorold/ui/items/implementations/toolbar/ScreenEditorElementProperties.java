@@ -1,13 +1,9 @@
 package dLib.tools.screeneditorold.ui.items.implementations.toolbar;
 
 import dLib.tools.screeneditorold.ui.items.editoritems.ScreenEditorItem;
-import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.VerticalListBox;
-import dLib.ui.util.ESelectionMode;
+import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.properties.objects.templates.TProperty;
 import dLib.util.bindings.texture.TextureNoneBinding;
-import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.position.Pos;
 
 public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
     //region Variables

@@ -1,7 +1,6 @@
 package dLib.tools.uicreator;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
@@ -9,15 +8,19 @@ import dLib.tools.uicreator.ui.elements.UCEPropertyEditor;
 import dLib.tools.uicreator.ui.elements.UCERootElement;
 import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Renderable;
-import dLib.ui.elements.prefabs.*;
+import dLib.ui.elements.items.Renderable;
+import dLib.ui.elements.items.*;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.itembox.VerticalBox;
+import dLib.ui.elements.items.itembox.VerticalListBox;
+import dLib.ui.elements.items.scroll.Scrollbox;
+import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 
 
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureNoneBinding;
-import dLib.util.bindings.texture.TextureStaticBinding;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;

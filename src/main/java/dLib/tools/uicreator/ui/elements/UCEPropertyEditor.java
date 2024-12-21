@@ -1,15 +1,12 @@
 package dLib.tools.uicreator.ui.elements;
 
-import dLib.properties.objects.templates.TProperty;
 import dLib.tools.uicreator.UCEditor;
-import dLib.ui.elements.prefabs.PropertyEditor;
+import dLib.ui.elements.items.PropertyEditor;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 import java.util.function.BiConsumer;
-import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class UCEPropertyEditor extends PropertyEditor {
     public boolean itemBeingModifiedExternally = false;

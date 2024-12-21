@@ -6,10 +6,10 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.StaticPositionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.HorizontalListBox;
-import dLib.ui.elements.prefabs.ItemBox;
-import dLib.ui.elements.prefabs.GridItemBox;
-import dLib.ui.elements.prefabs.VerticalListBox;
+import dLib.ui.elements.items.itembox.HorizontalListBox;
+import dLib.ui.elements.items.itembox.ItemBox;
+import dLib.ui.elements.items.itembox.GridItemBox;
+import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 

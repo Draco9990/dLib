@@ -4,6 +4,7 @@ import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 
 import dLib.util.bindings.texture.Tex;
+import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
@@ -12,13 +13,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ComboBox<OptionType> extends TextButton {
     private boolean canBeNull = false;
 
     private OptionType currentOption;
 
-    private HashMap<UUID, BiConsumer<ComboBox<OptionType>, OptionType>> onSelectedItemChangedEvents = new HashMap<>();
+    public Event<Consumer<OptionType>> onSelectionChangedEvent = new Event<>();
 
     public ComboBox(OptionType initialOption, ArrayList<OptionType> options, AbstractDimension width, AbstractDimension height) {
         this(initialOption, options, Pos.px(0), Pos.px(0), width, height);
@@ -57,19 +59,10 @@ public class ComboBox<OptionType> extends TextButton {
         currentOption = option;
         getTextBox().setText(itemToStringShort(option));
 
-        onSelectedItemChangedEvents.forEach((id, event) -> event.accept(this, option));
+        onSelectionChangedEvent.invoke(optionTypeConsumer -> optionTypeConsumer.accept(option));
     }
     public OptionType getCurrentlySelectedItem(){
         return currentOption;
-    }
-
-    public UUID addOnSelectedItemChangedEvent(BiConsumer<ComboBox<OptionType>, OptionType> event){
-        UUID id = UUID.randomUUID();
-        onSelectedItemChangedEvents.put(id, event);
-        return id;
-    }
-    public void removeOnSelectedItemChangedEvent(UUID id){
-        onSelectedItemChangedEvents.remove(id);
     }
 
     public String itemToString(OptionType item){

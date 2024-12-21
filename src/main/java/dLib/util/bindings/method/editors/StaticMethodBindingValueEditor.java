@@ -3,10 +3,10 @@ package dLib.util.bindings.method.editors;
 import dLib.properties.objects.MethodBindingProperty;
 import dLib.properties.objects.templates.TMethodBindingProperty;
 import dLib.properties.objects.templates.TProperty;
-import dLib.properties.ui.elements.ValueEditorManager;
-import dLib.ui.elements.prefabs.*;
+import dLib.ui.elements.items.*;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.util.Reflection;
-import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
 import dLib.util.bindings.method.staticbindings.StaticMethodBinding;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -37,7 +37,7 @@ public class StaticMethodBindingValueEditor extends MethodBindingValueEditor<Sta
                         return Reflection.getFieldValue("PROPERTY_EDITOR_LONG_NAME", item);
                     }
                 };
-                selectedMethodBinding.addOnSelectedItemChangedEvent((classComboBox, aClass) -> {
+                selectedMethodBinding.onSelectionChangedEvent.subscribe(selectedMethodBinding, (aClass) -> {
                     try{
                         StaticMethodBinding newBinding = aClass.newInstance();
                         property.setValue(newBinding);

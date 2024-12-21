@@ -2,7 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.properties.objects.PositionProperty;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.ComboBox;
+import dLib.ui.elements.items.ComboBox;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PercentagePosition;
@@ -27,7 +27,7 @@ public class PositionValueEditor<ValueType> extends AbstractValueEditor<ValueTyp
             }
         };
         comboBox.getTextBox().setFontScale(0.2f);
-        comboBox.addOnSelectedItemChangedEvent((classComboBox, option) -> {
+        comboBox.onSelectionChangedEvent.subscribe(comboBox, (option) -> {
             if(option == null || boundProperty.getValue().getClass() == option.getClass()) return;
             boundProperty.setValue(option.cpy());
         });

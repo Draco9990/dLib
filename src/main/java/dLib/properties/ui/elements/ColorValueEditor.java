@@ -4,15 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.ColorProperty;
-import dLib.ui.elements.prefabs.Button;
-import dLib.ui.elements.prefabs.ColorPickerPopup;
+import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.color.ColorPickerPopup;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.screens.ColorPickerScreen;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
-
-import java.util.function.Consumer;
 
 public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> {
     //region Variables

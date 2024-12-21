@@ -2,7 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.properties.objects.DimensionProperty;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.ComboBox;
+import dLib.ui.elements.items.ComboBox;
 import dLib.util.ui.dimensions.*;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class DimensionValueEditor<ValueType extends AbstractDimension> extends A
             }
         };
         comboBox.getTextBox().setFontScale(0.2f);
-        comboBox.addOnSelectedItemChangedEvent((classComboBox, option) -> {
+        comboBox.onSelectionChangedEvent.subscribe(comboBox, (option) -> {
             if(option == null || boundProperty.getValue().getClass() == option.getClass()) return;
 
             boundProperty.setValue(option);

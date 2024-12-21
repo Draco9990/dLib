@@ -1,7 +1,6 @@
 package dLib.ui.screens;
 
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.Image;
 
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;

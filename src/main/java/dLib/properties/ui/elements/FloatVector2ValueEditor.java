@@ -2,10 +2,10 @@ package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.math.Vector2;
 import dLib.properties.objects.FloatVector2Property;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.Inputfield;
-import dLib.ui.elements.prefabs.Spacer;
-import dLib.ui.elements.prefabs.TextBox;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.input.Inputfield;
+import dLib.ui.elements.items.Spacer;
+import dLib.ui.elements.items.text.TextBox;
 import dLib.util.ui.dimensions.Dim;
 
 public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatVector2Property> {

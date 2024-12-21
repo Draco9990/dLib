@@ -3,7 +3,7 @@ package dLib.tools.screeneditorold.ui.items.implementations.toolbar;
 import com.badlogic.gdx.graphics.Color;
 import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;

@@ -3,7 +3,7 @@ package dLib.util.bindings.method.editors;
 import dLib.properties.objects.MethodBindingProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.ComboBox;
+import dLib.ui.elements.items.ComboBox;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.MethodBinding;
@@ -36,7 +36,7 @@ public class MethodBindingValueEditor<ValueType> extends AbstractValueEditor<Val
         };
         comboBox.getTextBox().setFontScale(0.2f);
 
-        comboBox.addOnSelectedItemChangedEvent((classComboBox, aClass) -> {
+        comboBox.onSelectionChangedEvent.subscribe(comboBox, (aClass) -> {
             if(aClass == StaticMethodBinding.class){
                 boundProperty.setValue(new NoneMethodBinding());
             }

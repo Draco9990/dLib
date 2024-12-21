@@ -1,13 +1,16 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.EnumProperty;
-import dLib.ui.elements.prefabs.Button;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.TextButton;
+import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.ComboBox;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.EnumHelpers;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.position.Pos;
+
+import java.util.function.Consumer;
 
 public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueEditor<OfType, EnumProperty<OfType>> {
     //region Variables
@@ -15,7 +18,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
     Button leftArrow;
     Button rightArrow;
 
-    TextButton enumBox;
+    ComboBox enumBox;
 
     //endregion
 
@@ -35,9 +38,10 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
             box.addItem(leftArrow);
 
-            enumBox = new TextButton(boundProperty.getValueForDisplay(), Dim.fill(), Dim.px(50));
-            enumBox.getButton().setImage(Tex.stat(UICommonResources.button02_horizontal));
-            enumBox.getButton().onLeftClickEvent.subscribe(this, () -> boundProperty.next());
+            enumBox = new ComboBox<>(boundProperty.getValue(), EnumHelpers.getAllEntries(boundProperty.getValue()), Dim.fill(), Dim.px(50));
+            enumBox.onSelectionChangedEvent.subscribe(this, (Consumer<OfType>) (newVal) -> {
+                boundProperty.setValue(newVal);
+            });
             box.addItem(enumBox);
 
             rightArrow = new Button(Dim.height(), Dim.px(50));

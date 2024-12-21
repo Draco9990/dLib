@@ -1,9 +1,8 @@
 package dLib.util.bindings.texture.editors;
 
 import dLib.properties.objects.TextureBindingProperty;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.ImageTextBox;
-import dLib.ui.elements.prefabs.TextBox;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureNoneBinding;

@@ -1,19 +1,21 @@
 package dLib.ui.elements.items;
 
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalListBox;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public class SimpleListPicker<OptionType> extends UIElement {
+public class SimpleListPicker<OptionType> extends Renderable {
     private VerticalListBox<OptionType> listBox;
     private Consumer<OptionType> onOptionSelected;
 
     public SimpleListPicker(int right, int top, ArrayList<OptionType> options, Consumer<OptionType> inOnOptionSelected) {
-        super(Pos.px(right-400), Pos.px(top-300), Dim.px(400), Dim.px(300));
+        super(Tex.stat(ImageMaster.OPTION_CONFIRM), Pos.px(right-400), Pos.px(top-300), Dim.px(400), Dim.px(300));
 
         setContextual(true);
 

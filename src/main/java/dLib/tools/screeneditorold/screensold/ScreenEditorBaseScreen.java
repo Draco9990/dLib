@@ -10,7 +10,7 @@ import dLib.tools.screeneditorold.util.ScreenEditorActiveItemsManager;
 import dLib.tools.screeneditorold.util.ScreenEditorProperties;
 import dLib.tools.screeneditorold.util.ScreenEditorSaveManager;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Renderable;
+import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.screens.GeneratedAbstractScreen;
 

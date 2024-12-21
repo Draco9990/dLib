@@ -1,5 +1,4 @@
 --> Add lightness bar and remove old color picker
--. check if darkenlayer working
 -> add texture hue shifting with shaders
 --> alpha bar to hue picker
 -- replace 'selected' with hovered in most cases except for tracking

@@ -1,19 +1,13 @@
 package dLib.util.bindings.texture.editors;
 
 import dLib.properties.objects.TextureBindingProperty;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.TextBox;
-import dLib.ui.elements.prefabs.TextButton;
-import dLib.ui.elements.prefabs.UIResourcePicker;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.text.TextButton;
+import dLib.ui.elements.items.UIResourcePicker;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.bindings.texture.TextureBinding;
-import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.ui.dimensions.Dim;
-
-import java.util.UUID;
-import java.util.function.BiConsumer;
 
 public class TextureResourceBindingValueEditor extends TextureBindingValueEditor<TextureResourceBinding> {
     private TextButton valueBox;

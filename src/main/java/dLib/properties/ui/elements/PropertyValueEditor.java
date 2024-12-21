@@ -1,14 +1,13 @@
 package dLib.properties.ui.elements;
 
-import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.templates.TBooleanProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.HorizontalBox;
-import dLib.ui.elements.prefabs.Spacer;
-import dLib.ui.elements.prefabs.TextBox;
-import dLib.ui.elements.prefabs.VerticalBox;
+import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.Spacer;
+import dLib.ui.elements.items.text.TextBox;
+import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
