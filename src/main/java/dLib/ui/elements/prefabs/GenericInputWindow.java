@@ -36,18 +36,6 @@ public class GenericInputWindow extends UIElement {
         setDrawFocusOnOpen(true);
     }
 
-    @Override
-    protected void setVisibility(boolean visible) {
-        if(visible){
-            darkenLayer.darkenInstantly();
-            popup.showInstantly();
-        }
-        else{
-            darkenLayer.lightenInstantly();
-            popup.hideInstantly();
-        }
-    }
-
     public void reset(){
         if(popup.inputBox != null) popup.inputBox.getTextBox().setText("");
         if(popup.passwordBox != null) popup.passwordBox.inputfield.getTextBox().setText("");
@@ -72,7 +60,7 @@ public class GenericInputWindow extends UIElement {
                 cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));
                 cancelButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/CancelButtonSmall.png"));
                 cancelButton.getTextBox().setFontScale(0.9f);
-                cancelButton.onLeftClickEvent.subscribe(this, () -> {
+                cancelButton.getButton().onLeftClickEvent.subscribe(this, () -> {
                     getParentOfType(GenericInputWindow.class).hideAndDisable();
                 });
                 addChildCS(cancelButton);
@@ -81,7 +69,7 @@ public class GenericInputWindow extends UIElement {
             confirmButton = new TextButton(confirmButtonText, Pos.px(536), Pos.px(18), Dim.px(173), Dim.px(74));
             confirmButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButtonSmall.png"));
             confirmButton.getTextBox().setFontScale(0.9f);
-            confirmButton.onLeftClickEvent.subscribe(this, () -> {
+            confirmButton.getButton().onLeftClickEvent.subscribe(this, () -> {
                 getParentOfType(GenericInputWindow.class).onConfirm.invoke(consumer -> {
                     if(properties.isPassword){
                         consumer.accept(passwordBox.inputfield.getTextBox().getText());

@@ -2,8 +2,9 @@
 -. check if darkenlayer working
 -> add texture hue shifting with shaders
 --> alpha bar to hue picker
+-- replace 'selected' with hovered in most cases except for tracking
 
---> IIsInteractable method in UIElement
+--> IIsInteractable method in UIElement with setters
 -> Mouse interaction context only have elements active if there's a subscribed event for the active mouse context
     -> Call only mouse context events
 -> Window child of UIElement that on open sets custom screen and on close unsets (if there's no other windows active already/still)

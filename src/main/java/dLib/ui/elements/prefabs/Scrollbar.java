@@ -1,5 +1,6 @@
 package dLib.ui.elements.prefabs;
 
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -19,6 +20,9 @@ public abstract class Scrollbar extends UIElement {
 
     protected float currentScrollPercentageCache = 0;
 
+    protected int scrollAmount = 60;
+    protected float scrollSpeed = 0.1f;
+
     //endregion
 
     //region Constructors
@@ -34,6 +38,26 @@ public abstract class Scrollbar extends UIElement {
     //endregion
 
     //region Methods
+
+
+    @Override
+    protected void updateSelf() {
+        super.updateSelf();
+
+        if(boundElement != null){
+            if(boundElement.isHoveredOrChildHovered() || isHovered() || slider.isHovered()){
+                if(InputHelper.scrolledUp){
+                    onScrolledUp();
+                }
+                else if(InputHelper.scrolledDown){
+                    onScrolledDown();
+                }
+            }
+        }
+    }
+
+    public abstract void onScrolledDown();
+    public abstract void onScrolledUp();
 
     public void onScrollbarScrolled(float percentage){
         for(Consumer<Float> listener : onScrollbarScrolledListeners){

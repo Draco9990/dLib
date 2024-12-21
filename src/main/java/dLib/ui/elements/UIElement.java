@@ -50,6 +50,7 @@ import dLib.util.ui.position.Pos;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class UIElement implements Disposable, IEditableValue {
@@ -114,6 +115,10 @@ public class UIElement implements Disposable, IEditableValue {
     public Event<Runnable> onHoveredEvent = new Event<>();
     public Event<Consumer<Float>> onHoverTickEvent = new Event<>();
     public Event<Runnable> onUnhoveredEvent = new Event<>();
+
+    public Event<Consumer<UIElement>> onHoveredChildEvent = new Event<>();
+    public Event<BiConsumer<UIElement, Float>> onHoverTickChildEvent = new Event<>();
+    public Event<Consumer<UIElement>> onUnhoveredChildEvent = new Event<>();
 
     public Event<Runnable> onLeftClickEvent = new Event<>();
     public Event<Consumer<Float>> onLeftClickHeldEvent = new Event<>();
@@ -223,6 +228,8 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     private void commonInitialize(){
+        registerCommonEvents();
+
         GlobalEvents.subscribeManaged(PreUILeftClickEvent.class, (event) -> {
             if(event.source != this && isSelected()){
                 deselect();
@@ -247,6 +254,50 @@ public class UIElement implements Disposable, IEditableValue {
         });
 
         addComponent(new UIDebuggableComponent());
+    }
+
+    private void registerCommonEvents(){
+        //Region Hover
+        {
+            this.onHoveredEvent.subscribeManaged(() -> {
+                if(hasParent()){
+                    getParent().onHoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(this));
+                }
+
+                if(getOnHoverLine() != null){
+                    if(ModManager.SayTheSpire.isActive()){
+                        SayTheSpireIntegration.Output(getOnHoverLine());
+                    }
+                }
+            });
+            this.onHoveredChildEvent.subscribeManaged(child -> {
+                if(hasParent()){
+                    getParent().onHoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(child));
+                }
+            });
+
+            this.onHoverTickEvent.subscribeManaged((time) -> {
+                if(hasParent()){
+                    getParent().onHoverTickChildEvent.invoke(uiElementFloatBiConsumer -> uiElementFloatBiConsumer.accept(UIElement.this, time));
+                }
+            });
+            this.onHoveredChildEvent.subscribeManaged(child -> {
+                if(hasParent()){
+                    getParent().onHoverTickChildEvent.invoke(uiElementFloatBiConsumer -> uiElementFloatBiConsumer.accept(child, totalHoverDuration));
+                }
+            });
+
+            this.onUnhoveredEvent.subscribeManaged(() -> {
+                if(hasParent()){
+                    getParent().onUnhoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(this));
+                }
+            });
+            this.onUnhoveredChildEvent.subscribeManaged(child -> {
+                if(hasParent()){
+                    getParent().onUnhoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(child));
+                }
+            });
+        }
     }
 
     //endregion
@@ -1527,9 +1578,9 @@ public class UIElement implements Disposable, IEditableValue {
 
         if(fullChildBounds != null){
             if(fullChildBounds.left < 0) myBounds.left += fullChildBounds.left;
-            if(fullChildBounds.right > myBounds.right) myBounds.right += fullChildBounds.right - myBounds.right;
+            if(fullChildBounds.right > myBounds.right - myBounds.left) myBounds.right += fullChildBounds.right - myBounds.right;
             if(fullChildBounds.bottom < 0) myBounds.bottom += fullChildBounds.bottom;
-            if(fullChildBounds.top > myBounds.top) myBounds.top += fullChildBounds.top - myBounds.top;
+            if(fullChildBounds.top > myBounds.top - myBounds.bottom) myBounds.top += fullChildBounds.top - myBounds.top;
         }
 
         return myBounds;
@@ -1797,34 +1848,33 @@ public class UIElement implements Disposable, IEditableValue {
     //region Hover
 
     protected void onHovered(){
-        GlobalEvents.sendMessage(new PreUIHoverEvent(this));
-
         totalHoverDuration = 0.f;
-
-        if(getOnHoverLine() != null){
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(getOnHoverLine());
-            }
-        }
-
-        onHoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
-
         if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
+
+        GlobalEvents.sendMessage(new PreUIHoverEvent(this));
+        onHoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
     protected void onHoverTick(float totalTickDuration){
-        onHoverTickEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalTickDuration));
-
         if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
+
+        onHoverTickEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalTickDuration));
     }
     protected void onUnhovered(){
-        GlobalEvents.sendMessage(new PreUIUnhoverEvent(this));
-
         totalHoverDuration = 0.f;
 
+        GlobalEvents.sendMessage(new PreUIUnhoverEvent(this));
         onUnhoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
 
     public boolean isHovered(){ return (hb.hovered || hb.justHovered); }
+
+    public boolean isHoveredOrChildHovered(){
+        if(isHovered()) return true;
+        for(UIElementChild child : children){
+            if(child.element.isHoveredOrChildHovered()) return true;
+        }
+        return false;
+    }
 
     public void setOnHoverLine(String newLine){
         this.onHoverLine = newLine;

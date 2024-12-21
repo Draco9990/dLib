@@ -22,6 +22,8 @@ public class UIManager {
 
     private static ArrayList<UIElement> uiElements = new ArrayList<>();
 
+    private static ArrayList<UIElement> pendingClose = new ArrayList<>();
+
     //endregion
 
     //region Class Methods
@@ -36,6 +38,8 @@ public class UIManager {
 
             selectNextElement(element, false);
         }
+
+        pendingClose.remove(element);
     }
     public static void reopenPreviousUIElement(){
         if(uiElements.isEmpty()){
@@ -45,12 +49,7 @@ public class UIManager {
         uiElements.get(uiElements.size() - 1).showAndEnable();
     }
     public static void closeUIElement(UIElement element){
-        for (int i = uiElements.size() - 1; i >= 0; i--) {
-            if(uiElements.get(i) == element){
-                uiElements.remove(i);
-                return;
-            }
-        }
+        pendingClose.add(element);
     }
     public static void hideAllUIElements(){
         for (UIElement uiElement : uiElements) {
@@ -228,6 +227,10 @@ public class UIManager {
                         uiElements.get(i).update();
                     }
                     updateInput();
+
+                    for(UIElement pendingCloseElement : pendingClose){
+                        uiElements.remove(pendingCloseElement);
+                    }
                 }
             }
         }
@@ -254,6 +257,10 @@ public class UIManager {
                         uiElements.get(i).update();
                     }
                     updateInput();
+
+                    for(UIElement pendingCloseElement : pendingClose){
+                        uiElements.remove(pendingCloseElement);
+                    }
                 }
             }
         }

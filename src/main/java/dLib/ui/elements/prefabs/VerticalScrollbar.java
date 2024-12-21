@@ -1,6 +1,8 @@
 package dLib.ui.elements.prefabs;
 
 import basemod.Pair;
+import com.badlogic.gdx.math.MathUtils;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
@@ -8,6 +10,7 @@ import dLib.ui.resources.UICommonResources;
 
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.bounds.Bound;
+import dLib.util.ui.bounds.StaticBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -15,6 +18,8 @@ import dLib.util.ui.position.Pos;
 
 public class VerticalScrollbar extends Scrollbar {
     //region Variables
+
+    private Integer scrollbarTargetY = null;
 
     //endregion
 
@@ -41,11 +46,25 @@ public class VerticalScrollbar extends Scrollbar {
         if(boundElement != null){
             if(boundElement.hasVerticalChildrenOOB()){
                 slider.showAndEnableInstantly();
+
+                if(scrollbarTargetY != null){
+                    if(Math.abs(scrollbarTargetY - slider.getLocalPositionY()) > 0.5f){
+                        slider.setLocalPositionY((int) MathUtils.lerp(slider.getLocalPositionY(), scrollbarTargetY, scrollSpeed));
+                    }
+                    else{
+                        slider.setLocalPositionY(scrollbarTargetY);
+                        scrollbarTargetY = null;
+                    }
+                }
             }
             else{
                 onScrollbarScrolled(0);
                 slider.hideAndDisableInstantly();
+                scrollbarTargetY = null;
             }
+        }
+        else{
+            scrollbarTargetY = null;
         }
     }
 
@@ -66,7 +85,6 @@ public class VerticalScrollbar extends Scrollbar {
     //endregion
 
     //region Methods
-
 
     @Override
     public void onScrollbarScrolled(float percentage) {
@@ -89,6 +107,16 @@ public class VerticalScrollbar extends Scrollbar {
 
     public void reset(){
         slider.setLocalPositionY(getHeight() - slider.getHeight());
+    }
+
+    @Override
+    public void onScrolledDown() {
+        scrollbarTargetY = slider.getLocalPositionY() - scrollAmount;
+    }
+
+    @Override
+    public void onScrolledUp() {
+        scrollbarTargetY = slider.getLocalPositionY() + scrollAmount;
     }
 
     //endregion

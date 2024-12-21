@@ -1,6 +1,7 @@
 package dLib.ui.elements.prefabs;
 
 import basemod.Pair;
+import com.badlogic.gdx.math.MathUtils;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.implementations.Interactable;
 import dLib.ui.elements.implementations.Renderable;
@@ -15,6 +16,8 @@ import dLib.util.ui.position.Pos;
 
 public class HorizontalScrollbar extends Scrollbar {
     //region Variables
+
+    private Integer scrollbarTargetX = null;
 
     //endregion
 
@@ -41,11 +44,25 @@ public class HorizontalScrollbar extends Scrollbar {
         if(boundElement != null){
             if(boundElement.hasHorizontalChildrenOOB()){
                 slider.showAndEnableInstantly();
+
+                if(scrollbarTargetX != null){
+                    if(Math.abs(scrollbarTargetX - slider.getLocalPositionY()) > 0.5f){
+                        slider.setLocalPositionY((int) MathUtils.lerp(slider.getLocalPositionY(), scrollbarTargetX, scrollSpeed));
+                    }
+                    else{
+                        slider.setLocalPositionY(scrollbarTargetX);
+                        scrollbarTargetX = null;
+                    }
+                }
             }
             else{
                 onScrollbarScrolled(0);
                 slider.hideAndDisableInstantly();
+                scrollbarTargetX = null;
             }
+        }
+        else{
+            scrollbarTargetX = null;
         }
     }
 
@@ -91,6 +108,16 @@ public class HorizontalScrollbar extends Scrollbar {
 
     public void reset(){
         slider.setLocalPositionX(0);
+    }
+
+    @Override
+    public void onScrolledDown() {
+        scrollbarTargetX = slider.getLocalPositionX() + scrollAmount;
+    }
+
+    @Override
+    public void onScrolledUp() {
+        scrollbarTargetX = slider.getLocalPositionX() - scrollAmount;
     }
 
     //endregion

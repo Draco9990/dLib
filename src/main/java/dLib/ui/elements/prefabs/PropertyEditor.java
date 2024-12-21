@@ -124,7 +124,18 @@ public class PropertyEditor extends UIElement {
                             getDescriptionBox().setText(item.getDescription());
                         }
                     });
+                    editor.onHoveredChildEvent.subscribe(PropertyGroup.this, (child) -> {
+                        if(getDescriptionBox() != null){
+                            getDescriptionBox().setText(item.getDescription());
+                        }
+                    });
+
                     editor.onUnhoveredEvent.subscribe(PropertyGroup.this, () -> {
+                        if(getDescriptionBox() != null){
+                            getDescriptionBox().setText("");
+                        }
+                    });
+                    editor.onUnhoveredChildEvent.subscribe(PropertyGroup.this, (child) -> {
                         if(getDescriptionBox() != null){
                             getDescriptionBox().setText("");
                         }
