@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.code.external.ExternalEditorMessageSender;
 import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.implementations.Interactable;
+import dLib.ui.elements.items.Interactable;
 import dLib.util.DLibLogger;
 import dLib.properties.objects.templates.TProperty;
 import dLib.util.SerializationHelpers;

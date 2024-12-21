@@ -1,7 +1,7 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.StringProperty;
-import dLib.ui.elements.prefabs.Inputfield;
+import dLib.ui.elements.items.input.Inputfield;
 import dLib.util.ui.dimensions.Dim;
 
 public abstract class StringValueEditor extends AbstractValueEditor<String, StringProperty> {

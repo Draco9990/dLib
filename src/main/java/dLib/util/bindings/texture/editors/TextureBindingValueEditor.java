@@ -1,17 +1,11 @@
 package dLib.util.bindings.texture.editors;
 
-import com.megacrit.cardcrawl.helpers.ImageMaster;
-import dLib.properties.objects.MethodBindingProperty;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.prefabs.ComboBox;
+import dLib.ui.elements.items.ComboBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
-import dLib.util.bindings.method.DynamicMethodBinding;
-import dLib.util.bindings.method.MethodBinding;
-import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
-import dLib.util.bindings.method.staticbindings.StaticMethodBinding;
 import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.bindings.texture.TextureResourceBinding;

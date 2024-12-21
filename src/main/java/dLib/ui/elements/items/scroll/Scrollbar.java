@@ -1,0 +1,95 @@
+package dLib.ui.elements.items.scroll;
+
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.Interactable;
+import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.position.AbstractPosition;
+
+import java.util.ArrayList;
+import java.util.function.Consumer;
+
+public abstract class Scrollbar extends UIElement {
+    //region Variables
+
+    protected Interactable slider;
+
+    private ArrayList<Consumer<Float>> onScrollbarScrolledListeners = new ArrayList<>();
+
+    protected UIElement boundElement;
+
+    protected float currentScrollPercentageCache = 0;
+
+    protected int scrollAmount = 60;
+    protected float scrollSpeed = 0.1f;
+
+    //endregion
+
+    //region Constructors
+
+    public Scrollbar(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height){
+        super(x, y, width, height);
+
+        slider = buildSlider();
+    }
+
+    protected abstract Interactable buildSlider();
+
+    //endregion
+
+    //region Methods
+
+
+    @Override
+    protected void updateSelf() {
+        super.updateSelf();
+
+        if(boundElement != null){
+            if(boundElement.isHoveredOrChildHovered() || isHovered() || slider.isHovered()){
+                if(InputHelper.scrolledUp){
+                    onScrolledUp();
+                }
+                else if(InputHelper.scrolledDown){
+                    onScrolledDown();
+                }
+            }
+        }
+    }
+
+    public abstract void onScrolledDown();
+    public abstract void onScrolledUp();
+
+    public void onScrollbarScrolled(float percentage){
+        for(Consumer<Float> listener : onScrollbarScrolledListeners){
+            listener.accept(percentage);
+        }
+
+        currentScrollPercentageCache = percentage;
+    }
+
+    public void addOnScrollbarScrolledListener(Consumer<Float> listener){
+        onScrollbarScrolledListeners.add(listener);
+    }
+
+    public abstract void setScrollbarScrollPercentageForExternalChange(float percentage);
+
+    public abstract void reset();
+
+    //region Slider
+
+    public Interactable getSlider(){
+        return slider;
+    }
+
+    //endregion
+
+    //region Bound Element
+
+    public void setBoundElement(UIElement element){
+        boundElement = element;
+    }
+
+    //endregion
+
+    //endregion
+}
