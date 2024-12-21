@@ -36,12 +36,12 @@ public class EnumHelpers {
         return null;
     }
 
-    public static <T extends Enum<T>> ArrayList<Enum<T>> getAllEntries(Enum<T> currentValue){
-        ArrayList<Enum<T>> allEntries = new ArrayList<>();
+    public static <T extends Enum<T>> ArrayList<T> getAllEntries(Enum<T> currentValue){
+        ArrayList<T> allEntries = new ArrayList<>();
 
         Object[] enums = currentValue.getDeclaringClass().getEnumConstants();
         for(Object enumInstance : enums){
-            allEntries.add((Enum<T>) enumInstance);
+            allEntries.add((T) enumInstance);
         }
 
         return allEntries;

@@ -30,8 +30,8 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
 
         alignmentButtons = new Toggle[3][3];
 
-        ArrayList<Enum<Alignment.HorizontalAlignment>> allHorizontalAlignments = EnumHelpers.getAllEntries(Alignment.HorizontalAlignment.LEFT);
-        ArrayList<Enum<Alignment.VerticalAlignment>> allVerticalAlignments = EnumHelpers.getAllEntries(Alignment.VerticalAlignment.BOTTOM);
+        ArrayList<Alignment.HorizontalAlignment> allHorizontalAlignments = EnumHelpers.getAllEntries(Alignment.HorizontalAlignment.LEFT);
+        ArrayList<Alignment.VerticalAlignment> allVerticalAlignments = EnumHelpers.getAllEntries(Alignment.VerticalAlignment.BOTTOM);
 
         PredefinedGrid grid = new PredefinedGrid(3, 3, Dim.fill(), Dim.width());
         for(int i = 0; i < 3; i++){
@@ -57,8 +57,8 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
                             }
                         }
 
-                        Alignment.HorizontalAlignment halign = (Alignment.HorizontalAlignment) allHorizontalAlignments.get(finalI);
-                        Alignment.VerticalAlignment valign = (Alignment.VerticalAlignment) allVerticalAlignments.get(finalJ);
+                        Alignment.HorizontalAlignment halign = allHorizontalAlignments.get(finalI);
+                        Alignment.VerticalAlignment valign = allVerticalAlignments.get(finalJ);
 
                         boundProperty.setValue(new Alignment(halign, valign));
                     }

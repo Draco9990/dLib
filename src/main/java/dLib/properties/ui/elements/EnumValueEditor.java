@@ -10,6 +10,7 @@ import dLib.util.EnumHelpers;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueEditor<OfType, EnumProperty<OfType>> {
@@ -38,7 +39,12 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
             box.addItem(leftArrow);
 
-            enumBox = new ComboBox<>(boundProperty.getValue(), EnumHelpers.getAllEntries(boundProperty.getValue()), Dim.fill(), Dim.px(50));
+            enumBox = new ComboBox<OfType>(boundProperty.getValue(), EnumHelpers.getAllEntries(boundProperty.getValue()), Dim.fill(), Dim.px(50)){
+                @Override
+                public String itemToString(OfType item) {
+                    return EnumHelpers.betterToString(item);
+                }
+            };
             enumBox.onSelectionChangedEvent.subscribe(this, (Consumer<OfType>) (newVal) -> {
                 boundProperty.setValue(newVal);
             });
