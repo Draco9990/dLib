@@ -27,7 +27,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
         //Bottom left
         cornerResizeNodes[0] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
         UIDraggableComponent blDraggable = cornerResizeNodes[0].getComponent(UIDraggableComponent.class);
-        blDraggable.addOnDraggedEvent(() -> {
+        blDraggable.onDraggedEvent.subscribeManaged(() -> {
             int worldCx = cornerResizeNodes[0].getWorldPositionCenteredX();
             int worldCy = cornerResizeNodes[0].getWorldPositionCenteredY();
 
@@ -43,7 +43,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
         //Bottom right
         cornerResizeNodes[1] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
         UIDraggableComponent brDraggable = cornerResizeNodes[1].getComponent(UIDraggableComponent.class);
-        brDraggable.addOnDraggedEvent(() -> {
+        brDraggable.onDraggedEvent.subscribeManaged(() -> {
             int worldCx = cornerResizeNodes[1].getWorldPositionCenteredX();
             int worldCy = cornerResizeNodes[1].getWorldPositionCenteredY();
 
@@ -59,7 +59,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
         //Top left
         cornerResizeNodes[2] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
         UIDraggableComponent tlDraggable = cornerResizeNodes[2].getComponent(UIDraggableComponent.class);
-        tlDraggable.addOnDraggedEvent(() -> {
+        tlDraggable.onDraggedEvent.subscribeManaged(() -> {
             int worldCx = cornerResizeNodes[2].getWorldPositionCenteredX();
             int worldCy = cornerResizeNodes[2].getWorldPositionCenteredY();
 
@@ -75,7 +75,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
         //Top right
         cornerResizeNodes[3] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.TOP);
         UIDraggableComponent trDraggable = cornerResizeNodes[3].getComponent(UIDraggableComponent.class);
-        trDraggable.addOnDraggedEvent(() -> {
+        trDraggable.onDraggedEvent.subscribeManaged(() -> {
             int worldCx = cornerResizeNodes[3].getWorldPositionCenteredX();
             int worldCy = cornerResizeNodes[3].getWorldPositionCenteredY();
 

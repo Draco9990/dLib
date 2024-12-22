@@ -1,3 +1,7 @@
+--> Draggable component enable 'dragging' with scrollwheel
+    --> add modes for each axis (shift clickm control etc)
+    --> use this for the canvas comp
+
 --> Add lightness bar and remove old color picker
 -> add texture hue shifting with shaders
 --> alpha bar to hue picker
