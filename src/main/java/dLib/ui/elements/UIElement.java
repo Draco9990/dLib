@@ -810,10 +810,10 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public UIElement setLocalPositionCenteredX(int newPos){
-        return setLocalPositionCentered(newPos, getLocalPositionCenteredY());
+        return setLocalPositionX(newPos - (int)(getWidth() * 0.5f));
     }
     public UIElement setLocalPositionCenteredY(int newPos){
-        return setLocalPositionCentered(getLocalPositionCenteredX(), newPos);
+        return setLocalPositionY(newPos - (int)(getHeight() * 0.5f));
     }
     public UIElement setLocalPositionCentered(int newPosX, int newPosY){
         int wHalf = (int)(getWidth() * 0.5f);

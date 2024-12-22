@@ -16,10 +16,6 @@ import dLib.util.ui.position.AbstractPosition;
 import java.util.function.Consumer;
 
 public class ColorWheel extends Renderable {
-    protected float lightness = 0.5f;
-
-    private transient Color currentlySelectedColor;
-
     public Event<Consumer<Color>> onColorHoveredEvent = new Event<>();
     public Event<Consumer<Color>> onColorSelectedEvent = new Event<>();
 
@@ -47,7 +43,7 @@ public class ColorWheel extends Renderable {
             for (int dx = -radius; dx < radius; dx++) {
                 if (dx * dx + dy * dy <= radius * radius) {
                     float hue = (float) ((Math.atan2(dy, dx) / Math.PI / 2 + 1) % 1); // Ensure hue is within [0, 1)
-                    pixmap.setColor(ColorHelpers.fromHSL(hue, 1, lightness));
+                    pixmap.setColor(ColorHelpers.fromHSL(hue, 1, 0.5f));
                     pixmap.drawPixel(dx + radius, dy + radius);
                 }
             }
@@ -67,7 +63,9 @@ public class ColorWheel extends Renderable {
         super.onHoverTick(totalTickDuration);
 
         Color newColor = calculateCurrentColor();
-        onColorHoveredEvent.invoke(consumer -> consumer.accept(newColor));
+        if(newColor != null){
+            onColorHoveredEvent.invoke(consumer -> consumer.accept(newColor));
+        }
     }
 
     @Override
@@ -75,12 +73,9 @@ public class ColorWheel extends Renderable {
         super.onLeftClick();
 
         Color newColor = calculateCurrentColor();
-        currentlySelectedColor = newColor;
-        onColorSelectedEvent.invoke(consumer -> consumer.accept(newColor));
-    }
-
-    public Color getCurrentlySelectedColor(){
-        return currentlySelectedColor;
+        if(newColor != null){
+            onColorSelectedEvent.invoke(consumer -> consumer.accept(newColor));
+        }
     }
 
     private Color calculateCurrentColor(){
@@ -90,26 +85,13 @@ public class ColorWheel extends Renderable {
         float hue = (float) ((Math.atan2(-dy, dx) / Math.PI / 2 + 1) % 1);
 
         if (dx * dx + dy * dy <= radius * radius) {
-            return ColorHelpers.fromHSL(hue, 1, lightness);
+            return ColorHelpers.fromHSL(hue, 1, 0.5f);
         }
 
         return null;
     }
 
     //endregion Selection
-
-    //region Lightness
-
-    public void setLightness(float lightness){
-        this.lightness = lightness;
-        recreateTexture();
-    }
-
-    public float getLightness(){
-        return lightness;
-    }
-
-    //endregion Lightness
 
     //endregion
 }
