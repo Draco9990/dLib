@@ -1,8 +1,8 @@
 package dLib.util.ui.position;
 
 public class Pos {
-    public static StaticPosition px(int pos){
-        return new StaticPosition(pos);
+    public static PixelPosition px(int pos){
+        return new PixelPosition(pos);
     }
 
     public static PercentagePosition perc(float pos){

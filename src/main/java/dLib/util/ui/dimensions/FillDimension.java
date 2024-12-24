@@ -12,7 +12,7 @@ import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.itembox.GridItemBox;
 import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.ui.position.PercentagePosition;
-import dLib.util.ui.position.StaticPosition;
+import dLib.util.ui.position.PixelPosition;
 
 public class FillDimension extends AbstractDimension {
     public FillDimension(){
@@ -55,8 +55,8 @@ public class FillDimension extends AbstractDimension {
         else{
             int maxWidth = self.getParent().getWidth() - self.getLocalPositionX();
             if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
-                if(self.getLocalPositionXRaw() instanceof StaticPosition){
-                    maxWidth -= ((StaticPosition) self.getLocalPositionXRaw()).getValueRaw();
+                if(self.getLocalPositionXRaw() instanceof PixelPosition){
+                    maxWidth -= ((PixelPosition) self.getLocalPositionXRaw()).getValueRaw();
                 }
                 else if(self.getLocalPositionXRaw() instanceof PercentagePosition){
                     maxWidth -= (int) (maxWidth * ((PercentagePosition) self.getLocalPositionXRaw()).getValueRaw());
@@ -98,8 +98,8 @@ public class FillDimension extends AbstractDimension {
         else{
             int maxHeight = self.getParent().getHeight() - self.getLocalPositionY();
             if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-                if(self.getLocalPositionYRaw() instanceof StaticPosition){
-                    maxHeight -= ((StaticPosition) self.getLocalPositionYRaw()).getValueRaw();
+                if(self.getLocalPositionYRaw() instanceof PixelPosition){
+                    maxHeight -= ((PixelPosition) self.getLocalPositionYRaw()).getValueRaw();
                 }
                 else if(self.getLocalPositionYRaw() instanceof PercentagePosition){
                     maxHeight -= (int) (maxHeight * ((PercentagePosition) self.getLocalPositionYRaw()).getValueRaw());

@@ -1,8 +1,8 @@
 package dLib.util.ui.dimensions;
 
 public class Dim {
-    public static StaticDimension px(int value) {
-        return new StaticDimension(value);
+    public static PixelDimension px(int value) {
+        return new PixelDimension(value);
     }
 
     public static PercentageDimension perc(float value) {

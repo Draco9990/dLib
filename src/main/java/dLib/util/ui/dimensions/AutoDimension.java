@@ -5,7 +5,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.AutoDimensionValueEditor;
 import dLib.ui.elements.UIElement;
-import dLib.util.ui.bounds.StaticBounds;
+import dLib.util.ui.bounds.PositionBounds;
 
 public class AutoDimension extends AbstractDimension {
     public AutoDimension(){
@@ -19,14 +19,14 @@ public class AutoDimension extends AbstractDimension {
 
     @Override
     public int getWidth(UIElement self) {
-        StaticBounds childBounds = self.getFullChildLocalBounds();
+        PositionBounds childBounds = self.getFullChildLocalBounds();
         if(childBounds == null) return 1;
         return childBounds.right - childBounds.left;
     }
 
     @Override
     public int getHeight(UIElement self) {
-        StaticBounds childBounds = self.getFullChildLocalBounds();
+        PositionBounds childBounds = self.getFullChildLocalBounds();
         if(childBounds == null) return 1;
         return childBounds.top - childBounds.bottom;
     }

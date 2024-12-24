@@ -3,24 +3,24 @@ package dLib.util.ui.dimensions;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.properties.ui.elements.StaticDimensionValueEditor;
+import dLib.properties.ui.elements.PixelDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
-public class StaticDimension extends AbstractDimension {
+public class PixelDimension extends AbstractDimension {
     private int size;
 
-    public StaticDimension(int size){
+    public PixelDimension(int size){
         this.size = size;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof StaticDimension)) {
+        if (!(obj instanceof PixelDimension)) {
             return false;
         }
 
-        StaticDimension other = (StaticDimension) obj;
+        PixelDimension other = (PixelDimension) obj;
         return other.size == size;
     }
 
@@ -59,12 +59,12 @@ public class StaticDimension extends AbstractDimension {
 
     @Override
     public AbstractValueEditor makeEditorFor() {
-        return new StaticDimensionValueEditor(this);
+        return new PixelDimensionValueEditor(this);
     }
 
     @Override
     public AbstractValueEditor makeEditorFor(TProperty property) {
-        return new StaticDimensionValueEditor((DimensionProperty) property);
+        return new PixelDimensionValueEditor((DimensionProperty) property);
     }
 
     public int getValueRaw(){
@@ -73,7 +73,7 @@ public class StaticDimension extends AbstractDimension {
 
     @Override
     public AbstractDimension cpy() {
-        return new StaticDimension(size);
+        return new PixelDimension(size);
     }
 
     @Override

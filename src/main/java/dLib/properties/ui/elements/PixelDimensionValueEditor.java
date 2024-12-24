@@ -4,21 +4,21 @@ import dLib.properties.objects.DimensionProperty;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.dimensions.StaticDimension;
+import dLib.util.ui.dimensions.PixelDimension;
 
-public class StaticDimensionValueEditor extends DimensionValueEditor<StaticDimension> {
+public class PixelDimensionValueEditor extends DimensionValueEditor<PixelDimension> {
     private Inputfield inputfield;
 
-    public StaticDimensionValueEditor(StaticDimension value){
+    public PixelDimensionValueEditor(PixelDimension value){
         this(new DimensionProperty(value));
     }
 
-    public StaticDimensionValueEditor(DimensionProperty property) {
+    public PixelDimensionValueEditor(DimensionProperty property) {
         super(property);
 
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());
         {
-            inputfield = new Inputfield(String.valueOf(((StaticDimension)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
+            inputfield = new Inputfield(String.valueOf(((PixelDimension)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
             inputfield.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
             contentBox.addItem(inputfield);
@@ -30,8 +30,8 @@ public class StaticDimensionValueEditor extends DimensionValueEditor<StaticDimen
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputfield.getTextBox().getText().equals(String.valueOf(((StaticDimension)boundProperty.getValue()).getValueRaw()))){
-                inputfield.getTextBox().setText(String.valueOf(((StaticDimension)boundProperty.getValue()).getValueRaw()));
+            if(!inputfield.getTextBox().getText().equals(String.valueOf(((PixelDimension)boundProperty.getValue()).getValueRaw()))){
+                inputfield.getTextBox().setText(String.valueOf(((PixelDimension)boundProperty.getValue()).getValueRaw()));
             }
         });
     }

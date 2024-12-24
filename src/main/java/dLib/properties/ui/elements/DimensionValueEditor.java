@@ -14,7 +14,7 @@ public class DimensionValueEditor<ValueType extends AbstractDimension> extends A
 
     protected UIElement makeSwapComboBox(){
         ArrayList<AbstractDimension> positionOptions = new ArrayList<>();
-        positionOptions.add(new StaticDimension(0));
+        positionOptions.add(new PixelDimension(0));
         positionOptions.add(new PercentageDimension(0));
         positionOptions.add(new FillDimension());
         positionOptions.add(new AutoDimension());

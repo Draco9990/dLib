@@ -36,10 +36,10 @@ import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
-import dLib.util.ui.bounds.StaticBounds;
+import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.dimensions.StaticDimension;
+import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.events.PreUIHoverEvent;
 import dLib.util.ui.events.PreUILeftClickEvent;
 import dLib.util.ui.events.PreUIUnhoverEvent;
@@ -83,6 +83,10 @@ public class UIElement implements Disposable, IEditableValue {
     private AbstractBounds containerBounds = null;
     private BoundCalculationType containerBoundCalculationType = BoundCalculationType.CONTAINS;
     public Event<Consumer<UIElement>> onDimensionsChangedEvent = new Event<>();
+
+    private float xScale = 1f;
+    private float yScale = 1f;
+    public Event<Consumer<UIElement>> onScaleChangedEvent = new Event<>();
 
     private AbstractPadding paddingLeft = Padd.px(0);
     private AbstractPadding paddingBottom = Padd.px(0);
@@ -298,6 +302,13 @@ public class UIElement implements Disposable, IEditableValue {
                 }
             });
         }
+
+        //Scale
+        {
+            this.onScaleChangedEvent.subscribeManaged(uiElementConsumer -> {
+                uiElementConsumer.invalidateCachesForElementTree();
+            });
+        }
     }
 
     //endregion
@@ -371,9 +382,9 @@ public class UIElement implements Disposable, IEditableValue {
             float targetHbWidth = getWidth() * Settings.xScale;
             float targetHbHeight = getHeight() * Settings.yScale;
 
-            StaticBounds maskBounds = getMaskWorldBounds();
+            PositionBounds maskBounds = getMaskWorldBounds();
             if(maskBounds != null){
-                StaticBounds myBounds = getWorldBounds();
+                PositionBounds myBounds = getWorldBounds();
                 if(myBounds.overlaps(maskBounds)){
                     if(!myBounds.within(maskBounds)){
                         myBounds.clip(maskBounds);
@@ -496,7 +507,7 @@ public class UIElement implements Disposable, IEditableValue {
         if(!shouldRender()) return;
 
         boolean pushedScissors = false;
-        StaticBounds maskBounds = getMaskWorldBounds();
+        PositionBounds maskBounds = getMaskWorldBounds();
         if(maskBounds != null){
             sb.flush();
 
@@ -989,7 +1000,7 @@ public class UIElement implements Disposable, IEditableValue {
         return null;
     }
 
-    public StaticBounds getLocalContainerBounds(){
+    public PositionBounds getLocalContainerBounds(){
         AbstractBounds containerBounds = getContainerBounds();
         if(containerBounds == null) return null;
 
@@ -1013,7 +1024,7 @@ public class UIElement implements Disposable, IEditableValue {
             verticalOffset = getHeight();
         }
 
-        return Bound.constant(localBottomLeft.x - horizontalOffset, localBottomLeft.y - verticalOffset, localTopRight.x + horizontalOffset, localTopRight.y + verticalOffset);
+        return Bound.pos(localBottomLeft.x - horizontalOffset, localBottomLeft.y - verticalOffset, localTopRight.x + horizontalOffset, localTopRight.y + verticalOffset);
     }
 
     public void setContainerBoundCalculationType(BoundCalculationType type){
@@ -1023,7 +1034,7 @@ public class UIElement implements Disposable, IEditableValue {
     //endregion
 
     private void ensureElementWithinBounds(){
-        StaticBounds localContainerBounds = getLocalContainerBounds();
+        PositionBounds localContainerBounds = getLocalContainerBounds();
         if(localContainerBounds == null) return;
 
         Integer desiredWidth = null;
@@ -1032,7 +1043,7 @@ public class UIElement implements Disposable, IEditableValue {
         int desiredPositionX = getLocalPositionX();
         int desiredPositionY = getLocalPositionY();
 
-        if(width instanceof StaticDimension){
+        if(width instanceof PixelDimension){
             int boundBoxUpperPosX = desiredPositionX + getWidth();
             
             if(localContainerBounds.right != null && boundBoxUpperPosX > localContainerBounds.right){
@@ -1053,7 +1064,7 @@ public class UIElement implements Disposable, IEditableValue {
 
         }
 
-        if(height instanceof StaticDimension){
+        if(height instanceof PixelDimension){
             int boundBoxUpperPosY = desiredPositionY + getHeight();
 
             if(localContainerBounds.top != null && boundBoxUpperPosY > localContainerBounds.top){
@@ -1537,11 +1548,11 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Bounds Methods
 
-    public StaticBounds getWorldBounds(){
-        return new StaticBounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
+    public PositionBounds getWorldBounds(){
+        return new PositionBounds(getWorldPositionX(), getWorldPositionY(), getWorldPositionX() + getWidth(), getWorldPositionY() + getHeight());
     }
-    public StaticBounds getLocalBounds(){
-        return new StaticBounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
+    public PositionBounds getLocalBounds(){
+        return new PositionBounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
     }
 
     public boolean overlapsParent(){
@@ -1551,14 +1562,14 @@ public class UIElement implements Disposable, IEditableValue {
         return getWorldBounds().overlaps(other.getWorldBounds());
     }
 
-    public StaticBounds getFullChildLocalBounds(){
-        StaticBounds fullChildBounds = null;
+    public PositionBounds getFullChildLocalBounds(){
+        PositionBounds fullChildBounds = null;
         for(UIElementChild child : children){
             if(!(child.element.isActive())){
                 continue;
             }
 
-            StaticBounds childBounds = child.element.getFullLocalBounds();
+            PositionBounds childBounds = child.element.getFullLocalBounds();
             if(fullChildBounds == null){
                 fullChildBounds = childBounds;
                 continue;
@@ -1571,10 +1582,10 @@ public class UIElement implements Disposable, IEditableValue {
         }
         return fullChildBounds;
     }
-    public StaticBounds getFullLocalBounds(){
-        StaticBounds myBounds = getLocalBounds();
+    public PositionBounds getFullLocalBounds(){
+        PositionBounds myBounds = getLocalBounds();
 
-        StaticBounds fullChildBounds = getFullChildLocalBounds();
+        PositionBounds fullChildBounds = getFullChildLocalBounds();
 
         if(fullChildBounds != null){
             if(fullChildBounds.left < 0) myBounds.left += fullChildBounds.left;
@@ -1598,8 +1609,8 @@ public class UIElement implements Disposable, IEditableValue {
         return OOBAmount.getKey() > 0 || OOBAmount.getValue() > 0;
     }
     public Pair<Integer, Integer> getHorizontalChildrenOOBAmount(){
-        StaticBounds myBounds = getLocalBounds();
-        StaticBounds fullChildBounds = getFullChildLocalBounds();
+        PositionBounds myBounds = getLocalBounds();
+        PositionBounds fullChildBounds = getFullChildLocalBounds();
 
         if (fullChildBounds == null) {
             return new Pair<>(0, 0);
@@ -1623,8 +1634,8 @@ public class UIElement implements Disposable, IEditableValue {
         return OOBAmount.getKey() > 0 || OOBAmount.getValue() > 0;
     }
     public Pair<Integer, Integer> getVerticalChildrenOOBAmount(){
-        StaticBounds myBounds = getLocalBounds();
-        StaticBounds fullChildBounds = getFullChildLocalBounds();
+        PositionBounds myBounds = getLocalBounds();
+        PositionBounds fullChildBounds = getFullChildLocalBounds();
 
         if (fullChildBounds == null) {
             return new Pair<>(0, 0);
@@ -1655,8 +1666,8 @@ public class UIElement implements Disposable, IEditableValue {
     public boolean hasMaskBounds(){
         return elementMask != null || (hasParent() && parent.hasMaskBounds());
     }
-    public StaticBounds getMaskWorldBounds(){
-        StaticBounds currentBounds = null;
+    public PositionBounds getMaskWorldBounds(){
+        PositionBounds currentBounds = null;
 
         UIElement current = this;
         if(current.elementMask != null){
@@ -2100,6 +2111,34 @@ public class UIElement implements Disposable, IEditableValue {
     @Override
     public AbstractValueEditor makeEditorFor(TProperty property) {
         return new UCRelativeUIElementBindingValueEditor((UCUIElementBindingProperty) property);
+    }
+
+    //endregion
+
+    //region Scale
+
+    public void setScaleX(float scaleX){
+        this.xScale = scaleX;
+        onScaleChanged();
+    }
+    public void setScaleY(float scaleY){
+        this.yScale = scaleY;
+        onScaleChanged();
+    }
+    public void setScale(float scale){
+        setScaleX(scale);
+        setScaleY(scale);
+    }
+
+    public void onScaleChanged(){
+        onScaleChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(this));
+    }
+
+    public float getScaleX(){
+        return xScale;
+    }
+    public float getScaleY(){
+        return yScale;
     }
 
     //endregion

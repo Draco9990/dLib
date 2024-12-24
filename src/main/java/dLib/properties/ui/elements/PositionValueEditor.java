@@ -6,7 +6,7 @@ import dLib.ui.elements.items.ComboBox;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PercentagePosition;
-import dLib.util.ui.position.StaticPosition;
+import dLib.util.ui.position.PixelPosition;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class PositionValueEditor<ValueType> extends AbstractValueEditor<ValueTyp
 
     protected UIElement makeSwapComboBox(){
         ArrayList<AbstractPosition> positionOptions = new ArrayList<>();
-        positionOptions.add(new StaticPosition(0));
+        positionOptions.add(new PixelPosition(0));
         positionOptions.add(new PercentagePosition(0));
 
         ComboBox<AbstractPosition> comboBox = new ComboBox<AbstractPosition>(boundProperty.getValue(), positionOptions, Dim.px(28), Dim.px(15)){

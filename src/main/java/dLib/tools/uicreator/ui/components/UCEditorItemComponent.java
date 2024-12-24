@@ -11,9 +11,9 @@ import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
-import dLib.util.ui.dimensions.StaticDimension;
+import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.position.AbstractPosition;
-import dLib.util.ui.position.StaticPosition;
+import dLib.util.ui.position.PixelPosition;
 
 public class UCEditorItemComponent extends UIElementComponent<UIElement> {
 
@@ -34,11 +34,11 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
                 AbstractPosition localPositionX = element.getLocalPositionXRaw();
                 AbstractPosition localPositionY = element.getLocalPositionYRaw();
 
-                if(localPositionX instanceof StaticPosition){
-                    localPositionX = new StaticPosition((int) (((StaticPosition) localPositionX).getValueRaw() * 1.25f));
+                if(localPositionX instanceof PixelPosition){
+                    localPositionX = new PixelPosition((int) (((PixelPosition) localPositionX).getValueRaw() * 1.25f));
                 }
-                if(localPositionY instanceof StaticPosition){
-                    localPositionY = new StaticPosition((int) (((StaticPosition) localPositionY).getValueRaw() * 1.25f));
+                if(localPositionY instanceof PixelPosition){
+                    localPositionY = new PixelPosition((int) (((PixelPosition) localPositionY).getValueRaw() * 1.25f));
                 }
 
                 if(entry.elementData.localPositionX.getValue() != localPositionX){
@@ -62,11 +62,11 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
                 AbstractDimension width = element.getWidthRaw();
                 AbstractDimension height = element.getHeightRaw();
 
-                if(width instanceof StaticDimension){
-                    width = new StaticDimension((int) (((StaticDimension) width).getValueRaw() * 1.25f));
+                if(width instanceof PixelDimension){
+                    width = new PixelDimension((int) (((PixelDimension) width).getValueRaw() * 1.25f));
                 }
-                if(height instanceof StaticDimension){
-                    height = new StaticDimension((int) (((StaticDimension) height).getValueRaw() * 1.25f));
+                if(height instanceof PixelDimension){
+                    height = new PixelDimension((int) (((PixelDimension) height).getValueRaw() * 1.25f));
                 }
 
                 if(entry.elementData.width.getValue() != width){

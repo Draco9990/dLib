@@ -2,7 +2,7 @@ package dLib.util.ui.padding;
 
 public class Padd {
     public static AbstractPadding px(int val){
-        return new StaticPadding(val);
+        return new PixelPadding(val);
     }
 
     public static PercentagePadding perc(float perc){

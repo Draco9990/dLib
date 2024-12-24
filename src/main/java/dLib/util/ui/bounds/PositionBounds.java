@@ -2,13 +2,13 @@ package dLib.util.ui.bounds;
 
 import dLib.ui.elements.UIElement;
 
-public class StaticBounds extends AbstractBounds{
+public class PositionBounds extends AbstractBounds{
     public Integer left;
     public Integer top;
     public Integer right;
     public Integer bottom;
 
-    public StaticBounds(Integer left, Integer bottom, Integer right, Integer top) {
+    public PositionBounds(Integer left, Integer bottom, Integer right, Integer top) {
         this.left = left;
         this.top = top;
         this.right = right;

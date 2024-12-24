@@ -3,7 +3,7 @@ package dLib.util.ui.position;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.properties.ui.elements.StaticPositionValueEditor;
+import dLib.properties.ui.elements.PixelPositionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.HorizontalListBox;
@@ -13,10 +13,10 @@ import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
-public class StaticPosition extends AbstractPosition {
+public class PixelPosition extends AbstractPosition {
     private int position;
 
-    public StaticPosition(int position){
+    public PixelPosition(int position){
         this.position = position;
     }
 
@@ -139,26 +139,26 @@ public class StaticPosition extends AbstractPosition {
 
     @Override
     public AbstractValueEditor makeEditorFor() {
-        return new StaticPositionValueEditor(this);
+        return new PixelPositionValueEditor(this);
     }
 
     @Override
     public AbstractValueEditor makeEditorFor(TProperty property) {
-        return new StaticPositionValueEditor((PositionProperty) property);
+        return new PixelPositionValueEditor((PositionProperty) property);
     }
 
     @Override
     public AbstractPosition cpy() {
-        return new StaticPosition(position);
+        return new PixelPosition(position);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof StaticPosition)) {
+        if (!(obj instanceof PixelPosition)) {
             return false;
         }
 
-        return ((StaticPosition)obj).position == position;
+        return ((PixelPosition)obj).position == position;
     }
 
     @Override

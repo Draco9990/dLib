@@ -6,8 +6,8 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.components.UIResizeableComponent;
-import dLib.util.ui.dimensions.StaticDimension;
-import dLib.util.ui.position.StaticPosition;
+import dLib.util.ui.dimensions.PixelDimension;
+import dLib.util.ui.position.PixelPosition;
 
 public abstract class UCEITemplate {
     private String displayName;
@@ -26,18 +26,18 @@ public abstract class UCEITemplate {
     public UIElement makeEditorItem(UIElement.UIElementData elementData){
         UIElement editorItem = elementData.makeUIElement();
 
-        if(editorItem.getLocalPositionXRaw() instanceof StaticPosition){
-            editorItem.setLocalPositionX((int) (((StaticPosition) editorItem.getLocalPositionXRaw()).getValueRaw() * 0.8f));
+        if(editorItem.getLocalPositionXRaw() instanceof PixelPosition){
+            editorItem.setLocalPositionX((int) (((PixelPosition) editorItem.getLocalPositionXRaw()).getValueRaw() * 0.8f));
         }
-        if(editorItem.getLocalPositionYRaw() instanceof StaticPosition){
-            editorItem.setLocalPositionY((int) (((StaticPosition) editorItem.getLocalPositionYRaw()).getValueRaw() * 0.8f));
+        if(editorItem.getLocalPositionYRaw() instanceof PixelPosition){
+            editorItem.setLocalPositionY((int) (((PixelPosition) editorItem.getLocalPositionYRaw()).getValueRaw() * 0.8f));
         }
 
-        if(editorItem.getWidthRaw() instanceof StaticDimension){
-            editorItem.setWidth((int) (((StaticDimension) editorItem.getWidthRaw()).getValueRaw() * 0.8f));
+        if(editorItem.getWidthRaw() instanceof PixelDimension){
+            editorItem.setWidth((int) (((PixelDimension) editorItem.getWidthRaw()).getValueRaw() * 0.8f));
         }
-        if(editorItem.getHeightRaw() instanceof StaticDimension){
-            editorItem.setHeight((int) (((StaticDimension) editorItem.getHeightRaw()).getValueRaw() * 0.8f));
+        if(editorItem.getHeightRaw() instanceof PixelDimension){
+            editorItem.setHeight((int) (((PixelDimension) editorItem.getHeightRaw()).getValueRaw() * 0.8f));
         }
 
         UIDraggableComponent draggableComp = editorItem.addComponent(new UIDraggableComponent());

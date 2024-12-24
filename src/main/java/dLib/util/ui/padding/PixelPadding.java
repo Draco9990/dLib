@@ -2,10 +2,10 @@ package dLib.util.ui.padding;
 
 import dLib.ui.elements.UIElement;
 
-public class StaticPadding extends AbstractPadding {
+public class PixelPadding extends AbstractPadding {
     private int val;
 
-    public StaticPadding(int val){
+    public PixelPadding(int val){
         this.val = val;
     }
 
@@ -21,16 +21,16 @@ public class StaticPadding extends AbstractPadding {
 
     @Override
     public AbstractPadding cpy() {
-        return new StaticPadding(val);
+        return new PixelPadding(val);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof StaticPadding)) {
+        if (!(obj instanceof PixelPadding)) {
             return false;
         }
 
-        StaticPadding other = (StaticPadding) obj;
+        PixelPadding other = (PixelPadding) obj;
         return other.val == val;
     }
 }

@@ -11,7 +11,7 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.util.FontManager;
-import dLib.util.ui.bounds.StaticBounds;
+import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -314,9 +314,9 @@ public class TextBox extends UIElement {
     //region Mask
 
     @Override
-    public StaticBounds getMaskWorldBounds() {
-        StaticBounds superBounds = super.getMaskWorldBounds();
-        StaticBounds myBounds = getWorldBounds();
+    public PositionBounds getMaskWorldBounds() {
+        PositionBounds superBounds = super.getMaskWorldBounds();
+        PositionBounds myBounds = getWorldBounds();
         myBounds.left -= getPaddingLeft();
         myBounds.right += getPaddingRight();
         myBounds.top += getPaddingTop();
