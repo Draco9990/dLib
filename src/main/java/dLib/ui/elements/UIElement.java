@@ -794,7 +794,7 @@ public class UIElement implements Disposable, IEditableValue {
         if(localPosXCache == null){
             localPosXCache = localPosX.getLocalX(this) + paddingLeft.getHorizontal(this);
             if(localPosX instanceof AbstractStaticPosition){
-                localPosXCache = Math.round(localPosXCache * xScale);
+                localPosXCache = Math.round(localPosXCache / getParentScaleX());
             }
         }
 
@@ -804,7 +804,7 @@ public class UIElement implements Disposable, IEditableValue {
         if(localPosYCache == null){
             localPosYCache = localPosY.getLocalY(this) + paddingBottom.getVertical(this);
             if(localPosY instanceof AbstractStaticPosition){
-                localPosYCache = Math.round(localPosYCache * yScale);
+                localPosYCache = Math.round(localPosYCache / getParentScaleY());
             }
         }
 
@@ -865,7 +865,7 @@ public class UIElement implements Disposable, IEditableValue {
     public UIElement setWorldPosition(int newPosX, int newPosY){
         int xDiff = newPosX - getWorldPositionX();
         int yDiff = newPosY - getWorldPositionY();
-        offset(xDiff, yDiff);
+        offset((int) (xDiff / xScale), (int) (yDiff / yScale));
         return this;
     }
 
@@ -2149,10 +2149,17 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public float getScaleX(){
-        return xScale;
+        return xScale * (hasParent() ? parent.getScaleX() : 1.0f);
     }
     public float getScaleY(){
-        return yScale;
+        return yScale * (hasParent() ? parent.getScaleY() : 1.0f);
+    }
+
+    public float getParentScaleX(){
+        return hasParent() ? parent.getScaleX() : 1.0f;
+    }
+    public float getParentScaleY(){
+        return hasParent() ? parent.getScaleY() : 1.0f;
     }
 
     //endregion

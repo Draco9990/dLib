@@ -6,6 +6,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.components.UIResizeableComponent;
+import dLib.ui.elements.components.UIZoomableComponent;
 import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.position.PixelPosition;
 

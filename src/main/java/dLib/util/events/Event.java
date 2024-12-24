@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class Event<EventType> {
     protected ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
 
-    protected ConcurrentHashMap<Disposable, ArrayList<UUID>> boundsObjects = new ConcurrentHashMap<>();
+    protected ConcurrentHashMap<Object, ArrayList<UUID>> boundsObjects = new ConcurrentHashMap<>();
 
     public Event(){
         GlobalEvents.registeredEvents.add(this);
@@ -28,7 +28,7 @@ public class Event<EventType> {
         subscribers.remove(id);
     }
 
-    public UUID subscribe(Disposable owner, EventType event){
+    public UUID subscribe(Object owner, EventType event){
         UUID id = UUID.randomUUID();
         subscribers.put(id, event);
 
@@ -38,6 +38,16 @@ public class Event<EventType> {
         boundsObjects.get(owner).add(id);
 
         return id;
+    }
+
+    public void unsubscribe(Object owner){
+        if(boundsObjects.containsKey(owner)){
+            for(UUID element : boundsObjects.get(owner)){
+                subscribers.remove(element);
+            }
+
+            boundsObjects.remove(owner);
+        }
     }
 
     public void invoke(Consumer<EventType> consumer){
