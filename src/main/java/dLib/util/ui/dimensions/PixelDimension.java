@@ -7,7 +7,7 @@ import dLib.properties.ui.elements.PixelDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
-public class PixelDimension extends AbstractDimension {
+public class PixelDimension extends AbstractStaticDimension {
     private int size;
 
     public PixelDimension(int size){

@@ -38,6 +38,7 @@ import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.AbstractStaticDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.events.PreUIHoverEvent;
@@ -46,6 +47,7 @@ import dLib.util.ui.events.PreUIUnhoverEvent;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.AbstractStaticPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.*;
@@ -791,6 +793,9 @@ public class UIElement implements Disposable, IEditableValue {
     public int getLocalPositionX(){
         if(localPosXCache == null){
             localPosXCache = localPosX.getLocalX(this) + paddingLeft.getHorizontal(this);
+            if(localPosX instanceof AbstractStaticPosition){
+                localPosXCache = Math.round(localPosXCache * xScale);
+            }
         }
 
         return localPosXCache;
@@ -798,6 +803,9 @@ public class UIElement implements Disposable, IEditableValue {
     public int getLocalPositionY(){
         if(localPosYCache == null){
             localPosYCache = localPosY.getLocalY(this) + paddingBottom.getVertical(this);
+            if(localPosY instanceof AbstractStaticPosition){
+                localPosYCache = Math.round(localPosYCache * yScale);
+            }
         }
 
         return localPosYCache;
@@ -1478,6 +1486,9 @@ public class UIElement implements Disposable, IEditableValue {
     public int getWidth(){
         if(widthCache == null || widthCache <= 0){
             widthCache = width.getWidth(this) - getPaddingRight();
+            if(width instanceof AbstractStaticDimension){
+                widthCache = (int) (widthCache * xScale);
+            }
         }
 
         return widthCache;
@@ -1485,6 +1496,9 @@ public class UIElement implements Disposable, IEditableValue {
     public int getHeight(){
         if(heightCache == null || heightCache <= 0){
             heightCache = height.getHeight(this) - getPaddingTop();
+            if(height instanceof AbstractStaticDimension){
+                heightCache = (int) (heightCache * yScale);
+            }
         }
 
         return heightCache;

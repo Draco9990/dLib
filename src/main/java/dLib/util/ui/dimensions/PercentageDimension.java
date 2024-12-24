@@ -7,7 +7,7 @@ import dLib.properties.ui.elements.PercentageDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
-public class PercentageDimension extends AbstractDimension {
+public class PercentageDimension extends AbstractStaticDimension {
     private float percentage;
 
     public PercentageDimension(float percentage){

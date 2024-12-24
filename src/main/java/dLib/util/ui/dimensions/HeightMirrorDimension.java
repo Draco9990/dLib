@@ -6,7 +6,7 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.HeightMirrorDimensionValueEditor;
 import dLib.ui.elements.UIElement;
 
-public class HeightMirrorDimension extends AbstractDimension{
+public class HeightMirrorDimension extends AbstractDynamicDimension{
     @Override
     public int getWidth(UIElement self) {
         return self.getHeight();

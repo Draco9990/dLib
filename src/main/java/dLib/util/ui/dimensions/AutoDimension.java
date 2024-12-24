@@ -7,7 +7,7 @@ import dLib.properties.ui.elements.AutoDimensionValueEditor;
 import dLib.ui.elements.UIElement;
 import dLib.util.ui.bounds.PositionBounds;
 
-public class AutoDimension extends AbstractDimension {
+public class AutoDimension extends AbstractDynamicDimension {
     public AutoDimension(){
         super();
     }

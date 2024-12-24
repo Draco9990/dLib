@@ -6,7 +6,7 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.WidthMirrorDimensionValueEditor;
 import dLib.ui.elements.UIElement;
 
-public class WidthMirrorDimension extends AbstractDimension{
+public class WidthMirrorDimension extends AbstractDynamicDimension{
     @Override
     public int getWidth(UIElement self) {
         throw new UnsupportedOperationException("Width mirror dimension does not support getWidth");

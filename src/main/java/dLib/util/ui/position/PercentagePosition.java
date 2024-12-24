@@ -9,7 +9,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.ui.dimensions.FillDimension;
 
-public class PercentagePosition extends AbstractPosition {
+public class PercentagePosition extends AbstractStaticPosition {
     private float percentage;
 
     public PercentagePosition(float percentage){

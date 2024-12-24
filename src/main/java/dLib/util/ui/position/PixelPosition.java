@@ -13,7 +13,7 @@ import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
-public class PixelPosition extends AbstractPosition {
+public class PixelPosition extends AbstractStaticPosition {
     private int position;
 
     public PixelPosition(int position){
