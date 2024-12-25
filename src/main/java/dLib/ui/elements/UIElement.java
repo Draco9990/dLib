@@ -959,6 +959,12 @@ public class UIElement implements Disposable, IEditableValue {
         }
         return localPosition;
     }
+    public IntegerVector2 worldToLocal2(IntegerVector2 worldPosition){
+        return new IntegerVector2(worldPosition.x - getWorldPositionX(), worldPosition.y - getWorldPositionY());
+    }
+    public IntegerVector2 localToWorld2(IntegerVector2 localPosition){
+        return new IntegerVector2(localPosition.x + getWorldPositionX(), localPosition.y + getWorldPositionY());
+    }
     public IntegerVector2 localToWorld(IntegerVector2 localPosition){
         IntegerVector2 worldPosition = new IntegerVector2(null, null);
         if(localPosition.x != null) {

@@ -1,16 +1,20 @@
 package dLib.ui.elements.components;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
+import dLib.util.IntegerVector2;
 
 public class UIZoomableComponent extends UIElementComponent<UIElement>{
     private boolean canZoom;
 
     private float scaleStep = 0.1f;
+
     private Float targetScaleX = null;
     private Float targetScaleY = null;
-
+    private int targetWorldMouseX;
+    private int targetWorldMouseY;
 
     @Override
     public void onRegisterComponent(UIElement owner) {
@@ -74,10 +78,16 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
                 targetScaleX = owner.getScaleX() - scaleStep;
                 targetScaleY = owner.getScaleY() - scaleStep;
             }
+
+            targetWorldMouseX = (int) (InputHelper.mX / Settings.xScale);
+            targetWorldMouseY = (int) (InputHelper.mY / Settings.yScale);
         }
 
-        if(targetScaleX != null){
-            float newScaleX = MathUtils.lerp(owner.getScaleX(), targetScaleX, 0.2f);
+        if(targetScaleX != null && targetScaleY != null){
+            IntegerVector2 localMouse = owner.worldToLocal2(new IntegerVector2(targetWorldMouseX, targetWorldMouseY));
+
+            //Calculate and set the new scale x
+            float newScaleX = targetScaleX;//float newScaleX = MathUtils.lerp(owner.getScaleX(), targetScaleX, 0.2f);
             if(Math.abs(newScaleX - targetScaleX) < 0.01f){
                 newScaleX = targetScaleX;
                 targetScaleX = null;
@@ -87,7 +97,8 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
             }
             owner.setScaleX(newScaleX);
 
-            float newScaleY = MathUtils.lerp(owner.getScaleY(), targetScaleY, 0.2f);
+            //Calculate and set the new scale y
+            float newScaleY = targetScaleY;//float newScaleY = MathUtils.lerp(owner.getScaleY(), targetScaleY, 0.2f);
             if(Math.abs(newScaleY - targetScaleY) < 0.01f){
                 newScaleY = targetScaleY;
                 targetScaleY = null;
@@ -96,6 +107,11 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
                 newScaleY = 0.01f;
             }
             owner.setScaleY(newScaleY);
+
+            //Center the object around the mouse world position where we were zooming
+            IntegerVector2 worldMouseAfterRecenter = owner.localToWorld2(localMouse);
+            IntegerVector2 difference = new IntegerVector2(worldMouseAfterRecenter.x - targetWorldMouseX, worldMouseAfterRecenter.y - targetWorldMouseY);
+            owner.offset(difference.x, difference.y);
         }
     }
 }
