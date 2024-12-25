@@ -865,7 +865,8 @@ public class UIElement implements Disposable, IEditableValue {
     public UIElement setWorldPosition(int newPosX, int newPosY){
         int xDiff = newPosX - getWorldPositionX();
         int yDiff = newPosY - getWorldPositionY();
-        offset((int) (xDiff / getScaleX()), (int) (yDiff / getScaleY()));
+
+        offset(xDiff, yDiff);
         return this;
     }
 
@@ -948,34 +949,10 @@ public class UIElement implements Disposable, IEditableValue {
     //region Transforming
 
     public IntegerVector2 worldToLocal(IntegerVector2 worldPosition){
-        IntegerVector2 localPosition = new IntegerVector2(null, null);
-        if(worldPosition.x != null) {
-            localPosition.x = getLocalPositionX();
-            localPosition.x += worldPosition.x - getWorldPositionX();
-        }
-        if(worldPosition.y != null){
-            localPosition.y = getLocalPositionY();
-            localPosition.y += worldPosition.y - getWorldPositionY();
-        }
-        return localPosition;
-    }
-    public IntegerVector2 worldToLocal2(IntegerVector2 worldPosition){
         return new IntegerVector2(worldPosition.x - getWorldPositionX(), worldPosition.y - getWorldPositionY());
     }
-    public IntegerVector2 localToWorld2(IntegerVector2 localPosition){
-        return new IntegerVector2(localPosition.x + getWorldPositionX(), localPosition.y + getWorldPositionY());
-    }
     public IntegerVector2 localToWorld(IntegerVector2 localPosition){
-        IntegerVector2 worldPosition = new IntegerVector2(null, null);
-        if(localPosition.x != null) {
-            worldPosition.x = getWorldPositionX();
-            worldPosition.x += localPosition.x - getLocalPositionX();
-        }
-        if(localPosition.y != null){
-            worldPosition.y = getWorldPositionY();
-            worldPosition.y += localPosition.y - getLocalPositionY();
-        }
-        return worldPosition;
+        return new IntegerVector2(localPosition.x + getWorldPositionX(), localPosition.y + getWorldPositionY());
     }
 
 

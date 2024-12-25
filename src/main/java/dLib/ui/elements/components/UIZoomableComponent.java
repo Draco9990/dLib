@@ -84,7 +84,7 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
         }
 
         if(targetScaleX != null && targetScaleY != null){
-            IntegerVector2 localMouse = owner.worldToLocal2(new IntegerVector2(targetWorldMouseX, targetWorldMouseY));
+            IntegerVector2 localMouse = owner.worldToLocal(new IntegerVector2(targetWorldMouseX, targetWorldMouseY));
 
             //Calculate and set the new scale x
             float newScaleX = targetScaleX;//float newScaleX = MathUtils.lerp(owner.getScaleX(), targetScaleX, 0.2f);
@@ -109,8 +109,8 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
             owner.setScaleY(newScaleY);
 
             //Center the object around the mouse world position where we were zooming
-            IntegerVector2 worldMouseAfterRecenter = owner.localToWorld2(localMouse);
-            IntegerVector2 difference = new IntegerVector2(worldMouseAfterRecenter.x - targetWorldMouseX, worldMouseAfterRecenter.y - targetWorldMouseY);
+            IntegerVector2 localMouseAfter = owner.worldToLocal(new IntegerVector2(targetWorldMouseX, targetWorldMouseY));
+            IntegerVector2 difference = new IntegerVector2(localMouse.x - localMouseAfter.x, localMouse.y - localMouseAfter.y);
             owner.offset(difference.x, difference.y);
         }
     }

@@ -3,6 +3,7 @@ package dLib.ui.elements.components;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
+import dLib.util.DLibLogger;
 import dLib.util.events.Event;
 
 import java.util.HashMap;
@@ -68,15 +69,27 @@ public class UIDraggableComponent extends UIElementComponent<UIElement> {
     //region Click
 
     protected void onLeftClick() {
-        if(canDragX) xDragOffset = (int) (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
-        if(canDragY) yDragOffset = (int) (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
+        xDragOffset = 0;
+        yDragOffset = 0;
+
+        if(canDragX) {
+            xDragOffset = (int) (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
+            xDragOffset = (int) (xDragOffset / owner.getScaleX());
+        }
+
+        if(canDragY) {
+            yDragOffset = (int) (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
+            yDragOffset = (int) (yDragOffset / owner.getScaleY());
+        }
     }
 
     protected void onLeftClickHeld(float totalDuration) {
-        int xPos = canDragX ? (int) ((InputHelper.mX - xDragOffset) / Settings.xScale) : owner.getWorldPositionX();
-        int yPos = canDragY ? (int) ((InputHelper.mY - yDragOffset) / Settings.yScale) : owner.getWorldPositionY();
+        int localDragOffsetX = (int) (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
+        localDragOffsetX = (int) (localDragOffsetX / owner.getScaleX());
+        int localDragOffsetY = (int) (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
+        localDragOffsetY = (int) (localDragOffsetY / owner.getScaleY());
 
-        owner.setWorldPosition(xPos, yPos);
+        owner.offset((int) ((localDragOffsetX - xDragOffset) * owner.getScaleX()), (int) ((localDragOffsetY - yDragOffset) * owner.getScaleY()));
 
         onDraggedEvent.invoke(Runnable::run);
     }
