@@ -6,8 +6,11 @@ import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
 import dLib.tools.uicreator.ui.elements.UCEPropertyEditor;
 import dLib.tools.uicreator.ui.elements.UCERootElement;
+import dLib.ui.Alignment;
 import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UIDraggableComponent;
+import dLib.ui.elements.components.UIZoomableComponent;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.*;
 import dLib.ui.elements.items.itembox.HorizontalBox;
@@ -52,8 +55,17 @@ public class UCEditor extends Renderable {
                 firstColumn.addItem(new Spacer(Dim.fill(), Dim.px(10)));
                 firstColumn.addItem(mainScreen = new UC_EditorMainScreen());
                 {
-                    mainScreen.addChildNCS(rootElement = new UCERootElement());
-                    rootElement.setID("Root");
+                    Renderable canvas = new Renderable(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(10000), Dim.px(10000));
+                    {
+                        canvas.addChildNCS(rootElement = new UCERootElement());
+                        rootElement.setID("Root");
+                    }
+                    canvas.addComponent(new UIDraggableComponent());
+                    canvas.addComponent(new UIZoomableComponent());
+                    canvas.setElementMask(mainScreen);
+                    canvas.setHorizontalAlignment(Alignment.HorizontalAlignment.CENTER);
+                    canvas.setVerticalAlignment(Alignment.VerticalAlignment.CENTER);
+                    mainScreen.addChildNCS(canvas);
                 }
             }
             mainBox.addItem(firstColumn);
@@ -75,7 +87,10 @@ public class UCEditor extends Renderable {
     public static class UC_EditorMainScreen extends Renderable{
 
         public UC_EditorMainScreen() {
-            super(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(1536), Dim.px(864));
+            super(Tex.stat(UICommonResources.white_pixel), Dim.px(1536), Dim.px(864));
+
+            Color transparent = new Color(0, 0, 0, 0);
+            setRenderColor(transparent);
         }
     }
 

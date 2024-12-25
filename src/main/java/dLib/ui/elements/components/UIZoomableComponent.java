@@ -7,7 +7,7 @@ import dLib.ui.elements.UIElement;
 public class UIZoomableComponent extends UIElementComponent<UIElement>{
     private boolean canZoom;
 
-    private float scaleStep = 0.3f;
+    private float scaleStep = 0.1f;
     private Float targetScaleX = null;
     private Float targetScaleY = null;
 
@@ -44,6 +44,9 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
                 parent = parent.getParent();
             }
 
+            if(owner.isHovered()){
+                return;
+            }
             canZoom = false;
         });
     }
@@ -74,17 +77,23 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
         }
 
         if(targetScaleX != null){
-            float newScaleX = MathUtils.lerp(owner.getScaleX(), targetScaleX, 0.1f);
+            float newScaleX = MathUtils.lerp(owner.getScaleX(), targetScaleX, 0.2f);
             if(Math.abs(newScaleX - targetScaleX) < 0.01f){
                 newScaleX = targetScaleX;
                 targetScaleX = null;
             }
+            if(newScaleX < 0.01f){
+                newScaleX = 0.01f;
+            }
             owner.setScaleX(newScaleX);
 
-            float newScaleY = MathUtils.lerp(owner.getScaleY(), targetScaleY, 0.1f);
+            float newScaleY = MathUtils.lerp(owner.getScaleY(), targetScaleY, 0.2f);
             if(Math.abs(newScaleY - targetScaleY) < 0.01f){
                 newScaleY = targetScaleY;
                 targetScaleY = null;
+            }
+            if(newScaleY < 0.01f){
+                newScaleY = 0.01f;
             }
             owner.setScaleY(newScaleY);
         }

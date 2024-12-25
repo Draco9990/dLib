@@ -253,7 +253,7 @@ public class UIElement implements Disposable, IEditableValue {
         });*/ //TODO
 
         GlobalEvents.subscribeManaged(PreUIHoverEvent.class, (event) -> {
-            if(event.source != this && isHovered() && !isPassthrough()){
+            if(event.source != this && isHovered() && !event.source.isPassthrough()){
                 this.hb.unhover();
                 onUnhovered();
             }
@@ -865,7 +865,7 @@ public class UIElement implements Disposable, IEditableValue {
     public UIElement setWorldPosition(int newPosX, int newPosY){
         int xDiff = newPosX - getWorldPositionX();
         int yDiff = newPosY - getWorldPositionY();
-        offset((int) (xDiff / xScale), (int) (yDiff / yScale));
+        offset((int) (xDiff / getScaleX()), (int) (yDiff / getScaleY()));
         return this;
     }
 
@@ -1487,7 +1487,7 @@ public class UIElement implements Disposable, IEditableValue {
         if(widthCache == null || widthCache <= 0){
             widthCache = width.getWidth(this) - getPaddingRight();
             if(width instanceof AbstractStaticDimension){
-                widthCache = (int) (widthCache * xScale);
+                widthCache = (int) (widthCache * getScaleX());
             }
         }
 
@@ -1497,7 +1497,7 @@ public class UIElement implements Disposable, IEditableValue {
         if(heightCache == null || heightCache <= 0){
             heightCache = height.getHeight(this) - getPaddingTop();
             if(height instanceof AbstractStaticDimension){
-                heightCache = (int) (heightCache * yScale);
+                heightCache = (int) (heightCache * getScaleY());
             }
         }
 
