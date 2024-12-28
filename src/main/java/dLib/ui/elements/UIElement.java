@@ -1003,6 +1003,12 @@ public class UIElement implements Disposable, IEditableValue {
         IntegerVector2 localBottomLeft = worldToLocal(new IntegerVector2(worldLeft, worldBottom));
         IntegerVector2 localTopRight = worldToLocal(new IntegerVector2(worldRight, worldTop));
 
+        //* Offset the locals for the element pos to get objective 'bounds' of the container
+        localBottomLeft.x -= getLocalPositionX();
+        localBottomLeft.y -= getLocalPositionY();
+        localTopRight.x += getLocalPositionX();
+        localTopRight.y += getLocalPositionY();
+
         int horizontalOffset = 0;
         int verticalOffset = 0;
 
