@@ -48,11 +48,11 @@ public class HorizontalScrollbar extends Scrollbar {
                 slider.showAndEnableInstantly();
 
                 if(scrollbarTargetX != null){
-                    if(Math.abs(scrollbarTargetX - slider.getLocalPositionY()) > 0.5f){
-                        slider.setLocalPositionY((int) MathUtils.lerp(slider.getLocalPositionY(), scrollbarTargetX, scrollSpeed));
+                    if(Math.abs(scrollbarTargetX - slider.getLocalPositionX()) > 0.5f){
+                        slider.setLocalPositionX((int) MathUtils.lerp(slider.getLocalPositionX(), scrollbarTargetX, scrollSpeed));
                     }
                     else{
-                        slider.setLocalPositionY(scrollbarTargetX);
+                        slider.setLocalPositionX(scrollbarTargetX);
                         scrollbarTargetX = null;
                     }
                 }

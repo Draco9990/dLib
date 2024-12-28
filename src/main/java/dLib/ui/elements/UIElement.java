@@ -794,7 +794,7 @@ public class UIElement implements Disposable, IEditableValue {
         if(localPosXCache == null){
             localPosXCache = localPosX.getLocalX(this) + paddingLeft.getHorizontal(this);
             if(localPosX instanceof AbstractStaticPosition){
-                localPosXCache = Math.round(localPosXCache / getParentScaleX());
+                localPosXCache = Math.round(localPosXCache * getParentScaleX());
             }
         }
 
@@ -804,7 +804,7 @@ public class UIElement implements Disposable, IEditableValue {
         if(localPosYCache == null){
             localPosYCache = localPosY.getLocalY(this) + paddingBottom.getVertical(this);
             if(localPosY instanceof AbstractStaticPosition){
-                localPosYCache = Math.round(localPosYCache / getParentScaleY());
+                localPosYCache = Math.round(localPosYCache * getParentScaleY());
             }
         }
 
@@ -1488,6 +1488,20 @@ public class UIElement implements Disposable, IEditableValue {
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
+    }
+
+    public int getWidthUnscaled(){
+        return (int) (getWidth() / getScaleX());
+    }
+    public int getHeightUnscaled(){
+        return (int) (getHeight() / getScaleY());
+    }
+
+    public int getWidthLocalScaled(){
+        return (int) (getWidth() / getParentScaleX());
+    }
+    public int getHeightLocalScaled(){
+        return (int) (getHeight() / getParentScaleY());
     }
 
     public AbstractDimension getWidthRaw(){

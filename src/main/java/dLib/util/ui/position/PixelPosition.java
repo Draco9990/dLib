@@ -37,7 +37,7 @@ public class PixelPosition extends AbstractStaticPosition {
                     return 0;
                 }
                 else{
-                    parentWidth = self.getParent().getWidth();
+                    parentWidth = self.getParent().getWidthUnscaled();
                 }
             }
 
@@ -45,7 +45,7 @@ public class PixelPosition extends AbstractStaticPosition {
                 return 0;
             }
             else{
-                return position + (parentWidth - self.getWidth()) / 2;
+                return position + (parentWidth - self.getWidthLocalScaled()) / 2;
             }
         }
         else{ //element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT
@@ -55,7 +55,7 @@ public class PixelPosition extends AbstractStaticPosition {
                     return 0;
                 }
                 else{
-                    parentWidth = self.getParent().getWidth();
+                    parentWidth = self.getParent().getWidthUnscaled();
                 }
             }
 
@@ -63,7 +63,7 @@ public class PixelPosition extends AbstractStaticPosition {
                 return 0;
             }
             else{
-                return parentWidth - self.getWidth() - position;
+                return parentWidth - self.getWidthLocalScaled() - position;
             }
         }
     }
@@ -81,7 +81,7 @@ public class PixelPosition extends AbstractStaticPosition {
                     return 0;
                 }
                 else{
-                    parentHeight = self.getParent().getHeight();
+                    parentHeight = self.getParent().getHeightUnscaled();
                 }
             }
 
@@ -89,7 +89,7 @@ public class PixelPosition extends AbstractStaticPosition {
                 return 0;
             }
             else{
-                return position + (parentHeight - self.getHeight()) / 2;
+                return position + (parentHeight - self.getHeightLocalScaled()) / 2;
             }
         }
         else{ //element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP
@@ -99,7 +99,7 @@ public class PixelPosition extends AbstractStaticPosition {
                     return 0;
                 }
                 else{
-                    parentHeight = self.getParent().getHeight();
+                    parentHeight = self.getParent().getHeightUnscaled();
                 }
             }
 
@@ -107,7 +107,7 @@ public class PixelPosition extends AbstractStaticPosition {
                 return 0;
             }
             else{
-                return parentHeight - self.getHeight() - position;
+                return parentHeight - self.getHeightLocalScaled() - position;
             }
         }
     }

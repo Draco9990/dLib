@@ -84,10 +84,18 @@ public class UIDraggableComponent extends UIElementComponent<UIElement> {
     }
 
     protected void onLeftClickHeld(float totalDuration) {
-        int localDragOffsetX = (int) (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
-        localDragOffsetX = (int) (localDragOffsetX / owner.getScaleX());
-        int localDragOffsetY = (int) (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
-        localDragOffsetY = (int) (localDragOffsetY / owner.getScaleY());
+        int localDragOffsetX = 0;
+        int localDragOffsetY = 0;
+
+        if(xDragOffset != 0){
+            localDragOffsetX = (int) (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
+            localDragOffsetX = (int) (localDragOffsetX / owner.getScaleX());
+        }
+
+        if(yDragOffset != 0){
+            localDragOffsetY = (int) (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
+            localDragOffsetY = (int) (localDragOffsetY / owner.getScaleY());
+        }
 
         owner.offset((int) ((localDragOffsetX - xDragOffset) * owner.getScaleX()), (int) ((localDragOffsetY - yDragOffset) * owner.getScaleY()));
 

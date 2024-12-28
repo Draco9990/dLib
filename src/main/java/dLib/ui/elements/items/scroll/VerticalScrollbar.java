@@ -10,6 +10,7 @@ import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.resources.UICommonResources;
 
 import dLib.util.bindings.texture.Tex;
+import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -111,12 +112,24 @@ public class VerticalScrollbar extends Scrollbar {
 
     @Override
     public void onScrolledDown() {
-        scrollbarTargetY = slider.getLocalPositionY() - scrollAmount;
+        AbstractBounds sliderBounds = slider.getContainerBounds();
+        Integer maxDiff = null;
+        if(sliderBounds != null){
+            maxDiff = slider.getWorldPositionY() - sliderBounds.getWorldBottom();
+        }
+
+        scrollbarTargetY = slider.getLocalPositionY() - (maxDiff != null ? MathUtils.clamp(scrollAmount, 0, maxDiff) : scrollAmount);
     }
 
     @Override
     public void onScrolledUp() {
-        scrollbarTargetY = slider.getLocalPositionY() + scrollAmount;
+        AbstractBounds sliderBounds = slider.getContainerBounds();
+        Integer maxDiff = null;
+        if(sliderBounds != null){
+            maxDiff = sliderBounds.getWorldTop() - slider.getWorldPositionY();
+        }
+
+        scrollbarTargetY = slider.getLocalPositionY() + (maxDiff != null ? MathUtils.clamp(scrollAmount, 0, maxDiff) : scrollAmount);
     }
 
     //endregion
