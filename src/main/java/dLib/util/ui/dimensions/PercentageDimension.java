@@ -11,9 +11,6 @@ public class PercentageDimension extends AbstractStaticDimension {
     private float percentage;
 
     public PercentageDimension(float percentage){
-        if(percentage < 0) percentage = 0;
-        if(percentage > 1) percentage = 1;
-
         this.percentage = percentage;
     }
 

@@ -13,9 +13,6 @@ public class PercentagePosition extends AbstractStaticPosition {
     private float percentage;
 
     public PercentagePosition(float percentage){
-        if(percentage < 0) percentage = 0;
-        if(percentage > 1) percentage = 1;
-
         this.percentage = percentage;
     }
 
