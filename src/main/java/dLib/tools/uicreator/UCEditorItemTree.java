@@ -43,7 +43,7 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
         if(entry != null){
             UIElement.UIElementData elementData = SerializationHelpers.deepCopySerializable(entry.elementData);
             elementData.id.setValue("Copy of " + elementData.id.getValue());
-            UIElement elementToAdd = elementData.makeUIElement();
+            UIElement elementToAdd = entry.template.makeEditorItem(elementData);
             addItem(elementToAdd, elementData, entry.template);
         }
     }

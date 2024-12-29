@@ -5,6 +5,8 @@ import dLib.properties.ui.elements.IEditableValue;
 import dLib.properties.ui.elements.PropertyValueEditor;
 import dLib.util.events.Event;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -159,6 +161,16 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     public AbstractValueEditor makeEditorFor(boolean tryMultiline) {
         return new PropertyValueEditor(this, tryMultiline);
+    }
+
+    //endregion
+
+    //region Serialization
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        onValueChangedEvent = new Event<>();
+        isPropertyVisibleFunctions = new ArrayList<>();
     }
 
     //endregion
