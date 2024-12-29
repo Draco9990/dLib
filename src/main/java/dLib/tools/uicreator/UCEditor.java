@@ -61,7 +61,10 @@ public class UCEditor extends Renderable {
                         rootElement.setID("Root");
                     }
                     canvas.addComponent(new UIDraggableComponent());
-                    canvas.addComponent(new UIZoomableComponent());
+
+                    UIZoomableComponent zoomComp = canvas.addComponent(new UIZoomableComponent());
+                    zoomComp.setMinScale(0.25f);
+
                     canvas.setElementMask(mainScreen);
                     canvas.setHorizontalAlignment(Alignment.HorizontalAlignment.CENTER);
                     canvas.setVerticalAlignment(Alignment.VerticalAlignment.CENTER);

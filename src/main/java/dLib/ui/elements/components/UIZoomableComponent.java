@@ -98,7 +98,7 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
 
 
             //Calculate and set the new scale x
-            float newScaleX = targetScaleX;//float newScaleX = MathUtils.lerp(owner.getScaleX(), targetScaleX, 0.2f);
+            float newScaleX = MathUtils.lerp(owner.getScaleX(), targetScaleX, 0.2f);
             if(Math.abs(newScaleX - targetScaleX) < 0.01f){
                 newScaleX = targetScaleX;
                 targetScaleX = null;
@@ -109,7 +109,7 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
             owner.setScaleX(newScaleX);
 
             //Calculate and set the new scale y
-            float newScaleY = targetScaleY;//float newScaleY = MathUtils.lerp(owner.getScaleY(), targetScaleY, 0.2f);
+            float newScaleY = MathUtils.lerp(owner.getScaleY(), targetScaleY, 0.2f);
             if(Math.abs(newScaleY - targetScaleY) < 0.01f){
                 newScaleY = targetScaleY;
                 targetScaleY = null;

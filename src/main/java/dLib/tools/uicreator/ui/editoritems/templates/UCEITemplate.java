@@ -48,7 +48,6 @@ public abstract class UCEITemplate {
         ElementGroupModifierComponent groupComp = editorItem.addComponent(new ElementGroupModifierComponent(editorItem, "editorItem"));
 
         UCEditorItemComponent editorComp = editorItem.addComponent(new UCEditorItemComponent());
-        editorItem.addComponent(new UIZoomableComponent());
         //DO stuff with comp
 
         editorItem.onLeftClickEvent.subscribeManaged(() -> {
