@@ -47,13 +47,13 @@ public class PercentageDimension extends AbstractStaticDimension {
 
     @Override
     public int getWidth(UIElement self) {
-        int parentWidth = self.getParent() != null ? self.getParent().getWidth() : 1920;
+        int parentWidth = self.getParent() != null ? self.getParent().getWidthUnscaled() : 1920;
         return (int) (parentWidth * percentage);
     }
 
     @Override
     public int getHeight(UIElement self) {
-        int parentHeight = self.getParent() != null ? self.getParent().getHeight() : 1080;
+        int parentHeight = self.getParent() != null ? self.getParent().getHeightUnscaled() : 1080;
         return (int) (parentHeight * percentage);
     }
 

@@ -26,27 +26,27 @@ public class PercentagePosition extends AbstractStaticPosition {
     @Override
     public int getLocalX(UIElement element) {
         if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element instanceof TextBox){
-            int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
+            int parentWidth = element.getParent() != null ? element.getParent().getWidthUnscaled() : 1920;
             return (int)(parentWidth * percentage);
         }
         else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
+            int parentWidth = element.getParent() != null ? element.getParent().getWidthUnscaled() : 1920;
 
             if(element.getWidthRaw() instanceof FillDimension){
                 return 0;
             }
             else{
-                return parentWidth / 2 - (int) (element.getWidth() * percentage);
+                return parentWidth / 2 - (int) (element.getWidthLocalScaled() * percentage);
             }
         }
         else{ //element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT
-            int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
+            int parentWidth = element.getParent() != null ? element.getParent().getWidthUnscaled() : 1920;
 
             if(element.getWidthRaw() instanceof FillDimension){
                 return 0;
             }
             else{
-                return parentWidth - (int) ((parentWidth - element.getWidth()) * percentage);
+                return parentWidth - (int) ((parentWidth - element.getWidthLocalScaled()) * percentage);
             }
         }
     }
@@ -54,34 +54,34 @@ public class PercentagePosition extends AbstractStaticPosition {
     @Override
     public int getLocalY(UIElement element) {
         if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element instanceof TextBox){
-            int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
+            int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
             return (int)(parentHeight * percentage);
         }
         else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
+            int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
 
             if(element.getHeightRaw() instanceof FillDimension){
                 return 0;
             }
             else{
-                return parentHeight / 2 - (int) (element.getHeight() * percentage);
+                return parentHeight / 2 - (int) (element.getHeightLocalScaled() * percentage);
             }
         }
         else{ //element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP
-            int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
+            int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
 
             if(element.getHeightRaw() instanceof FillDimension){
                 return 0;
             }
             else{
-                return parentHeight - (int) ((parentHeight - element.getHeight()) * percentage);
+                return parentHeight - (int) ((parentHeight - element.getHeightLocalScaled()) * percentage);
             }
         }
     }
 
     @Override
     public void offsetHorizontal(UIElement element, int amount) {
-        int parentWidth = element.getParent() != null ? element.getParent().getWidth() : 1920;
+        int parentWidth = element.getParent() != null ? element.getParent().getWidthUnscaled() : 1920;
 
         if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             percentage += (float)amount / parentWidth;
@@ -93,7 +93,7 @@ public class PercentagePosition extends AbstractStaticPosition {
 
     @Override
     public void offsetVertical(UIElement element, int amount) {
-        int parentHeight = element.getParent() != null ? element.getParent().getHeight() : 1080;
+        int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
 
         if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             percentage += (float)amount / parentHeight;
