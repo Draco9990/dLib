@@ -26,19 +26,23 @@ public class PercentageDimension extends AbstractStaticDimension {
 
     @Override
     public void resizeWidthBy(UIElement self, int amount) {
+        int parentWidth = self.getParent() != null ? self.getParent().getWidthUnscaled() : 1920;
+
         if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            percentage += amount;
+            percentage += (float)amount / parentWidth;
         } else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
-            percentage -= amount;
+            percentage -= (float)amount / parentWidth;
         }
     }
 
     @Override
     public void resizeHeightBy(UIElement self, int amount) {
+        int parentHeight = self.getParent() != null ? self.getParent().getHeightUnscaled() : 1080;
+
         if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            percentage += amount;
+            percentage += (float)amount / parentHeight;
         } else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-            percentage -= amount;
+            percentage -= (float)amount / parentHeight;
         }
     }
 

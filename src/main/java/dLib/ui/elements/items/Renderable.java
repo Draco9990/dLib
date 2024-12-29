@@ -65,8 +65,6 @@ public class Renderable extends UIElement {
         this.image = data.textureBinding.getValue();
         this.renderColor = data.renderColor.getColorValue();
 
-        this.renderColorAlphaMultiplier = data.renderColorAlphaMultiplier;
-
         this.renderDimensionsPerc = data.renderDimensionsPerc.getValue();
 
         this.renderOffset = data.positionOffset.getValue();
@@ -283,20 +281,23 @@ public class Renderable extends UIElement {
                 .setCategory("Render");
 
         public IntegerVector2Property positionOffset = new IntegerVector2Property(new IntegerVector2(0, 0))
-                .setName("X Position Offset")
+                .setName("Position Offset")
                 .setDescription("Offset for the render position of the rendered image.")
                 .setCategory("Render")
                 .setValueNames("X", "Y");
+
+        public FloatVector2Property renderDimensionsPerc = new FloatVector2Property(new Vector2(1, 1))
+                .setName("Render Dimensions %")
+                .setDescription("Percentage of the image to render. 1 = 100% of the image, 0.5 = 50% of the image.")
+                .setCategory("Render")
+                .setValueNames("W", "H")
+                .setMinimumX(0f).setMinimumY(0f).setMaximumX(1f).setMaximumY(1f);
 
         public FloatVector2Property renderScaleOffset = new FloatVector2Property(new Vector2(1, 1))
                 .setName("Render Scale Offset")
                 .setDescription("Offset for the scale of the rendered image.")
                 .setCategory("Render")
                 .setValueNames("W", "H");
-
-        public float renderColorAlphaMultiplier = 1.0f;
-
-        public FloatVector2Property renderDimensionsPerc = new FloatVector2Property(new Vector2(1, 1)).setName("Render Dimensions Perc").setValueNames("W", "H").setMinimumX(0f).setMinimumY(0f).setMaximumX(1f).setMaximumY(1f);
 
         @Override
         public UIElement makeUIElement() {
