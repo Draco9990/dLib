@@ -39,6 +39,7 @@ public class UCEditor extends Renderable {
     public UC_EditorProperties properties;
 
     public UC_EditorMainScreen mainScreen;
+    public Renderable canvas;
 
     public UCEditorItemTree itemTree;
 
@@ -56,7 +57,7 @@ public class UCEditor extends Renderable {
                 firstColumn.addItem(new Spacer(Dim.fill(), Dim.px(10)));
                 firstColumn.addItem(mainScreen = new UC_EditorMainScreen());
                 {
-                    Renderable canvas = new Renderable(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(10000), Dim.px(10000));
+                    canvas = new Renderable(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(10000), Dim.px(10000));
                     {
                         canvas.addChildNCS(rootElement = new UCERootElement());
                         rootElement.setID("Root");

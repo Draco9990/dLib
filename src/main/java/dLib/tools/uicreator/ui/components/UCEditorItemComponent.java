@@ -9,6 +9,7 @@ import dLib.tools.uicreator.UCEditorItemTree;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIElementComponent;
+import dLib.ui.screens.UIManager;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.PixelDimension;
@@ -24,7 +25,8 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
 
     @Override
     public void onRegisterComponent(UIElement owner) {
-        owner.setContainerBounds(Bound.parent(owner));
+        UCEditor editorr = UIManager.getOpenElementOfType(UCEditor.class);
+        owner.setContainerBounds(Bound.element(editorr.canvas));
 
         owner.onPositionChangedEvent.subscribeManaged((element) -> {
             UCEditor editor = element.getParentOfType(UCEditor.class);
