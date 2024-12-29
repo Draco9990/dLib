@@ -28,6 +28,8 @@ public class Renderable extends UIElement {
 
     private float renderColorAlphaMultiplier = 1.0f;
 
+    protected Alignment renderOrientation = new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER);
+
     protected Vector2 renderDimensionsPerc;
     protected Alignment renderDimensionsOrientation = new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
 
@@ -67,6 +69,8 @@ public class Renderable extends UIElement {
         this.image = data.textureBinding.getValue();
         this.renderColor = data.renderColor.getColorValue();
 
+        this.renderOrientation = data.renderOrientation.getValue();
+
         this.renderDimensionsPerc = data.renderDimensionsPerc.getValue();
         this.renderDimensionsOrientation = data.renderDimensionsOrientation.getValue();
 
@@ -91,12 +95,14 @@ public class Renderable extends UIElement {
             int regionWidth = textureToRender.getTexture().getWidth();
             int regionHeight = textureToRender.getTexture().getHeight();
 
+            //Apply render dim %
             int noRenderAmountX = (int)(regionWidth * (1 - getRenderWidthPerc()));
             int noRenderAmountY = (int)(regionHeight * (1 - getRenderHeightPerc()));
 
             regionWidth -= noRenderAmountX;
             regionHeight -= noRenderAmountY;
 
+            //Apply render dim orientation
             if(renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.CENTER){
                 regionX = noRenderAmountX / 2;
             }
@@ -121,6 +127,7 @@ public class Renderable extends UIElement {
             float renderWidth = getWidth() * Settings.xScale * getRenderWidthPerc();
             float renderHeight = getHeight() * Settings.yScale * getRenderHeightPerc();
 
+            //Preserve aspect ratio
             if(isPreservingAspectRatio()){
                 float aspectRatio = (float)textureToRender.getRegionWidth() / (float)textureToRender.getRegionHeight();
                 if(aspectRatio > 1){
@@ -129,12 +136,9 @@ public class Renderable extends UIElement {
                 else {
                     renderWidth = renderHeight * aspectRatio;
                 }
-
-                //Adjust render position to center the image
-                renderPosX += (getWidth() * Settings.xScale - renderWidth) / 2;
-                renderPosY += (getHeight() * Settings.yScale - renderHeight) / 2;
             }
 
+            //No Upscale
             if(isNoUpscale()){
                 if(renderWidth > textureToRender.getRegionWidth()){
                     renderWidth = textureToRender.getRegionWidth();
@@ -142,17 +146,28 @@ public class Renderable extends UIElement {
                 if(renderHeight > textureToRender.getRegionHeight()){
                     renderHeight = textureToRender.getRegionHeight();
                 }
+            }
 
-                //Adjust render position to center the image
-                renderPosX += (getWidth() * Settings.xScale - renderWidth) / 2;
-                renderPosY += (getHeight() * Settings.yScale - renderHeight) / 2;
+            renderWidth *= renderScaleOffset.x;
+            renderHeight *= renderScaleOffset.y;
+
+            //Apply render orientation
+            if(renderOrientation.horizontalAlignment == Alignment.HorizontalAlignment.CENTER){
+                renderPosX = renderPosX + (getWidth() * Settings.xScale - renderWidth) * 0.5f;
+            }
+            else if(renderOrientation.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT){
+                renderPosX = renderPosX + getWidth() * Settings.xScale - renderWidth;
+            }
+
+            if(renderOrientation.verticalAlignment == Alignment.VerticalAlignment.CENTER){
+                renderPosY = renderPosY + (getHeight() * Settings.yScale - renderHeight) * 0.5f;
+            }
+            else if(renderOrientation.verticalAlignment == Alignment.VerticalAlignment.TOP){
+                renderPosY = renderPosY + getHeight() * Settings.yScale - renderHeight;
             }
 
             renderPosX += renderOffset.x;
             renderPosY += renderOffset.y;
-
-            renderWidth *= renderScaleOffset.x;
-            renderHeight *= renderScaleOffset.y;
 
             sb.draw(textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
 
@@ -308,6 +323,11 @@ public class Renderable extends UIElement {
         public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy())
                 .setName("Render Color")
                 .setDescription("Color to render the image with. Not the same as performing a hue shift of the image.")
+                .setCategory("Render");
+
+        public AlignmentProperty renderOrientation = new AlignmentProperty(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER))
+                .setName("Render Orientation")
+                .setDescription("How to render the image within the element.")
                 .setCategory("Render");
 
         public IntegerVector2Property positionOffset = new IntegerVector2Property(new IntegerVector2(0, 0))
