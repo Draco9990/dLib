@@ -90,8 +90,6 @@ public class ScreenEditorPreview extends UIElement {
             i++;
         }
         item.setID(idPrefix + i);
-
-        item.setContainerBounds(Bound.parent(this));
     }
     public void deletePreviewItem(ScreenEditorItem itemToDelete){
         itemToDelete.dispose();

@@ -24,6 +24,7 @@ import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureNoneBinding;
+import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -61,6 +62,9 @@ public class UCEditor extends Renderable {
                         rootElement.setID("Root");
                     }
                     canvas.addComponent(new UIDraggableComponent());
+
+                    canvas.setContainerBounds(Bound.element(mainScreen));
+                    canvas.setContainerBoundCalculationType(BoundCalculationType.FILLS);
 
                     UIZoomableComponent zoomComp = canvas.addComponent(new UIZoomableComponent());
                     zoomComp.setMinScale(0.25f);

@@ -987,15 +987,7 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public AbstractBounds getContainerBounds(){
-        if(containerBounds != null){
-            return containerBounds;
-        }
-
-        if(hasParent()){
-            return parent.getContainerBounds();
-        }
-
-        return null;
+       return containerBounds;
     }
 
     public PositionBounds getLocalContainerBounds(){
@@ -1047,44 +1039,61 @@ public class UIElement implements Disposable, IEditableValue {
         int desiredPositionX = getLocalPositionX();
         int desiredPositionY = getLocalPositionY();
 
-        if(width instanceof PixelDimension){
-            int boundBoxUpperPosX = desiredPositionX + getWidth();
-            
-            if(localContainerBounds.right != null && boundBoxUpperPosX > localContainerBounds.right){
-                desiredPositionX = localContainerBounds.right - getWidth();
-                boundBoxUpperPosX = desiredPositionX + getWidth();
-            }
-
-            if(localContainerBounds.left != null && desiredPositionX < localContainerBounds.left){
+        if(containerBoundCalculationType == BoundCalculationType.FILLS){
+            if(desiredPositionX > localContainerBounds.left){
                 desiredPositionX = localContainerBounds.left;
-                boundBoxUpperPosX = desiredPositionX + getWidth();
             }
-
-            desiredWidth = getWidth();
-
-            if(localContainerBounds.right != null && localContainerBounds.left != null && boundBoxUpperPosX > localContainerBounds.right){
-                desiredWidth = localContainerBounds.right - localContainerBounds.left;
-            }
-
-        }
-
-        if(height instanceof PixelDimension){
-            int boundBoxUpperPosY = desiredPositionY + getHeight();
-
-            if(localContainerBounds.top != null && boundBoxUpperPosY > localContainerBounds.top){
-                desiredPositionY = localContainerBounds.top - getHeight();
-                boundBoxUpperPosY = desiredPositionY + getHeight();
-            }
-
-            if(localContainerBounds.bottom != null && desiredPositionY < localContainerBounds.bottom){
+            if(desiredPositionY > localContainerBounds.bottom){
                 desiredPositionY = localContainerBounds.bottom;
-                boundBoxUpperPosY = desiredPositionY + getHeight();
             }
 
-            desiredHeight = getHeight();
+            if(desiredPositionX + getWidth() < localContainerBounds.right){
+                desiredPositionX = localContainerBounds.right - getWidth();
+            }
+            if(desiredPositionY + getHeight() < localContainerBounds.top){
+                desiredPositionY = localContainerBounds.top - getHeight();
+            }
+        }
+        else{
+            if(width instanceof PixelDimension){
+                int boundBoxUpperPosX = desiredPositionX + getWidth();
 
-            if(localContainerBounds.top != null && localContainerBounds.bottom != null && boundBoxUpperPosY > localContainerBounds.top){
-                desiredHeight = localContainerBounds.top - localContainerBounds.bottom;
+                if(localContainerBounds.right != null && boundBoxUpperPosX > localContainerBounds.right){
+                    desiredPositionX = localContainerBounds.right - getWidth();
+                    boundBoxUpperPosX = desiredPositionX + getWidth();
+                }
+
+                if(localContainerBounds.left != null && desiredPositionX < localContainerBounds.left){
+                    desiredPositionX = localContainerBounds.left;
+                    boundBoxUpperPosX = desiredPositionX + getWidth();
+                }
+
+                desiredWidth = getWidth();
+
+                if(localContainerBounds.right != null && localContainerBounds.left != null && boundBoxUpperPosX > localContainerBounds.right){
+                    desiredWidth = localContainerBounds.right - localContainerBounds.left;
+                }
+
+            }
+
+            if(height instanceof PixelDimension){
+                int boundBoxUpperPosY = desiredPositionY + getHeight();
+
+                if(localContainerBounds.top != null && boundBoxUpperPosY > localContainerBounds.top){
+                    desiredPositionY = localContainerBounds.top - getHeight();
+                    boundBoxUpperPosY = desiredPositionY + getHeight();
+                }
+
+                if(localContainerBounds.bottom != null && desiredPositionY < localContainerBounds.bottom){
+                    desiredPositionY = localContainerBounds.bottom;
+                    boundBoxUpperPosY = desiredPositionY + getHeight();
+                }
+
+                desiredHeight = getHeight();
+
+                if(localContainerBounds.top != null && localContainerBounds.bottom != null && boundBoxUpperPosY > localContainerBounds.top){
+                    desiredHeight = localContainerBounds.top - localContainerBounds.bottom;
+                }
             }
         }
 
@@ -2180,6 +2189,7 @@ public class UIElement implements Disposable, IEditableValue {
         CONTAINS,
         CONTAINS_HALF,
         OVERLAPS,
+        FILLS
     }
 
     public static class UIElementChild{
