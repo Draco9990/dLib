@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.*;
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.IntegerVector2;
@@ -28,6 +29,7 @@ public class Renderable extends UIElement {
     private float renderColorAlphaMultiplier = 1.0f;
 
     protected Vector2 renderDimensionsPerc;
+    protected Alignment renderDimensionsOrientation = new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
 
     private boolean preserveAspectRatio = false;
     private boolean noUpscale = false;
@@ -66,6 +68,7 @@ public class Renderable extends UIElement {
         this.renderColor = data.renderColor.getColorValue();
 
         this.renderDimensionsPerc = data.renderDimensionsPerc.getValue();
+        this.renderDimensionsOrientation = data.renderDimensionsOrientation.getValue();
 
         this.renderOffset = data.positionOffset.getValue();
         this.renderScaleOffset = data.renderScaleOffset.getValue();
@@ -83,8 +86,35 @@ public class Renderable extends UIElement {
 
         TextureRegion textureToRender = getTextureForRender();
         if(textureToRender != null){
-            textureToRender.setRegionWidth((int)(textureToRender.getTexture().getWidth() * getRenderWidthPerc()));
-            textureToRender.setRegionHeight((int)(textureToRender.getTexture().getHeight() * getRenderHeightPerc()));
+            int regionX = 0;
+            int regionY = 0;
+            int regionWidth = textureToRender.getTexture().getWidth();
+            int regionHeight = textureToRender.getTexture().getHeight();
+
+            int noRenderAmountX = (int)(regionWidth * (1 - getRenderWidthPerc()));
+            int noRenderAmountY = (int)(regionHeight * (1 - getRenderHeightPerc()));
+
+            regionWidth -= noRenderAmountX;
+            regionHeight -= noRenderAmountY;
+
+            if(renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.CENTER){
+                regionX = noRenderAmountX / 2;
+            }
+            else if(renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT){
+                regionX = noRenderAmountX;
+            }
+
+            if(renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.CENTER){
+                regionY = noRenderAmountY / 2;
+            }
+            else if(renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.BOTTOM){
+                regionY = noRenderAmountY;
+            }
+
+            textureToRender.setRegionX(regionX);
+            textureToRender.setRegionY(regionY);
+            textureToRender.setRegionWidth(regionWidth);
+            textureToRender.setRegionHeight(regionHeight);
 
             float renderPosX = getWorldPositionX() * Settings.xScale;
             float renderPosY = getWorldPositionY() * Settings.yScale;
@@ -293,8 +323,13 @@ public class Renderable extends UIElement {
                 .setValueNames("W", "H")
                 .setMinimumX(0f).setMinimumY(0f).setMaximumX(1f).setMaximumY(1f);
 
+        public AlignmentProperty renderDimensionsOrientation = new AlignmentProperty(new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM))
+                .setName("Render Dimension Orientation")
+                .setDescription("Point from which to render the image. Affected by the render dimensions %.")
+                .setCategory("Render");
+
         public FloatVector2Property renderScaleOffset = new FloatVector2Property(new Vector2(1, 1))
-                .setName("Render Scale Offset")
+                .setName("Render Scale")
                 .setDescription("Offset for the scale of the rendered image.")
                 .setCategory("Render")
                 .setValueNames("W", "H");
