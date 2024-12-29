@@ -34,7 +34,7 @@ public class Renderable extends UIElement {
     protected Alignment renderDimensionsOrientation = new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
 
     private boolean preserveAspectRatio = false;
-    private boolean noUpscale = false;
+    private boolean noUpsize = false;
 
     private IntegerVector2 renderOffset = new IntegerVector2(0, 0);
     private Vector2 renderScaleOffset = new Vector2(1, 1);
@@ -67,6 +67,10 @@ public class Renderable extends UIElement {
         super(data);
 
         this.image = data.textureBinding.getValue();
+
+        this.preserveAspectRatio = data.preserveAspectRatio.getValue();
+        this.noUpsize = data.noUpsize.getValue();
+
         this.renderColor = data.renderColor.getColorValue();
 
         this.renderOrientation = data.renderOrientation.getValue();
@@ -130,21 +134,32 @@ public class Renderable extends UIElement {
             //Preserve aspect ratio
             if(isPreservingAspectRatio()){
                 float aspectRatio = (float)textureToRender.getRegionWidth() / (float)textureToRender.getRegionHeight();
-                if(aspectRatio > 1){
+                float containerAspectRatio = renderWidth / renderHeight;
+
+                if(aspectRatio > containerAspectRatio){
+                    renderWidth = renderHeight * aspectRatio;
+                }
+                else if(aspectRatio < containerAspectRatio){
                     renderHeight = renderWidth / aspectRatio;
                 }
-                else {
+
+                if(renderWidth > getWidth() * Settings.xScale){
+                    renderWidth = getWidth() * Settings.xScale;
+                    renderHeight = renderWidth / aspectRatio;
+                }
+                if(renderHeight > getHeight() * Settings.yScale){
+                    renderHeight = getHeight() * Settings.yScale;
                     renderWidth = renderHeight * aspectRatio;
                 }
             }
 
             //No Upscale
-            if(isNoUpscale()){
+            if(isNoUpsize()){
                 if(renderWidth > textureToRender.getRegionWidth()){
-                    renderWidth = textureToRender.getRegionWidth();
+                    renderWidth = textureToRender.getRegionWidth() * getScaleX();
                 }
                 if(renderHeight > textureToRender.getRegionHeight()){
-                    renderHeight = textureToRender.getRegionHeight();
+                    renderHeight = textureToRender.getRegionHeight() * getScaleY();
                 }
             }
 
@@ -277,13 +292,13 @@ public class Renderable extends UIElement {
 
     //region No Upscale
 
-    public Renderable setNoUpscale(boolean noUpscale){
-        this.noUpscale = noUpscale;
+    public Renderable setNoUpsize(boolean noUpsize){
+        this.noUpsize = noUpsize;
         return this;
     }
 
-    public boolean isNoUpscale(){
-        return noUpscale;
+    public boolean isNoUpsize(){
+        return noUpsize;
     }
 
     //endregion
@@ -318,6 +333,16 @@ public class Renderable extends UIElement {
         public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureResourceBinding(UICommonResources.class, "white_pixel"))
                 .setName("Image")
                 .setDescription("Image to render as this element.")
+                .setCategory("Render");
+
+        public BooleanProperty preserveAspectRatio = new BooleanProperty(false)
+                .setName("Preserve Aspect Ratio")
+                .setDescription("Preserve the aspect ratio of the image when rendering.")
+                .setCategory("Render");
+
+        public BooleanProperty noUpsize = new BooleanProperty(false)
+                .setName("No Upsize")
+                .setDescription("If the image is smaller than the render dimensions, do not resize it to fit the container.")
                 .setCategory("Render");
 
         public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy())

@@ -139,7 +139,7 @@ public class UIResourcePicker extends UIElement {
                 {
                     Image image = new Image(Tex.resource(clazz, field.getName()), Dim.fill(), Dim.fill());
                     image.setPreserveAspectRatio(true);
-                    image.setNoUpscale(true);
+                    image.setNoUpsize(true);
                     image.setPassthrough(true);
                     contentBox.addItem(image);
 
