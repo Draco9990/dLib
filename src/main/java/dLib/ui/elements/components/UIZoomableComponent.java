@@ -8,7 +8,7 @@ import dLib.util.IntegerVector2;
 
 public class UIZoomableComponent extends UIElementComponent<UIElement>{
     private float minScale = 0.1f;
-    private float maxScale = 2.0f;
+    private float maxScale = 3.0f;
 
     private float scaleStep = 0.1f;
 

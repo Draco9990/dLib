@@ -38,6 +38,8 @@ public class VerticalScrollbar extends Scrollbar {
         addChildNCS(elements);
 
         addChildNCS(slider);
+
+        setScrollbarScrollPercentageForExternalChange(100);
     }
 
     @Override

@@ -37,6 +37,8 @@ public class HorizontalScrollbar extends Scrollbar {
         addChildNCS(elements);
 
         addChildNCS(slider);
+
+        setScrollbarScrollPercentageForExternalChange(100);
     }
 
     @Override
