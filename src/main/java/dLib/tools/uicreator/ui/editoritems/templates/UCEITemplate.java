@@ -6,8 +6,8 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.components.UIResizeableComponent;
-import dLib.ui.elements.components.UIZoomableComponent;
 import dLib.ui.elements.items.ContextMenu;
+import dLib.ui.screens.UIManager;
 import dLib.util.IntegerVector2;
 import dLib.util.UIHelpers;
 import dLib.util.ui.dimensions.PixelDimension;
@@ -61,8 +61,17 @@ public abstract class UCEITemplate {
             IntegerVector2 mousePos = UIHelpers.getMouseWorldPosition();
 
             ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
-            contextMenu.addOption(new ContextMenu.ContextMenuButtonOption("Duplicate"));
-            contextMenu.addOption(new ContextMenu.ContextMenuButtonOption("Delete"));
+
+            ContextMenu.ContextMenuButtonOption duplicateOption = new ContextMenu.ContextMenuButtonOption("Duplicate");
+            contextMenu.addOption(duplicateOption);
+
+            ContextMenu.ContextMenuButtonOption groupOption = new ContextMenu.ContextMenuButtonOption("Delete");
+            groupOption.onOptionSelectedEvent.subscribe(groupOption, () -> {
+                UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
+                editor.itemTree.deleteItem(editorItem);
+            });
+            contextMenu.addOption(groupOption);
+
             contextMenu.open();
         });
 

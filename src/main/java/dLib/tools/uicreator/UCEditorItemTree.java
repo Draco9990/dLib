@@ -3,6 +3,7 @@ package dLib.tools.uicreator;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.elements.UCERootElement;
 import dLib.ui.elements.UIElement;
+import dLib.ui.screens.UIManager;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,18 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
 
             previousElement.getParent().replaceChild(previousElement, elementToAdd);
         }
+    }
+
+    public void deleteItem(UIElement element){
+        UCEditorItemTreeEntry entry = findEntry(element);
+        if(entry != null){
+            remove(entry);
+            element.dispose();
+        }
+
+        UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
+        editor.properties.hideAll();
+        editor.properties.toolbox.showAndEnableInstantly();
     }
 
     public static class UCEditorItemTreeEntry{

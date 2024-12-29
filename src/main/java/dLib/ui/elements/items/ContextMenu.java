@@ -4,19 +4,13 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalBox;
-import dLib.ui.elements.items.itembox.VerticalListBox;
-import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.bindings.texture.TextureBinding;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
-import dLib.util.ui.position.Pos;
-
-import java.util.function.Consumer;
 
 public class ContextMenu extends Renderable{
     private VerticalBox options;
@@ -47,7 +41,7 @@ public class ContextMenu extends Renderable{
     }
 
     public static class ContextMenuButtonOption extends TextButton implements ContextMenuOption {
-        public Event<Runnable> onOptionSelected = new Event<>();
+        public Event<Runnable> onOptionSelectedEvent = new Event<>();
 
         public ContextMenuButtonOption(String text) {
             super(text, Dim.fill(), Dim.px(30));
@@ -56,8 +50,8 @@ public class ContextMenu extends Renderable{
             getButton().setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
             getTextBox().setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
 
-            onOptionSelected.subscribe(this, () -> getParentOfType(ContextMenu.class).close());
-            getButton().onLeftClickEvent.subscribe(this, () -> onOptionSelected.invoke(Runnable::run));
+            onOptionSelectedEvent.subscribe(this, () -> getParentOfType(ContextMenu.class).close());
+            getButton().onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke(Runnable::run));
         }
     }
 }
