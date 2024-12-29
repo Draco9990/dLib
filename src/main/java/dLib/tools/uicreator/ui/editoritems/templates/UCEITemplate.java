@@ -27,6 +27,7 @@ public abstract class UCEITemplate {
     public UIElement makeEditorItem(UIElement.UIElementData elementData){
         UIElement editorItem = elementData.makeUIElement();
 
+        //TODO rescale items
         if(editorItem.getLocalPositionXRaw() instanceof PixelPosition){
             editorItem.setLocalPositionX((int) (((PixelPosition) editorItem.getLocalPositionXRaw()).getValueRaw() * 0.8f));
         }

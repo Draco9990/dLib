@@ -200,7 +200,7 @@ public class UIElement implements Disposable, IEditableValue {
         setID(data.id.getValue());
 
         setLocalPosition(data.localPositionX.getValue(), data.localPositionY.getValue());
-        
+
         width = data.width.getValue();
         height = data.height.getValue();
 
@@ -767,16 +767,20 @@ public class UIElement implements Disposable, IEditableValue {
     //region Position
 
     //region Local Position
-    public UIElement setLocalPositionX(int newPosition){
-        return setLocalPosition(Pos.px(newPosition), getLocalPositionYRaw());
+    public void setLocalPositionX(int newPosition){
+        setLocalPosition(Pos.px(newPosition), getLocalPositionYRaw());
     }
-    public UIElement setLocalPositionY(int newPosition){
-        return setLocalPosition(getLocalPositionXRaw(), Pos.px(newPosition));
+    public void setLocalPositionY(int newPosition){
+        setLocalPosition(getLocalPositionXRaw(), Pos.px(newPosition));
     }
-    public UIElement setLocalPosition(int newPositionX, int newPositionY){
-        return setLocalPosition(Pos.px(newPositionX), Pos.px(newPositionY));
+    public void setLocalPosition(int newPositionX, int newPositionY){
+        setLocalPosition(Pos.px(newPositionX), Pos.px(newPositionY));
     }
-    public UIElement setLocalPosition(AbstractPosition newX, AbstractPosition newY){
+    public void setLocalPosition(AbstractPosition newX, AbstractPosition newY){
+        setLocalPosition_internal(newX, newY);
+        ensureElementWithinBounds();
+    }
+    private final void setLocalPosition_internal(AbstractPosition newX, AbstractPosition newY){
         AbstractPosition oldPosX = localPosX;
         AbstractPosition oldPosY = localPosY;
 
@@ -786,8 +790,6 @@ public class UIElement implements Disposable, IEditableValue {
         if(!oldPosX.equals(localPosX) || !oldPosY.equals(localPosY)){
             onPositionChanged();
         }
-
-        return this;
     }
 
     public int getLocalPositionX(){
@@ -828,16 +830,16 @@ public class UIElement implements Disposable, IEditableValue {
         return localPosYCache;
     }
 
-    public UIElement setLocalPositionCenteredX(int newPos){
-        return setLocalPositionX(newPos - (int)(getWidth() * 0.5f));
+    public void setLocalPositionCenteredX(int newPos){
+        setLocalPositionX(newPos - (int)(getWidth() * 0.5f));
     }
-    public UIElement setLocalPositionCenteredY(int newPos){
-        return setLocalPositionY(newPos - (int)(getHeight() * 0.5f));
+    public void setLocalPositionCenteredY(int newPos){
+        setLocalPositionY(newPos - (int)(getHeight() * 0.5f));
     }
-    public UIElement setLocalPositionCentered(int newPosX, int newPosY){
+    public void setLocalPositionCentered(int newPosX, int newPosY){
         int wHalf = (int)(getWidth() * 0.5f);
         int hHalf = (int)(getHeight() * 0.5f);
-        return setLocalPosition(newPosX - wHalf, newPosY - hHalf);
+        setLocalPosition(newPosX - wHalf, newPosY - hHalf);
     }
 
     public int getLocalPositionCenteredX(){
@@ -1448,13 +1450,17 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Width & Height
 
-    public UIElement setWidth(AbstractDimension newWidth){
-        return setDimensions(newWidth, null);
+    public void setWidth(AbstractDimension newWidth){
+        setDimensions(newWidth, null);
     }
-    public UIElement setHeight(AbstractDimension newHeight){
-        return setDimensions(null, newHeight);
+    public void setHeight(AbstractDimension newHeight){
+        setDimensions(null, newHeight);
     }
-    public UIElement setDimensions(AbstractDimension newWidth, AbstractDimension newHeight){
+    public void setDimensions(AbstractDimension newWidth, AbstractDimension newHeight){
+        setDimensions_internal(newWidth, newHeight);
+        ensureElementWithinBounds();
+    }
+    private final void setDimensions_internal(AbstractDimension newWidth, AbstractDimension newHeight){
         AbstractDimension oldWidth = width;
         AbstractDimension oldHeight = height;
 
@@ -1464,18 +1470,16 @@ public class UIElement implements Disposable, IEditableValue {
         if(!Objects.equals(oldWidth, width) || !Objects.equals(oldHeight, height)){
             onDimensionsChanged();
         }
-
-        return this;
     }
 
-    public UIElement setWidth(int newWidth){
-        return setWidth(Dim.px(newWidth));
+    public void setWidth(int newWidth){
+        setWidth(Dim.px(newWidth));
     }
-    public UIElement setHeight(int newHeight){
-        return setHeight(Dim.px(newHeight));
+    public void setHeight(int newHeight){
+        setHeight(Dim.px(newHeight));
     }
-    public UIElement setDimensions(int newWidth, int newHeight){
-        return setDimensions(Dim.px(newWidth), Dim.px(newHeight));
+    public void setDimensions(int newWidth, int newHeight){
+        setDimensions(Dim.px(newWidth), Dim.px(newHeight));
     }
 
     public void onDimensionsChanged(){

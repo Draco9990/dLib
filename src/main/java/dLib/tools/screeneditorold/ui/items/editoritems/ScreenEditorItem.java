@@ -178,13 +178,13 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     //region Position & Dimensions
 
     @Override
-    public UIElement setLocalPosition(int newPositionX, int newPositionY) {
+    public void setLocalPosition(int newPositionX, int newPositionY) {
         if(screenEditor != null && screenEditor.getEditorProperties().isGridOn()){
             newPositionX = Math.round(newPositionX / 10.0f) * 10;
             newPositionY = Math.round(newPositionY / 10.0f) * 10;
         }
 
-        return super.setLocalPosition(newPositionX, newPositionY);
+        super.setLocalPosition(newPositionX, newPositionY);
     }
 
     @Override
@@ -195,7 +195,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     }
 
     @Override
-    public UIElement setDimensions(int newWidth, int newHeight) {
+    public void setDimensions(int newWidth, int newHeight) {
         if(screenEditor != null && screenEditor.getEditorProperties().isGridOn()){
             int upperX = getLocalPositionX() + getWidth();
             int upperY = getLocalPositionY() + getHeight();
@@ -213,8 +213,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         super.setDimensions(newWidth, newHeight);
 
         remakePreviewElement();
-
-        return this;
     }
 
     //endregion
