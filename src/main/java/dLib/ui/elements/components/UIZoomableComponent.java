@@ -7,7 +7,8 @@ import dLib.ui.elements.UIElement;
 import dLib.util.IntegerVector2;
 
 public class UIZoomableComponent extends UIElementComponent<UIElement>{
-    private boolean canZoom;
+    private float minScale = 0.1f;
+    private float maxScale = 2.0f;
 
     private float scaleStep = 0.1f;
 
@@ -15,6 +16,8 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
     private Float targetScaleY = null;
     private int targetWorldMouseX;
     private int targetWorldMouseY;
+
+    private boolean canZoom;
 
     @Override
     public void onRegisterComponent(UIElement owner) {
@@ -79,6 +82,13 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
                 targetScaleY = owner.getScaleY() - scaleStep;
             }
 
+            if(targetScaleX != null){
+                targetScaleX = MathUtils.clamp(targetScaleX, minScale, maxScale);
+            }
+            if(targetScaleY != null){
+                targetScaleY = MathUtils.clamp(targetScaleY, minScale, maxScale);
+            }
+
             targetWorldMouseX = (int) (InputHelper.mX / Settings.xScale);
             targetWorldMouseY = (int) (InputHelper.mY / Settings.yScale);
         }
@@ -114,4 +124,32 @@ public class UIZoomableComponent extends UIElementComponent<UIElement>{
             owner.offset(difference.x, difference.y);
         }
     }
+
+    //region Scale Settings
+
+    public void setMinScale(float minScale){
+        this.minScale = minScale;
+    }
+
+    public void setMaxScale(float maxScale){
+        this.maxScale = maxScale;
+    }
+
+    public void setScaleStep(float scaleStep){
+        this.scaleStep = scaleStep;
+    }
+
+    public float getMinScale(){
+        return minScale;
+    }
+
+    public float getMaxScale(){
+        return maxScale;
+    }
+
+    public float getScaleStep(){
+        return scaleStep;
+    }
+
+    //endregion
 }
