@@ -999,12 +999,16 @@ public class UIElement implements Disposable, IEditableValue {
         Integer worldTop = containerBounds.getWorldTop(this);
         Integer worldBottom = containerBounds.getWorldBottom(this);
 
-        IntegerVector2 localBottomLeft = null;
-        IntegerVector2 localTopRight = null;
+        IntegerVector2 localBottomLeft;
+        IntegerVector2 localTopRight;
 
         if(hasParent()){
             localBottomLeft = parent.worldToLocal(new IntegerVector2(worldLeft, worldBottom));
             localTopRight = parent.worldToLocal(new IntegerVector2(worldRight, worldTop));
+        }
+        else{
+            localBottomLeft = new IntegerVector2(worldLeft, worldBottom);
+            localTopRight = new IntegerVector2(worldRight, worldTop);
         }
 
         int horizontalOffset = 0;
