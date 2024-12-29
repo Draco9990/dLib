@@ -1,9 +1,12 @@
 package dLib.tools.uicreator.ui.components;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.UCEditorItemTree;
 import dLib.ui.elements.UIElement;
@@ -91,6 +94,25 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
     }
 
     @Override
+    public void onUpdate(UIElement owner) {
+        super.onUpdate(owner);
+
+        if(owner.getComponent(ElementGroupModifierComponent.class).isSelected()){
+            if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)){
+                if(Gdx.input.isKeyJustPressed(Input.Keys.D)){
+                    UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
+                    editor.itemTree.duplicateItem(owner);
+                }
+            }
+
+            if(Gdx.input.isKeyPressed(Input.Keys.FORWARD_DEL)){
+                UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
+                editor.itemTree.deleteItem(owner);
+            }
+        }
+    }
+
+    @Override
     public void onRender(UIElement owner, SpriteBatch sb) {
         super.onRender(owner, sb);
 
@@ -99,7 +121,7 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
             sb.draw(ImageMaster.DEBUG_HITBOX_IMG, owner.getWorldPositionX() * Settings.xScale, owner.getWorldPositionY() * Settings.yScale, owner.getWidth() * Settings.xScale, owner.getHeight() * Settings.yScale);
             sb.flush();
         }
-        else if(owner.hasComponent(ElementGroupModifierComponent.class) && owner.getComponent(ElementGroupModifierComponent.class).isSelected()){
+        else if(owner.getComponent(ElementGroupModifierComponent.class).isSelected()){
             sb.setColor(Color.GREEN);
             sb.draw(ImageMaster.DEBUG_HITBOX_IMG, owner.getWorldPositionX() * Settings.xScale, owner.getWorldPositionY() * Settings.yScale, owner.getWidth() * Settings.xScale, owner.getHeight() * Settings.yScale);
             sb.flush();

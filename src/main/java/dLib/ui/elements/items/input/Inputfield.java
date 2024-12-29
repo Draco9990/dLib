@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
@@ -116,7 +117,7 @@ public class Inputfield extends UIElement {
             public boolean keyTyped(char character) {
                 char[] charsToAdd = new char[]{character};
 
-                if(character == '\u0016'){
+                if(InputHelper.isPasteJustPressed()){
                     charsToAdd = Gdx.app.getClipboard().getContents().toCharArray();
                 }
 
