@@ -7,7 +7,11 @@ import dLib.properties.ui.elements.PercentageDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
-public class PercentageDimension extends AbstractStaticDimension {
+import java.io.Serializable;
+
+public class PercentageDimension extends AbstractStaticDimension implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private float percentage;
 
     public PercentageDimension(float percentage){

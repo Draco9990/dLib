@@ -29,7 +29,7 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
 
         HorizontalBox hBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
-            leftArrow = new Button(Dim.height(), Dim.px(50));
+            leftArrow = new Button(Dim.mirror(), Dim.px(50));
             leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
             leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
@@ -40,7 +40,7 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
             inputbox.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
             hBox.addItem(inputbox);
 
-            rightArrow = new Button(Dim.height(), Dim.px(50));
+            rightArrow = new Button(Dim.mirror(), Dim.px(50));
             rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
             rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());

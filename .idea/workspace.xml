@@ -11,7 +11,16 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/ContextMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/ContextMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/Alignment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/Alignment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDynamicDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDynamicDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractStaticDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractStaticDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/HeightMirrorDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/HeightMirrorDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PixelDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PixelDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/WidthMirrorDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/WidthMirrorDimension.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

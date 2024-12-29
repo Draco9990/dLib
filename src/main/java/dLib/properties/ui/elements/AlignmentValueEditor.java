@@ -33,7 +33,7 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
         ArrayList<Alignment.HorizontalAlignment> allHorizontalAlignments = EnumHelpers.getAllEntries(Alignment.HorizontalAlignment.LEFT);
         ArrayList<Alignment.VerticalAlignment> allVerticalAlignments = EnumHelpers.getAllEntries(Alignment.VerticalAlignment.BOTTOM);
 
-        PredefinedGrid grid = new PredefinedGrid(3, 3, Dim.fill(), Dim.width());
+        PredefinedGrid grid = new PredefinedGrid(3, 3, Dim.fill(), Dim.mirror());
         for(int i = 0; i < 3; i++){
             for(int j = 2; j >= 0; j--){
                 String textureLoc = "dLibResources/images/ui/common/alignment/" + i + j + ".png";

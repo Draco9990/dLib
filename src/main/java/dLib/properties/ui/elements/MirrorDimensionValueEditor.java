@@ -4,16 +4,16 @@ import dLib.properties.objects.DimensionProperty;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.dimensions.WidthMirrorDimension;
+import dLib.util.ui.dimensions.MirrorDimension;
 
-public class WidthMirrorDimensionValueEditor extends DimensionValueEditor<WidthMirrorDimension> {
+public class MirrorDimensionValueEditor extends DimensionValueEditor<MirrorDimension> {
     private ImageTextBox textBox;
 
-    public WidthMirrorDimensionValueEditor(WidthMirrorDimension value){
+    public MirrorDimensionValueEditor(MirrorDimension value){
         this(new DimensionProperty(value));
     }
 
-    public WidthMirrorDimensionValueEditor(DimensionProperty property) {
+    public MirrorDimensionValueEditor(DimensionProperty property) {
         super(property);
 
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());

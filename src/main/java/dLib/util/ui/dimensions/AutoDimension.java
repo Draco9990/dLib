@@ -7,7 +7,11 @@ import dLib.properties.ui.elements.AutoDimensionValueEditor;
 import dLib.ui.elements.UIElement;
 import dLib.util.ui.bounds.PositionBounds;
 
-public class AutoDimension extends AbstractDynamicDimension {
+import java.io.Serializable;
+
+public class AutoDimension extends AbstractDynamicDimension implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public AutoDimension(){
         super();
     }

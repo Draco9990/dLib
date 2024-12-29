@@ -6,7 +6,11 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.AlignmentValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 
-public class Alignment implements IEditableValue {
+import java.io.Serializable;
+
+public class Alignment implements IEditableValue, Serializable {
+    private static final long serialVersionUID = 1L;
+
     public HorizontalAlignment horizontalAlignment;
     public VerticalAlignment verticalAlignment;
 

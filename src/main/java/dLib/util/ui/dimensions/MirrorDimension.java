@@ -3,10 +3,12 @@ package dLib.util.ui.dimensions;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.properties.ui.elements.HeightMirrorDimensionValueEditor;
+import dLib.properties.ui.elements.MirrorDimensionValueEditor;
 import dLib.ui.elements.UIElement;
 
-public class HeightMirrorDimension extends AbstractDynamicDimension{
+import java.io.Serializable;
+
+public class MirrorDimension extends AbstractDynamicDimension implements Serializable {
     @Override
     public int getWidth(UIElement self) {
         return self.getHeight();
@@ -14,7 +16,7 @@ public class HeightMirrorDimension extends AbstractDynamicDimension{
 
     @Override
     public int getHeight(UIElement self) {
-        throw new UnsupportedOperationException("Height mirror dimension does not support getHeight");
+        return self.getWidth();
     }
 
     @Override
@@ -34,21 +36,21 @@ public class HeightMirrorDimension extends AbstractDynamicDimension{
 
     @Override
     public AbstractValueEditor makeEditorFor() {
-        return new HeightMirrorDimensionValueEditor(this);
+        return new MirrorDimensionValueEditor(this);
     }
 
     @Override
     public AbstractValueEditor makeEditorFor(TProperty property) {
-        return new HeightMirrorDimensionValueEditor((DimensionProperty) property);
+        return new MirrorDimensionValueEditor((DimensionProperty) property);
     }
 
     @Override
     public AbstractDimension cpy() {
-        return new HeightMirrorDimension();
+        return new MirrorDimension();
     }
 
     @Override
     public String getSimpleDisplayName() {
-        return "mirror (height)";
+        return "mirror";
     }
 }

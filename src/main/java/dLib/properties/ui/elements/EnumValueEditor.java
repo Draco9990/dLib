@@ -4,13 +4,11 @@ import dLib.properties.objects.EnumProperty;
 import dLib.ui.elements.items.Button;
 import dLib.ui.elements.items.ComboBox;
 import dLib.ui.elements.items.itembox.HorizontalBox;
-import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.EnumHelpers;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueEditor<OfType, EnumProperty<OfType>> {
@@ -34,7 +32,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
 
         HorizontalBox box = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
-            leftArrow = new Button(Dim.height(), Dim.px(50));
+            leftArrow = new Button(Dim.mirror(), Dim.px(50));
             leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
             box.addItem(leftArrow);
@@ -50,7 +48,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             });
             box.addItem(enumBox);
 
-            rightArrow = new Button(Dim.height(), Dim.px(50));
+            rightArrow = new Button(Dim.mirror(), Dim.px(50));
             rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
             box.addItem(rightArrow);

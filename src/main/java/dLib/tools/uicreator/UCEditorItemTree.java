@@ -4,6 +4,7 @@ import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.elements.UCERootElement;
 import dLib.ui.elements.UIElement;
 import dLib.ui.screens.UIManager;
+import dLib.util.SerializationHelpers;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,16 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
         }
     }
 
+    public void duplicateItem(UIElement element){
+        UCEditorItemTreeEntry entry = findEntry(element);
+        if(entry != null){
+            UIElement.UIElementData elementData = SerializationHelpers.deepCopySerializable(entry.elementData);
+            elementData.id.setValue("Copy of " + elementData.id.getValue());
+            UIElement elementToAdd = elementData.makeUIElement();
+            addItem(elementToAdd, elementData, entry.template);
+        }
+    }
+
     public void deleteItem(UIElement element){
         UCEditorItemTreeEntry entry = findEntry(element);
         if(entry != null){
@@ -46,6 +57,7 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
 
         UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
         editor.properties.hideAll();
+        editor.properties.toolbarPropertiesScrollbox.showAndEnableInstantly();
         editor.properties.toolbox.showAndEnableInstantly();
     }
 

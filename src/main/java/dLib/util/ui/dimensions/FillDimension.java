@@ -14,7 +14,11 @@ import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.PixelPosition;
 
-public class FillDimension extends AbstractDynamicDimension {
+import java.io.Serializable;
+
+public class FillDimension extends AbstractDynamicDimension implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public FillDimension(){
         super();
     }

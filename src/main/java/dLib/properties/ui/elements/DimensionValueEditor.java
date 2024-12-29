@@ -18,8 +18,7 @@ public class DimensionValueEditor<ValueType extends AbstractDimension> extends A
         positionOptions.add(new PercentageDimension(0));
         positionOptions.add(new FillDimension());
         positionOptions.add(new AutoDimension());
-        positionOptions.add(new HeightMirrorDimension());
-        positionOptions.add(new WidthMirrorDimension());
+        positionOptions.add(new MirrorDimension());
 
         ComboBox<AbstractDimension> comboBox = new ComboBox<AbstractDimension>(boundProperty.getValue(), positionOptions, Dim.px(28), Dim.px(15)){
             @Override

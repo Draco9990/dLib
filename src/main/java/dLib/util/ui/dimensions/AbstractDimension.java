@@ -3,7 +3,11 @@ package dLib.util.ui.dimensions;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.elements.UIElement;
 
-public abstract class AbstractDimension implements IEditableValue {
+import java.io.Serializable;
+
+public abstract class AbstractDimension implements IEditableValue, Serializable {
+    private static final long serialVersionUID = 1L;
+
     public AbstractDimension(){
 
     }

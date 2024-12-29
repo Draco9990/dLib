@@ -1,4 +1,7 @@
 package dLib.util.ui.dimensions;
 
-public abstract class AbstractDynamicDimension extends AbstractDimension {
+import java.io.Serializable;
+
+public abstract class AbstractDynamicDimension extends AbstractDimension implements Serializable {
+    private static final long serialVersionUID = 1L;
 }

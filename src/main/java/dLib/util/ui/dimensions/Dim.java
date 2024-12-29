@@ -20,11 +20,7 @@ public class Dim {
         return new AutoDimension();
     }
 
-    public static WidthMirrorDimension width(){
-        return new WidthMirrorDimension();
-    }
-
-    public static HeightMirrorDimension height(){
-        return new HeightMirrorDimension();
+    public static MirrorDimension mirror(){
+        return new MirrorDimension();
     }
 }

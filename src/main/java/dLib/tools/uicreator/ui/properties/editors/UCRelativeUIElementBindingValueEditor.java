@@ -25,7 +25,7 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
 
         HorizontalBox mainContentBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
-            Button referenceButton = new Button(Dim.height(), Dim.fill());
+            Button referenceButton = new Button(Dim.mirror(), Dim.fill());
             referenceButton.setImage(Tex.stat(new Texture("dLibResources/images/ui/uieditor/reference.png")));
             referenceButton.onLeftClickEvent.subscribe(this, () -> {
                 UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);

@@ -7,7 +7,11 @@ import dLib.properties.ui.elements.PixelDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 
-public class PixelDimension extends AbstractStaticDimension {
+import java.io.Serializable;
+
+public class PixelDimension extends AbstractStaticDimension implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int size;
 
     public PixelDimension(int size){

@@ -28,7 +28,7 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
         {
             box.addItem(new Spacer(Dim.fill(), Dim.px(1)));
 
-            button = new Checkbox(Dim.height(), Dim.px(50)){
+            button = new Checkbox(Dim.mirror(), Dim.px(50)){
                 @Override
                 public void toggle() {
                     super.toggle();
