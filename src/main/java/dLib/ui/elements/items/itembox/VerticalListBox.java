@@ -54,6 +54,21 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     }
 
     private void updateListBottomTop(){
+        int currentYPos = 0;
+
+        for(ItemBoxItem item : items){
+            if(!item.renderForItem.isActive()){
+                continue;
+            }
+
+            currentYPos += item.renderForItem.getPaddingBottom();
+
+            item.renderForItem.setLocalPositionY(currentYPos);
+
+            currentYPos += item.renderForItem.getHeight();
+            currentYPos += itemSpacing;
+            currentYPos += item.renderForItem.getPaddingTop();
+        }
     }
 
     private void updateListCentered(){

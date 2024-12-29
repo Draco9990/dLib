@@ -19,14 +19,14 @@ public class AutoDimension extends AbstractDynamicDimension {
 
     @Override
     public int getWidth(UIElement self) {
-        PositionBounds childBounds = self.getFullChildLocalBounds();
+        PositionBounds childBounds = self.getFullChildLocalBoundsForAutoDim();
         if(childBounds == null) return 1;
         return childBounds.right - childBounds.left;
     }
 
     @Override
     public int getHeight(UIElement self) {
-        PositionBounds childBounds = self.getFullChildLocalBounds();
+        PositionBounds childBounds = self.getFullChildLocalBoundsForAutoDim();
         if(childBounds == null) return 1;
         return childBounds.top - childBounds.bottom;
     }

@@ -794,26 +794,57 @@ public class UIElement implements Disposable, IEditableValue {
 
     public int getLocalPositionX(){
         if(localPosXCache == null){
-            localPosXCache = localPosX.getLocalX(this) + paddingLeft.getHorizontal(this);
-            if(localPosX instanceof AbstractStaticPosition){
-                localPosXCache = Math.round(localPosXCache * getParentScaleX());
-            }
+            localPosXCache = localPosX.getLocalX(this);
         }
 
-        return localPosXCache;
+        int toReturn = localPosXCache;
+        toReturn += getPaddingLeft();
+        if(localPosX instanceof AbstractStaticPosition){
+            toReturn = Math.round(toReturn * getParentScaleX());
+        }
+
+        return toReturn;
     }
     public int getLocalPositionY(){
         if(localPosYCache == null){
-            localPosYCache = localPosY.getLocalY(this) + paddingBottom.getVertical(this);
-            if(localPosY instanceof AbstractStaticPosition){
-                localPosYCache = Math.round(localPosYCache * getParentScaleY());
-            }
+            localPosYCache = localPosY.getLocalY(this);
         }
 
-        return localPosYCache;
+        int toReturn = localPosYCache;
+        toReturn += getPaddingBottom();
+        if(localPosY instanceof AbstractStaticPosition){
+            toReturn = Math.round(toReturn * getParentScaleY());
+        }
+
+        return toReturn;
     }
     public IntegerVector2 getLocalPosition(){
         return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
+    }
+
+    public int getLocalPositionXUnpadded(){
+        if(localPosXCache == null){
+            localPosXCache = localPosX.getLocalX(this);
+        }
+
+        int toReturn = localPosXCache;
+        if(localPosX instanceof AbstractStaticPosition){
+            toReturn = Math.round(toReturn * getParentScaleX());
+        }
+
+        return toReturn;
+    }
+    public int getLocalPositionYUnpadded(){
+        if(localPosYCache == null){
+            localPosYCache = localPosY.getLocalY(this);
+        }
+
+        int toReturn = localPosYCache;
+        if(localPosY instanceof AbstractStaticPosition){
+            toReturn = Math.round(toReturn * getParentScaleY());
+        }
+
+        return toReturn;
     }
 
     public AbstractPosition getLocalPositionXRaw(){
@@ -1497,26 +1528,59 @@ public class UIElement implements Disposable, IEditableValue {
 
     public int getWidth(){
         if(widthCache == null || widthCache <= 0){
-            widthCache = width.getWidth(this) - getPaddingRight();
-            if(width instanceof AbstractStaticDimension){
-                widthCache = (int) (widthCache * getScaleX());
-            }
+            widthCache = width.getWidth(this);
         }
 
-        return widthCache;
+        int toReturn = widthCache;
+
+        toReturn -= getPaddingRight();
+        if(width instanceof AbstractStaticDimension){
+            toReturn = (int) (toReturn * getScaleX());
+        }
+
+        return toReturn;
     }
     public int getHeight(){
         if(heightCache == null || heightCache <= 0){
-            heightCache = height.getHeight(this) - getPaddingTop();
-            if(height instanceof AbstractStaticDimension){
-                heightCache = (int) (heightCache * getScaleY());
-            }
+            heightCache = height.getHeight(this);
         }
 
-        return heightCache;
+        int toReturn = heightCache;
+
+        toReturn -= getPaddingTop();
+        if(height instanceof AbstractStaticDimension){
+            toReturn = (int) (toReturn * getScaleY());
+        }
+
+        return toReturn;
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
+    }
+
+    public int getWidthUnpadded(){
+        if(widthCache == null || widthCache <= 0){
+            widthCache = width.getWidth(this);
+        }
+
+        int toReturn = widthCache;
+        if(width instanceof AbstractStaticDimension){
+            toReturn = (int) (toReturn * getScaleX());
+        }
+
+        return toReturn;
+    }
+    public int getHeightUnpadded(){
+        if(heightCache == null || heightCache <= 0){
+            heightCache = height.getHeight(this);
+        }
+
+        int toReturn = heightCache;
+        if(height instanceof AbstractStaticDimension){
+            toReturn = (int) (toReturn * getScaleY());
+        }
+
+        return toReturn;
     }
 
     public int getWidthUnscaled(){
@@ -1595,6 +1659,10 @@ public class UIElement implements Disposable, IEditableValue {
         return new PositionBounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
     }
 
+    public PositionBounds getLocalBoundsUnpadded(){
+        return new PositionBounds(getLocalPositionXUnpadded(), getLocalPositionYUnpadded(), getLocalPositionXUnpadded() + getWidthUnpadded(), getLocalPositionYUnpadded() + getHeightUnpadded());
+    }
+
     public boolean overlapsParent(){
         return parent != null && overlaps(parent);
     }
@@ -1626,6 +1694,43 @@ public class UIElement implements Disposable, IEditableValue {
         PositionBounds myBounds = getLocalBounds();
 
         PositionBounds fullChildBounds = getFullChildLocalBounds();
+
+        if(fullChildBounds != null){
+            if(fullChildBounds.left < 0) myBounds.left += fullChildBounds.left;
+            if(fullChildBounds.right > myBounds.right - myBounds.left) myBounds.right += fullChildBounds.right - myBounds.right;
+            if(fullChildBounds.bottom < 0) myBounds.bottom += fullChildBounds.bottom;
+            if(fullChildBounds.top > myBounds.top - myBounds.bottom) myBounds.top += fullChildBounds.top - myBounds.top;
+        }
+
+        return myBounds;
+    }
+
+    public PositionBounds getFullChildLocalBoundsForAutoDim(){
+        PositionBounds fullChildBounds = null;
+        for(UIElementChild child : children){
+            if(!(child.element.isActive())){
+                continue;
+            }
+
+            PositionBounds childBounds = child.element.getFullLocalBoundsForAutoDim();
+            if(fullChildBounds == null){
+                fullChildBounds = childBounds;
+                continue;
+            }
+
+            if(childBounds.left < fullChildBounds.left) fullChildBounds.left = childBounds.left;
+            if(childBounds.right > fullChildBounds.right) fullChildBounds.right = childBounds.right;
+            if(childBounds.bottom < fullChildBounds.bottom) fullChildBounds.bottom = childBounds.bottom;
+            if(childBounds.top > fullChildBounds.top) fullChildBounds.top = childBounds.top;
+        }
+        return fullChildBounds;
+    }
+    public PositionBounds getFullLocalBoundsForAutoDim(){
+        PositionBounds myBounds = getLocalBounds();
+        myBounds.bottom -= getPaddingBottom();
+        myBounds.left -= getPaddingLeft();
+
+        PositionBounds fullChildBounds = getFullChildLocalBoundsForAutoDim();
 
         if(fullChildBounds != null){
             if(fullChildBounds.left < 0) myBounds.left += fullChildBounds.left;
@@ -1790,31 +1895,39 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Padding
 
-    public UIElement setPadding(AbstractPadding all){
-        return setPadding(all, all, all, all);
+    public void setPadding(AbstractPadding all){
+        setPadding(all, all, all, all);
     }
-    public UIElement setPadding(AbstractPadding leftRight, AbstractPadding topBottom){
-        return setPadding(topBottom, leftRight, topBottom, leftRight);
+    public void setPadding(AbstractPadding leftRight, AbstractPadding topBottom){
+        setPadding(topBottom, leftRight, topBottom, leftRight);
     }
-    public UIElement setPadding(AbstractPadding top, AbstractPadding right, AbstractPadding bottom, AbstractPadding left){
+    public void setPadding(AbstractPadding top, AbstractPadding right, AbstractPadding bottom, AbstractPadding left){
         this.paddingTop = top;
         this.paddingRight = right;
         this.paddingBottom = bottom;
         this.paddingLeft = left;
-        return this;
     }
 
-    public UIElement setPaddingTop(AbstractPadding top){
-        return setPadding(top, paddingRight, paddingBottom, paddingLeft);
+    public void setPaddingHorizontal(AbstractPadding horizontal){
+        setPaddingLeft(horizontal);
+        setPaddingRight(horizontal);
     }
-    public UIElement setPaddingRight(AbstractPadding right){
-        return setPadding(paddingTop, right, paddingBottom, paddingLeft);
+    public void setPaddingVertical(AbstractPadding vertical){
+        setPaddingTop(vertical);
+        setPaddingBottom(vertical);
     }
-    public UIElement setPaddingBottom(AbstractPadding bottom){
-        return setPadding(paddingTop, paddingRight, bottom, paddingLeft);
+
+    public void setPaddingTop(AbstractPadding top){
+        setPadding(top, paddingRight, paddingBottom, paddingLeft);
     }
-    public UIElement setPaddingLeft(AbstractPadding left){
-        return setPadding(paddingTop, paddingRight, paddingBottom, left);
+    public void setPaddingRight(AbstractPadding right){
+        setPadding(paddingTop, right, paddingBottom, paddingLeft);
+    }
+    public void setPaddingBottom(AbstractPadding bottom){
+        setPadding(paddingTop, paddingRight, bottom, paddingLeft);
+    }
+    public void setPaddingLeft(AbstractPadding left){
+        setPadding(paddingTop, paddingRight, paddingBottom, left);
     }
 
     public int getPaddingTop(){
