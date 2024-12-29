@@ -1,4 +1,7 @@
 package dLib.util.ui.position;
 
-public abstract class AbstractDynamicPosition extends AbstractPosition {
+import java.io.Serializable;
+
+public abstract class AbstractDynamicPosition extends AbstractPosition implements Serializable {
+    private static final long serialVersionUID = 1L;
 }

@@ -9,7 +9,11 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.ui.dimensions.FillDimension;
 
-public class PercentagePosition extends AbstractStaticPosition {
+import java.io.Serializable;
+
+public class PercentagePosition extends AbstractStaticPosition implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private float percentage;
 
     public PercentagePosition(float percentage){

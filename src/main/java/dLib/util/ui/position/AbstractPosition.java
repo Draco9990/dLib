@@ -4,7 +4,11 @@ import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.Binding;
 
-public abstract class AbstractPosition extends Binding implements IEditableValue {
+import java.io.Serializable;
+
+public abstract class AbstractPosition extends Binding implements IEditableValue, Serializable {
+    private static final long serialVersionUID = 1L;
+
     public AbstractPosition(){
 
     }

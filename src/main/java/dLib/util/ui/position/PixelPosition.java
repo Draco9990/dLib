@@ -13,7 +13,11 @@ import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
-public class PixelPosition extends AbstractStaticPosition {
+import java.io.Serializable;
+
+public class PixelPosition extends AbstractStaticPosition implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int position;
 
     public PixelPosition(int position){
