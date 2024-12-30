@@ -1,6 +1,5 @@
 --> persist local position of the element after dropping
 --> duplicating element duplicate all children too
---> add on hierarchy changed event, subscribe in hierarchy viewer
 
 --> Draggable component enable 'dragging' with scrollwheel
     --> add modes for each axis (shift clickm control etc)

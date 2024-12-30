@@ -1,5 +1,6 @@
 package dLib.ui.elements.items;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDropZoneComponent;
 import dLib.ui.elements.components.UIPayloadComponent;
@@ -37,6 +38,11 @@ public class HierarchyViewer extends VerticalBox {
     }
 
     private void recursivelyAddChild(UIElement child, int level){
+        child.onHierarchyChangedEvent.subscribe(this, () -> {
+            delayedActions.clear();
+            delayedActions.add(() -> loadForElement(forElement));
+        });
+
         HorizontalBox currentLevelBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
         {
             currentLevelBox.addItem(new Spacer(Dim.px(20 * level), Dim.fill()));
@@ -97,6 +103,8 @@ public class HierarchyViewer extends VerticalBox {
             super(element.getId(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
             setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
             this.element = element;
+
+            label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         }
     }
 }

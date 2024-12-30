@@ -62,6 +62,7 @@ public class UIElement implements Disposable, IEditableValue {
 
     protected UIElement parent;
     protected List<UIElementChild> children = new ArrayList<>();
+    public Event<Runnable> onHierarchyChangedEvent = new Event<>();
 
     protected Hitbox hb = new Hitbox(0, 0, 1, 1);
 
@@ -574,11 +575,19 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Parent
     private void setParent(UIElement parent){
+        if(parent == this.parent){
+            return;
+        }
+
         this.parent = parent;
         onParentChanged();
     }
 
     public void reparent(UIElement newParent){
+        if(newParent == this.parent){
+            return;
+        }
+
         if (newParent.isDescendantOf(this)) {
             if(parent == null){
                 throw new UnsupportedOperationException("Cannot reparent root element to a child element");
@@ -626,6 +635,7 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public void onParentChanged(){
+        onHierarchyChangedEvent.invoke(Runnable::run);
     }
 
     //endregion
@@ -695,6 +705,7 @@ public class UIElement implements Disposable, IEditableValue {
 
     protected void onChildrenChanged(){
         invalidateCachesForElementTree();
+        onHierarchyChangedEvent.invoke(Runnable::run);
     }
 
     public UIElementChild getFirstChild(){
