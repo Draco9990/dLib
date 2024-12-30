@@ -155,7 +155,7 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
     //region ID
 
     @Override
-    public UIElement setID(String newId) {
+    public void setID(String newId) {
         String oldId = getId();
 
         super.setID(newId);
@@ -168,8 +168,6 @@ public abstract class ScreenEditorItem<ElementType extends UIElement, DataType e
         }
 
         if(oldId != null) ExternalEditorMessageSender.send_renameVariableInClass(screenEditor.getEditingScreen(), oldId, newId);
-
-        return this;
     }
 
 

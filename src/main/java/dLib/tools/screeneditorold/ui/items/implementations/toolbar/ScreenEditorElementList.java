@@ -26,7 +26,7 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
 
         ScreenEditorElementList self = this;
 
-        previewItemList = (VerticalListBox<ScreenEditorItem>) new VerticalListBox<ScreenEditorItem>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
+        previewItemList = new VerticalListBox<ScreenEditorItem>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
             @Override
             public void onItemSelectionChanged(ArrayList<ScreenEditorItem> items) {
                 super.onItemSelectionChanged(items);
@@ -43,7 +43,10 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
                 button.onHoveredEvent.subscribeManaged(() -> item.setHighlight(true));
                 button.onUnhoveredEvent.subscribeManaged(() -> item.setHighlight(false));
             }
-        }.setInvertedItemOrder(true).setCanReorder(true).addOnElementsSwappedListener((screenEditorItem, screenEditorItem2) -> {
+        };
+        previewItemList.setInvertedItemOrder(true);
+        previewItemList.setCanReorder(true);
+        previewItemList.onItemsSwappedEvent.subscribeManaged((screenEditorItem, screenEditorItem2) -> {
             ScreenEditorPreview baseScreen = getParent().getPreviewScreen();
             int index1 = baseScreen.getPreviewItems().indexOf(screenEditorItem);
             int index2 = baseScreen.getPreviewItems().indexOf(screenEditorItem2);

@@ -34,7 +34,8 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
                     super.toggle();
                     boundProperty.setValue(isToggled());
                 }
-            }.setToggled(property.getValue());
+            };
+            button.setToggled(property.getValue());
             box.addItem(button);
         }
 

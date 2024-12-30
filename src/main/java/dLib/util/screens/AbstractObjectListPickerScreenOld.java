@@ -18,7 +18,7 @@ public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends UI
         super(Pos.px(0), Pos.px(0), Dim.px(1920), Dim.px(1080));
         AbstractObjectListPickerScreenOld<ItemPickType> instance = this;
 
-        addChildCS(new VerticalListBox<ItemPickType>(Pos.px(40), Pos.px(1080 - 915), Dim.px(1850), Dim.px(875)){
+        VerticalListBox<ItemPickType> mainBox = new VerticalListBox<ItemPickType>(Pos.px(40), Pos.px(1080 - 915), Dim.px(1850), Dim.px(875)){
             @Override
             public void onItemSelectionChanged(ArrayList<ItemPickType> items) {
                 super.onItemSelectionChanged(items);
@@ -27,7 +27,9 @@ public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends UI
                 instance.onItemSelected(items.get(0));
                 instance.close();
             }
-        }.setItems(itemsToPick));
+        };
+        mainBox.setItems(itemsToPick);
+        addChildNCS(mainBox);
     }
 
     /** Item Pick Results */

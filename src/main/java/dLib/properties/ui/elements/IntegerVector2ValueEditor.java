@@ -34,7 +34,8 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
                 mainContentBox.addItem(xLabel);
             }
 
-            xInput = new Inputfield(String.valueOf(property.getXValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE);
+            xInput = new Inputfield(String.valueOf(property.getXValue()), Dim.perc(0.25), Dim.fill());
+            xInput.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE);
             xInput.textBox.onTextChangedEvent.subscribeManaged(s -> {
                 IntegerVector2 currentVal = property.getValue();
                 currentVal.x = Integer.valueOf(s);
@@ -49,7 +50,8 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
                 mainContentBox.addItem(yLabel);
             }
 
-            yInput = new Inputfield(String.valueOf(property.getYValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE);
+            yInput = new Inputfield(String.valueOf(property.getYValue()), Dim.perc(0.25), Dim.fill());
+            yInput.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE);
             yInput.textBox.onTextChangedEvent.subscribeManaged(s -> {
                 IntegerVector2 currentVal = property.getValue();
                 currentVal.y = Integer.valueOf(s);
