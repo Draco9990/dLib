@@ -8,12 +8,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Button;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 
 import dLib.util.bindings.texture.Tex;
+import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -25,18 +25,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Inputfield extends UIElement {
+public class Inputfield extends Button {
     //region Variables
 
-    private Button background;
-    private TextBox textBox;
-
-    private TextBox previewTextBox;
+    public TextBox textBox;
+    public TextBox previewTextBox;
 
     private List<Character> characterFilter = new ArrayList<>();
     private int characterLimit = -1;
 
     private EInputfieldPreset preset;
+
+    public Event<Consumer<String>> onValueChangedEvent = new Event<>();
+    public Event<Consumer<String>> onValueCommittedEvent = new Event<>();
 
     //Temps
 
@@ -58,15 +59,12 @@ public class Inputfield extends UIElement {
     public Inputfield(String initialValue, AbstractDimension width, AbstractDimension height){
         this(initialValue, Pos.px(0), Pos.px(0), width, height);
     }
-
     public Inputfield(String initialValue, AbstractPosition posX, AbstractPosition posY, AbstractDimension width, AbstractDimension height){
         super(posX, posY, width, height);
 
         preInitialize();
 
-        this.background = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-        this.background.setImage(Tex.stat(UICommonResources.inputfield));
-        addChildNCS(this.background);
+        setImage(Tex.stat(UICommonResources.inputfield));
 
         this.textBox = (TextBox) new TextBox(initialValue, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
@@ -91,9 +89,6 @@ public class Inputfield extends UIElement {
         super(data);
 
         preInitialize();
-
-        this.background = data.buttonData.makeUIElement();
-        addChildNCS(this.background);
 
         this.textBox = data.textboxData.makeUIElement();
         addChildCS(this.textBox);
@@ -204,17 +199,17 @@ public class Inputfield extends UIElement {
     }
 
     private void postInitialize(){
-        background.addOnSelectionStateChangedConsumer(aBoolean -> {
+        addOnSelectionStateChangedConsumer(aBoolean -> {
             if(aBoolean){
                 Gdx.input.setInputProcessor(inputProcessor);
             }
             else{
                 resetInputProcessor();
-                onValueCommitted();
+                onValueCommittedEvent.invoke(stringConsumer -> stringConsumer.accept(textBox.getText()));
             }
         });
 
-        textBox.addOnTextChangedConsumer(s -> onValueChanged());
+        textBox.addOnTextChangedConsumer(s -> onValueChangedEvent.invoke(stringConsumer -> stringConsumer.accept(s)));
     }
 
     //endregion
@@ -238,85 +233,31 @@ public class Inputfield extends UIElement {
 
     //endregion
 
-    //region Button
-
-    public Button getButton(){
-        return background;
-    }
-
-    //endregion
-
-    //region TextBox
-
-    public TextBox getTextBox(){
-        return textBox;
-    }
-
-    //endregion
-
-    //region Preview Text
-
-    public Inputfield setPreviewText(String text){
-        previewTextBox.setText(text);
-        return this;
-    }
-
-    //endregion Preview Text
-
-    //region Value
-
-    public void onValueChanged(){
-        for(Consumer<String> listener : onValueChangedListeners){
-            listener.accept(textBox.getText());
-        }
-    }
-    public void addOnValueChangedListener(Consumer<String> listener){
-        onValueChangedListeners.add(listener);
-    }
-
-    public void onValueCommitted(){
-        for(Consumer<String> listener : onValueCommittedListeners){
-            listener.accept(textBox.getText());
-        }
-    }
-    public void addOnValueCommittedListener(Consumer<String> listener){
-        onValueCommittedListeners.add(listener);
-    }
-
-    //endregion
-
     //region Preset & Filters
 
-    public Inputfield setPreset(EInputfieldPreset preset){
+    public void setPreset(EInputfieldPreset preset){
         characterFilter.clear();
         this.preset = preset;
-
-        return this;
     }
 
-    public Inputfield filterAddNumerical(){
+    public void filterAddNumerical(){
         for(char c = '0'; c <= '9'; c++){
             characterFilter.add(c);
         }
-        return this;
     }
-    public Inputfield filterAddLowercase(){
+    public void filterAddLowercase(){
         for(char c = 'a'; c <= 'z'; c++){
             characterFilter.add(c);
         }
-        return this;
     }
-    public Inputfield filterAddUpercase(){
+    public void filterAddUpercase(){
         for(char c = 'A'; c <= 'Z'; c++){
             characterFilter.add(c);
         }
-        return this;
     }
-    public Inputfield filterAddAToZ(){
+    public void filterAddAToZ(){
         filterAddLowercase();
         filterAddUpercase();
-
-        return this;
     }
 
     //endregion
@@ -324,7 +265,7 @@ public class Inputfield extends UIElement {
     //region Blinking Cursor
 
     private void calculateCursorBlinkPosition(){
-
+        //TODO
     }
 
     //endregion
@@ -375,12 +316,10 @@ public class Inputfield extends UIElement {
         NUMERICAL_DECIMAL_POSITIVE
     }
 
-    public static class InputfieldData extends UIElement.UIElementData implements Serializable {
+    public static class InputfieldData extends ButtonData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public TextBox.TextBoxData textboxData = new TextBox.TextBoxData();
-        public Button.ButtonData buttonData = new Button.ButtonData();
-
         public TextBox.TextBoxData previewTextBoxData = new TextBox.TextBoxData();
 
         public List<Character> characterFilter = new ArrayList<>();
@@ -393,7 +332,7 @@ public class Inputfield extends UIElement {
         }
 
         @Override
-        public UIElement makeUIElement() {
+        public Inputfield makeUIElement() {
             return new Inputfield(this);
         }
     }

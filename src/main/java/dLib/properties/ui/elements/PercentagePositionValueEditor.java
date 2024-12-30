@@ -20,7 +20,7 @@ public class PercentagePositionValueEditor extends PositionValueEditor<Percentag
         {
             inputfield = new Inputfield(String.valueOf(((PercentagePosition)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
-            inputfield.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
+            inputfield.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
             contentBox.addItem(inputfield);
 
             contentBox.addItem(makeSwapComboBox());
@@ -30,8 +30,8 @@ public class PercentagePositionValueEditor extends PositionValueEditor<Percentag
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputfield.getTextBox().getText().equals(String.valueOf(((PercentagePosition)boundProperty.getValue()).getValueRaw()))){
-                inputfield.getTextBox().setText(String.valueOf(((PercentagePosition)boundProperty.getValue()).getValueRaw()));
+            if(!inputfield.textBox.getText().equals(String.valueOf(((PercentagePosition)boundProperty.getValue()).getValueRaw()))){
+                inputfield.textBox.setText(String.valueOf(((PercentagePosition)boundProperty.getValue()).getValueRaw()));
             }
         });
     }

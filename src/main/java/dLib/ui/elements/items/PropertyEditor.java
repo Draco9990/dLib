@@ -152,8 +152,8 @@ public class PropertyEditor extends UIElement {
 
             BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).loadProperties());
 
-            propertyList.addOnPropertyAddedConsumer(property -> valueChangedEventId = property.onValueChangedEvent.subscribeManaged(updateProperties));
-            propertyList.addOnPropertyRemovedConsumer(property -> property.onValueChangedEvent.unsubscribeManaged(valueChangedEventId));
+            propertyList.onItemAddedEvent.subscribeManaged(property -> valueChangedEventId = property.onValueChangedEvent.subscribeManaged(updateProperties));
+            propertyList.onItemRemovedEvent.subscribeManaged(property -> property.onValueChangedEvent.unsubscribeManaged(valueChangedEventId));
             addItem(propertyList);
         }
 

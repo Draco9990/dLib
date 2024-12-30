@@ -35,7 +35,7 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
             }
 
             xInput = new Inputfield(String.valueOf(property.getXValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE);
-            xInput.getTextBox().addOnTextChangedConsumer(s -> {
+            xInput.textBox.addOnTextChangedConsumer(s -> {
                 IntegerVector2 currentVal = property.getValue();
                 currentVal.x = Integer.valueOf(s);
                 property.setValue(currentVal);
@@ -50,7 +50,7 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
             }
 
             yInput = new Inputfield(String.valueOf(property.getYValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE);
-            yInput.getTextBox().addOnTextChangedConsumer(s -> {
+            yInput.textBox.addOnTextChangedConsumer(s -> {
                 IntegerVector2 currentVal = property.getValue();
                 currentVal.y = Integer.valueOf(s);
                 property.setValue(currentVal);
@@ -61,8 +61,8 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
         property.onValueChangedEvent.subscribe(this, (integerVector2, integerVector22) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            TextBox xBox = xInput.getTextBox();
-            TextBox yBox = yInput.getTextBox();
+            TextBox xBox = xInput.textBox;
+            TextBox yBox = yInput.textBox;
 
             if(!Objects.equals(xBox.getText(), property.getValueForDisplay())){
                 xBox.setText(property.getXValue().toString());

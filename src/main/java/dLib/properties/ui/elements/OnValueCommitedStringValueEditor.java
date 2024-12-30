@@ -15,7 +15,7 @@ public class OnValueCommitedStringValueEditor extends StringValueEditor {
     public OnValueCommitedStringValueEditor(StringProperty property) {
         super(property);
 
-        inputfield.addOnValueCommittedListener(s -> boundProperty.setValueFromString(s));
+        inputfield.onValueCommittedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
     }
 
 

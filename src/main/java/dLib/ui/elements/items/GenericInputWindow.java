@@ -40,8 +40,8 @@ public class GenericInputWindow extends UIElement {
     }
 
     public void reset(){
-        if(popup.inputBox != null) popup.inputBox.getTextBox().setText("");
-        if(popup.passwordBox != null) popup.passwordBox.inputfield.getTextBox().setText("");
+        if(popup.inputBox != null) popup.inputBox.textBox.setText("");
+        if(popup.passwordBox != null) popup.passwordBox.inputfield.textBox.setText("");
     }
 
     public static class InternalPasswordWindow extends Renderable{
@@ -75,10 +75,10 @@ public class GenericInputWindow extends UIElement {
             confirmButton.getButton().onLeftClickEvent.subscribe(this, () -> {
                 getParentOfType(GenericInputWindow.class).onConfirm.invoke(consumer -> {
                     if(properties.isPassword){
-                        consumer.accept(passwordBox.inputfield.getTextBox().getText());
+                        consumer.accept(passwordBox.inputfield.textBox.getText());
                     }
                     else{
-                        consumer.accept(inputBox.getTextBox().getText());
+                        consumer.accept(inputBox.textBox.getText());
                     }
                 });
             });
@@ -90,8 +90,8 @@ public class GenericInputWindow extends UIElement {
             }
             else{
                 inputBox = new Inputfield("", Pos.px(24), Pos.px(155), Dim.px(658), Dim.px(61));
-                inputBox.getTextBox().setFont(FontHelper.buttonLabelFont);
-                inputBox.getTextBox().setFontScale(0.8f);
+                inputBox.textBox.setFont(FontHelper.buttonLabelFont);
+                inputBox.textBox.setFontScale(0.8f);
                 addChildCS(inputBox);
             }
         }

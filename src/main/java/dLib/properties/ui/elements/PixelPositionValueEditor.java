@@ -20,7 +20,7 @@ public class PixelPositionValueEditor extends PositionValueEditor<PixelPosition>
         {
             inputfield = new Inputfield(String.valueOf(((PixelPosition)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-            inputfield.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
+            inputfield.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
             contentBox.addItem(inputfield);
 
             contentBox.addItem(makeSwapComboBox());
@@ -30,8 +30,8 @@ public class PixelPositionValueEditor extends PositionValueEditor<PixelPosition>
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputfield.getTextBox().getText().equals(String.valueOf(((PixelPosition)boundProperty.getValue()).getValueRaw()))){
-                inputfield.getTextBox().setText(String.valueOf(((PixelPosition)boundProperty.getValue()).getValueRaw()));
+            if(!inputfield.textBox.getText().equals(String.valueOf(((PixelPosition)boundProperty.getValue()).getValueRaw()))){
+                inputfield.textBox.setText(String.valueOf(((PixelPosition)boundProperty.getValue()).getValueRaw()));
             }
         });
     }

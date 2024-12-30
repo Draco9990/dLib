@@ -25,7 +25,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
         HorizontalBox propertyValueBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             dynamicMethodBinding = new Inputfield(((DynamicMethodBinding) property.getValue()).getBoundMethod(), Dim.fill(), Dim.fill());
-            dynamicMethodBinding.getTextBox().addOnTextChangedConsumer(s -> ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(s));
+            dynamicMethodBinding.textBox.addOnTextChangedConsumer(s -> ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(s));
 
             propertyValueBox.addItem(dynamicMethodBinding);
 
@@ -49,7 +49,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
         }
 
         ((DynamicMethodBinding)property.getValue()).getBoundMethodRaw().onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
-            dynamicMethodBinding.getTextBox().setText(methodBinding2);
+            dynamicMethodBinding.textBox.setText(methodBinding2);
         });
 
         addChildNCS(propertyValueBox);

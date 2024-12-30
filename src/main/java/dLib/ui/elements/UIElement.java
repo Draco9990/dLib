@@ -662,7 +662,7 @@ public class UIElement implements Disposable, IEditableValue {
         onChildrenChanged();
         return this;
     }
-    public UIElement replaceChild(UIElement original, UIElement replacement){
+    public void replaceChild(UIElement original, UIElement replacement){
         for(UIElementChild child : children){
             if(Objects.equals(child.element, original)){
                 UIElement oldElement = child.element;
@@ -672,11 +672,8 @@ public class UIElement implements Disposable, IEditableValue {
                 replacement.setParent(this);
 
                 oldElement.dispose();
-                return this;
             }
         }
-
-        return this;
     }
     public UIElement clearChildren(){
         for(UIElementChild child : children){

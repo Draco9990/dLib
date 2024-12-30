@@ -14,6 +14,7 @@ import dLib.ui.resources.UICommonResources;
 
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -39,14 +40,17 @@ public abstract class ItemBox<ItemType> extends Renderable {
     protected int itemSpacing = 1;
     protected boolean invertedItemOrder = false;
 
+    public Event<Consumer<ItemType>> onItemAddedEvent = new Event<>();
+    public Event<Consumer<ItemType>> onItemRemovedEvent = new Event<>();
+    public Event<Runnable> onItemsChangedEvent = new Event<>();
+
+    private boolean canReorder = false;
+    public Event<BiConsumer<ItemType, ItemType>> onItemsSwappedEvent = new Event<>();
+
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
     private int selectionCountLimit = 1;
 
-    private boolean canReorder = false;
-    private ArrayList<BiConsumer<ItemType, ItemType>> onElementsSwappedListeners = new ArrayList<>();
-
-    private ArrayList<Consumer<ItemType>> onPropertyAddedConsumers = new ArrayList<>();
-    private ArrayList<Consumer<ItemType>> onPropertyRemovedConsumers = new ArrayList<>();
+    public Event<Consumer<ArrayList<ItemType>>> onItemSelectionChangedEvent = new Event<>();
 
     protected Integer defaultItemWidth = null;
     protected Integer defaultItemHeight = null;
@@ -79,13 +83,17 @@ public abstract class ItemBox<ItemType> extends Renderable {
         this.canReorder = data.canReorder;
     }
 
+    public void registerCommonEvents(){
+        onItemsChangedEvent.subscribe(this, this::refilterItems);
+    }
+
     //endregion
 
     //region Methods
 
     //region Item Management
 
-    public ItemBox<ItemType> addItem(ItemType item){
+    public void addItem(ItemType item){
         UIElement compositeItem;
         if(!disableItemWrapping){
             compositeItem = wrapUIForItem(item);
@@ -101,18 +109,10 @@ public abstract class ItemBox<ItemType> extends Renderable {
         compositeItem.addComponent(new ItemboxChildComponent());
         addChildCS(compositeItem);
 
-        onItemAdded(item);
-        return this;
+        onItemAddedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item));
+        onItemsChangedEvent.invoke(Runnable::run);
     }
-    public void onItemAdded(ItemType item){
-        for (Consumer<ItemType> consumer : onPropertyAddedConsumers) {
-            consumer.accept(item);
-        }
-
-        onItemsChanged();
-    }
-
-    public ItemBox<ItemType> insertItem(int insertIndex, ItemType item){
+    public void insertItem(int insertIndex, ItemType item){
         UIElement compositeItem;
         if(!disableItemWrapping){
             compositeItem = wrapUIForItem(item);
@@ -124,24 +124,20 @@ public abstract class ItemBox<ItemType> extends Renderable {
         originalItems.add(insertIndex, new ItemBoxItem(item, compositeItem));
         addChildCS(compositeItem);
 
-        onItemAdded(item);
-        return this;
+        onItemAddedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item));
+        onItemsChangedEvent.invoke(Runnable::run);
     }
 
-    public ItemBox<ItemType> setItems(ArrayList<ItemType> items){
+    public void setItems(ArrayList<ItemType> items){
         clearItems();
         for(ItemType item : items){
             addItem(item);
         }
 
-        onItemsSet(items);
-        return this;
-    }
-    public void onItemsSet(ArrayList<ItemType> items){
-        onItemsChanged();
+        onItemsChangedEvent.invoke(Runnable::run);
     }
 
-    public ItemBox<ItemType> updateItems(ArrayList<ItemType> items){
+    public void updateItems(ArrayList<ItemType> items){
         boolean itemsChanged = false;
         boolean selectionChanged = false;
 
@@ -173,15 +169,8 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
         originalItems.sort(Comparator.comparingInt(o -> items.indexOf(o.item)));
 
-        onItemsUpdated(items, itemsChanged);
+        onItemsChangedEvent.invoke(Runnable::run);
         if(selectionChanged) onItemSelectionChanged(getCurrentlySelectedItems());
-
-        return this;
-    }
-    public void onItemsUpdated(ArrayList<ItemType> items, boolean itemsChanged){
-        if(itemsChanged){
-            onItemsChanged();
-        }
     }
 
     public void clearItems(){
@@ -199,18 +188,24 @@ public abstract class ItemBox<ItemType> extends Renderable {
         }
 
         for(ItemBoxItem item : originalItems){
-            onItemRemoved(item.item);
+            onItemRemovedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item.item));
         }
         originalItems.clear();
 
-        onItemsCleared();
-    }
-    public void onItemsCleared(){
-        onItemsChanged();
+        onItemsChangedEvent.invoke(Runnable::run);
     }
 
-    public void onItemsChanged(){
-        refilterItems();
+    public void removeItem(ItemType item){
+        for(ItemBoxItem itemBoxItem : originalItems){
+            if(itemBoxItem.item.equals(item)){
+                originalItems.remove(itemBoxItem);
+                itemBoxItem.renderForItem.dispose();
+                break;
+            }
+        }
+
+        onItemRemovedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item));
+        onItemsChangedEvent.invoke(Runnable::run);
     }
 
     public boolean containsItem(ItemType item){
@@ -222,7 +217,6 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
         return false;
     }
-
     public boolean containsRenderItem(UIElement renderItem){
         for(ItemBoxItem itemBoxItem : originalItems){
             if(itemBoxItem.renderForItem.equals(renderItem)){
@@ -233,47 +227,12 @@ public abstract class ItemBox<ItemType> extends Renderable {
         return false;
     }
 
-    public ItemBox<ItemType> removeItem(ItemType item){
-        for(ItemBoxItem itemBoxItem : originalItems){
-            if(itemBoxItem.item.equals(item)){
-                originalItems.remove(itemBoxItem);
-                itemBoxItem.renderForItem.dispose();
-                break;
-            }
-        }
-
-        onItemRemoved(item);
-        return this;
-    }
-
-    public void onItemRemoved(ItemType item){
-        for (Consumer<ItemType> consumer : onPropertyRemovedConsumers) {
-            consumer.accept(item);
-        }
-
-        onItemsChanged();
-    }
-
-    //region Consumers
-
-    public ItemBox<ItemType> addOnPropertyAddedConsumer(Consumer<ItemType> consumer){
-        onPropertyAddedConsumers.add(consumer);
-        return this;
-    }
-
-    public ItemBox<ItemType> addOnPropertyRemovedConsumer(Consumer<ItemType> consumer){
-        onPropertyRemovedConsumers.add(consumer);
-        return this;
-    }
-
-    //endregion
-
     //endregion
 
     //region Item Management Overrides
 
     @Override
-    public UIElement replaceChild(UIElement original, UIElement replacement) {
+    public void replaceChild(UIElement original, UIElement replacement) {
         for(ItemBoxItem item : originalItems){
             if(item.renderForItem.equals(original)){
                 item.renderForItem = replacement;
@@ -294,9 +253,8 @@ public abstract class ItemBox<ItemType> extends Renderable {
             replacement.addComponent(new ItemboxChildComponent());
         }
 
-        return super.replaceChild(original, replacement);
+        super.replaceChild(original, replacement);
     }
-
 
     //endregion
 
@@ -348,9 +306,8 @@ public abstract class ItemBox<ItemType> extends Renderable {
     } //TODO expose
     public void postMakeWrapperForItem(ItemType item, UIElement itemUI){ } //TODO expose
 
-    public ItemBox<ItemType> disableItemWrapping(){
+    public void disableItemWrapping(){
         disableItemWrapping = true;
-        return this;
     }
 
     //endregion
@@ -403,17 +360,15 @@ public abstract class ItemBox<ItemType> extends Renderable {
         return selectedItems;
     }
 
-    public ItemBox<ItemType> setSelectionMode(ESelectionMode selectionMode){
+    public void setSelectionMode(ESelectionMode selectionMode){
         this.selectionMode = selectionMode;
-        return this;
     } //TODO expose
     public ESelectionMode getSelectionMode(){
         return selectionMode;
     }
 
-    public ItemBox<ItemType> setSelectionCountLimit(int selectionCount){
+    public void setSelectionCountLimit(int selectionCount){
         this.selectionCountLimit = selectionCount;
-        return this;
     } //TODO expose
     public int getSelectionCountLimit(){
         if(selectionMode.equals(ESelectionMode.NONE)) return 0;
@@ -433,17 +388,15 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
     //region Item Properties
 
-    public ItemBox<ItemType> setItemSpacing(int spacing){
+    public void setItemSpacing(int spacing){
         this.itemSpacing = spacing;
-        return this;
     }
     public int getItemSpacing(){
         return itemSpacing;
     }
 
-    public ItemBox<ItemType> setInvertedItemOrder(boolean invertedItemOrder){
+    public void setInvertedItemOrder(boolean invertedItemOrder){
         this.invertedItemOrder = invertedItemOrder;
-        return this;
     }
 
     //endregion
@@ -456,16 +409,6 @@ public abstract class ItemBox<ItemType> extends Renderable {
     }
     public boolean canReorder(){
         return canReorder;
-    }
-
-    public ItemBox<ItemType> addOnElementsSwappedListener(BiConsumer<ItemType, ItemType> listener){
-        onElementsSwappedListeners.add(listener);
-        return this;
-    }
-    public void onElementsSwapped(ItemType item1, ItemType item2){
-        for(BiConsumer<ItemType, ItemType> listener : onElementsSwappedListeners){
-            listener.accept(item1, item2);
-        }
     }
 
     protected void moveItemDown(ItemType itemUI){
@@ -488,7 +431,6 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
         swap(itemIndex, swapIndex);
     }
-
     protected void moveItemUp(ItemType itemUI){
         int itemIndex = -1;
         for (int i = 0; i < items.size(); i++) {
@@ -518,19 +460,20 @@ public abstract class ItemBox<ItemType> extends Renderable {
         Integer originalIndex2 = originalItems.indexOf(itemtoSwap2);
 
         Collections.swap(originalItems, originalIndex1, originalIndex2);
-        onElementsSwapped(itemtoSwap1.item, itemtoSwap2.item);
+
+        onItemsSwappedEvent.invoke(itemTypeItemTypeBiConsumer -> itemTypeItemTypeBiConsumer.accept(itemtoSwap1.item, itemtoSwap2.item));
+        onItemsChangedEvent.invoke(Runnable::run);
     }
 
     //endregion
 
     //region Filter
 
-    public ItemBox<ItemType> setFilterText(String filterText){
+    public void setFilterText(String filterText){
         if(filterText == null) filterText = "";
 
         this.filterText = filterText;
         refilterItems();
-        return this;
     }
 
     public boolean filterCheck(String filterText, ItemType item){
@@ -555,18 +498,15 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
     //region Content Alignment
 
-    public UIElement setHorizontalContentAlignment(Alignment.HorizontalAlignment horizontalAlignment){
+    public void setHorizontalContentAlignment(Alignment.HorizontalAlignment horizontalAlignment){
         setContentAlignment(horizontalAlignment, contentAlignment.verticalAlignment);
-        return this;
     }
-    public UIElement setVerticalContentAlignment(Alignment.VerticalAlignment verticalAlignment){
+    public void setVerticalContentAlignment(Alignment.VerticalAlignment verticalAlignment){
         setContentAlignment(contentAlignment.horizontalAlignment, verticalAlignment);
-        return this;
     }
-    public UIElement setContentAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
+    public void setContentAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
         contentAlignment.horizontalAlignment = horizontalAlignment;
         contentAlignment.verticalAlignment = verticalAlignment;
-        return this;
     }
 
     public Alignment.HorizontalAlignment getHorizontalContentAlignment(){

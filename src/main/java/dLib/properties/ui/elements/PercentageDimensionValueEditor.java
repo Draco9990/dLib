@@ -20,7 +20,7 @@ public class PercentageDimensionValueEditor extends DimensionValueEditor<Percent
         {
             inputfield = new Inputfield(String.valueOf(((PercentageDimension)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-            inputfield.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
+            inputfield.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
             contentBox.addItem(inputfield);
 
             contentBox.addItem(makeSwapComboBox());
@@ -30,8 +30,8 @@ public class PercentageDimensionValueEditor extends DimensionValueEditor<Percent
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputfield.getTextBox().getText().equals(String.valueOf(((PercentageDimension)boundProperty.getValue()).getValueRaw()))){
-                inputfield.getTextBox().setText(String.valueOf(((PercentageDimension)boundProperty.getValue()).getValueRaw()));
+            if(!inputfield.textBox.getText().equals(String.valueOf(((PercentageDimension)boundProperty.getValue()).getValueRaw()))){
+                inputfield.textBox.setText(String.valueOf(((PercentageDimension)boundProperty.getValue()).getValueRaw()));
             }
         });
     }

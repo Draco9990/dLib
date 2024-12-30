@@ -38,7 +38,7 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
 
             inputbox = new Inputfield(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
-            inputbox.addOnValueChangedListener(s -> boundProperty.setValueFromString(s));
+            inputbox.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
             box.addItem(inputbox);
 
             rightArrow = new Button(Dim.mirror(), Dim.px(50));
@@ -52,8 +52,8 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
         boundProperty.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputbox.getTextBox().getText().equals(String.valueOf(newVal))){
-                inputbox.getTextBox().setText(String.valueOf(newVal));
+            if(!inputbox.textBox.getText().equals(String.valueOf(newVal))){
+                inputbox.textBox.setText(String.valueOf(newVal));
             }
         });
     }

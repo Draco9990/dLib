@@ -21,19 +21,19 @@ public class PasswordBox extends UIElement {
         HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
             inputfield = new Inputfield("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-            inputfield.getTextBox().setFont(FontHelper.cardTitleFont);
-            inputfield.getTextBox().setFontScale(0.8f);
-            inputfield.getTextBox().setTextRenderColor(Color.WHITE);
-            inputfield.getTextBox().setObscureText(true);
+            inputfield.textBox.setFont(FontHelper.cardTitleFont);
+            inputfield.textBox.setFontScale(0.8f);
+            inputfield.textBox.setTextRenderColor(Color.WHITE);
+            inputfield.textBox.setObscureText(true);
             box.addItem(inputfield);
 
             showPasswordButton = new Button(Pos.px(0), Pos.px(0), Dim.mirror(), Dim.fill());
             showPasswordButton.setImage(Tex.stat("dLibResources/images/ui/common/peekButton.png"));
             showPasswordButton.onLeftClickEvent.subscribeManaged(() -> {
-                inputfield.getTextBox().setObscureText(false);
+                inputfield.textBox.setObscureText(false);
             });
             showPasswordButton.onLeftClickReleaseEvent.subscribeManaged(() -> {
-                inputfield.getTextBox().setObscureText(true);
+                inputfield.textBox.setObscureText(true);
             });
             box.addItem(showPasswordButton);
 

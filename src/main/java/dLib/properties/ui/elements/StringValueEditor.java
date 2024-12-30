@@ -21,8 +21,8 @@ public abstract class StringValueEditor extends AbstractValueEditor<String, Stri
         property.onValueChangedEvent.subscribe(this, (oldVal, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputfield.getTextBox().getText().equals(newValue)){
-                inputfield.getTextBox().setText(newValue);
+            if(!inputfield.textBox.getText().equals(newValue)){
+                inputfield.textBox.setText(newValue);
             }
         });
 
