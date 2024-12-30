@@ -11,6 +11,7 @@ import dLib.ui.mousestates.events.PostEnterMouseStateEvent;
 import dLib.ui.mousestates.events.PreExitMouseStateEvent;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.ui.dimensions.Dim;
 
@@ -24,6 +25,8 @@ public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIEl
     private ImageTextBox payloadOverlay;
 
     private Image dropZoneOverlay;
+
+    public Event<Consumer<DropObjectType>> onPayloadDroppedEvent = new Event<>();
 
     public UIDropZoneComponent(UIElement owner, String dropZoneId) {
         this.owner = owner;
@@ -83,6 +86,10 @@ public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIEl
                 if(dropZoneOverlay != null){
                     dropZoneOverlay.dispose();
                     dropZoneOverlay = null;
+                }
+
+                if(owner.isHovered()){
+                    onPayloadDroppedEvent.invoke(dropObjectTypeConsumer -> dropObjectTypeConsumer.accept((DropObjectType) dragAndDropState.getPayload()));
                 }
             }
         });

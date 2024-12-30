@@ -8,9 +8,12 @@ import dLib.ui.elements.components.UIDropZoneComponent;
 import dLib.ui.elements.items.Image;
 import dLib.ui.mousestates.DragAndDropMouseState;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.DLibLogger;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
+
+import java.util.function.Consumer;
 
 public class TestScreen extends UIElement {
 
@@ -29,7 +32,8 @@ public class TestScreen extends UIElement {
 
         Image payloadEnd = new Image(Tex.stat(UICommonResources.white_pixel), Pos.px(350), Pos.px(350), Dim.px(150), Dim.px(150));
         payloadEnd.setRenderColor(Color.RED);
-        payloadEnd.addComponent(new UIDropZoneComponent<String>(payloadEnd, "dropZone"));
+        UIDropZoneComponent<String> comp = payloadEnd.addComponent(new UIDropZoneComponent<String>(payloadEnd, "dropZone"));
+        comp.onPayloadDroppedEvent.subscribe(this, s -> DLibLogger.log("Payload dropped: " + s));
         addChildNCS(payloadEnd);
     }
 }

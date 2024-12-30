@@ -20,7 +20,7 @@ public class DragAndDropMouseState<PayloadType> extends AbstractMouseState {
         super.update();
 
         if(!InputHelper.isMouseDown){
-            //TODO check if hovering over a payload drop zone and if so, drop the payload
+            //* Actual drop logic is in UIDropZoneComponent
             exitMouseState();
         }
     }
