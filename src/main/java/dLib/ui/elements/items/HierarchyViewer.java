@@ -18,6 +18,7 @@ public class HierarchyViewer extends VerticalBox {
     private UIElement forElement;
 
     private boolean allowReordering = false;
+    private boolean canReorderRoot = false;
 
     private UUID hierarchyViewerID = UUID.randomUUID();
 
@@ -54,7 +55,9 @@ public class HierarchyViewer extends VerticalBox {
         HierarchyViewerChildElementButton button = makeHierarchyViewerElementButton(element);
 
         if(allowsReordering()){
-            button.addComponent(new UIPayloadComponent<UIElement>(button, element, "hierarchyViewer" + hierarchyViewerID));
+            if(canReorderRoot() || element != forElement){
+                button.addComponent(new UIPayloadComponent<UIElement>(button, element, "hierarchyViewer" + hierarchyViewerID));
+            }
 
             UIDropZoneComponent<UIElement> dropZoneComponent = button.addComponent(new UIDropZoneComponent<UIElement>(button, "hierarchyViewer" + hierarchyViewerID));
             dropZoneComponent.onPayloadDroppedEvent.subscribe(this, (payload) -> {
@@ -74,9 +77,15 @@ public class HierarchyViewer extends VerticalBox {
     public void setAllowReordering(boolean allowReordering){
         this.allowReordering = allowReordering;
     }
-
     public boolean allowsReordering(){
         return allowReordering;
+    }
+
+    public void setCanReorderRoot(boolean canReorderRoot){
+        this.canReorderRoot = canReorderRoot;
+    }
+    public boolean canReorderRoot(){
+        return canReorderRoot;
     }
 
     //endregion

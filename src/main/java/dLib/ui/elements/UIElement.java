@@ -579,18 +579,32 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public void reparent(UIElement newParent){
-        boolean csSelectable = false;
-        if(parent != null){
-            for(UIElementChild child : parent.children){
-                if(child.element == this){
-                    csSelectable = child.isControllerSelectable;
-                    parent.removeChild(this);
-                    break;
+        if (newParent.isDescendantOf(this)) {
+            if(parent == null){
+                throw new UnsupportedOperationException("Cannot reparent root element to a child element");
+            }
+
+            while(!children.isEmpty()){
+                UIElement child = children.get(0).element;
+                removeChild(child);
+                parent.addChildNCS(child);
+            }
+
+            parent.removeChild(this);
+            newParent.addChildNCS(this);
+        }
+        else {
+            if(parent != null){
+                for(UIElementChild child : parent.children){
+                    if(child.element == this){
+                        parent.removeChild(this);
+                        break;
+                    }
                 }
             }
-        }
 
-        newParent.addChild(this, csSelectable);
+            newParent.addChild(this, false);
+        }
     }
 
     public <T extends UIElement> T getParent(){
