@@ -69,6 +69,8 @@ public abstract class ItemBox<ItemType> extends Renderable {
         setRenderColor(bgColor);
 
         setPassthrough(true);
+
+        registerCommonEvents();
     }
 
     public ItemBox(ItemBoxData data){
@@ -81,6 +83,8 @@ public abstract class ItemBox<ItemType> extends Renderable {
         this.setSelectionCountLimit(data.selectionLimit);
 
         this.canReorder = data.canReorder;
+
+        registerCommonEvents();
     }
 
     public void registerCommonEvents(){
@@ -173,8 +177,12 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
         originalItems.sort(Comparator.comparingInt(o -> items.indexOf(o.item)));
 
-        onItemsChanged();
-        if(selectionChanged) onItemSelectionChanged(getCurrentlySelectedItems());
+        if(itemsChanged){
+            onItemsChanged();
+        }
+        if(selectionChanged){
+            onItemSelectionChanged(getCurrentlySelectedItems());
+        }
     }
 
     public void clearItems(){
