@@ -1,8 +1,7 @@
 --> prevent dropping payload on itself
---> refresh element tree after dropping
 --> persist local position of the element after dropping
---> persist all children after updating an element
---> duplicating an element keep parent
+--> duplicating element duplicate all children too
+--> add on hierarchy changed event, subscribe in hierarchy viewer
 
 --> Draggable component enable 'dragging' with scrollwheel
     --> add modes for each axis (shift clickm control etc)

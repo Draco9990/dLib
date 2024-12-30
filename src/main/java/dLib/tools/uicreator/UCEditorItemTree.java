@@ -34,6 +34,9 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
 
             entry.element = elementToAdd;
 
+            for(UIElement child : previousElement.getChildren()){
+                child.reparent(elementToAdd);
+            }
             previousElement.getParent().replaceChild(previousElement, elementToAdd);
         }
     }
@@ -44,7 +47,10 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
             UIElement.UIElementData elementData = SerializationHelpers.deepCopySerializable(entry.elementData);
             elementData.id.setValue("Copy of " + elementData.id.getValue());
             UIElement elementToAdd = entry.template.makeEditorItem(elementData);
+
             addItem(elementToAdd, elementData, entry.template);
+
+            elementToAdd.reparent(element.getParent());
         }
     }
 
