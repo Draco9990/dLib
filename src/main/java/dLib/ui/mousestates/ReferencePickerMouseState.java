@@ -1,12 +1,10 @@
 package dLib.ui.mousestates;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import dLib.mousestates.MouseState;
-import dLib.mousestates.MouseStateManager;
+import dLib.mousestates.AbstractMouseState;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.GlobalEvents;
 import dLib.util.ui.events.PreUIHoverEvent;
@@ -17,7 +15,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class ReferencePickerMouseState extends MouseState {
+public class ReferencePickerMouseState extends AbstractMouseState {
     private HashMap<UIElement, UUID> renderEvents = new HashMap<>();
 
     private UIElement optionalRequiredParent;

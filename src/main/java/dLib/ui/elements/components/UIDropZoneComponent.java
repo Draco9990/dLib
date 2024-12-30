@@ -1,0 +1,101 @@
+package dLib.ui.elements.components;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dLib.mousestates.AbstractMouseState;
+import dLib.mousestates.MouseStateManager;
+import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.Image;
+import dLib.ui.elements.items.text.ImageTextBox;
+import dLib.ui.mousestates.DragAndDropMouseState;
+import dLib.ui.mousestates.events.PostEnterMouseStateEvent;
+import dLib.ui.mousestates.events.PreExitMouseStateEvent;
+import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.texture.Tex;
+import dLib.util.events.GlobalEvents;
+import dLib.util.ui.dimensions.Dim;
+
+import java.util.function.Consumer;
+
+public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIElement> {
+    private UIElement owner;
+    private String dropZoneId;
+
+    private boolean hoveringWithPayload = false;
+    private ImageTextBox payloadOverlay;
+
+    private Image dropZoneOverlay;
+
+    public UIDropZoneComponent(UIElement owner, String dropZoneId) {
+        this.owner = owner;
+        this.dropZoneId = dropZoneId;
+    }
+
+    @Override
+    public void onRegisterComponent(UIElement owner) {
+        super.onRegisterComponent(owner);
+
+        owner.onHoveredEvent.subscribe(this, () -> {
+            AbstractMouseState currentState = MouseStateManager.get().getCurrentState();
+            if(!(currentState instanceof DragAndDropMouseState)){
+                return;
+            }
+
+            DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) currentState;
+            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId)){
+                hoveringWithPayload = true;
+
+                payloadOverlay = new ImageTextBox("Drop here!", Dim.fill(), Dim.fill());
+                payloadOverlay.setImage(Tex.stat(UICommonResources.dropZoneBg));
+                payloadOverlay.setPassthrough(true);
+                owner.addChildNCS(payloadOverlay);
+            }
+        });
+
+        owner.onUnhoveredEvent.subscribe(this, () -> {
+            hoveringWithPayload = false;
+
+            if(payloadOverlay != null){
+                payloadOverlay.dispose();
+                payloadOverlay = null;
+            }
+        });
+
+        GlobalEvents.subscribe(this, PostEnterMouseStateEvent.class, postEnterMouseStateEvent -> {
+            if(!(postEnterMouseStateEvent.mouseState instanceof DragAndDropMouseState)){
+                return;
+            }
+
+            DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) postEnterMouseStateEvent.mouseState;
+            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId)){
+                dropZoneOverlay = new Image(Tex.stat(UICommonResources.dropZoneOptionBg), Dim.fill(), Dim.fill());
+                dropZoneOverlay.setPassthrough(true);
+                owner.addChildNCS(dropZoneOverlay);
+            }
+        });
+
+        GlobalEvents.subscribe(this, PreExitMouseStateEvent.class, preExitMouseStateEvent -> {
+            if(!(preExitMouseStateEvent.mouseState instanceof DragAndDropMouseState)){
+                return;
+            }
+
+            DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) preExitMouseStateEvent.mouseState;
+            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId)){
+                if(dropZoneOverlay != null){
+                    dropZoneOverlay.dispose();
+                    dropZoneOverlay = null;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onUnregisterComponent(UIElement owner) {
+        super.onUnregisterComponent(owner);
+
+        owner.onHoveredEvent.unsubscribe(this);
+        owner.onUnhoveredEvent.unsubscribe(this);
+
+        GlobalEvents.unsubscribe(PostEnterMouseStateEvent.class, this);
+        GlobalEvents.unsubscribe(PreExitMouseStateEvent.class, this);
+    }
+}

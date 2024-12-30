@@ -46,12 +46,18 @@ public class GlobalEvents {
         }
     }
 
-    public static <T extends GlobalEvent> void subscribe(Disposable owner, Class<T> eventToListen, Consumer<T> consumer){
+    public static <T extends GlobalEvent> void subscribe(Object owner, Class<T> eventToListen, Consumer<T> consumer){
         if(!subscriberMap.containsKey(eventToListen)){
             subscriberMap.put(eventToListen, new Event<>());
         }
 
         subscriberMap.get(eventToListen).subscribe(owner, (Consumer<GlobalEvent>) consumer);
+    }
+
+    public static void unsubscribe(Class<?> eventListening, Object owner){
+        if(subscriberMap.containsKey(eventListening)){
+            subscriberMap.get(eventListening).unsubscribe(owner);
+        }
     }
 
     //endregion Methods

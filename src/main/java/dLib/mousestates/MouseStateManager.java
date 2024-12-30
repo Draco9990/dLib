@@ -1,10 +1,10 @@
 package dLib.mousestates;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-
-import java.util.ArrayList;
+import dLib.ui.mousestates.events.PostEnterMouseStateEvent;
+import dLib.ui.mousestates.events.PreExitMouseStateEvent;
+import dLib.util.events.GlobalEvents;
 
 public class MouseStateManager {
     //region Singleton
@@ -22,7 +22,7 @@ public class MouseStateManager {
 
     //region Variables
 
-    private MouseState currentState;
+    private AbstractMouseState currentState;
 
     //endregion
 
@@ -35,13 +35,15 @@ public class MouseStateManager {
 
     //region Methods
 
-    public boolean enterMouseState(MouseState requestedState) {
+    public boolean enterMouseState(AbstractMouseState requestedState) {
         if(currentState != null) {
             return false;
         }
 
         currentState = requestedState;
         currentState.onStateEnter();
+
+        GlobalEvents.sendMessage(new PostEnterMouseStateEvent(currentState));
 
         return true;
     }
@@ -50,6 +52,8 @@ public class MouseStateManager {
         if(currentState == null) {
             return false;
         }
+
+        GlobalEvents.sendMessage(new PreExitMouseStateEvent(currentState));
 
         currentState.onStateExit();
         currentState.dispose();
@@ -62,7 +66,7 @@ public class MouseStateManager {
         return currentState != null;
     }
 
-    public MouseState getCurrentState() {
+    public AbstractMouseState getCurrentState() {
         return currentState;
     }
 

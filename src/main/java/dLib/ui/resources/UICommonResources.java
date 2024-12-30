@@ -63,4 +63,7 @@ public class UICommonResources implements ITextureResource {
     public static final Texture lightnessBar = ImageMaster.loadImage("dLibResources/images/ui/common/color/lightnessBar.png");
     public static final Texture lightnessBarOverlay = ImageMaster.loadImage("dLibResources/images/ui/common/color/lightnessBarOverlay.png");
     public static final Texture alphaBar = ImageMaster.loadImage("dLibResources/images/ui/common/color/alphaBar.png");
+
+    public static final Texture dropZoneOptionBg = ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneOptionBg.png");
+    public static final Texture dropZoneBg = ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneBg.png");
 }

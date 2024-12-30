@@ -1,13 +1,11 @@
 package dLib.mousestates;
 
 import com.badlogic.gdx.utils.Disposable;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
-public class MouseState implements Disposable {
+public class AbstractMouseState implements Disposable {
     private String id;
 
-    public MouseState(String id) {
+    public AbstractMouseState(String id) {
         this.id = id;
     }
 
