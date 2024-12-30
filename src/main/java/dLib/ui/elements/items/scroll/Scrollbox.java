@@ -59,6 +59,7 @@ public class Scrollbox extends UIElement {
     public void addChild(UIElementChild child) {
         if(redirectChildren){
             mainBox.addChild(child);
+            return;
         }
         super.addChild(child);
     }
