@@ -1,3 +1,10 @@
+--> prevent dropping payload on itself
+--> refresh element tree after dropping
+--> persist local position of the element after dropping
+--> persist all children after updating an element
+--> duplicating an element keep parent
+--> prevent reparenting parent to child (or just add smart parent redirecting)
+
 --> Draggable component enable 'dragging' with scrollwheel
     --> add modes for each axis (shift clickm control etc)
     --> use this for the canvas comp

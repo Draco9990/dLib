@@ -164,6 +164,7 @@ public class UCEditor extends Renderable {
                 toolbarPropertiesScrollbox.addChildNCS(toolbox = new UC_EP_Toolbox());
 
                 toolbarPropertiesScrollbox.addChildNCS(hierarchyViewer = new UCEHierarchyViewer());
+                hierarchyViewer.setAllowReordering(true);
                 hierarchyViewer.hideAndDisableInstantly();
             }
             toolbarPropertiesScrollbox.setIsHorizontal(false);
