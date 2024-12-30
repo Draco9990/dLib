@@ -619,20 +619,19 @@ public class UIElement implements Disposable, IEditableValue {
     //endregion
 
     //region Children
-    public UIElement addChildNCS(UIElement child){
-        return addChild(child, false);
+    public void addChildNCS(UIElement child){
+        addChild(child, false);
     }
-    public UIElement addChildCS(UIElement child){
-        return addChild(child, true);
+    public void addChildCS(UIElement child){
+        addChild(child, true);
     }
-    public UIElement addChild(UIElement child, boolean isControllerSelectable){
-        return addChild(new UIElementChild(child, isControllerSelectable));
+    public void addChild(UIElement child, boolean isControllerSelectable){
+        addChild(new UIElementChild(child, isControllerSelectable));
     }
-    public UIElement addChild(UIElementChild child){
+    public void addChild(UIElementChild child){
         this.children.add(child);
         child.element.setParent(this);
         onChildrenChanged();
-        return this;
     }
 
     public UIElement setChildren(ArrayList<UIElementChild> children){

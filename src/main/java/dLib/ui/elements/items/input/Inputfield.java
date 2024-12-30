@@ -209,7 +209,7 @@ public class Inputfield extends Button {
             }
         });
 
-        textBox.addOnTextChangedConsumer(s -> onValueChangedEvent.invoke(stringConsumer -> stringConsumer.accept(s)));
+        textBox.onTextChangedEvent.subscribeManaged(s -> onValueChangedEvent.invoke(stringConsumer -> stringConsumer.accept(s)));
     }
 
     //endregion

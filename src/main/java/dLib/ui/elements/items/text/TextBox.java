@@ -11,6 +11,7 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.util.FontManager;
+import dLib.util.events.Event;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -34,7 +35,7 @@ public class TextBox extends UIElement {
 
     private String onTextChangedLine;
 
-    private ArrayList<Consumer<String>> onTextChangedConsumers = new ArrayList<>();
+    public Event<Consumer<String>> onTextChangedEvent = new Event<>();
 
     private float fontScale = 0.8f;
 
@@ -78,7 +79,7 @@ public class TextBox extends UIElement {
         //TODO FONT
         this.wrap = data.wrap.getValue();
 
-        onTextChangedConsumers.add(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
+        onTextChangedEvent.subscribeManaged(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
 
         setFont(FontManager.genericFont);
 
@@ -252,16 +253,11 @@ public class TextBox extends UIElement {
             }
         }
 
-        for(Consumer<String> consumer : onTextChangedConsumers) consumer.accept(newText);
-    }
-    public TextBox addOnTextChangedConsumer(Consumer<String> consumer){
-        onTextChangedConsumers.add(consumer);
-        return this;
+        onTextChangedEvent.invoke(stringConsumer -> stringConsumer.accept(newText));
     }
 
-    public TextBox setOnTextChangedLine(String newLine) {
+    public void setOnTextChangedLine(String newLine) {
         this.onTextChangedLine = newLine;
-        return this;
     }
     public String getOnTextChangedLine(String newText){ return this.onTextChangedLine; }
 
@@ -278,9 +274,8 @@ public class TextBox extends UIElement {
 
     //region Text Render Color
 
-    public TextBox setTextRenderColor(Color renderColor){
+    public void setTextRenderColor(Color renderColor){
         textRenderColor = renderColor;
-        return this;
     }
 
     public Color getTextRenderColor(){
@@ -291,9 +286,8 @@ public class TextBox extends UIElement {
 
     //region Text Wrap
 
-    public TextBox setWrap(boolean wrap){
+    public void setWrap(boolean wrap){
         this.wrap = wrap;
-        return this;
     }
 
     public boolean getWrap(){
@@ -304,9 +298,8 @@ public class TextBox extends UIElement {
 
     //region Text Font
 
-    public TextBox setFont(BitmapFont font){
+    public void setFont(BitmapFont font){
         this.font = font;
-        return this;
     }
 
     //endregion
@@ -336,18 +329,15 @@ public class TextBox extends UIElement {
 
     //region Content Alignment
 
-    public UIElement setHorizontalContentAlignment(Alignment.HorizontalAlignment horizontalAlignment){
+    public void setHorizontalContentAlignment(Alignment.HorizontalAlignment horizontalAlignment){
         setContentAlignment(horizontalAlignment, contentAlignment.verticalAlignment);
-        return this;
     }
-    public UIElement setVerticalContentAlignment(Alignment.VerticalAlignment verticalAlignment){
+    public void setVerticalContentAlignment(Alignment.VerticalAlignment verticalAlignment){
         setContentAlignment(contentAlignment.horizontalAlignment, verticalAlignment);
-        return this;
     }
-    public UIElement setContentAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
+    public void setContentAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
         contentAlignment.horizontalAlignment = horizontalAlignment;
         contentAlignment.verticalAlignment = verticalAlignment;
-        return this;
     }
 
     public Alignment.HorizontalAlignment getHorizontalContentAlignment(){
@@ -372,9 +362,8 @@ public class TextBox extends UIElement {
 
     //region Obscure Text
 
-    public TextBox setObscureText(boolean obscureText){
+    public void setObscureText(boolean obscureText){
         this.obscureText = obscureText;
-        return this;
     }
 
     public boolean isObsuringText(){

@@ -12,16 +12,16 @@ public class CancelButton extends TextButton {
     public CancelButton() {
         super("Cancel", Pos.px(0), Pos.px(131), Dim.px(278), Dim.px(102));
 
-        this.getButton().setImage(Tex.stat("dLibResources/images/ui/common/CancelButton.png"));
+        setImage(Tex.stat("dLibResources/images/ui/common/CancelButton.png"));
 
-        this.getTextBox().setDimensions(186, 54);
-        this.getTextBox().setLocalPosition(27, 27);
-        this.getTextBox().setFontScale(1f);
+        label.setDimensions(186, 54);
+        label.setLocalPosition(27, 27);
+        label.setFontScale(1f);
 
         this.setEntryAnimation(new UIAnimation_SlideInRight(this));
         this.setExitAnimation(new UIAnimation_SlideOutLeft(this));
         this.show();
 
-        getTextBox().setTextRenderColor(Color.valueOf("FFEDA7"));
+        label.setTextRenderColor(Color.valueOf("FFEDA7"));
     }
 }

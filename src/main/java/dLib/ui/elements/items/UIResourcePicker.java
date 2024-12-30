@@ -43,11 +43,11 @@ public class UIResourcePicker extends UIElement {
             super(Tex.stat(UICommonResources.background_big), Dim.fill(), Dim.fill());
 
             TextButton cancelButton = new TextButton("Cancel", Pos.px(126), Pos.px(1080-930), Dim.px(161), Dim.px(74));
-            cancelButton.getButton().onLeftClickEvent.subscribe(this, () -> {
+            cancelButton.onLeftClickEvent.subscribe(this, () -> {
                 UIResourcePicker parent = getParentOfType(UIResourcePicker.class);
                 parent.close();
             });
-            cancelButton.getButton().setImage(Tex.stat(UICommonResources.cancelButtonSmall));
+            cancelButton.setImage(Tex.stat(UICommonResources.cancelButtonSmall));
             addChildCS(cancelButton);
 
             Scrollbox scrollbox = new Scrollbox(Pos.px(336), Pos.px(1080-922), Dim.px(1242), Dim.px(814));

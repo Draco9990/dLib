@@ -13,17 +13,17 @@ public class ConfirmButton extends TextButton {
     public ConfirmButton() {
         super("Confirm", Pos.px(1650), Pos.px(130), Dim.px(270), Dim.px(90));
 
-        this.getButton().setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButton.png"));
+        setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButton.png"));
 
-        this.getTextBox().setDimensions(186, 54);
-        this.getTextBox().setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
-        this.getTextBox().setLocalPosition(50, 30);
-        this.getTextBox().setFontScale(1f);
+        label.setDimensions(186, 54);
+        label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+        label.setLocalPosition(50, 30);
+        label.setFontScale(1f);
 
         this.setEntryAnimation(new UIAnimation_SlideInLeft(this));
         this.setExitAnimation(new UIAnimation_SlideOutRight(this));
         this.show();
 
-        getTextBox().setTextRenderColor(Color.valueOf("FFEDA7"));
+        label.setTextRenderColor(Color.valueOf("FFEDA7"));
     }
 }

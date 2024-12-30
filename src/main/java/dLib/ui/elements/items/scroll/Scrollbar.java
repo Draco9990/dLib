@@ -3,6 +3,7 @@ package dLib.ui.elements.items.scroll;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Interactable;
+import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -14,7 +15,7 @@ public abstract class Scrollbar extends UIElement {
 
     protected Interactable slider;
 
-    private ArrayList<Consumer<Float>> onScrollbarScrolledListeners = new ArrayList<>();
+    public Event<Consumer<Float>> onScrollbarScrolledEvent = new Event<>();
 
     protected UIElement boundElement;
 
@@ -60,15 +61,8 @@ public abstract class Scrollbar extends UIElement {
     public abstract void onScrolledUp();
 
     public void onScrollbarScrolled(float percentage){
-        for(Consumer<Float> listener : onScrollbarScrolledListeners){
-            listener.accept(percentage);
-        }
-
         currentScrollPercentageCache = percentage;
-    }
-
-    public void addOnScrollbarScrolledListener(Consumer<Float> listener){
-        onScrollbarScrolledListeners.add(listener);
+        onScrollbarScrolledEvent.invoke(floatConsumer -> floatConsumer.accept(percentage));
     }
 
     public abstract void setScrollbarScrollPercentageForExternalChange(float percentage);

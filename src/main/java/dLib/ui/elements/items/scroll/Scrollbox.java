@@ -56,11 +56,11 @@ public class Scrollbox extends UIElement {
     //region Methods
 
     @Override
-    public UIElement addChild(UIElementChild child) {
+    public void addChild(UIElementChild child) {
         if(redirectChildren){
-            return mainBox.addChild(child);
+            mainBox.addChild(child);
         }
-        return super.addChild(child);
+        super.addChild(child);
     }
 
     private void reinitChildLayout(){

@@ -48,7 +48,7 @@ public class HierarchyViewer extends VerticalBox {
 
         public HierarchyViewerChildElementButton(UIElement element) {
             super(element.getId(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-            getButton().setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
+            setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
             this.element = element;
         }
     }

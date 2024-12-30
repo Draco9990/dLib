@@ -61,18 +61,18 @@ public class GenericInputWindow extends UIElement {
 
             if(properties.canCancel){
                 cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));
-                cancelButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/CancelButtonSmall.png"));
-                cancelButton.getTextBox().setFontScale(0.9f);
-                cancelButton.getButton().onLeftClickEvent.subscribe(this, () -> {
+                cancelButton.setImage(Tex.stat("dLibResources/images/ui/common/CancelButtonSmall.png"));
+                cancelButton.label.setFontScale(0.9f);
+                cancelButton.onLeftClickEvent.subscribe(this, () -> {
                     getParentOfType(GenericInputWindow.class).hideAndDisable();
                 });
                 addChildCS(cancelButton);
             }
 
             confirmButton = new TextButton(confirmButtonText, Pos.px(536), Pos.px(18), Dim.px(173), Dim.px(74));
-            confirmButton.getButton().setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButtonSmall.png"));
-            confirmButton.getTextBox().setFontScale(0.9f);
-            confirmButton.getButton().onLeftClickEvent.subscribe(this, () -> {
+            confirmButton.setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButtonSmall.png"));
+            confirmButton.label.setFontScale(0.9f);
+            confirmButton.onLeftClickEvent.subscribe(this, () -> {
                 getParentOfType(GenericInputWindow.class).onConfirm.invoke(consumer -> {
                     if(properties.isPassword){
                         consumer.accept(passwordBox.inputfield.textBox.getText());

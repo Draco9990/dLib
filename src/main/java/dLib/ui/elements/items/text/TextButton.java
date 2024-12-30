@@ -13,10 +13,9 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
-public class TextButton extends UIElement {
+public class TextButton extends Button {
     //region Variables
 
-    public Button button;
     public TextBox label;
 
     //endregion
@@ -29,9 +28,7 @@ public class TextButton extends UIElement {
     public TextButton(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        button = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-        button.setImage(Tex.stat(UICommonResources.button01_horizontal));
-        addChildCS(button);
+        setImage(Tex.stat(UICommonResources.button01_horizontal));
 
         label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         label.setFont(FontHelper.buttonLabelFont);
@@ -43,32 +40,16 @@ public class TextButton extends UIElement {
     public TextButton(TextButtonData data){
         super(data);
 
-        button = data.buttonData.makeUIElement();
-        addChildCS(button);
-
         label = data.textBoxData.makeUIElement();
         addChildCS(label);
     }
 
     //endregion
 
-    //region Methods
-
-    public Button getButton(){
-        return button;
-    }
-
-    public TextBox getTextBox(){
-        return label;
-    }
-
-    //endregion
-
-    public static class TextButtonData extends UIElementData implements Serializable {
+    public static class TextButtonData extends ButtonData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();
-        public Button.ButtonData buttonData = new Button.ButtonData();
 
         public TextButtonData(){
             super();

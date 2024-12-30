@@ -119,22 +119,22 @@ public class UCEditor extends Renderable {
                 propertiesOptions.disableItemWrapping();
                 {
                     TextButton toolboxButton = new TextButton("Toolbox", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    toolboxButton.button.onLeftClickEvent.subscribeManaged(() -> {
+                    toolboxButton.onLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
                     });
-                    toolboxButton.getButton().setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
+                    toolboxButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
                     propertiesOptions.addItem(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    elementListButton.button.onLeftClickEvent.subscribeManaged(() -> {
+                    elementListButton.onLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().hierarchyViewer.showAndEnableInstantly();
                         getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElement);
                     });
-                    elementListButton.getButton().setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
+                    elementListButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
                     propertiesOptions.addItem(elementListButton);
                 }
                 toolbar.addItem(propertiesOptions);

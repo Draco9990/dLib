@@ -34,7 +34,7 @@ public class TextureBindingValueEditor<ValueType> extends AbstractValueEditor<Va
                 return Reflection.getFieldValue("PROPERTY_EDITOR_LONG_NAME", item);
             }
         };
-        comboBox.getTextBox().setFontScale(0.2f);
+        comboBox.label.setFontScale(0.2f);
 
         comboBox.onSelectionChangedEvent.subscribe(comboBox, (aClass) -> {
             if(aClass == TextureNoneBinding.class){

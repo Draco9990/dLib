@@ -33,7 +33,7 @@ public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatV
             }
 
             xInput = new Inputfield(String.valueOf(property.getXValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
-            xInput.textBox.addOnTextChangedConsumer(s -> {
+            xInput.textBox.onTextChangedEvent.subscribeManaged(s -> {
                 Vector2 currentVal = boundProperty.getValue();
                 currentVal.x = Float.parseFloat(s);
                 boundProperty.setValue(currentVal);
@@ -48,7 +48,7 @@ public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatV
             }
 
             yInput = new Inputfield(String.valueOf(property.getYValue()), Dim.perc(0.25), Dim.fill()).setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
-            yInput.textBox.addOnTextChangedConsumer(s -> {
+            yInput.textBox.onTextChangedEvent.subscribeManaged(s -> {
                 Vector2 currentVal = boundProperty.getValue();
                 currentVal.y = Float.parseFloat(s);
                 boundProperty.setValue(currentVal);

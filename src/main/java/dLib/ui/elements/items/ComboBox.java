@@ -10,9 +10,6 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class ComboBox<OptionType> extends TextButton {
@@ -28,11 +25,11 @@ public class ComboBox<OptionType> extends TextButton {
     public ComboBox(OptionType initialOption, ArrayList<OptionType> options, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(initialOption.toString(), xPos, yPos, width, height);
 
-        getTextBox().setText(itemToStringShort(initialOption));
+        label.setText(itemToStringShort(initialOption));
 
-        getButton().onLeftClickEvent.subscribeManaged(() -> {
-            int buttonX = getButton().getWorldPositionX();
-            int buttonY = getButton().getWorldPositionY();
+        onLeftClickEvent.subscribeManaged(() -> {
+            int buttonX = getWorldPositionX();
+            int buttonY = getWorldPositionY();
 
             SimpleListPicker<OptionType> picker = new SimpleListPicker<OptionType>(buttonX, buttonY, options, this::setSelectedItem) {
                 @Override
@@ -42,7 +39,7 @@ public class ComboBox<OptionType> extends TextButton {
             };
             picker.open();
         });
-        getButton().setImage(Tex.stat(UICommonResources.button02_horizontal));
+        setImage(Tex.stat(UICommonResources.button02_horizontal));
     }
 
     public void setCanBeNull(boolean canBeNull) {
@@ -57,7 +54,7 @@ public class ComboBox<OptionType> extends TextButton {
         if(option == null && !canBeNull) return;
 
         currentOption = option;
-        getTextBox().setText(itemToStringShort(option));
+        label.setText(itemToStringShort(option));
 
         onSelectionChangedEvent.invoke(optionTypeConsumer -> optionTypeConsumer.accept(option));
     }

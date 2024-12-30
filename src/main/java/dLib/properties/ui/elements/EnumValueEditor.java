@@ -58,7 +58,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
         property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            enumBox.getTextBox().setText(boundProperty.getValueForDisplay());
+            enumBox.label.setText(boundProperty.getValueForDisplay());
         });
     }
 

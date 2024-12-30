@@ -22,8 +22,8 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
-            valueBox.getButton().setImage(Tex.stat(UICommonResources.button02_horizontal));
-            valueBox.getButton().onLeftClickEvent.subscribe(this, () -> {
+            valueBox.setImage(Tex.stat(UICommonResources.button02_horizontal));
+            valueBox.onLeftClickEvent.subscribe(this, () -> {
                 UIResourcePicker picker = new UIResourcePicker((aClass, s) -> property.setValue(new TextureResourceBinding(aClass, s)));
                 picker.open();
             });
@@ -34,7 +34,7 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
         property.onValueChangedEvent.subscribe(this, (textureBinding, textureBinding2) -> {
             if (!isEditorValidForPropertyChange()) return;
 
-            valueBox.getTextBox().setText(textureBinding2.getDisplayValue());
+            valueBox.label.setText(textureBinding2.getDisplayValue());
         });
 
         addChildNCS(contentBox);

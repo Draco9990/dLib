@@ -46,12 +46,12 @@ public class ContextMenu extends Renderable{
         public ContextMenuButtonOption(String text) {
             super(text, Dim.fill(), Dim.px(30));
 
-            getTextBox().setFont(FontHelper.buttonLabelFont);
-            getButton().setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
-            getTextBox().setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+            label.setFont(FontHelper.buttonLabelFont);
+            setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
+            label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
 
             onOptionSelectedEvent.subscribe(this, () -> getParentOfType(ContextMenu.class).close());
-            getButton().onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke(Runnable::run));
+            onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke(Runnable::run));
         }
     }
 }

@@ -108,9 +108,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
         originalItems.add(new ItemBoxItem(item, compositeItem));
         compositeItem.addComponent(new ItemboxChildComponent());
         addChildCS(compositeItem);
-
-        onItemAddedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item));
-        onItemsChangedEvent.invoke(Runnable::run);
+        onItemAdded(item);
     }
     public void insertItem(int insertIndex, ItemType item){
         UIElement compositeItem;
@@ -124,8 +122,11 @@ public abstract class ItemBox<ItemType> extends Renderable {
         originalItems.add(insertIndex, new ItemBoxItem(item, compositeItem));
         addChildCS(compositeItem);
 
+        onItemAdded(item);
+    }
+    private void onItemAdded(ItemType item){
         onItemAddedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item));
-        onItemsChangedEvent.invoke(Runnable::run);
+        onItemsChanged();
     }
 
     public void setItems(ArrayList<ItemType> items){
@@ -134,7 +135,10 @@ public abstract class ItemBox<ItemType> extends Renderable {
             addItem(item);
         }
 
-        onItemsChangedEvent.invoke(Runnable::run);
+        onItemsSet(items);
+    }
+    private void onItemsSet(ArrayList<ItemType> items){
+        onItemsChanged();
     }
 
     public void updateItems(ArrayList<ItemType> items){
@@ -169,7 +173,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
         originalItems.sort(Comparator.comparingInt(o -> items.indexOf(o.item)));
 
-        onItemsChangedEvent.invoke(Runnable::run);
+        onItemsChanged();
         if(selectionChanged) onItemSelectionChanged(getCurrentlySelectedItems());
     }
 
@@ -188,13 +192,12 @@ public abstract class ItemBox<ItemType> extends Renderable {
         }
 
         for(ItemBoxItem item : originalItems){
-            onItemRemovedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item.item));
+            onItemRemoved(item.item);
         }
         originalItems.clear();
 
-        onItemsChangedEvent.invoke(Runnable::run);
+        onItemsChanged();
     }
-
     public void removeItem(ItemType item){
         for(ItemBoxItem itemBoxItem : originalItems){
             if(itemBoxItem.item.equals(item)){
@@ -203,8 +206,13 @@ public abstract class ItemBox<ItemType> extends Renderable {
                 break;
             }
         }
-
+    }
+    private void onItemRemoved(ItemType item){
         onItemRemovedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item));
+        onItemsChanged();
+    }
+
+    private void onItemsChanged(){
         onItemsChangedEvent.invoke(Runnable::run);
     }
 
@@ -349,7 +357,9 @@ public abstract class ItemBox<ItemType> extends Renderable {
             onItemSelectionChanged(getCurrentlySelectedItems());
         }
     }
-    public void onItemSelectionChanged(ArrayList<ItemType> items){} //TODO expose
+    public void onItemSelectionChanged(ArrayList<ItemType> items){
+        onItemSelectionChangedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(items));
+    } //TODO expose
 
     public ArrayList<ItemType> getCurrentlySelectedItems(){
         ArrayList<ItemType> selectedItems = new ArrayList<>();

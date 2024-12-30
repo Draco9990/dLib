@@ -47,7 +47,7 @@ public class UIDebuggerScreen extends UIElement {
 
                 TextButton informationButton = new TextButton("i", Dim.px(50), Dim.px(50));
                 addItem(informationButton);
-                informationButton.button.onLeftClickEvent.subscribeManaged(() -> {
+                informationButton.onLeftClickEvent.subscribeManaged(() -> {
                     UIDebuggerElementList topScreen = getParentOfType(UIDebuggerElementList.class);
                     if(topScreen.elementInfo.isVisible()){
                         topScreen.elementInfo.hideAndDisableInstantly();

@@ -25,7 +25,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
         HorizontalBox propertyValueBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             dynamicMethodBinding = new Inputfield(((DynamicMethodBinding) property.getValue()).getBoundMethod(), Dim.fill(), Dim.fill());
-            dynamicMethodBinding.textBox.addOnTextChangedConsumer(s -> ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(s));
+            dynamicMethodBinding.textBox.onTextChangedEvent.subscribeManaged(s -> ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(s));
 
             propertyValueBox.addItem(dynamicMethodBinding);
 
