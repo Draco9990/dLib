@@ -17,10 +17,11 @@ import dLib.util.ui.position.Pos;
 import java.util.function.Consumer;
 
 public class GenericInputWindow extends UIElement {
-    protected DarkenLayer darkenLayer;
-    protected InternalPasswordWindow popup;
+    public DarkenLayer darkenLayer;
+    public InternalPasswordWindow popup;
 
-    public Event<Consumer<String>> onConfirm = new Event<>();
+    public Event<Consumer<String>> onConfirmEvent = new Event<>();
+    public Event<Consumer<String>> onCancelEvent = new Event<>();
 
     public GenericInputWindow(String title, String confirmButtonText) {
         this(title, confirmButtonText, new ElementProperties());
@@ -57,13 +58,17 @@ public class GenericInputWindow extends UIElement {
             setEntryAnimation(new UIAnimation_SlideInUp(this));
             setExitAnimation(new UIAnimation_SlideOutDown(this));
 
-            addChildNCS(new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49)).setFont(FontHelper.buttonLabelFont).setTextRenderColor(Color.GOLD));
+            TextBox titleBox =new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49));
+            titleBox.setFont(FontHelper.buttonLabelFont);
+            titleBox.setTextRenderColor(Color.GOLD);
+            addChildNCS(titleBox);
 
             if(properties.canCancel){
                 cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));
                 cancelButton.setImage(Tex.stat("dLibResources/images/ui/common/CancelButtonSmall.png"));
                 cancelButton.label.setFontScale(0.9f);
                 cancelButton.onLeftClickEvent.subscribe(this, () -> {
+                    getParentOfType(GenericInputWindow.class).onCancelEvent.invoke(consumer -> consumer.accept(""));
                     getParentOfType(GenericInputWindow.class).hideAndDisable();
                 });
                 addChildCS(cancelButton);
@@ -73,7 +78,7 @@ public class GenericInputWindow extends UIElement {
             confirmButton.setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButtonSmall.png"));
             confirmButton.label.setFontScale(0.9f);
             confirmButton.onLeftClickEvent.subscribe(this, () -> {
-                getParentOfType(GenericInputWindow.class).onConfirm.invoke(consumer -> {
+                getParentOfType(GenericInputWindow.class).onConfirmEvent.invoke(consumer -> {
                     if(properties.isPassword){
                         consumer.accept(passwordBox.inputfield.textBox.getText());
                     }

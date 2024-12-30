@@ -143,10 +143,8 @@ public class Toggle extends Interactable {
     }
 
 
-    public Toggle setToggled(boolean toggled){
+    public void setToggled(boolean toggled){
         this.toggled = toggled;
-
-        return this;
     }
     public void setToggledHoveredTexture(TextureBinding hoveredTexture){
         this.toggledHoveredTexture = hoveredTexture;

@@ -107,7 +107,7 @@ public class UIElement implements Disposable, IEditableValue {
     protected boolean isDarkened = false;
 
     private boolean selected;
-    private ArrayList<Consumer<Boolean>> onSelectionStateChangedConsumers = new ArrayList<>();
+    public Event<Consumer<Boolean>> onSelectionStateChangedEvent = new Event<>();
 
     private boolean isPassthrough = true;
 
@@ -562,9 +562,8 @@ public class UIElement implements Disposable, IEditableValue {
     //endregion
 
     //region Id
-    public UIElement setID(String newId){
+    public void setID(String newId){
         this.ID = newId;
-        return this;
     }
     public String getId(){
         return ID;
@@ -574,10 +573,9 @@ public class UIElement implements Disposable, IEditableValue {
     //region Parent & Children
 
     //region Parent
-    private UIElement setParent(UIElement parent){
+    private void setParent(UIElement parent){
         this.parent = parent;
         onParentChanged();
-        return this;
     }
 
     public void reparent(UIElement newParent){
@@ -634,17 +632,15 @@ public class UIElement implements Disposable, IEditableValue {
         onChildrenChanged();
     }
 
-    public UIElement setChildren(ArrayList<UIElementChild> children){
+    public void setChildren(ArrayList<UIElementChild> children){
         clearChildren();
         for(UIElementChild child : children){
             addChild(child);
         }
-        return this;
     }
 
-    public UIElement swapChildren(int index1, int index2){
+    public void swapChildren(int index1, int index2){
         Collections.swap(this.children, index1, index2);
-        return this;
     }
 
     public boolean hasChild(UIElement child){
@@ -655,11 +651,10 @@ public class UIElement implements Disposable, IEditableValue {
         return false;
     }
 
-    public UIElement removeChild(UIElement child){
+    public void removeChild(UIElement child){
         this.children.removeIf(next -> next.element.equals(child));
         if(Objects.equals(child.getParent(), this)) child.setParent(null);
         onChildrenChanged();
-        return this;
     }
     public void replaceChild(UIElement original, UIElement replacement){
         for(UIElementChild child : children){
@@ -674,7 +669,7 @@ public class UIElement implements Disposable, IEditableValue {
             }
         }
     }
-    public UIElement clearChildren(){
+    public void clearChildren(){
         for(UIElementChild child : children){
             if(Objects.equals(child.element.getParent(), this)){
                 child.element.setParent(null);
@@ -682,7 +677,6 @@ public class UIElement implements Disposable, IEditableValue {
         }
         children.clear();
         onChildrenChanged();
-        return this;
     }
 
     protected void onChildrenChanged(){
@@ -885,18 +879,17 @@ public class UIElement implements Disposable, IEditableValue {
     //endregion
 
     //region World Position
-    public UIElement setWorldPositionX(int newPos){
-        return setWorldPosition(newPos, getWorldPositionY());
+    public void setWorldPositionX(int newPos){
+        setWorldPosition(newPos, getWorldPositionY());
     }
-    public UIElement setWorldPositionY(int newPos){
-        return setWorldPosition(getWorldPositionX(), newPos);
+    public void setWorldPositionY(int newPos){
+        setWorldPosition(getWorldPositionX(), newPos);
     }
-    public UIElement setWorldPosition(int newPosX, int newPosY){
+    public void setWorldPosition(int newPosX, int newPosY){
         int xDiff = newPosX - getWorldPositionX();
         int yDiff = newPosY - getWorldPositionY();
 
         offset(xDiff, yDiff);
-        return this;
     }
 
     public int getWorldPositionX(){
@@ -927,16 +920,16 @@ public class UIElement implements Disposable, IEditableValue {
         return new IntegerVector2(getWorldPositionX(), getWorldPositionY());
     }
 
-    public UIElement setWorldPositionCenteredX(int newPos){
-        return setWorldPositionCentered(newPos, getWorldPositionCenteredY());
+    public void setWorldPositionCenteredX(int newPos){
+        setWorldPositionCentered(newPos, getWorldPositionCenteredY());
     }
-    public UIElement setWorldPositionCenteredY(int newPos){
-        return setWorldPositionCentered(getWorldPositionCenteredX(), newPos);
+    public void setWorldPositionCenteredY(int newPos){
+        setWorldPositionCentered(getWorldPositionCenteredX(), newPos);
     }
-    public UIElement setWorldPositionCentered(int newPosX, int newPosY){
+    public void setWorldPositionCentered(int newPosX, int newPosY){
         int wHalf = (int)(getWidth() * 0.5f);
         int hHalf = (int)(getHeight() * 0.5f);
-        return setWorldPosition(newPosX - wHalf, newPosY - hHalf);
+        setWorldPosition(newPosX - wHalf, newPosY - hHalf);
     }
 
     public final int getWorldPositionCenteredX(){
@@ -954,15 +947,13 @@ public class UIElement implements Disposable, IEditableValue {
     //endregion
 
     //region Offset
-    public UIElement offsetX(int xOffset){
+    public void offsetX(int xOffset){
         offset(xOffset, 0);
-        return this;
     }
-    public UIElement offsetY(int yOffset){
+    public void offsetY(int yOffset){
         offset(0, yOffset);
-        return this;
     }
-    public UIElement offset(int xOffset, int yOffset){
+    public void offset(int xOffset, int yOffset){
         AbstractPosition xCopy = getLocalPositionXRaw().cpy();
         AbstractPosition yCopy = getLocalPositionYRaw().cpy();
 
@@ -970,8 +961,6 @@ public class UIElement implements Disposable, IEditableValue {
         yCopy.offsetVertical(this, yOffset);
 
         setLocalPosition(xCopy, yCopy);
-
-        return this;
     }
     //endregion
 
@@ -1175,16 +1164,15 @@ public class UIElement implements Disposable, IEditableValue {
     //endregion
 
     //region Selection
-    public UIElement select(){
-        return setSelected(true);
+    public void select(){
+        setSelected(true);
     }
-    public UIElement deselect(){
-        return setSelected(false);
+    public void deselect(){
+        setSelected(false);
     }
-    public UIElement setSelected(boolean selected){
+    public void setSelected(boolean selected){
         this.selected = selected;
         onSelectionStateChanged();
-        return this;
     }
 
     public boolean isSelected(){
@@ -1192,11 +1180,7 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public void onSelectionStateChanged(){
-        for(Consumer<Boolean> consumer : onSelectionStateChangedConsumers) consumer.accept(selected);
-    }
-    public UIElement addOnSelectionStateChangedConsumer(Consumer<Boolean> consumer){
-        onSelectionStateChangedConsumers.add(consumer);
-        return this;
+        onSelectionStateChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(isSelected()));
     }
 
     public final UIElement getInnerMostSelectedChild(){
@@ -1441,32 +1425,29 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Darken & Lighten
 
-    public UIElement setDarkenedColor(Color darkenedColor){
+    public void setDarkenedColor(Color darkenedColor){
         this.darkenedColor = darkenedColor;
-        return this;
     }
     public Color getDarkenedColor(){
         return darkenedColor;
     }
 
-    public UIElement setDarkenedColorMultiplier(float darkenedColorMultiplier){
+    public void setDarkenedColorMultiplier(float darkenedColorMultiplier){
         this.darkenedColorMultiplier = darkenedColorMultiplier;
         if(this.darkenedColorMultiplier > 1.0f) this.darkenedColorMultiplier = 1.0f;
-        return this;
     }
     public Float getDarkenedColorMultiplier(){
         return darkenedColorMultiplier;
     }
 
-    public UIElement darkenInstantly(){
-        return setDarkened(true);
+    public void darkenInstantly(){
+        setDarkened(true);
     }
-    public UIElement lightenInstantly(){
-        return setDarkened(false);
+    public void lightenInstantly(){
+        setDarkened(false);
     }
-    private UIElement setDarkened(boolean darkened){
+    private void setDarkened(boolean darkened){
         this.isDarkened = darkened;
-        return this;
     }
 
     public boolean isDarkened(){
@@ -1799,9 +1780,8 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Masks
 
-    public UIElement setElementMask(UIElement elementMask){
+    public void setElementMask(UIElement elementMask){
         this.elementMask = elementMask;
-        return this;
     }
 
     public boolean hasMaskBounds(){
@@ -1834,10 +1814,9 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Lifespan
 
-    public UIElement setLifespan(float lifespan){
+    public void setLifespan(float lifespan){
         totalLifespan = lifespan;
         remainingLifespan = lifespan;
-        return this;
     }
 
     public float getTotalLifespan(){
@@ -1943,18 +1922,15 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Alignment
 
-    public UIElement setHorizontalAlignment(Alignment.HorizontalAlignment horizontalAlignment){
+    public void setHorizontalAlignment(Alignment.HorizontalAlignment horizontalAlignment){
         setAlignment(horizontalAlignment, alignment.verticalAlignment);
-        return this;
     }
-    public UIElement setVerticalAlignment(Alignment.VerticalAlignment verticalAlignment){
+    public void setVerticalAlignment(Alignment.VerticalAlignment verticalAlignment){
         setAlignment(alignment.horizontalAlignment, verticalAlignment);
-        return this;
     }
-    public UIElement setAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
+    public void setAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
         alignment.horizontalAlignment = horizontalAlignment;
         alignment.verticalAlignment = verticalAlignment;
-        return this;
     }
 
     public Alignment.HorizontalAlignment getHorizontalAlignment(){

@@ -5,6 +5,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.events.Event;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -13,14 +14,13 @@ import java.util.function.Consumer;
 
 public class SimpleListPicker<OptionType> extends Renderable {
     private VerticalListBox<OptionType> listBox;
-    private Consumer<OptionType> onOptionSelected;
 
-    public SimpleListPicker(int right, int top, ArrayList<OptionType> options, Consumer<OptionType> inOnOptionSelected) {
+    public Event<Consumer<OptionType>> onOptionSelectedEvent = new Event<>();
+
+    public SimpleListPicker(int right, int top, ArrayList<OptionType> options) {
         super(Tex.stat(ImageMaster.OPTION_CONFIRM), Pos.px(right-400), Pos.px(top-300), Dim.px(530), Dim.px(315));
 
         setContextual(true);
-
-        onOptionSelected = inOnOptionSelected;
 
         Scrollbox scrollbox = new Scrollbox(Pos.px(35), Pos.px(40), Dim.px(465), Dim.px(250));
         scrollbox.setIsHorizontal(false);
@@ -31,7 +31,7 @@ public class SimpleListPicker<OptionType> extends Renderable {
                     super.onItemSelectionChanged(items);
 
                     if(!items.isEmpty()){
-                        onOptionSelected.accept(items.get(0));
+                        onOptionSelectedEvent.invoke(optionTypeConsumer -> optionTypeConsumer.accept(items.get(0)));
 
                         SimpleListPicker parent = getParentOfType(SimpleListPicker.class);
                         parent.close();

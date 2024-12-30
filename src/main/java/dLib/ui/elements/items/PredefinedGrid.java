@@ -12,10 +12,10 @@ public class PredefinedGrid extends UIElement {
     private int rowCount;
     private int columnCount;
 
-    private UIElement[][] gridSlots = new UIElement[0][0];
+    public UIElement[][] gridSlots = new UIElement[0][0];
 
-    private VerticalBox mainColumn;
-    private HorizontalBox[] rows;
+    public VerticalBox mainColumn;
+    public HorizontalBox[] rows;
 
     public PredefinedGrid(int rowCount, int columnCount) {
         this(rowCount, columnCount, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());

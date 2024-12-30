@@ -199,7 +199,7 @@ public class Inputfield extends Button {
     }
 
     private void postInitialize(){
-        addOnSelectionStateChangedConsumer(aBoolean -> {
+        onSelectionStateChangedEvent.subscribeManaged(aBoolean -> {
             if(aBoolean){
                 Gdx.input.setInputProcessor(inputProcessor);
             }

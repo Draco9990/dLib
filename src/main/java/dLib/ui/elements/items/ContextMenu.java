@@ -13,7 +13,7 @@ import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 
 public class ContextMenu extends Renderable{
-    private VerticalBox options;
+    public VerticalBox optionsBox;
 
     public ContextMenu(AbstractPosition xPos, AbstractPosition yPos) {
         super(Tex.stat(UICommonResources.button02_square), xPos, yPos, Dim.px(300), Dim.auto());
@@ -23,8 +23,8 @@ public class ContextMenu extends Renderable{
         paddedBox.setPaddingTop(Padd.px(-10));
         paddedBox.setPaddingBottom(Padd.px(10));
         {
-            options = new VerticalBox(Dim.fill(), Dim.auto());
-            paddedBox.addChildNCS(options);
+            optionsBox = new VerticalBox(Dim.fill(), Dim.auto());
+            paddedBox.addChildNCS(optionsBox);
         }
         addChildNCS(paddedBox);
 
@@ -33,7 +33,7 @@ public class ContextMenu extends Renderable{
     }
 
     public void addOption(ContextMenuOption option){
-        options.addItem((UIElement) option);
+        optionsBox.addItem((UIElement) option);
     }
 
     private static interface ContextMenuOption{

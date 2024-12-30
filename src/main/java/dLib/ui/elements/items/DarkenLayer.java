@@ -20,9 +20,4 @@ public class DarkenLayer extends Image {
 
         setPassthrough(false);
     }
-
-    @Override
-    public boolean isPassthrough() {
-        return super.isPassthrough();
-    }
 }

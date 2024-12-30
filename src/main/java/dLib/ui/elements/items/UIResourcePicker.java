@@ -14,6 +14,7 @@ import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.textureresource.ITextureResource;
+import dLib.util.events.Event;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -24,14 +25,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class UIResourcePicker extends UIElement {
-    private BiConsumer<Class<?>, String> onResourceSelected;
+    public Event<BiConsumer<Class<?>, String>> onResourceSelectedEvent = new Event<>();
 
-    public UIResourcePicker(BiConsumer<Class<?>, String> onResourceSelected) {
+    public UIResourcePicker() {
         super(Dim.fill(), Dim.fill());
 
-        this.onResourceSelected = onResourceSelected;
         setModal(true);
         setDrawFocusOnOpen(true);
 
@@ -130,7 +131,7 @@ public class UIResourcePicker extends UIElement {
                 button.setRenderColor(darkTransparent);
                 button.onLeftClickEvent.subscribe(this, () -> {
                     UIResourcePicker parent = getParentOfType(UIResourcePicker.class);
-                    parent.onResourceSelected.accept(clazz, field.getName());
+                    parent.onResourceSelectedEvent.invoke(classStringBiConsumer -> classStringBiConsumer.accept(clazz, field.getName()));
                     parent.close();
                 });
                 addChildNCS(button);

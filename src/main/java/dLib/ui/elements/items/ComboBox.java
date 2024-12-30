@@ -31,12 +31,13 @@ public class ComboBox<OptionType> extends TextButton {
             int buttonX = getWorldPositionX();
             int buttonY = getWorldPositionY();
 
-            SimpleListPicker<OptionType> picker = new SimpleListPicker<OptionType>(buttonX, buttonY, options, this::setSelectedItem) {
+            SimpleListPicker<OptionType> picker = new SimpleListPicker<OptionType>(buttonX, buttonY, options) {
                 @Override
                 public String itemToString(OptionType item) {
                     return ComboBox.this.itemToStringLong(item);
                 }
             };
+            picker.onOptionSelectedEvent.subscribeManaged(this::setSelectedItem);
             picker.open();
         });
         setImage(Tex.stat(UICommonResources.button02_horizontal));

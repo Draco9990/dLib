@@ -28,9 +28,6 @@ public class Interactable extends Renderable{
     private String onTriggerSoundKey = "UI_CLICK_1";
     private String onHoldSoundKey;
 
-    //Temps
-
-
     //endregion
 
     //region Constructors
@@ -150,30 +147,26 @@ public class Interactable extends Renderable{
         this.hoveredTexture = hoveredTexture;
     }
 
-    public Interactable setHoveredColor(Color hoveredColor){
+    public void setHoveredColor(Color hoveredColor){
         this.hoveredColor = hoveredColor;
-        return this;
     }
     public Color getHoveredColor(){
         return hoveredColor;
     }
 
-    public Interactable setHoveredColorMultiplier(float hoveredColorMultiplier){
+    public void setHoveredColorMultiplier(float hoveredColorMultiplier){
         this.hoveredColorMultiplier = hoveredColorMultiplier;
         if(this.hoveredColorMultiplier > 1.0f) this.hoveredColorMultiplier = 1.0f;
-        return this;
     }
     public Float getHoveredColorMultiplier(){
         return hoveredColorMultiplier;
     }
 
-    public Interactable setOnHoverSoundKey(String key){
+    public void setOnHoverSoundKey(String key){
         onHoverSoundKey = key;
-        return this;
     }
-    public Interactable removeOnHoverSoundKey(){
+    public void removeOnHoverSoundKey(){
         onHoverSoundKey = null;
-        return this;
     }
 
     //endregion
@@ -185,18 +178,16 @@ public class Interactable extends Renderable{
         this.disabledTexture = disabledTexture;
     }
 
-    public Interactable setDisabledColor(Color disabledColor){
+    public void setDisabledColor(Color disabledColor){
         this.disabledColor = disabledColor;
-        return this;
     }
     public Color getDisabledColor(){
         return disabledColor;
     }
 
-    public Interactable setDisabledColorMultiplier(float disabledColorMultiplier){
+    public void setDisabledColorMultiplier(float disabledColorMultiplier){
         this.disabledColorMultiplier = disabledColorMultiplier;
         if(this.disabledColorMultiplier > 1.0f) this.disabledColorMultiplier = 1.0f;
-        return this;
     }
     public Float getDisabledColorMultiplier(){
         return disabledColorMultiplier;
