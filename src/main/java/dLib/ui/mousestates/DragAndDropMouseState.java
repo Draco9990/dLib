@@ -5,12 +5,14 @@ import dLib.mousestates.AbstractMouseState;
 import dLib.ui.elements.UIElement;
 
 public class DragAndDropMouseState<PayloadType> extends AbstractMouseState {
+    private Object source;
     private PayloadType payload;
     private String payloadZoneId;
 
-    public DragAndDropMouseState(PayloadType payload, String payloadZoneId) {
+    public DragAndDropMouseState(PayloadType payload, Object source, String payloadZoneId) {
         super("dragAndDrop");
 
+        this.source = source;
         this.payload = payload;
         this.payloadZoneId = payloadZoneId;
     }
@@ -23,6 +25,10 @@ public class DragAndDropMouseState<PayloadType> extends AbstractMouseState {
             //* Actual drop logic is in UIDropZoneComponent
             exitMouseState();
         }
+    }
+
+    public Object getSource() {
+        return source;
     }
 
     public PayloadType getPayload() {

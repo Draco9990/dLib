@@ -43,7 +43,7 @@ public class UIPayloadComponent<PayloadType> extends UIElementComponent<UIElemen
                     return;
                 }
 
-                DragAndDropMouseState<PayloadType> dragAndDropState = new DragAndDropMouseState<>(payload, dropZoneId);
+                DragAndDropMouseState<PayloadType> dragAndDropState = new DragAndDropMouseState<>(payload, owner, dropZoneId);
                 MouseStateManager.get().enterMouseState(dragAndDropState);
                 payloading = true;
             }

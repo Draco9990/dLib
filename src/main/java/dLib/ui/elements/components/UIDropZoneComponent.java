@@ -15,6 +15,7 @@ import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.ui.dimensions.Dim;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIElement> {
@@ -44,7 +45,7 @@ public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIEl
             }
 
             DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) currentState;
-            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId)){
+            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId) && !Objects.equals(dragAndDropState.getSource(), owner)){
                 hoveringWithPayload = true;
 
                 payloadOverlay = new ImageTextBox("Drop here!", Dim.fill(), Dim.fill());
@@ -69,7 +70,7 @@ public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIEl
             }
 
             DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) postEnterMouseStateEvent.mouseState;
-            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId)){
+            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId) && !Objects.equals(dragAndDropState.getSource(), owner)){
                 dropZoneOverlay = new Image(Tex.stat(UICommonResources.dropZoneOptionBg), Dim.fill(), Dim.fill());
                 dropZoneOverlay.setPassthrough(true);
                 owner.addChildNCS(dropZoneOverlay);
@@ -82,7 +83,7 @@ public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIEl
             }
 
             DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) preExitMouseStateEvent.mouseState;
-            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId)){
+            if(dragAndDropState.getPayloadZoneId().equals(dropZoneId) && !Objects.equals(dragAndDropState.getSource(), owner)){
                 if(dropZoneOverlay != null){
                     dropZoneOverlay.dispose();
                     dropZoneOverlay = null;

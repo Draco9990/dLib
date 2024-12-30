@@ -1,4 +1,3 @@
---> prevent dropping payload on itself
 --> persist local position of the element after dropping
 --> duplicating element duplicate all children too
 --> add on hierarchy changed event, subscribe in hierarchy viewer

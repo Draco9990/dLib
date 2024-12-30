@@ -24,7 +24,7 @@ public class TestScreen extends UIElement {
         payloadStart.onLeftClickEvent.subscribe(payloadStart, new Runnable() {
             @Override
             public void run() {
-                DragAndDropMouseState<String> state = new DragAndDropMouseState<>("payload", "dropZone");
+                DragAndDropMouseState<String> state = new DragAndDropMouseState<>("payload", payloadStart, "dropZone");
                 MouseStateManager.get().enterMouseState(state);
             }
         });
