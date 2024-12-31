@@ -83,7 +83,7 @@ public class TextBox extends UIElement {
         this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
         this.contentAlignment = data.contentAlignment.getValue();
 
-        this.obscureText = data.obscureInput.getValue();
+        this.obscureText = data.obscureText.getValue();
 
         this.wrap = data.wrap.getValue();
 
@@ -407,8 +407,8 @@ public class TextBox extends UIElement {
                 .setDescription("Alignment of the text inside of the text box.")
                 .setCategory("Text");
 
-        public BooleanProperty obscureInput = new BooleanProperty(false)
-                .setName("Obscure Input")
+        public BooleanProperty obscureText = new BooleanProperty(false)
+                .setName("Obscure Text")
                 .setDescription("Whether or not the text should be obscured (replaced with *).")
                 .setCategory("Text");
 
