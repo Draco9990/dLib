@@ -25,7 +25,7 @@ import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValu
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.animations.exit.UIExitAnimation;
-import dLib.ui.bindings.RelativeUIElementBinding;
+import dLib.ui.bindings.UIElementPathBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
@@ -2255,7 +2255,7 @@ public class UIElement implements Disposable, IEditableValue {
 
     @Override
     public AbstractValueEditor makeEditorFor() {
-        return new UCRelativeUIElementBindingValueEditor(new RelativeUIElementBinding(this));
+        return new UCRelativeUIElementBindingValueEditor(new UIElementPathBinding(this));
     }
 
     @Override
