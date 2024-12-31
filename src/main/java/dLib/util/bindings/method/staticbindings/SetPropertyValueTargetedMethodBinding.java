@@ -34,7 +34,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
                 boundProperty.setValue(new PropertyElementPathUndefinedBinding());
             }
             else{
-                boundProperty.setValue(new PropertyElementPathBinding(newValue.getBoundObject().getElementPath(), "none"));
+                boundProperty.setValue(new PropertyElementPathBinding(newValue, "none"));
             }
         });
     }

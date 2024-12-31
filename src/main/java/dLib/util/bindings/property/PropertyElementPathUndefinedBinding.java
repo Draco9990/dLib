@@ -3,6 +3,7 @@ package dLib.util.bindings.property;
 import dLib.properties.objects.Property;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.ui.bindings.UIElementUndefinedPathBinding;
 import dLib.ui.elements.UIElement;
 import dLib.util.Reflection;
 import dLib.util.bindings.property.editors.PropertyElementPathBindingValueEditor;
@@ -13,7 +14,7 @@ public class PropertyElementPathUndefinedBinding extends PropertyElementPathBind
     private static final long serialVersionUID = 1L;
 
     public PropertyElementPathUndefinedBinding(){
-        super("", "none");
+        super(new UIElementUndefinedPathBinding(), "none");
     }
 
     @Override

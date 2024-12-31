@@ -9,7 +9,7 @@ import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
 
-public class UIElementPathBinding extends UIElementBinding implements Serializable {
+public class UIElementPathBinding extends AbstractUIElementBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private StringProperty objectRelativePath = new StringProperty("");

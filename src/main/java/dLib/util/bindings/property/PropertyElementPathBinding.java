@@ -1,17 +1,12 @@
 package dLib.util.bindings.property;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.properties.objects.Property;
-import dLib.properties.objects.TextureBindingProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.elements.UIElement;
 import dLib.util.Reflection;
 import dLib.util.bindings.property.editors.PropertyElementPathBindingValueEditor;
-import dLib.util.bindings.texture.editors.TextureResourceBindingValueEditor;
-import dLib.util.bindings.texture.textureresource.ITextureSource;
 
 import java.io.Serializable;
 
@@ -24,25 +19,24 @@ public class PropertyElementPathBinding extends AbstractPropertyBinding implemen
 
     //region Variables
 
-    private final String elementPath;
+    private final AbstractUIElementBinding elementBinding;
     private final String propertyName;
 
     //endregion Variables
 
-    public PropertyElementPathBinding(String elementPath, String propertyName){
-        this.elementPath = elementPath;
+    public PropertyElementPathBinding(AbstractUIElementBinding elementBinding, String propertyName){
+        this.elementBinding = elementBinding;
         this.propertyName = propertyName;
     }
 
     @Override
     public TProperty getBoundObject(Object... params) {
-        UIElement owner = (UIElement) params[0];
-        return Reflection.getFieldValue(propertyName, owner.findChildFromPath(elementPath));
+        return Reflection.getFieldValue(propertyName, elementBinding.getBoundObject(params[0]));
     }
 
     @Override
     public String getDisplayValue() {
-        return elementPath + "/" + propertyName;
+        return elementBinding.getDisplayValue() + "/" + propertyName;
     }
 
     @Override
