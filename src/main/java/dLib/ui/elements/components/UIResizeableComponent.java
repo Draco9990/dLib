@@ -39,6 +39,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             owner.offset(offsetX, offsetY);
             owner.resizeBy(-offsetX, -offsetY);
         });
+        cornerResizeNodes[0].addComponent(new UITemporaryElementComponent());
 
         //Bottom right
         cornerResizeNodes[1] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
@@ -55,6 +56,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             owner.offset(0, offsetY);
             owner.resizeBy(offsetX, -offsetY);
         });
+        cornerResizeNodes[0].addComponent(new UITemporaryElementComponent());
 
         //Top left
         cornerResizeNodes[2] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
@@ -71,6 +73,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             owner.offset(offsetX, 0);
             owner.resizeBy(-offsetX, offsetY);
         });
+        cornerResizeNodes[0].addComponent(new UITemporaryElementComponent());
 
         //Top right
         cornerResizeNodes[3] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.TOP);
@@ -86,6 +89,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             int offsetY = worldCy - elementWorldY;
             owner.resizeBy(offsetX, offsetY);
         });
+        cornerResizeNodes[0].addComponent(new UITemporaryElementComponent());
     }
 
     @Override

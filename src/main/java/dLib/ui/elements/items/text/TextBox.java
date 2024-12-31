@@ -29,15 +29,15 @@ public class TextBox extends UIElement {
 
     private String text;
 
+    private float fontScale = 0.8f;
+
     private Color textRenderColor;
     private BitmapFont font;
     private boolean wrap;
 
-    private String onTextChangedLine;
+    private String onTextChangedLine; //TODO expose
 
     public Event<Consumer<String>> onTextChangedEvent = new Event<>();
-
-    private float fontScale = 0.8f;
 
     private boolean obscureText = false;
 
@@ -75,15 +75,18 @@ public class TextBox extends UIElement {
 
         this.text = data.text.getValue();
 
-        this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
+        this.fontScale = data.fontScale.getValue();
         //TODO FONT
+
+        this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
+
+        this.obscureText = data.obscureInput.getValue();
+
         this.wrap = data.wrap.getValue();
 
         onTextChangedEvent.subscribeManaged(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
 
         setFont(FontManager.genericFont);
-
-        this.obscureText = data.obscureInput;
     }
 
     //endregion
@@ -377,17 +380,46 @@ public class TextBox extends UIElement {
     public static class TextBoxData extends UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public StringProperty text = new StringProperty("TEXT").setName("Text");
+        public StringProperty text = new StringProperty("TEXT")
+                .setName("Text")
+                .setDescription("The text to display in the text box.")
+                .setCategory("Text");
 
-        public ColorProperty textRenderColor = new ColorProperty(Color.WHITE).setName("Render Color");
+        private FloatProperty fontScale = new FloatProperty(0.8f)
+                .setName("Font Scale")
+                .setDescription("The scale of the font.")
+                .setCategory("Text")
+                .setDecrementAmount(0.1f).setIncrementAmount(0.1f)
+                .setMinimumValue(0.01f);
         //TODO FONT
-        public BooleanProperty wrap = new BooleanProperty(false).setName("Wrap");
 
-        public MethodBindingProperty onTextChanged = new MethodBindingProperty().setName("On Text Changed");
+        public ColorProperty textRenderColor = new ColorProperty(Color.WHITE)
+                .setName("Text Color")
+                .setDescription("Color of the text.")
+                .setCategory("Text");
 
-        public float fontScaleOverride = 0.0f;
+        public BooleanProperty obscureInput = new BooleanProperty(false)
+                .setName("Obscure Input")
+                .setDescription("Whether or not the text should be obscured (replaced with *).")
+                .setCategory("Text");
 
-        public boolean obscureInput = false;
+        public BooleanProperty wrap = new BooleanProperty(false)
+                .setName("Wrap")
+                .setDescription("Whether or not the text should wrap to the next line if it is too long.")
+                .setCategory("Text");
+
+        public MethodBindingProperty onTextChanged = new MethodBindingProperty()
+                .setName("On Text Changed")
+                .setDescription("Method to call when the text in the text box changes.")
+                .setCategory("Text");
+
+        public TextBoxData(){
+            super();
+            width.setValue(Dim.px(300));
+            height.setValue(Dim.px(150));
+
+            isPassthrough.setValue(true);
+        }
 
         @Override
         public TextBox makeUIElement() {

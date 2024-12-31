@@ -8,6 +8,7 @@ public class UCEITemplateManager {
     public static void initialize(){
         //TODO expose
         templates.add(new UCEITImage());
+        templates.add(new UCEITTextBox());
     }
 
     public static ArrayList<UCEITemplate> getTemplates(){

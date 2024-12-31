@@ -84,6 +84,7 @@ public class PropertyEditor extends UIElement {
             }
         }
 
+        categories.clear();
         for(String category : propertiesByCategory.keySet()){
             if(!categories.containsKey(category)){
                 categories.put(category, makePropertyGroup(category));
@@ -152,8 +153,8 @@ public class PropertyEditor extends UIElement {
 
             BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).loadProperties());
 
-            propertyList.onItemAddedEvent.subscribeManaged(property -> valueChangedEventId = property.onValueChangedEvent.subscribeManaged(updateProperties));
-            propertyList.onItemRemovedEvent.subscribeManaged(property -> property.onValueChangedEvent.unsubscribeManaged(valueChangedEventId));
+            propertyList.onItemAddedEvent.subscribe(this, property -> valueChangedEventId = property.onValueChangedEvent.subscribeManaged(updateProperties));
+            propertyList.onItemRemovedEvent.subscribe(this, property -> property.onValueChangedEvent.unsubscribeManaged(valueChangedEventId));
             addItem(propertyList);
         }
 

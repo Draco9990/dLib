@@ -80,17 +80,11 @@ public class Reflection {
         ArrayList<Field> classFields = getFieldsByClass(fieldClass, (source instanceof Class<?> ? (Class<?>) source : source.getClass()));
 
         ArrayList<T> fieldValues = new ArrayList<>();
-        try{
-            for(Field field : classFields){
-                if(source instanceof Class<?> && Modifier.isStatic(field.getModifiers())){
-                    continue;
-                }
-                fieldValues.add((T) field.get(source));
+        for(Field field : classFields){
+            if(source instanceof Class<?> && Modifier.isStatic(field.getModifiers())){
+                continue;
             }
-        }catch (IllegalAccessException e) {
-            DLib.logError("Could not get field value due to " + e.getLocalizedMessage());
-            e.printStackTrace();
-            return new ArrayList<>();
+            fieldValues.add(getFieldValue(field, source));
         }
 
         return fieldValues;

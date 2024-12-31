@@ -45,8 +45,8 @@ public class UCEPropertyEditor extends PropertyEditor {
                 mainEditor.itemTree.refreshItem(editor.currentObject);
             };
 
-            propertyList.onItemAddedEvent.subscribeManaged(tProperty -> onValueChangedEventID = tProperty.onValueChangedEvent.subscribeManaged(refreshElement));
-            propertyList.onItemRemovedEvent.subscribeManaged(tProperty -> tProperty.onValueChangedEvent.unsubscribeManaged(onValueChangedEventID));
+            propertyList.onItemAddedEvent.subscribe(this, tProperty -> onValueChangedEventID = tProperty.onValueChangedEvent.subscribe(this, refreshElement));
+            propertyList.onItemRemovedEvent.subscribe(this, tProperty -> tProperty.onValueChangedEvent.unsubscribeManaged(onValueChangedEventID));
         }
     }
 }
