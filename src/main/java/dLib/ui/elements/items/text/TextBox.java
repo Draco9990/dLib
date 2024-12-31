@@ -11,6 +11,7 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.util.FontManager;
+import dLib.util.bindings.font.fontresource.FontResourceBinding;
 import dLib.util.events.Event;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -76,7 +77,7 @@ public class TextBox extends UIElement {
         this.text = data.text.getValue();
 
         this.fontScale = data.fontScale.getValue();
-        //TODO FONT
+        setFont(data.font.getValue().getBoundObject());
 
         this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
         this.contentAlignment = data.contentAlignment.getValue();
@@ -86,8 +87,6 @@ public class TextBox extends UIElement {
         this.wrap = data.wrap.getValue();
 
         onTextChangedEvent.subscribeManaged(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
-
-        setFont(FontHelper.cardTitleFont);
     }
 
     //endregion
@@ -392,7 +391,10 @@ public class TextBox extends UIElement {
                 .setCategory("Text")
                 .setDecrementAmount(0.1f).setIncrementAmount(0.1f)
                 .setMinimumValue(0.01f);
-        //TODO FONT
+        private FontBindingProperty font = new FontBindingProperty(new FontResourceBinding(FontHelper.class, "cardTitleFont"))
+                .setName("Font")
+                .setDescription("The font to use for the text.")
+                .setCategory("Text");
 
         public ColorProperty textRenderColor = new ColorProperty(Color.WHITE)
                 .setName("Text Color")
