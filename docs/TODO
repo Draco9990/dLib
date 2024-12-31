@@ -2,8 +2,6 @@
 --> slider scroll by content size, lesser percentage if alot of content
 --> texture scaling types
 
---. sliders for color broken
-
 --> persist local position of the element after dropping
 --> duplicating element duplicate all children too
 

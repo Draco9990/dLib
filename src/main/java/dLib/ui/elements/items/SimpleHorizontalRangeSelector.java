@@ -44,9 +44,9 @@ public class SimpleHorizontalRangeSelector extends Renderable{
 
         onLeftClickEvent.subscribe(this, () -> {
             int mouseWorldX = (int) (InputHelper.mX / Settings.xScale);
-            int mouseLocalX = slider.worldToLocal(new IntegerVector2(mouseWorldX, 0)).x;
+            int mouseLocalX = worldToLocal(new IntegerVector2(mouseWorldX, 0)).x;
 
-            float percentage = (float) (mouseLocalX - getLocalPositionX()) / getWidth();
+            float percentage = (float) mouseLocalX / getWidth();
             float finalPercentage = Math.max(0, Math.min(1, percentage));
             onPercentageChangedEvent.invoke(floatConsumer -> floatConsumer.accept(finalPercentage));
 
