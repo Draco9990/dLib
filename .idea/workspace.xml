@@ -8,26 +8,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/AbstractFontBinding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/FontBindingProperty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/editors/FontResourceBindingValueEditor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/fontresource/FontResourceBinding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/fontresource/IFontResource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/MethodBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/MethodBindingProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/TextureBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/TextureBindingProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TMethodBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TMethodBindingProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TTextureBindingProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/templates/TTextureBindingProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Image.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/SimpleHorizontalRangeSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/SimpleHorizontalRangeSelector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Toggle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Toggle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/DynamicMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/DynamicMethodBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/MethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/AbstractMethodBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/editors/MethodBindingValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/editors/MethodBindingValueEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/staticbindings/StaticMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/staticbindings/StaticMethodBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/AbstractTextureBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureNoneBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureNoneBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureResourceBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureResourceBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureStaticBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureStaticBinding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/editors/TextureBindingValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/editors/TextureBindingValueEditor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,11 +109,11 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.properties.objects" />
+      <recent name="dLib.util.bindings.font.editors" />
+      <recent name="dLib.util.bindings.font.fontresource" />
       <recent name="dLib.tools.uicreator.ui.editoritems.templates" />
       <recent name="dLib.ui.elements.components" />
-      <recent name="dLib.ui.mousestates.events" />
-      <recent name="dLib.util.events" />
-      <recent name="dLib.util.bindings.texture.editors" />
     </key>
   </component>
   <component name="RunAnythingCache">
