@@ -1,12 +1,12 @@
 package dLib.util.bindings.method.staticbindings;
 
-import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.Property;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.bindings.RelativeUIElementBinding;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.property.AbstractPropertyBinding;
 import dLib.util.bindings.property.PropertyElementPathBinding;
+import dLib.util.bindings.property.PropertyElementPathUndefinedBinding;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
     private UCUIElementBindingProperty target = new UCUIElementBindingProperty(new RelativeUIElementBinding())
             .setName("Target");
 
-    private Property<AbstractPropertyBinding> instant = new Property<AbstractPropertyBinding>(new PropertyElementPathBinding("none", "none"))
+    private Property<AbstractPropertyBinding> boundProperty = new Property<AbstractPropertyBinding>(new PropertyElementPathUndefinedBinding())
             .setName("Property")
             .addIsPropertyVisibleFunction((_property) -> target.getValue().isBindingValid());
 
@@ -27,16 +27,21 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
         super();
 
         addDeclaredParam(target);
-        addDeclaredParam(instant);
+        addDeclaredParam(boundProperty);
 
         target.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
-            instant.setValue(new PropertyElementPathBinding(newValue.getBoundObject().getRelativePath(), "none"));
+            if(newValue.getBoundObject() == null){
+                boundProperty.setValue(new PropertyElementPathUndefinedBinding());
+            }
+            else{
+                boundProperty.setValue(new PropertyElementPathBinding(newValue.getBoundObject().getRelativePath(), "none"));
+            }
         });
     }
 
     @Override
     public Object executeBinding(Object invoker, Object... args) {
-        instant.getValue().getBoundObject(((UIElement) target.getValue().getBoundObject())).setValue(args[0]);
+        boundProperty.getValue().getBoundObject(((UIElement) target.getValue().getBoundObject())).setValue(args[0]);
         return null;
     }
 

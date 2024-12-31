@@ -23,7 +23,7 @@ public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<A
     public PropertyElementPathBindingValueEditor(Property<AbstractPropertyBinding> property) {
         super(property);
 
-        valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
+        valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.px(50));
         valueBox.setImage(Tex.stat(UICommonResources.button02_horizontal));
         valueBox.onLeftClickEvent.subscribe(this, () -> {
         });

@@ -8,11 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/AbstractPropertyBinding.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/PropertyElementPathBinding.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/editors/PropertyElementPathBindingValueEditor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/PropertyElementPathUndefinedBinding.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/Property.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/staticbindings/SetPropertyValueTargetedMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/staticbindings/SetPropertyValueTargetedMethodBinding.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -110,9 +107,9 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.util.bindings.property" />
       <recent name="dLib.properties.objects" />
       <recent name="dLib.util.bindings.property.editors" />
-      <recent name="dLib.util.bindings.property" />
       <recent name="dLib.util.bindings.method.staticbindings" />
       <recent name="dLib.util.bindings.font" />
     </key>
@@ -294,7 +291,7 @@
       <workItem from="1734701515210" duration="46472000" />
       <workItem from="1735134341460" duration="298000" />
       <workItem from="1735134649194" duration="3949000" />
-      <workItem from="1735648128442" duration="5316000" />
+      <workItem from="1735648128442" duration="5524000" />
     </task>
     <servers />
   </component>
