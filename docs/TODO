@@ -1,3 +1,7 @@
+-- no upsize depends on current scale
+--> cannot delete elements
+--. sliders for color broken
+
 --> persist local position of the element after dropping
 --> duplicating element duplicate all children too
 

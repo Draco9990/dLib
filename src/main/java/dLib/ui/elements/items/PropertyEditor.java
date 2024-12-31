@@ -84,12 +84,17 @@ public class PropertyEditor extends UIElement {
             }
         }
 
-        categories.clear();
         for(String category : propertiesByCategory.keySet()){
             if(!categories.containsKey(category)){
                 categories.put(category, makePropertyGroup(category));
             }
             categories.get(category).propertyList.updateItems(propertiesByCategory.get(category));
+        }
+        for(String category : new ArrayList<>(categories.keySet())){
+            if(!propertiesByCategory.containsKey(category)){
+                categories.get(category).dispose();
+                categories.remove(category);
+            }
         }
 
         propertyList.updateItems(new ArrayList<>(categories.values()));

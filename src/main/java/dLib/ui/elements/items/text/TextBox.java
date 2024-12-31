@@ -35,13 +35,13 @@ public class TextBox extends UIElement {
     private BitmapFont font;
     private boolean wrap;
 
-    private String onTextChangedLine; //TODO expose
-
-    public Event<Consumer<String>> onTextChangedEvent = new Event<>();
-
     private boolean obscureText = false;
 
     private Alignment contentAlignment = new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER);
+
+    private String onTextChangedLine; //TODO expose
+
+    public Event<Consumer<String>> onTextChangedEvent = new Event<>();
 
     //endregion
 
@@ -79,6 +79,7 @@ public class TextBox extends UIElement {
         //TODO FONT
 
         this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
+        this.contentAlignment = data.contentAlignment.getValue();
 
         this.obscureText = data.obscureInput.getValue();
 
@@ -86,7 +87,7 @@ public class TextBox extends UIElement {
 
         onTextChangedEvent.subscribeManaged(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
 
-        setFont(FontManager.genericFont);
+        setFont(FontHelper.cardTitleFont);
     }
 
     //endregion
@@ -396,6 +397,11 @@ public class TextBox extends UIElement {
         public ColorProperty textRenderColor = new ColorProperty(Color.WHITE)
                 .setName("Text Color")
                 .setDescription("Color of the text.")
+                .setCategory("Text");
+
+        public AlignmentProperty contentAlignment = new AlignmentProperty(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER))
+                .setName("Content Alignment")
+                .setDescription("Alignment of the text inside of the text box.")
                 .setCategory("Text");
 
         public BooleanProperty obscureInput = new BooleanProperty(false)
