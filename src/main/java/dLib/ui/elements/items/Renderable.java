@@ -1,9 +1,6 @@
 package dLib.ui.elements.items;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -187,17 +184,7 @@ public class Renderable extends UIElement {
             renderPosX += renderOffset.x;
             renderPosY += renderOffset.y;
 
-            textureToRender.getTexture().bind();
-            Texture origTexture = textureToRender.getTexture();
-
-            Texture.TextureFilter oldMinFilterCache = origTexture.getMinFilter();
-            Texture.TextureFilter oldMagFilterCache = origTexture.getMagFilter();
-
-            origTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
             sb.draw(textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
-
-            origTexture.setFilter(oldMinFilterCache, oldMagFilterCache);
 
             sb.flush();  //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
         }
