@@ -1,4 +1,4 @@
-package dLib.util.bindings.font.fontresource;
+package dLib.util.bindings.font;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.megacrit.cardcrawl.helpers.FontHelper;
@@ -6,8 +6,8 @@ import dLib.properties.objects.FontBindingProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.util.Reflection;
-import dLib.util.bindings.font.AbstractFontBinding;
 import dLib.util.bindings.font.editors.FontResourceBindingValueEditor;
+import dLib.util.bindings.font.fontresource.IFontSource;
 
 import java.io.Serializable;
 

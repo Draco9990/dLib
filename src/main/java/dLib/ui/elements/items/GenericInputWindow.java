@@ -9,6 +9,7 @@ import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.input.PasswordBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.elements.items.text.TextButton;
+import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.Dim;
@@ -59,7 +60,7 @@ public class GenericInputWindow extends UIElement {
             setExitAnimation(new UIAnimation_SlideOutDown(this));
 
             TextBox titleBox =new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49));
-            titleBox.setFont(FontHelper.buttonLabelFont);
+            titleBox.setFont(Font.stat(FontHelper.buttonLabelFont));
             titleBox.setTextRenderColor(Color.GOLD);
             addChildNCS(titleBox);
 
@@ -95,7 +96,7 @@ public class GenericInputWindow extends UIElement {
             }
             else{
                 inputBox = new Inputfield("", Pos.px(24), Pos.px(155), Dim.px(658), Dim.px(61));
-                inputBox.textBox.setFont(FontHelper.buttonLabelFont);
+                inputBox.textBox.setFont(Font.stat(FontHelper.buttonLabelFont));
                 inputBox.textBox.setFontScale(0.8f);
                 addChildCS(inputBox);
             }

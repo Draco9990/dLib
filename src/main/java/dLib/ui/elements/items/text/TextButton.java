@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Button;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -31,7 +32,7 @@ public class TextButton extends Button {
         setImage(Tex.stat(UICommonResources.button01_horizontal));
 
         label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-        label.setFont(FontHelper.buttonLabelFont);
+        label.setFont(Font.stat(FontHelper.buttonLabelFont));
         label.setFontScale(0.65f);
         label.setPadding(Padd.px(10));
         addChildNCS(label);

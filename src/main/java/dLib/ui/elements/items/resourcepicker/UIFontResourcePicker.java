@@ -2,11 +2,11 @@ package dLib.ui.elements.items.resourcepicker;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.Reflection;
-import dLib.util.bindings.font.fontresource.FontResourceBinding;
+import dLib.util.bindings.font.Font;
+import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.bindings.font.fontresource.IFontSource;
 import dLib.util.ui.dimensions.Dim;
 
@@ -41,7 +41,7 @@ public class UIFontResourcePicker extends UIResourcePicker{
         @Override
         public UIElement makeResourcePickerWindowResourcePreview(Class<?> clazz, Field field) {
             TextBox textBox = new TextBox("aA", Dim.fill(), Dim.fill());
-            textBox.setFont(new FontResourceBinding(clazz, field.getName()).getBoundObject());
+            textBox.setFont(Font.resource(clazz, field.getName()));
 
             return textBox;
         }

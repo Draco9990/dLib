@@ -11,7 +11,9 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.util.FontManager;
-import dLib.util.bindings.font.fontresource.FontResourceBinding;
+import dLib.util.bindings.font.AbstractFontBinding;
+import dLib.util.bindings.font.Font;
+import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.events.Event;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -21,7 +23,6 @@ import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -33,7 +34,7 @@ public class TextBox extends UIElement {
     private float fontScale = 0.8f;
 
     private Color textRenderColor;
-    private BitmapFont font;
+    private AbstractFontBinding font;
     private boolean wrap;
 
     private boolean obscureText = false;
@@ -64,7 +65,7 @@ public class TextBox extends UIElement {
 
         this.text = text;
 
-        setFont(FontHelper.cardTitleFont);
+        this.font = Font.stat(FontHelper.cardTitleFont);
 
         textRenderColor = Color.WHITE.cpy();
 
@@ -77,7 +78,7 @@ public class TextBox extends UIElement {
         this.text = data.text.getValue();
 
         this.fontScale = data.fontScale.getValue();
-        setFont(data.font.getValue().getBoundObject());
+        this.font = data.font.getValue();
 
         this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
         this.contentAlignment = data.contentAlignment.getValue();
@@ -269,7 +270,7 @@ public class TextBox extends UIElement {
             return FontManager.nonASCIIFont;
         }
         else{
-            return font;
+            return font.getBoundObject();
         }
     }
 
@@ -301,7 +302,7 @@ public class TextBox extends UIElement {
 
     //region Text Font
 
-    public void setFont(BitmapFont font){
+    public void setFont(AbstractFontBinding font){
         this.font = font;
     }
 

@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -21,7 +22,7 @@ public class PasswordBox extends UIElement {
         HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
             inputfield = new Inputfield("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-            inputfield.textBox.setFont(FontHelper.cardTitleFont);
+            inputfield.textBox.setFont(Font.stat(FontHelper.cardTitleFont));
             inputfield.textBox.setFontScale(0.8f);
             inputfield.textBox.setTextRenderColor(Color.WHITE);
             inputfield.textBox.setObscureText(true);

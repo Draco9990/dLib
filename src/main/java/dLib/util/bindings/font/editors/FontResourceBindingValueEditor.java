@@ -6,7 +6,7 @@ import dLib.ui.elements.items.resourcepicker.UIFontResourcePicker;
 import dLib.ui.elements.items.resourcepicker.UIResourcePicker;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.bindings.font.fontresource.FontResourceBinding;
+import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 

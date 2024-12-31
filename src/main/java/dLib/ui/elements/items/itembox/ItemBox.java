@@ -13,6 +13,7 @@ import dLib.ui.resources.UICommonResources;
 
 
 import dLib.ui.util.ESelectionMode;
+import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -278,7 +279,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
     public UIElement makeUIForItem(ItemType item){
         ImageTextBox box = new ImageTextBox(itemToString(item), defaultItemWidth == null ? Dim.fill() : Dim.px(defaultItemWidth), defaultItemHeight == null ? Dim.fill() : Dim.px(defaultItemHeight));
-        box.textBox.setFont(FontHelper.buttonLabelFont);
+        box.textBox.setFont(Font.stat(FontHelper.buttonLabelFont));
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         return box;
     } //TODO expose with listeners

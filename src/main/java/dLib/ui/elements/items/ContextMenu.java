@@ -6,6 +6,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.Dim;
@@ -46,7 +47,7 @@ public class ContextMenu extends Renderable{
         public ContextMenuButtonOption(String text) {
             super(text, Dim.fill(), Dim.px(30));
 
-            label.setFont(FontHelper.buttonLabelFont);
+            label.setFont(Font.stat(FontHelper.buttonLabelFont));
             setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
             label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
 
