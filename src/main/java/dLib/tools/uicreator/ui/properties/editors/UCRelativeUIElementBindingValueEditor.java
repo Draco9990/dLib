@@ -5,6 +5,7 @@ import dLib.mousestates.MouseStateManager;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.bindings.RelativeUIElementBinding;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.ImageTextBox;
@@ -12,6 +13,8 @@ import dLib.ui.mousestates.ReferencePickerMouseState;
 import dLib.ui.screens.UIManager;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
+
+import java.util.function.Consumer;
 
 public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingValueEditor<RelativeUIElementBinding> {
     private ImageTextBox bindingBox;
@@ -33,10 +36,10 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
                     return;
                 }
 
-                ReferencePickerMouseState state = new ReferencePickerMouseState(editor.itemTree.rootElement, element -> {
-                    ((RelativeUIElementBinding)property.getValue()).getObjectRelativePathRaw().setValue(element.getRelativePath());
+                ReferencePickerMouseState state = new ReferencePickerMouseState(editor.itemTree.rootElement);
+                state.onReferencePickedEvent.subscribe(this, element -> {
+                    property.setValue(new RelativeUIElementBinding(element));
                 });
-
                 MouseStateManager.get().enterMouseState(state);
             });
             mainContentBox.addItem(referenceButton);

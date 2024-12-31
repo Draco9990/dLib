@@ -33,6 +33,11 @@ public class RelativeUIElementBinding extends UIElementBinding implements Serial
     }
 
     @Override
+    public boolean isBindingValid() {
+        return !getObjectRelativePath().isEmpty();
+    }
+
+    @Override
     public AbstractValueEditor makeEditorFor() {
         return new UCRelativeUIElementBindingValueEditor(this);
     }

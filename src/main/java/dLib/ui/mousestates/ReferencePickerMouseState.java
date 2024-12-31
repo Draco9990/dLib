@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.mousestates.AbstractMouseState;
 import dLib.ui.elements.UIElement;
+import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.ui.events.PreUIHoverEvent;
 import dLib.util.ui.events.PreUILeftClickEvent;
@@ -19,13 +20,13 @@ public class ReferencePickerMouseState extends AbstractMouseState {
     private HashMap<UIElement, UUID> renderEvents = new HashMap<>();
 
     private UIElement optionalRequiredParent;
-    private Consumer<UIElement> onReferencePicked;
 
-    public ReferencePickerMouseState(UIElement optionalRequiredParent, Consumer<UIElement> onReferencePicked) {
+    public Event<Consumer<UIElement>> onReferencePickedEvent = new Event<>();
+
+    public ReferencePickerMouseState(UIElement optionalRequiredParent) {
         super("ReferencePicker");
 
         this.optionalRequiredParent = optionalRequiredParent;
-        this.onReferencePicked = onReferencePicked;
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ReferencePickerMouseState extends AbstractMouseState {
                 return;
             }
 
-            onReferencePicked.accept(preUILeftClickEvent.source);
+            onReferencePickedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(preUILeftClickEvent.source));
             exitMouseState();
 
             for(UUID renderEventId : renderEvents.values()){

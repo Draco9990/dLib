@@ -8,4 +8,6 @@ import java.io.Serializable;
 
 public abstract class UIElementBinding extends ResourceBinding<UIElement> implements Serializable, IEditableValue {
     private static final long serialVersionUID = 1L;
+
+    public abstract boolean isBindingValid();
 }
