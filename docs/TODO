@@ -1,4 +1,6 @@
 -- do the scale with the scale factor instead of offseting by /0.8f or whatever
+--> slider scroll by content size, lesser percentage if alot of content
+--> texture scaling types
 
 --. sliders for color broken
 
