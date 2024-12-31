@@ -1,20 +1,13 @@
 package dLib.util.bindings.font.fontresource;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.properties.objects.FontBindingProperty;
-import dLib.properties.objects.TextureBindingProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.util.Reflection;
 import dLib.util.bindings.font.AbstractFontBinding;
 import dLib.util.bindings.font.editors.FontResourceBindingValueEditor;
-import dLib.util.bindings.texture.AbstractTextureBinding;
-import dLib.util.bindings.texture.editors.TextureResourceBindingValueEditor;
-import dLib.util.bindings.texture.textureresource.ITextureResource;
 
 import java.io.Serializable;
 
@@ -33,7 +26,7 @@ public class FontResourceBinding extends AbstractFontBinding implements Serializ
     //endregion Variables
 
     public FontResourceBinding(Class<?> resourceClass, String fieldName){
-        if(resourceClass.isAssignableFrom(IFontResource.class) && resourceClass != FontHelper.class){
+        if(resourceClass.isAssignableFrom(IFontSource.class) && resourceClass != FontHelper.class){
             throw new IllegalArgumentException("The resource class must implement IFontResource or be FontHelper.class");
         }
 

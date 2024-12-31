@@ -1,4 +1,4 @@
 package dLib.util.bindings.texture.textureresource;
 
-public interface ITextureResource {
+public interface ITextureSource {
 }

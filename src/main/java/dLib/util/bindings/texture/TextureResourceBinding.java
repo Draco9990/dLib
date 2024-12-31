@@ -8,7 +8,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.util.Reflection;
 import dLib.util.bindings.texture.editors.TextureResourceBindingValueEditor;
-import dLib.util.bindings.texture.textureresource.ITextureResource;
+import dLib.util.bindings.texture.textureresource.ITextureSource;
 
 import java.io.Serializable;
 
@@ -27,7 +27,7 @@ public class TextureResourceBinding extends AbstractTextureBinding implements Se
     //endregion Variables
 
     public TextureResourceBinding(Class<?> resourceClass, String fieldName){
-        if(resourceClass.isAssignableFrom(ITextureResource.class) && resourceClass != ImageMaster.class){
+        if(resourceClass.isAssignableFrom(ITextureSource.class) && resourceClass != ImageMaster.class){
             throw new IllegalArgumentException("The resource class must implement ITextureResource or be ImageMaster.class");
         }
 

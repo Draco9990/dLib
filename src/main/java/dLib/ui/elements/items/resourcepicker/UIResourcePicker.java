@@ -1,10 +1,10 @@
-package dLib.ui.elements.items;
+package dLib.ui.elements.items.resourcepicker;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.Renderable;
+import dLib.ui.elements.items.VerticalCollapsableBox;
 import dLib.ui.elements.items.itembox.GridBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
@@ -13,7 +13,6 @@ import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.bindings.texture.textureresource.ITextureResource;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -25,9 +24,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-public class UIResourcePicker extends UIElement {
+public abstract class UIResourcePicker extends UIElement {
     public Event<BiConsumer<Class<?>, String>> onResourceSelectedEvent = new Event<>();
 
     public UIResourcePicker() {
@@ -36,11 +34,16 @@ public class UIResourcePicker extends UIElement {
         setModal(true);
         setDrawFocusOnOpen(true);
 
-        addChildNCS(new ResourcePickerWindow());
+        addChildNCS(new ResourcePickerWindow(this));
     }
 
-    private static class ResourcePickerWindow extends Renderable {
-        public ResourcePickerWindow() {
+    public abstract ResourcePickerWindow.ResourcePickerWindowResource createResourcePickerWindowResource(Class<?> clazz, Field field);
+
+    public abstract ArrayList<Class<?>> getResourceTypes();
+    public abstract ArrayList<Class<?>> getClassesToIndex();
+
+    public static class ResourcePickerWindow extends Renderable {
+        public ResourcePickerWindow(UIResourcePicker resourcePicker) {
             super(Tex.stat(UICommonResources.background_big), Dim.fill(), Dim.fill());
 
             TextButton cancelButton = new TextButton("Cancel", Pos.px(126), Pos.px(1080-930), Dim.px(161), Dim.px(74));
@@ -57,38 +60,16 @@ public class UIResourcePicker extends UIElement {
                 VerticalBox mainBox = new VerticalBox(Dim.fill(), Dim.fill());
                 {
                     LinkedHashMap<Class<?>, ArrayList<Field>> resources = new LinkedHashMap<>();
-                    for(Field texture : Reflection.getFieldsByClass(Texture.class, ImageMaster.class)){
-                        if(Modifier.isStatic(texture.getModifiers())){
-                            if(!resources.containsKey(texture.getDeclaringClass())){
-                                resources.put(texture.getDeclaringClass(), new ArrayList<>());
-                            }
-                            resources.get(texture.getDeclaringClass()).add(texture);
-                        }
-                    }
-                    for(Field texture : Reflection.getFieldsByClass(TextureRegion.class, ImageMaster.class)){
-                        if(Modifier.isStatic(texture.getModifiers())){
-                            if(!resources.containsKey(texture.getDeclaringClass())){
-                                resources.put(texture.getDeclaringClass(), new ArrayList<>());
-                            }
-                            resources.get(texture.getDeclaringClass()).add(texture);
-                        }
-                    }
 
-                    for(Class<? extends ITextureResource> clazz : Reflection.findClassesOfType(ITextureResource.class, false)){
-                        for(Field field : Reflection.getFieldsByClass(Texture.class, clazz)){
-                            if(Modifier.isStatic(field.getModifiers())){
-                                if(!resources.containsKey(clazz)){
-                                    resources.put(clazz, new ArrayList<>());
+                    for(Class<?> resourceSourceClass : resourcePicker.getClassesToIndex()){
+                        for(Class<?> resourceClass : resourcePicker.getResourceTypes()){
+                            for(Field field : Reflection.getFieldsByClass(resourceClass, resourceSourceClass)){
+                                if(Modifier.isStatic(field.getModifiers())){
+                                    if(!resources.containsKey(resourceSourceClass)){
+                                        resources.put(resourceSourceClass, new ArrayList<>());
+                                    }
+                                    resources.get(resourceSourceClass).add(field);
                                 }
-                                resources.get(clazz).add(field);
-                            }
-                        }
-                        for(Field field : Reflection.getFieldsByClass(TextureRegion.class, clazz)){
-                            if(Modifier.isStatic(field.getModifiers())){
-                                if(!resources.containsKey(clazz)){
-                                    resources.put(clazz, new ArrayList<>());
-                                }
-                                resources.get(clazz).add(field);
                             }
                         }
                     }
@@ -101,7 +82,7 @@ public class UIResourcePicker extends UIElement {
                         fieldBox.setItemSpacing(10);
                         {
                             for(Field field : entry.getValue()){
-                                fieldBox.addItem(new ResourcePickerWindowResource(entry.getKey(), field));
+                                fieldBox.addItem(resourcePicker.createResourcePickerWindowResource(entry.getKey(), field));
                             }
                         }
 
@@ -121,7 +102,7 @@ public class UIResourcePicker extends UIElement {
             return true;
         }
 
-        private static class ResourcePickerWindowResource extends UIElement{
+        public abstract static class ResourcePickerWindowResource extends UIElement{
             public ResourcePickerWindowResource(Class<?> clazz, Field field) {
                 super(Dim.px(150), Dim.px(225));
 
@@ -138,11 +119,9 @@ public class UIResourcePicker extends UIElement {
 
                 VerticalBox contentBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
                 {
-                    Image image = new Image(Tex.resource(clazz, field.getName()), Dim.fill(), Dim.fill());
-                    image.setPreserveAspectRatio(true);
-                    image.setNoUpsize(true);
-                    image.setPassthrough(true);
-                    contentBox.addItem(image);
+                    UIElement preview = makeResourcePickerWindowResourcePreview(clazz, field);
+                    preview.setPassthrough(true);
+                    contentBox.addItem(preview);
 
                     TextBox box = new TextBox(field.getName(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(75));
                     box.setWrap(true);
@@ -150,6 +129,8 @@ public class UIResourcePicker extends UIElement {
                 }
                 addChildNCS(contentBox);
             }
+
+            public abstract UIElement makeResourcePickerWindowResourcePreview(Class<?> clazz, Field field);
         }
     }
 }

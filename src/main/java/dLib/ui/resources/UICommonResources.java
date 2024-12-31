@@ -2,9 +2,9 @@ package dLib.ui.resources;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import dLib.util.bindings.texture.textureresource.ITextureResource;
+import dLib.util.bindings.texture.textureresource.ITextureSource;
 
-public class UICommonResources implements ITextureResource {
+public class UICommonResources implements ITextureSource {
     public static final Texture white_pixel = ImageMaster.loadImage("dLibResources/images/ui/common/white_pixel.png");
 
     public static final Texture arrow_left = ImageMaster.loadImage("dLibResources/images/ui/common/arrow/left.png");
