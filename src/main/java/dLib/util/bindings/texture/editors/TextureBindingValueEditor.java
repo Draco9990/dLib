@@ -6,7 +6,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ComboBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
-import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.ui.dimensions.Dim;
@@ -19,18 +19,18 @@ public class TextureBindingValueEditor<ValueType> extends AbstractValueEditor<Va
     }
 
     protected UIElement makeSwapComboBox(){
-        ArrayList<Class<? extends TextureBinding>> methodBindingOptions = new ArrayList<>();
+        ArrayList<Class<? extends AbstractTextureBinding>> methodBindingOptions = new ArrayList<>();
         methodBindingOptions.add(TextureNoneBinding.class);
         methodBindingOptions.add(TextureResourceBinding.class);
 
-        ComboBox<Class<? extends TextureBinding>> comboBox = new ComboBox<Class<? extends TextureBinding>>(boundProperty.getValue().getClass(), methodBindingOptions, Dim.px(28), Dim.px(15)){
+        ComboBox<Class<? extends AbstractTextureBinding>> comboBox = new ComboBox<Class<? extends AbstractTextureBinding>>(boundProperty.getValue().getClass(), methodBindingOptions, Dim.px(28), Dim.px(15)){
             @Override
-            public String itemToStringShort(Class<? extends TextureBinding> item) {
+            public String itemToStringShort(Class<? extends AbstractTextureBinding> item) {
                 return Reflection.getFieldValue("PROPERTY_EDITOR_SHORT_NAME", item);
             }
 
             @Override
-            public String itemToStringLong(Class<? extends TextureBinding> item) {
+            public String itemToStringLong(Class<? extends AbstractTextureBinding> item) {
                 return Reflection.getFieldValue("PROPERTY_EDITOR_LONG_NAME", item);
             }
         };

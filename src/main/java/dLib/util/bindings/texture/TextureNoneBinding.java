@@ -1,6 +1,5 @@
 package dLib.util.bindings.texture;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.properties.objects.templates.TProperty;
@@ -10,7 +9,7 @@ import dLib.util.bindings.texture.editors.TextureNoneBindingValueEditor;
 import java.io.Serializable;
 
 // USE RESPONSIBLY!
-public class TextureNoneBinding extends TextureBinding implements Serializable {
+public class TextureNoneBinding extends AbstractTextureBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //For property editors

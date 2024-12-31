@@ -3,7 +3,7 @@ package dLib.ui.elements.items;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -15,8 +15,8 @@ import java.io.Serializable;
 public class Interactable extends Renderable{
     //region Variables
 
-    public TextureBinding hoveredTexture = new TextureNoneBinding();
-    public TextureBinding disabledTexture = new TextureNoneBinding();
+    public AbstractTextureBinding hoveredTexture = new TextureNoneBinding();
+    public AbstractTextureBinding disabledTexture = new TextureNoneBinding();
 
     private Color hoveredColor = Color.BLACK;
     private float hoveredColorMultiplier = 0.25f;
@@ -32,16 +32,16 @@ public class Interactable extends Renderable{
 
     //region Constructors
 
-    public Interactable(TextureBinding imageBinding) {
+    public Interactable(AbstractTextureBinding imageBinding) {
         this(imageBinding, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
     }
-    public Interactable(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos) {
+    public Interactable(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos) {
         this(imageBinding, xPos, yPos, Dim.fill(), Dim.fill());
     }
-    public Interactable(TextureBinding imageBinding, AbstractDimension width, AbstractDimension height) {
+    public Interactable(AbstractTextureBinding imageBinding, AbstractDimension width, AbstractDimension height) {
         this(imageBinding, Pos.px(0), Pos.px(0), width, height);
     }
-    public Interactable(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+    public Interactable(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(imageBinding, xPos, yPos, width, height);
     }
 
@@ -143,7 +143,7 @@ public class Interactable extends Renderable{
         }
     }
 
-    public void setHoveredTexture(TextureBinding hoveredTexture){
+    public void setHoveredTexture(AbstractTextureBinding hoveredTexture){
         this.hoveredTexture = hoveredTexture;
     }
 
@@ -174,7 +174,7 @@ public class Interactable extends Renderable{
     //region Disabled
 
     //TODO MOVE TO RENDERABLE
-    public void setDisabledTexture(TextureBinding disabledTexture){
+    public void setDisabledTexture(AbstractTextureBinding disabledTexture){
         this.disabledTexture = disabledTexture;
     }
 
@@ -240,8 +240,8 @@ public class Interactable extends Renderable{
     public static class InteractableData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public TextureBinding hoveredTexture = new TextureNoneBinding();
-        public TextureBinding disabledTexture = new TextureNoneBinding();
+        public AbstractTextureBinding hoveredTexture = new TextureNoneBinding();
+        public AbstractTextureBinding disabledTexture = new TextureNoneBinding();
 
         public String hoveredColor = Color.BLACK.toString();
         public float hoveredColorMultiplier = 0.25f;

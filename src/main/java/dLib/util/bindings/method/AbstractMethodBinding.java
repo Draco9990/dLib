@@ -2,11 +2,10 @@ package dLib.util.bindings.method;
 
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.util.bindings.Binding;
-import dLib.util.bindings.ResourceBinding;
 
 import java.io.Serializable;
 
-public abstract class MethodBinding extends Binding implements Serializable, IEditableValue {
+public abstract class AbstractMethodBinding extends Binding implements Serializable, IEditableValue {
     private static final long serialVersionUID = 1L;
 
     /** Binding */

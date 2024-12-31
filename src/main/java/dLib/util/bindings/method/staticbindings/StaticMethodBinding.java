@@ -3,13 +3,13 @@ package dLib.util.bindings.method.staticbindings;
 import dLib.properties.objects.MethodBindingProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.util.bindings.method.MethodBinding;
+import dLib.util.bindings.method.AbstractMethodBinding;
 import dLib.util.bindings.method.editors.StaticMethodBindingValueEditor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class StaticMethodBinding extends MethodBinding implements Serializable {
+public abstract class StaticMethodBinding extends AbstractMethodBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //For property editors

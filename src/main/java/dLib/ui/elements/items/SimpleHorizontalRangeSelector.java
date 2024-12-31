@@ -7,7 +7,7 @@ import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.events.Event;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -22,7 +22,7 @@ public class SimpleHorizontalRangeSelector extends Renderable{
 
     public Event<Consumer<Float>> onPercentageChangedEvent = new Event<>();
 
-    public SimpleHorizontalRangeSelector(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+    public SimpleHorizontalRangeSelector(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(imageBinding, xPos, yPos, width, height);
 
         slider = new Image(Tex.stat(UICommonResources.arrow_down), Pos.px(-31), Pos.px(-27), Dim.px(64), Dim.px(63));

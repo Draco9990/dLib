@@ -1,14 +1,14 @@
 package dLib.properties.objects.templates;
 
-import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.AbstractTextureBinding;
 
-public abstract class TTextureBindingProperty<PropertyType> extends TProperty<TextureBinding, PropertyType> {
+public abstract class TTextureBindingProperty<PropertyType> extends TProperty<AbstractTextureBinding, PropertyType> {
     //region Variables
     //endregion
 
     //region Constructors
 
-    public TTextureBindingProperty(TextureBinding value) {
+    public TTextureBindingProperty(AbstractTextureBinding value) {
         super(value);
     }
 

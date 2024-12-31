@@ -10,7 +10,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.IntegerVector2;
-import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -22,7 +22,7 @@ import java.io.Serializable;
 public class Renderable extends UIElement {
     //region Variables
 
-    protected TextureBinding image;
+    protected AbstractTextureBinding image;
 
     protected Color renderColor;
 
@@ -43,16 +43,16 @@ public class Renderable extends UIElement {
 
     //region Constructors
 
-    public Renderable(TextureBinding imageBinding){
+    public Renderable(AbstractTextureBinding imageBinding){
         this(imageBinding, Pos.px(0), Pos.px(0));
     }
-    public Renderable(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
+    public Renderable(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
         this(imageBinding, xPos, yPos, Dim.px(imageBinding.getBoundObject().getRegionWidth()), Dim.px(imageBinding.getBoundObject().getRegionHeight()));
     }
-    public Renderable(TextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
+    public Renderable(AbstractTextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
         this(imageBinding, Pos.px(0), Pos.px(0), width, height);
     }
-    public Renderable(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
+    public Renderable(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
         this.image = imageBinding;
@@ -196,7 +196,7 @@ public class Renderable extends UIElement {
 
     //region Image
 
-    public void setImage(TextureBinding image){
+    public void setImage(AbstractTextureBinding image){
         this.image = image;
     }
 

@@ -1,6 +1,6 @@
 package dLib.ui.elements.items;
 
-import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -14,13 +14,13 @@ public class Image extends Renderable {
 
     //region Constructors
 
-    public Image(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
+    public Image(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
         this(imageBinding, xPos, yPos, Dim.fill(), Dim.fill());
     }
-    public Image(TextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
+    public Image(AbstractTextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
         this(imageBinding, Pos.px(0), Pos.px(0), width, height);
     }
-    public Image(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+    public Image(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(imageBinding, xPos, yPos, width, height);
 
         setPassthrough(true);

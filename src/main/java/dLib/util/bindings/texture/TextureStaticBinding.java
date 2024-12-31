@@ -6,7 +6,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 
 //! Warning, not serializable
-public class TextureStaticBinding extends TextureBinding{
+public class TextureStaticBinding extends AbstractTextureBinding {
 
     private TextureRegion region;
 

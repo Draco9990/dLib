@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 
-public class DynamicMethodBinding extends MethodBinding implements Serializable {
+public class DynamicMethodBinding extends AbstractMethodBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //For property editors

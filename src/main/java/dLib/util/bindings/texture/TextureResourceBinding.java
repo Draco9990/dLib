@@ -1,7 +1,6 @@
 package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.properties.objects.TextureBindingProperty;
@@ -12,9 +11,8 @@ import dLib.util.bindings.texture.editors.TextureResourceBindingValueEditor;
 import dLib.util.bindings.texture.textureresource.ITextureResource;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
-public class TextureResourceBinding extends TextureBinding implements Serializable {
+public class TextureResourceBinding extends AbstractTextureBinding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //For property editors

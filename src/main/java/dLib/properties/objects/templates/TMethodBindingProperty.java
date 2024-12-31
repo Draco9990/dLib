@@ -4,13 +4,13 @@ import basemod.Pair;
 import dLib.code.LinkedEditor;
 import dLib.code.LinkedEditorManager;
 import dLib.util.bindings.method.DynamicMethodBinding;
-import dLib.util.bindings.method.MethodBinding;
+import dLib.util.bindings.method.AbstractMethodBinding;
 import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
 
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class TMethodBindingProperty<PropertyType> extends TProperty<MethodBinding, PropertyType> implements Serializable {
+public abstract class TMethodBindingProperty<PropertyType> extends TProperty<AbstractMethodBinding, PropertyType> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -29,7 +29,7 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Met
 
     //region Constructors
 
-    public TMethodBindingProperty(MethodBinding value) {
+    public TMethodBindingProperty(AbstractMethodBinding value) {
         super(value);
     }
 
@@ -49,7 +49,7 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Met
     }
 
     @Override
-    public boolean isValidValue(MethodBinding value) {
+    public boolean isValidValue(AbstractMethodBinding value) {
         if(!super.isValidValue(value)) return false;
 
         if(dynamicBindingOnly && !(value instanceof DynamicMethodBinding)){
@@ -63,7 +63,7 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Met
     }
 
     @Override
-    public void onValueChanged(MethodBinding oldValue, MethodBinding newValue) {
+    public void onValueChanged(AbstractMethodBinding oldValue, AbstractMethodBinding newValue) {
         super.onValueChanged(oldValue, newValue);
 
         if(newValue instanceof DynamicMethodBinding){

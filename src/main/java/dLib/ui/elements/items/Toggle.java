@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
-import dLib.util.bindings.texture.TextureBinding;
+import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -20,9 +20,9 @@ public class Toggle extends Interactable {
 
     private boolean toggled = false;
 
-    private TextureBinding toggledTexture;
-    private TextureBinding toggledHoveredTexture;
-    private TextureBinding toggledDisabledTexture;
+    private AbstractTextureBinding toggledTexture;
+    private AbstractTextureBinding toggledHoveredTexture;
+    private AbstractTextureBinding toggledDisabledTexture;
 
     private Color toggledColor = Color.BLACK.cpy();
     private float toggledColorMultiplier = 0.15f;
@@ -37,16 +37,16 @@ public class Toggle extends Interactable {
 
     //region Constructors
 
-    public Toggle(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
+    public Toggle(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
         this(imageBinding, xPos, yPos, Dim.fill(), Dim.fill());
     }
-    public Toggle(TextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
+    public Toggle(AbstractTextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
         this(imageBinding, Pos.px(0), Pos.px(0), width, height);
     }
-    public Toggle(TextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
+    public Toggle(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this(imageBinding, null, xPos, yPos, width, height);
     }
-    public Toggle(TextureBinding imageBinding, TextureBinding toggledTexture, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
+    public Toggle(AbstractTextureBinding imageBinding, AbstractTextureBinding toggledTexture, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(imageBinding, xPos, yPos, width, height);
         this.toggledTexture = toggledTexture;
     }
@@ -146,10 +146,10 @@ public class Toggle extends Interactable {
     public void setToggled(boolean toggled){
         this.toggled = toggled;
     }
-    public void setToggledHoveredTexture(TextureBinding hoveredTexture){
+    public void setToggledHoveredTexture(AbstractTextureBinding hoveredTexture){
         this.toggledHoveredTexture = hoveredTexture;
     }
-    public void setToggledDisabledTexture(TextureBinding disabledTexture){
+    public void setToggledDisabledTexture(AbstractTextureBinding disabledTexture){
         this.toggledDisabledTexture = disabledTexture;
     }
 
