@@ -42,6 +42,7 @@ public class UIFontResourcePicker extends UIResourcePicker{
         public UIElement makeResourcePickerWindowResourcePreview(Class<?> clazz, Field field) {
             TextBox textBox = new TextBox("aA", Dim.fill(), Dim.fill());
             textBox.setFont(Font.resource(clazz, field.getName()));
+            textBox.setFontSize(20);
 
             return textBox;
         }

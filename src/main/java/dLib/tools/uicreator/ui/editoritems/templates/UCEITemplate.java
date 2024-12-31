@@ -9,7 +9,7 @@ import dLib.ui.elements.components.UIResizeableComponent;
 import dLib.ui.elements.items.ContextMenu;
 import dLib.ui.screens.UIManager;
 import dLib.util.IntegerVector2;
-import dLib.util.UIHelpers;
+import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.position.PixelPosition;
 import dLib.util.ui.position.Pos;

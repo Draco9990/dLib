@@ -18,7 +18,7 @@ public class ConfirmButton extends TextButton {
         label.setDimensions(186, 54);
         label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         label.setLocalPosition(50, 30);
-        label.setFontScale(1f);
+        label.setFontSize(14);
 
         this.setEntryAnimation(new UIAnimation_SlideInLeft(this));
         this.setExitAnimation(new UIAnimation_SlideOutRight(this));

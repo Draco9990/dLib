@@ -26,7 +26,7 @@ public class DimensionValueEditor<ValueType extends AbstractDimension> extends A
                 return item.getSimpleDisplayName();
             }
         };
-        comboBox.label.setFontScale(0.2f);
+        comboBox.label.setFontSize(4);
         comboBox.onSelectionChangedEvent.subscribe(comboBox, (option) -> {
             if(option == null || boundProperty.getValue().getClass() == option.getClass()) return;
 

@@ -10,7 +10,7 @@ import dLib.modcompat.ModManager;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.util.FontManager;
+import dLib.util.helpers.FontHelpers;
 import dLib.util.bindings.font.AbstractFontBinding;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.font.FontResourceBinding;
@@ -31,7 +31,8 @@ public class TextBox extends UIElement {
 
     private String text;
 
-    private float fontScale = 0.8f;
+    private float fontSize = 12f;
+    private boolean trueSize = false;
 
     private Color textRenderColor;
     private AbstractFontBinding font;
@@ -77,7 +78,9 @@ public class TextBox extends UIElement {
 
         this.text = data.text.getValue();
 
-        this.fontScale = data.fontScale.getValue();
+        this.fontSize = data.fontSize.getValue();
+        this.trueSize = data.trueSize.getValue();
+
         this.font = data.font.getValue();
 
         this.textRenderColor = Color.valueOf(data.textRenderColor.getValue());
@@ -102,7 +105,8 @@ public class TextBox extends UIElement {
 
         if(text == null || text.isEmpty()) return;
 
-        getFontForRender().getData().setScale(fontScale);
+        getFontForRender().getData().setScale(getFontSizeForRender());
+        getFontForRender().setColor(textRenderColor);
 
         int renderX = getWorldPositionX() + (int)(getPaddingLeft() * Settings.xScale);
         int renderY = getWorldPositionY() + (int)(getPaddingBottom() * Settings.yScale);
@@ -208,9 +212,6 @@ public class TextBox extends UIElement {
             }
         }
         else{
-            getFontForRender().getData().setScale(fontScale);
-            getFontForRender().setColor(textRenderColor);
-
             int align = 0;
             if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.LEFT) align = Align.left;
             else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER) align = Align.center;
@@ -223,11 +224,11 @@ public class TextBox extends UIElement {
             else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM) renderY = renderY + (int) (FontHelper.layout.height / Settings.yScale);
 
             getFontForRender().draw(sb, textToRender, renderX * Settings.xScale, renderY * Settings.yScale, renderWidth * Settings.xScale, align, true);
-            getFontForRender().getData().setScale(1.0F);
         }
 
         sb.flush(); //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
 
+        getFontForRender().setColor(Color.WHITE);
         getFontForRender().getData().setScale(1.f);
 
         if(hb != null){
@@ -267,7 +268,7 @@ public class TextBox extends UIElement {
 
     public BitmapFont getFontForRender(){
         if(containsNonASCIICharacters()){
-            return FontManager.nonASCIIFont;
+            return FontHelpers.nonASCIIFont;
         }
         else{
             return font.getBoundObject();
@@ -360,8 +361,18 @@ public class TextBox extends UIElement {
         return this.text != null && !this.text.isEmpty() && !this.text.matches("\\A\\p{ASCII}*\\z");
     }
 
-    public void setFontScale(float fontScale){
-        this.fontScale = fontScale;
+    public void setFontSize(float fontSize){
+        this.fontSize = fontSize;
+    }
+
+    public float getFontSizeForRender(){
+        if(trueSize){
+            return (fontSize / 14f) * getScaleY();
+        }
+        else{
+            float trueSize = FontHelpers.getFontTrueScale(getFontForRender());
+            return (trueSize * fontSize) * getScaleY();
+        }
     }
 
     //region Obscure Text
@@ -386,12 +397,17 @@ public class TextBox extends UIElement {
                 .setDescription("The text to display in the text box.")
                 .setCategory("Text");
 
-        private FloatProperty fontScale = new FloatProperty(0.8f)
-                .setName("Font Scale")
-                .setDescription("The scale of the font.")
+        private FloatProperty fontSize = new FloatProperty(12f)
+                .setName("Font Size")
+                .setDescription("Size of the font.")
                 .setCategory("Text")
-                .setDecrementAmount(0.1f).setIncrementAmount(0.1f)
+                .setDecrementAmount(1f).setIncrementAmount(1f)
                 .setMinimumValue(0.01f);
+        private BooleanProperty trueSize = new BooleanProperty(false)
+                .setName("True Size")
+                .setDescription("Whether or not the font should use it's true size - useful for discerning between different font qualities at different resolutions.")
+                .setCategory("Text");
+
         private FontBindingProperty font = new FontBindingProperty(new FontResourceBinding(FontHelper.class, "cardTitleFont"))
                 .setName("Font")
                 .setDescription("The font to use for the text.")

@@ -1,4 +1,4 @@
-package dLib.util;
+package dLib.util.helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -8,20 +8,21 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.localization.LocalizedStrings;
+import dLib.util.Reflection;
 
-public class FontManager {
-    /** Variables */
-    public static BitmapFont genericFont;
+import java.util.HashMap;
+
+public class FontHelpers {
+    private static HashMap<BitmapFont, Float> trueScaleMap = new HashMap<>();
+
     public static BitmapFont nonASCIIFont;
 
-    /** Initializer */
-    public static void initialize(){
-        genericFont = generateFont(Gdx.files.internal("font/vie/Grenze-RegularItalic.ttf"));
+    //region Methods
 
+    public static void initialize(){
         nonASCIIFont = generateNonASCIIFont();
     }
 
-    /** Methods */
     public static BitmapFont generateFont(FileHandle source){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(source);
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -50,4 +51,20 @@ public class FontManager {
         Reflection.setFieldValue("fontFile", FontHelper.class, f);
         return nonASCIIFont;
     }
+
+    public static Float getFontTrueScale(BitmapFont font){
+        if(!trueScaleMap.containsKey(font)){
+            calculateFontTrueScale(font);
+        }
+
+        return trueScaleMap.get(font);
+    }
+
+    private static void calculateFontTrueScale(BitmapFont font){
+        float height = FontHelper.getHeight(font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 1.0f);
+        float scale = 1f / height;
+        trueScaleMap.put(font, scale);
+    }
+
+    //endregion
 }

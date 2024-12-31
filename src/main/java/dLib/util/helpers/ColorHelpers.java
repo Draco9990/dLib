@@ -1,4 +1,4 @@
-package dLib.util;
+package dLib.util.helpers;
 
 import com.badlogic.gdx.graphics.Color;
 

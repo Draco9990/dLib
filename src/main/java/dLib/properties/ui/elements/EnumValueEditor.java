@@ -5,7 +5,7 @@ import dLib.ui.elements.items.Button;
 import dLib.ui.elements.items.ComboBox;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.EnumHelpers;
+import dLib.util.helpers.EnumHelpers;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 

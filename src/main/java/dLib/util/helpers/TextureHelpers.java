@@ -1,13 +1,9 @@
-package dLib.util;
+package dLib.util.helpers;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-
-import java.nio.ByteBuffer;
 
 public class TextureHelpers {
     public static Texture convertBufferedImageToTexture(BufferedImage bufferedImage) {

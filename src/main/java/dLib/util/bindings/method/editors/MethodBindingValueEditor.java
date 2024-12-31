@@ -34,7 +34,7 @@ public class MethodBindingValueEditor<ValueType> extends AbstractValueEditor<Val
                 return Reflection.getFieldValue("PROPERTY_EDITOR_LONG_NAME", item);
             }
         };
-        comboBox.label.setFontScale(0.2f);
+        comboBox.label.setFontSize(4);
 
         comboBox.onSelectionChangedEvent.subscribe(comboBox, (aClass) -> {
             if(aClass == StaticMethodBinding.class){

@@ -11,7 +11,7 @@ import dLib.custominput.CustomInputSetManager;
 import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 
-import dLib.util.FontManager;
+import dLib.util.helpers.FontHelpers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -48,7 +48,7 @@ public class DLib implements PostInitializeSubscriber{
     public void receivePostInitialize() {
         CommandManager.initialize();
 
-        FontManager.initialize();
+        FontHelpers.initialize();
 
         ExternalEditorCommunicationManager.start();
 
