@@ -2228,15 +2228,15 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Path
 
-    public String getRelativePath(){
+    public String getElementPath(){
         if(!hasParent()) return getId();
-        return parent.getRelativePath() + "." + getId();
+        return parent.getElementPath() + "." + getId();
     }
 
     public UIElement findChildFromPath(String path){
         if(path.isEmpty()) return null;
 
-        path = path.replace(getRelativePath() + ".", "");
+        path = path.replace(getElementPath() + ".", "");
 
         String[] pathParts = path.split("\\.");
         UIElement currentElement = this;

@@ -2,7 +2,6 @@ package dLib.util.bindings.method.staticbindings;
 
 import dLib.properties.objects.Property;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
-import dLib.ui.bindings.UIElementPathBinding;
 import dLib.ui.bindings.UIElementUndefinedPathBinding;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.property.AbstractPropertyBinding;
@@ -35,7 +34,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
                 boundProperty.setValue(new PropertyElementPathUndefinedBinding());
             }
             else{
-                boundProperty.setValue(new PropertyElementPathBinding(newValue.getBoundObject().getRelativePath(), "none"));
+                boundProperty.setValue(new PropertyElementPathBinding(newValue.getBoundObject().getElementPath(), "none"));
             }
         });
     }

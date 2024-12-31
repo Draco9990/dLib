@@ -20,7 +20,11 @@ public class UIElementPathBinding extends UIElementBinding implements Serializab
 
     public UIElementPathBinding(UIElement object) {
         super();
-        objectRelativePath.setValue(object.getRelativePath());
+        objectRelativePath.setValue(object.getElementPath());
+
+        object.onHierarchyChangedEvent.subscribe(this, () -> {
+            objectRelativePath.setValue(object.getElementPath());
+        });
     }
 
     @Override
@@ -29,12 +33,12 @@ public class UIElementPathBinding extends UIElementBinding implements Serializab
             return null;
         }
 
-        return ((UIElement) params[0]).findChildFromPath(getObjectRelativePath());
+        return ((UIElement) params[0]).findChildFromPath(objectRelativePath.getValue());
     }
 
     @Override
     public boolean isBindingValid() {
-        return !getObjectRelativePath().isEmpty();
+        return !objectRelativePath.getValue().isEmpty();
     }
 
     @Override
@@ -47,9 +51,6 @@ public class UIElementPathBinding extends UIElementBinding implements Serializab
         return new UCRelativeUIElementBindingValueEditor((UCUIElementBindingProperty) property);
     }
 
-    public String getObjectRelativePath() {
-        return objectRelativePath.getValue();
-    }
     public StringProperty getObjectRelativePathRaw() {
         return objectRelativePath;
     }
