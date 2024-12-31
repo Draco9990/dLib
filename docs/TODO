@@ -1,5 +1,5 @@
--- no upsize depends on current scale
---> cannot delete elements
+-- do the scale with the scale factor instead of offseting by /0.8f or whatever
+
 --. sliders for color broken
 
 --> persist local position of the element after dropping

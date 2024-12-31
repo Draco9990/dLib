@@ -155,10 +155,10 @@ public class Renderable extends UIElement {
 
             //No Upscale
             if(isNoUpsize()){
-                if(renderWidth > textureToRender.getRegionWidth()){
+                if(renderWidth > textureToRender.getRegionWidth() * getScaleX()){
                     renderWidth = textureToRender.getRegionWidth() * getScaleX();
                 }
-                if(renderHeight > textureToRender.getRegionHeight()){
+                if(renderHeight > textureToRender.getRegionHeight() * getScaleY()){
                     renderHeight = textureToRender.getRegionHeight() * getScaleY();
                 }
             }

@@ -327,8 +327,8 @@ public class UIElement implements Disposable, IEditableValue {
             close();
         }
 
-        for (int i = 0; i < children.size(); i++) {
-            UIElementChild child = children.get(i);
+        while(!children.isEmpty()){
+            UIElementChild child = children.get(0);
             child.element.dispose();
         }
 
