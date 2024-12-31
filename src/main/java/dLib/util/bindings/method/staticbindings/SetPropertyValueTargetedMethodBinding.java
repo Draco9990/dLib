@@ -1,9 +1,12 @@
 package dLib.util.bindings.method.staticbindings;
 
 import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.Property;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.bindings.RelativeUIElementBinding;
 import dLib.ui.elements.UIElement;
+import dLib.util.bindings.property.AbstractPropertyBinding;
+import dLib.util.bindings.property.PropertyElementPathBinding;
 
 import java.io.Serializable;
 
@@ -16,7 +19,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
     private UCUIElementBindingProperty target = new UCUIElementBindingProperty(new RelativeUIElementBinding())
             .setName("Target");
 
-    private BooleanProperty instant = new BooleanProperty(false)
+    private Property<AbstractPropertyBinding> instant = new Property<AbstractPropertyBinding>(new PropertyElementPathBinding("none", "none"))
             .setName("Property")
             .addIsPropertyVisibleFunction((_property) -> target.getValue().isBindingValid());
 
@@ -25,21 +28,15 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
 
         addDeclaredParam(target);
         addDeclaredParam(instant);
+
+        target.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
+            instant.setValue(new PropertyElementPathBinding(newValue.getBoundObject().getRelativePath(), "none"));
+        });
     }
 
     @Override
     public Object executeBinding(Object invoker, Object... args) {
-        if(invoker instanceof UIElement){
-            UIElement bound = target.getValue().getBoundObject(invoker);
-            if(bound != null){
-                if(instant.getValue()){
-                    bound.hideAndDisableInstantly();
-                }
-                else{
-                    bound.hideAndDisable();
-                }
-            }
-        }
+        instant.getValue().getBoundObject(((UIElement) target.getValue().getBoundObject())).setValue(args[0]);
         return null;
     }
 

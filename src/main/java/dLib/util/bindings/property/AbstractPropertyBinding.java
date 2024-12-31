@@ -1,0 +1,15 @@
+package dLib.util.bindings.property;
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import dLib.properties.objects.templates.TProperty;
+import dLib.properties.ui.elements.IEditableValue;
+import dLib.util.bindings.ResourceBinding;
+
+import java.io.Serializable;
+
+public abstract class AbstractPropertyBinding extends ResourceBinding<TProperty> implements Serializable, IEditableValue {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public abstract TProperty getBoundObject(Object... params);
+}
