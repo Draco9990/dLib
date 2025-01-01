@@ -13,9 +13,9 @@ import dLib.util.ui.dimensions.Dim;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class UITextureResourcePicker extends UIResourcePicker{
+public class UITextureResourcePicker extends AbstractUIPreviewResourcePicker {
     @Override
-    public ResourcePickerWindow.ResourcePickerWindowResource createResourcePickerWindowResource(Class<?> clazz, Field field) {
+    public ResourcePickerWindowResource createResourcePickerWindowResource(Class<?> clazz, Field field) {
         return new TextureResourcePickerWindowResource(clazz, field);
     }
 
@@ -34,7 +34,7 @@ public class UITextureResourcePicker extends UIResourcePicker{
         return classesToIndex;
     }
 
-    public static class TextureResourcePickerWindowResource extends ResourcePickerWindow.ResourcePickerWindowResource {
+    public static class TextureResourcePickerWindowResource extends ResourcePickerWindowResource {
         public TextureResourcePickerWindowResource(Class<?> clazz, Field field) {
             super(clazz, field);
         }
