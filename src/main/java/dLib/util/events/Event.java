@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class Event<EventType> {
     protected ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
 
-    protected ConcurrentHashMap<Object, ArrayList<UUID>> boundsObjects = new ConcurrentHashMap<>();
+    protected HashMap<Object, ArrayList<UUID>> boundsObjects = new HashMap<>();
 
     public Event(){
         GlobalEvents.registeredEvents.add(this);
@@ -51,8 +51,11 @@ public class Event<EventType> {
     }
 
     public void invoke(Consumer<EventType> consumer){
+        //Events can modify subscribers
         for(EventType event : subscribers.values()){
-            consumer.accept(event);
+            if(subscribers.containsValue(event)){
+                consumer.accept(event);
+            }
         }
     }
 

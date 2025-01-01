@@ -172,6 +172,8 @@ public class UIElement implements Disposable, IEditableValue {
 
     private boolean drawFocusOnOpen = false;
 
+    private transient boolean disposed = false;
+
     //endregion
 
     //region Constructors
@@ -320,6 +322,11 @@ public class UIElement implements Disposable, IEditableValue {
 
     @Override
     public void dispose(){
+        while(!children.isEmpty()){
+            UIElementChild child = children.get(0);
+            child.element.dispose();
+        }
+
         if(hasParent()){
             parent.removeChild(this);
         }
@@ -327,12 +334,9 @@ public class UIElement implements Disposable, IEditableValue {
             close();
         }
 
-        while(!children.isEmpty()){
-            UIElementChild child = children.get(0);
-            child.element.dispose();
-        }
-
         delayedActions.clear();
+
+        disposed = true;
     }
 
     //endregion
