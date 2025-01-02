@@ -1,4 +1,6 @@
 package dLib.ui.elements.components;
 
-public class UITemporaryElementComponent extends UIElementComponent{
+import dLib.ui.elements.UIElement;
+
+public class UITemporaryElementComponent extends UIElementComponent<UIElement> {
 }

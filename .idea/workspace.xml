@@ -8,9 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UINativeElementComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/docs/TODO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UITemporaryElementComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UITemporaryElementComponent.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,11 +107,11 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.ui.elements.components" />
       <recent name="dLib.util.ui.events" />
       <recent name="dLib.ui.bindings" />
       <recent name="dLib.util.bindings.property" />
       <recent name="dLib.properties.objects" />
-      <recent name="dLib.util.bindings.property.editors" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -291,7 +291,7 @@
       <workItem from="1734701515210" duration="46472000" />
       <workItem from="1735134341460" duration="298000" />
       <workItem from="1735134649194" duration="3949000" />
-      <workItem from="1735648128442" duration="23910000" />
+      <workItem from="1735648128442" duration="23985000" />
     </task>
     <servers />
   </component>
