@@ -30,8 +30,15 @@ public abstract class Scrollbar extends UIElement {
 
     public Scrollbar(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height){
         super(x, y, width, height);
+    }
+
+    @Override
+    public void postConstruct() {
+        super.postConstruct();
 
         slider = buildSlider();
+        addChild(slider);
+        setScrollbarScrollPercentageForExternalChange(100);
     }
 
     protected abstract Interactable buildSlider();

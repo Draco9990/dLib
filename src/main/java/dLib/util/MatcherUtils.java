@@ -36,7 +36,7 @@ public class MatcherUtils {
         return -1;
     }
 
-    public static boolean callsAnotherConstructorWithThis(CtConstructor constructor) throws BadBytecode {
+    public static boolean callsSiblingConstructor(CtConstructor constructor) throws BadBytecode {
         MethodInfo methodInfo = constructor.getMethodInfo();
         CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
 

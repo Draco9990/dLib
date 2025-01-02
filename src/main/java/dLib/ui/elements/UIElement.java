@@ -34,6 +34,7 @@ import dLib.ui.screens.UIManager;
 import dLib.util.*;
 import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
+import dLib.util.events.globalevents.Constructable;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.bounds.PositionBounds;
@@ -56,7 +57,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class UIElement implements Disposable, IEditableValue {
+public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Variables
 
     protected String ID;
@@ -196,8 +197,6 @@ public class UIElement implements Disposable, IEditableValue {
         if(uiStrings != null){
             stringTable = CardCrawlGame.languagePack.getUIString(uiStrings);
         }
-
-        commonInitialize();
     }
 
     public UIElement(UIElementData data){
@@ -238,11 +237,10 @@ public class UIElement implements Disposable, IEditableValue {
 
         this.onSelectLine = data.onSelectLine.getValue();
         this.onTriggeredLine = data.onTriggeredLine.getValue();
-
-        commonInitialize();
     }
 
-    private void commonInitialize(){
+    @Override
+    public void postConstruct(){
         registerCommonEvents();
 
         GlobalEvents.subscribe(this, PreUILeftClickEvent.class, (event) -> {
@@ -2217,7 +2215,7 @@ public class UIElement implements Disposable, IEditableValue {
         FILLS
     }
 
-    public static class UIElementData implements Serializable {
+    public static class UIElementData implements Serializable, Constructable {
         private static final long serialVersionUID = 1L;
 
         public StringProperty id = new StringProperty(getClass().getSimpleName() + "_" + UUID.randomUUID()){
@@ -2339,12 +2337,17 @@ public class UIElement implements Disposable, IEditableValue {
             return new UIElement(this);
         }
 
-        private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-            ois.defaultReadObject();
-            bindEvents();
+        @Override
+        public void postConstruct() {
+            bindCommonEvents();
         }
 
-        protected void bindEvents(){
+        private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+            ois.defaultReadObject();
+            bindCommonEvents();
+        }
+
+        protected void bindCommonEvents(){
 
         }
 

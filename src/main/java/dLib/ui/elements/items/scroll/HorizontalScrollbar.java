@@ -35,10 +35,6 @@ public class HorizontalScrollbar extends Scrollbar {
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_right), Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
         }
         addChild(elements);
-
-        addChild(slider);
-
-        setScrollbarScrollPercentageForExternalChange(100);
     }
 
     @Override
