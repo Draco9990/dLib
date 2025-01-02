@@ -120,7 +120,6 @@ public class PropertyEditor extends UIElement {
             propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
                 @Override
                 public UIElement makeUIForItem(TProperty<?, ?> item) {
-                    //TODO getParentOfType(PropertyEditor.class).shouldBuildMultiline()
                     UIElement editor = item.makeEditorFor(getParentOfType(PropertyGroup.class).multiline);
                     if(editor == null) {
                         return new Spacer(Dim.fill(), Dim.px(1)); //TODO breakpoint to verify none fire before removing
