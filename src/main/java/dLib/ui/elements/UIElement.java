@@ -223,6 +223,8 @@ public class UIElement implements Disposable, IEditableValue {
 
         this.isPassthrough = data.isPassthrough.getValue();
 
+        this.controllerSelectable = data.isControllerSelectable.getValue();
+
         onHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
         onHoverTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(this, time)); //* TODO replace with first non-native parent when nativity is added
         onUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
@@ -1201,7 +1203,7 @@ public class UIElement implements Disposable, IEditableValue {
         else{
             onUnhovered();
         }
-        
+
         onSelectionStateChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(isSelected()));
     }
 
@@ -2267,6 +2269,10 @@ public class UIElement implements Disposable, IEditableValue {
         public BooleanProperty isPassthrough = new BooleanProperty(false)
                 .setName("Passthrough")
                 .setDescription("Whether or not the element allows interactions to pass through it to elements underneath it.")
+                .setCategory("General");
+        public BooleanProperty isControllerSelectable = new BooleanProperty(true)
+                .setName("KB/Controller Selectable")
+                .setDescription("Whether or not the element can be selected by a keyboard or a controller setup.")
                 .setCategory("General");
 
         public MethodBindingProperty onHovered = new MethodBindingProperty()

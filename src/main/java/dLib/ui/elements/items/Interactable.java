@@ -43,6 +43,8 @@ public class Interactable extends Renderable{
     }
     public Interactable(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(imageBinding, xPos, yPos, width, height);
+
+        this.controllerSelectable = true;
     }
 
     public Interactable(InteractableData data){
