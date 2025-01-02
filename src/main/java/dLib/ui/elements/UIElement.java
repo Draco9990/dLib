@@ -245,24 +245,28 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         registerCommonEvents();
 
         GlobalEvents.subscribe(this, PreUILeftClickEvent.class, (event) -> {
-            if(event.source != this && isSelected()){
-                deselect();
-            }
-
             if(this.isContextual() && event.source != this && !event.source.isDescendantOf(this)){
                 dispose();
             }
         });
 
         GlobalEvents.subscribe(this, PreUIHoverEvent.class, (event) -> {
-            if(event.source != this && isHovered() && !event.source.isPassthrough()){
+            if(event.source.isPassthrough() || event.source == this){
+                return;
+            }
+
+            if(isHovered()){
                 this.hb.unhover();
                 onUnhovered();
             }
         });
 
         GlobalEvents.subscribe(this, PreUISelectEvent.class, (event) -> {
-            if(event.source != this && isSelected()){
+            if(event.source.isPassthrough() || event.source == this){
+                return;
+            }
+
+            if(isSelected()){
                 deselect();
             }
         });
@@ -1215,7 +1219,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(selected){
             onHovered();
         }
-        else{
+        else if (isHovered()){
             onUnhovered();
         }
 
