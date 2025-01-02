@@ -225,17 +225,17 @@ public class UIElement implements Disposable, IEditableValue {
 
         this.controllerSelectable = data.isControllerSelectable.getValue();
 
-        onHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
-        onHoverTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(this, time)); //* TODO replace with first non-native parent when nativity is added
-        onUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
+        onHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(this));
+        onHoverTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(this, time));
+        onUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(this));
 
-        onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
-        onLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().executeBinding(this, time)); //* TODO replace with first non-native parent when nativity is added
-        onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
+        onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(this));
+        onLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().executeBinding(this, time));
+        onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(this));
 
-        onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
-        onRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(this, time)); //* TODO replace with first non-native parent when nativity is added
-        onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
+        onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this));
+        onRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(this, time));
+        onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this));
 
         commonInitialize();
     }
