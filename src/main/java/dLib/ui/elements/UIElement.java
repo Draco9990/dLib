@@ -21,6 +21,7 @@ import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
+import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
@@ -2134,15 +2135,18 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Path
 
-    public String getElementPath(){
+    public String getRelativePathFromRoot(){
         if(!hasParent()) return getId();
-        return parent.getElementPath() + "." + getId();
+        if(this instanceof RootElement) return getId();
+        return parent.getRelativePathFromRoot() + "." + getId();
     }
 
-    public UIElement findChildFromPath(String path){
+    public UIElement findChildFromRootPath(String path){
         if(path.isEmpty()) return null;
 
-        path = path.replace(getElementPath() + ".", "");
+        if(path.startsWith(getId() + ".")){
+            path = path.replace(getId() + ".", "");
+        }
 
         String[] pathParts = path.split("\\.");
         UIElement currentElement = this;
@@ -2153,6 +2157,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         return currentElement;
+    }
+
+    public UIElement getRoot(){
+        if(parent == null) return this;
+        if(this instanceof RootElement) return this;
+        return parent.getRoot();
     }
 
     //endregion Path

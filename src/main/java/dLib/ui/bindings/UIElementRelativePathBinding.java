@@ -20,10 +20,10 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
 
     public UIElementRelativePathBinding(UIElement object) {
         super();
-        objectRelativePath.setValue(object.getElementPath());
+        objectRelativePath.setValue(object.getRelativePathFromRoot());
 
         object.onHierarchyChangedEvent.subscribe(this, () -> {
-            objectRelativePath.setValue(object.getElementPath());
+            objectRelativePath.setValue(object.getRelativePathFromRoot());
         });
     }
 
@@ -33,7 +33,8 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
             return null;
         }
 
-        return ((UIElement) params[0]).findChildFromPath(objectRelativePath.getValue());
+        UIElement invoker = (UIElement) params[0];
+        return invoker.getRoot().findChildFromRootPath(objectRelativePath.getValue());
     }
 
     @Override

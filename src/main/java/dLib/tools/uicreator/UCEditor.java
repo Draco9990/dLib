@@ -5,7 +5,7 @@ import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
 import dLib.tools.uicreator.ui.elements.UCEPropertyEditor;
-import dLib.tools.uicreator.ui.elements.UCERootElement;
+import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.ui.Alignment;
 import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
@@ -47,7 +47,7 @@ public class UCEditor extends Renderable {
         super(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         setRenderColor(LIGHT_GRAY);
 
-        UCERootElement rootElement;
+        RootElement rootElement;
 
         HorizontalBox mainBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
@@ -59,7 +59,7 @@ public class UCEditor extends Renderable {
                 {
                     canvas = new Renderable(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(10000), Dim.px(10000));
                     {
-                        canvas.addChild(rootElement = new UCERootElement());
+                        canvas.addChild(rootElement = new RootElement());
                         rootElement.setID("Root");
                     }
                     canvas.addComponent(new UIDraggableComponent());

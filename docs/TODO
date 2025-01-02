@@ -1,3 +1,6 @@
+--> when left click something else the old element can no longer be left clicked
+--> property editor child hover bind not working
+
 --> render hb always and blue hb for cselectable
 -- nativity
 

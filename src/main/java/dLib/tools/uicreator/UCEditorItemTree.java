@@ -1,7 +1,7 @@
 package dLib.tools.uicreator;
 
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
-import dLib.tools.uicreator.ui.elements.UCERootElement;
+import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.ui.elements.UIElement;
 import dLib.ui.screens.UIManager;
 import dLib.util.SerializationHelpers;
@@ -9,9 +9,9 @@ import dLib.util.SerializationHelpers;
 import java.util.ArrayList;
 
 public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTreeEntry> {
-    public UCERootElement rootElement;
+    public RootElement rootElement;
 
-    public UCEditorItemTree(UCERootElement rootElement) {
+    public UCEditorItemTree(RootElement rootElement) {
         this.rootElement = rootElement;
     }
 
