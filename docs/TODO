@@ -1,3 +1,6 @@
+--> render hb always and blue hb for cselectable
+-- nativity
+
 --> calculate each's font inverse downcale by comparing known pixel sizes for the save word and store in a map so all fonts are the same size
 --> call method binding
 --> on left interaction & those add as events

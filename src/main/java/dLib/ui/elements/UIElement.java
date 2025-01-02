@@ -140,7 +140,6 @@ public class UIElement implements Disposable, IEditableValue {
     //endregion Events
 
     private String onHoverLine; // Say the Spire mod compatibility
-
     protected String onSelectLine; // Say the Spire mod compatibility
     protected String onTriggeredLine; // Say the Spire mod compatibility
 
@@ -152,7 +151,7 @@ public class UIElement implements Disposable, IEditableValue {
     private boolean holdingLeft;
     private boolean holdingRight;
 
-    private ArrayList<UIElementComponent> components = new ArrayList<>();
+    private ArrayList<UIElementComponent<?>> components = new ArrayList<>();
 
     protected ArrayList<Runnable> delayedActions =new ArrayList<>();
 
@@ -236,6 +235,9 @@ public class UIElement implements Disposable, IEditableValue {
         onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this));
         onRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(this, time));
         onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this));
+
+        this.onSelectLine = data.onSelectLine.getValue();
+        this.onTriggeredLine = data.onTriggeredLine.getValue();
 
         commonInitialize();
     }
@@ -2041,13 +2043,6 @@ public class UIElement implements Disposable, IEditableValue {
 
     //region Trigger Lines
 
-    public void setOnSelectLine(String newLine){
-        this.onSelectLine = newLine;
-    }
-    public String getOnSelectLine(){
-        return onSelectLine;
-    }
-
     public void setOnTriggerLine(String newLine) {
         this.onTriggeredLine = newLine;
     }
@@ -2331,11 +2326,29 @@ public class UIElement implements Disposable, IEditableValue {
                 .setDescription("Method to call when the element is released after being right clicked.")
                 .setCategory("Events");
 
+        public StringProperty onSelectLine = new StringProperty("")
+                .setName("On Hover/Select Line")
+                .setDescription("Line to say when the element is hovered/selected.")
+                .setCategory("Say the Spire");
+        public StringProperty onTriggeredLine = new StringProperty("")
+                .setName("On Trigger Line")
+                .setDescription("Line to say when the element is triggered.")
+                .setCategory("Say the Spire");
+
         public UIElement makeUIElement(){
             return new UIElement(this);
         }
 
-        public ArrayList<TProperty<?, ?>> getEditableProperties(){
+        private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+            ois.defaultReadObject();
+            bindEvents();
+        }
+
+        protected void bindEvents(){
+
+        }
+
+        public ArrayList<TProperty<?, ?>> getEditableProperties(){ //TODO
             ArrayList<TProperty<?, ?>> properties = new ArrayList<>();
 
             for(TProperty<?, ?> property : Reflection.getFieldValuesByClass(TProperty.class, this)){
