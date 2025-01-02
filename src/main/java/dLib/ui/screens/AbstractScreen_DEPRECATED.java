@@ -49,16 +49,12 @@ public final class AbstractScreen_DEPRECATED extends UIElement {
     @Override
     public boolean onDownInteraction() {
         if(parent != null) return super.onDownInteraction();
-
-        selectNextChild();
         return true;
     }
 
     @Override
     public boolean onUpInteraction() {
         if(parent != null) return super.onUpInteraction();
-
-        selectPreviousChild();
         return true;
     }
 

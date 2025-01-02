@@ -43,6 +43,7 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.events.PreUIHoverEvent;
 import dLib.util.ui.events.PreUILeftClickEvent;
+import dLib.util.ui.events.PreUISelectEvent;
 import dLib.util.ui.events.PreUIUnhoverEvent;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
@@ -107,6 +108,7 @@ public class UIElement implements Disposable, IEditableValue {
     private float darkenedColorMultiplier = 0.4f;
     protected boolean isDarkened = false;
 
+    protected boolean controllerSelectable = false;
     private boolean selected;
     public Event<Consumer<Boolean>> onSelectionStateChangedEvent = new Event<>();
 
@@ -239,7 +241,7 @@ public class UIElement implements Disposable, IEditableValue {
     private void commonInitialize(){
         registerCommonEvents();
 
-        GlobalEvents.subscribeManaged(PreUILeftClickEvent.class, (event) -> {
+        GlobalEvents.subscribe(this, PreUILeftClickEvent.class, (event) -> {
             if(event.source != this && isSelected()){
                 deselect();
             }
@@ -249,16 +251,16 @@ public class UIElement implements Disposable, IEditableValue {
             }
         });
 
-        /*GlobalEvents.subscribeManaged(GlobalEvents.Events.PreForceFocusChangeEvent.class, (event) -> {
-            if(event.source != this && isSelected()){
-                deselect();
-            }
-        });*/ //TODO
-
-        GlobalEvents.subscribeManaged(PreUIHoverEvent.class, (event) -> {
+        GlobalEvents.subscribe(this, PreUIHoverEvent.class, (event) -> {
             if(event.source != this && isHovered() && !event.source.isPassthrough()){
                 this.hb.unhover();
                 onUnhovered();
+            }
+        });
+
+        GlobalEvents.subscribe(this, PreUISelectEvent.class, (event) -> {
+            if(event.source != this && isSelected()){
+                deselect();
             }
         });
 
@@ -426,7 +428,7 @@ public class UIElement implements Disposable, IEditableValue {
 
             if(isEnabled()){
                 if(this.hb.justHovered) onHovered();
-                if(this.hb.hovered){
+                if(this.hb.hovered || isSelected()){
                     totalHoverDuration += Gdx.graphics.getDeltaTime();
                     onHoverTick(totalHoverDuration);
                 }
@@ -1161,7 +1163,11 @@ public class UIElement implements Disposable, IEditableValue {
     }
     //endregion
 
-    //region Selection
+    //region Controller Selection
+    public void setControllerSelectable(boolean controllerSelectable){
+        this.controllerSelectable = controllerSelectable;
+    }
+
     public void select(){
         setSelected(true);
     }
@@ -1169,6 +1175,17 @@ public class UIElement implements Disposable, IEditableValue {
         setSelected(false);
     }
     public void setSelected(boolean selected){
+        if(!controllerSelectable) {
+            return;
+        }
+        if(this.selected == selected) {
+            return;
+        }
+
+        if(selected){
+            GlobalEvents.sendMessage(new PreUISelectEvent(this));
+        }
+
         this.selected = selected;
         onSelectionStateChanged();
     }
@@ -1178,109 +1195,16 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public void onSelectionStateChanged(){
+        if(selected){
+            onHovered();
+        }
+        else{
+            onUnhovered();
+        }
+        
         onSelectionStateChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(isSelected()));
     }
 
-    public final UIElement getInnerMostSelectedChild(){
-        for(UIElement child : children) {
-            if(child.isSelected()){
-                UIElement selectedChild = child.getInnerMostSelectedChild();
-                return selectedChild == null ? child : selectedChild;
-            }
-        }
-        return null;
-    }
-
-    public final boolean hasPreviousChildToSelect(){
-        if(children.isEmpty()) return false;
-
-        UIElement firstChild = getFirstChild();
-        if(firstChild.isSelected()){
-            return firstChild.hasPreviousChildToSelect();
-        }
-
-        return children.size() > 1;
-    }
-    public final void selectPreviousChild(){
-        boolean selectedPreviousChild = false;
-        for(UIElement child : children){
-            if(child.isSelected()){
-                if(child.hasPreviousChildToSelect()){
-                    selectedPreviousChild = true;
-                    child.selectPreviousChild();
-                }
-            }
-        }
-
-        if(!selectedPreviousChild){
-            for(int i = children.size() - 1; i >= 0; i--){
-                if(!children.get(i).isSelected()){
-                    continue;
-                }
-
-                children.get(i).deselect();
-
-                if(i - 1 < 0){
-                    children.get(children.size() - 1).select();
-                }
-                else{
-                    children.get(0).select();
-                }
-
-                selectedPreviousChild = true;
-            }
-        }
-
-        if(!selectedPreviousChild && !children.isEmpty()){
-            children.get(children.size() - 1).select();
-        }
-    }
-
-    public final boolean hasNextChildToSelect(){
-        if(children.isEmpty()) return false;
-
-        UIElement lastChild = getLastChild();
-        if(lastChild.isSelected()){
-            return lastChild.hasNextChildToSelect();
-        }
-
-        return children.size() > 1;
-    }
-    public final void selectNextChild(){
-        boolean selectedNextChild = false;
-        for(UIElement child : children){
-            if(child.isSelected()){
-                if(child.hasNextChildToSelect()){
-                    selectedNextChild = true;
-                    child.selectNextChild();
-                    break;
-                }
-            }
-        }
-
-        if(!selectedNextChild){
-            for(int i = 0; i < children.size(); i++){
-                if(!children.get(i).isSelected()){
-                    continue;
-                }
-
-                children.get(i).deselect();
-
-                if(i + 1 >= children.size()){
-                    children.get(0).select();
-                }
-                else{
-                    children.get(i + 1).select();
-                }
-
-                selectedNextChild = true;
-            }
-        }
-
-        if(!selectedNextChild && !children.isEmpty()){
-            children.get(0).select();
-        }
-    }
     //endregion
 
     //region Caches
