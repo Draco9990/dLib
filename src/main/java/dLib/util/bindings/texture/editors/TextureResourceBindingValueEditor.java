@@ -2,9 +2,9 @@ package dLib.util.bindings.texture.editors;
 
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.ui.elements.items.itembox.HorizontalBox;
-import dLib.ui.elements.items.resourcepicker.UITextureResourcePicker;
+import dLib.ui.elements.items.resourcepicker.UIGlobalTextureResourcePicker;
 import dLib.ui.elements.items.text.TextButton;
-import dLib.ui.elements.items.resourcepicker.UIResourcePicker;
+import dLib.ui.elements.items.resourcepicker.AbstractUIResourcePicker;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureResourceBinding;
@@ -25,7 +25,7 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
             valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
             valueBox.setImage(Tex.stat(UICommonResources.button02_horizontal));
             valueBox.onLeftClickEvent.subscribe(this, () -> {
-                UIResourcePicker picker = new UITextureResourcePicker();
+                AbstractUIResourcePicker picker = new UIGlobalTextureResourcePicker();
                 picker.onResourceSelectedEvent.subscribeManaged((aClass, s) -> property.setValue(new TextureResourceBinding(aClass, s)));
                 picker.open();
             });

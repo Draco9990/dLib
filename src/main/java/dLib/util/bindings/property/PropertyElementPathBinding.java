@@ -19,7 +19,7 @@ public class PropertyElementPathBinding extends AbstractPropertyBinding implemen
 
     //region Variables
 
-    private final AbstractUIElementBinding elementBinding;
+    public final AbstractUIElementBinding elementBinding;
     private final String propertyName;
 
     //endregion Variables

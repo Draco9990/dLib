@@ -2,7 +2,7 @@ package dLib.util.bindings.font.editors;
 
 import dLib.properties.objects.FontBindingProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.ui.elements.items.resourcepicker.UIFontResourcePicker;
+import dLib.ui.elements.items.resourcepicker.UIGlobalFontResourcePicker;
 import dLib.ui.elements.items.resourcepicker.AbstractUIResourcePicker;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
@@ -23,7 +23,7 @@ public class FontResourceBindingValueEditor extends AbstractValueEditor<FontReso
         valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.px(50));
         valueBox.setImage(Tex.stat(UICommonResources.button02_horizontal));
         valueBox.onLeftClickEvent.subscribe(this, () -> {
-            AbstractUIResourcePicker picker = new UIFontResourcePicker();
+            AbstractUIResourcePicker picker = new UIGlobalFontResourcePicker();
             picker.onResourceSelectedEvent.subscribeManaged((aClass, s) -> property.setValue(new FontResourceBinding(aClass, s)));
             picker.open();
         });

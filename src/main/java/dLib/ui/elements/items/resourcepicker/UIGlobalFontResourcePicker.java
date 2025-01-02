@@ -6,16 +6,15 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.Reflection;
 import dLib.util.bindings.font.Font;
-import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.bindings.font.fontresource.IFontSource;
 import dLib.util.ui.dimensions.Dim;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class UIFontResourcePicker extends UIResourcePicker{
+public class UIGlobalFontResourcePicker extends AbstractUIPreviewResourcePicker {
     @Override
-    public ResourcePickerWindow.ResourcePickerWindowResource createResourcePickerWindowResource(Class<?> clazz, Field field) {
+    public ResourcePickerWindowResource createResourcePickerWindowResource(Class<?> clazz, Field field) {
         return new FontResourcePickerWindowResource(clazz, field);
     }
 
@@ -33,7 +32,7 @@ public class UIFontResourcePicker extends UIResourcePicker{
         return classesToIndex;
     }
 
-    public static class FontResourcePickerWindowResource extends ResourcePickerWindow.ResourcePickerWindowResource {
+    public static class FontResourcePickerWindowResource extends ResourcePickerWindowResource {
         public FontResourcePickerWindowResource(Class<?> clazz, Field field) {
             super(clazz, field);
         }
