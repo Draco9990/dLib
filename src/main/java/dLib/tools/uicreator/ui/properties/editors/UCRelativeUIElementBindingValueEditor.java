@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import dLib.mousestates.MouseStateManager;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
-import dLib.ui.bindings.UIElementPathBinding;
+import dLib.ui.bindings.UIElementRelativePathBinding;
 import dLib.ui.elements.items.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.ImageTextBox;
@@ -13,10 +13,10 @@ import dLib.ui.screens.UIManager;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
-public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingValueEditor<UIElementPathBinding> {
+public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingValueEditor<UIElementRelativePathBinding> {
     private ImageTextBox bindingBox;
 
-    public UCRelativeUIElementBindingValueEditor(UIElementPathBinding value) {
+    public UCRelativeUIElementBindingValueEditor(UIElementRelativePathBinding value) {
         this(new UCUIElementBindingProperty(value));
     }
 
@@ -35,7 +35,7 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
 
                 ReferencePickerMouseState state = new ReferencePickerMouseState(editor.itemTree.rootElement);
                 state.onReferencePickedEvent.subscribe(this, element -> {
-                    property.setValue(new UIElementPathBinding(element));
+                    property.setValue(new UIElementRelativePathBinding(element));
                 });
                 MouseStateManager.get().enterMouseState(state);
             });
@@ -45,12 +45,12 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
             mainContentBox.addItem(bindingBox);
         }
 
-        if(property.getValue() instanceof UIElementPathBinding){
-            UIElementPathBinding binding = (UIElementPathBinding) property.getValue();
+        if(property.getValue() instanceof UIElementRelativePathBinding){
+            UIElementRelativePathBinding binding = (UIElementRelativePathBinding) property.getValue();
             binding.getObjectRelativePathRaw().onValueChangedEvent.subscribe(this, (s, s2) -> bindingBox.textBox.setText(s2));
         }
 
-        ((UIElementPathBinding) property.getValue()).getObjectRelativePathRaw().onValueChangedEvent.subscribe(this, (uiElementBinding, uiElementBinding2) -> {
+        ((UIElementRelativePathBinding) property.getValue()).getObjectRelativePathRaw().onValueChangedEvent.subscribe(this, (uiElementBinding, uiElementBinding2) -> {
             bindingBox.textBox.setText(uiElementBinding2);
         });
 

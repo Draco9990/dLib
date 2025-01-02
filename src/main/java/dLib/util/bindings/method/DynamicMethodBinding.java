@@ -4,6 +4,7 @@ import dLib.properties.objects.MethodBindingProperty;
 import dLib.properties.objects.StringProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.ui.elements.UIElement;
 import dLib.util.Reflection;
 import dLib.util.bindings.method.editors.DynamicMethodBindingValueEditor;
 
@@ -70,6 +71,11 @@ public class DynamicMethodBinding extends AbstractMethodBinding implements Seria
 
     @Override
     public Object executeBinding(Object target, Object... args) {
+        if(target instanceof UIElement){
+            //* Dynamic methods are located in the top parent of the UIElement
+            target = ((UIElement) target).getTopParent(); //TODO replace with top native parent, not top parent overall
+        }
+
         if(methodToExecute != null && methodToExecute.getValue().isEmpty()){
             return Reflection.invokeMethod(methodToExecute.getValue(), target, args);
         }

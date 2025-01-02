@@ -25,7 +25,7 @@ import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValu
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.animations.exit.UIExitAnimation;
-import dLib.ui.bindings.UIElementPathBinding;
+import dLib.ui.bindings.UIElementRelativePathBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
@@ -221,17 +221,17 @@ public class UIElement implements Disposable, IEditableValue {
 
         this.isPassthrough = data.isPassthrough.getValue();
 
-        onHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
-        onHoverTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(getTopParent(), time)); //* TODO replace with first non-native parent when nativity is added
-        onUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
+        onHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
+        onHoverTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(this, time)); //* TODO replace with first non-native parent when nativity is added
+        onUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
 
-        onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
-        onLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().executeBinding(getTopParent(), time)); //* TODO replace with first non-native parent when nativity is added
-        onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
+        onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
+        onLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().executeBinding(this, time)); //* TODO replace with first non-native parent when nativity is added
+        onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
 
-        onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
-        onRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), time)); //* TODO replace with first non-native parent when nativity is added
-        onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent())); //* TODO replace with first non-native parent when nativity is added
+        onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
+        onRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(this, time)); //* TODO replace with first non-native parent when nativity is added
+        onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this)); //* TODO replace with first non-native parent when nativity is added
 
         commonInitialize();
     }
@@ -2259,7 +2259,7 @@ public class UIElement implements Disposable, IEditableValue {
 
     @Override
     public AbstractValueEditor makeEditorFor() {
-        return new UCRelativeUIElementBindingValueEditor(new UIElementPathBinding(this));
+        return new UCRelativeUIElementBindingValueEditor(new UIElementRelativePathBinding(this));
     }
 
     @Override
