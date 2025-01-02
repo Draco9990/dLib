@@ -1169,6 +1169,20 @@ public class UIElement implements Disposable, IEditableValue {
     public void setControllerSelectable(boolean controllerSelectable){
         this.controllerSelectable = controllerSelectable;
     }
+    public boolean isControllerSelectable(){
+        return controllerSelectable;
+    }
+
+    public ArrayList<UIElement> getAllSelectableChildren(){
+        ArrayList<UIElement> allChildren = new ArrayList<>();
+        for(UIElement child : children){
+            if(child.isControllerSelectable() && child.isEnabled()){
+                allChildren.add(child);
+            }
+            allChildren.addAll(child.getAllSelectableChildren());
+        }
+        return allChildren;
+    }
 
     public void select(){
         setSelected(true);

@@ -34,6 +34,7 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
             leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
             leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
+            leftArrow.setControllerSelectable(false);
             box.addItem(leftArrow);
 
             inputbox = new Inputfield(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
@@ -45,9 +46,12 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
             rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
             rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
+            rightArrow.setControllerSelectable(false);
             box.addItem(rightArrow);
         }
         addChild(box);
+
+        setControllerSelectable(true);
 
         boundProperty.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

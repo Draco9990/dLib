@@ -35,6 +35,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             leftArrow = new Button(Dim.mirror(), Dim.px(50));
             leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
+            leftArrow.setControllerSelectable(false);
             box.addItem(leftArrow);
 
             enumBox = new ComboBox<OfType>(boundProperty.getValue(), EnumHelpers.getAllEntries(boundProperty.getValue()), Dim.fill(), Dim.px(50)){
@@ -51,9 +52,12 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             rightArrow = new Button(Dim.mirror(), Dim.px(50));
             rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
+            rightArrow.setControllerSelectable(false);
             box.addItem(rightArrow);
         }
         addChild(box);
+
+        setControllerSelectable(true);
 
         property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;

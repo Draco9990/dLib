@@ -1,4 +1,6 @@
 --> calculate each's font inverse downcale by comparing known pixel sizes for the save word and store in a map so all fonts are the same size
+--> call method binding
+--> on left interaction & those add as events
 
 -- do the scale with the scale factor instead of offseting by /0.8f or whatever
 --> slider scroll by content size, lesser percentage if alot of content

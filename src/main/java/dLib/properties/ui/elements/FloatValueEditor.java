@@ -33,6 +33,7 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
             leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
             leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
+            leftArrow.setControllerSelectable(false);
             hBox.addItem(leftArrow);
 
             inputbox = new Inputfield(boundProperty.getValueForDisplay(), Dim.fill(), Dim.px(50));
@@ -44,9 +45,12 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
             rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
             rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
+            rightArrow.setControllerSelectable(false);
             hBox.addItem(rightArrow);
         }
         addChild(hBox);
+
+        setControllerSelectable(true);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

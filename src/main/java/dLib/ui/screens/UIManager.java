@@ -98,7 +98,7 @@ public class UIManager {
     }
 
     private static boolean selectNextElement(UIElement topParent, Boolean foundSelectedElement){
-        ArrayList<UIElement> children = topParent.getAllChildren();
+        ArrayList<UIElement> children = topParent.getAllSelectableChildren();
         for (int i = 0; i < children.size(); i++) {
             UIElement child = children.get(i);
 
@@ -119,7 +119,7 @@ public class UIManager {
     }
 
     private static boolean selectPreviousElement(UIElement topParent, Boolean foundSelectedElement){
-        ArrayList<UIElement> children = topParent.getAllChildren();
+        ArrayList<UIElement> children = topParent.getAllSelectableChildren();
         for (int i = children.size() - 1; i >= 0; i--) {
             UIElement child = children.get(i);
 
