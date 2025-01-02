@@ -1,10 +1,10 @@
 package dLib.ui.bindings;
 
+import dLib.properties.objects.Property;
 import dLib.properties.objects.StringProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
-import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
@@ -48,7 +48,7 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
 
     @Override
     public AbstractValueEditor makeEditorFor(TProperty property) {
-        return new UCRelativeUIElementBindingValueEditor((UCUIElementBindingProperty) property);
+        return new UCRelativeUIElementBindingValueEditor((Property<AbstractUIElementBinding>) property);
     }
 
     public StringProperty getObjectRelativePathRaw() {

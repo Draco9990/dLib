@@ -1,8 +1,8 @@
 package dLib.util.bindings.method.staticbindings;
 
 import dLib.properties.objects.Property;
-import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
-import dLib.ui.bindings.UIElementUndefinedPathBinding;
+import dLib.ui.bindings.AbstractUIElementBinding;
+import dLib.ui.bindings.UIElementUndefinedRelativePathBinding;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.property.AbstractPropertyBinding;
 import dLib.util.bindings.property.PropertyElementPathBinding;
@@ -16,7 +16,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
     //For property editors
     private static final String PROPERTY_EDITOR_LONG_NAME = "Set Property Value (Target)";
 
-    private UCUIElementBindingProperty target = new UCUIElementBindingProperty(new UIElementUndefinedPathBinding())
+    private Property<AbstractUIElementBinding> target = new Property<AbstractUIElementBinding>(new UIElementUndefinedRelativePathBinding())
             .setName("Target");
 
     private Property<AbstractPropertyBinding> boundProperty = new Property<AbstractPropertyBinding>(new PropertyElementPathUndefinedBinding())

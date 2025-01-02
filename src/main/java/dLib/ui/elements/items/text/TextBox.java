@@ -90,7 +90,7 @@ public class TextBox extends UIElement {
 
         this.wrap = data.wrap.getValue();
 
-        onTextChangedEvent.subscribeManaged(s -> data.onTextChanged.getValue().executeBinding(getTopParent()));
+        onTextChangedEvent.subscribeManaged(s -> data.onTextChanged.getValue().executeBinding(this));
     }
 
     //endregion

@@ -2,8 +2,9 @@ package dLib.tools.uicreator.ui.properties.editors;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.mousestates.MouseStateManager;
+import dLib.properties.objects.Property;
 import dLib.tools.uicreator.UCEditor;
-import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
+import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.bindings.UIElementRelativePathBinding;
 import dLib.ui.elements.items.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
@@ -17,10 +18,10 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
     private ImageTextBox bindingBox;
 
     public UCRelativeUIElementBindingValueEditor(UIElementRelativePathBinding value) {
-        this(new UCUIElementBindingProperty(value));
+        this(new Property<>(value));
     }
 
-    public UCRelativeUIElementBindingValueEditor(UCUIElementBindingProperty property) {
+    public UCRelativeUIElementBindingValueEditor(Property<AbstractUIElementBinding> property) {
         super(property);
 
         HorizontalBox mainContentBox = new HorizontalBox(Dim.fill(), Dim.px(50));

@@ -57,13 +57,13 @@ public class Interactable extends Renderable{
         this.disabledColor = Color.valueOf(data.disabledColor);
         this.disabledColorMultiplier = data.disabledColorMultiplier;
 
-        if(data.onLeftClick != null) onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(getTopParent()));
-        if(data.onLeftClickHeld != null) onLeftClickHeldEvent.subscribeManaged(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
-        if(data.onLeftClickRelease != null) onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(getTopParent()));
+        if(data.onLeftClick != null) onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(this));
+        if(data.onLeftClickHeld != null) onLeftClickHeldEvent.subscribeManaged(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(this, deltaTime));
+        if(data.onLeftClickRelease != null) onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(this));
 
-        if(data.onRightClick != null) onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(getTopParent()));
-        if(data.onRightClickHeld != null) onRightClickHeldEvent.subscribeManaged(deltaTime -> data.onRightClickHeld.getValue().executeBinding(getTopParent(), deltaTime));
-        if(data.onRightClickRelease != null) onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(getTopParent()));
+        if(data.onRightClick != null) onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this));
+        if(data.onRightClickHeld != null) onRightClickHeldEvent.subscribeManaged(deltaTime -> data.onRightClickHeld.getValue().executeBinding(this, deltaTime));
+        if(data.onRightClickRelease != null) onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this));
     }
 
     //endregion

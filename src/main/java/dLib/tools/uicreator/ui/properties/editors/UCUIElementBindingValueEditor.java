@@ -1,13 +1,13 @@
 package dLib.tools.uicreator.ui.properties.editors;
 
+import dLib.properties.objects.Property;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.tools.uicreator.UCEditor;
 import dLib.ui.bindings.AbstractUIElementBinding;
-import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
 import dLib.ui.screens.UIManager;
 
-public abstract class UCUIElementBindingValueEditor<BindingValue extends AbstractUIElementBinding> extends AbstractValueEditor<BindingValue, UCUIElementBindingProperty> {
-    public UCUIElementBindingValueEditor(UCUIElementBindingProperty property) {
+public abstract class UCUIElementBindingValueEditor<BindingValue extends AbstractUIElementBinding> extends AbstractValueEditor<BindingValue, Property<AbstractUIElementBinding>> {
+    public UCUIElementBindingValueEditor(Property<AbstractUIElementBinding> property) {
         super(property);
 
         if(UIManager.getOpenElementOfType(UCEditor.class) == null){

@@ -1,7 +1,8 @@
 package dLib.util.bindings.method.staticbindings;
 
 import dLib.properties.objects.BooleanProperty;
-import dLib.tools.uicreator.ui.properties.objects.UCUIElementBindingProperty;
+import dLib.properties.objects.Property;
+import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.bindings.UIElementUndefinedRelativePathBinding;
 import dLib.ui.elements.UIElement;
 
@@ -13,7 +14,7 @@ public class ShowAndEnableTargetedMethodBinding extends StaticMethodBinding impl
     //For property editors
     private static final String PROPERTY_EDITOR_LONG_NAME = "Show and Enable (Target)";
 
-    private UCUIElementBindingProperty target = new UCUIElementBindingProperty(new UIElementUndefinedRelativePathBinding())
+    private Property<AbstractUIElementBinding> target = new Property<AbstractUIElementBinding>(new UIElementUndefinedRelativePathBinding())
             .setName("Target");
 
     private BooleanProperty instant = new BooleanProperty(false)
