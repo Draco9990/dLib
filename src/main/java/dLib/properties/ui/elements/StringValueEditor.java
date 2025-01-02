@@ -26,7 +26,7 @@ public abstract class StringValueEditor extends AbstractValueEditor<String, Stri
             }
         });
 
-        addChildNCS(inputfield);
+        addChild(inputfield);
     }
 
 

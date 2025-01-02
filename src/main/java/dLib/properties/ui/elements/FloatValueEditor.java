@@ -46,7 +46,7 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
             rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
             hBox.addItem(rightArrow);
         }
-        addChildNCS(hBox);
+        addChild(hBox);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

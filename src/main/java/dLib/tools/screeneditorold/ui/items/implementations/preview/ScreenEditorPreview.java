@@ -8,7 +8,6 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Renderable;
 import dLib.util.DLibLogger;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -29,7 +28,7 @@ public class ScreenEditorPreview extends UIElement {
     public ScreenEditorPreview(){
         super(Pos.px(10), Pos.px(10), Dim.fill(), Dim.fill());
 
-        addChildNCS(new Renderable(Tex.stat("dLibResources/images/ui/Transparent.png"), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()));
+        addChild(new Renderable(Tex.stat("dLibResources/images/ui/Transparent.png"), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()));
 
         grid = new Renderable(Tex.stat("dLibResources/images/ui/screeneditor/ScreenEditorGrid.png"), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw());
     }
@@ -49,7 +48,7 @@ public class ScreenEditorPreview extends UIElement {
     //region Preview Item Management
 
     public void addPreviewItem(ScreenEditorItem item){
-        addChildNCS(item);
+        addChild(item);
 
         getParent().getActiveItemsManager().addActiveItem(item);
     }
@@ -106,9 +105,9 @@ public class ScreenEditorPreview extends UIElement {
 
     public ArrayList<ScreenEditorItem> getPreviewItems(){
         ArrayList<ScreenEditorItem> previewItems = new ArrayList<>();
-        for(UIElementChild child : children){
-            if(child.element instanceof ScreenEditorItem){
-                previewItems.add((ScreenEditorItem) child.element);
+        for(UIElement child : children){
+            if(child instanceof ScreenEditorItem){
+                previewItems.add((ScreenEditorItem) child);
             }
         }
 

@@ -57,20 +57,20 @@ public class ScreenEditorBaseScreen extends UIElement {
     private void initialize(String editingClass){
         this.editingScreen = editingClass;
 
-        addChildNCS(new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setRenderColor(Color.valueOf("#151515FF")));
+        addChild(new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()).setRenderColor(Color.valueOf("#151515FF")));
 
         menu = new ScreenEditorMenu();
-        addChildNCS(menu);
+        addChild(menu);
 
         preview = new ScreenEditorPreview();
-        addChildNCS(preview);
+        addChild(preview);
 
         toolbar = new ScreenEditorToolbox();
-        addChildNCS(toolbar);
+        addChild(toolbar);
         properties = new ScreenEditorElementProperties();
-        addChildNCS(properties);
+        addChild(properties);
         elementListScreen = new ScreenEditorElementList();
-        addChildNCS(elementListScreen);
+        addChild(elementListScreen);
 
         saveManager = new ScreenEditorSaveManager(this);
         activeItemsManager = new ScreenEditorActiveItemsManager(this);

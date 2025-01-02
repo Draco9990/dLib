@@ -74,7 +74,7 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
             }
         });
 
-        addChildNCS(mainContentBox);
+        addChild(mainContentBox);
     }
 
 

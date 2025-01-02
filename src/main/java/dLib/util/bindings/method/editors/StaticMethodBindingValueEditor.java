@@ -72,7 +72,7 @@ public class StaticMethodBindingValueEditor extends MethodBindingValueEditor<Sta
             buildStaticBindingPropertiesBox(property);
         });
 
-        addChildNCS(mainContentBox);
+        addChild(mainContentBox);
     }
 
     private void buildStaticBindingPropertiesBox(TMethodBindingProperty<? extends TMethodBindingProperty> property){

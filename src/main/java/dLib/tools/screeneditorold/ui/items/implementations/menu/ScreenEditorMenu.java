@@ -19,7 +19,7 @@ public class ScreenEditorMenu extends UIElement {
 
     public ScreenEditorMenu(){
         super(Pos.px(10), Pos.px(1080-220), Dim.px(1490), Dim.px(210));
-        addChildNCS(new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()).setRenderColor(Color.valueOf("#242424FF")));
+        addChild(new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()).setRenderColor(Color.valueOf("#242424FF")));
 
         initializeFileControls();
         initializePropertyControls();

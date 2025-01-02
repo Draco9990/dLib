@@ -23,6 +23,6 @@ public class MirrorDimensionValueEditor extends DimensionValueEditor<MirrorDimen
 
             contentBox.addItem(makeSwapComboBox());
         }
-        addChildNCS(contentBox);
+        addChild(contentBox);
     }
 }

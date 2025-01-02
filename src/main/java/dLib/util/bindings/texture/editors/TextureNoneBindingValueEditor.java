@@ -24,6 +24,6 @@ public class TextureNoneBindingValueEditor extends TextureBindingValueEditor<Tex
             contentBox.addItem(valueBox);
             contentBox.addItem(makeSwapComboBox());
         }
-        addChildNCS(contentBox);
+        addChild(contentBox);
     }
 }

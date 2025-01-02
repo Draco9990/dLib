@@ -70,7 +70,7 @@ public class Inputfield extends Button {
         textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         textBox.setPaddingLeft(Padd.px(20));
-        addChildNCS(textBox);
+        addChild(textBox);
 
         this.previewTextBox = new TextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
             @Override
@@ -81,7 +81,7 @@ public class Inputfield extends Button {
         previewTextBox.setTextRenderColor(Color.DARK_GRAY);
         previewTextBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         previewTextBox.setPaddingLeft(Padd.px(20));
-        addChildNCS(this.previewTextBox);
+        addChild(this.previewTextBox);
 
         textBox.setPadding(Padd.px(10));
 
@@ -94,10 +94,10 @@ public class Inputfield extends Button {
         preInitialize();
 
         this.textBox = data.textboxData.makeUIElement();
-        addChildCS(this.textBox);
+        addChild(this.textBox);
 
         this.previewTextBox = data.previewTextBoxData.makeUIElement();
-        addChildCS(this.previewTextBox);
+        addChild(this.previewTextBox);
 
         characterFilter = data.characterFilter;
         characterLimit = data.characterLimit.getValue();

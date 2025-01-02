@@ -80,7 +80,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
                     }
                 };
                 hoverable.setPassthrough(true);
-                item.addChildNCS(hoverable);
+                item.addChild(hoverable);
 
                 return item;
             }
@@ -93,7 +93,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
         buildValueContent(Dim.fill(), Dim.auto());
         vBox.addItem(contentEditor);
-        addChildCS(vBox);
+        addChild(vBox);
     }
 
     private void buildSingleLine(){
@@ -112,7 +112,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
                     }
                 };
                 hoverable.setPassthrough(true);
-                item.addChildNCS(hoverable);
+                item.addChild(hoverable);
 
                 return item;
             }
@@ -125,7 +125,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
         buildValueContent(Dim.perc(0.25), Dim.px(50));
         hBox.addItem(contentEditor);
-        addChildNCS(hBox);
+        addChild(hBox);
     }
 
     protected void buildValueContent(AbstractDimension width, AbstractDimension height){

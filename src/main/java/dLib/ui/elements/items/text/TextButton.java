@@ -34,14 +34,14 @@ public class TextButton extends Button {
         label.setFont(Font.stat(FontHelper.buttonLabelFont));
         label.setFontSize(10);
         label.setPadding(Padd.px(10));
-        addChildNCS(label);
+        addChild(label);
     }
 
     public TextButton(TextButtonData data){
         super(data);
 
         label = data.textBoxData.makeUIElement();
-        addChildCS(label);
+        addChild(label);
     }
 
     //endregion

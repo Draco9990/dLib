@@ -76,7 +76,7 @@ public abstract class AbstractUIPreviewResourcePicker extends AbstractUIResource
                 parent.onResourceSelectedEvent.invoke(classStringBiConsumer -> classStringBiConsumer.accept(clazz, field.getName()));
                 parent.close();
             });
-            addChildNCS(button);
+            addChild(button);
 
             VerticalBox contentBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
@@ -88,7 +88,7 @@ public abstract class AbstractUIPreviewResourcePicker extends AbstractUIResource
                 box.setWrap(true);
                 contentBox.addItem(box);
             }
-            addChildNCS(contentBox);
+            addChild(contentBox);
         }
 
         public abstract UIElement makeResourcePickerWindowResourcePreview(Class<?> clazz, Field field);

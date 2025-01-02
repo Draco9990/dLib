@@ -47,7 +47,7 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
             }
         });
 
-        addChildNCS(box);
+        addChild(box);
     }
 
     //endregion

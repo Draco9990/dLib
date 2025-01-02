@@ -37,7 +37,7 @@ public class PasswordBox extends UIElement {
             });
             box.addItem(showPasswordButton);
 
-            addChildNCS(box);
+            addChild(box);
         }
     }
 }

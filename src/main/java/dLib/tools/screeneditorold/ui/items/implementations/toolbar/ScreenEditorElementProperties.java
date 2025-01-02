@@ -20,7 +20,7 @@ public class ScreenEditorElementProperties extends AbstractScreenEditorToolbar {
 
         propertiesItemList.setImage(new TextureNoneBinding());
         propertiesItemList.setItemSpacing(25);
-        addChildNCS(propertiesItemList);
+        addChild(propertiesItemList);
 
         hideAndDisable();
     }

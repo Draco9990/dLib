@@ -53,7 +53,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
             box.addItem(rightArrow);
         }
-        addChildNCS(box);
+        addChild(box);
 
         property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;

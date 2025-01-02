@@ -47,7 +47,7 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
             rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
             box.addItem(rightArrow);
         }
-        addChildNCS(box);
+        addChild(box);
 
         boundProperty.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

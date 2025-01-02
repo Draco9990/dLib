@@ -23,6 +23,6 @@ public class AutoDimensionValueEditor extends DimensionValueEditor<AutoDimension
 
             contentBox.addItem(makeSwapComboBox());
         }
-        addChildNCS(contentBox);
+        addChild(contentBox);
     }
 }

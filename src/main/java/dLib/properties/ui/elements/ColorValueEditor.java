@@ -45,7 +45,7 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
             middleButton.setRenderColor(Color.valueOf(newColor));
         });
 
-        addChildNCS(middleButton);
+        addChild(middleButton);
     }
 
 

@@ -46,7 +46,7 @@ public class PredefinedGrid extends UIElement {
             }
             mainColumn.addItem(rows[i]);
         }
-        addChildNCS(mainColumn);
+        addChild(mainColumn);
     }
 
     public void setGridSlotElement(int rowIndex, int columnIndex, UIElement element){
@@ -57,7 +57,7 @@ public class PredefinedGrid extends UIElement {
             header.replaceChild(currentElement, element);
         }
         else{
-            header.addChildNCS(element);
+            header.addChild(element);
         }
     }
 }

@@ -34,7 +34,7 @@ public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<A
             });
             resourcePicker.open();
         });
-        addChildNCS(valueBox);
+        addChild(valueBox);
 
         property.onValueChangedEvent.subscribe(this, (textureBinding, textureBinding2) -> {
             if (!isEditorValidForPropertyChange()) return;

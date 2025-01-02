@@ -25,7 +25,7 @@ public class PercentageDimensionValueEditor extends DimensionValueEditor<Percent
 
             contentBox.addItem(makeSwapComboBox());
         }
-        addChildNCS(contentBox);
+        addChild(contentBox);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

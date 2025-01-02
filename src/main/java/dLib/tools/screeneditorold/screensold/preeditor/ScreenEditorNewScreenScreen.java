@@ -15,16 +15,16 @@ public class ScreenEditorNewScreenScreen extends UIElement {
     public ScreenEditorNewScreenScreen(){
         super(Pos.px(0), Pos.px(0), Dim.px(1920), Dim.px(1080));
 
-        addChildNCS(new TextBox("Enter screen name:", Pos.px(539), Pos.px(1080-572), Dim.px(798), Dim.px(105)));
+        addChild(new TextBox("Enter screen name:", Pos.px(539), Pos.px(1080-572), Dim.px(798), Dim.px(105)));
 
         Inputfield.InputfieldData test = new Inputfield.InputfieldData();
         inputfield = new Inputfield(test);
         //inputfield = new Inputfield("", 538, 1080-713, 800, 121);
         inputfield.setLocalPosition(538, 1080-713);
         //inputfield.setDimensions(800, 121);
-        addChildCS(inputfield);
+        addChild(inputfield);
 
         TextButton proceedButton = new TextButton("CREATE", Pos.px(683), Pos.px(1080-896), Dim.px(532), Dim.px(101));
-        addChildCS(proceedButton);
+        addChild(proceedButton);
     }
 }

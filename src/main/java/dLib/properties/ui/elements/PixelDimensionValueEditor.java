@@ -25,7 +25,7 @@ public class PixelDimensionValueEditor extends DimensionValueEditor<PixelDimensi
 
             contentBox.addItem(makeSwapComboBox());
         }
-        addChildNCS(contentBox);
+        addChild(contentBox);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

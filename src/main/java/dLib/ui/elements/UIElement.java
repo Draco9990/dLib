@@ -61,7 +61,7 @@ public class UIElement implements Disposable, IEditableValue {
     protected String ID;
 
     protected UIElement parent;
-    protected List<UIElementChild> children = new ArrayList<>();
+    protected List<UIElement> children = new ArrayList<>();
     public Event<Runnable> onHierarchyChangedEvent = new Event<>();
 
     protected Hitbox hb = new Hitbox(0, 0, 1, 1);
@@ -323,8 +323,8 @@ public class UIElement implements Disposable, IEditableValue {
     @Override
     public void dispose(){
         while(!children.isEmpty()){
-            UIElementChild child = children.get(0);
-            child.element.dispose();
+            UIElement child = children.get(0);
+            child.dispose();
         }
 
         if(hasParent()){
@@ -506,7 +506,7 @@ public class UIElement implements Disposable, IEditableValue {
     }
     protected void updateChildren(){
         for(int i = children.size() - 1; i >= 0; i--){
-            children.get(i).element.update();
+            children.get(i).update();
         }
     }
 
@@ -553,8 +553,8 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     protected void renderChildren(SpriteBatch sb){
-        for(UIElementChild child : children){
-            child.element.render(sb);
+        for(UIElement child : children){
+            child.render(sb);
         }
     }
 
@@ -598,25 +598,25 @@ public class UIElement implements Disposable, IEditableValue {
             }
 
             while(!children.isEmpty()){
-                UIElement child = children.get(0).element;
+                UIElement child = children.get(0);
                 removeChild(child);
-                parent.addChildNCS(child);
+                parent.addChild(child);
             }
 
             parent.removeChild(this);
-            newParent.addChildNCS(this);
+            newParent.addChild(this);
         }
         else {
             if(parent != null){
-                for(UIElementChild child : parent.children){
-                    if(child.element == this){
+                for(UIElement child : parent.children){
+                    if(child == this){
                         parent.removeChild(this);
                         break;
                     }
                 }
             }
 
-            newParent.addChild(this, false);
+            newParent.addChild(this);
         }
     }
 
@@ -645,24 +645,14 @@ public class UIElement implements Disposable, IEditableValue {
     //endregion
 
     //region Children
-    public void addChildNCS(UIElement child){
-        addChild(child, false);
-    }
-    public void addChildCS(UIElement child){
-        addChild(child, true);
-    }
-    public void addChild(UIElement child, boolean isControllerSelectable){
-        addChild(new UIElementChild(child, isControllerSelectable));
-    }
-    public void addChild(UIElementChild child){
+    public void addChild(UIElement child){
         this.children.add(child);
-        child.element.setParent(this);
+        child.setParent(this);
         onChildrenChanged();
     }
-
-    public void setChildren(ArrayList<UIElementChild> children){
+    public void setChildren(ArrayList<UIElement> children){
         clearChildren();
-        for(UIElementChild child : children){
+        for(UIElement child : children){
             addChild(child);
         }
     }
@@ -672,36 +662,30 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public boolean hasChild(UIElement child){
-        for(UIElementChild childEle : children){
-            if(Objects.equals(childEle.element, child)) return true;
-        }
-
-        return false;
+        return children.contains(child);
     }
 
     public void removeChild(UIElement child){
-        this.children.removeIf(next -> next.element.equals(child));
-        if(Objects.equals(child.getParent(), this)) child.setParent(null);
-        onChildrenChanged();
-    }
-    public void replaceChild(UIElement original, UIElement replacement){
-        for(UIElementChild child : children){
-            if(Objects.equals(child.element, original)){
-                UIElement oldElement = child.element;
-                oldElement.setParent(null);
-
-                child.element = replacement;
-                replacement.setParent(this);
-
-                oldElement.dispose();
-            }
+        if(children.remove(child)){
+            child.setParent(null);
+            onChildrenChanged();
         }
     }
+    public void replaceChild(UIElement original, UIElement replacement){
+        int childIndex = children.indexOf(original);
+        if(childIndex == -1){
+            return;
+        }
+
+        children.set(childIndex, replacement);
+        original.setParent(null);
+        original.dispose();
+
+        replacement.setParent(this);
+    }
     public void clearChildren(){
-        for(UIElementChild child : children){
-            if(Objects.equals(child.element.getParent(), this)){
-                child.element.setParent(null);
-            }
+        for(UIElement child : children){
+            child.setParent(null);
         }
         children.clear();
         onChildrenChanged();
@@ -712,49 +696,34 @@ public class UIElement implements Disposable, IEditableValue {
         onHierarchyChangedEvent.invoke(Runnable::run);
     }
 
-    public UIElementChild getFirstChild(){
+    public UIElement getFirstChild(){
         if(children.isEmpty()) return null;
         return children.get(0);
     }
-    public UIElementChild getLastChild(){
+    public UIElement getLastChild(){
         if(children.isEmpty()) return null;
         return children.get(children.size() - 1);
     }
     public ArrayList<UIElement> getChildren(){
-        ArrayList<UIElement> childElements = new ArrayList<>();
-        for(UIElementChild child : children){
-            childElements.add(child.element);
-        }
-        return childElements;
-    }
-    public ArrayList<UIElementChild> getChildrenRaw(){
         return new ArrayList<>(children);
     }
 
     public ArrayList<UIElement> getAllChildren(){
         ArrayList<UIElement> allChildren = new ArrayList<>();
-        for(UIElementChild child : children){
-            allChildren.add(child.element);
-            allChildren.addAll(child.element.getAllChildren());
-        }
-        return allChildren;
-    }
-    public ArrayList<UIElementChild> getAllChildrenRaw(){
-        ArrayList<UIElementChild> allChildren = new ArrayList<>();
-        for(UIElementChild child : children){
+        for(UIElement child : children){
             allChildren.add(child);
-            allChildren.addAll(child.element.getAllChildrenRaw());
+            allChildren.addAll(child.getAllChildren());
         }
         return allChildren;
     }
 
     public UIElement getSelectedChild(){
-        for(UIElementChild child : children){
-            if(child.element.isSelected()){
-                return child.element;
+        for(UIElement child : children){
+            if(child.isSelected()){
+                return child;
             }
 
-            UIElement selectedChild = child.element.getSelectedChild();
+            UIElement selectedChild = child.getSelectedChild();
             if(selectedChild != null){
                 return selectedChild;
             }
@@ -764,9 +733,9 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public UIElement findChildById(String elementId){
-        for(UIElementChild child : children){
-            if(child.element.getId().equals(elementId)){
-                return child.element;
+        for(UIElement child : children){
+            if(child.getId().equals(elementId)){
+                return child;
             }
         }
 
@@ -1017,8 +986,8 @@ public class UIElement implements Disposable, IEditableValue {
 
         onPositionChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(UIElement.this));
 
-        for(UIElementChild child : children){
-            child.element.onParentPositionChanged();
+        for(UIElement child : children){
+            child.onParentPositionChanged();
         }
     }
 
@@ -1161,33 +1130,33 @@ public class UIElement implements Disposable, IEditableValue {
     //region Interactions
     public boolean onLeftInteraction(){
         boolean hasInteraction = false;
-        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onLeftInteraction();
+        for(UIElement child : children) hasInteraction = hasInteraction || child.onLeftInteraction();
         return hasInteraction;
     }
     public boolean onRightInteraction(){
         boolean hasInteraction = false;
-        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onRightInteraction();
+        for(UIElement child : children) hasInteraction = hasInteraction || child.onRightInteraction();
         return hasInteraction;
     }
     public boolean onUpInteraction(){
         boolean hasInteraction = false;
-        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onUpInteraction();
+        for(UIElement child : children) hasInteraction = hasInteraction || child.onUpInteraction();
         return hasInteraction;
     }
     public boolean onDownInteraction(){
         boolean hasInteraction = false;
-        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onDownInteraction();
+        for(UIElement child : children) hasInteraction = hasInteraction || child.onDownInteraction();
         return hasInteraction;
     }
 
     public boolean onConfirmInteraction(){
         boolean hasInteraction = false;
-        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onConfirmInteraction();
+        for(UIElement child : children) hasInteraction = hasInteraction || child.onConfirmInteraction();
         return hasInteraction;
     }
     public boolean onCancelInteraction(){
         boolean hasInteraction = false;
-        for(UIElementChild child : children) hasInteraction = hasInteraction || child.element.onCancelInteraction();
+        for(UIElement child : children) hasInteraction = hasInteraction || child.onCancelInteraction();
         return hasInteraction;
     }
     //endregion
@@ -1213,10 +1182,10 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     public final UIElement getInnerMostSelectedChild(){
-        for(UIElementChild child : children) {
-            if(child.element.isSelected()){
-                UIElement selectedChild = child.element.getInnerMostSelectedChild();
-                return selectedChild == null ? child.element : selectedChild;
+        for(UIElement child : children) {
+            if(child.isSelected()){
+                UIElement selectedChild = child.getInnerMostSelectedChild();
+                return selectedChild == null ? child : selectedChild;
             }
         }
         return null;
@@ -1225,37 +1194,37 @@ public class UIElement implements Disposable, IEditableValue {
     public final boolean hasPreviousChildToSelect(){
         if(children.isEmpty()) return false;
 
-        UIElementChild firstChild = getFirstChild();
-        if(firstChild.element.isSelected()){
-            return firstChild.element.hasPreviousChildToSelect();
+        UIElement firstChild = getFirstChild();
+        if(firstChild.isSelected()){
+            return firstChild.hasPreviousChildToSelect();
         }
 
         return children.size() > 1;
     }
     public final void selectPreviousChild(){
         boolean selectedPreviousChild = false;
-        for(UIElementChild child : children){
-            if(child.element.isSelected()){
-                if(child.element.hasPreviousChildToSelect()){
+        for(UIElement child : children){
+            if(child.isSelected()){
+                if(child.hasPreviousChildToSelect()){
                     selectedPreviousChild = true;
-                    child.element.selectPreviousChild();
+                    child.selectPreviousChild();
                 }
             }
         }
 
         if(!selectedPreviousChild){
             for(int i = children.size() - 1; i >= 0; i--){
-                if(!children.get(i).element.isSelected()){
+                if(!children.get(i).isSelected()){
                     continue;
                 }
 
-                children.get(i).element.deselect();
+                children.get(i).deselect();
 
                 if(i - 1 < 0){
-                    children.get(children.size() - 1).element.select();
+                    children.get(children.size() - 1).select();
                 }
                 else{
-                    children.get(0).element.select();
+                    children.get(0).select();
                 }
 
                 selectedPreviousChild = true;
@@ -1263,27 +1232,27 @@ public class UIElement implements Disposable, IEditableValue {
         }
 
         if(!selectedPreviousChild && !children.isEmpty()){
-            children.get(children.size() - 1).element.select();
+            children.get(children.size() - 1).select();
         }
     }
 
     public final boolean hasNextChildToSelect(){
         if(children.isEmpty()) return false;
 
-        UIElementChild lastChild = getLastChild();
-        if(lastChild.element.isSelected()){
-            return lastChild.element.hasNextChildToSelect();
+        UIElement lastChild = getLastChild();
+        if(lastChild.isSelected()){
+            return lastChild.hasNextChildToSelect();
         }
 
         return children.size() > 1;
     }
     public final void selectNextChild(){
         boolean selectedNextChild = false;
-        for(UIElementChild child : children){
-            if(child.element.isSelected()){
-                if(child.element.hasNextChildToSelect()){
+        for(UIElement child : children){
+            if(child.isSelected()){
+                if(child.hasNextChildToSelect()){
                     selectedNextChild = true;
-                    child.element.selectNextChild();
+                    child.selectNextChild();
                     break;
                 }
             }
@@ -1291,17 +1260,17 @@ public class UIElement implements Disposable, IEditableValue {
 
         if(!selectedNextChild){
             for(int i = 0; i < children.size(); i++){
-                if(!children.get(i).element.isSelected()){
+                if(!children.get(i).isSelected()){
                     continue;
                 }
 
-                children.get(i).element.deselect();
+                children.get(i).deselect();
 
                 if(i + 1 >= children.size()){
-                    children.get(0).element.select();
+                    children.get(0).select();
                 }
                 else{
-                    children.get(i + 1).element.select();
+                    children.get(i + 1).select();
                 }
 
                 selectedNextChild = true;
@@ -1309,7 +1278,7 @@ public class UIElement implements Disposable, IEditableValue {
         }
 
         if(!selectedNextChild && !children.isEmpty()){
-            children.get(0).element.select();
+            children.get(0).select();
         }
     }
     //endregion
@@ -1343,9 +1312,9 @@ public class UIElement implements Disposable, IEditableValue {
     }
 
     private void invalidateChildrenCacheRecursive(){
-        for(UIElementChild child : children){
-            child.element.invalidateCaches();
-            child.element.invalidateChildrenCacheRecursive();
+        for(UIElement child : children){
+            child.invalidateCaches();
+            child.invalidateChildrenCacheRecursive();
         }
     }
 
@@ -1522,8 +1491,8 @@ public class UIElement implements Disposable, IEditableValue {
     public void onDimensionsChanged(){
         invalidateCachesForElementTree();
 
-        for(UIElementChild child : children){
-            child.element.onParentDimensionsChanged();
+        for(UIElement child : children){
+            child.onParentDimensionsChanged();
         }
 
         onDimensionsChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(UIElement.this));
@@ -1678,12 +1647,12 @@ public class UIElement implements Disposable, IEditableValue {
 
     public PositionBounds getFullChildLocalBounds(){
         PositionBounds fullChildBounds = null;
-        for(UIElementChild child : children){
-            if(!(child.element.isActive())){
+        for(UIElement child : children){
+            if(!(child.isActive())){
                 continue;
             }
 
-            PositionBounds childBounds = child.element.getFullLocalBounds();
+            PositionBounds childBounds = child.getFullLocalBounds();
             if(fullChildBounds == null){
                 fullChildBounds = childBounds;
                 continue;
@@ -1713,12 +1682,12 @@ public class UIElement implements Disposable, IEditableValue {
 
     public PositionBounds getFullChildLocalBoundsForAutoDim(){
         PositionBounds fullChildBounds = null;
-        for(UIElementChild child : children){
-            if(!(child.element.isActive())){
+        for(UIElement child : children){
+            if(!(child.isActive())){
                 continue;
             }
 
-            PositionBounds childBounds = child.element.getFullLocalBoundsForAutoDim();
+            PositionBounds childBounds = child.getFullLocalBoundsForAutoDim();
             if(fullChildBounds == null){
                 fullChildBounds = childBounds;
                 continue;
@@ -2035,8 +2004,8 @@ public class UIElement implements Disposable, IEditableValue {
 
     public boolean isHoveredOrChildHovered(){
         if(isHovered()) return true;
-        for(UIElementChild child : children){
-            if(child.element.isHoveredOrChildHovered()) return true;
+        for(UIElement child : children){
+            if(child.isHoveredOrChildHovered()) return true;
         }
         return false;
     }
@@ -2153,15 +2122,15 @@ public class UIElement implements Disposable, IEditableValue {
     public void setLocalChildOffsetX(int offset){
         localChildOffsetX = offset;
 
-        for(UIElementChild child : children){
-            child.element.onPositionChanged();
+        for(UIElement child : children){
+            child.onPositionChanged();
         }
     }
     public void setLocalChildOffsetY(int offset){
         localChildOffsetY = offset;
 
-        for(UIElementChild child : children){
-            child.element.onPositionChanged();
+        for(UIElement child : children){
+            child.onPositionChanged();
         }
     }
 
@@ -2311,16 +2280,6 @@ public class UIElement implements Disposable, IEditableValue {
         CONTAINS_HALF,
         OVERLAPS,
         FILLS
-    }
-
-    public static class UIElementChild{
-        public UIElement element;
-        public boolean isControllerSelectable;
-
-        public UIElementChild(UIElement element, boolean isControllerSelectable){
-            this.element = element;
-            this.isControllerSelectable = isControllerSelectable;
-        }
     }
 
     public static class UIElementData implements Serializable {

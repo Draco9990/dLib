@@ -28,7 +28,7 @@ public class GeneratedAbstractScreen extends UIElement {
         for (UIElement element : makeLiveItems) {
             Reflection.setFieldValue(element.getId(), this, element);
 
-            addChildNCS(element); // TODO elements should have a setting for Controller Selectable
+            addChild(element); // TODO elements should have a setting for Controller Selectable
         }
     }
 

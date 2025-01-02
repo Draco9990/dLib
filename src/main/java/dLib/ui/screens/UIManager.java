@@ -98,19 +98,19 @@ public class UIManager {
     }
 
     private static boolean selectNextElement(UIElement topParent, Boolean foundSelectedElement){
-        ArrayList<UIElement.UIElementChild> children = topParent.getAllChildrenRaw();
+        ArrayList<UIElement> children = topParent.getAllChildren();
         for (int i = 0; i < children.size(); i++) {
-            UIElement.UIElementChild child = children.get(i);
+            UIElement child = children.get(i);
 
-            if (child.element.isSelected()) {
+            if (child.isSelected()) {
                 Reflection.setFieldValue("value", foundSelectedElement, true);
-                child.element.deselect();
-            } else if (foundSelectedElement && !child.element.isSelected() && child.isControllerSelectable) {
-                child.element.select();
+                child.deselect();
+            } else if (foundSelectedElement && !child.isSelected()) {
+                child.select();
                 return true;
             }
 
-            if (foundSelectedElement && child.element.isModal()) {
+            if (foundSelectedElement && child.isModal()) {
                 i--;
             }
         }
@@ -119,20 +119,20 @@ public class UIManager {
     }
 
     private static boolean selectPreviousElement(UIElement topParent, Boolean foundSelectedElement){
-        ArrayList<UIElement.UIElementChild> children = topParent.getAllChildrenRaw();
+        ArrayList<UIElement> children = topParent.getAllChildren();
         for (int i = children.size() - 1; i >= 0; i--) {
-            UIElement.UIElementChild child = children.get(i);
+            UIElement child = children.get(i);
 
-            if(child.element.isSelected()){
+            if(child.isSelected()){
                 Reflection.setFieldValue("value", foundSelectedElement, true);
-                child.element.deselect();
+                child.deselect();
             }
-            else if(foundSelectedElement && !child.element.isSelected() && child.isControllerSelectable){
-                child.element.select();
+            else if(foundSelectedElement && !child.isSelected()){
+                child.select();
                 return true;
             }
 
-            if(foundSelectedElement && child.element.isModal()){
+            if(foundSelectedElement && child.isModal()){
                 i++;
             }
         }

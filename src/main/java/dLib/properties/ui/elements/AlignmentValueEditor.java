@@ -93,7 +93,7 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
             }
         });
 
-        addChildNCS(grid);
+        addChild(grid);
     }
 
     //endregion

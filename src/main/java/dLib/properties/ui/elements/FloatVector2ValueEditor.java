@@ -72,7 +72,7 @@ public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatV
             }
         });
 
-        addChildNCS(mainContentBox);
+        addChild(mainContentBox);
     }
 
     //endregion

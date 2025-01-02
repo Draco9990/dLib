@@ -52,6 +52,6 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
             dynamicMethodBinding.textBox.setText(methodBinding2);
         });
 
-        addChildNCS(propertyValueBox);
+        addChild(propertyValueBox);
     }
 }

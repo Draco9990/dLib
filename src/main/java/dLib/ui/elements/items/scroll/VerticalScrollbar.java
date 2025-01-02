@@ -35,9 +35,9 @@ public class VerticalScrollbar extends Scrollbar {
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_mid), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_bottom), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
         }
-        addChildNCS(elements);
+        addChild(elements);
 
-        addChildNCS(slider);
+        addChild(slider);
 
         setScrollbarScrollPercentageForExternalChange(100);
     }

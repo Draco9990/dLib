@@ -60,7 +60,7 @@ public class VerticalCollapsableBox extends UIElement {
             contentBox = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
             mainBox.addItem(contentBox);
         }
-        addChildNCS(mainBox);
+        addChild(mainBox);
     }
 
     //endregion
@@ -68,7 +68,7 @@ public class VerticalCollapsableBox extends UIElement {
     //region Methods
 
     public void addItem(UIElement child){
-        contentBox.addChildNCS(child);
+        contentBox.addChild(child);
     }
 
     //endregion

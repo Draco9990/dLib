@@ -29,7 +29,7 @@ public abstract class AbstractObjectListPickerScreenOld<ItemPickType> extends UI
             }
         };
         mainBox.setItems(itemsToPick);
-        addChildNCS(mainBox);
+        addChild(mainBox);
     }
 
     /** Item Pick Results */

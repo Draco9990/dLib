@@ -25,9 +25,9 @@ public class ContextMenu extends Renderable{
         paddedBox.setPaddingBottom(Padd.px(10));
         {
             optionsBox = new VerticalBox(Dim.fill(), Dim.auto());
-            paddedBox.addChildNCS(optionsBox);
+            paddedBox.addChild(optionsBox);
         }
-        addChildNCS(paddedBox);
+        addChild(paddedBox);
 
         setContextual(true);
         setDrawFocusOnOpen(true);

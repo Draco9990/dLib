@@ -23,7 +23,7 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
         UCEditorItemTreeEntry entry = new UCEditorItemTreeEntry(element, elementData, template);
         add(entry);
 
-        rootElement.addChildNCS(element);
+        rootElement.addChild(element);
     }
 
     public void refreshItem(UIElement.UIElementData elementData){

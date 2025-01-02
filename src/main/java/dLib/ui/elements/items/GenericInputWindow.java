@@ -32,10 +32,10 @@ public class GenericInputWindow extends UIElement {
         super();
 
         darkenLayer = new DarkenLayer();
-        addChildNCS(darkenLayer);
+        addChild(darkenLayer);
 
         popup = new InternalPasswordWindow(title, confirmButtonText, properties);
-        addChildNCS(popup);
+        addChild(popup);
 
         setModal(true);
         setDrawFocusOnOpen(true);
@@ -62,7 +62,7 @@ public class GenericInputWindow extends UIElement {
             TextBox titleBox =new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49));
             titleBox.setFont(Font.stat(FontHelper.buttonLabelFont));
             titleBox.setTextRenderColor(Color.GOLD);
-            addChildNCS(titleBox);
+            addChild(titleBox);
 
             if(properties.canCancel){
                 cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));
@@ -72,7 +72,7 @@ public class GenericInputWindow extends UIElement {
                     getParentOfType(GenericInputWindow.class).onCancelEvent.invoke(consumer -> consumer.accept(""));
                     getParentOfType(GenericInputWindow.class).hideAndDisable();
                 });
-                addChildCS(cancelButton);
+                addChild(cancelButton);
             }
 
             confirmButton = new TextButton(confirmButtonText, Pos.px(536), Pos.px(18), Dim.px(173), Dim.px(74));
@@ -88,16 +88,16 @@ public class GenericInputWindow extends UIElement {
                     }
                 });
             });
-            addChildCS(confirmButton);
+            addChild(confirmButton);
 
             if(properties.isPassword){
                 passwordBox = new PasswordBox(Pos.px(24), Pos.px(155), Dim.px(658), Dim.px(61));
-                addChildCS(passwordBox);
+                addChild(passwordBox);
             }
             else{
                 inputBox = new Inputfield("", Pos.px(24), Pos.px(155), Dim.px(658), Dim.px(61));
                 inputBox.textBox.setFont(Font.stat(FontHelper.buttonLabelFont));
-                addChildCS(inputBox);
+                addChild(inputBox);
             }
         }
     }

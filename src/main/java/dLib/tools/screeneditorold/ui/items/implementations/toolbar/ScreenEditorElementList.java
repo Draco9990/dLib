@@ -57,7 +57,7 @@ public class ScreenEditorElementList extends AbstractScreenEditorToolbar {
             baseScreen.swapChildren(childIndex1, childIndex2);
         });
         previewItemList.setImage(new TextureNoneBinding());
-        addChildNCS(previewItemList);
+        addChild(previewItemList);
 
         hideAndDisable();
     }

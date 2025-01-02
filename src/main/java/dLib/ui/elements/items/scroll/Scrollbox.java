@@ -56,7 +56,7 @@ public class Scrollbox extends UIElement {
     //region Methods
 
     @Override
-    public void addChild(UIElementChild child) {
+    public void addChild(UIElement child) {
         if(redirectChildren){
             mainBox.addChild(child);
             return;
@@ -79,7 +79,7 @@ public class Scrollbox extends UIElement {
                     if(isHorizontal){
                         UIElement horizontalScrollParent = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(horizontalScrollbarHeight));
                         {
-                            horizontalScrollParent.addChildNCS(horizontalScroll);
+                            horizontalScrollParent.addChild(horizontalScroll);
                         }
                         firstColumn.addItem(horizontalScrollParent);
                     }
@@ -97,7 +97,7 @@ public class Scrollbox extends UIElement {
                     horizontalBox.addItem(secondColumn);
                 }
             }
-            addChildNCS(horizontalBox);
+            addChild(horizontalBox);
         }
         else{
             //TODO;

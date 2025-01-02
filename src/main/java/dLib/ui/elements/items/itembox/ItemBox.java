@@ -112,7 +112,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
 
         originalItems.add(new ItemBoxItem(item, compositeItem));
         compositeItem.addComponent(new ItemboxChildComponent());
-        addChildCS(compositeItem);
+        addChild(compositeItem);
         onItemAdded(item);
     }
     public void insertItem(int insertIndex, ItemType item){
@@ -125,7 +125,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
             compositeItem = makeUIForItem(item);
         }
         originalItems.add(insertIndex, new ItemBoxItem(item, compositeItem));
-        addChildCS(compositeItem);
+        addChild(compositeItem);
 
         onItemAdded(item);
     }
@@ -317,7 +317,7 @@ public abstract class ItemBox<ItemType> extends Renderable {
         mainButton.setHoveredColor(hoverColor);
         mainButton.setHoveredColorMultiplier(1.0f);
 
-        itemUI.addChildCS(mainButton);
+        itemUI.addChild(mainButton);
 
         return itemUI;
     } //TODO expose

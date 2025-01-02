@@ -27,7 +27,7 @@ public class FontResourceBindingValueEditor extends AbstractValueEditor<FontReso
             picker.onResourceSelectedEvent.subscribeManaged((aClass, s) -> property.setValue(new FontResourceBinding(aClass, s)));
             picker.open();
         });
-        addChildNCS(valueBox);
+        addChild(valueBox);
 
         property.onValueChangedEvent.subscribe(this, (textureBinding, textureBinding2) -> {
             if (!isEditorValidForPropertyChange()) return;

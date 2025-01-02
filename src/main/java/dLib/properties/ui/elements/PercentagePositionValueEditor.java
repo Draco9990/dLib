@@ -25,7 +25,7 @@ public class PercentagePositionValueEditor extends PositionValueEditor<Percentag
 
             contentBox.addItem(makeSwapComboBox());
         }
-        addChildNCS(contentBox);
+        addChild(contentBox);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

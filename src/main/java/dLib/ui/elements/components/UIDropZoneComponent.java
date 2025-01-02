@@ -1,6 +1,5 @@
 package dLib.ui.elements.components;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.mousestates.AbstractMouseState;
 import dLib.mousestates.MouseStateManager;
 import dLib.ui.elements.UIElement;
@@ -51,7 +50,7 @@ public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIEl
                 payloadOverlay = new ImageTextBox("Drop here!", Dim.fill(), Dim.fill());
                 payloadOverlay.setImage(Tex.stat(UICommonResources.dropZoneBg));
                 payloadOverlay.setPassthrough(true);
-                owner.addChildNCS(payloadOverlay);
+                owner.addChild(payloadOverlay);
             }
         });
 
@@ -73,7 +72,7 @@ public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIEl
             if(dragAndDropState.getPayloadZoneId().equals(dropZoneId) && !Objects.equals(dragAndDropState.getSource(), owner)){
                 dropZoneOverlay = new Image(Tex.stat(UICommonResources.dropZoneOptionBg), Dim.fill(), Dim.fill());
                 dropZoneOverlay.setPassthrough(true);
-                owner.addChildNCS(dropZoneOverlay);
+                owner.addChild(dropZoneOverlay);
             }
         });
 

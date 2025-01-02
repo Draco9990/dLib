@@ -39,6 +39,6 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
             valueBox.label.setText(textureBinding2.getDisplayValue());
         });
 
-        addChildNCS(contentBox);
+        addChild(contentBox);
     }
 }

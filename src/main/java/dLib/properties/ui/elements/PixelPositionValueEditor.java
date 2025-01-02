@@ -25,7 +25,7 @@ public class PixelPositionValueEditor extends PositionValueEditor<PixelPosition>
 
             contentBox.addItem(makeSwapComboBox());
         }
-        addChildNCS(contentBox);
+        addChild(contentBox);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;

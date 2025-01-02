@@ -23,6 +23,6 @@ public class FillDimensionValueEditor extends DimensionValueEditor<FillDimension
 
             contentBox.addItem(makeSwapComboBox());
         }
-        addChildNCS(contentBox);
+        addChild(contentBox);
     }
 }

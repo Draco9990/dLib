@@ -22,7 +22,7 @@ public abstract class AbstractUIResourcePicker extends UIElement {
         setModal(true);
         setDrawFocusOnOpen(true);
 
-        addChildNCS(new ResourcePickerWindow(this));
+        addChild(new ResourcePickerWindow(this));
     }
 
     public abstract ArrayList<Class<?>> getResourceTypes();
@@ -40,15 +40,15 @@ public abstract class AbstractUIResourcePicker extends UIElement {
                 parent.close();
             });
             cancelButton.setImage(Tex.stat(UICommonResources.cancelButtonSmall));
-            addChildCS(cancelButton);
+            addChild(cancelButton);
 
             Scrollbox scrollbox = new Scrollbox(Pos.px(336), Pos.px(1080-922), Dim.px(1242), Dim.px(814));
             scrollbox.setIsHorizontal(false);
             {
                 UIElement content = resourcePicker.buildContent(resourcePicker);
-                scrollbox.addChildNCS(content);
+                scrollbox.addChild(content);
             }
-            addChildCS(scrollbox);
+            addChild(scrollbox);
         }
 
         @Override

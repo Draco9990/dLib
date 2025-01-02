@@ -13,8 +13,6 @@ import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-import java.util.function.Consumer;
-
 public class TestScreen extends UIElement {
 
     public TestScreen(){
@@ -28,12 +26,12 @@ public class TestScreen extends UIElement {
                 MouseStateManager.get().enterMouseState(state);
             }
         });
-        addChildNCS(payloadStart);
+        addChild(payloadStart);
 
         Image payloadEnd = new Image(Tex.stat(UICommonResources.white_pixel), Pos.px(350), Pos.px(350), Dim.px(150), Dim.px(150));
         payloadEnd.setRenderColor(Color.RED);
         UIDropZoneComponent<String> comp = payloadEnd.addComponent(new UIDropZoneComponent<String>(payloadEnd, "dropZone"));
         comp.onPayloadDroppedEvent.subscribe(this, s -> DLibLogger.log("Payload dropped: " + s));
-        addChildNCS(payloadEnd);
+        addChild(payloadEnd);
     }
 }

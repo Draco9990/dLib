@@ -59,7 +59,7 @@ public class UCEditor extends Renderable {
                 {
                     canvas = new Renderable(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(10000), Dim.px(10000));
                     {
-                        canvas.addChildNCS(rootElement = new UCERootElement());
+                        canvas.addChild(rootElement = new UCERootElement());
                         rootElement.setID("Root");
                     }
                     canvas.addComponent(new UIDraggableComponent());
@@ -73,7 +73,7 @@ public class UCEditor extends Renderable {
                     canvas.setElementMask(mainScreen);
                     canvas.setHorizontalAlignment(Alignment.HorizontalAlignment.CENTER);
                     canvas.setVerticalAlignment(Alignment.VerticalAlignment.CENTER);
-                    mainScreen.addChildNCS(canvas);
+                    mainScreen.addChild(canvas);
                 }
             }
             mainBox.addItem(firstColumn);
@@ -81,7 +81,7 @@ public class UCEditor extends Renderable {
             mainBox.addItem(properties = new UC_EditorProperties());
         }
         mainBox.setPadding(Padd.px(10));
-        addChildNCS(mainBox);
+        addChild(mainBox);
 
         itemTree = new UCEditorItemTree(rootElement);
     }
@@ -140,7 +140,7 @@ public class UCEditor extends Renderable {
                 toolbar.addItem(propertiesOptions);
             }
             toolbar.setPadding(Padd.px(10));
-            addChildNCS(toolbar);
+            addChild(toolbar);
         }
 
         public UC_EditorProperties getProperties(){
@@ -161,16 +161,16 @@ public class UCEditor extends Renderable {
 
             toolbarPropertiesScrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
-                toolbarPropertiesScrollbox.addChildNCS(toolbox = new UC_EP_Toolbox());
+                toolbarPropertiesScrollbox.addChild(toolbox = new UC_EP_Toolbox());
 
-                toolbarPropertiesScrollbox.addChildNCS(hierarchyViewer = new UCEHierarchyViewer());
+                toolbarPropertiesScrollbox.addChild(hierarchyViewer = new UCEHierarchyViewer());
                 hierarchyViewer.setAllowReordering(true);
                 hierarchyViewer.hideAndDisableInstantly();
             }
             toolbarPropertiesScrollbox.setIsHorizontal(false);
-            addChildNCS(toolbarPropertiesScrollbox);
+            addChild(toolbarPropertiesScrollbox);
 
-            addChildNCS(propertyEditor = new UCEPropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            addChild(propertyEditor = new UCEPropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
             propertyEditor.hideAndDisableInstantly();
         }
 

@@ -40,7 +40,7 @@ public class SimpleHorizontalRangeSelector extends Renderable{
                 onPercentageChangedEvent.invoke(floatConsumer -> floatConsumer.accept(percent));
             });
         }
-        addChildNCS(slider);
+        addChild(slider);
 
         onLeftClickEvent.subscribe(this, () -> {
             int mouseWorldX = (int) (InputHelper.mX / Settings.xScale);

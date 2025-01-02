@@ -17,7 +17,7 @@ public class AbstractScreenEditorToolbar extends UIElement {
 
     public AbstractScreenEditorToolbar(){
         super(Pos.px(1508), Pos.px(10), Dim.px(404), Dim.px(1060));
-        addChildNCS(new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()).setRenderColor(Color.valueOf("#242424FF")));
+        addChild(new Renderable(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), getWidthRaw(), getHeightRaw()).setRenderColor(Color.valueOf("#242424FF")));
     }
 
     //endregion

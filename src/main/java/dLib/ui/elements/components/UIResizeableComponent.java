@@ -103,7 +103,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
                     continue;
                 }
 
-                owner.addChildNCS(node);
+                owner.addChild(node);
                 node.showAndEnableInstantly();
             }
         });

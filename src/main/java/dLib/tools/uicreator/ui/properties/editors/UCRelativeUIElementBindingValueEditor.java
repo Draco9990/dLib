@@ -55,6 +55,6 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
             bindingBox.textBox.setText(uiElementBinding2);
         });
 
-        addChildNCS(mainContentBox);
+        addChild(mainContentBox);
     }
 }

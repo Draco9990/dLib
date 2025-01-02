@@ -59,7 +59,7 @@ public class ColorPickerPopup extends Renderable {
 
             onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
         });
-        addChildNCS(colorWheel);
+        addChild(colorWheel);
 
         lightnessBar = new SimpleHorizontalRangeSelector(Tex.stat(UICommonResources.lightnessBar), Pos.px(30), Pos.px(90), Dim.px(380), Dim.px(28));
         lightnessBar.setRenderColor(rawColorCache);
@@ -75,10 +75,10 @@ public class ColorPickerPopup extends Renderable {
         {
             Image overlay = new Image(Tex.stat(UICommonResources.lightnessBarOverlay), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             overlay.setPassthrough(true);
-            lightnessBar.addChildNCS(overlay);
+            lightnessBar.addChild(overlay);
             lightnessBar.swapChildren(0, 1); //TODO replace with insert child
         }
-        addChildNCS(lightnessBar);
+        addChild(lightnessBar);
 
         alphaBar = new SimpleHorizontalRangeSelector(Tex.stat(UICommonResources.alphaBar), Pos.px(30), Pos.px(42), Dim.px(380), Dim.px(28));
         alphaBar.setRenderColor(rawColorCache);
@@ -87,6 +87,6 @@ public class ColorPickerPopup extends Renderable {
             selectedColor.a = 1 - percentage;
             onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
         });
-        addChildNCS(alphaBar);
+        addChild(alphaBar);
     }
 }

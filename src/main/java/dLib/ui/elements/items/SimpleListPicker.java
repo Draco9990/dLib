@@ -1,7 +1,6 @@
 package dLib.ui.elements.items;
 
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.util.bindings.texture.Tex;
@@ -44,9 +43,9 @@ public class SimpleListPicker<OptionType> extends Renderable {
                 }
             };
             listBox.setItems(options);
-            scrollbox.addChildNCS(listBox);
+            scrollbox.addChild(listBox);
         }
-        addChildNCS(scrollbox);
+        addChild(scrollbox);
     }
 
     public String itemToString(OptionType item) {

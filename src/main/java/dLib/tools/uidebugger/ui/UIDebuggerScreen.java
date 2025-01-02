@@ -16,7 +16,7 @@ public class UIDebuggerScreen extends UIElement {
     public UIDebuggerScreen(){
         super();
 
-        addChildNCS(elementList = new UIDebuggerElementList());
+        addChild(elementList = new UIDebuggerElementList());
     }
 
     //region Subclasses
