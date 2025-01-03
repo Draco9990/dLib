@@ -1,8 +1,11 @@
+--> When instantiating root element, instantiate within a container
+--> property editor child hover bind not working or whens crolling in zoom menu uceditor
+
 --> Add double left click
 
 
 --> add a way to filter classes for Comboboxes for method bindings and such instead of searching by ALL child classes
---> property editor child hover bind not working
+
 
 --> render hb always and blue hb for cselectable
 -- nativity

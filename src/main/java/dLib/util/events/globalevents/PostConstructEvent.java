@@ -43,7 +43,13 @@ public class PostConstructEvent extends GlobalEvent {
                         continue;
                     }
 
-                    constructor.insertAfter("if($0.getClass() == " + constructor.getDeclaringClass().getName()  + ".class) { " +
+                    constructor.insertAfter("Class comparisonClass = $0.getClass();" +
+                            "\n" +
+                            "while(comparisonClass.isAnonymousClass() || comparisonClass.isLocalClass()) {" +
+                            "comparisonClass = comparisonClass.getSuperclass();" +
+                            "}" +
+                            "\n" +
+                            "if(comparisonClass == " + constructor.getDeclaringClass().getName()  + ".class) { " +
                             "$0.postConstruct();" +
                             "dLib.util.events.GlobalEvents.sendMessage(new dLib.util.events.globalevents.PostConstructEvent($0));" +
                             "}");
