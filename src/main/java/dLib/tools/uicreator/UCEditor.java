@@ -58,10 +58,6 @@ public class UCEditor extends Renderable {
                 firstColumn.addItem(mainScreen = new UC_EditorMainScreen());
                 {
                     canvas = new Renderable(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(10000), Dim.px(10000));
-                    {
-                        canvas.addChild(rootElement = new RootElement());
-                        rootElement.setID("Root");
-                    }
                     canvas.addComponent(new UIDraggableComponent());
 
                     canvas.setContainerBounds(Bound.element(mainScreen));
@@ -83,7 +79,7 @@ public class UCEditor extends Renderable {
         mainBox.setPadding(Padd.px(10));
         addChild(mainBox);
 
-        itemTree = new UCEditorItemTree(rootElement);
+        itemTree = new UCEditorItemTree(canvas);
     }
 
     //region Methods

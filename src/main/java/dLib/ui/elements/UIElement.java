@@ -1005,9 +1005,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         for(UIElement child : children){
             child.onParentPositionChanged();
         }
+        if(hasParent()){
+            getParent().onChildPositionChanged(this);
+        }
     }
 
     protected void onParentPositionChanged(){
+    }
+    protected void onChildPositionChanged(UIElement child){
     }
 
     //endregion
@@ -1445,11 +1450,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         for(UIElement child : children){
             child.onParentDimensionsChanged();
         }
+        if(hasParent()){
+            getParent().onChildDimensionsChanged(this);
+        }
 
         onDimensionsChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(UIElement.this));
     }
 
-    public void onParentDimensionsChanged(){
+    protected void onParentDimensionsChanged(){
+    }
+    protected void onChildDimensionsChanged(UIElement child){
     }
 
     public int getWidth(){
@@ -2263,7 +2273,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                         "* Percentage: Position relative to the parent's dimensions.")
                 .setCategory("Transform");
 
-        public DimensionProperty width = new DimensionProperty(Dim.px(1))
+        public DimensionProperty width = new DimensionProperty(Dim.px(1920))
                 .setName("Width")
                 .setDescription("Width of the element. Can be:\n" +
                         "* Static: Fixed dimensions in pixels.\n" +
@@ -2272,7 +2282,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                         "* Auto: Automatically adjusts the dimensions based on the content size of its children.\n" +
                         "* Mirror height: Mirrors the value of the height dimension.")
                 .setCategory("Transform");
-        public DimensionProperty height = new DimensionProperty(Dim.px(1))
+        public DimensionProperty height = new DimensionProperty(Dim.px(1080))
                 .setName("Height")
                 .setDescription("Height of the element. Can be:\n" +
                         "* Static: Fixed dimensions in pixels.\n" +

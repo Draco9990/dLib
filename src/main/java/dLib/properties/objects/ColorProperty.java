@@ -11,4 +11,8 @@ public class ColorProperty extends TColorProperty<ColorProperty> implements Seri
     public ColorProperty(Color value) {
         super(value);
     }
+
+    public void setValue(Color value) {
+        setValue(value.toString());
+    }
 }

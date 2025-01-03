@@ -23,11 +23,6 @@ public class UCEHierarchyViewer extends HierarchyViewer {
                 return;
             }
 
-            onLeftClickEvent.subscribeManaged(() -> {
-                ElementGroupModifierComponent component = element.getComponent(ElementGroupModifierComponent.class);
-                component.select();
-            });
-
             onHoveredEvent.subscribeManaged(() -> {
                 UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(true);

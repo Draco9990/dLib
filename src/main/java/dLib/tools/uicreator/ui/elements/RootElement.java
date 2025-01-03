@@ -1,14 +1,22 @@
 package dLib.tools.uicreator.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
+import dLib.properties.objects.EnumProperty;
+import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 public class RootElement extends Renderable {
+    private boolean inEditor = true;
+
     public RootElement(){
         super(Tex.stat(UICommonResources.white_pixel), Dim.px(1536), Dim.px(864));
 
@@ -17,7 +25,39 @@ public class RootElement extends Renderable {
 
         setHorizontalAlignment(Alignment.HorizontalAlignment.CENTER);
         setVerticalAlignment(Alignment.VerticalAlignment.CENTER);
-        onLeftClickEvent.subscribeManaged(() -> ElementGroupModifierComponent.deselectGroupComponents("editorItem"));
         setPassthrough(true);
+    }
+
+    public RootElement(RootElementData data){
+        super(data);
+    }
+
+    @Override
+    public void postConstruct() {
+        super.postConstruct();
+
+        if(inEditor){
+            onLeftClickEvent.subscribeManaged(() -> ElementGroupModifierComponent.deselectGroupComponents("editorItem"));
+        }
+    }
+
+    public static class RootElementData extends RenderableData implements Serializable {
+        public static final long serialVersionUID = 1L;
+
+        public RootElementData(){
+            textureBinding.setValue(Tex.resource(UICommonResources.class, "white_pixel"));
+            renderColor.setValue(new Color(1, 1, 1, 0.4f));
+
+            alignment.setValue(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER));
+            isPassthrough.setValue(true);
+        }
+
+        @Override
+        public ArrayList<TProperty<?, ?>> getEditableProperties() {
+            ArrayList<TProperty<?, ?>> properties = new ArrayList<>();
+            properties.add(width);
+            properties.add(height);
+            return properties;
+        }
     }
 }
