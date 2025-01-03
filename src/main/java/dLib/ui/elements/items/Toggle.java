@@ -176,7 +176,7 @@ public class Toggle extends Interactable {
         public float toggledDisabledColorMultiplier = 0.25f;
 
         @Override
-        public Toggle makeUIElement() {
+        public Toggle makeUIElement_internal() {
             return new Toggle(this);
         }
     }

@@ -5,6 +5,7 @@ import dLib.external.ExternalStatics;
 import dLib.properties.objects.templates.TProperty;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
+import dLib.tools.uicreator.ui.components.data.UCEditorDataComponent;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
 import dLib.ui.elements.components.UIDraggableComponent;
@@ -16,6 +17,8 @@ import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.position.PixelPosition;
 import dLib.util.ui.position.Pos;
+
+import java.util.ArrayList;
 
 public abstract class UCEITemplate {
     private String displayName;
@@ -31,14 +34,31 @@ public abstract class UCEITemplate {
         return elementData;
     }
 
-    public UIElement makeEditorItem(UIElement.UIElementData elementData){
+    public UIElement makeEditorItem(UIElement.UIElementData elementData, boolean withChildren){
+        ArrayList<UIElement.UIElementData> childrenCache = elementData.children;
+        elementData.children = new ArrayList<>();
+
         UIElement editorItem = elementData.makeUIElement();
+
+        elementData.children = childrenCache;
 
         rescaleDimensions(editorItem);
         registerComponents(editorItem);
 
         bindLeftClickEvent(editorItem, elementData);
         bindRightClickEvent(editorItem);
+
+        UCEditorDataComponent dataComponent = elementData.getOrAddComponent(new UCEditorDataComponent());
+        dataComponent.liveElement = editorItem;
+        dataComponent.template = this;
+
+        if(withChildren) {
+            for(UIElement.UIElementData childData : elementData.children){
+                UCEITemplate template = UCEITemplateManager.getBestTemplateFor(childData);
+                UIElement childEditorItem = template.makeEditorItem(childData, withChildren);
+                editorItem.addChild(childEditorItem);
+            }
+        }
 
         return editorItem;
     }

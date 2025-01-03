@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import dLib.external.ExternalEditorCommunicationManager;
 import dLib.test.Revenanr;
+import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.UCStartupPopup;
 import dLib.util.DLibConfigManager;
 import dLib.util.Reflection;
@@ -51,8 +52,8 @@ public class MainMenuButtonPatches {
                     popup.open();
                 }
                 else{ //TODO Remove on live
-                    Revenanr revenanr = new Revenanr(Dim.fill(), Dim.fill());
-                    revenanr.open();
+                    UCEditor editor = new UCEditor();
+                    editor.open();
 
                     /*TestScreen testScreen = new TestScreen();
                     testScreen.open();*/

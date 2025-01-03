@@ -48,7 +48,7 @@ public class Image extends Renderable {
         }
 
         @Override
-        public Image makeUIElement() {
+        public Image makeUIElement_internal() {
             return new Image(this);
         }
     }

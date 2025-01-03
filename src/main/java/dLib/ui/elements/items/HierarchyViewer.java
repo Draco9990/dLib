@@ -10,10 +10,14 @@ import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.events.Event;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
+import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class HierarchyViewer extends VerticalBox {
     private UIElement forElement;
@@ -22,6 +26,8 @@ public class HierarchyViewer extends VerticalBox {
     private boolean canReorderRoot = false;
 
     private UUID hierarchyViewerID = UUID.randomUUID();
+
+    public Event<TriConsumer<UIElement, UIElement, UIElement>> onReparentEvent = new Event<>();
 
     public HierarchyViewer() {
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -71,7 +77,10 @@ public class HierarchyViewer extends VerticalBox {
 
             UIDropZoneComponent<UIElement> dropZoneComponent = button.addComponent(new UIDropZoneComponent<UIElement>(button, "hierarchyViewer" + hierarchyViewerID));
             dropZoneComponent.onPayloadDroppedEvent.subscribe(this, (payload) -> {
+                UIElement currentParent = element.getParent();
                 payload.reparent(element);
+
+                onReparentEvent.invoke(uiElementUIElementUIElementTriConsumer -> uiElementUIElementUIElementTriConsumer.accept(payload, currentParent, element));
             });
         }
 

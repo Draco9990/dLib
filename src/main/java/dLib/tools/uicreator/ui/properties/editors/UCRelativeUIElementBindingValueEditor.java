@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import dLib.mousestates.MouseStateManager;
 import dLib.properties.objects.Property;
 import dLib.tools.uicreator.UCEditor;
+import dLib.tools.uicreator.ui.components.data.UCEditorDataComponent;
 import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.bindings.UIElementRelativePathBinding;
 import dLib.ui.elements.items.buttons.Button;
@@ -34,7 +35,7 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
                     return;
                 }
 
-                ReferencePickerMouseState state = new ReferencePickerMouseState(editor.itemTree.rootElement);
+                ReferencePickerMouseState state = new ReferencePickerMouseState(editor.itemTree.rootElementData.getComponent(UCEditorDataComponent.class).liveElement);
                 state.onReferencePickedEvent.subscribe(this, element -> {
                     property.setValue(new UIElementRelativePathBinding(element));
                 });

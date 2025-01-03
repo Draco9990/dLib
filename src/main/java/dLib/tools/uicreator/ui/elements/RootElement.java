@@ -79,7 +79,7 @@ public class RootElement extends Renderable {
         }
 
         @Override
-        public UIElement makeUIElement() {
+        public UIElement makeUIElement_internal() {
             return new RootElement(this);
         }
     }

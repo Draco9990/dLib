@@ -33,8 +33,8 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
         owner.onPositionChangedEvent.subscribeManaged((element) -> {
             UCEditor editor = element.getParentOfType(UCEditor.class);
 
-            UCEditorItemTree.UCEditorItemTreeEntry entry = editor.itemTree.findEntry(element);
-            if(entry != null){
+            UIElement.UIElementData elementData = editor.itemTree.findElementDataRecursively(editor.itemTree.rootElementData, element);
+            if(elementData != null){
                 AbstractPosition localPositionX = element.getLocalPositionXRaw();
                 AbstractPosition localPositionY = element.getLocalPositionYRaw();
 
@@ -45,14 +45,14 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
                     localPositionY = new PixelPosition((int) (((PixelPosition) localPositionY).getValueRaw() * 1.25f));
                 }
 
-                if(entry.elementData.localPositionX.getValue() != localPositionX){
+                if(elementData.localPositionX.getValue() != localPositionX){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
-                    entry.elementData.localPositionX.setValue(localPositionX);
+                    elementData.localPositionX.setValue(localPositionX);
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
-                if(entry.elementData.localPositionY.getValue() != localPositionY){
+                if(elementData.localPositionY.getValue() != localPositionY){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
-                    entry.elementData.localPositionY.setValue(localPositionY);
+                    elementData.localPositionY.setValue(localPositionY);
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
             }
@@ -61,8 +61,8 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
         owner.onDimensionsChangedEvent.subscribeManaged((element) -> {
             UCEditor editor = element.getParentOfType(UCEditor.class);
 
-            UCEditorItemTree.UCEditorItemTreeEntry entry = editor.itemTree.findEntry(element);
-            if(entry != null){
+            UIElement.UIElementData elementData = editor.itemTree.findElementDataRecursively(editor.itemTree.rootElementData, element);
+            if(elementData != null){
                 AbstractDimension width = element.getWidthRaw();
                 AbstractDimension height = element.getHeightRaw();
 
@@ -73,14 +73,14 @@ public class UCEditorItemComponent extends UIElementComponent<UIElement> {
                     height = new PixelDimension((int) (((PixelDimension) height).getValueRaw() * 1.25f));
                 }
 
-                if(entry.elementData.width.getValue() != width){
+                if(elementData.width.getValue() != width){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
-                    entry.elementData.width.setValue(width);
+                    elementData.width.setValue(width);
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
-                if(entry.elementData.height.getValue() != height){
+                if(elementData.height.getValue() != height){
                     editor.properties.propertyEditor.itemBeingModifiedExternally = true;
-                    entry.elementData.height.setValue(height);
+                    elementData.height.setValue(height);
                     editor.properties.propertyEditor.itemBeingModifiedExternally = false;
                 }
             }

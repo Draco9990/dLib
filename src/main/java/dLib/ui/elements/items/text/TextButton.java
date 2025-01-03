@@ -40,7 +40,6 @@ public class TextButton extends Button {
     public TextButton(TextButtonData data){
         super(data);
 
-        label = data.textBoxData.makeUIElement();
         addChild(label);
     }
 
@@ -56,7 +55,7 @@ public class TextButton extends Button {
         }
 
         @Override
-        public TextButton makeUIElement() {
+        public TextButton makeUIElement_internal() {
             return new TextButton(this);
         }
     }

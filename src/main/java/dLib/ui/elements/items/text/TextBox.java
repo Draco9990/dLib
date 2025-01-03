@@ -447,7 +447,7 @@ public class TextBox extends UIElement {
         }
 
         @Override
-        public TextBox makeUIElement() {
+        public TextBox makeUIElement_internal() {
             return new TextBox(this);
         }
     }

@@ -1,6 +1,7 @@
 package dLib.tools.uicreator;
 
 import com.badlogic.gdx.graphics.Color;
+import dLib.tools.uicreator.ui.components.data.UCEditorDataComponent;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.tools.uicreator.ui.elements.RootElement;
@@ -139,7 +140,7 @@ public class UCEditor extends Renderable {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().hierarchyViewer.showAndEnableInstantly();
-                        getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElement);
+                        getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElementData.getComponent(UCEditorDataComponent.class).liveElement);
                     });
                     elementListButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
                     propertiesOptions.addItem(elementListButton);
@@ -221,8 +222,8 @@ public class UCEditor extends Renderable {
 
                 if(!items.isEmpty()){
                     UIElementData elementData = items.get(0).makeElementData();
-                    UIElement element = items.get(0).makeEditorItem(elementData);
-                    ((UCEditor)getTopParent()).itemTree.addItem(element, elementData, items.get(0));
+                    items.get(0).makeEditorItem(elementData, true);
+                    ((UCEditor)getTopParent()).itemTree.addItem(elementData);
 
                     ((UCEditor)getTopParent()).properties.hideAll();
                     ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();

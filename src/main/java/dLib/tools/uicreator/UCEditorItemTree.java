@@ -2,6 +2,7 @@ package dLib.tools.uicreator;
 
 import dLib.external.ExternalMessageSender;
 import dLib.external.ExternalStatics;
+import dLib.tools.uicreator.ui.components.data.UCEditorDataComponent;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITRootElement;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.elements.RootElement;
@@ -11,9 +12,9 @@ import dLib.ui.screens.UIManager;
 import dLib.util.SerializationHelpers;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTreeEntry> {
-    public RootElement rootElement;
+public class UCEditorItemTree {
     public RootElement.RootElementData rootElementData;
 
     public UCEditorItemTree(Renderable canvas) {
@@ -21,66 +22,75 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
 
         UCEITRootElement template = new UCEITRootElement();
         RootElement.RootElementData rootElementData = new RootElement.RootElementData();
-        RootElement newRoot = (RootElement) template.makeEditorItem(rootElementData);
+        RootElement newRoot = (RootElement) template.makeEditorItem(rootElementData, true);
 
         canvas.addChild(newRoot);
-        rootElement = newRoot;
         this.rootElementData = rootElementData;
-
-        add(new UCEditorItemTreeEntry(newRoot, rootElementData, template));
     }
 
-    public UCEditorItemTreeEntry findEntry(UIElement element){
-        return stream().filter(e -> e.element == element).findFirst().orElse(null);
+    public UIElement.UIElementData findElementDataRecursively(UIElement.UIElementData currentParent, UIElement liveElement){
+        if(currentParent.getComponent(UCEditorDataComponent.class).liveElement == liveElement){
+            return currentParent;
+        }
+
+        for(UIElement.UIElementData child : currentParent.children){
+            UIElement.UIElementData result = findElementDataRecursively(child, liveElement);
+            if(result != null){
+                return result;
+            }
+        }
+
+        return null;
     }
 
-    public void addItem(UIElement element, UIElement.UIElementData elementData, UCEITemplate template){
-        UCEditorItemTreeEntry entry = new UCEditorItemTreeEntry(element, elementData, template);
-        add(entry);
+    public void addItem(UIElement.UIElementData elementData){
+        rootElementData.children.add(elementData);
 
-        rootElement.addChild(element);
+        rootElementData.getComponent(UCEditorDataComponent.class).liveElement.addChild(elementData.getComponent(UCEditorDataComponent.class).liveElement);
+        elementData.getComponent(UCEditorDataComponent.class).parentData = rootElementData;
 
-        ExternalMessageSender.send_addVariableToClass(ExternalStatics.workingClass, element.getClass(), element.getId());
+        ExternalMessageSender.send_addVariableToClass(ExternalStatics.workingClass, elementData.getComponent(UCEditorDataComponent.class).liveElement.getClass(), elementData.id.getValue());
     }
 
     public void refreshItem(UIElement.UIElementData elementData){
-        UCEditorItemTreeEntry entry = stream().filter(e -> e.elementData == elementData).findFirst().orElse(null);
-        if(entry != null){
-            UIElement elementToAdd = entry.template.makeEditorItem(elementData);
-            UIElement previousElement = entry.element;
+        if(elementData instanceof RootElement.RootElementData){
+            UCEditorDataComponent toRefreshComponent = elementData.getComponent(UCEditorDataComponent.class);
 
-            entry.element = elementToAdd;
+            UIElement oldElement = toRefreshComponent.liveElement;
+            UIElement newElement = toRefreshComponent.template.makeEditorItem(elementData, false);
+            oldElement.getParent().replaceChild(oldElement, newElement);
+        }
+        else{
+            UIElement.UIElementData parentData = elementData.getComponent(UCEditorDataComponent.class).parentData;
 
-            for(UIElement child : previousElement.getChildren()){
-                child.reparent(elementToAdd);
-            }
-            previousElement.getParent().replaceChild(previousElement, elementToAdd);
+            UCEditorDataComponent toRefreshComponent = elementData.getComponent(UCEditorDataComponent.class);
+            UCEditorDataComponent parentComponent = parentData.getComponent(UCEditorDataComponent.class);
 
-            if(elementToAdd instanceof RootElement){
-                this.rootElement = (RootElement) elementToAdd;
-            }
+            UIElement oldElement = toRefreshComponent.liveElement;
+            UIElement newElement = toRefreshComponent.template.makeEditorItem(elementData, false);
+            parentComponent.liveElement.replaceChild(oldElement, newElement);
         }
     }
 
     public void duplicateItem(UIElement element){
-        UCEditorItemTreeEntry entry = findEntry(element);
-        if(entry != null){
-            UIElement.UIElementData elementData = SerializationHelpers.deepCopySerializable(entry.elementData);
-            elementData.id.setValue("Copy of " + elementData.id.getValue());
-            UIElement elementToAdd = entry.template.makeEditorItem(elementData);
+        UIElement.UIElementData data = findElementDataRecursively(rootElementData, element);
 
-            addItem(elementToAdd, elementData, entry.template);
+        UIElement.UIElementData copy = SerializationHelpers.deepCopySerializable(data);
+        UIElement copyElement = copy.makeUIElement();
+        copy.getOrAddComponent(new UCEditorDataComponent()).liveElement = copyElement;
+        copy.getOrAddComponent(new UCEditorDataComponent()).parentData = data.getComponent(UCEditorDataComponent.class).parentData;
 
-            elementToAdd.reparent(element.getParent());
-        }
+        copyElement.reparent(element.getParent());
+        UIElement.UIElementData parentData = findElementDataRecursively(rootElementData, element.getParent());
+        parentData.children.add(copy);
     }
 
     public void deleteItem(UIElement element){
-        UCEditorItemTreeEntry entry = findEntry(element);
-        if(entry != null){
-            remove(entry);
-            element.dispose();
-        }
+        UIElement.UIElementData parentData = findElementDataRecursively(rootElementData, element.getParent());
+        UIElement.UIElementData elementData = findElementDataRecursively(rootElementData, element);
+
+        parentData.children.remove(elementData);
+        element.dispose();
 
         UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
         editor.properties.hideAll();
@@ -90,15 +100,16 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
         ExternalMessageSender.send_removeVariableFromClass(ExternalStatics.workingClass, element.getId());
     }
 
-    public static class UCEditorItemTreeEntry{
-        public UIElement element;
-        public UIElement.UIElementData elementData;
-        public UCEITemplate template;
+    public void reparentItem(UIElement toReparent, UIElement oldParent, UIElement newParent){
+        UIElement.UIElementData toReparentEntry = findElementDataRecursively(rootElementData, toReparent);
+        UIElement.UIElementData oldParentEntry = findElementDataRecursively(rootElementData, oldParent);
+        UIElement.UIElementData newParentEntry = findElementDataRecursively(rootElementData, newParent);
 
-        public UCEditorItemTreeEntry(UIElement element, UIElement.UIElementData elementData, UCEITemplate template) {
-            this.element = element;
-            this.elementData = elementData;
-            this.template = template;
-        }
+        int indexOf = oldParentEntry.children.indexOf(toReparentEntry);
+        oldParentEntry.children.remove(toReparentEntry);
+        newParentEntry.children.add(indexOf, toReparentEntry);
+
+        toReparentEntry.getComponent(UCEditorDataComponent.class).parentData = newParentEntry;
+        toReparentEntry.getComponent(UCEditorDataComponent.class).liveElement.reparent(newParent);
     }
 }

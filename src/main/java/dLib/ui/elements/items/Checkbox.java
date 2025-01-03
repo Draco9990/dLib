@@ -54,7 +54,7 @@ public class Checkbox extends Toggle {
         //region Methods
 
         @Override
-        public Checkbox makeUIElement() {
+        public Checkbox makeUIElement_internal() {
             return new Checkbox(this);
         }
 

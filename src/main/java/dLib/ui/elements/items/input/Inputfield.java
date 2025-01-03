@@ -92,10 +92,8 @@ public class Inputfield extends Button {
 
         preInitialize();
 
-        this.textBox = data.textboxData.makeUIElement();
         addChild(this.textBox);
 
-        this.previewTextBox = data.previewTextBoxData.makeUIElement();
         addChild(this.previewTextBox);
 
         characterFilter = data.characterFilter;
@@ -334,7 +332,7 @@ public class Inputfield extends Button {
         }
 
         @Override
-        public Inputfield makeUIElement() {
+        public Inputfield makeUIElement_internal() {
             return new Inputfield(this);
         }
     }

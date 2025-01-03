@@ -30,6 +30,7 @@ import dLib.ui.bindings.UIElementRelativePathBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
+import dLib.ui.elements.components.data.AbstractUIElementDataComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.screens.UIManager;
 import dLib.util.IntegerVector2;
@@ -2266,6 +2267,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public static class UIElementData implements Serializable, Constructable {
         private static final long serialVersionUID = 1L;
 
+        //region Properties
+
         public StringProperty id = new StringProperty(getClass().getSimpleName() + "_" + UIHelpers.generateRandomElementId()){
             @Override
             public boolean isValidValue(String value) {
@@ -2381,14 +2384,81 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 .setDescription("Line to say when the element is triggered.")
                 .setCategory("Say the Spire");
 
-        public UIElement makeUIElement(){
-            return new UIElement(this);
-        }
+        //endregion
+
+        //region Variables
+
+        public ArrayList<UIElementData> children = new ArrayList<>();
+
+        private transient ArrayList<AbstractUIElementDataComponent> components = new ArrayList<>();
+
+        //endregion
+
+        //region Constructor
 
         @Override
         public void postConstruct() {
             bindCommonEvents();
         }
+
+        //endregion
+
+        //region Methods
+
+        //region UI Element Creation
+
+        public final UIElement makeUIElement(){
+            UIElement toReturn = makeUIElement_internal();
+
+            for(UIElementData entry : children){
+                UIElement child = entry.makeUIElement();
+                toReturn.addChild(child);
+
+                Reflection.setFieldValue(entry.id.getValue(), toReturn, child);
+            }
+
+            return toReturn;
+        }
+
+        public UIElement makeUIElement_internal(){
+            return new UIElement(this);
+        }
+
+        //endregion
+
+        //region Components
+
+        public <T extends AbstractUIElementDataComponent> T getOrAddComponent(T component){
+            T existingComponent = (T) getComponent(component.getClass());
+            if(existingComponent != null){
+                return existingComponent;
+            }
+
+            components.add(component);
+            return component;
+        }
+
+        public void removeComponent(AbstractUIElementDataComponent component){
+            components.remove(component);
+        }
+
+        public <T extends AbstractUIElementDataComponent> T getComponent(Class<T> componentClass){
+            for(AbstractUIElementDataComponent component : components){
+                if(componentClass.isInstance(component)){
+                    return (T) component;
+                }
+            }
+            return null;
+        }
+
+        public boolean hasComponent(Class<? extends AbstractUIElementDataComponent> componentClass){
+            return getComponent(componentClass) != null;
+        }
+
+        //endregion
+
+        //endregion
+
 
         private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
             ois.defaultReadObject();

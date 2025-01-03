@@ -40,7 +40,7 @@ public class Button extends Interactable {
         }
 
         @Override
-        public Button makeUIElement() {
+        public Button makeUIElement_internal() {
             return new Button(this);
         }
     }

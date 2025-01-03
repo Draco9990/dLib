@@ -100,7 +100,7 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType> {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public UIElement makeUIElement() {
+        public UIElement makeUIElement_internal() {
             return new GridItemBox<>(this);
         }
     }

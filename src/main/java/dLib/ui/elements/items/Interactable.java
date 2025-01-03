@@ -255,7 +255,7 @@ public class Interactable extends Renderable{
         }
 
         @Override
-        public Interactable makeUIElement() {
+        public Interactable makeUIElement_internal() {
             return new Interactable(this);
         }
     }

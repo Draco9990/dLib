@@ -380,7 +380,7 @@ public class Renderable extends UIElement {
                 .setValueNames("W", "H");
 
         @Override
-        public UIElement makeUIElement() {
+        public UIElement makeUIElement_internal() {
             return new Renderable(this);
         }
     }
