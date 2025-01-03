@@ -1,13 +1,13 @@
 package dLib.code;
 
 import dLib.code.external.ExternalEditorCommunicationManager;
+import dLib.code.external.ExternalEditorMessageSender;
 
 import java.util.LinkedHashMap;
 
 public class LinkedEditor {
 
     private String workingClass = null;
-
 
     //region Methods
 
@@ -26,26 +26,26 @@ public class LinkedEditor {
     //region Callbacks
 
     public void addMethodToClass(String returnType, String methodName, LinkedHashMap<String, String> methodParameters, String methodBody){
-        ExternalEditorCommunicationManager.sendMessage("addMethod", getWorkingClass(), returnType, methodName, methodParameters, methodBody);
+        ExternalEditorMessageSender.send_addMethodToClass(getWorkingClass(), returnType, methodName, methodParameters, methodBody);
     }
     public void renameMethodInClass(String oldMethodName, String newMethodName, LinkedHashMap<String, String> methodParameters){
-        ExternalEditorCommunicationManager.sendMessage("renameMethod", getWorkingClass(), oldMethodName, newMethodName, methodParameters);
+        ExternalEditorMessageSender.send_renameMethodInClass(getWorkingClass(), oldMethodName, newMethodName, methodParameters);
     }
     public void removeMethodFromClass(String methodName, LinkedHashMap<String, String> methodParameters){
-        ExternalEditorCommunicationManager.sendMessage("removeMethod", getWorkingClass(), methodName, methodParameters);
+        ExternalEditorMessageSender.send_removeMethodFromClass(getWorkingClass(), methodName, methodParameters);
     }
 
     public void addVariableToClass(Class<?> variableType, String variableName){
         addVariableToClass(variableType.getName(), variableName);
     }
     public void addVariableToClass(String variableType, String variableName){
-        ExternalEditorCommunicationManager.sendMessage("addVariable", getWorkingClass(), variableType, variableName);
+        ExternalEditorMessageSender.send_addVariableToClass(getWorkingClass(), variableType, variableName);
     }
     public void renameVariableInClass(String oldName, String newName){
-        ExternalEditorCommunicationManager.sendMessage("renameVariable", getWorkingClass(), oldName, newName);
+        ExternalEditorMessageSender.send_renameVariableInClass(getWorkingClass(), oldName, newName);
     }
     public void removeVariableFromClass(String variableName){
-        ExternalEditorCommunicationManager.sendMessage("removeVariable", getWorkingClass(), variableName);
+        ExternalEditorMessageSender.send_removeVariableFromClass(getWorkingClass(), variableName);
     }
 
     //endregion
