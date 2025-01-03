@@ -37,6 +37,7 @@ import dLib.util.Reflection;
 import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
+import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.bounds.PositionBounds;
@@ -2265,7 +2266,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public static class UIElementData implements Serializable, Constructable {
         private static final long serialVersionUID = 1L;
 
-        public StringProperty id = new StringProperty(getClass().getSimpleName() + "_" + UUID.randomUUID()){
+        public StringProperty id = new StringProperty(getClass().getSimpleName() + "_" + UIHelpers.generateRandomElementId()){
             @Override
             public boolean isValidValue(String value) {
                 return !value.isEmpty();
@@ -2396,6 +2397,20 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         protected void bindCommonEvents(){
 
+        }
+
+        public ArrayList<TProperty> getAllProperties(){
+            ArrayList<TProperty> properties = new ArrayList<>();
+
+            for(TProperty<?, ?> property : Reflection.getFieldValuesByClass(TProperty.class, this)){
+                properties.add(property);
+            }
+
+            for(UIElementData subElement : Reflection.getFieldValuesByClass(UIElementData.class, this)){
+                properties.addAll(subElement.getAllProperties());
+            }
+
+            return properties;
         }
 
         public ArrayList<TProperty<?, ?>> getEditableProperties(){ //TODO

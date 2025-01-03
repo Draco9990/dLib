@@ -1,10 +1,17 @@
 package dLib.external;
 
+import dLib.tools.uicreator.ui.elements.RootElement;
+import dLib.ui.elements.UIElement;
+import dLib.util.SerializationHelpers;
+
 import java.util.LinkedHashMap;
 
-public class ExternalEditorMessageSender {
+public class ExternalMessageSender {
     public static void send_createNewUIElement(String elementName){
         ExternalEditorCommunicationManager.sendMessage("createNewUIElement", elementName);
+    }
+    public static void send_saveUIElement(String className, RootElement.RootElementData data){
+        ExternalEditorCommunicationManager.sendMessage("saveUIElement", className, SerializationHelpers.toString(data));
     }
 
     public static void send_addMethodToClass(String referenceClass, String returnType, String methodName, LinkedHashMap<String, String> methodParameters, String methodBody){

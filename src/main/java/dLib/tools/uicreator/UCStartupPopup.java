@@ -1,6 +1,6 @@
 package dLib.tools.uicreator;
 
-import dLib.external.ExternalEditorMessageSender;
+import dLib.external.ExternalMessageSender;
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.items.DarkenLayer;
@@ -31,7 +31,7 @@ public class UCStartupPopup extends DarkenLayer {
             confirmButton.onLeftClickEvent.subscribe(confirmButton, () -> {
                 GenericInputWindow inputWindow = new GenericInputWindow("Enter Name:", "Create");
                 inputWindow.onConfirmEvent.subscribe(inputWindow, s -> {
-                    ExternalEditorMessageSender.send_createNewUIElement(s);
+                    ExternalMessageSender.send_createNewUIElement(s);
 
                     inputWindow.close();
                     UCStartupPopup.this.close();

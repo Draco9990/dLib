@@ -10,7 +10,7 @@ public class ExternalMessageAnalyzer {
 
         if(request.equals("onNewUIElementCreated")){
             String screenClass = message.getData(String.class);
-            ExternalEditorStatics.workingClass = screenClass;
+            ExternalStatics.workingClass = screenClass;
             UCEditor editor = new UCEditor();
             editor.open();
 

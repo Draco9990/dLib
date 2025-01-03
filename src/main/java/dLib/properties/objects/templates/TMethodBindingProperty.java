@@ -1,8 +1,8 @@
 package dLib.properties.objects.templates;
 
 import basemod.Pair;
-import dLib.external.ExternalEditorMessageSender;
-import dLib.external.ExternalEditorStatics;
+import dLib.external.ExternalMessageSender;
+import dLib.external.ExternalStatics;
 import dLib.util.bindings.method.AbstractMethodBinding;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
@@ -72,12 +72,12 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Abs
             dynamicCreated = false;
             ((DynamicMethodBinding) newValue).addOnBoundMethodChangedConsumer((oldVal, newVal) -> {
                 if(dynamicCreated){
-                    ExternalEditorMessageSender.send_renameMethodInClass(ExternalEditorStatics.workingClass, oldVal, newVal, getDynamicCreationParametersAsStringMap());
+                    ExternalMessageSender.send_renameMethodInClass(ExternalStatics.workingClass, oldVal, newVal, getDynamicCreationParametersAsStringMap());
                 }
             });
         }
         else if(oldValue instanceof DynamicMethodBinding && !((DynamicMethodBinding) oldValue).getBoundMethod().isEmpty()){
-            ExternalEditorMessageSender.send_removeMethodFromClass(ExternalEditorStatics.workingClass, ((DynamicMethodBinding) oldValue).getBoundMethod(), getDynamicCreationParametersAsStringMap());
+            ExternalMessageSender.send_removeMethodFromClass(ExternalStatics.workingClass, ((DynamicMethodBinding) oldValue).getBoundMethod(), getDynamicCreationParametersAsStringMap());
         }
     }
 
@@ -133,7 +133,7 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Abs
             return;
         }
 
-        ExternalEditorMessageSender.send_addMethodToClass(ExternalEditorStatics.workingClass, getDynamicCreationReturnType().getName(), ((DynamicMethodBinding) getValue()).getBoundMethod(), getDynamicCreationParametersAsStringMap(), getDynamicCreationMethodBody());
+        ExternalMessageSender.send_addMethodToClass(ExternalStatics.workingClass, getDynamicCreationReturnType().getName(), ((DynamicMethodBinding) getValue()).getBoundMethod(), getDynamicCreationParametersAsStringMap(), getDynamicCreationMethodBody());
     }
 
     public LinkedHashMap<String, String> getDynamicCreationParametersAsStringMap(){

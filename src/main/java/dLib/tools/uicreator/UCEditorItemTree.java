@@ -1,5 +1,7 @@
 package dLib.tools.uicreator;
 
+import dLib.external.ExternalMessageSender;
+import dLib.external.ExternalStatics;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITRootElement;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.elements.RootElement;
@@ -37,6 +39,8 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
         add(entry);
 
         rootElement.addChild(element);
+
+        ExternalMessageSender.send_addVariableToClass(ExternalStatics.workingClass, element.getClass(), element.getId());
     }
 
     public void refreshItem(UIElement.UIElementData elementData){
@@ -82,6 +86,8 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
         editor.properties.hideAll();
         editor.properties.toolbarPropertiesScrollbox.showAndEnableInstantly();
         editor.properties.toolbox.showAndEnableInstantly();
+
+        ExternalMessageSender.send_removeVariableFromClass(ExternalStatics.workingClass, element.getId());
     }
 
     public static class UCEditorItemTreeEntry{

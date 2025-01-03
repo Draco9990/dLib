@@ -1,5 +1,8 @@
 package dLib.tools.uicreator.ui.editoritems.templates;
 
+import dLib.external.ExternalMessageSender;
+import dLib.external.ExternalStatics;
+import dLib.properties.objects.templates.TProperty;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.elements.UIElement;
@@ -98,6 +101,17 @@ public abstract class UCEITemplate {
 
     private void wrapElementData(UIElement.UIElementData data){
         data.isPassthrough.setValue(false);
+
+        data.id.onValueChangedEvent.subscribeManaged((oldValue, newValue) -> {
+            ExternalMessageSender.send_renameVariableInClass(ExternalStatics.workingClass, oldValue, newValue);
+        });
+
+        for(TProperty<?, ?> property : data.getAllProperties()){
+            property.onValueChangedEvent.subscribeManaged((oldValue, newValue) -> {
+                UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
+                ExternalMessageSender.send_saveUIElement(ExternalStatics.workingClass, editor.itemTree.rootElementData);
+            });
+        }
     }
 
     protected abstract UIElement.UIElementData generateElementData();
