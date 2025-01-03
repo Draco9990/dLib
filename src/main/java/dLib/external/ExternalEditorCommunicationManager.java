@@ -34,7 +34,7 @@ public class ExternalEditorCommunicationManager {
                 if(!pendingMessages.isEmpty()){
                     NetworkMessage pendingMessage = pendingMessages.remove(0);
                     if(pendingMessage != null){
-                        MessageAnalyzer.analyzeMessage(pendingMessage);
+                        ExternalMessageAnalyzer.analyzeMessage(pendingMessage);
                     }
                 }
             }

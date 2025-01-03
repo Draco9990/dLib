@@ -1,13 +1,18 @@
 package dLib.external;
 
+import dLib.tools.uicreator.UCEditor;
+
 import java.util.List;
 
-public class MessageAnalyzer {
+public class ExternalMessageAnalyzer {
     public static void analyzeMessage(NetworkMessage message){
         String request = message.getRequest();
 
         if(request.equals("onNewUIElementCreated")){
             String screenClass = message.getData(String.class);
+            ExternalEditorStatics.workingClass = screenClass;
+            UCEditor editor = new UCEditor();
+            editor.open();
 
             /*ScreenEditorBaseScreen screen = new ScreenEditorBaseScreen(screenClass);
             screen.open();*/
