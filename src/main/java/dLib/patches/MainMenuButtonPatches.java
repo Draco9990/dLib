@@ -7,9 +7,11 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import dLib.external.ExternalEditorCommunicationManager;
+import dLib.test.Revenanr;
 import dLib.tools.uicreator.UCStartupPopup;
 import dLib.util.DLibConfigManager;
 import dLib.util.Reflection;
+import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
 
@@ -49,8 +51,8 @@ public class MainMenuButtonPatches {
                     popup.open();
                 }
                 else{ //TODO Remove on live
-                    UCStartupPopup popup = new UCStartupPopup();
-                    popup.open();
+                    Revenanr revenanr = new Revenanr(Dim.fill(), Dim.fill());
+                    revenanr.open();
 
                     /*TestScreen testScreen = new TestScreen();
                     testScreen.open();*/

@@ -30,6 +30,8 @@ public class RootElement extends Renderable {
 
     public RootElement(RootElementData data){
         super(data);
+
+        inEditor = data.inEditor;
     }
 
     @Override
@@ -47,10 +49,15 @@ public class RootElement extends Renderable {
                 setHeight(Dim.px(1080));
             }
         }
+        else{
+            setRenderColor(new Color(0, 0, 0, 0));
+        }
     }
 
     public static class RootElementData extends RenderableData implements Serializable {
         public static final long serialVersionUID = 1L;
+
+        public boolean inEditor = true;
 
         public RootElementData(){
             textureBinding.setValue(Tex.resource(UICommonResources.class, "white_pixel"));

@@ -103,7 +103,20 @@ public class UCEditor extends Renderable {
 
             HorizontalBox toolbar = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
-                toolbar.addItem(new Spacer(Dim.px(200), Dim.fill()));
+                VerticalBox mainOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill());
+                mainOptions.setDefaultItemHeight(30);
+                mainOptions.setImage(new TextureNoneBinding());
+                mainOptions.setItemSpacing(10);
+                mainOptions.disableItemWrapping();
+                {
+                    TextButton toolboxButton = new TextButton("Close", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
+                    toolboxButton.onLeftClickEvent.subscribeManaged(() -> {
+                        getTopParent().close();
+                    });
+                    toolboxButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
+                    mainOptions.addItem(toolboxButton);
+                }
+                toolbar.addItem(mainOptions);
                 toolbar.addItem(new Spacer(Dim.px(10), Dim.fill()));
 
                 VerticalBox propertiesOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill());

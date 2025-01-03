@@ -17,10 +17,10 @@ public class SerializationHelpers {
         return "";
     }
 
-    public static Serializable fromString(String objectToDeserialize){
+    public static <T extends Serializable> T fromString(String objectToDeserialize){
         byte[] data = Base64.getDecoder().decode(objectToDeserialize);
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
-            return (Serializable) ois.readObject();
+            return (T) ois.readObject();
         }catch (Exception e){
             DLibLogger.log("Failed to deserialize AbstractScreenData due to " + e.getLocalizedMessage());
             e.printStackTrace();
