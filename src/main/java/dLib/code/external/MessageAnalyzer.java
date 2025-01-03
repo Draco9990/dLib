@@ -1,7 +1,5 @@
 package dLib.code.external;
 
-import dLib.tools.screeneditorold.screensold.ScreenEditorBaseScreen;
-
 import java.util.List;
 
 public class MessageAnalyzer {
@@ -11,8 +9,8 @@ public class MessageAnalyzer {
         if(request.equals("openScreenEditor")){
             String screenClass = message.getData(String.class);
 
-            ScreenEditorBaseScreen screen = new ScreenEditorBaseScreen(screenClass);
-            screen.open();
+            /*ScreenEditorBaseScreen screen = new ScreenEditorBaseScreen(screenClass);
+            screen.open();*/
         }
 
         if(request.equals("screenListCallback")){

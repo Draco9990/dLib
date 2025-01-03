@@ -8,7 +8,7 @@ import dLib.util.ui.position.AbstractPosition;
 
 public class ConfirmButtonSmall extends TextButton {
     public ConfirmButtonSmall(AbstractPosition xPos, AbstractPosition yPos) {
-        super("Confirm", xPos, yPos, Dim.px(216), Dim.px(75));
+        super("Confirm", xPos, yPos, Dim.px(173), Dim.px(75));
 
         setImage(Tex.stat(UICommonResources.confirmButtonSmall));
         label.setFontSize(16);
