@@ -171,7 +171,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private boolean isContextual = false;
     private boolean isModal = false;
 
-    private boolean drawFocusOnOpen = false;
+    private boolean drawFocusOnOpen = true;
 
     private transient boolean disposed = false;
 

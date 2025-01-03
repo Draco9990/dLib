@@ -1,7 +1,7 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.IntegerProperty;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.resources.UICommonResources;

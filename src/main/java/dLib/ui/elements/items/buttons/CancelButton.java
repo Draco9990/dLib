@@ -1,9 +1,10 @@
-package dLib.ui.elements.items;
+package dLib.ui.elements.items.buttons;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.animations.entry.UIAnimation_SlideInRight;
 import dLib.ui.animations.exit.UIAnimation_SlideOutLeft;
 import dLib.ui.elements.items.text.TextButton;
+import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
@@ -16,7 +17,7 @@ public class CancelButton extends TextButton {
 
         label.setDimensions(186, 54);
         label.setLocalPosition(27, 27);
-        label.setFontSize(14);
+        label.setFontSize(18);
 
         this.setEntryAnimation(new UIAnimation_SlideInRight(this));
         this.setExitAnimation(new UIAnimation_SlideOutLeft(this));

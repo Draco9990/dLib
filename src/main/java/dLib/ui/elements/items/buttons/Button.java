@@ -1,5 +1,6 @@
-package dLib.ui.elements.items;
+package dLib.ui.elements.items.buttons;
 
+import dLib.ui.elements.items.Interactable;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;

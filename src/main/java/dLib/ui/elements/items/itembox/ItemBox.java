@@ -6,7 +6,7 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;

@@ -10,6 +10,7 @@ import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.test.TestScreen;
 import dLib.tools.screeneditorold.screensold.preeditor.ScreenEditorNewScreenScreen;
 import dLib.tools.uicreator.UCEditor;
+import dLib.tools.uicreator.UCStartupPopup;
 import dLib.util.DLibConfigManager;
 import dLib.util.Reflection;
 
@@ -47,12 +48,12 @@ public class MainMenuButtonPatches {
                 if(!ExternalEditorCommunicationManager.isRunning()) ExternalEditorCommunicationManager.start();
 
                 if(ExternalEditorCommunicationManager.isRunning()){
-                    ScreenEditorNewScreenScreen screen = new ScreenEditorNewScreenScreen();
-                    screen.open();
+                    UCStartupPopup popup = new UCStartupPopup();
+                    popup.open();
                 }
                 else{ //TODO Remove on live
-                    UCEditor newEditor = new UCEditor();
-                    newEditor.open();
+                    UCStartupPopup popup = new UCStartupPopup();
+                    popup.open();
 
                     /*TestScreen testScreen = new TestScreen();
                     testScreen.open();*/

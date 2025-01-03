@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 

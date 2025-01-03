@@ -2,6 +2,7 @@ package dLib.util.bindings.method.editors;
 
 import dLib.properties.objects.MethodBindingProperty;
 import dLib.ui.elements.items.*;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;

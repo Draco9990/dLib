@@ -6,7 +6,7 @@ import dLib.properties.objects.Property;
 import dLib.tools.uicreator.UCEditor;
 import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.bindings.UIElementRelativePathBinding;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.mousestates.ReferencePickerMouseState;

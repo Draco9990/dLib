@@ -3,7 +3,7 @@ package dLib.ui.elements.items.scroll;
 import basemod.Pair;
 import com.badlogic.gdx.math.MathUtils;
 import dLib.ui.elements.components.UIDraggableComponent;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.itembox.VerticalBox;

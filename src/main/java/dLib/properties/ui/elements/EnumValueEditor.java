@@ -1,7 +1,7 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.EnumProperty;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.ComboBox;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.resources.UICommonResources;

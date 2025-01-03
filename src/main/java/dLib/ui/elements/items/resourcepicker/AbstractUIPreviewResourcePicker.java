@@ -2,7 +2,7 @@ package dLib.ui.elements.items.resourcepicker;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.VerticalCollapsableBox;
 import dLib.ui.elements.items.itembox.GridBox;
 import dLib.ui.elements.items.itembox.VerticalBox;

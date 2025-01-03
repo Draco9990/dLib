@@ -1,7 +1,7 @@
 package dLib.ui.elements.items.text;
 
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.ColorProperty;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.color.ColorPickerPopup;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;

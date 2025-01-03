@@ -3,7 +3,7 @@ package dLib.ui.elements.items.input;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.Button;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;

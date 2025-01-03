@@ -1,4 +1,4 @@
-package dLib.ui.elements.items;
+package dLib.ui.elements.items.buttons;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
@@ -18,7 +18,7 @@ public class ConfirmButton extends TextButton {
         label.setDimensions(186, 54);
         label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         label.setLocalPosition(50, 30);
-        label.setFontSize(14);
+        label.setFontSize(18);
 
         this.setEntryAnimation(new UIAnimation_SlideInLeft(this));
         this.setExitAnimation(new UIAnimation_SlideOutRight(this));
