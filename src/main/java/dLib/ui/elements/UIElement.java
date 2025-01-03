@@ -333,7 +333,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void dispose(){
         while(!children.isEmpty()){
             UIElement child = children.get(0);
+
+            int elementCountBefore = children.size();
+
             child.dispose();
+
+
+            if(children.size() == elementCountBefore){
+                int i = 0;
+            }
         }
 
         if(hasParent()){
@@ -617,12 +625,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
         else {
             if(parent != null){
-                for(UIElement child : parent.children){
-                    if(child == this){
-                        parent.removeChild(this);
-                        break;
-                    }
-                }
+                parent.removeChild(this);
             }
 
             newParent.addChild(this);
@@ -655,6 +658,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Children
     public void addChild(UIElement child){
+        if(children.contains(child)){
+            return;
+        }
+
         this.children.add(child);
         child.setParent(this);
         onChildrenChanged();

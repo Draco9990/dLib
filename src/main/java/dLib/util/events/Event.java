@@ -60,7 +60,11 @@ public class Event<EventType> {
     }
 
     void postObjectDisposed(PostDisposeEvent event){
-        for(UUID element : boundsObjects.getOrDefault(event.source, new ArrayList<>())){
+        if(!boundsObjects.containsKey(event.source)){
+            return;
+        }
+
+        for(UUID element : boundsObjects.get(event.source)){
             subscribers.remove(element);
         }
 
