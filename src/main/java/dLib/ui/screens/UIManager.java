@@ -9,7 +9,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import dLib.patches.InputHelperHoverConsumer;
+import dLib.patches.InputHelpers;
 import dLib.ui.elements.UIElement;
 import dLib.util.Help;
 import dLib.util.Reflection;
@@ -221,7 +221,7 @@ public class UIManager {
             @SpireInsertPatch(rloc=6)
             public static void Insert(){
                 if(!CardCrawlGame.isInARun()){
-                    InputHelperHoverConsumer.alreadyHovered = false;
+                    InputHelpers.alreadyHovered = false;
 
                     for(int i = uiElements.size() - 1; i >= 0; i--){
                         uiElements.get(i).update();
@@ -251,7 +251,7 @@ public class UIManager {
         public static class CustomScreenUpdatePatch_InGame{
             public static void Postfix(){
                 if(CardCrawlGame.isInARun()){
-                    InputHelperHoverConsumer.alreadyHovered = false;
+                    InputHelpers.alreadyHovered = false;
 
                     for (int i = uiElements.size() - 1; i >= 0; i--) {
                         uiElements.get(i).update();

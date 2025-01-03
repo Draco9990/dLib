@@ -15,7 +15,7 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
 import dLib.modcompat.saythespire.SayTheSpireIntegration;
-import dLib.patches.InputHelperHoverConsumer;
+import dLib.patches.InputHelpers;
 import dLib.properties.objects.*;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
@@ -428,14 +428,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             this.hb.move(targetHbX, targetHbY);
             this.hb.update();
 
-            if((this.hb.justHovered || this.hb.hovered) && InputHelperHoverConsumer.alreadyHovered){
+            if((this.hb.justHovered || this.hb.hovered) && InputHelpers.alreadyHovered){
                 this.hb.justHovered = false;
                 this.hb.hovered = false;
             }
 
             if(isEnabled()){
                 if(this.hb.justHovered) onHovered();
-                if(this.hb.hovered || isSelected()){
+                if(this.hb.hovered || (isSelected() && Settings.isControllerMode)){
                     totalHoverDuration += Gdx.graphics.getDeltaTime();
                     onHoverTick(totalHoverDuration);
                 }
@@ -1925,13 +1925,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     protected void onHovered(){
         totalHoverDuration = 0.f;
-        if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
+        if(!isPassthrough()) InputHelpers.alreadyHovered = true;
 
         GlobalEvents.sendMessage(new PreUIHoverEvent(this));
         onHoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
     protected void onHoverTick(float totalTickDuration){
-        if(!isPassthrough()) InputHelperHoverConsumer.alreadyHovered = true;
+        if(!isPassthrough()) InputHelpers.alreadyHovered = true;
 
         onHoverTickEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalTickDuration));
     }
