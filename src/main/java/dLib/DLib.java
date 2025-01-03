@@ -5,8 +5,7 @@ import basemod.interfaces.PostInitializeSubscriber;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
-import dLib.code.LinkedEditorManager;
-import dLib.code.external.ExternalEditorCommunicationManager;
+import dLib.external.ExternalEditorCommunicationManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
@@ -52,8 +51,6 @@ public class DLib implements PostInitializeSubscriber{
         ExternalEditorCommunicationManager.start();
 
         UCEITemplateManager.initialize();
-
-        LinkedEditorManager.initialize();
     }
 
     public static void logError(String message){

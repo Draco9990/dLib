@@ -1,8 +1,10 @@
 package dLib.tools.uicreator;
 
+import dLib.external.ExternalEditorMessageSender;
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.items.DarkenLayer;
+import dLib.ui.elements.items.GenericInputWindow;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.buttons.CancelButtonSmall;
 import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
@@ -26,7 +28,16 @@ public class UCStartupPopup extends DarkenLayer {
 
             confirmButton = new ConfirmButtonSmall(Pos.px(1402), Pos.px(1080-820));
             confirmButton.label.setText("New");
-            confirmButton.onLeftClickEvent.subscribe(confirmButton, () -> getTopParent().close());
+            confirmButton.onLeftClickEvent.subscribe(confirmButton, () -> {
+                GenericInputWindow inputWindow = new GenericInputWindow("Enter Name:", "Create");
+                inputWindow.onConfirmEvent.subscribe(inputWindow, s -> {
+                    ExternalEditorMessageSender.send_createNewUIElement(s);
+
+                    inputWindow.close();
+                    UCStartupPopup.this.close();
+                });
+                inputWindow.open();
+            });
             popup.addChild(confirmButton);
         }
         popup.setEntryAnimation(new UIAnimation_SlideInUp(popup));

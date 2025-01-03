@@ -1,4 +1,4 @@
-package dLib.code.external;
+package dLib.external;
 
 import dLib.util.DLibLogger;
 

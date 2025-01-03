@@ -1,4 +1,4 @@
-package dLib.code.external;
+package dLib.external;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.google.gson.Gson;

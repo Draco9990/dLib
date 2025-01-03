@@ -1,4 +1,4 @@
-package dLib.code.external;
+package dLib.external;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ public class MessageAnalyzer {
     public static void analyzeMessage(NetworkMessage message){
         String request = message.getRequest();
 
-        if(request.equals("openScreenEditor")){
+        if(request.equals("onNewUIElementCreated")){
             String screenClass = message.getData(String.class);
 
             /*ScreenEditorBaseScreen screen = new ScreenEditorBaseScreen(screenClass);

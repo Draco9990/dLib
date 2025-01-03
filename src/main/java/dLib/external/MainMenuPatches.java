@@ -1,4 +1,4 @@
-package dLib.code.external;
+package dLib.external;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

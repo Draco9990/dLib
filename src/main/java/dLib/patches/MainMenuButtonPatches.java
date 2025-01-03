@@ -6,7 +6,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
-import dLib.code.external.ExternalEditorCommunicationManager;
+import dLib.external.ExternalEditorCommunicationManager;
 import dLib.tools.uicreator.UCStartupPopup;
 import dLib.util.DLibConfigManager;
 import dLib.util.Reflection;

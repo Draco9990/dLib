@@ -1,4 +1,4 @@
-package dLib.code.external;
+package dLib.external;
 
 import com.google.gson.Gson;
 

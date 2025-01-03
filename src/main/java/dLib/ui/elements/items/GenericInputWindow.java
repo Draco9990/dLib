@@ -27,7 +27,6 @@ public class GenericInputWindow extends UIElement {
     public GenericInputWindow(String title, String confirmButtonText) {
         this(title, confirmButtonText, new ElementProperties());
     }
-
     public GenericInputWindow(String title, String confirmButtonText, ElementProperties properties){
         super();
 
@@ -70,7 +69,7 @@ public class GenericInputWindow extends UIElement {
                 cancelButton.label.setFontSize(13);
                 cancelButton.onLeftClickEvent.subscribe(this, () -> {
                     getParentOfType(GenericInputWindow.class).onCancelEvent.invoke(consumer -> consumer.accept(""));
-                    getParentOfType(GenericInputWindow.class).hideAndDisable();
+                    getParentOfType(GenericInputWindow.class).dispose();
                 });
                 addChild(cancelButton);
             }

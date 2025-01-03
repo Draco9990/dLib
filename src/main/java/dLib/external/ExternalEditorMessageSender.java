@@ -1,8 +1,12 @@
-package dLib.code.external;
+package dLib.external;
 
 import java.util.LinkedHashMap;
 
 public class ExternalEditorMessageSender {
+    public static void send_createNewUIElement(String elementName){
+        ExternalEditorCommunicationManager.sendMessage("createNewUIElement", elementName);
+    }
+
     public static void send_addMethodToClass(String referenceClass, String returnType, String methodName, LinkedHashMap<String, String> methodParameters, String methodBody){
         ExternalEditorCommunicationManager.sendMessage("addMethod", referenceClass, returnType, methodName, methodParameters, methodBody);
     }

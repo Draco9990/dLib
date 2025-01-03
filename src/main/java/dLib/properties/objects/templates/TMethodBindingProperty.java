@@ -1,8 +1,8 @@
 package dLib.properties.objects.templates;
 
 import basemod.Pair;
-import dLib.code.LinkedEditor;
-import dLib.code.LinkedEditorManager;
+import dLib.external.ExternalEditorMessageSender;
+import dLib.external.ExternalEditorStatics;
 import dLib.util.bindings.method.AbstractMethodBinding;
 import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
@@ -72,22 +72,12 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Abs
             dynamicCreated = false;
             ((DynamicMethodBinding) newValue).addOnBoundMethodChangedConsumer((oldVal, newVal) -> {
                 if(dynamicCreated){
-                    LinkedEditor editor = LinkedEditorManager.get().getActiveEditor();
-                    if(editor == null){
-                        return;
-                    }
-
-                    editor.renameMethodInClass(oldVal, newVal, getDynamicCreationParametersAsStringMap());
+                    ExternalEditorMessageSender.send_renameMethodInClass(ExternalEditorStatics.workingClass, oldVal, newVal, getDynamicCreationParametersAsStringMap());
                 }
             });
         }
         else if(oldValue instanceof DynamicMethodBinding && !((DynamicMethodBinding) oldValue).getBoundMethod().isEmpty()){
-            LinkedEditor editor = LinkedEditorManager.get().getActiveEditor();
-            if(editor == null){
-                return;
-            }
-
-            editor.removeMethodFromClass(((DynamicMethodBinding) oldValue).getBoundMethod(), getDynamicCreationParametersAsStringMap());
+            ExternalEditorMessageSender.send_removeMethodFromClass(ExternalEditorStatics.workingClass, ((DynamicMethodBinding) oldValue).getBoundMethod(), getDynamicCreationParametersAsStringMap());
         }
     }
 
@@ -143,12 +133,7 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Abs
             return;
         }
 
-        LinkedEditor editor = LinkedEditorManager.get().getActiveEditor();
-        if(editor == null){
-            return;
-        }
-
-        editor.addMethodToClass(getDynamicCreationReturnType().getName(), ((DynamicMethodBinding) getValue()).getBoundMethod(), getDynamicCreationParametersAsStringMap(), getDynamicCreationMethodBody());
+        ExternalEditorMessageSender.send_addMethodToClass(ExternalEditorStatics.workingClass, getDynamicCreationReturnType().getName(), ((DynamicMethodBinding) getValue()).getBoundMethod(), getDynamicCreationParametersAsStringMap(), getDynamicCreationMethodBody());
     }
 
     public LinkedHashMap<String, String> getDynamicCreationParametersAsStringMap(){
