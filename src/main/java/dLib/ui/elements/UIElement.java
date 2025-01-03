@@ -1196,9 +1196,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         setSelected(false);
     }
     public void setSelected(boolean selected){
-        if(!controllerSelectable) {
-            return;
-        }
         if(this.selected == selected) {
             return;
         }
