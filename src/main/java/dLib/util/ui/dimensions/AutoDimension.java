@@ -25,14 +25,14 @@ public class AutoDimension extends AbstractDynamicDimension implements Serializa
     public int getWidth(UIElement self) {
         PositionBounds childBounds = self.getFullChildLocalBoundsForAutoDim();
         if(childBounds == null) return 1;
-        return childBounds.right - childBounds.left;
+        return (childBounds.right - childBounds.left);
     }
 
     @Override
     public int getHeight(UIElement self) {
         PositionBounds childBounds = self.getFullChildLocalBoundsForAutoDim();
         if(childBounds == null) return 1;
-        return childBounds.top - childBounds.bottom;
+        return (childBounds.top - childBounds.bottom);
     }
 
     @Override

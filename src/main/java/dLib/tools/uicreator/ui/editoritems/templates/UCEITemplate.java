@@ -31,6 +31,16 @@ public abstract class UCEITemplate {
     public UIElement makeEditorItem(UIElement.UIElementData elementData){
         UIElement editorItem = elementData.makeUIElement();
 
+        rescaleDimensions(editorItem);
+        registerComponents(editorItem);
+
+        bindLeftClickEvent(editorItem, elementData);
+        bindRightClickEvent(editorItem);
+
+        return editorItem;
+    }
+
+    protected void rescaleDimensions(UIElement editorItem){
         //TODO rescale items
         if(editorItem.getLocalPositionXRaw() instanceof PixelPosition){
             editorItem.setLocalPositionX((int) (((PixelPosition) editorItem.getLocalPositionXRaw()).getValueRaw() * 0.8f));
@@ -45,18 +55,24 @@ public abstract class UCEITemplate {
         if(editorItem.getHeightRaw() instanceof PixelDimension){
             editorItem.setHeight((int) (((PixelDimension) editorItem.getHeightRaw()).getValueRaw() * 0.8f));
         }
+    }
 
+    protected void registerComponents(UIElement editorItem){
         UIDraggableComponent draggableComp = editorItem.addComponent(new UIDraggableComponent());
         UIResizeableComponent resizeableComp = editorItem.addComponent(new UIResizeableComponent(editorItem));
         ElementGroupModifierComponent groupComp = editorItem.addComponent(new ElementGroupModifierComponent(editorItem, "editorItem"));
         UCEditorItemComponent editorComp = editorItem.addComponent(new UCEditorItemComponent());
+    }
 
+    protected void bindLeftClickEvent(UIElement editorItem, UIElement.UIElementData elementData){
         editorItem.onLeftClickEvent.subscribeManaged(() -> {
             ((UCEditor)editorItem.getTopParent()).properties.hideAll();
             ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.showAndEnableInstantly();
             ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.setProperties(elementData);
         });
+    }
 
+    protected void bindRightClickEvent(UIElement editorItem){
         editorItem.onRightClickEvent.subscribeManaged(() -> {
             IntegerVector2 mousePos = UIHelpers.getMouseWorldPosition();
 
@@ -78,8 +94,6 @@ public abstract class UCEITemplate {
 
             contextMenu.open();
         });
-
-        return editorItem;
     }
 
     private void wrapElementData(UIElement.UIElementData data){

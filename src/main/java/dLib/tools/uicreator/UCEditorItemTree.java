@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTreeEntry> {
     public RootElement rootElement;
+    public RootElement.RootElementData rootElementData;
 
     public UCEditorItemTree(Renderable canvas) {
         super();
@@ -22,6 +23,7 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
 
         canvas.addChild(newRoot);
         rootElement = newRoot;
+        this.rootElementData = rootElementData;
 
         add(new UCEditorItemTreeEntry(newRoot, rootElementData, template));
     }
@@ -49,6 +51,10 @@ public class UCEditorItemTree extends ArrayList<UCEditorItemTree.UCEditorItemTre
                 child.reparent(elementToAdd);
             }
             previousElement.getParent().replaceChild(previousElement, elementToAdd);
+
+            if(elementToAdd instanceof RootElement){
+                this.rootElement = (RootElement) elementToAdd;
+            }
         }
     }
 

@@ -39,7 +39,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             owner.offset(offsetX, offsetY);
             owner.resizeBy(-offsetX, -offsetY);
         });
-        cornerResizeNodes[0].addComponent(new UITemporaryElementComponent());
+        cornerResizeNodes[0].addComponent(new UITransientElementComponent());
 
         //Bottom right
         cornerResizeNodes[1] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
@@ -56,7 +56,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             owner.offset(0, offsetY);
             owner.resizeBy(offsetX, -offsetY);
         });
-        cornerResizeNodes[1].addComponent(new UITemporaryElementComponent());
+        cornerResizeNodes[1].addComponent(new UITransientElementComponent());
 
         //Top left
         cornerResizeNodes[2] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
@@ -73,7 +73,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             owner.offset(offsetX, 0);
             owner.resizeBy(-offsetX, offsetY);
         });
-        cornerResizeNodes[2].addComponent(new UITemporaryElementComponent());
+        cornerResizeNodes[2].addComponent(new UITransientElementComponent());
 
         //Top right
         cornerResizeNodes[3] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.TOP);
@@ -89,7 +89,7 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
             int offsetY = worldCy - elementWorldY;
             owner.resizeBy(offsetX, offsetY);
         });
-        cornerResizeNodes[3].addComponent(new UITemporaryElementComponent());
+        cornerResizeNodes[3].addComponent(new UITransientElementComponent());
     }
 
     @Override
@@ -97,8 +97,6 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
         super.onRegisterComponent(owner);
 
         onHoveredEventId = owner.onHoveredEvent.subscribeManaged(() -> {
-            int z = 0;
-
             for (ResizeNode node : cornerResizeNodes) {
                 if(node.pendingRemoval){
                     node.pendingRemoval = false;

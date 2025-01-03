@@ -10,6 +10,7 @@ import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.dimensions.FillDimension;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,6 +39,14 @@ public class RootElement extends Renderable {
 
         if(inEditor){
             onLeftClickEvent.subscribeManaged(() -> ElementGroupModifierComponent.deselectGroupComponents("editorItem"));
+
+            //* The fill dimension in-editor is set to 1920x1080, whereas it'll actually fill the parent container in-game
+            if(getWidthRaw() instanceof FillDimension){
+                setWidth(Dim.px(1920));
+            }
+            if(getHeightRaw() instanceof FillDimension){
+                setHeight(Dim.px(1080));
+            }
         }
     }
 
@@ -50,6 +59,9 @@ public class RootElement extends Renderable {
 
             alignment.setValue(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER));
             isPassthrough.setValue(true);
+
+            width.setValue(new FillDimension());
+            height.setValue(new FillDimension());
         }
 
         @Override
@@ -58,6 +70,11 @@ public class RootElement extends Renderable {
             properties.add(width);
             properties.add(height);
             return properties;
+        }
+
+        @Override
+        public UIElement makeUIElement() {
+            return new RootElement(this);
         }
     }
 }

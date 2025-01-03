@@ -4,7 +4,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDropZoneComponent;
 import dLib.ui.elements.components.UIPayloadComponent;
-import dLib.ui.elements.components.UITemporaryElementComponent;
+import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextButton;
@@ -53,7 +53,7 @@ public class HierarchyViewer extends VerticalBox {
 
         if(!child.getChildren().isEmpty()){
             for(UIElement grandChild : child.getChildren()){
-                if(grandChild.hasComponent(UITemporaryElementComponent.class)){
+                if(grandChild.hasComponent(UITransientElementComponent.class)){
                     continue;
                 }
 

@@ -30,6 +30,7 @@ import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.bindings.UIElementRelativePathBinding;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.UIElementComponent;
+import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.screens.UIManager;
 import dLib.util.*;
@@ -39,10 +40,7 @@ import dLib.util.events.globalevents.Constructable;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.bounds.PositionBounds;
-import dLib.util.ui.dimensions.AbstractDimension;
-import dLib.util.ui.dimensions.AbstractStaticDimension;
-import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.dimensions.PixelDimension;
+import dLib.util.ui.dimensions.*;
 import dLib.util.ui.events.PreUIHoverEvent;
 import dLib.util.ui.events.PreUILeftClickEvent;
 import dLib.util.ui.events.PreUISelectEvent;
@@ -698,6 +696,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         original.dispose();
 
         replacement.setParent(this);
+        onChildrenChanged();
     }
     public void clearChildren(){
         for(UIElement child : children){
@@ -1013,6 +1012,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected void onParentPositionChanged(){
     }
     protected void onChildPositionChanged(UIElement child){
+        if(getWidthRaw() instanceof AutoDimension){
+            invalidateCaches();
+        }
+
+        if(getHeightRaw() instanceof AutoDimension){
+            invalidateCaches();
+        }
     }
 
     //endregion
@@ -1460,6 +1466,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected void onParentDimensionsChanged(){
     }
     protected void onChildDimensionsChanged(UIElement child){
+        if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
+            invalidateCaches();
+        }
+
+        if(getHeightRaw() instanceof AutoDimension || getHeightRaw() instanceof MirrorDimension){
+            invalidateCaches();
+        }
     }
 
     public int getWidth(){
@@ -1609,7 +1622,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public PositionBounds getFullChildLocalBounds(){
         PositionBounds fullChildBounds = null;
         for(UIElement child : children){
-            if(!(child.isActive())){
+            if(!(child.isActive()) || child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 
@@ -1644,7 +1657,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public PositionBounds getFullChildLocalBoundsForAutoDim(){
         PositionBounds fullChildBounds = null;
         for(UIElement child : children){
-            if(!(child.isActive())){
+            if(!(child.isActive()) || child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 

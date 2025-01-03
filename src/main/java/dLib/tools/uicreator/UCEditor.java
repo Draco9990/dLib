@@ -132,6 +132,15 @@ public class UCEditor extends Renderable {
                     });
                     elementListButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
                     propertiesOptions.addItem(elementListButton);
+
+                    TextButton rootPropertiesButton = new TextButton("Root Properties", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
+                    rootPropertiesButton.onLeftClickEvent.subscribeManaged(() -> {
+                        getProperties().hideAll();
+                        getProperties().propertyEditor.showAndEnableInstantly();
+                        getProperties().propertyEditor.setProperties(((UCEditor)getTopParent()).itemTree.rootElementData);
+                    });
+                    rootPropertiesButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
+                    propertiesOptions.addItem(rootPropertiesButton);
                 }
                 toolbar.addItem(propertiesOptions);
             }

@@ -8,15 +8,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITRootElement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/docs/TODO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/ColorProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/objects/ColorProperty.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITRootElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITRootElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/RootElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/RootElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/UCEHierarchyViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/UCEHierarchyViewer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIResizeableComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIResizeableComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UITemporaryElementComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UITransientElementComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/HierarchyViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/HierarchyViewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -299,7 +301,7 @@
       <workItem from="1735134649194" duration="3949000" />
       <workItem from="1735648128442" duration="29700000" />
       <workItem from="1735863668447" duration="3648000" />
-      <workItem from="1735897331432" duration="6286000" />
+      <workItem from="1735897331432" duration="10184000" />
     </task>
     <servers />
   </component>
