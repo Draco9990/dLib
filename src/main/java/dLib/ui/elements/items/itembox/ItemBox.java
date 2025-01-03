@@ -2,16 +2,16 @@ package dLib.ui.elements.items.itembox;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import dLib.properties.objects.*;
+import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.EnumProperty;
+import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
+import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.ImageTextBox;
-import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
-
-
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;

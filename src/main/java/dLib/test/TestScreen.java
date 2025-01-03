@@ -3,7 +3,6 @@ package dLib.test;
 import com.badlogic.gdx.graphics.Color;
 import dLib.mousestates.MouseStateManager;
 import dLib.ui.elements.UIElement;
-
 import dLib.ui.elements.components.UIDropZoneComponent;
 import dLib.ui.elements.items.Image;
 import dLib.ui.mousestates.DragAndDropMouseState;

@@ -2,13 +2,11 @@ package dLib.tools.uicreator;
 
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.DarkenLayer;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.buttons.CancelButtonSmall;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
 public class UCStartupPopup extends DarkenLayer {
