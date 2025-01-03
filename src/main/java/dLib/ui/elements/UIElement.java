@@ -1220,11 +1220,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void onSelectionStateChanged(){
-        if(selected){
-            onHovered();
-        }
-        else if (isHovered()){
-            onUnhovered();
+        if(Settings.isControllerMode){
+            if(selected){
+                onHovered();
+            }
+            else if (isHovered()){
+                onUnhovered();
+            }
         }
 
         onSelectionStateChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(isSelected()));
@@ -2000,7 +2002,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
         }
 
-        select();
+        if(!Settings.isControllerMode){
+            select();
+        }
 
         onLeftClickEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
     }
@@ -2295,7 +2299,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 .setName("Passthrough")
                 .setDescription("Whether or not the element allows interactions to pass through it to elements underneath it.")
                 .setCategory("General");
-        public BooleanProperty isControllerSelectable = new BooleanProperty(true)
+        public BooleanProperty isControllerSelectable = new BooleanProperty(false)
                 .setName("KB/Controller Selectable")
                 .setDescription("Whether or not the element can be selected by a keyboard or a controller setup.")
                 .setCategory("General");

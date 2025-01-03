@@ -97,6 +97,8 @@ public class UIResizeableComponent extends UIElementComponent<UIElement> {
         super.onRegisterComponent(owner);
 
         onHoveredEventId = owner.onHoveredEvent.subscribeManaged(() -> {
+            int z = 0;
+
             for (ResizeNode node : cornerResizeNodes) {
                 if(node.pendingRemoval){
                     node.pendingRemoval = false;
