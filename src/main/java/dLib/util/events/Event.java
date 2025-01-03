@@ -1,6 +1,5 @@
 package dLib.util.events;
 
-import com.badlogic.gdx.utils.Disposable;
 import dLib.util.events.globalevents.PostDisposeEvent;
 
 import java.util.ArrayList;

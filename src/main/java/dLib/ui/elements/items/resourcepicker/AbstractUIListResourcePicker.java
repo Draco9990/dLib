@@ -2,21 +2,17 @@ package dLib.ui.elements.items.resourcepicker;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.VerticalCollapsableBox;
-import dLib.ui.elements.items.itembox.GridBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.util.Reflection;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
-import dLib.util.ui.position.Pos;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public abstract class AbstractUIListResourcePicker extends AbstractUIResourcePicker{
 

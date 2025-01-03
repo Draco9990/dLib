@@ -1,7 +1,5 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.OnValueCommitedStringValueEditor;
-
 import java.io.Serializable;
 
 public abstract class TStringProperty<PropertyType extends TStringProperty<PropertyType>> extends TProperty<String, PropertyType> implements Serializable {

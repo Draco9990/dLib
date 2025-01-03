@@ -1,12 +1,10 @@
 package dLib.util;
 
 import com.evacipated.cardcrawl.modthespire.ModInfo;
-import com.vdurmont.semver4j.Semver;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MinimalModInfo implements Serializable {
     static final long serialVersionUID = 1L;

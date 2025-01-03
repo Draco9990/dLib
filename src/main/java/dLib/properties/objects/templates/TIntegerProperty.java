@@ -1,7 +1,5 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.IntegerValueEditor;
-
 import java.io.Serializable;
 
 public abstract class TIntegerProperty<PropertyType> extends TNumericProperty<Integer, PropertyType> implements Serializable {

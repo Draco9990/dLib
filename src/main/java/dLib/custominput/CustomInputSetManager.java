@@ -5,11 +5,8 @@ import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
-import dLib.util.BiMap;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class CustomInputSetManager {

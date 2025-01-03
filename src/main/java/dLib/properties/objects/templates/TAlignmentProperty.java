@@ -1,7 +1,6 @@
 package dLib.properties.objects.templates;
 
 import dLib.ui.Alignment;
-import dLib.properties.ui.elements.AlignmentValueEditor;
 
 import java.io.Serializable;
 import java.util.ArrayList;

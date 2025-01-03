@@ -11,7 +11,6 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
-
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;

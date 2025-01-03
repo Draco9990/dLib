@@ -5,7 +5,6 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.resources.UICommonResources;
-
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;

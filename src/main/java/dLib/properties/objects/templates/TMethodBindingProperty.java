@@ -3,12 +3,14 @@ package dLib.properties.objects.templates;
 import basemod.Pair;
 import dLib.code.LinkedEditor;
 import dLib.code.LinkedEditorManager;
-import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.AbstractMethodBinding;
+import dLib.util.bindings.method.DynamicMethodBinding;
 import dLib.util.bindings.method.staticbindings.NoneMethodBinding;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public abstract class TMethodBindingProperty<PropertyType> extends TProperty<AbstractMethodBinding, PropertyType> implements Serializable {
     static final long serialVersionUID = 1L;

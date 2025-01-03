@@ -7,7 +7,6 @@ import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public abstract class Scrollbar extends UIElement {

@@ -3,7 +3,6 @@ package dLib.ui.animations.exit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.Settings;
-import dLib.ui.animations.UIAnimation;
 import dLib.ui.elements.UIElement;
 
 public class UIAnimation_SlideOutDown extends UIExitAnimation {

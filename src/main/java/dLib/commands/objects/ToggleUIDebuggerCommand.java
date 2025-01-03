@@ -2,9 +2,7 @@ package dLib.commands.objects;
 
 import basemod.DevConsole;
 import basemod.devcommands.ConsoleCommand;
-import dLib.DLib;
 import dLib.tools.uidebugger.ui.UIDebuggerScreen;
-import dLib.ui.screens.AbstractScreen_DEPRECATED;
 
 public class ToggleUIDebuggerCommand extends ConsoleCommand {
     private UIDebuggerScreen screenCache;

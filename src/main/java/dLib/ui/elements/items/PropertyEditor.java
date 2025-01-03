@@ -13,11 +13,11 @@ import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import java.util.function.BiConsumer;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 public class PropertyEditor extends UIElement {
     public ImageTextBox descriptionBox;

@@ -1,7 +1,6 @@
 package dLib.tools.uicreator.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.properties.objects.EnumProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;

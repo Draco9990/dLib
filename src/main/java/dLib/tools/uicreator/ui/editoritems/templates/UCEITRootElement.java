@@ -1,12 +1,7 @@
 package dLib.tools.uicreator.ui.editoritems.templates;
 
-import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.components.ElementGroupModifierComponent;
-import dLib.ui.elements.components.UIDraggableComponent;
-import dLib.ui.elements.components.UIResizeableComponent;
-import dLib.ui.elements.items.Image;
 
 public class UCEITRootElement extends UCEITemplate {
     public UCEITRootElement() {

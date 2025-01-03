@@ -1,6 +1,5 @@
 package dLib.util.events.globalevents;
 
-import com.badlogic.gdx.utils.Disposable;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import dLib.util.DLibLogger;
@@ -8,11 +7,7 @@ import dLib.util.MatcherUtils;
 import dLib.util.Reflection;
 import javassist.CtBehavior;
 import javassist.CtConstructor;
-import javassist.CtMethod;
 import javassist.Modifier;
-import org.clapper.util.classutil.ClassInfo;
-
-import java.util.ArrayList;
 
 public class PostConstructEvent extends GlobalEvent {
     public Constructable source;

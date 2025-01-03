@@ -1,9 +1,5 @@
 package dLib.properties.objects.templates;
 
-import basemod.Pair;
-import dLib.properties.objects.PositionProperty;
-import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
 public class TPositionProperty<PropertyType> extends TProperty<AbstractPosition, PropertyType>{

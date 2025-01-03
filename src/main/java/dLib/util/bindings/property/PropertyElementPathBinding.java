@@ -4,7 +4,6 @@ import dLib.properties.objects.Property;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.ui.bindings.AbstractUIElementBinding;
-import dLib.ui.elements.UIElement;
 import dLib.util.Reflection;
 import dLib.util.bindings.property.editors.PropertyElementPathBindingValueEditor;
 

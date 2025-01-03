@@ -1,7 +1,6 @@
 package dLib.properties.objects.templates;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.properties.ui.elements.ColorValueEditor;
 
 import java.io.Serializable;
 

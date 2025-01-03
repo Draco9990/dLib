@@ -1,7 +1,5 @@
 package dLib.util.events;
 
-import com.badlogic.gdx.utils.Disposable;
-import dLib.ui.elements.UIElement;
 import dLib.util.events.globalevents.GlobalEvent;
 import dLib.util.events.globalevents.PostDisposeEvent;
 

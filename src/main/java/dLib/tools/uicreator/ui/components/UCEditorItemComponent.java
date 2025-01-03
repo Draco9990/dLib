@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.UCEditorItemTree;
 import dLib.ui.elements.UIElement;

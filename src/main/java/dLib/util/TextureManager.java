@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class TextureManager {

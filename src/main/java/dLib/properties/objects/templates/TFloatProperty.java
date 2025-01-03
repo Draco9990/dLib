@@ -1,7 +1,5 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.FloatValueEditor;
-
 import java.io.Serializable;
 
 public abstract class TFloatProperty<PropertyType> extends TNumericProperty<Float, PropertyType> implements Serializable {

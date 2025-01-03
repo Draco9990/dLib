@@ -2,7 +2,6 @@ package dLib.properties.objects;
 
 import dLib.properties.objects.templates.TProperty;
 import dLib.util.bindings.font.AbstractFontBinding;
-import dLib.util.bindings.texture.AbstractTextureBinding;
 
 public class FontBindingProperty extends TProperty<AbstractFontBinding, FontBindingProperty> {
     //region Variables

@@ -7,7 +7,6 @@ import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
-import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import com.megacrit.cardcrawl.screens.options.InputSettingsScreen;
 import com.megacrit.cardcrawl.screens.options.RemapInputElement;
 import dLib.util.Reflection;
@@ -15,7 +14,6 @@ import javassist.CannotCompileException;
 import javassist.CtBehavior;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 

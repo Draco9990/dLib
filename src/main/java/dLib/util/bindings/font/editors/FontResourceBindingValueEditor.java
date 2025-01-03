@@ -2,8 +2,8 @@ package dLib.util.bindings.font.editors;
 
 import dLib.properties.objects.FontBindingProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.ui.elements.items.resourcepicker.UIGlobalFontResourcePicker;
 import dLib.ui.elements.items.resourcepicker.AbstractUIResourcePicker;
+import dLib.ui.elements.items.resourcepicker.UIGlobalFontResourcePicker;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.FontResourceBinding;

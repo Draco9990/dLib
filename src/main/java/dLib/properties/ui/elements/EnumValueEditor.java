@@ -1,12 +1,12 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.EnumProperty;
-import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.ComboBox;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.helpers.EnumHelpers;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.function.Consumer;

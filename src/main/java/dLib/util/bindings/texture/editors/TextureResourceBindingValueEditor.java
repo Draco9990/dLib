@@ -2,9 +2,9 @@ package dLib.util.bindings.texture.editors;
 
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.resourcepicker.AbstractUIResourcePicker;
 import dLib.ui.elements.items.resourcepicker.UIGlobalTextureResourcePicker;
 import dLib.ui.elements.items.text.TextButton;
-import dLib.ui.elements.items.resourcepicker.AbstractUIResourcePicker;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureResourceBinding;

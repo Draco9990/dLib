@@ -2,7 +2,6 @@ package dLib.util.screens;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalListBox;
-
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 

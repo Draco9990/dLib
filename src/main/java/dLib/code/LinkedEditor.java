@@ -1,6 +1,5 @@
 package dLib.code;
 
-import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.code.external.ExternalEditorMessageSender;
 
 import java.util.LinkedHashMap;

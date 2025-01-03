@@ -1,20 +1,8 @@
 package dLib.ui.elements.components;
 
-import dLib.mousestates.AbstractMouseState;
 import dLib.mousestates.MouseStateManager;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.Image;
-import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.mousestates.DragAndDropMouseState;
-import dLib.ui.mousestates.events.PostEnterMouseStateEvent;
-import dLib.ui.mousestates.events.PreExitMouseStateEvent;
-import dLib.ui.resources.UICommonResources;
-import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
-import dLib.util.events.GlobalEvents;
-import dLib.util.ui.dimensions.Dim;
-
-import java.util.function.Consumer;
 
 public class UIPayloadComponent<PayloadType> extends UIElementComponent<UIElement> {
     private UIElement owner;

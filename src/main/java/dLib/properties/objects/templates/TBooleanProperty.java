@@ -1,7 +1,5 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.BooleanValueEditor;
-
 import java.io.Serializable;
 
 public abstract class TBooleanProperty<PropertyType> extends TProperty<Boolean, PropertyType> implements Serializable {

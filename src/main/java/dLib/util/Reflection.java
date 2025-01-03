@@ -1,7 +1,8 @@
 package dLib.util;
 
-import com.evacipated.cardcrawl.modthespire.*;
 import com.evacipated.cardcrawl.modthespire.Loader;
+import com.evacipated.cardcrawl.modthespire.ModInfo;
+import com.evacipated.cardcrawl.modthespire.Patcher;
 import dLib.DLib;
 import javassist.*;
 import org.apache.commons.lang3.ClassUtils;
@@ -9,8 +10,8 @@ import org.clapper.util.classutil.*;
 import org.scannotation.AnnotationDB;
 
 import java.io.File;
-import java.lang.reflect.*;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;

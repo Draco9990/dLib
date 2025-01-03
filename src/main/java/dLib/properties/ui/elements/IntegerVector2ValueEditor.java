@@ -1,9 +1,9 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.IntegerVector2Property;
-import dLib.ui.elements.items.itembox.HorizontalBox;
-import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.Spacer;
+import dLib.ui.elements.items.input.Inputfield;
+import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.Dim;

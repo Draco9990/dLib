@@ -4,9 +4,9 @@ import dLib.tools.uicreator.UCEditor;
 import dLib.ui.elements.items.PropertyEditor;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
-import java.util.function.BiConsumer;
 
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 public class UCEPropertyEditor extends PropertyEditor {
     public boolean itemBeingModifiedExternally = false;

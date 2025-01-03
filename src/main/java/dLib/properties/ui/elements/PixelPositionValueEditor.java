@@ -1,8 +1,8 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.PositionProperty;
-import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.input.Inputfield;
+import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.PixelPosition;
 

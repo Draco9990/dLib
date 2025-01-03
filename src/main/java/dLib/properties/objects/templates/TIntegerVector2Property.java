@@ -1,6 +1,5 @@
 package dLib.properties.objects.templates;
 
-import dLib.properties.ui.elements.IntegerVector2ValueEditor;
 import dLib.util.IntegerVector2;
 
 import java.io.Serializable;

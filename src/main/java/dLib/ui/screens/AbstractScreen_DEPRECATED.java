@@ -1,7 +1,6 @@
 package dLib.ui.screens;
 
 import dLib.ui.elements.UIElement;
-
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -9,7 +8,7 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // Abstract version of a screen. Deprecated. Code remains as reference.

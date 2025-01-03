@@ -4,7 +4,6 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
-
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.util.ui.dimensions.Dim;

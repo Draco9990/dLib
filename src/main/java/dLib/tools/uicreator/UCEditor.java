@@ -3,24 +3,22 @@ package dLib.tools.uicreator;
 import com.badlogic.gdx.graphics.Color;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
+import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
 import dLib.tools.uicreator.ui.elements.UCEPropertyEditor;
-import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.ui.Alignment;
 import dLib.ui.DLibUIElements;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.components.UIZoomableComponent;
 import dLib.ui.elements.items.Renderable;
-import dLib.ui.elements.items.*;
+import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.itembox.VerticalListBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
-
-
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureNoneBinding;

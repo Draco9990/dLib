@@ -2,7 +2,6 @@ package dLib.ui.mousestates;
 
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.mousestates.AbstractMouseState;
-import dLib.ui.elements.UIElement;
 
 public class DragAndDropMouseState<PayloadType> extends AbstractMouseState {
     private Object source;

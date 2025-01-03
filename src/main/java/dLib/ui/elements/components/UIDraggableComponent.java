@@ -3,12 +3,9 @@ package dLib.ui.elements.components;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
-import dLib.util.DLibLogger;
 import dLib.util.events.Event;
 
-import java.util.HashMap;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class UIDraggableComponent extends UIElementComponent<UIElement> {
     //region Variables

@@ -4,7 +4,6 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.resources.UICommonResources;
-
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;

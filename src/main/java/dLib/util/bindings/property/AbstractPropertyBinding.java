@@ -1,6 +1,5 @@
 package dLib.util.bindings.property;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.util.bindings.ResourceBinding;

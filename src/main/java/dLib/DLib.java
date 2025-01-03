@@ -6,11 +6,10 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import dLib.code.LinkedEditorManager;
+import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
-import dLib.code.external.ExternalEditorCommunicationManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
-
 import dLib.util.helpers.FontHelpers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

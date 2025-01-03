@@ -2,7 +2,6 @@ package dLib.ui.elements.items;
 
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
-
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
