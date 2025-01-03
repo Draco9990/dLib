@@ -8,6 +8,7 @@ public class UIObjectPropertyResourcePicker extends AbstractUIListResourcePicker
     private Class<?> objectClass;
 
     public UIObjectPropertyResourcePicker(Object object){
+        super();
         this.objectClass = object.getClass();
     }
 

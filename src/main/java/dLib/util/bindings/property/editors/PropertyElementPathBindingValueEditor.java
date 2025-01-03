@@ -23,7 +23,7 @@ public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<A
         valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.px(50));
         valueBox.setImage(Tex.stat(UICommonResources.button02_horizontal));
         valueBox.onLeftClickEvent.subscribe(this, () -> {
-            UIObjectPropertyResourcePicker resourcePicker = new UIObjectPropertyResourcePicker(boundProperty.getValue().getBoundObject());
+            UIObjectPropertyResourcePicker resourcePicker = new UIObjectPropertyResourcePicker(((PropertyElementPathBinding)boundProperty.getValue()).elementBinding.getBoundObject());
             resourcePicker.onResourceSelectedEvent.subscribe(this, (aClass, s) -> {
                 AbstractPropertyBinding propertyBinding = boundProperty.getValue();
                 if(!(propertyBinding instanceof PropertyElementPathBinding)) {
@@ -36,10 +36,10 @@ public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<A
         });
         addChild(valueBox);
 
-        property.onValueChangedEvent.subscribe(this, (textureBinding, textureBinding2) -> {
+        property.onValueChangedEvent.subscribe(this, (textureBinding, propertyBinding) -> {
             if (!isEditorValidForPropertyChange()) return;
 
-            valueBox.label.setText(textureBinding2.getDisplayValue());
+            valueBox.label.setText(propertyBinding.getDisplayValue());
         });
     }
 }

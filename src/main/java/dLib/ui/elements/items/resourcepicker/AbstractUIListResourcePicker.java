@@ -19,6 +19,11 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public abstract class AbstractUIListResourcePicker extends AbstractUIResourcePicker{
+
+    public AbstractUIListResourcePicker() {
+        super();
+    }
+
     @Override
     public UIElement buildContent(AbstractUIResourcePicker resourcePicker) {
         VerticalBox mainBox = new VerticalBox(Dim.fill(), Dim.fill());
