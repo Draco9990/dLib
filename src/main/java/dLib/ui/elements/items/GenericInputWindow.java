@@ -5,6 +5,8 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.buttons.CancelButtonSmall;
+import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.input.PasswordBox;
 import dLib.ui.elements.items.text.TextBox;
@@ -64,9 +66,7 @@ public class GenericInputWindow extends UIElement {
             addChild(titleBox);
 
             if(properties.canCancel){
-                cancelButton = new TextButton("Cancel", Pos.px(-6), Pos.px(18), Dim.px(161), Dim.px(74));
-                cancelButton.setImage(Tex.stat("dLibResources/images/ui/common/CancelButtonSmall.png"));
-                cancelButton.label.setFontSize(13);
+                cancelButton = new CancelButtonSmall(Pos.px(-6), Pos.px(18));
                 cancelButton.onLeftClickEvent.subscribe(this, () -> {
                     getParentOfType(GenericInputWindow.class).onCancelEvent.invoke(consumer -> consumer.accept(""));
                     getParentOfType(GenericInputWindow.class).dispose();
@@ -74,9 +74,8 @@ public class GenericInputWindow extends UIElement {
                 addChild(cancelButton);
             }
 
-            confirmButton = new TextButton(confirmButtonText, Pos.px(536), Pos.px(18), Dim.px(173), Dim.px(74));
-            confirmButton.setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButtonSmall.png"));
-            confirmButton.label.setFontSize(13);
+            confirmButton = new ConfirmButtonSmall(Pos.px(536), Pos.px(18));
+            confirmButton.label.setText(confirmButtonText);
             confirmButton.onLeftClickEvent.subscribe(this, () -> {
                 getParentOfType(GenericInputWindow.class).onConfirmEvent.invoke(consumer -> {
                     if(properties.isPassword){

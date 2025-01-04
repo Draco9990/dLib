@@ -32,7 +32,7 @@ public class TextButton extends Button {
 
         label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         label.setFont(Font.stat(FontHelper.buttonLabelFont));
-        label.setFontSize(10);
+        label.setFontSize(12);
         label.setPadding(Padd.px(10));
         addChild(label);
     }
