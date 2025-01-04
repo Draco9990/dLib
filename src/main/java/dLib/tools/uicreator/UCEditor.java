@@ -9,7 +9,6 @@ import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
 import dLib.tools.uicreator.ui.elements.UCEPropertyEditor;
 import dLib.ui.Alignment;
 import dLib.ui.DLibUIElements;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.components.UIZoomableComponent;
 import dLib.ui.elements.items.Renderable;
@@ -222,7 +221,7 @@ public class UCEditor extends Renderable {
 
                 if(!items.isEmpty()){
                     UIElementData elementData = items.get(0).makeElementData();
-                    items.get(0).makeEditorItem(elementData, true);
+                    items.get(0).makeEditorItem(elementData);
                     ((UCEditor)getTopParent()).itemTree.addItem(elementData);
 
                     ((UCEditor)getTopParent()).properties.hideAll();

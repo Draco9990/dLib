@@ -282,6 +282,11 @@ public class Inputfield extends Button {
         if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE)){
             newText = "0";
         }
+
+        if(newText.equals("-")){
+            newText = "-0";
+        }
+
         this.textBox.setText(newText);
     }
 

@@ -20,6 +20,7 @@ import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
+import dLib.tools.uicreator.ui.elements.GeneratedUIElement;
 import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
 import dLib.ui.Alignment;
@@ -2408,13 +2409,19 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         //region UI Element Creation
 
         public final UIElement makeUIElement(){
+            return makeUIElement(null);
+        }
+
+        public final UIElement makeUIElement(GeneratedUIElement owningLiveContainer){
             UIElement toReturn = makeUIElement_internal();
 
             for(UIElementData entry : children){
-                UIElement child = entry.makeUIElement();
+                UIElement child = entry.makeUIElement(owningLiveContainer);
                 toReturn.addChild(child);
 
-                Reflection.setFieldValue(entry.id.getValue(), toReturn, child);
+                if(owningLiveContainer != null){
+                    Reflection.setFieldValue(entry.id.getValue(), owningLiveContainer, child);
+                }
             }
 
             return toReturn;

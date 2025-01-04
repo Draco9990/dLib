@@ -17,20 +17,8 @@ public class TestScreen extends UIElement {
     public TestScreen(){
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
-        Image payloadStart = new Image(Tex.stat(UICommonResources.white_pixel), Pos.px(50), Pos.px(50), Dim.px(150), Dim.px(150));
-        payloadStart.onLeftClickEvent.subscribe(payloadStart, new Runnable() {
-            @Override
-            public void run() {
-                DragAndDropMouseState<String> state = new DragAndDropMouseState<>("payload", payloadStart, "dropZone");
-                MouseStateManager.get().enterMouseState(state);
-            }
-        });
-        addChild(payloadStart);
-
-        Image payloadEnd = new Image(Tex.stat(UICommonResources.white_pixel), Pos.px(350), Pos.px(350), Dim.px(150), Dim.px(150));
-        payloadEnd.setRenderColor(Color.RED);
-        UIDropZoneComponent<String> comp = payloadEnd.addComponent(new UIDropZoneComponent<String>(payloadEnd, "dropZone"));
-        comp.onPayloadDroppedEvent.subscribe(this, s -> DLibLogger.log("Payload dropped: " + s));
-        addChild(payloadEnd);
+        GeneratedImageTextBox test = new GeneratedImageTextBox(Pos.px(50), Pos.px(50), Dim.px(300), Dim.px(100));
+        test.label.setText("Test");
+        addChild(test);
     }
 }

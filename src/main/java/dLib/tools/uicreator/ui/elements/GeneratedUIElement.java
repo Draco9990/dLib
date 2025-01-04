@@ -29,6 +29,6 @@ public class GeneratedUIElement extends UIElement {
 
         RootElement.RootElementData data = SerializationHelpers.fromString(generatedObjectData);
         data.inEditor = false;
-        addChild(data.makeUIElement());
+        addChild(data.makeUIElement(this));
     }
 }

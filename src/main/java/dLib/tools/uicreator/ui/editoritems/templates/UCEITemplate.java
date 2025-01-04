@@ -34,7 +34,7 @@ public abstract class UCEITemplate {
         return elementData;
     }
 
-    public UIElement makeEditorItem(UIElement.UIElementData elementData, boolean withChildren){
+    public UIElement makeEditorItem(UIElement.UIElementData elementData){
         ArrayList<UIElement.UIElementData> childrenCache = elementData.children;
         elementData.children = new ArrayList<>();
 
@@ -52,12 +52,10 @@ public abstract class UCEITemplate {
         dataComponent.liveElement = editorItem;
         dataComponent.template = this;
 
-        if(withChildren) {
-            for(UIElement.UIElementData childData : elementData.children){
-                UCEITemplate template = UCEITemplateManager.getBestTemplateFor(childData);
-                UIElement childEditorItem = template.makeEditorItem(childData, withChildren);
-                editorItem.addChild(childEditorItem);
-            }
+        for(UIElement.UIElementData childData : elementData.children){
+            UCEITemplate template = UCEITemplateManager.getBestTemplateFor(childData);
+            UIElement childEditorItem = template.makeEditorItem(childData);
+            editorItem.addChild(childEditorItem);
         }
 
         return editorItem;

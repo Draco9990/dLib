@@ -4,15 +4,11 @@ import dLib.external.ExternalMessageSender;
 import dLib.external.ExternalStatics;
 import dLib.tools.uicreator.ui.components.data.UCEditorDataComponent;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITRootElement;
-import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplate;
 import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.screens.UIManager;
 import dLib.util.SerializationHelpers;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 public class UCEditorItemTree {
     public RootElement.RootElementData rootElementData;
@@ -22,7 +18,7 @@ public class UCEditorItemTree {
 
         UCEITRootElement template = new UCEITRootElement();
         RootElement.RootElementData rootElementData = new RootElement.RootElementData();
-        RootElement newRoot = (RootElement) template.makeEditorItem(rootElementData, true);
+        RootElement newRoot = (RootElement) template.makeEditorItem(rootElementData);
 
         canvas.addChild(newRoot);
         this.rootElementData = rootElementData;
@@ -57,7 +53,7 @@ public class UCEditorItemTree {
             UCEditorDataComponent toRefreshComponent = elementData.getComponent(UCEditorDataComponent.class);
 
             UIElement oldElement = toRefreshComponent.liveElement;
-            UIElement newElement = toRefreshComponent.template.makeEditorItem(elementData, false);
+            UIElement newElement = toRefreshComponent.template.makeEditorItem(elementData);
             oldElement.getParent().replaceChild(oldElement, newElement);
         }
         else{
@@ -67,7 +63,7 @@ public class UCEditorItemTree {
             UCEditorDataComponent parentComponent = parentData.getComponent(UCEditorDataComponent.class);
 
             UIElement oldElement = toRefreshComponent.liveElement;
-            UIElement newElement = toRefreshComponent.template.makeEditorItem(elementData, false);
+            UIElement newElement = toRefreshComponent.template.makeEditorItem(elementData);
             parentComponent.liveElement.replaceChild(oldElement, newElement);
         }
     }
@@ -105,9 +101,8 @@ public class UCEditorItemTree {
         UIElement.UIElementData oldParentEntry = findElementDataRecursively(rootElementData, oldParent);
         UIElement.UIElementData newParentEntry = findElementDataRecursively(rootElementData, newParent);
 
-        int indexOf = oldParentEntry.children.indexOf(toReparentEntry);
         oldParentEntry.children.remove(toReparentEntry);
-        newParentEntry.children.add(indexOf, toReparentEntry);
+        newParentEntry.children.add(toReparentEntry);
 
         toReparentEntry.getComponent(UCEditorDataComponent.class).parentData = newParentEntry;
         toReparentEntry.getComponent(UCEditorDataComponent.class).liveElement.reparent(newParent);
