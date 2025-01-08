@@ -70,6 +70,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected List<UIElement> children = new ArrayList<>();
     public Event<Runnable> onHierarchyChangedEvent = new Event<>();
 
+    public String rootOwnerId;
+
     protected Hitbox hb = new Hitbox(0, 0, 1, 1);
 
     private AbstractPosition localPosX = Pos.px(0);
@@ -241,6 +243,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         this.onSelectLine = data.onSelectLine.getValue();
         this.onTriggeredLine = data.onTriggeredLine.getValue();
+
+        this.rootOwnerId = data.rootOwnerId;
     }
 
     @Override
@@ -2199,10 +2203,30 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return currentElement;
     }
 
-    public UIElement getRoot(){
-        if(parent == null) return this;
-        if(this instanceof RootElement) return this;
-        return parent.getRoot();
+    public UIElement getRootOwnerElement(){
+        UIElement currentElement = this;
+        while(currentElement.hasParent()){
+            currentElement = currentElement.getParent();
+
+            if(currentElement.getId().equals(rootOwnerId)){
+                return currentElement;
+            }
+        }
+
+        return null;
+    }
+
+    public UIElement getRootOwnerParentElement(){
+        UIElement currentElement = this;
+        while(currentElement.hasParent()){
+            currentElement = currentElement.getParent();
+
+            if(currentElement.getId().equals(rootOwnerId)){
+                return currentElement.getParent();
+            }
+        }
+
+        return null;
     }
 
     //endregion Path
@@ -2389,6 +2413,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         //region Variables
 
+        public String rootOwnerId;
         public ArrayList<UIElementData> children = new ArrayList<>();
 
         private transient ArrayList<AbstractUIElementDataComponent> components = new ArrayList<>();
@@ -2409,18 +2434,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         //region UI Element Creation
 
         public final UIElement makeUIElement(){
-            return makeUIElement(null);
-        }
-
-        public final UIElement makeUIElement(GeneratedUIElement owningLiveContainer){
             UIElement toReturn = makeUIElement_internal();
 
             for(UIElementData entry : children){
-                UIElement child = entry.makeUIElement(owningLiveContainer);
+                UIElement child = entry.makeUIElement();
                 toReturn.addChild(child);
 
-                if(owningLiveContainer != null){
-                    Reflection.setFieldValue(entry.id.getValue(), owningLiveContainer, child);
+                UIElement rootOwner = toReturn.getRootOwnerParentElement();
+                if(rootOwner != null){
+                    Reflection.setFieldValue(entry.id.getValue(), rootOwner, child);
                 }
             }
 

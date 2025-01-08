@@ -41,7 +41,7 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
         }
 
         UIElement invoker = (UIElement) params[0];
-        return invoker.getRoot().findChildFromRootPath(objectRelativePath.getValue());
+        return invoker.getRootOwnerElement().findChildFromRootPath(objectRelativePath.getValue());
     }
 
     @Override

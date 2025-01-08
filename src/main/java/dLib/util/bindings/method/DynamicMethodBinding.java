@@ -73,7 +73,7 @@ public class DynamicMethodBinding extends AbstractMethodBinding implements Seria
     public Object executeBinding(Object target, Object... args) {
         if(target instanceof UIElement){
             //* Dynamic methods are located in the top parent of the UIElement
-            target = ((UIElement) target).getTopParent(); //TODO replace with top native parent, not top parent overall
+            target = ((UIElement) target).getRootOwnerParentElement();
         }
 
         if(methodToExecute != null && methodToExecute.getValue().isEmpty()){

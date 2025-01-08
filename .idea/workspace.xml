@@ -8,18 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/CreatureWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/helpers/DebugHelpers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/test/GeneratedImageTextBox.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/Help.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/Help.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/Reflection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/Reflection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/TextureManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/TextureManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/Tex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/Tex.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/dLib.test.GeneratedImageTextBox.gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/GeneratedUIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/GeneratedUIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/bindings/UIElementRelativePathBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/bindings/UIElementRelativePathBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/DynamicMethodBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/method/DynamicMethodBinding.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -302,7 +296,7 @@
       <workItem from="1735863668447" duration="3648000" />
       <workItem from="1735897331432" duration="16462000" />
       <workItem from="1736010514722" duration="9000" />
-      <workItem from="1736021244994" duration="11999000" />
+      <workItem from="1736021244994" duration="13838000" />
     </task>
     <servers />
   </component>

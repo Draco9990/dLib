@@ -46,6 +46,8 @@ public class UCEditorItemTree {
         elementData.getComponent(UCEditorDataComponent.class).parentData = rootElementData;
 
         ExternalMessageSender.send_addVariableToClass(ExternalStatics.workingClass, elementData.getComponent(UCEditorDataComponent.class).liveElement.getClass(), elementData.id.getValue());
+
+        elementData.rootOwnerId = rootElementData.id.getValue();
     }
 
     public void refreshItem(UIElement.UIElementData elementData){
