@@ -67,6 +67,8 @@ public class UCEditorItemTree {
             UIElement oldElement = toRefreshComponent.liveElement;
             UIElement newElement = toRefreshComponent.template.makeEditorItem(elementData);
             parentComponent.liveElement.replaceChild(oldElement, newElement);
+
+            updateDataComponentHierarchyForElementData(null, parentData);
         }
     }
 
@@ -74,11 +76,12 @@ public class UCEditorItemTree {
         UIElement.UIElementData data = findElementDataRecursively(rootElementData, element);
 
         UIElement.UIElementData copy = SerializationHelpers.deepCopySerializable(data);
-        UIElement copyElement = copy.makeUIElement();
-        copy.getOrAddComponent(new UCEditorDataComponent()).liveElement = copyElement;
-        copy.getOrAddComponent(new UCEditorDataComponent()).parentData = data.getComponent(UCEditorDataComponent.class).parentData;
+        copy.getOrAddComponent(new UCEditorDataComponent()).template = data.getComponent(UCEditorDataComponent.class).template;
+        updateDataComponentHierarchyForElementData(data.getOrAddComponent(new UCEditorDataComponent()).parentData, copy);
 
+        UIElement copyElement = copy.getOrAddComponent(new UCEditorDataComponent()).template.makeEditorItem(copy);
         copyElement.reparent(element.getParent());
+
         UIElement.UIElementData parentData = findElementDataRecursively(rootElementData, element.getParent());
         parentData.children.add(copy);
     }
@@ -108,5 +111,16 @@ public class UCEditorItemTree {
 
         toReparentEntry.getComponent(UCEditorDataComponent.class).parentData = newParentEntry;
         toReparentEntry.getComponent(UCEditorDataComponent.class).liveElement.reparent(newParent);
+    }
+
+    private void updateDataComponentHierarchyForElementData(UIElement.UIElementData parent, UIElement.UIElementData data){
+        UCEditorDataComponent dataComponent = data.getOrAddComponent(new UCEditorDataComponent());
+        if(parent != null){
+            dataComponent.parentData = parent;
+        }
+
+        for(UIElement.UIElementData child : data.children){
+            updateDataComponentHierarchyForElementData(data, child);
+        }
     }
 }

@@ -17,7 +17,7 @@ import dLib.util.ui.dimensions.Dim;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class UIDropZoneComponent<DropObjectType> extends UIElementComponent<UIElement> {
+public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementComponent<UIElement> {
     private UIElement owner;
     private String dropZoneId;
 

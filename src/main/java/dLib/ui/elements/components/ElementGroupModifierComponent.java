@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class ElementGroupModifierComponent extends UIElementComponent<UIElement> {
+public class ElementGroupModifierComponent extends AbstractUIElementComponent<UIElement> {
     private static HashMap<String, ArrayList<ElementGroupModifierComponent>> groupComponents = new HashMap<>();
 
     private UIElement owner;

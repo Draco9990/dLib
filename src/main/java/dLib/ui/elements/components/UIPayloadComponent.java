@@ -4,7 +4,7 @@ import dLib.mousestates.MouseStateManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.mousestates.DragAndDropMouseState;
 
-public class UIPayloadComponent<PayloadType> extends UIElementComponent<UIElement> {
+public class UIPayloadComponent<PayloadType> extends AbstractUIElementComponent<UIElement> {
     private UIElement owner;
     private PayloadType payload;
     private String dropZoneId;

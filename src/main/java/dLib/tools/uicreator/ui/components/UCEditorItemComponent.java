@@ -7,10 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.tools.uicreator.UCEditor;
-import dLib.tools.uicreator.UCEditorItemTree;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
-import dLib.ui.elements.components.UIElementComponent;
+import dLib.ui.elements.components.AbstractUIElementComponent;
 import dLib.ui.screens.UIManager;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -18,7 +17,7 @@ import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PixelPosition;
 
-public class UCEditorItemComponent extends UIElementComponent<UIElement> {
+public class UCEditorItemComponent extends AbstractUIElementComponent<UIElement> {
 
     private boolean hoveredInHierarchy = false;
 

@@ -3,6 +3,7 @@ package dLib.tools.uicreator.ui.elements;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.GeneratedElementComponent;
 import dLib.ui.elements.items.HierarchyViewer;
 import dLib.ui.screens.UIManager;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -38,6 +39,12 @@ public class UCEHierarchyViewer extends HierarchyViewer {
             onUnhoveredEvent.subscribeManaged(() -> {
                 UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(false);
+            });
+
+            onLeftClickEvent.subscribeManaged(() -> {
+                ((UCEditor)element.getTopParent()).properties.hideAll();
+                ((UCEditor)element.getTopParent()).properties.propertyEditor.showAndEnableInstantly();
+                ((UCEditor)element.getTopParent()).properties.propertyEditor.setProperties(element.getComponent(GeneratedElementComponent.class).sourceData);
             });
         }
     }

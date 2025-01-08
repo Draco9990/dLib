@@ -3,7 +3,7 @@ package dLib.ui.elements.components;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.elements.UIElement;
 
-public abstract class UIElementComponent<RequiredElementType extends UIElement> {
+public abstract class AbstractUIElementComponent<RequiredElementType extends UIElement> {
     public void onRegisterComponent(RequiredElementType owner){}
     public void onUnregisterComponent(RequiredElementType owner){}
 

@@ -7,7 +7,7 @@ import dLib.util.events.Event;
 
 import java.util.UUID;
 
-public class UIDraggableComponent extends UIElementComponent<UIElement> {
+public class UIDraggableComponent extends AbstractUIElementComponent<UIElement> {
     //region Variables
 
     private UIElement owner;

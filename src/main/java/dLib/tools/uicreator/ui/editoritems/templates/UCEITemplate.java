@@ -53,6 +53,7 @@ public abstract class UCEITemplate {
         dataComponent.template = this;
 
         for(UIElement.UIElementData childData : elementData.children){
+            childData.getOrAddComponent(new UCEditorDataComponent()).parentData = elementData;
             UCEITemplate template = UCEITemplateManager.getBestTemplateFor(childData);
             UIElement childEditorItem = template.makeEditorItem(childData);
             editorItem.addChild(childEditorItem);

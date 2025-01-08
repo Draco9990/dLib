@@ -20,7 +20,6 @@ import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
-import dLib.tools.uicreator.ui.elements.GeneratedUIElement;
 import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
 import dLib.ui.Alignment;
@@ -28,8 +27,9 @@ import dLib.ui.animations.UIAnimation;
 import dLib.ui.animations.exit.UIExitAnimation;
 import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.bindings.UIElementRelativePathBinding;
+import dLib.ui.elements.components.GeneratedElementComponent;
 import dLib.ui.elements.components.UIDebuggableComponent;
-import dLib.ui.elements.components.UIElementComponent;
+import dLib.ui.elements.components.AbstractUIElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.components.data.AbstractUIElementDataComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
@@ -158,7 +158,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private boolean holdingLeft;
     private boolean holdingRight;
 
-    private ArrayList<UIElementComponent<?>> components = new ArrayList<>();
+    private ArrayList<AbstractUIElementComponent<?>> components = new ArrayList<>();
 
     protected ArrayList<Runnable> delayedActions =new ArrayList<>();
 
@@ -399,7 +399,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         //Update Components
         {
-            for(UIElementComponent component : components){
+            for(AbstractUIElementComponent component : components){
                 component.onUpdate(this);
             }
         }
@@ -565,7 +565,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected void renderSelf(SpriteBatch sb){
         //Render Components
         {
-            for(UIElementComponent component : components){
+            for(AbstractUIElementComponent component : components){
                 component.onRender(this, sb);
             }
         }
@@ -1928,19 +1928,19 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Components
 
-    public <T extends UIElementComponent> T addComponent(T component){
+    public <T extends AbstractUIElementComponent> T addComponent(T component){
         components.add(component);
         component.onRegisterComponent(this);
         return component;
     }
 
-    public void removeComponent(UIElementComponent component){
+    public void removeComponent(AbstractUIElementComponent component){
         components.remove(component);
         component.onUnregisterComponent(this);
     }
 
-    public <T extends UIElementComponent> T getComponent(Class<T> componentClass){
-        for(UIElementComponent component : components){
+    public <T extends AbstractUIElementComponent> T getComponent(Class<T> componentClass){
+        for(AbstractUIElementComponent component : components){
             if(componentClass.isInstance(component)){
                 return (T) component;
             }
@@ -1948,7 +1948,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return null;
     }
 
-    public boolean hasComponent(Class<? extends UIElementComponent> componentClass){
+    public boolean hasComponent(Class<? extends AbstractUIElementComponent> componentClass){
         return getComponent(componentClass) != null;
     }
 
@@ -2435,6 +2435,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         public final UIElement makeUIElement(){
             UIElement toReturn = makeUIElement_internal();
+            toReturn.addComponent(new GeneratedElementComponent(this));
 
             for(UIElementData entry : children){
                 UIElement child = entry.makeUIElement();

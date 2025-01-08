@@ -6,7 +6,7 @@ import dLib.ui.screens.UIManager;
 
 import java.util.UUID;
 
-public class UIDebuggableComponent extends UIElementComponent{
+public class UIDebuggableComponent extends AbstractUIElementComponent {
     private boolean initialized = false;
 
     private UUID onHoverEventID;

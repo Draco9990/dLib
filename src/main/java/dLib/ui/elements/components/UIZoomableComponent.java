@@ -6,7 +6,7 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
 import dLib.util.IntegerVector2;
 
-public class UIZoomableComponent extends UIElementComponent<UIElement>{
+public class UIZoomableComponent extends AbstractUIElementComponent<UIElement> {
     private float minScale = 0.1f;
     private float maxScale = 3.0f;
 

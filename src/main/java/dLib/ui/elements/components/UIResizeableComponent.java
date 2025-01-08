@@ -12,7 +12,7 @@ import dLib.util.ui.position.Pos;
 
 import java.util.UUID;
 
-public class UIResizeableComponent extends UIElementComponent<UIElement> {
+public class UIResizeableComponent extends AbstractUIElementComponent<UIElement> {
     private ResizeNode[] cornerResizeNodes = new ResizeNode[4];
 
     private UUID onHoveredEventId;
