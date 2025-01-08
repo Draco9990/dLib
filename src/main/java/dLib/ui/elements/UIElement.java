@@ -2498,44 +2498,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         }
 
-        public ArrayList<TProperty> getAllProperties(){
-            ArrayList<TProperty> properties = new ArrayList<>();
-
-            for(TProperty<?, ?> property : Reflection.getFieldValuesByClass(TProperty.class, this)){
-                properties.add(property);
-            }
-
-            for(UIElementData subElement : Reflection.getFieldValuesByClass(UIElementData.class, this)){
-                properties.addAll(subElement.getAllProperties());
-            }
-
-            return properties;
-        }
-
-        public ArrayList<TProperty<?, ?>> getEditableProperties(){ //TODO
+        public ArrayList<TProperty<?, ?>> getEditableProperties(){
             ArrayList<TProperty<?, ?>> properties = new ArrayList<>();
 
             for(TProperty<?, ?> property : Reflection.getFieldValuesByClass(TProperty.class, this)){
                 properties.add(property);
             }
 
-            for(UIElementData subElement : Reflection.getFieldValuesByClass(UIElementData.class, this)){
-                ArrayList<TProperty<?, ?>> subProperties = subElement.getEditableProperties();
-                subElement.filterInnerProperties(subProperties);
-                properties.addAll(subProperties);
-            }
-
             return properties;
-        }
-
-        public void filterInnerProperties(ArrayList<TProperty<?, ?>> properties){
-            properties.remove(id);
-            properties.remove(localPositionX);
-            properties.remove(localPositionY);
-            properties.remove(width);
-            properties.remove(height);
-            properties.remove(isVisible);
-            properties.remove(isEnabled);
         }
     }
 }

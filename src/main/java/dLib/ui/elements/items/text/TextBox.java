@@ -397,18 +397,18 @@ public class TextBox extends UIElement {
                 .setDescription("The text to display in the text box.")
                 .setCategory("Text");
 
-        private FloatProperty fontSize = new FloatProperty(14f)
+        public FloatProperty fontSize = new FloatProperty(14f)
                 .setName("Font Size")
                 .setDescription("Size of the font.")
                 .setCategory("Text")
                 .setDecrementAmount(1f).setIncrementAmount(1f)
                 .setMinimumValue(0.01f);
-        private BooleanProperty trueSize = new BooleanProperty(false)
+        public BooleanProperty trueSize = new BooleanProperty(false)
                 .setName("True Size")
                 .setDescription("Whether or not the font should use it's true size - useful for discerning between different font qualities at different resolutions.")
                 .setCategory("Text");
 
-        private FontBindingProperty font = new FontBindingProperty(new FontResourceBinding(FontHelper.class, "cardTitleFont"))
+        public FontBindingProperty font = new FontBindingProperty(new FontResourceBinding(FontHelper.class, "cardTitleFont"))
                 .setName("Font")
                 .setDescription("The font to use for the text.")
                 .setCategory("Text");

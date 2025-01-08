@@ -39,8 +39,6 @@ public class TextButton extends Button {
 
     public TextButton(TextButtonData data){
         super(data);
-
-        addChild(label);
     }
 
     //endregion
@@ -52,6 +50,18 @@ public class TextButton extends Button {
 
         public TextButtonData(){
             super();
+
+            width.setValue(Dim.px(244));
+            height.setValue(Dim.px(90));
+
+            texture.setValue(Tex.resource(UICommonResources.class, "button01_horizontal"));
+
+            textBoxData.width.setValue(Dim.fill());
+            textBoxData.height.setValue(Dim.fill());
+            textBoxData.font.setValue(Font.resource(FontHelper.class, "buttonLabelFont"));
+            textBoxData.fontSize.setValue(12f);
+            //TODO set textbox font padding
+            children.add(textBoxData);
         }
 
         @Override

@@ -124,7 +124,7 @@ public abstract class UCEITemplate {
             ExternalMessageSender.send_renameVariableInClass(ExternalStatics.workingClass, oldValue, newValue);
         });
 
-        for(TProperty<?, ?> property : data.getAllProperties()){
+        for(TProperty<?, ?> property : data.getEditableProperties()){
             property.onValueChangedEvent.subscribeManaged((oldValue, newValue) -> {
                 UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
                 ExternalMessageSender.send_saveUIElement(ExternalStatics.workingClass, editor.itemTree.rootElementData);

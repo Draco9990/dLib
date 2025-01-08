@@ -4,6 +4,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.TextBox;
+import dLib.ui.elements.items.text.TextButton;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -16,6 +17,7 @@ public class UCEITemplateManager {
         templates.put(TextBox.TextBoxData.class, new UCEITTextBox());
         templates.put(Image.ImageData.class, new UCEITImage());
         templates.put(Button.ButtonData.class, new UCEITButton());
+        templates.put(TextButton.TextButtonData.class, new UCEITTextButton());
     }
 
     public static ArrayList<UCEITemplate> getTemplates(){
