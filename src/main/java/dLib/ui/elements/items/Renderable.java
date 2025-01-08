@@ -66,7 +66,7 @@ public class Renderable extends UIElement {
     public Renderable(RenderableData data){
         super(data);
 
-        this.image = data.textureBinding.getValue();
+        this.image = data.texture.getValue();
 
         this.preserveAspectRatio = data.preserveAspectRatio.getValue();
         this.noUpsize = data.noUpsize.getValue();
@@ -334,7 +334,7 @@ public class Renderable extends UIElement {
     public static class RenderableData extends UIElement.UIElementData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public TextureBindingProperty textureBinding = new TextureBindingProperty(new TextureResourceBinding(UICommonResources.class, "white_pixel"))
+        public TextureBindingProperty texture = new TextureBindingProperty(new TextureResourceBinding(UICommonResources.class, "white_pixel"))
                 .setName("Image")
                 .setDescription("Image to render as this element.")
                 .setCategory("Render");

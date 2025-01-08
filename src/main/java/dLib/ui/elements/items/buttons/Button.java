@@ -37,6 +37,11 @@ public class Button extends Interactable {
 
         public ButtonData(){
             super();
+
+            width.setValue(Dim.px(550));
+            height.setValue(Dim.px(150));
+
+            texture.setValue(Tex.resource(UICommonResources.class, "button03_horizontal"));
         }
 
         @Override

@@ -60,7 +60,7 @@ public class RootElement extends Renderable {
         public boolean inEditor = true;
 
         public RootElementData(){
-            textureBinding.setValue(Tex.resource(UICommonResources.class, "white_pixel"));
+            texture.setValue(Tex.resource(UICommonResources.class, "white_pixel"));
             renderColor.setValue(new Color(1, 1, 1, 0.4f));
 
             alignment.setValue(new Alignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER));

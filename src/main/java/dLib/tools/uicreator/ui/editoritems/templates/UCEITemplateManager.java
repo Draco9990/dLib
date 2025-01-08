@@ -2,6 +2,7 @@ package dLib.tools.uicreator.ui.editoritems.templates;
 
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.TextBox;
 
 import java.util.ArrayList;
@@ -12,8 +13,9 @@ public class UCEITemplateManager {
 
     public static void initialize(){
         //TODO expose
-        templates.put(Image.ImageData.class, new UCEITImage());
         templates.put(TextBox.TextBoxData.class, new UCEITTextBox());
+        templates.put(Image.ImageData.class, new UCEITImage());
+        templates.put(Button.ButtonData.class, new UCEITButton());
     }
 
     public static ArrayList<UCEITemplate> getTemplates(){
