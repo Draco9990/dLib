@@ -3,7 +3,6 @@ package dLib.util;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
-import dLib.DLib;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -42,26 +41,11 @@ public class Help {
         }
     }
 
-    public static class UI{
-
-    }
-
     public static class Util{
         public static void copyToClipboard(String s) {
             StringSelection selection = new StringSelection(s);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, selection);
-        }
-    }
-
-    public static class Dev{
-        public static void printStacktrace(int amount) {
-            StackTraceElement[] s = Thread.currentThread().getStackTrace();
-            for (int i = 2; i < s.length; i++) {
-                DLib.log(s[i].getClassName() + "." + s[i].getMethodName() + ":" + s[i].getLineNumber());
-                amount--;
-                if (amount < 0) break;
-            }
         }
     }
 }

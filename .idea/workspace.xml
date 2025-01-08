@@ -8,16 +8,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/test/GeneratedImageTextBox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/CreatureWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/helpers/DebugHelpers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/test/GeneratedImageTextBox.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/GeneratedUIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/GeneratedUIElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/Help.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/Help.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/Reflection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/Reflection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/TextureManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/TextureManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/Tex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/Tex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/dLib.test.GeneratedImageTextBox.gen" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,11 +99,11 @@
       <recent name="D:\Marino\Projects\StS DLib\DLib\theDefault\src\main\java\dLib" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="dLib.util.helpers.DebugHelpers" />
       <recent name="dLib.util.GlobalEvents" />
       <recent name="dLib.modcompat.ModManager.SayTheSpire" />
       <recent name="dLib.util.Help.Input" />
       <recent name="dLib.util.Help.Util" />
-      <recent name="dLib.util.Help.Dev" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Marino\Projects\StS DLib\DLib\Source\dLib\src\main\resources\dLibResources\generated\ui" />
@@ -299,6 +301,8 @@
       <workItem from="1735648128442" duration="29700000" />
       <workItem from="1735863668447" duration="3648000" />
       <workItem from="1735897331432" duration="16462000" />
+      <workItem from="1736010514722" duration="9000" />
+      <workItem from="1736021244994" duration="11999000" />
     </task>
     <servers />
   </component>

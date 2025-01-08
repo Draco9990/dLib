@@ -53,11 +53,11 @@ public class MainMenuButtonPatches {
                     popup.open();
                 }
                 else{ //TODO Remove on live
-                    /*UCEditor editor = new UCEditor();
-                    editor.open();*/
+                    UCEditor editor = new UCEditor();
+                    editor.open();
 
-                    TestScreen testScreen = new TestScreen();
-                    testScreen.open();
+                    /*TestScreen testScreen = new TestScreen();
+                    testScreen.open();*/
                 }
                 return SpireReturn.Return();
             }

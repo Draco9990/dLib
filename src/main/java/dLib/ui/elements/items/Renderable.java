@@ -184,12 +184,16 @@ public class Renderable extends UIElement {
             renderPosX += renderOffset.x;
             renderPosY += renderOffset.y;
 
-            sb.draw(textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
+            renderCall(sb, textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
 
             sb.flush();  //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
         }
 
         super.renderSelf(sb);
+    }
+
+    protected void renderCall(SpriteBatch sb, TextureRegion textureToRender, float renderPosX, float renderPosY, float renderWidth, float renderHeight){
+        sb.draw(textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
     }
 
     //endregion

@@ -18,4 +18,8 @@ public class Tex {
     public static TextureResourceBinding resource(Class<?> clazz, String fieldName) {
         return new TextureResourceBinding(clazz, fieldName);
     }
+
+    public static TextureNoneBinding none(){
+        return new TextureNoneBinding();
+    }
 }

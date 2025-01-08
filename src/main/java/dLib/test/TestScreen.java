@@ -16,9 +16,5 @@ public class TestScreen extends UIElement {
 
     public TestScreen(){
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-
-        GeneratedImageTextBox test = new GeneratedImageTextBox(Pos.px(50), Pos.px(50), Dim.px(300), Dim.px(100));
-        test.label.setText("Test");
-        addChild(test);
     }
 }

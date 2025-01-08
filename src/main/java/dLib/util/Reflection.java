@@ -4,6 +4,7 @@ import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.Patcher;
 import dLib.DLib;
+import dLib.util.helpers.DebugHelpers;
 import javassist.*;
 import org.apache.commons.lang3.ClassUtils;
 import org.clapper.util.classutil.*;
@@ -27,11 +28,11 @@ public class Reflection {
     public static <T> T getFieldValue(String fieldName, Object source){
         if(fieldName == null){
             DLib.logError("getFieldValue called with null fieldName. Stacktrace:");
-            Help.Dev.printStacktrace(5);
+            DebugHelpers.printStacktrace(5);
         }
         if(source == null){
             DLib.logError("getFieldValue called with null object source. Stacktrace:");
-            Help.Dev.printStacktrace(5);
+            DebugHelpers.printStacktrace(5);
         }
 
         try{
@@ -46,7 +47,7 @@ public class Reflection {
     public static <T> T getFieldValue(Field field, Object source){
         if(field == null){
             DLib.logError("getFieldValue called with null field. Stacktrace:");
-            Help.Dev.printStacktrace(5);
+            DebugHelpers.printStacktrace(5);
         }
 
         try{
@@ -95,11 +96,11 @@ public class Reflection {
     public static void setFieldValue(String fieldName, Object source, Object value){
         if(fieldName == null){
             DLib.logError("setFieldValue called with null fieldName. Stacktrace:");
-            Help.Dev.printStacktrace(5);
+            DebugHelpers.printStacktrace(5);
         }
         if(source == null){
             DLib.logError("setFieldValue called with null object source. Stacktrace:");
-            Help.Dev.printStacktrace(5);
+            DebugHelpers.printStacktrace(5);
         }
 
         try{
@@ -114,7 +115,7 @@ public class Reflection {
     public static void setFieldValue(Field field, Object source, Object value){
         if(field == null){
             DLib.logError("setFieldValue called with null field. Stacktrace:");
-            Help.Dev.printStacktrace(5);
+            DebugHelpers.printStacktrace(5);
             return;
         }
 
@@ -223,11 +224,11 @@ public class Reflection {
     public static Object invokeMethod(String methodName, Object object, Object... params) {
         if(methodName == null){
             DLib.logError("invokeMethod called with null methodName. Stacktrace:");
-            Help.Dev.printStacktrace(5);
+            DebugHelpers.printStacktrace(5);
         }
         if(methodName == null){
             DLib.logError("invokeMethod called with null object. Stacktrace:");
-            Help.Dev.printStacktrace(5);
+            DebugHelpers.printStacktrace(5);
         }
 
         int paramCount = params.length;
@@ -240,6 +241,10 @@ public class Reflection {
 
         try {
             method = getMethodByNameAndParams(methodName, (object instanceof Class<?> ? (Class<?>) object : object.getClass()), classArray);
+            if(method == null){
+                return null;
+            }
+
             method.setAccessible(true);
             result = method.invoke(object, params);
         } catch (Exception e) {
@@ -250,7 +255,7 @@ public class Reflection {
         return result;
     }
 
-    private static Method getMethodByNameAndParams(String methodName, Class<?> objectClass, Class<?>[] params) throws NoSuchMethodException{
+    public static Method getMethodByNameAndParams(String methodName, Class<?> objectClass, Class<?>[] params){
         for(Map<String, Method> objectMethods : getAllMethods(objectClass)){
             if(objectMethods != null){
                 Method m = objectMethods.get(getMethodUID(methodName, params));
@@ -264,7 +269,7 @@ public class Reflection {
             }
         }
 
-        throw new NoSuchMethodException();
+        return null;
     }
 
     private static ArrayList<LinkedHashMap<String, Method>> getAllMethods(Object obj){
