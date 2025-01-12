@@ -15,6 +15,7 @@ public class ComboBox<OptionType> extends TextButton {
     private boolean canBeNull = false;
 
     private OptionType currentOption;
+    private ArrayList<OptionType> options;
 
     public Event<Consumer<OptionType>> onSelectionChangedEvent = new Event<>();
 
@@ -24,13 +25,15 @@ public class ComboBox<OptionType> extends TextButton {
     public ComboBox(OptionType initialOption, ArrayList<OptionType> options, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(initialOption.toString(), xPos, yPos, width, height);
 
+        this.options = options;
+
         label.setText(itemToStringShort(initialOption));
 
         onLeftClickEvent.subscribeManaged(() -> {
             int buttonX = getWorldPositionX();
             int buttonY = getWorldPositionY();
 
-            SimpleListPicker<OptionType> picker = new SimpleListPicker<OptionType>(buttonX, buttonY, options) {
+            SimpleListPicker<OptionType> picker = new SimpleListPicker<OptionType>(buttonX, buttonY, this.options) {
                 @Override
                 public String itemToString(OptionType item) {
                     return ComboBox.this.itemToStringLong(item);

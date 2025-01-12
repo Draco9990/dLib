@@ -56,6 +56,7 @@ public class TextButton extends Button {
 
             texture.setValue(Tex.resource(UICommonResources.class, "button01_horizontal"));
 
+            textBoxData.id.setValue("label");
             textBoxData.width.setValue(Dim.fill());
             textBoxData.height.setValue(Dim.fill());
             textBoxData.font.setValue(Font.resource(FontHelper.class, "buttonLabelFont"));

@@ -1,11 +1,16 @@
+--> Set interaction layer, drag and drop for teams
+--> Allow any property to Dyn bind
+
+--. Rework the whole children creation thing
+--> make all bindings hold the root element id that will invoke them
+-> array bindings that are either from a list of set of options or through a method call
+
 --> When instantiating root element, instantiate within a container
 --> property editor child hover bind not working or whens crolling in zoom menu uceditor
 
 --> Add double left click
 
-
 --> add a way to filter classes for Comboboxes for method bindings and such instead of searching by ALL child classes
-
 
 --> render hb always and blue hb for cselectable
 -- nativity

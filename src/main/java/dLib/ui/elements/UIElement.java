@@ -189,6 +189,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public UIElement(){
         this(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
     }
+    public UIElement(AbstractPosition xPos, AbstractPosition yPos){
+        this(xPos, yPos, Dim.fill(), Dim.fill());
+    }
     public UIElement(AbstractDimension width, AbstractDimension height){
         this(Pos.px(0), Pos.px(0), width, height);
     }
@@ -2493,6 +2496,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
             ois.defaultReadObject();
             bindCommonEvents();
+
+            components = new ArrayList<>();
         }
 
         protected void bindCommonEvents(){
