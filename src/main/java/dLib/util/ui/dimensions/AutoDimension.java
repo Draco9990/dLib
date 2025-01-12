@@ -22,32 +22,34 @@ public class AutoDimension extends AbstractDynamicDimension implements Serializa
     }
 
     @Override
-    public int getWidth(UIElement self) {
+    public int calculateDimension(UIElement self) {
+        if(refDimension == ReferenceDimension.HEIGHT){
+            return calculateHeight(self);
+        }
+        else if (refDimension == ReferenceDimension.WIDTH){
+            return calculateWidth(self);
+        }
+
+        return 1;
+    }
+
+    public int calculateWidth(UIElement self) {
         PositionBounds childBounds = self.getFullChildLocalBoundsForAutoDim();
         if(childBounds == null) return 1;
         return (childBounds.right - childBounds.left);
     }
 
-    @Override
-    public int getHeight(UIElement self) {
+    public int calculateHeight(UIElement self) {
         PositionBounds childBounds = self.getFullChildLocalBoundsForAutoDim();
         if(childBounds == null) return 1;
         return (childBounds.top - childBounds.bottom);
     }
 
     @Override
+    public void resizeBy(UIElement self, int amount) {}
+
+    @Override
     public void setValueFromString(String value) {
-
-    }
-
-    @Override
-    public void resizeWidthBy(UIElement self, int amount) {
-
-    }
-
-    @Override
-    public void resizeHeightBy(UIElement self, int amount) {
-
     }
 
     @Override
@@ -62,7 +64,9 @@ public class AutoDimension extends AbstractDynamicDimension implements Serializa
 
     @Override
     public AbstractDimension cpy() {
-        return new AutoDimension();
+        AutoDimension cpy = new AutoDimension();
+        cpy.setReferenceDimension(refDimension);
+        return cpy;
     }
 
     @Override

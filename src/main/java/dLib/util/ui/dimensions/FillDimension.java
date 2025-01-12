@@ -29,7 +29,18 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
     }
 
     @Override
-    public int getWidth(UIElement self) {
+    public int calculateDimension(UIElement self) {
+        if(refDimension == AbstractDimension.ReferenceDimension.WIDTH){
+            return calculateWidth(self);
+        }
+        else if (refDimension == AbstractDimension.ReferenceDimension.HEIGHT){
+            return calculateHeight(self);
+        }
+
+        return 1;
+    }
+
+    public int calculateWidth(UIElement self) {
         if(self.getParent() == null) return 1920;
 
         if((self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
@@ -71,8 +82,7 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
         }
     }
 
-    @Override
-    public int getHeight(UIElement self) {
+    public int calculateHeight(UIElement self) {
         if(self.getParent() == null) return 1080;
 
         if((self.getParent() instanceof VerticalListBox || self.getParent() instanceof GridItemBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
@@ -115,17 +125,11 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
     }
 
     @Override
+    public void resizeBy(UIElement self, int amount) {
+    }
+
+    @Override
     public void setValueFromString(String value) {
-
-    }
-
-    @Override
-    public void resizeWidthBy(UIElement self, int amount) {
-
-    }
-
-    @Override
-    public void resizeHeightBy(UIElement self, int amount) {
 
     }
 
@@ -141,7 +145,9 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
 
     @Override
     public AbstractDimension cpy() {
-        return new FillDimension();
+        FillDimension dimension = new FillDimension();
+        dimension.setReferenceDimension(this.refDimension);
+        return dimension;
     }
 
     @Override

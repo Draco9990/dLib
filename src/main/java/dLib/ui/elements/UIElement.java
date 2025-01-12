@@ -199,8 +199,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
         this.localPosX = xPos;
         this.localPosY = yPos;
-        this.width = width;
-        this.height = height;
+        setWidthRaw(width);
+        setHeightRaw(height);
 
         String uiStrings = getUIStringsKey();
         if(uiStrings != null){
@@ -213,8 +213,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         setLocalPosition(data.localPositionX.getValue(), data.localPositionY.getValue());
 
-        width = data.width.getValue();
-        height = data.height.getValue();
+        setWidthRaw(data.width.getValue());
+        setHeightRaw(data.height.getValue());
 
         setAlignment(data.alignment.getHorizontalAlignment(), data.alignment.getVerticalAlignment());
 
@@ -1444,12 +1444,21 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         AbstractDimension oldWidth = width;
         AbstractDimension oldHeight = height;
 
-        width = newWidth == null ? width : newWidth;
-        height = newHeight == null ? height : newHeight;
+        if(newWidth != null) setWidthRaw(newWidth);
+        if(newHeight != null) setHeightRaw(newHeight);
 
         if(!Objects.equals(oldWidth, width) || !Objects.equals(oldHeight, height)){
             onDimensionsChanged();
         }
+    }
+
+    private final void setWidthRaw(AbstractDimension newWidth){
+        width = newWidth;
+        width.setReferenceDimension(AbstractDimension.ReferenceDimension.WIDTH);
+    }
+    private final void setHeightRaw(AbstractDimension newHeight){
+        height = newHeight;
+        height.setReferenceDimension(AbstractDimension.ReferenceDimension.HEIGHT);
     }
 
     public void setWidth(int newWidth){
@@ -1489,7 +1498,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public int getWidth(){
         if(widthCache == null || widthCache <= 0){
-            widthCache = width.getWidth(this);
+            widthCache = width.calculateDimension(this);
         }
 
         int toReturn = widthCache;
@@ -1503,7 +1512,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public int getHeight(){
         if(heightCache == null || heightCache <= 0){
-            heightCache = height.getHeight(this);
+            heightCache = height.calculateDimension(this);
         }
 
         int toReturn = heightCache;
@@ -1521,7 +1530,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public int getWidthUnpadded(){
         if(widthCache == null || widthCache <= 0){
-            widthCache = width.getWidth(this);
+            widthCache = width.calculateDimension(this);
         }
 
         int toReturn = widthCache;
@@ -1533,7 +1542,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public int getHeightUnpadded(){
         if(heightCache == null || heightCache <= 0){
-            heightCache = height.getHeight(this);
+            heightCache = height.calculateDimension(this);
         }
 
         int toReturn = heightCache;
@@ -1576,8 +1585,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         AbstractDimension widthCopy = width.cpy();
         AbstractDimension heightCopy = height.cpy();
 
-        widthCopy.resizeWidthBy(this, widthDiff);
-        heightCopy.resizeHeightBy(this, heightDiff);
+        widthCopy.resizeBy(this, widthDiff);
+        heightCopy.resizeBy(this, heightDiff);
 
         setDimensions(widthCopy, heightCopy);
     }

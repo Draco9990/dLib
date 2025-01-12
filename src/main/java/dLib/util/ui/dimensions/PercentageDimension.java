@@ -19,16 +19,33 @@ public class PercentageDimension extends AbstractStaticDimension implements Seri
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PercentageDimension)) {
-            return false;
+    public int calculateDimension(UIElement self) {
+        if(refDimension == ReferenceDimension.WIDTH){
+            return calculateWidth(self);
+        } else {
+            return calculateHeight(self);
         }
+    }
 
-        PercentageDimension pd = (PercentageDimension) obj;
-        return pd.percentage == this.percentage;
+    public int calculateWidth(UIElement self) {
+        int parentWidth = self.getParent() != null ? self.getParent().getWidthUnscaled() : 1920;
+        return (int) (parentWidth * percentage);
+    }
+
+    public int calculateHeight(UIElement self) {
+        int parentHeight = self.getParent() != null ? self.getParent().getHeightUnscaled() : 1080;
+        return (int) (parentHeight * percentage);
     }
 
     @Override
+    public void resizeBy(UIElement self, int amount) {
+        if(refDimension == ReferenceDimension.WIDTH){
+            resizeWidthBy(self, amount);
+        } else {
+            resizeHeightBy(self, amount);
+        }
+    }
+
     public void resizeWidthBy(UIElement self, int amount) {
         int parentWidth = self.getParent() != null ? self.getParent().getWidthUnscaled() : 1920;
 
@@ -39,7 +56,6 @@ public class PercentageDimension extends AbstractStaticDimension implements Seri
         }
     }
 
-    @Override
     public void resizeHeightBy(UIElement self, int amount) {
         int parentHeight = self.getParent() != null ? self.getParent().getHeightUnscaled() : 1080;
 
@@ -51,15 +67,13 @@ public class PercentageDimension extends AbstractStaticDimension implements Seri
     }
 
     @Override
-    public int getWidth(UIElement self) {
-        int parentWidth = self.getParent() != null ? self.getParent().getWidthUnscaled() : 1920;
-        return (int) (parentWidth * percentage);
-    }
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PercentageDimension)) {
+            return false;
+        }
 
-    @Override
-    public int getHeight(UIElement self) {
-        int parentHeight = self.getParent() != null ? self.getParent().getHeightUnscaled() : 1080;
-        return (int) (parentHeight * percentage);
+        PercentageDimension pd = (PercentageDimension) obj;
+        return pd.percentage == this.percentage;
     }
 
     @Override
@@ -83,7 +97,9 @@ public class PercentageDimension extends AbstractStaticDimension implements Seri
 
     @Override
     public AbstractDimension cpy() {
-        return new PercentageDimension(percentage);
+        PercentageDimension percDim = new PercentageDimension(percentage);
+        percDim.setReferenceDimension(refDimension);
+        return percDim;
     }
 
     @Override

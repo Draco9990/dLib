@@ -3,6 +3,7 @@ package dLib.properties.ui.elements;
 import dLib.properties.objects.PositionProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ComboBox;
+import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PercentagePosition;

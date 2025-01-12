@@ -19,26 +19,19 @@ public class PixelDimension extends AbstractStaticDimension implements Serializa
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PixelDimension)) {
-            return false;
+    public int calculateDimension(UIElement self) {
+        return size;
+    }
+
+    @Override
+    public void resizeBy(UIElement self, int amount) {
+        if(refDimension == ReferenceDimension.WIDTH){
+            resizeWidthBy(self, amount);
+        } else if(refDimension == ReferenceDimension.HEIGHT){
+            resizeHeightBy(self, amount);
         }
-
-        PixelDimension other = (PixelDimension) obj;
-        return other.size == size;
     }
 
-    @Override
-    public int getWidth(UIElement self) {
-        return size;
-    }
-
-    @Override
-    public int getHeight(UIElement self) {
-        return size;
-    }
-
-    @Override
     public void resizeWidthBy(UIElement self, int amount) {
         if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             size += amount;
@@ -47,13 +40,22 @@ public class PixelDimension extends AbstractStaticDimension implements Serializa
         }
     }
 
-    @Override
     public void resizeHeightBy(UIElement self, int amount) {
         if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             size += amount;
         } else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             size -= amount;
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PixelDimension)) {
+            return false;
+        }
+
+        PixelDimension other = (PixelDimension) obj;
+        return other.size == size;
     }
 
     @Override
@@ -77,7 +79,9 @@ public class PixelDimension extends AbstractStaticDimension implements Serializa
 
     @Override
     public AbstractDimension cpy() {
-        return new PixelDimension(size);
+        PixelDimension pixelDimension = new PixelDimension(size);
+        pixelDimension.setReferenceDimension(refDimension);
+        return pixelDimension;
     }
 
     @Override

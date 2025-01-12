@@ -10,23 +10,19 @@ import java.io.Serializable;
 
 public class MirrorDimension extends AbstractDynamicDimension implements Serializable {
     @Override
-    public int getWidth(UIElement self) {
-        return self.getHeight();
+    public int calculateDimension(UIElement self) {
+        if(refDimension == AbstractDimension.ReferenceDimension.WIDTH){
+            return self.getHeight();
+        }
+        else if(refDimension == AbstractDimension.ReferenceDimension.HEIGHT){
+            return self.getWidth();
+        }
+
+        return 1;
     }
 
     @Override
-    public int getHeight(UIElement self) {
-        return self.getWidth();
-    }
-
-    @Override
-    public void resizeWidthBy(UIElement self, int amount) {
-
-    }
-
-    @Override
-    public void resizeHeightBy(UIElement self, int amount) {
-
+    public void resizeBy(UIElement self, int amount) {
     }
 
     @Override
@@ -46,7 +42,9 @@ public class MirrorDimension extends AbstractDynamicDimension implements Seriali
 
     @Override
     public AbstractDimension cpy() {
-        return new MirrorDimension();
+        MirrorDimension mirror = new MirrorDimension();
+        mirror.refDimension = this.refDimension;
+        return mirror;
     }
 
     @Override
