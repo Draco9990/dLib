@@ -34,6 +34,7 @@ import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.components.data.AbstractUIElementDataComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.screens.UIManager;
+import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
 import dLib.util.events.Event;
@@ -914,6 +915,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void setWorldPosition(int newPosX, int newPosY){
         int xDiff = newPosX - getWorldPositionX();
         int yDiff = newPosY - getWorldPositionY();
+
+        DLibLogger.log("Offsetting by " + xDiff + ", " + yDiff);
 
         offset(xDiff, yDiff);
     }

@@ -7,6 +7,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import dLib.external.ExternalEditorCommunicationManager;
+import dLib.test.TestScreen;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.UCStartupPopup;
 import dLib.util.DLibConfigManager;
@@ -45,17 +46,19 @@ public class MainMenuButtonPatches {
                 if(!ExternalEditorCommunicationManager.isEnabled()) ExternalEditorCommunicationManager.enable();
                 if(!ExternalEditorCommunicationManager.isRunning()) ExternalEditorCommunicationManager.start();
 
-                if(ExternalEditorCommunicationManager.isRunning()){
+                if(false && ExternalEditorCommunicationManager.isRunning()){
                     UCStartupPopup popup = new UCStartupPopup();
                     popup.open();
                 }
-                else{ //TODO Remove on live
+                else if(true){ //TODO Remove on live
                     UCEditor editor = new UCEditor();
                     editor.open();
-
-                    /*TestScreen testScreen = new TestScreen();
-                    testScreen.open();*/
                 }
+                else{
+                    TestScreen testScreen = new TestScreen();
+                    testScreen.open();
+                }
+
                 return SpireReturn.Return();
             }
             return SpireReturn.Continue();
