@@ -7,6 +7,4 @@ import dLib.ui.elements.components.data.AbstractUIElementDataComponent;
 public class UCEditorDataComponent extends AbstractUIElementDataComponent {
     public UIElement liveElement = null;
     public UCEITemplate template;
-
-    public UIElement.UIElementData parentData = null;
 }

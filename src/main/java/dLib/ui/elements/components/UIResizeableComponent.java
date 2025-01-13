@@ -136,6 +136,8 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             setContainerBoundCalculationType(BoundCalculationType.CONTAINS_HALF);
 
             addComponent(new UIDraggableComponent());
+
+            setScaleWithParent(false);
         }
 
         @Override

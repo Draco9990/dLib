@@ -43,7 +43,6 @@ public class UCEditorItemTree {
         rootElementData.children.add(elementData);
 
         rootElementData.getComponent(UCEditorDataComponent.class).liveElement.addChild(elementData.getComponent(UCEditorDataComponent.class).liveElement);
-        elementData.getComponent(UCEditorDataComponent.class).parentData = rootElementData;
 
         ExternalMessageSender.send_addVariableToClass(ExternalStatics.workingClass, elementData.getComponent(UCEditorDataComponent.class).liveElement.getClass(), elementData.id.getValue());
 
@@ -59,7 +58,7 @@ public class UCEditorItemTree {
             oldElement.getParent().replaceChild(oldElement, newElement);
         }
         else{
-            UIElement.UIElementData parentData = elementData.getComponent(UCEditorDataComponent.class).parentData;
+            UIElement.UIElementData parentData = findParentOfData(elementData);
 
             UCEditorDataComponent toRefreshComponent = elementData.getComponent(UCEditorDataComponent.class);
             UCEditorDataComponent parentComponent = parentData.getComponent(UCEditorDataComponent.class);
@@ -67,8 +66,6 @@ public class UCEditorItemTree {
             UIElement oldElement = toRefreshComponent.liveElement;
             UIElement newElement = toRefreshComponent.template.makeEditorItem(elementData);
             parentComponent.liveElement.replaceChild(oldElement, newElement);
-
-            updateDataComponentHierarchyForElementData(null, parentData);
         }
     }
 
@@ -77,7 +74,6 @@ public class UCEditorItemTree {
 
         UIElement.UIElementData copy = SerializationHelpers.deepCopySerializable(data);
         copy.getOrAddComponent(new UCEditorDataComponent()).template = data.getComponent(UCEditorDataComponent.class).template;
-        updateDataComponentHierarchyForElementData(data.getOrAddComponent(new UCEditorDataComponent()).parentData, copy);
 
         UIElement copyElement = copy.getOrAddComponent(new UCEditorDataComponent()).template.makeEditorItem(copy);
         copyElement.reparent(element.getParent());
@@ -109,18 +105,23 @@ public class UCEditorItemTree {
         oldParentEntry.children.remove(toReparentEntry);
         newParentEntry.children.add(toReparentEntry);
 
-        toReparentEntry.getComponent(UCEditorDataComponent.class).parentData = newParentEntry;
         toReparentEntry.getComponent(UCEditorDataComponent.class).liveElement.reparent(newParent);
     }
 
-    private void updateDataComponentHierarchyForElementData(UIElement.UIElementData parent, UIElement.UIElementData data){
-        UCEditorDataComponent dataComponent = data.getOrAddComponent(new UCEditorDataComponent());
-        if(parent != null){
-            dataComponent.parentData = parent;
+    private UIElement.UIElementData findParentOfData(UIElement.UIElementData data){
+        if(rootElementData.children.contains(data)){
+            return rootElementData;
         }
 
-        for(UIElement.UIElementData child : data.children){
-            updateDataComponentHierarchyForElementData(data, child);
+        for(UIElement.UIElementData child : rootElementData.children){
+            if(child.children.contains(data)){
+                return child;
+            }
+            else{
+                findParentOfData(child);
+            }
         }
+
+        return null;
     }
 }

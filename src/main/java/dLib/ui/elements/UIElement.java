@@ -97,6 +97,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private float xScale = 1f;
     private float yScale = 1f;
+    private boolean scaleWithParent = true;
     public Event<Consumer<UIElement>> onScaleChangedEvent = new Event<>();
 
     private AbstractPadding paddingLeft = Padd.px(0);
@@ -2277,10 +2278,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public float getScaleX(){
-        return xScale * (hasParent() ? parent.getScaleX() : 1.0f);
+        if(!scaleWithParent) return xScale;
+        else return xScale * getParentScaleX();
     }
     public float getScaleY(){
-        return yScale * (hasParent() ? parent.getScaleY() : 1.0f);
+        if(!scaleWithParent) return yScale;
+        else return yScale * getParentScaleY();
     }
 
     public float getParentScaleX(){
@@ -2288,6 +2291,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public float getParentScaleY(){
         return hasParent() ? parent.getScaleY() : 1.0f;
+    }
+
+    public void setScaleWithParent(boolean scaleWithParent){
+        this.scaleWithParent = scaleWithParent;
     }
 
     //endregion
