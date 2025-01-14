@@ -52,9 +52,7 @@ public class Event<EventType> {
     public void invoke(Consumer<EventType> consumer){
         //Events can modify subscribers
         for(EventType event : subscribers.values()){
-            if(subscribers.containsValue(event)){
-                consumer.accept(event);
-            }
+            consumer.accept(event);
         }
     }
 

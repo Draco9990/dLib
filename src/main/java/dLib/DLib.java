@@ -9,7 +9,6 @@ import dLib.external.ExternalEditorCommunicationManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
-import dLib.tools.uicreator.ui.elements.GeneratedUIElementPatches;
 import dLib.util.helpers.FontHelpers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +22,6 @@ public class DLib implements PostInitializeSubscriber{
 
     public DLib() {
         BaseMod.subscribe(this);
-        BaseMod.subscribe(new GeneratedUIElementPatches());
         setModID("dLib");
     }
 

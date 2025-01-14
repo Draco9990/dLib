@@ -1,7 +1,6 @@
 package dLib.tools.uicreator.ui.elements.interfaces;
 
 import com.badlogic.gdx.Gdx;
-import dLib.tools.uicreator.ui.elements.GeneratedUIElementPatches;
 import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.ui.elements.UIElement;
 import dLib.util.DLibLogger;
@@ -15,13 +14,10 @@ public interface IGeneratedUIElement extends Constructable {
         loadGeneratedData();
     }
 
-    default void loadGeneratedData() {
-        if(!GeneratedUIElementPatches.generatedElements.containsKey(getClass().getName())){
-            DLibLogger.logError("No generated data found for class: " + getClass().getName());
-            return;
-        }
+    String getGeneratedDataPath();
 
-        String generatedObjectData = Gdx.files.internal(GeneratedUIElementPatches.generatedElements.get(getClass().getName())).readString();
+    default void loadGeneratedData() {
+        String generatedObjectData = Gdx.files.internal(getGeneratedDataPath()).readString();
 
         RootElement.RootElementData data = SerializationHelpers.fromString(generatedObjectData);
         data.inEditor = false;
