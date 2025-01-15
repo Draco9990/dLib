@@ -182,6 +182,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private boolean drawFocusOnOpen = true;
 
+    private boolean overridesBaseScreen = false;
+
     private transient boolean disposed = false;
 
     //endregion
@@ -2302,6 +2304,18 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion
 
+    //region Overrides Base Screen
+
+    public void setOverridesBaseScreen(boolean overridesBaseScreen){
+        this.overridesBaseScreen = overridesBaseScreen;
+    }
+
+    public boolean overridesBaseScreen(){
+        return overridesBaseScreen;
+    }
+
+    //endregion Overrides Base Screen
+
     //endregion
 
     public enum BoundCalculationType{
@@ -2456,6 +2470,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         //region UI Element Creation
 
         public final UIElement makeUIElement(){
+            return makeUIElement(null);
+        }
+
+        public final UIElement makeUIElement(UIElement rootOwner){
             UIElement toReturn = makeUIElement_internal();
             toReturn.addComponent(new GeneratedElementComponent(this));
 
@@ -2463,7 +2481,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 UIElement child = entry.makeUIElement();
                 toReturn.addChild(child);
 
-                UIElement rootOwner = toReturn.getRootOwnerParentElement();
                 if(rootOwner != null){
                     Reflection.setFieldValue(entry.id.getValue(), rootOwner, child);
                 }

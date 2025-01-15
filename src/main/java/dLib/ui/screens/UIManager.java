@@ -1,6 +1,7 @@
 package dLib.ui.screens;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
@@ -13,6 +14,7 @@ import dLib.patches.InputHelpers;
 import dLib.ui.elements.UIElement;
 import dLib.util.Help;
 import dLib.util.Reflection;
+import dLib.util.helpers.GameplayHelpers;
 
 import java.util.ArrayList;
 
@@ -21,14 +23,27 @@ public class UIManager {
     //region Variables
 
     private static ArrayList<UIElement> uiElements = new ArrayList<>();
-
     private static ArrayList<UIElement> pendingClose = new ArrayList<>();
+
+    private static MainMenuScreen.CurScreen cachedScreenMainMenu = null;
+    private static AbstractDungeon.CurrentScreen cachedScreenInGame = null;
+    private static AbstractDungeon.RenderScene cachedRenderScene = null;
 
     //endregion
 
     //region Class Methods
 
     public static void openUIElement(UIElement element){ //TODO draw 'focus' to the first element
+        if(element.overridesBaseScreen() && !hasBaseScreenOverriders()){
+            cachedScreenMainMenu = CardCrawlGame.mainMenuScreen.screen;
+            cachedScreenInGame = AbstractDungeon.screen;
+            cachedRenderScene = AbstractDungeon.rs;
+
+            CardCrawlGame.mainMenuScreen.screen = ScreenOverridesEnum.CUSTOM_SCREEN;
+            AbstractDungeon.screen = ScreenOverridesEnum.CUSTOM_INGAME_SCREEN;
+            AbstractDungeon.rs = ScreenOverridesEnum.CUSTOM_SCENE;
+        }
+
         uiElements.add(element);
         if(element.shouldDrawFocusOnOpen()){
             UIElement selectedElement = getCurrentlySelectedElement();
@@ -41,22 +56,30 @@ public class UIManager {
 
         pendingClose.remove(element);
     }
-    public static void reopenPreviousUIElement(){
-        if(uiElements.isEmpty()){
-            return;
-        }
-
-        uiElements.get(uiElements.size() - 1).showAndEnable();
-    }
     public static void closeUIElement(UIElement element){
         pendingClose.add(element);
     }
-    public static void hideAllUIElements(){
-        for (UIElement uiElement : uiElements) {
-            if(uiElement.isVisible()){
-                uiElement.hideAndDisable();
+    public static void onElementClosed(UIElement element){
+        if(element.overridesBaseScreen() && !hasBaseScreenOverriders()){
+            CardCrawlGame.mainMenuScreen.screen = cachedScreenMainMenu;
+            AbstractDungeon.screen = cachedScreenInGame;
+            AbstractDungeon.rs = cachedRenderScene;
+
+            if(GameplayHelpers.isInARun()){
+                AbstractDungeon.overlayMenu.cancelButton.hide();
+                Reflection.invokeMethod("genericScreenOverlayReset", AbstractDungeon.class);
             }
         }
+    }
+
+    private static boolean hasBaseScreenOverriders(){
+        for(UIElement uiElement : uiElements){
+            if(uiElement.overridesBaseScreen()){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static <UIElementClass> UIElementClass getOpenElementOfType(Class<UIElementClass> screenClass){
@@ -230,7 +253,9 @@ public class UIManager {
 
                     for(UIElement pendingCloseElement : pendingClose){
                         uiElements.remove(pendingCloseElement);
+                        onElementClosed(pendingCloseElement);
                     }
+                    pendingClose.clear();
                 }
             }
         }
@@ -260,7 +285,9 @@ public class UIManager {
 
                     for(UIElement pendingCloseElement : pendingClose){
                         uiElements.remove(pendingCloseElement);
+                        onElementClosed(pendingCloseElement);
                     }
+                    pendingClose.clear();
                 }
             }
         }
@@ -277,4 +304,15 @@ public class UIManager {
         }
     }
     //endregion
+
+    public static class ScreenOverridesEnum {
+        @SpireEnum
+        public static MainMenuScreen.CurScreen CUSTOM_SCREEN;
+
+        @SpireEnum
+        public static AbstractDungeon.CurrentScreen CUSTOM_INGAME_SCREEN;
+
+        @SpireEnum
+        public static AbstractDungeon.RenderScene CUSTOM_SCENE;
+    }
 }

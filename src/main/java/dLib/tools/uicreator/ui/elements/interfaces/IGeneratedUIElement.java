@@ -21,6 +21,6 @@ public interface IGeneratedUIElement extends Constructable {
 
         RootElement.RootElementData data = SerializationHelpers.fromString(generatedObjectData);
         data.inEditor = false;
-        ((UIElement)this).addChild(data.makeUIElement());
+        ((UIElement)this).addChild(data.makeUIElement((UIElement)this));
     }
 }
