@@ -9,6 +9,7 @@ import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -20,7 +21,7 @@ import java.util.function.Consumer;
 public class SimpleHorizontalRangeSelector extends Renderable{
     private Image slider;
 
-    public Event<Consumer<Float>> onPercentageChangedEvent = new Event<>();
+    public ConsumerEvent<Float> onPercentageChangedEvent = new ConsumerEvent<>();
 
     public SimpleHorizontalRangeSelector(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(imageBinding, xPos, yPos, width, height);
@@ -37,7 +38,7 @@ public class SimpleHorizontalRangeSelector extends Renderable{
                 int totalWidth = getWidth();
                 int sliderPos = slider.getLocalPositionCenteredX();
                 float percent = (float) sliderPos / totalWidth;
-                onPercentageChangedEvent.invoke(floatConsumer -> floatConsumer.accept(percent));
+                onPercentageChangedEvent.invoke(percent);
             });
         }
         addChild(slider);
@@ -48,7 +49,7 @@ public class SimpleHorizontalRangeSelector extends Renderable{
 
             float percentage = (float) mouseLocalX / getWidth();
             float finalPercentage = Math.max(0, Math.min(1, percentage));
-            onPercentageChangedEvent.invoke(floatConsumer -> floatConsumer.accept(finalPercentage));
+            onPercentageChangedEvent.invoke(finalPercentage);
 
             slider.setLocalPositionCenteredX(mouseLocalX);
 

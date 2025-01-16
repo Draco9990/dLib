@@ -9,6 +9,7 @@ import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -23,8 +24,8 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
     protected UIElement contentEditor;
 
-    public Event<Consumer<TProperty<?, ?>>> onPropertyHovered = new Event<>();
-    public Event<Consumer<TProperty<?, ?>>> onPropertyUnhovered = new Event<>();
+    public ConsumerEvent<TProperty<?, ?>> onPropertyHovered = new ConsumerEvent<>();
+    public ConsumerEvent<TProperty<?, ?>> onPropertyUnhovered = new ConsumerEvent<>();
 
     //endregion
 
@@ -71,12 +72,12 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
                     public void onHovered() {
-                        onPropertyHovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(boundProperty));
+                        onPropertyHovered.invoke(boundProperty);
                     }
 
                     @Override
                     public void onUnhovered() {
-                        onPropertyUnhovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(boundProperty));
+                        onPropertyUnhovered.invoke(boundProperty);
                     }
                 };
                 hoverable.setPassthrough(true);
@@ -103,12 +104,12 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
                     public void onHovered() {
-                        onPropertyHovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(boundProperty));
+                        onPropertyHovered.invoke(boundProperty);
                     }
 
                     @Override
                     public void onUnhovered() {
-                        onPropertyUnhovered.invoke(tPropertyConsumer -> tPropertyConsumer.accept(boundProperty));
+                        onPropertyUnhovered.invoke(boundProperty);
                     }
                 };
                 hoverable.setPassthrough(true);

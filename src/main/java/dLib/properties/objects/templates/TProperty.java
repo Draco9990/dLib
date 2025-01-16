@@ -4,6 +4,7 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.properties.ui.elements.PropertyValueEditor;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.BiConsumerEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,7 +29,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     protected ValueType previousValue;
 
-    public transient Event<BiConsumer<ValueType, ValueType>> onValueChangedEvent = new Event<>();
+    public transient BiConsumerEvent<ValueType, ValueType> onValueChangedEvent = new BiConsumerEvent<>();
 
     private transient ArrayList<Function<PropertyType, Boolean>> isPropertyVisibleFunctions = new ArrayList<>();
 
@@ -96,7 +97,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     }
 
     public void onValueChanged(ValueType oldValue, ValueType newValue){
-        onValueChangedEvent.invoke(propertyTypeValueTypeValueTypeTriConsumer -> propertyTypeValueTypeValueTypeTriConsumer.accept(oldValue, newValue));
+        onValueChangedEvent.invoke(oldValue, newValue);
     }
 
     public ValueType getPreviousValue(){
@@ -169,7 +170,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
-        onValueChangedEvent = new Event<>();
+        onValueChangedEvent = new BiConsumerEvent<>();
         isPropertyVisibleFunctions = new ArrayList<>();
     }
 

@@ -40,6 +40,9 @@ import dLib.util.Reflection;
 import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
+import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.events.localevents.RunnableEvent;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
@@ -69,7 +72,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     protected UIElement parent;
     protected List<UIElement> children = new ArrayList<>();
-    public Event<Runnable> onHierarchyChangedEvent = new Event<>();
+    public RunnableEvent onHierarchyChangedEvent = new RunnableEvent();
 
     public String rootOwnerId;
 
@@ -81,7 +84,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected Integer localPosYCache = null;
     private Integer worldPosXCache = null;
     private Integer worldPosYCache = null;
-    public Event<Consumer<UIElement>> onPositionChangedEvent = new Event<>();
+    public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
     private int localChildOffsetX = 0;
     private int localChildOffsetY = 0;
@@ -94,12 +97,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private Integer heightCache = null;
     private AbstractBounds containerBounds = null;
     private BoundCalculationType containerBoundCalculationType = BoundCalculationType.CONTAINS;
-    public Event<Consumer<UIElement>> onDimensionsChangedEvent = new Event<>();
+    public ConsumerEvent<UIElement> onDimensionsChangedEvent = new ConsumerEvent<>();
 
     private float xScale = 1f;
     private float yScale = 1f;
     private boolean scaleWithParent = true;
-    public Event<Consumer<UIElement>> onScaleChangedEvent = new Event<>();
+    public ConsumerEvent<UIElement> onScaleChangedEvent = new ConsumerEvent<>();
 
     private AbstractPadding paddingLeft = Padd.px(0);
     private AbstractPadding paddingBottom = Padd.px(0);
@@ -119,32 +122,32 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     protected boolean controllerSelectable = false;
     private boolean selected;
-    public Event<Consumer<Boolean>> onSelectionStateChangedEvent = new Event<>();
+    public ConsumerEvent<Boolean> onSelectionStateChangedEvent = new ConsumerEvent<>();
 
     private boolean isPassthrough = true;
 
     //region Events
 
-    public Event<Runnable> preUpdateEvent = new Event<>();
-    public Event<Runnable> postUpdateEvent = new Event<>();
-    public Event<Consumer<SpriteBatch>> preRenderEvent = new Event<>();
-    public Event<Consumer<SpriteBatch>> postRenderEvent = new Event<>();
+    public RunnableEvent preUpdateEvent = new RunnableEvent();
+    public RunnableEvent postUpdateEvent = new RunnableEvent();
+    public ConsumerEvent<SpriteBatch> preRenderEvent = new ConsumerEvent<>();
+    public ConsumerEvent<SpriteBatch> postRenderEvent = new ConsumerEvent<>();
 
-    public Event<Runnable> onHoveredEvent = new Event<>();
-    public Event<Consumer<Float>> onHoverTickEvent = new Event<>();
-    public Event<Runnable> onUnhoveredEvent = new Event<>();
+    public RunnableEvent onHoveredEvent = new RunnableEvent();
+    public ConsumerEvent<Float> onHoverTickEvent = new ConsumerEvent<>();
+    public RunnableEvent onUnhoveredEvent = new RunnableEvent();
 
-    public Event<Consumer<UIElement>> onHoveredChildEvent = new Event<>();
-    public Event<BiConsumer<UIElement, Float>> onHoverTickChildEvent = new Event<>();
-    public Event<Consumer<UIElement>> onUnhoveredChildEvent = new Event<>();
+    public ConsumerEvent<UIElement> onHoveredChildEvent = new ConsumerEvent<>();
+    public BiConsumerEvent<UIElement, Float> onHoverTickChildEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<UIElement> onUnhoveredChildEvent = new ConsumerEvent<>();
 
-    public Event<Runnable> onLeftClickEvent = new Event<>();
-    public Event<Consumer<Float>> onLeftClickHeldEvent = new Event<>();
-    public Event<Runnable> onLeftClickReleaseEvent = new Event<>();
+    public RunnableEvent onLeftClickEvent = new RunnableEvent();
+    public ConsumerEvent<Float> onLeftClickHeldEvent = new ConsumerEvent<>();
+    public RunnableEvent onLeftClickReleaseEvent = new RunnableEvent();
 
-    public Event<Runnable> onRightClickEvent = new Event<>();
-    public Event<Consumer<Float>> onRightClickHeldEvent = new Event<>();
-    public Event<Runnable> onRightClickReleaseEvent = new Event<>();
+    public RunnableEvent onRightClickEvent = new RunnableEvent();
+    public ConsumerEvent<Float> onRightClickHeldEvent = new ConsumerEvent<>();
+    public RunnableEvent onRightClickReleaseEvent = new RunnableEvent();
 
     //endregion Events
 
@@ -665,7 +668,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void onParentChanged(){
-        onHierarchyChangedEvent.invoke(Runnable::run);
+        onHierarchyChangedEvent.invoke();
     }
 
     //endregion
@@ -724,7 +727,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     protected void onChildrenChanged(){
         invalidateCachesForElementTree();
-        onHierarchyChangedEvent.invoke(Runnable::run);
+        onHierarchyChangedEvent.invoke();
     }
 
     public UIElement getFirstChild(){
@@ -1017,7 +1020,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void onPositionChanged(){
         invalidateCachesForElementTree();
 
-        onPositionChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(UIElement.this));
+        onPositionChangedEvent.invoke(this);
 
         for(UIElement child : children){
             child.onParentPositionChanged();
@@ -1258,7 +1261,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
         }
 
-        onSelectionStateChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(isSelected()));
+        onSelectionStateChangedEvent.invoke(isSelected());
     }
 
     //endregion
@@ -1487,7 +1490,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             getParent().onChildDimensionsChanged(this);
         }
 
-        onDimensionsChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(UIElement.this));
+        onDimensionsChangedEvent.invoke(this);
     }
 
     protected void onParentDimensionsChanged(){
@@ -2279,7 +2282,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void onScaleChanged(){
-        onScaleChangedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(this));
+        onScaleChangedEvent.invoke(this);
     }
 
     public float getScaleX(){

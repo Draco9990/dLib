@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.RunnableEvent;
 
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class UIDraggableComponent extends AbstractUIElementComponent<UIElement> 
     private UUID leftClickEventId;
     private UUID leftClickHeldEventId;
 
-    public Event<Runnable> onDraggedEvent = new Event<>();
+    public RunnableEvent onDraggedEvent = new RunnableEvent();
 
     //endregion
 
@@ -96,7 +97,7 @@ public class UIDraggableComponent extends AbstractUIElementComponent<UIElement> 
 
         owner.offset((int) ((localDragOffsetX - xDragOffset) * owner.getScaleX()), (int) ((localDragOffsetY - yDragOffset) * owner.getScaleY()));
 
-        onDraggedEvent.invoke(Runnable::run);
+        onDraggedEvent.invoke();
     }
 
     //endregion

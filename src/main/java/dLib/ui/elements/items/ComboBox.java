@@ -4,6 +4,7 @@ import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
@@ -17,7 +18,7 @@ public class ComboBox<OptionType> extends TextButton {
     private OptionType currentOption;
     private ArrayList<OptionType> options;
 
-    public Event<Consumer<OptionType>> onSelectionChangedEvent = new Event<>();
+    public ConsumerEvent<OptionType> onSelectionChangedEvent = new ConsumerEvent<>();
 
     public ComboBox(OptionType initialOption, ArrayList<OptionType> options, AbstractDimension width, AbstractDimension height) {
         this(initialOption, options, Pos.px(0), Pos.px(0), width, height);
@@ -59,7 +60,7 @@ public class ComboBox<OptionType> extends TextButton {
         currentOption = option;
         label.setText(itemToStringShort(option));
 
-        onSelectionChangedEvent.invoke(optionTypeConsumer -> optionTypeConsumer.accept(option));
+        onSelectionChangedEvent.invoke(option);
     }
     public OptionType getCurrentlySelectedItem(){
         return currentOption;
