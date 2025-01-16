@@ -11,6 +11,6 @@ public class ConfirmButtonSmall extends TextButton {
         super("Confirm", xPos, yPos, Dim.px(173), Dim.px(75));
 
         setImage(Tex.stat(UICommonResources.confirmButtonSmall));
-        label.setFontSize(16);
+        label.setFontSize(18);
     }
 }

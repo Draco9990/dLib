@@ -27,7 +27,7 @@ public class PositionValueEditor<ValueType> extends AbstractValueEditor<ValueTyp
                 return item.getDisplayValue();
             }
         };
-        comboBox.label.setFontSize(4);
+        comboBox.label.setFontSize(6);
         comboBox.onSelectionChangedEvent.subscribe(comboBox, (option) -> {
             if(option == null || boundProperty.getValue().getClass() == option.getClass()) return;
             boundProperty.setValue(option.cpy());

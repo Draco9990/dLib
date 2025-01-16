@@ -11,6 +11,6 @@ public class CancelButtonSmall extends TextButton {
         super("Cancel", xPos, yPos, Dim.px(161), Dim.px(74));
 
         setImage(Tex.stat(UICommonResources.cancelButtonSmall));
-        label.setFontSize(16);
+        label.setFontSize(18);
     }
 }

@@ -92,6 +92,9 @@ public class UIManager {
         return null;
 
     }
+    public static ArrayList<UIElement> getOpenElements(){
+        return new ArrayList<>(uiElements);
+    }
 
     //region Input Manager
     private static void updateInput(){

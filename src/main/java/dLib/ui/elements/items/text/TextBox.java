@@ -31,7 +31,7 @@ public class TextBox extends UIElement {
 
     private String text;
 
-    private float fontSize = 14f;
+    private float fontSize = 16f;
     private boolean trueSize = false;
 
     private Color textRenderColor;
@@ -367,11 +367,11 @@ public class TextBox extends UIElement {
 
     public float getFontSizeForRender(){
         if(trueSize){
-            return (fontSize / 14f) * getScaleY();
+            return (fontSize / 14f) * getScaleY() * Settings.xScale;
         }
         else{
             float trueSize = FontHelpers.getFontTrueScale(getFontForRender());
-            return (trueSize * fontSize) * getScaleY();
+            return (trueSize * fontSize) * getScaleY() * Settings.xScale;
         }
     }
 
@@ -397,7 +397,7 @@ public class TextBox extends UIElement {
                 .setDescription("The text to display in the text box.")
                 .setCategory("Text");
 
-        public FloatProperty fontSize = new FloatProperty(14f)
+        public FloatProperty fontSize = new FloatProperty(16f)
                 .setName("Font Size")
                 .setDescription("Size of the font.")
                 .setCategory("Text")

@@ -110,6 +110,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private AbstractPadding paddingTop = Padd.px(0);
 
     private UIElement elementMask = null;
+    private boolean inheritMaskFromParent = true; //TODO: Expose
 
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
@@ -1787,7 +1788,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public boolean hasMaskBounds(){
-        return elementMask != null || (hasParent() && parent.hasMaskBounds());
+        return elementMask != null || (inheritMaskFromParent && (hasParent() && parent.hasMaskBounds()));
     }
     public PositionBounds getMaskWorldBounds(){
         PositionBounds currentBounds = null;
@@ -1797,19 +1798,29 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             currentBounds = current.elementMask.getWorldBounds();
         }
 
-        while(current.hasParent()){
-            current = current.getParent();
-            if(current.elementMask != null){
-                if(currentBounds == null){
-                    currentBounds = current.elementMask.getWorldBounds();
-                }
-                else{
-                    currentBounds.clip(current.elementMask.getWorldBounds());
+        if(inheritMaskFromParent){
+            while(current.hasParent()){
+                current = current.getParent();
+                if(current.elementMask != null){
+                    if(currentBounds == null){
+                        currentBounds = current.elementMask.getWorldBounds();
+                    }
+                    else{
+                        currentBounds.clip(current.elementMask.getWorldBounds());
+                    }
                 }
             }
         }
 
         return currentBounds;
+    }
+
+    public void setInheritMaskFromParent(boolean inheritMaskFromParent){
+        this.inheritMaskFromParent = inheritMaskFromParent;
+    }
+
+    public boolean inheritsMaskFromParent(){
+        return inheritMaskFromParent;
     }
 
     //endregion Masks

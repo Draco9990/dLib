@@ -16,7 +16,7 @@ public class CancelButton extends TextButton {
 
         label.setDimensions(186, 54);
         label.setLocalPosition(27, 27);
-        label.setFontSize(18);
+        label.setFontSize(20);
 
         this.setEntryAnimation(new UIAnimation_SlideInRight(this));
         this.setExitAnimation(new UIAnimation_SlideOutLeft(this));
