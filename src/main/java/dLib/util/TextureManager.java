@@ -1,5 +1,6 @@
 package dLib.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,20 +11,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TextureManager {
-    private static AssetManager assetManager = new AssetManager();
+    private static Map<String, Texture> textures;
 
     public static Texture getTexture(String textureLocation) {
-        return getResource(textureLocation, Texture.class);
-    }
-    public static TextureAtlas getTextureAtlas(String textureAtlasLocation) {
-        return getResource(textureAtlasLocation, TextureAtlas.class);
-    }
-    public static <T> T getResource(String resourceLocation, Class<T> resource) {
-        if(!assetManager.isLoaded(resourceLocation, resource)){
-            assetManager.load(resourceLocation, resource);
-            assetManager.finishLoading();
+        if(textureLocation == null) return null;
+        if(textures == null) textures = new HashMap<>();
+
+        Texture t = textures.get(textureLocation);
+        if(t != null) {
+            if((int)(Reflection.getFieldValue("glHandle", t)) != 0) {
+                return t;
+            }
         }
 
-        return assetManager.get(resourceLocation, resource);
+        textures.put(textureLocation, ImageMaster.loadImage(textureLocation));
+        return textures.get(textureLocation);
+    }
+
+    private static Map<FileHandle, TextureAtlas> textureAtlases = new HashMap<>();
+
+    public static TextureAtlas getTextureAtlas(String textureAtlasLocation) {
+        return getTextureAtlas(Gdx.files.internal(textureAtlasLocation));
+    }
+
+    public static TextureAtlas getTextureAtlas(FileHandle textureAtlasLocation) {
+        if(textureAtlasLocation == null) return null;
+        if(textureAtlases == null) textureAtlases = new HashMap<>();
+
+        TextureAtlas t = textureAtlases.get(textureAtlasLocation);
+        if(t != null) {
+            return t;
+        }
+
+        textureAtlases.put(textureAtlasLocation, new TextureAtlas(textureAtlasLocation));
+        return textureAtlases.get(textureAtlasLocation);
     }
 }

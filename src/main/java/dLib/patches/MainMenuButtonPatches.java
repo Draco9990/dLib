@@ -46,11 +46,11 @@ public class MainMenuButtonPatches {
                 if(!ExternalEditorCommunicationManager.isEnabled()) ExternalEditorCommunicationManager.enable();
                 if(!ExternalEditorCommunicationManager.isRunning()) ExternalEditorCommunicationManager.start();
 
-                if(true && ExternalEditorCommunicationManager.isRunning()){
+                if(false && ExternalEditorCommunicationManager.isRunning()){
                     UCStartupPopup popup = new UCStartupPopup();
                     popup.open();
                 }
-                else if(true){ //TODO Remove on live
+                else if(true){
                     UCEditor editor = new UCEditor();
                     editor.open();
                 }

@@ -171,6 +171,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private float totalLifespan = -1f;
     private float remainingLifespan = -1f;
 
+    public RunnableEvent onCloseEvent = new RunnableEvent();
+
     //TODO: Expose to data and screen editor
     private UIAnimation entryAnimation;
     private UIAnimation reentryAnimation; //TODO
@@ -689,6 +691,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         for(UIElement child : children){
             addChild(child);
         }
+    }
+    public void insertChild(int index, UIElement child){
+        if(children.contains(child)){
+            return;
+        }
+
+        this.children.add(index, child);
+        child.setParent(this);
+        onChildrenChanged();
     }
 
     public void swapChildren(int index1, int index2){
@@ -1857,6 +1868,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public void close(){
         UIManager.closeUIElement(this);
+
+        onCloseEvent.invoke();
     }
 
     //endregion

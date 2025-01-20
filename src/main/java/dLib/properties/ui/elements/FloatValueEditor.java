@@ -4,6 +4,7 @@ import dLib.properties.objects.FloatProperty;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.ui.elements.items.numericaleditors.FloatInputBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
@@ -11,10 +12,7 @@ import dLib.util.ui.dimensions.Dim;
 public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> {
     //region Variables
 
-    public Button leftArrow;
-    public Button rightArrow;
-
-    public Inputfield inputbox;
+    public FloatInputBox floatInputBox;
 
     //endregion
 
@@ -27,58 +25,25 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
     public FloatValueEditor(FloatProperty property) {
         super(property);
 
-        HorizontalBox hBox = new HorizontalBox(Dim.fill(), Dim.px(50));
-        {
-            leftArrow = new Button(Dim.mirror(), Dim.px(50));
-            leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
-            leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
-            leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
-            leftArrow.setControllerSelectable(false);
-            hBox.addItem(leftArrow);
+        floatInputBox = new FloatInputBox(Dim.fill(), Dim.px(50));
+        floatInputBox.leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
+        floatInputBox.leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
 
-            inputbox = new Inputfield(boundProperty.getValueForDisplay(), Dim.fill(), Dim.px(50));
-            inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
-            inputbox.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
-            hBox.addItem(inputbox);
+        floatInputBox.inputbox.textBox.setText(boundProperty.getValueForDisplay());
+        floatInputBox.inputbox.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
 
-            rightArrow = new Button(Dim.mirror(), Dim.px(50));
-            rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
-            rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
-            rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
-            rightArrow.setControllerSelectable(false);
-            hBox.addItem(rightArrow);
-        }
-        addChild(hBox);
+        floatInputBox.rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
+        floatInputBox.rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
 
-        setControllerSelectable(true);
+        addChild(floatInputBox);
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputbox.textBox.getText().equals(String.valueOf(newVal))){
-                inputbox.textBox.setText(String.valueOf(newVal));
+            if(!floatInputBox.inputbox.textBox.getText().equals(String.valueOf(newVal))){
+                floatInputBox.inputbox.textBox.setText(String.valueOf(newVal));
             }
         });
-    }
-
-
-    //endregion
-
-    //region Methods
-
-    @Override
-    public boolean onLeftInteraction() {
-        return leftArrow.onConfirmInteraction();
-    }
-
-    @Override
-    public boolean onRightInteraction() {
-        return rightArrow.onConfirmInteraction();
-    }
-
-    @Override
-    public boolean onConfirmInteraction() {
-        return inputbox.onConfirmInteraction();
     }
 
     //endregion
