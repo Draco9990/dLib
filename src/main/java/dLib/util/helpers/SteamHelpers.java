@@ -13,6 +13,7 @@ public class SteamHelpers {
     public static SteamFriends friends;
     public static SteamNetworking networking;
     public static SteamUtils utilities;
+    public static SteamRemoteStorage remoteStorage;
     public static SteamUser self;
 
     public static void init(){
@@ -24,6 +25,7 @@ public class SteamHelpers {
         friends = new SteamFriends(callbacks);
         networking = new SteamNetworking(callbacks);
         utilities = new SteamUtils(callbacks);
+        remoteStorage = new SteamRemoteStorage(callbacks);
 
         self = ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class, "steamUser");
     }
