@@ -1,6 +1,7 @@
 package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
@@ -8,19 +9,19 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 //! Warning, not serializable
 public class TextureStaticBinding extends AbstractTextureBinding {
 
-    private TextureRegion region;
+    private NinePatch texture;
 
     public TextureStaticBinding(TextureRegion region){
-        this.region = region;
+        this.texture = new NinePatch(region);
     }
 
     public TextureStaticBinding(Texture texture){
-        this.region = new TextureRegion(texture);
+        this.texture = new NinePatch(texture);
     }
 
     @Override
-    public TextureRegion getBoundObject(Object... params) {
-        return region;
+    public NinePatch getBoundObject(Object... params) {
+        return texture;
     }
 
     @Override

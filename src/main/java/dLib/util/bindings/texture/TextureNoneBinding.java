@@ -1,5 +1,6 @@
 package dLib.util.bindings.texture;
 
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.properties.objects.templates.TProperty;
@@ -32,7 +33,7 @@ public class TextureNoneBinding extends AbstractTextureBinding implements Serial
     }
 
     @Override
-    public TextureRegion getBoundObject(Object... params) {
+    public NinePatch getBoundObject(Object... params) {
         return null;
     }
 }

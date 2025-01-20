@@ -1,15 +1,21 @@
 package dLib.ui.elements.items;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.IntegerVector2;
+import dLib.util.Reflection;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -47,7 +53,7 @@ public class Renderable extends UIElement {
         this(imageBinding, Pos.px(0), Pos.px(0));
     }
     public Renderable(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
-        this(imageBinding, xPos, yPos, Dim.px(imageBinding.getBoundObject().getRegionWidth()), Dim.px(imageBinding.getBoundObject().getRegionHeight()));
+        this(imageBinding, xPos, yPos, Dim.px((int) imageBinding.getBoundObject().getTotalWidth()), Dim.px((int) imageBinding.getBoundObject().getTotalHeight()));
     }
     public Renderable(AbstractTextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
         this(imageBinding, Pos.px(0), Pos.px(0), width, height);
@@ -92,108 +98,121 @@ public class Renderable extends UIElement {
     public void renderSelf(SpriteBatch sb) {
         sb.setColor(getColorForRender());
 
-        TextureRegion textureToRender = getTextureForRender();
-        if(textureToRender != null){
-            int regionX = 0;
-            int regionY = 0;
-            int regionWidth = textureToRender.getTexture().getWidth();
-            int regionHeight = textureToRender.getTexture().getHeight();
-
-            //Apply render dim %
-            int noRenderAmountX = (int)(regionWidth * (1 - getRenderWidthPerc()));
-            int noRenderAmountY = (int)(regionHeight * (1 - getRenderHeightPerc()));
-
-            regionWidth -= noRenderAmountX;
-            regionHeight -= noRenderAmountY;
-
-            //Apply render dim orientation
-            if(renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.CENTER){
-                regionX = noRenderAmountX / 2;
-            }
-            else if(renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT){
-                regionX = noRenderAmountX;
-            }
-
-            if(renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.CENTER){
-                regionY = noRenderAmountY / 2;
-            }
-            else if(renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.BOTTOM){
-                regionY = noRenderAmountY;
-            }
-
-            textureToRender.setRegionX(regionX);
-            textureToRender.setRegionY(regionY);
-            textureToRender.setRegionWidth(regionWidth);
-            textureToRender.setRegionHeight(regionHeight);
+        NinePatch ninePatchToRender = getTextureForRender();
+        if (ninePatchToRender != null) {
+            int textureWidth = ninePatchToRender.getTexture().getWidth();
+            int textureHeight = ninePatchToRender.getTexture().getHeight();
 
             float renderPosX = getWorldPositionX() * Settings.xScale;
             float renderPosY = getWorldPositionY() * Settings.yScale;
-            float renderWidth = getWidth() * Settings.xScale * getRenderWidthPerc();
-            float renderHeight = getHeight() * Settings.yScale * getRenderHeightPerc();
+            float renderWidth = getWidth() * Settings.xScale;
+            float renderHeight = getHeight() * Settings.yScale;
 
-            //Preserve aspect ratio
-            if(isPreservingAspectRatio()){
-                float aspectRatio = (float)textureToRender.getRegionWidth() / (float)textureToRender.getRegionHeight();
+            // Preserve aspect ratio
+            if (isPreservingAspectRatio()) {
+                float aspectRatio = (float) textureWidth / (float) textureHeight;
                 float containerAspectRatio = renderWidth / renderHeight;
 
-                if(aspectRatio > containerAspectRatio){
+                if (aspectRatio > containerAspectRatio) {
                     renderWidth = renderHeight * aspectRatio;
-                }
-                else if(aspectRatio < containerAspectRatio){
+                } else if (aspectRatio < containerAspectRatio) {
                     renderHeight = renderWidth / aspectRatio;
                 }
 
-                if(renderWidth > getWidth() * Settings.xScale){
+                if (renderWidth > getWidth() * Settings.xScale) {
                     renderWidth = getWidth() * Settings.xScale;
                     renderHeight = renderWidth / aspectRatio;
                 }
-                if(renderHeight > getHeight() * Settings.yScale){
+                if (renderHeight > getHeight() * Settings.yScale) {
                     renderHeight = getHeight() * Settings.yScale;
                     renderWidth = renderHeight * aspectRatio;
                 }
             }
 
-            //No Upscale
-            if(isNoUpsize()){
-                if(renderWidth > textureToRender.getRegionWidth() * getScaleX()){
-                    renderWidth = textureToRender.getRegionWidth() * getScaleX();
+            // No Upscale
+            if (isNoUpsize()) {
+                if (renderWidth > textureWidth * getScaleX()) {
+                    renderWidth = textureWidth * getScaleX();
                 }
-                if(renderHeight > textureToRender.getRegionHeight() * getScaleY()){
-                    renderHeight = textureToRender.getRegionHeight() * getScaleY();
+                if (renderHeight > textureHeight * getScaleY()) {
+                    renderHeight = textureHeight * getScaleY();
                 }
             }
 
             renderWidth *= renderScaleOffset.x;
             renderHeight *= renderScaleOffset.y;
 
-            //Apply render orientation
-            if(renderOrientation.horizontalAlignment == Alignment.HorizontalAlignment.CENTER){
+            // Apply render orientation
+            if (renderOrientation.horizontalAlignment == Alignment.HorizontalAlignment.CENTER) {
                 renderPosX = renderPosX + (getWidth() * Settings.xScale - renderWidth) * 0.5f;
-            }
-            else if(renderOrientation.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT){
+            } else if (renderOrientation.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT) {
                 renderPosX = renderPosX + getWidth() * Settings.xScale - renderWidth;
             }
 
-            if(renderOrientation.verticalAlignment == Alignment.VerticalAlignment.CENTER){
+            if (renderOrientation.verticalAlignment == Alignment.VerticalAlignment.CENTER) {
                 renderPosY = renderPosY + (getHeight() * Settings.yScale - renderHeight) * 0.5f;
-            }
-            else if(renderOrientation.verticalAlignment == Alignment.VerticalAlignment.TOP){
+            } else if (renderOrientation.verticalAlignment == Alignment.VerticalAlignment.TOP) {
                 renderPosY = renderPosY + getHeight() * Settings.yScale - renderHeight;
             }
 
             renderPosX += renderOffset.x;
             renderPosY += renderOffset.y;
 
-            renderCall(sb, textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
+            // Apply render dimension percentages
+            int noRenderAmountX = (int) (renderWidth * (1 - renderDimensionsPerc.x));
+            int noRenderAmountY = (int) (renderHeight * (1 - renderDimensionsPerc.y));
 
-            sb.flush();  //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
+            // Apply render dimension orientation
+            float clipPosAddX = 0;
+            float clipPosAddY = 0;
+            float clipWidth = renderWidth;
+            float clipHeight = renderHeight;
+
+            if(renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.LEFT){
+                clipWidth = renderWidth - noRenderAmountX;
+            }
+            else if (renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.CENTER) {
+                clipPosAddX = (float) noRenderAmountX / 2;
+                clipWidth = renderWidth - noRenderAmountX;
+            } else if (renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT) {
+                clipPosAddX = noRenderAmountX;
+                clipWidth = renderWidth - noRenderAmountX;
+            }
+
+            if(renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.BOTTOM){
+                clipHeight = renderHeight - noRenderAmountY;
+            }
+            else if (renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.CENTER) {
+                clipPosAddY = (float) noRenderAmountY / 2;
+                clipHeight = renderHeight - noRenderAmountY;
+            } else if (renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.TOP) {
+                clipPosAddY = noRenderAmountY;
+                clipHeight = renderHeight - noRenderAmountY;
+            }
+
+            if(clipPosAddX != 0 || clipPosAddY != 0 || clipWidth != renderWidth || clipHeight != renderHeight){
+                // Adjust scissor stack for partial rendering
+                Rectangle scissors = new Rectangle();
+                Rectangle clipBounds = new Rectangle(renderPosX + clipPosAddX, renderPosY + clipPosAddY, clipWidth, clipHeight);
+                ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), clipBounds, scissors);
+                if (ScissorStack.pushScissors(scissors)) {
+                    renderCall(sb, ninePatchToRender, renderPosX, renderPosY, renderWidth, renderHeight);
+                    ScissorStack.popScissors();
+                }
+            }
+            else{
+                renderCall(sb, ninePatchToRender, renderPosX, renderPosY, renderWidth, renderHeight);
+            }
+
+            sb.flush(); // Flush the SpriteBatch
         }
 
         super.renderSelf(sb);
     }
 
-    protected void renderCall(SpriteBatch sb, TextureRegion textureToRender, float renderPosX, float renderPosY, float renderWidth, float renderHeight){
-        sb.draw(textureToRender, renderPosX, renderPosY, renderWidth, renderHeight);
+    protected void renderCall(SpriteBatch sb, NinePatch ninePatchToRender, float renderPosX, float renderPosY, float renderWidth, float renderHeight){
+        ninePatchToRender.draw(sb, renderPosX, renderPosY, renderWidth, renderHeight);
+        sb.flush();
     }
 
     //endregion
@@ -204,7 +223,7 @@ public class Renderable extends UIElement {
         this.image = image;
     }
 
-    protected TextureRegion getTextureForRender(){
+    protected NinePatch getTextureForRender(){
         return image.getBoundObject();
     }
 

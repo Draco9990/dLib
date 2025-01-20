@@ -1,11 +1,10 @@
 package dLib.ui.elements.items;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import dLib.properties.objects.ColorProperty;
 import dLib.properties.objects.FloatProperty;
-import dLib.properties.objects.StringProperty;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureNoneBinding;
@@ -15,7 +14,6 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
-import java.util.function.Function;
 
 public class Interactable extends Renderable{
     //region Variables
@@ -84,7 +82,7 @@ public class Interactable extends Renderable{
     //region Render Texture & Color
 
     @Override
-    protected TextureRegion getTextureForRender() {
+    protected NinePatch getTextureForRender() {
         if(!isEnabled() && disabledTexture.getBoundObject() != null) return disabledTexture.getBoundObject();
         if(isHovered() && hoveredTexture.getBoundObject() != null) return hoveredTexture.getBoundObject();
         return super.getTextureForRender();

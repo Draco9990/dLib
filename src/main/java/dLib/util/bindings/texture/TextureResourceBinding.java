@@ -1,6 +1,7 @@
 package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.properties.objects.TextureBindingProperty;
@@ -41,13 +42,13 @@ public class TextureResourceBinding extends AbstractTextureBinding implements Se
     //endregion Methods
 
     @Override
-    public TextureRegion getBoundObject(Object... params) {
+    public NinePatch getBoundObject(Object... params) {
         Object textureResult = Reflection.getFieldValue(fieldName, resourceClass);
         if(textureResult instanceof TextureRegion){
-            return (TextureRegion) textureResult;
+            return new NinePatch((TextureRegion) textureResult);
         }
         else if(textureResult instanceof Texture){
-            return new TextureRegion((Texture) textureResult);
+            return new NinePatch((Texture) textureResult);
         }
         else{
             return null;

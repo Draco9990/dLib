@@ -1,7 +1,7 @@
 package dLib.ui.elements.items;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
@@ -78,7 +78,7 @@ public class Toggle extends Interactable {
     //region Render Texture & Color
 
     @Override
-    protected TextureRegion getTextureForRender() {
+    protected NinePatch getTextureForRender() {
         if(toggled){
             if(!isEnabled() && toggledDisabledTexture != null) return toggledDisabledTexture.getBoundObject();
             if(isHovered() && toggledHoveredTexture != null) return toggledHoveredTexture.getBoundObject();
