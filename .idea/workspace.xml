@@ -8,14 +8,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/shaders/ShaderManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dLibResources/shaders/hueshift/fragment.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dLibResources/shaders/hueshift/vertex.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/steam/SteamCallbacks.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/consumers/HeptConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/consumers/HexConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/consumers/OctConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/consumers/QuadConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/consumers/QuinConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/events/localevents/HeptConsumerEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/events/localevents/HexConsumerEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/events/localevents/OctConsumerEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/events/localevents/QuadConsumerEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/events/localevents/QuinConsumerEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/helpers/SteamHelpers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/IntegerValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/IntegerValueEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/null.genui" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/null.genui" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,11 +117,11 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="dLib.ui.elements.items.numericaleditors" />
       <recent name="dLib.util.events.localevents" />
+      <recent name="dLib.steam" />
+      <recent name="dLib.ui.elements.items.numericaleditors" />
       <recent name="dLib.tools.uicreator.ui.editoritems.templates" />
       <recent name="dLib.ui.elements.items.buttons" />
-      <recent name="dLib.util.events.globalevents" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -310,7 +316,7 @@
       <workItem from="1737294055904" duration="513000" />
       <workItem from="1737296669727" duration="5286000" />
       <workItem from="1737369946495" duration="4825000" />
-      <workItem from="1737384739660" duration="3997000" />
+      <workItem from="1737384739660" duration="6284000" />
     </task>
     <servers />
   </component>

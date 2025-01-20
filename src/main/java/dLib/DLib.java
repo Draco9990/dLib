@@ -11,6 +11,7 @@ import dLib.custominput.CustomInputSetManager;
 import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.util.helpers.FontHelpers;
+import dLib.util.helpers.SteamHelpers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,6 +46,8 @@ public class DLib implements PostInitializeSubscriber{
 
     @Override
     public void receivePostInitialize() {
+        SteamHelpers.init();
+
         CommandManager.initialize();
 
         FontHelpers.initialize();
