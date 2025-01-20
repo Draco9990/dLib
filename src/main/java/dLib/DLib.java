@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.helpers.input.InputAction;
 import dLib.external.ExternalEditorCommunicationManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
+import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.util.helpers.FontHelpers;
 import org.apache.logging.log4j.LogManager;
@@ -51,6 +52,8 @@ public class DLib implements PostInitializeSubscriber{
         ExternalEditorCommunicationManager.start();
 
         UCEITemplateManager.initialize();
+
+        ShaderManager.init();
     }
 
     public static void logError(String message){

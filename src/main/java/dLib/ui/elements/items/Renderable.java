@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.megacrit.cardcrawl.core.Settings;
 import dLib.properties.objects.*;
+import dLib.shaders.ShaderManager;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
@@ -45,6 +46,8 @@ public class Renderable extends UIElement {
     private IntegerVector2 renderOffset = new IntegerVector2(0, 0);
     private Vector2 renderScaleOffset = new Vector2(1, 1);
 
+    private int hueShiftAmount = 0;
+
     //endregion
 
     //region Constructors
@@ -77,6 +80,7 @@ public class Renderable extends UIElement {
         this.preserveAspectRatio = data.preserveAspectRatio.getValue();
         this.noUpsize = data.noUpsize.getValue();
 
+        this.hueShiftAmount = data.hueShiftAmount.getValue();
         this.renderColor = data.renderColor.getColorValue();
 
         this.renderOrientation = data.renderOrientation.getValue();
@@ -97,6 +101,12 @@ public class Renderable extends UIElement {
     @Override
     public void renderSelf(SpriteBatch sb) {
         sb.setColor(getColorForRender());
+
+        //Hue shift
+        if(hueShiftAmount > 0){
+            ShaderManager.pushShader(sb, "hueShift");
+            sb.getShader().setUniformf("u_hueShift", (hueShiftAmount / 255f) * 2 * 3.14f);
+        }
 
         NinePatch ninePatchToRender = getTextureForRender();
         if (ninePatchToRender != null) {
@@ -205,6 +215,10 @@ public class Renderable extends UIElement {
             }
 
             sb.flush(); // Flush the SpriteBatch
+        }
+
+        if(hueShiftAmount > 0){
+            ShaderManager.popShader(sb);
         }
 
         super.renderSelf(sb);
@@ -367,6 +381,12 @@ public class Renderable extends UIElement {
                 .setName("No Upsize")
                 .setDescription("If the image is smaller than the render dimensions, do not resize it to fit the container.")
                 .setCategory("Render");
+
+        public IntegerProperty hueShiftAmount = new IntegerProperty(0)
+                .setName("Hue Shift Amount")
+                .setDescription("Amount to shift the hue of the image. 0 = no shift, 255 = full shift.")
+                .setCategory("Render")
+                .setMinimumValue(0).setMaximumValue(255);
 
         public ColorProperty renderColor = new ColorProperty(Color.WHITE.cpy())
                 .setName("Render Color")

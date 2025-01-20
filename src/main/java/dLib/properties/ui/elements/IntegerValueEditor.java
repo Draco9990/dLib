@@ -31,6 +31,7 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
         integerInputBox.leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
         integerInputBox.leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
 
+        integerInputBox.inputbox.textBox.setText(String.valueOf(boundProperty.getValue()));
         integerInputBox.inputbox.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
 
         integerInputBox.rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
