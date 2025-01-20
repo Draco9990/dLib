@@ -1,6 +1,7 @@
 package dLib.ui.resources;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.util.bindings.texture.textureresource.ITextureSource;
 
@@ -22,14 +23,14 @@ public class UICommonResources implements ITextureSource {
     public static final Texture checkbox_checked = ImageMaster.loadImage("dLibResources/images/ui/common/checkbox_checked.png");
     public static final Texture checkbox_unchecked = ImageMaster.loadImage("dLibResources/images/ui/common/checkbox_unchecked.png");
 
-    public static final Texture inputfield = ImageMaster.loadImage("dLibResources/images/ui/common/inputfield.png");
+    public static final NinePatch inputfield = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/inputfield.png"), 23, 23, 18, 18);
 
     public static final Texture button01_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/button01/horizontal.png");
 
-    public static final Texture button02_square = ImageMaster.loadImage("dLibResources/images/ui/common/button02/square.png");
+    public static final NinePatch button02_square = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/button02/square.png"), 45, 45, 45, 45);
     public static final Texture button02_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/button02/horizontal.png");
 
-    public static final Texture button03_square = ImageMaster.loadImage("dLibResources/images/ui/common/button03/square.png");
+    public static final NinePatch button03_square = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/button03/square.png"), 53, 53, 53, 53);
     public static final Texture button03_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/button03/horizontal.png");
 
     public static final Texture alignment_base = ImageMaster.loadImage("dLibResources/images/ui/common/alignment/base.png");
@@ -65,6 +66,6 @@ public class UICommonResources implements ITextureSource {
     public static final Texture lightnessBarOverlay = ImageMaster.loadImage("dLibResources/images/ui/common/color/lightnessBarOverlay.png");
     public static final Texture alphaBar = ImageMaster.loadImage("dLibResources/images/ui/common/color/alphaBar.png");
 
-    public static final Texture dropZoneOptionBg = ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneOptionBg.png");
+    public static final NinePatch dropZoneOptionBg = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneOptionBg.png"), 50, 50, 50, 50);
     public static final Texture dropZoneBg = ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneBg.png");
 }

@@ -1,6 +1,7 @@
 package dLib.ui.elements.items.resourcepicker;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.ui.elements.UIElement;
@@ -24,6 +25,7 @@ public class UIGlobalTextureResourcePicker extends AbstractUIPreviewResourcePick
         ArrayList<Class<?>> resourceTypes = new ArrayList<>();
         resourceTypes.add(Texture.class);
         resourceTypes.add(TextureRegion.class);
+        resourceTypes.add(NinePatch.class);
         return resourceTypes;
     }
 

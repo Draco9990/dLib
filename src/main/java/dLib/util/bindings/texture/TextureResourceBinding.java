@@ -50,6 +50,9 @@ public class TextureResourceBinding extends AbstractTextureBinding implements Se
         else if(textureResult instanceof Texture){
             return new NinePatch((Texture) textureResult);
         }
+        else if(textureResult instanceof NinePatch){
+            return (NinePatch) textureResult;
+        }
         else{
             return null;
         }

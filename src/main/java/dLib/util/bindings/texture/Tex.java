@@ -1,6 +1,7 @@
 package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.util.TextureManager;
 
@@ -13,6 +14,9 @@ public class Tex {
     }
     public static TextureStaticBinding stat(String texturePath){
         return new TextureStaticBinding(TextureManager.getTexture(texturePath));
+    }
+    public static TextureStaticBinding stat(NinePatch ninePatch){
+        return new TextureStaticBinding(ninePatch);
     }
 
     public static TextureResourceBinding resource(Class<?> clazz, String fieldName) {

@@ -14,9 +14,11 @@ public class TextureStaticBinding extends AbstractTextureBinding {
     public TextureStaticBinding(TextureRegion region){
         this.texture = new NinePatch(region);
     }
-
     public TextureStaticBinding(Texture texture){
         this.texture = new NinePatch(texture);
+    }
+    public TextureStaticBinding(NinePatch ninePatch){
+        this.texture = ninePatch;
     }
 
     @Override
