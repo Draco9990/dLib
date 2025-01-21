@@ -46,7 +46,7 @@ public class MainMenuButtonPatches {
                 if(!ExternalEditorCommunicationManager.isEnabled()) ExternalEditorCommunicationManager.enable();
                 if(!ExternalEditorCommunicationManager.isRunning()) ExternalEditorCommunicationManager.start();
 
-                if(true && ExternalEditorCommunicationManager.isRunning()){
+                if(false && ExternalEditorCommunicationManager.isRunning()){
                     UCStartupPopup popup = new UCStartupPopup();
                     popup.open();
                 }

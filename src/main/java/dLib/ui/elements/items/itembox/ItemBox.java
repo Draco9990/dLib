@@ -634,6 +634,13 @@ public abstract class ItemBox<ItemType> extends Renderable {
                 .setCategory("Item Box")
                 .setDynamicCreationParameters(new Pair<>("selectedItems", ArrayList.class));
 
+        public ItemBoxData(){
+            super();
+
+            width.setValue(Dim.px(300));
+            height.setValue(Dim.px(300));
+        }
+
         public boolean canReorder = false;
     }
 }

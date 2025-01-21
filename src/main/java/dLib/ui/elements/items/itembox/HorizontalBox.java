@@ -34,6 +34,8 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
 
     public HorizontalBox(HorizontalBoxData data) {
         super(data);
+
+        disableItemWrapping(); //TODO move to data after exposing
     }
 
     //endregion
@@ -49,6 +51,13 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
 
     public static class HorizontalBoxData extends HorizontalListBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
+
+        public HorizontalBoxData() {
+            super();
+
+            selectionMode.setValue(ESelectionMode.NONE);
+            texture.setValue(new TextureNoneBinding());
+        }
 
         @Override
         public UIElement makeUIElement_internal() {

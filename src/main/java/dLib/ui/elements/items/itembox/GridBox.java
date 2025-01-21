@@ -1,6 +1,8 @@
 package dLib.ui.elements.items.itembox;
 
 import dLib.ui.elements.UIElement;
+import dLib.ui.util.ESelectionMode;
+import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -26,6 +28,13 @@ public class GridBox extends GridItemBox<UIElement> {
 
     public static class GridBoxData extends GridItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
+
+        public GridBoxData() {
+            super();
+
+            selectionMode.setValue(ESelectionMode.NONE);
+            texture.setValue(new TextureNoneBinding());
+        }
 
         @Override
         public UIElement makeUIElement_internal() {
