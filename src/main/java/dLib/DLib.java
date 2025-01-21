@@ -10,6 +10,7 @@ import dLib.commands.CommandManager;
 import dLib.custominput.CustomInputSetManager;
 import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
+import dLib.ui.GeneratedUIManager;
 import dLib.util.helpers.FontHelpers;
 import dLib.util.helpers.SteamHelpers;
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +47,8 @@ public class DLib implements PostInitializeSubscriber{
 
     @Override
     public void receivePostInitialize() {
+        GeneratedUIManager.registerMod(DLib.class);
+
         SteamHelpers.init();
 
         CommandManager.initialize();

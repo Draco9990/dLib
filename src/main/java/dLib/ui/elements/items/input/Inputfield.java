@@ -279,7 +279,7 @@ public class Inputfield extends Button {
         if(this.textBox.getText().isEmpty()) return;
 
         String newText = this.textBox.getText().substring(0, this.textBox.getText().length()-1);
-        if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE)){
+        if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE || preset == EInputfieldPreset.NUMERICAL_DECIMAL)){
             newText = "0";
         }
 

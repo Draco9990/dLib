@@ -21,6 +21,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.tools.uicreator.ui.elements.RootElement;
+import dLib.tools.uicreator.ui.elements.interfaces.IGeneratedUIElement;
 import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
@@ -268,6 +269,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     @Override
     public void postConstruct(){
+        if(this instanceof IGeneratedUIElement){
+            ((IGeneratedUIElement)this).loadGeneratedData();
+        }
+
         registerCommonEvents();
 
         GlobalEvents.subscribe(this, PreUILeftClickEvent.class, (event) -> {

@@ -4,7 +4,7 @@ import com.vdurmont.semver4j.Semver;
 
 import java.io.Serializable;
 
-public class Version implements Comparable<Version>, Serializable {
+public class Version implements Serializable {
     private final int major;
     private final int minor;
     private final int patch;
@@ -88,35 +88,38 @@ public class Version implements Comparable<Version>, Serializable {
         return major + "." + minor + "." + patch;
     }
 
-    @Override
-    public int compareTo(Version other) {
+    public VersionDifference compareTo(Version other) {
         if(this.alpha && !other.alpha){
-            return -1;
+            return VersionDifference.LOWER;
         } else if(!this.alpha && other.alpha){
-            return 1;
+            return VersionDifference.HIGHER;
         }
 
         if(this.beta && !other.beta){
-            return -1;
+            return VersionDifference.LOWER;
         } else if(!this.beta && other.beta){
-            return 1;
+            return VersionDifference.HIGHER;
         }
 
         if (this.major != other.major) {
-            return Integer.compare(this.major, other.major);
+            int comparison = Integer.compare(this.major, other.major);
+            return comparison < 0 ? VersionDifference.LOWER : VersionDifference.HIGHER;
         }
         if (this.minor != other.minor) {
-            return Integer.compare(this.minor, other.minor);
+            int comparison = Integer.compare(this.minor, other.minor);
+            return comparison < 0 ? VersionDifference.LOWER : VersionDifference.HIGHER;
         }
-        return Integer.compare(this.patch, other.patch);
+
+        int comparison = Integer.compare(this.patch, other.patch);
+        return comparison < 0 ? VersionDifference.LOWER : comparison > 0 ? VersionDifference.HIGHER : VersionDifference.EQUAL;
     }
 
     public VersionDifference comparedTo(Version other){
-        int comparison = compareTo(other);
-        if (comparison < 0) {
-            return VersionDifference.LOWER;
-        } else if (comparison > 0) {
+        VersionDifference comparison = compareTo(other);
+        if(comparison == VersionDifference.LOWER){
             return VersionDifference.HIGHER;
+        } else if(comparison == VersionDifference.HIGHER){
+            return VersionDifference.LOWER;
         } else {
             return VersionDifference.EQUAL;
         }

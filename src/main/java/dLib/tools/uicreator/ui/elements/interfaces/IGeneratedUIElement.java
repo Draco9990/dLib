@@ -2,22 +2,31 @@ package dLib.tools.uicreator.ui.elements.interfaces;
 
 import com.badlogic.gdx.Gdx;
 import dLib.tools.uicreator.ui.elements.RootElement;
+import dLib.ui.GeneratedUIManager;
 import dLib.ui.elements.UIElement;
 import dLib.util.DLibLogger;
 import dLib.util.SerializationHelpers;
 import dLib.util.events.globalevents.Constructable;
 
-public interface IGeneratedUIElement extends Constructable {
-    @Override
-    default void postConstruct() {
-        Constructable.super.postConstruct();
-        loadGeneratedData();
-    }
+import java.util.Arrays;
 
-    String getGeneratedDataPath();
-
+public interface IGeneratedUIElement {
     default void loadGeneratedData() {
-        String generatedObjectData = Gdx.files.internal(getGeneratedDataPath()).readString();
+        boolean found = false;
+        Class<?> clazz = getClass();
+        while (clazz != null && clazz != Object.class) {
+            if (Arrays.asList(clazz.getInterfaces()).contains(IGeneratedUIElement.class)) {
+                found = true;
+                break;
+            }
+            clazz = clazz.getSuperclass();
+        }
+
+        if(!found){
+            return;
+        }
+
+        String generatedObjectData = GeneratedUIManager.getGeneratedElementFile(clazz).readString();
 
         RootElement.RootElementData data = SerializationHelpers.fromString(generatedObjectData);
         data.inEditor = false;
