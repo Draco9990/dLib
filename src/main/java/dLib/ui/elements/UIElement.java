@@ -62,6 +62,7 @@ import dLib.util.ui.position.Pos;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -2565,12 +2566,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         //endregion
 
-
         private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
             ois.defaultReadObject();
             bindCommonEvents();
 
             components = new ArrayList<>();
+
+            verifyNullProperties();
         }
 
         protected void bindCommonEvents(){
@@ -2585,6 +2587,37 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
 
             return properties;
+        }
+
+        private void verifyNullProperties(){
+            ArrayList<Field> propertyFields = Reflection.getFieldsByClass(TProperty.class, this.getClass());
+
+            UIElementData cpy = null;
+            for(Field field : propertyFields){
+                try {
+                    if(field.get(this) == null){
+                        if(cpy == null) {
+                            cpy = makeGenericCopy();
+                        }
+
+                        Reflection.setFieldValue(field, this, Reflection.getFieldValue(field, cpy));
+                    }
+                } catch (Exception e) {
+                    DLibLogger.logError("Failed to verify null properties for field " + field.getName() + " due to: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private <T extends UIElementData> T makeGenericCopy(){
+            try{
+                return (T) this.getClass().getConstructor().newInstance();
+            }catch (Exception e){
+                DLibLogger.logError("Failed to make generic copy of UIElementData due to: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 }

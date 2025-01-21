@@ -8,6 +8,8 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
+import java.io.Serializable;
+
 public class HorizontalBox extends HorizontalListBox<UIElement> {
     //region Variables
 
@@ -30,7 +32,7 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
         setImage(new TextureNoneBinding());
     }
 
-    public HorizontalBox(HorizontalListBoxData data) {
+    public HorizontalBox(HorizontalBoxData data) {
         super(data);
     }
 
@@ -44,4 +46,13 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
     }
 
     //endregion
+
+    public static class HorizontalBoxData extends HorizontalListBoxData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public UIElement makeUIElement_internal() {
+            return new HorizontalBox(this);
+        }
+    }
 }

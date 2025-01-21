@@ -1,10 +1,9 @@
 package dLib.ui.elements.items.itembox;
 
+import basemod.Pair;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import dLib.properties.objects.BooleanProperty;
-import dLib.properties.objects.EnumProperty;
-import dLib.properties.objects.IntegerProperty;
+import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
@@ -45,11 +44,11 @@ public abstract class ItemBox<ItemType> extends Renderable {
     public Event<Consumer<ItemType>> onItemRemovedEvent = new Event<>();
     public Event<Runnable> onItemsChangedEvent = new Event<>();
 
-    private boolean canReorder = false;
-    public Event<BiConsumer<ItemType, ItemType>> onItemsSwappedEvent = new Event<>();
+    private boolean canReorder = false; //TODO
+    public Event<BiConsumer<ItemType, ItemType>> onItemsSwappedEvent = new Event<>(); //TODO expose
 
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
-    private int selectionCountLimit = 1;
+    private int selectionCountLimit = 1; //TODO expose
 
     public Event<Consumer<ArrayList<ItemType>>> onItemSelectionChangedEvent = new Event<>();
 
@@ -77,11 +76,17 @@ public abstract class ItemBox<ItemType> extends Renderable {
     public ItemBox(ItemBoxData data){
         super(data);
 
+        contentAlignment = data.contentAlignment.getValue();
+
         this.itemSpacing = data.itemSpacing.getValue();
         this.invertedItemOrder = data.invertedItemOrder.getValue();
 
+        this.onItemAddedEvent.subscribeManaged(itemType -> data.onItemAdded.getValue().executeBinding(this, itemType));
+        this.onItemRemovedEvent.subscribeManaged(itemType -> data.onItemRemoved.getValue().executeBinding(this, itemType));
+        this.onItemsChangedEvent.subscribeManaged(() -> data.onItemsChanged.getValue().executeBinding(this));
+
         this.setSelectionMode(data.selectionMode.getValue());
-        this.setSelectionCountLimit(data.selectionLimit);
+        this.onItemSelectionChangedEvent.subscribeManaged(itemType -> data.onItemSelectionChanged.getValue().executeBinding(this, itemType));
 
         this.canReorder = data.canReorder;
 
@@ -582,11 +587,52 @@ public abstract class ItemBox<ItemType> extends Renderable {
     public static class ItemBoxData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public IntegerProperty itemSpacing = new IntegerProperty(1).setMinimumValue(1).setName("Item Spacing");
-        public BooleanProperty invertedItemOrder = new BooleanProperty(false).setName("Inverted Item Order");
+        //TODO add a class picker property that determines item types
 
-        public EnumProperty<ESelectionMode> selectionMode = new EnumProperty<>(ESelectionMode.SINGLE).setName("Selection Mode");
-        public int selectionLimit = 1; //TODO allow
+        public IntegerProperty itemSpacing = new IntegerProperty(1).setMinimumValue(1)
+                .setName("Item Spacing")
+                .setDescription("The spacing between items in the item box.")
+                .setCategory("Item Box");
+
+        public BooleanProperty invertedItemOrder = new BooleanProperty(false)
+                .setName("Inverted Item Order")
+                .setDescription("Whether the order of items in the item box should be inverted.")
+                .setCategory("Item Box");
+
+        public AlignmentProperty contentAlignment = new AlignmentProperty(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM)
+                .setName("Content Alignment")
+                .setDescription("The alignment of the content within the item box.")
+                .setCategory("Item Box");
+
+
+        public MethodBindingProperty onItemAdded = new MethodBindingProperty()
+                .setName("On Item Added")
+                .setDescription("The method to call when an item is added to the item box.")
+                .setCategory("Item Box")
+                .setDynamicCreationParameters(new Pair<>("addedItem", Object.class));
+        public MethodBindingProperty onItemRemoved = new MethodBindingProperty()
+                .setName("On Item Removed")
+                .setDescription("The method to call when an item is removed from the item box.")
+                .setCategory("Item Box")
+                .setDynamicCreationParameters(new Pair<>("removedItem", Object.class));
+        public MethodBindingProperty onItemsChanged = new MethodBindingProperty()
+                .setName("On Items Changed")
+                .setDescription("The method to call when the items in the item box are changed.")
+                .setCategory("Item Box");
+
+        public EnumProperty<ESelectionMode> selectionMode = new EnumProperty<>(ESelectionMode.SINGLE)
+                .setName("Selection Mode")
+                .setDescription("The selection mode of the item box." + "\n" +
+                        "NONE: No items can be selected." + "\n" +
+                        "SINGLE_NOPERSIST: Only one item can be selected at a time, but the selection is not persisted." + "\n" +
+                        "SINGLE: Only one item can be selected at a time." + "\n" +
+                        "MULTIPLE: Multiple items can be selected at a time.")
+                .setCategory("Item Box");
+        public MethodBindingProperty onItemSelectionChanged = new MethodBindingProperty()
+                .setName("On Item Selection Changed")
+                .setDescription("The method to call when the selection of items in the item box is changed.")
+                .setCategory("Item Box")
+                .setDynamicCreationParameters(new Pair<>("selectedItems", ArrayList.class));
 
         public boolean canReorder = false;
     }

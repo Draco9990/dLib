@@ -80,7 +80,7 @@ public class Renderable extends UIElement {
         this.preserveAspectRatio = data.preserveAspectRatio.getValue();
         this.noUpsize = data.noUpsize.getValue();
 
-        this.hueShiftAmount = data.hueShiftAmount == null ? 0 : data.hueShiftAmount.getValue(); //TODO
+        this.hueShiftAmount = data.hueShiftAmount.getValue();
         this.renderColor = data.renderColor.getColorValue();
 
         this.renderOrientation = data.renderOrientation.getValue();

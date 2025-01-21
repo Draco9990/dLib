@@ -29,7 +29,7 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType> {
         setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
     }
 
-    public GridItemBox(GridBoxData data){
+    public GridItemBox(GridItemBoxData data){
         super(data);
     }
 
@@ -96,7 +96,7 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType> {
 
     //endregion
 
-    public static class GridBoxData extends ItemBoxData implements Serializable {
+    public static class GridItemBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override

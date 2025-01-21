@@ -8,6 +8,8 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
+import java.io.Serializable;
+
 public class VerticalBox extends VerticalListBox<UIElement> {
     //region Variables
 
@@ -30,8 +32,10 @@ public class VerticalBox extends VerticalListBox<UIElement> {
         setImage(new TextureNoneBinding());
     }
 
-    public VerticalBox(VerticalListBoxData data) {
+    public VerticalBox(VerticalBoxData data) {
         super(data);
+
+        disableItemWrapping(); //TODO move to data after exposing
     }
 
     //endregion
@@ -44,4 +48,20 @@ public class VerticalBox extends VerticalListBox<UIElement> {
     }
 
     //endregion
+
+    public static class VerticalBoxData extends VerticalListBoxData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public VerticalBoxData() {
+            super();
+
+            selectionMode.setValue(ESelectionMode.NONE);
+            texture.setValue(new TextureNoneBinding());
+        }
+
+        @Override
+        public UIElement makeUIElement_internal() {
+            return new VerticalBox(this);
+        }
+    }
 }
