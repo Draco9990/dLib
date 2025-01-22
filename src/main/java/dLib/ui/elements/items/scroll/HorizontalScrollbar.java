@@ -2,6 +2,7 @@ package dLib.ui.elements.items.scroll;
 
 import basemod.Pair;
 import com.badlogic.gdx.math.MathUtils;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.elements.items.Renderable;
@@ -14,6 +15,8 @@ import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
+
+import java.io.Serializable;
 
 public class HorizontalScrollbar extends Scrollbar {
     //region Variables
@@ -28,12 +31,27 @@ public class HorizontalScrollbar extends Scrollbar {
         super(x, y, width, height);
 
         HorizontalBox elements = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        elements.setItemSpacing(0);
         {
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_left), Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_mid), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_right), Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
         }
         addChild(elements);
+    }
+
+    public HorizontalScrollbar(HorizontalScrollbarData data) {
+        super(data);
+    }
+
+    @Override
+    public void postConstruct() {
+        super.postConstruct();
+
+        slider.onPositionChangedEvent.subscribeManaged((element) -> onScrollbarScrolled((float) slider.getLocalPositionX() / (getWidth() - slider.getWidth())));
+
+        UIDraggableComponent component = slider.addComponent(new UIDraggableComponent());
+        component.setCanDragY(false);
     }
 
     @Override
@@ -68,16 +86,8 @@ public class HorizontalScrollbar extends Scrollbar {
     @Override
     protected Interactable buildSlider() {
         Button slider = new Button(Pos.px(0), Pos.px((int) (5 * 1.29f)), Dim.px(60), Dim.perc(0.7762));
-        {
-            slider.setImage(Tex.stat(UICommonResources.scrollbar_horizontal_train));
-            slider.setContainerBounds(Bound.parent(slider));
-            slider.onPositionChangedEvent.subscribeManaged((element) -> {
-                onScrollbarScrolled((float) slider.getLocalPositionX() / (getWidth() - slider.getWidth()));
-            });
-
-            UIDraggableComponent component = slider.addComponent(new UIDraggableComponent());
-            component.setCanDragY(false);
-        }
+        slider.setImage(Tex.stat(UICommonResources.scrollbar_horizontal_train));
+        slider.setContainerBounds(Bound.parent(slider));
         return slider;
     }
 
@@ -120,4 +130,25 @@ public class HorizontalScrollbar extends Scrollbar {
     }
 
     //endregion
+
+    public static class HorizontalScrollbarData extends ScrollbarData implements Serializable {
+        public static float serialVersionUID = 1L;
+
+        @Override
+        public void postConstruct() {
+            sliderData.localPositionX.setValue(Pos.px(0));
+            sliderData.localPositionY.setValue(Pos.px((int) (5 * 1.29f)));
+            sliderData.width.setValue(Dim.px(60));
+            sliderData.height.setValue(Dim.perc(0.7762));
+            sliderData.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_horizontal_train"));
+            //TODO bounds
+
+            super.postConstruct();
+        }
+
+        @Override
+        public UIElement makeUIElement_internal() {
+            return new HorizontalScrollbar(this);
+        }
+    }
 }

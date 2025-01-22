@@ -9,6 +9,8 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
+import java.io.Serializable;
+
 public class Scrollbox extends UIElement {
     //region Variables
 
@@ -41,6 +43,18 @@ public class Scrollbox extends UIElement {
     }
     public Scrollbox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
+
+        mainBox = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        verticalScroll = new VerticalScrollbar(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        verticalScroll.setBoundElement(mainBox);
+        horizontalScroll = new HorizontalScrollbar(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        horizontalScroll.setBoundElement(mainBox);
+
+        reinitChildLayout();
+    }
+
+    public Scrollbox(ScrollboxData data) {
+        super(data);
 
         mainBox = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         verticalScroll = new VerticalScrollbar(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -159,4 +173,13 @@ public class Scrollbox extends UIElement {
     //endregion
 
     //endregion
+
+    public static class ScrollboxData extends UIElementData implements Serializable {
+        public static float serialVersionUID = 1L;
+
+        @Override
+        public UIElement makeUIElement_internal() {
+            return new Scrollbox(this);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package dLib.ui.elements.items.scroll;
 
 import basemod.Pair;
 import com.badlogic.gdx.math.MathUtils;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.elements.items.Renderable;
@@ -16,6 +17,8 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
+import java.io.Serializable;
+
 public class VerticalScrollbar extends Scrollbar {
     //region Variables
 
@@ -29,12 +32,28 @@ public class VerticalScrollbar extends Scrollbar {
         super(x, y, width, height);
 
         VerticalBox elements = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        elements.setItemSpacing(0);
         {
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_top), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_mid), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
             elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_bottom), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
         }
         addChild(elements);
+    }
+
+    public VerticalScrollbar(VerticalScrollbarData data) {
+        super(data);
+    }
+
+    @Override
+    public void postConstruct() {
+        super.postConstruct();
+
+        slider.onPositionChangedEvent.subscribeManaged((element) -> onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight())));
+
+        UIDraggableComponent dragComp = slider.addComponent(new UIDraggableComponent());
+        dragComp.setCanDragX(false);
+        setScrollbarScrollPercentageForExternalChange(100);
     }
 
     @Override
@@ -71,12 +90,6 @@ public class VerticalScrollbar extends Scrollbar {
         Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.px(0), Dim.perc(0.7762), Dim.px(60));
         slider.setImage(Tex.stat(UICommonResources.scrollbar_vertical_train));
         slider.setContainerBounds(Bound.parent(slider));
-        slider.onPositionChangedEvent.subscribeManaged((element) -> {
-            onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight()));
-        });
-
-        UIDraggableComponent dragComp = slider.addComponent(new UIDraggableComponent());
-        dragComp.setCanDragX(false);
         return slider;
     }
 
@@ -130,4 +143,25 @@ public class VerticalScrollbar extends Scrollbar {
     }
 
     //endregion
+
+    public static class VerticalScrollbarData extends ScrollbarData implements Serializable {
+        public static float serialVersionUID = 1L;
+
+        @Override
+        public void postConstruct() {
+            sliderData.localPositionX.setValue(Pos.px((int) (5 * 1.29f)));
+            sliderData.localPositionY.setValue(Pos.px(0));
+            sliderData.width.setValue(Dim.perc(0.7762));
+            sliderData.height.setValue(Dim.px(60));
+            sliderData.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_vertical_train"));
+            //TODO bounds
+
+            super.postConstruct();
+        }
+
+        @Override
+        public UIElement makeUIElement_internal() {
+            return new VerticalScrollbar(this);
+        }
+    }
 }

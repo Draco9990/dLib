@@ -1,12 +1,16 @@
 package dLib.ui.elements.items.scroll;
 
+import basemod.Pair;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.properties.objects.MethodBindingProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Interactable;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.util.events.Event;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
+import java.io.Serializable;
 import java.util.function.Consumer;
 
 public abstract class Scrollbar extends UIElement {
@@ -31,21 +35,29 @@ public abstract class Scrollbar extends UIElement {
         super(x, y, width, height);
     }
 
+    protected abstract Interactable buildSlider();
+
+    public Scrollbar(ScrollbarData data) {
+        super(data);
+
+        onScrollbarScrolledEvent.subscribeManaged(aFloat -> data.onScrollbarScrolledEvent.getValue().executeBinding(this, aFloat));
+    }
+
     @Override
     public void postConstruct() {
         super.postConstruct();
 
-        slider = buildSlider();
-        addChild(slider);
+        if(slider == null){
+            slider = buildSlider();
+            addChild(slider);
+        }
+
         setScrollbarScrollPercentageForExternalChange(100);
     }
-
-    protected abstract Interactable buildSlider();
 
     //endregion
 
     //region Methods
-
 
     @Override
     protected void updateSelf() {
@@ -92,4 +104,27 @@ public abstract class Scrollbar extends UIElement {
     //endregion
 
     //endregion
+
+    public abstract static class ScrollbarData extends UIElementData implements Serializable {
+        public static float serialVersionUID = 1L;
+
+        public Button.ButtonData sliderData = new Button.ButtonData();
+
+        public MethodBindingProperty onScrollbarScrolledEvent = new MethodBindingProperty()
+                .setName("On Scrollbar Scrolled")
+                .setDescription("Event that is triggered when the scrollbar is scrolled.")
+                .setCategory("Scrollbar")
+                .setDynamicCreationParameters(new Pair<>("newScrolledPercentage", Float.class));
+
+        public ScrollbarData() {
+
+        }
+
+        @Override
+        public void postConstruct() {
+            super.postConstruct();
+
+            children.add(sliderData);
+        }
+    }
 }
