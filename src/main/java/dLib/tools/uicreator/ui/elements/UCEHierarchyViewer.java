@@ -31,17 +31,17 @@ public class UCEHierarchyViewer extends HierarchyViewer {
                 return;
             }
 
-            onHoveredEvent.subscribeManaged(() -> {
+            onHoveredEvent.subscribe(this, () -> {
                 UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(true);
             });
 
-            onUnhoveredEvent.subscribeManaged(() -> {
+            onUnhoveredEvent.subscribe(this, () -> {
                 UCEditorItemComponent component = element.getComponent(UCEditorItemComponent.class);
                 component.setHoveredInHierarchy(false);
             });
 
-            onLeftClickEvent.subscribeManaged(() -> {
+            onLeftClickReleaseEvent.subscribe(this, () -> {
                 ((UCEditor)element.getTopParent()).properties.hideAll();
                 ((UCEditor)element.getTopParent()).properties.propertyEditor.showAndEnableInstantly();
                 ((UCEditor)element.getTopParent()).properties.propertyEditor.setProperties(element.getComponent(GeneratedElementComponent.class).sourceData);
