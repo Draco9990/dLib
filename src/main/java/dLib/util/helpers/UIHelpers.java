@@ -2,6 +2,7 @@ package dLib.util.helpers;
 
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.ui.elements.UIElement;
 import dLib.util.IntegerVector2;
 
 import java.util.UUID;

@@ -8,6 +8,7 @@ import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.tools.uicreator.ui.components.data.UCEditorDataComponent;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
+import dLib.ui.elements.components.GeneratedElementComponent;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.components.UIResizeableComponent;
 import dLib.ui.elements.items.ContextMenu;
@@ -35,13 +36,17 @@ public abstract class UCEITemplate {
     }
 
     public UIElement makeEditorItem(UIElement.UIElementData elementData){
-        ArrayList<UIElement.UIElementData> childrenCache = elementData.children;
-        elementData.children = new ArrayList<>();
-
         UIElement editorItem = elementData.makeUIElement();
 
-        elementData.children = childrenCache;
+        wrapEditorItem(elementData, editorItem);
+        for(UIElement child : editorItem.getAllChildren()){
+            wrapEditorItem(child.getComponent(GeneratedElementComponent.class).sourceData, child);
+        }
 
+        return editorItem;
+    }
+
+    public void wrapEditorItem(UIElement.UIElementData elementData, UIElement editorItem){
         rescaleDimensions(editorItem);
         registerComponents(editorItem);
 
@@ -51,14 +56,6 @@ public abstract class UCEITemplate {
         UCEditorDataComponent dataComponent = elementData.getOrAddComponent(new UCEditorDataComponent());
         dataComponent.liveElement = editorItem;
         dataComponent.template = this;
-
-        for(UIElement.UIElementData childData : elementData.children){
-            UCEITemplate template = UCEITemplateManager.getBestTemplateFor(childData);
-            UIElement childEditorItem = template.makeEditorItem(childData);
-            editorItem.addChild(childEditorItem);
-        }
-
-        return editorItem;
     }
 
     protected void rescaleDimensions(UIElement editorItem){

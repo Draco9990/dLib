@@ -266,6 +266,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.onTriggeredLine = data.onTriggeredLine.getValue();
 
         this.rootOwnerId = data.rootOwnerId;
+
+        addComponent(new GeneratedElementComponent(data));
+        for(UIElementData childData : data.children){
+            UIElement child = childData.makeUIElement();
+            addChild(child);
+        }
     }
 
     @Override
@@ -797,6 +803,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         return null;
+    }
+    public UIElement findParentById(String elementId){
+        if(getId().equals(elementId)){
+            return this;
+        }
+
+        if(parent == null){
+            return null;
+        }
+
+        return parent.findParentById(elementId);
     }
 
     public boolean isDescendantOf(UIElement parent){
@@ -2235,54 +2252,57 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Path
 
-    public String getRelativePathFromRoot(){
-        if(!hasParent()) return getId();
-        if(this instanceof RootElement) return getId();
-        return parent.getRelativePathFromRoot() + "." + getId();
-    }
-
-    public UIElement findChildFromRootPath(String path){
-        if(path.isEmpty()) return null;
-
-        if(path.startsWith(getId() + ".")){
-            path = path.replace(getId() + ".", "");
+    public String getRelativePathToElement(UIElement element){
+        //First, find common parent
+        UIElement commonParent = findCommonParentWith(element);
+        if(commonParent == null) {
+            return null;
         }
 
-        String[] pathParts = path.split("\\.");
-        UIElement currentElement = this;
+        String path = "";
 
-        for(String pathPart : pathParts){
-            currentElement = currentElement.findChildById(pathPart);
-            if(currentElement == null) return null;
+        UIElement iterating = this;
+        while(iterating != commonParent){
+            path += "../";
+            iterating = iterating.getParent();
         }
 
-        return currentElement;
+        String reversePath = "";
+        iterating = element;
+        while(iterating != commonParent){
+            reversePath = iterating.getId() + "/" + reversePath;
+            iterating = iterating.getParent();
+        }
+
+        return path + reversePath;
     }
 
-    public UIElement getRootOwnerElement(){
+    public UIElement findCommonParentWith(UIElement element){
         UIElement currentElement = this;
-        while(currentElement.hasParent()){
-            currentElement = currentElement.getParent();
-
-            if(currentElement.getId().equals(rootOwnerId)){
+        while(currentElement != null){
+            if(element == currentElement){
                 return currentElement;
             }
+            if(element.isDescendantOf(currentElement)){
+                return currentElement;
+            }
+            currentElement = currentElement.getParent();
         }
-
         return null;
     }
 
-    public UIElement getRootOwnerParentElement(){
+    public UIElement getElementFromRelativePath(String relativePath){
+        String[] pathParts = relativePath.split("/");
         UIElement currentElement = this;
-        while(currentElement.hasParent()){
-            currentElement = currentElement.getParent();
-
-            if(currentElement.getId().equals(rootOwnerId)){
-                return currentElement.getParent();
+        for(String pathPart : pathParts){
+            if(pathPart.equals("..")){
+                currentElement = currentElement.getParent();
+            }
+            else{
+                currentElement = currentElement.findChildById(pathPart);
             }
         }
-
-        return null;
+        return currentElement;
     }
 
     //endregion Path
@@ -2291,12 +2311,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     @Override
     public AbstractValueEditor makeEditorFor() {
-        return new UCRelativeUIElementBindingValueEditor(new UIElementRelativePathBinding(this));
+        throw new UnsupportedOperationException("UIElement does not support self property editing.");
     }
 
     @Override
     public AbstractValueEditor makeEditorFor(TProperty property) {
-        return new UCRelativeUIElementBindingValueEditor((Property<AbstractUIElementBinding>) property);
+        throw new UnsupportedOperationException("UIElement does not support self property editing.");
     }
 
     //endregion
@@ -2508,23 +2528,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         //region UI Element Creation
 
         public final UIElement makeUIElement(){
-            return makeUIElement(null);
-        }
-
-        public final UIElement makeUIElement(UIElement rootOwner){
-            UIElement toReturn = makeUIElement_internal();
-            toReturn.addComponent(new GeneratedElementComponent(this));
-
-            for(UIElementData entry : children){
-                UIElement child = entry.makeUIElement();
-                toReturn.addChild(child);
-
-                if(rootOwner != null){
-                    Reflection.setFieldValue(entry.id.getValue(), rootOwner, child);
-                }
-            }
-
-            return toReturn;
+            return makeUIElement_internal();
         }
 
         public UIElement makeUIElement_internal(){
@@ -2576,7 +2580,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         protected void bindCommonEvents(){
-
+            ArrayList<TProperty> properties = Reflection.getFieldValuesByClass(TProperty.class, this);
+            for(TProperty property : properties){
+                property.setOwningContainer(this);
+            }
         }
 
         public ArrayList<TProperty<?, ?>> getEditableProperties(){

@@ -7,6 +7,7 @@ import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.ui.components.data.UCEditorDataComponent;
 import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.bindings.UIElementRelativePathBinding;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.ImageTextBox;
@@ -37,7 +38,8 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
 
                 ReferencePickerMouseState state = new ReferencePickerMouseState(editor.itemTree.rootElementData.getComponent(UCEditorDataComponent.class).liveElement);
                 state.onReferencePickedEvent.subscribe(this, element -> {
-                    property.setValue(new UIElementRelativePathBinding(element));
+                    UIElement liveOwner = ((UIElementData) property.getOwningContainer()).getComponent(UCEditorDataComponent.class).liveElement;
+                    property.setValue(new UIElementRelativePathBinding(liveOwner, element));
                 });
                 MouseStateManager.get().enterMouseState(state);
             });

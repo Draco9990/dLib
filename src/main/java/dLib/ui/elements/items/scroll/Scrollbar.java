@@ -40,6 +40,8 @@ public abstract class Scrollbar extends UIElement {
     public Scrollbar(ScrollbarData data) {
         super(data);
 
+        slider = (Interactable) findChildById(data.sliderData.id.getValue());
+
         onScrollbarScrolledEvent.subscribeManaged(aFloat -> data.onScrollbarScrolledEvent.getValue().executeBinding(this, aFloat));
     }
 
@@ -117,7 +119,7 @@ public abstract class Scrollbar extends UIElement {
                 .setDynamicCreationParameters(new Pair<>("newScrolledPercentage", Float.class));
 
         public ScrollbarData() {
-
+            sliderData.id.setValue("slider");
         }
 
         @Override

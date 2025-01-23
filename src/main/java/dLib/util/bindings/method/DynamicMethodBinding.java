@@ -31,6 +31,8 @@ public class DynamicMethodBinding extends AbstractMethodBinding implements Seria
 
     private transient ArrayList<BiConsumer<String, String>> onBoundMethodChangedConsumers = new ArrayList<>();
 
+    private String methodOwnerId = "";
+
     //endregion Variables
 
     /** Constructors */
@@ -47,8 +49,9 @@ public class DynamicMethodBinding extends AbstractMethodBinding implements Seria
         return methodToExecute;
     }
 
-    public DynamicMethodBinding setBoundMethod(String s){
+    public DynamicMethodBinding setBoundMethod(String methodOwnerId, String s){
         String oldMethodToExecute = methodToExecute.getValue();
+        this.methodOwnerId = methodOwnerId;
         if(!methodToExecute.setValue(s)) return this;
 
         if(onBoundMethodChangedConsumers == null) onBoundMethodChangedConsumers = new ArrayList<>();
@@ -73,7 +76,7 @@ public class DynamicMethodBinding extends AbstractMethodBinding implements Seria
     public Object executeBinding(Object target, Object... args) {
         if(target instanceof UIElement){
             //* Dynamic methods are located in the top parent of the UIElement
-            target = ((UIElement) target).getRootOwnerParentElement();
+            target = ((UIElement) target).findParentById(methodOwnerId);
         }
 
         if(methodToExecute != null && methodToExecute.getValue().isEmpty()){

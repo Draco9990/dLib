@@ -136,12 +136,15 @@ public class HorizontalScrollbar extends Scrollbar {
 
         @Override
         public void postConstruct() {
+            height.setValue(Dim.px(50));
+
             sliderData.localPositionX.setValue(Pos.px(0));
             sliderData.localPositionY.setValue(Pos.px((int) (5 * 1.29f)));
             sliderData.width.setValue(Dim.px(60));
             sliderData.height.setValue(Dim.perc(0.7762));
             sliderData.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_horizontal_train"));
             //TODO bounds
+            //todo make it draggable
 
             super.postConstruct();
         }

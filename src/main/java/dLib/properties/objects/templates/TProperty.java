@@ -33,6 +33,8 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     private transient ArrayList<Function<PropertyType, Boolean>> isPropertyVisibleFunctions = new ArrayList<>();
 
+    private Object owningContainer;
+
     //endregion
 
     //region Constructors
@@ -172,6 +174,17 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
         ois.defaultReadObject();
         onValueChangedEvent = new BiConsumerEvent<>();
         isPropertyVisibleFunctions = new ArrayList<>();
+    }
+
+    //endregion
+
+    //region Owning Object
+
+    public void setOwningContainer(Object owningContainer){
+        this.owningContainer = owningContainer;
+    }
+    public Object getOwningContainer(){
+        return owningContainer;
     }
 
     //endregion

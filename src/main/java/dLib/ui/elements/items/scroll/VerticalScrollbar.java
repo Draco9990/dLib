@@ -149,6 +149,8 @@ public class VerticalScrollbar extends Scrollbar {
 
         @Override
         public void postConstruct() {
+            width.setValue(Dim.px(50));
+
             sliderData.localPositionX.setValue(Pos.px((int) (5 * 1.29f)));
             sliderData.localPositionY.setValue(Pos.px(0));
             sliderData.width.setValue(Dim.perc(0.7762));

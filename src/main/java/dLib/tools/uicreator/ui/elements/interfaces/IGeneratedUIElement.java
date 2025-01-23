@@ -5,10 +5,12 @@ import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.ui.GeneratedUIManager;
 import dLib.ui.elements.UIElement;
 import dLib.util.DLibLogger;
+import dLib.util.Reflection;
 import dLib.util.SerializationHelpers;
 import dLib.util.events.globalevents.Constructable;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public interface IGeneratedUIElement {
     default void loadGeneratedData() {
@@ -30,6 +32,13 @@ public interface IGeneratedUIElement {
 
         RootElement.RootElementData data = SerializationHelpers.fromString(generatedObjectData);
         data.inEditor = false;
-        ((UIElement)this).addChild(data.makeUIElement((UIElement)this));
+
+        UIElement rootComp = data.makeUIElement();
+        for(UIElement child : rootComp.getAllChildren()){
+            if(Objects.equals(child.rootOwnerId, ((UIElement)this).getId())){
+                Reflection.setFieldValue(child.getId(), this, child);
+            }
+        }
+        ((UIElement)this).addChild(rootComp);
     }
 }

@@ -14,19 +14,20 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
 
     private StringProperty objectRelativePath = new StringProperty("");
 
+    private transient UIElement ownerCache;
     private transient UIElement objectCache;
 
     protected UIElementRelativePathBinding() {
         super();
     }
 
-    public UIElementRelativePathBinding(UIElement object) {
+    public UIElementRelativePathBinding(UIElement owner, UIElement object) {
         super();
-        objectRelativePath.setValue(object.getRelativePathFromRoot());
+        objectRelativePath.setValue(owner.getRelativePathToElement(object));
         objectCache = object;
 
         object.onHierarchyChangedEvent.subscribe(this, () -> {
-            objectRelativePath.setValue(object.getRelativePathFromRoot());
+            objectRelativePath.setValue(owner.getRelativePathToElement(object));
         });
     }
 
@@ -41,7 +42,7 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
         }
 
         UIElement invoker = (UIElement) params[0];
-        return invoker.getRootOwnerElement().findChildFromRootPath(objectRelativePath.getValue());
+        return invoker.getElementFromRelativePath(objectRelativePath.getValue());
     }
 
     @Override

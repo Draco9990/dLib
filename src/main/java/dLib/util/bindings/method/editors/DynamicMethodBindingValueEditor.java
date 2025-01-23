@@ -26,7 +26,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
         HorizontalBox propertyValueBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             dynamicMethodBinding = new Inputfield(((DynamicMethodBinding) property.getValue()).getBoundMethod(), Dim.fill(), Dim.fill());
-            dynamicMethodBinding.textBox.onTextChangedEvent.subscribeManaged(s -> ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(s));
+            dynamicMethodBinding.textBox.onTextChangedEvent.subscribeManaged(s -> ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(((UIElementData) boundProperty.getOwningContainer()).rootOwnerId, s));
 
             propertyValueBox.addItem(dynamicMethodBinding);
 
@@ -37,7 +37,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
                 bindDynamicBindingButton.hideAndDisableInstantly();
                 bindDynamicBindingButton.onLeftClickEvent.subscribe(this, () -> {
                     if(boundProperty.getValue() instanceof DynamicMethodBinding){
-                        ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(boundProperty.getDynamicCreationDefaultMethodName());
+                        ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(((UIElementData) boundProperty.getOwningContainer()).rootOwnerId, boundProperty.getDynamicCreationDefaultMethodName());
                         boundProperty.createDynamicMethod();
                     }
                     bindDynamicBindingButton.hideAndDisableInstantly();
