@@ -160,6 +160,10 @@ public class VerticalListBox<ItemType> extends ItemBox<ItemType> {
     public static class VerticalListBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        public VerticalListBoxData(){
+            contentAlignment.setVerticalAlignment(Alignment.VerticalAlignment.TOP);
+        }
+
         @Override
         public UIElement makeUIElement_internal() {
             return new VerticalListBox<>(this);

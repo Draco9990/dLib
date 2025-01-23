@@ -4,6 +4,7 @@ import basemod.Pair;
 import com.badlogic.gdx.math.MathUtils;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDraggableComponent;
+import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.buttons.Button;
@@ -146,6 +147,37 @@ public class VerticalScrollbar extends Scrollbar {
 
     public static class VerticalScrollbarData extends ScrollbarData implements Serializable {
         public static float serialVersionUID = 1L;
+
+        public VerticalScrollbarData() {
+            super();
+
+            VerticalBox.VerticalBoxData vBox = new VerticalBox.VerticalBoxData();
+            vBox.width.setValue(Dim.fill());
+            vBox.height.setValue(Dim.fill());
+            {
+                Image.ImageData topData = new Image.ImageData();
+                topData.id.setValue("bg_top");
+                topData.width.setValue(Dim.fill());
+                topData.height.setValue(Dim.px(22));
+                topData.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_vertical_top"));
+                vBox.children.add(topData);
+
+                Image.ImageData midData = new Image.ImageData();
+                midData.id.setValue("bg_mid");
+                midData.width.setValue(Dim.fill());
+                midData.height.setValue(Dim.fill());
+                midData.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_vertical_mid"));
+                vBox.children.add(midData);
+
+                Image.ImageData bottomData = new Image.ImageData();
+                bottomData.id.setValue("bg_bottom");
+                bottomData.width.setValue(Dim.fill());
+                bottomData.height.setValue(Dim.px(22));
+                bottomData.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_vertical_bottom"));
+                vBox.children.add(bottomData);
+            }
+            children.add(vBox);
+        }
 
         @Override
         public void postConstruct() {

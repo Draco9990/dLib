@@ -134,6 +134,12 @@ public class HorizontalListBox<ItemType> extends ItemBox<ItemType> {
     public static class HorizontalListBoxData extends ItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        public HorizontalListBoxData(){
+            super();
+
+            contentAlignment.setHorizontalAlignment(Alignment.HorizontalAlignment.LEFT);
+        }
+
         @Override
         public UIElement makeUIElement_internal() {
             return new HorizontalListBox<>(this);
