@@ -8,7 +8,6 @@ import dLib.ui.elements.items.SimpleHorizontalRangeSelector;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
-import dLib.ui.elements.items.numericaleditors.FloatInputBox;
 import dLib.ui.elements.items.numericaleditors.IntegerInputBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
@@ -110,7 +109,7 @@ public class ColorPickerPopup extends Renderable {
             HorizontalBox rVal = new HorizontalBox(Dim.fill(), Dim.px(27));
             {
                 TextBox rValText = new TextBox("R:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
-                rVal.addItem(rValText);
+                rVal.addChild(rValText);
 
                 rValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
                 rValInput.leftArrow.onLeftClickEvent.subscribe(rValInput, () -> {
@@ -130,14 +129,14 @@ public class ColorPickerPopup extends Renderable {
                     onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
                 });
                 rValInput.inputbox.textBox.setText(String.valueOf((int)(selectedColor.r * 255)));
-                rVal.addItem(rValInput);
+                rVal.addChild(rValInput);
             }
-            rgbValuesBox.addItem(rVal);
+            rgbValuesBox.addChild(rVal);
 
             HorizontalBox gVal = new HorizontalBox(Dim.fill(), Dim.px(27));
             {
                 TextBox gValText = new TextBox("G:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
-                gVal.addItem(gValText);
+                gVal.addChild(gValText);
 
                 gValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
                 gValInput.leftArrow.onLeftClickEvent.subscribe(gValInput, () -> {
@@ -157,14 +156,14 @@ public class ColorPickerPopup extends Renderable {
                     onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
                 });
                 gValInput.inputbox.textBox.setText(String.valueOf((int)(selectedColor.g * 255)));
-                gVal.addItem(gValInput);
+                gVal.addChild(gValInput);
             }
-            rgbValuesBox.addItem(gVal);
+            rgbValuesBox.addChild(gVal);
 
             HorizontalBox bVal = new HorizontalBox(Dim.fill(), Dim.px(27));
             {
                 TextBox bValText = new TextBox("B:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
-                bVal.addItem(bValText);
+                bVal.addChild(bValText);
 
                 bValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
                 bValInput.leftArrow.onLeftClickEvent.subscribe(bValInput, () -> {
@@ -184,14 +183,14 @@ public class ColorPickerPopup extends Renderable {
                     onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
                 });
                 bValInput.inputbox.textBox.setText(String.valueOf((int)(selectedColor.b * 255)));
-                bVal.addItem(bValInput);
+                bVal.addChild(bValInput);
             }
-            rgbValuesBox.addItem(bVal);
+            rgbValuesBox.addChild(bVal);
 
             HorizontalBox aVal = new HorizontalBox(Dim.fill(), Dim.px(27));
             {
                 TextBox aValText = new TextBox("A:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
-                aVal.addItem(aValText);
+                aVal.addChild(aValText);
 
                 aValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
                 aValInput.leftArrow.onLeftClickEvent.subscribe(aValInput, () -> {
@@ -211,14 +210,14 @@ public class ColorPickerPopup extends Renderable {
                     onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
                 });
                 aValInput.inputbox.textBox.setText(String.valueOf((int)(selectedColor.a * 255)));
-                aVal.addItem(aValInput);
+                aVal.addChild(aValInput);
             }
-            rgbValuesBox.addItem(aVal);
+            rgbValuesBox.addChild(aVal);
 
             HorizontalBox hexVal = new HorizontalBox(Dim.fill(), Dim.px(27));
             {
                 TextBox hexValText = new TextBox("Hex:", Pos.px(0), Pos.px(0), Dim.px(45), Dim.fill());
-                hexVal.addItem(hexValText);
+                hexVal.addChild(hexValText);
 
                 hexValInput = new Inputfield(selectedColor.toString(), Pos.px(48), Pos.px(0), Dim.fill(), Dim.fill());
                 hexValInput.setCharacterLimit(6);
@@ -228,9 +227,9 @@ public class ColorPickerPopup extends Renderable {
                         onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
                     }
                 });
-                hexVal.addItem(hexValInput);
+                hexVal.addChild(hexValInput);
             }
-            rgbValuesBox.addItem(hexVal);
+            rgbValuesBox.addChild(hexVal);
         }
         addChild(rgbValuesBox);
 

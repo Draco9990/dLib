@@ -21,9 +21,9 @@ public class PixelDimensionValueEditor extends DimensionValueEditor<PixelDimensi
             inputfield = new Inputfield(String.valueOf(((PixelDimension)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE);
             inputfield.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
-            contentBox.addItem(inputfield);
+            contentBox.addChild(inputfield);
 
-            contentBox.addItem(makeSwapComboBox());
+            contentBox.addChild(makeSwapComboBox());
         }
         addChild(contentBox);
 

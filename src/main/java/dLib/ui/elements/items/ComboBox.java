@@ -43,7 +43,7 @@ public class ComboBox<OptionType> extends TextButton {
             picker.onOptionSelectedEvent.subscribeManaged(this::setSelectedItem);
             picker.open();
         });
-        setImage(Tex.stat(UICommonResources.button02_horizontal));
+        setImage(Tex.stat(UICommonResources.button02_square));
     }
 
     public void setCanBeNull(boolean canBeNull) {

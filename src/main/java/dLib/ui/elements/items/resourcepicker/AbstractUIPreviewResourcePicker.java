@@ -49,12 +49,12 @@ public abstract class AbstractUIPreviewResourcePicker extends AbstractUIResource
                 fieldBox.setItemSpacing(10);
                 {
                     for(Field field : entry.getValue()){
-                        fieldBox.addItem(createResourcePickerWindowResource(entry.getKey(), field));
+                        fieldBox.addChild(createResourcePickerWindowResource(entry.getKey(), field));
                     }
                 }
 
                 classBox.addItem(fieldBox);
-                mainBox.addItem(classBox);
+                mainBox.addChild(classBox);
             }
         }
 
@@ -82,11 +82,11 @@ public abstract class AbstractUIPreviewResourcePicker extends AbstractUIResource
             {
                 UIElement preview = makeResourcePickerWindowResourcePreview(clazz, field);
                 preview.setPassthrough(true);
-                contentBox.addItem(preview);
+                contentBox.addChild(preview);
 
                 TextBox box = new TextBox(field.getName(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(75));
                 box.setWrap(true);
-                contentBox.addItem(box);
+                contentBox.addChild(box);
             }
             addChild(contentBox);
         }

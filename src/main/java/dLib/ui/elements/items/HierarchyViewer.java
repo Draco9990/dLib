@@ -16,8 +16,6 @@ import dLib.util.ui.position.Pos;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.UUID;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class HierarchyViewer extends VerticalBox {
     private UIElement forElement;
@@ -51,10 +49,10 @@ public class HierarchyViewer extends VerticalBox {
 
         HorizontalBox currentLevelBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
         {
-            currentLevelBox.addItem(new Spacer(Dim.px(20 * level), Dim.fill()));
-            currentLevelBox.addItem(makeHierarchyViewerElementButton_internal(child));
+            currentLevelBox.addChild(new Spacer(Dim.px(20 * level), Dim.fill()));
+            currentLevelBox.addChild(makeHierarchyViewerElementButton_internal(child));
         }
-        addItem(currentLevelBox);
+        addChild(currentLevelBox);
 
         if(!child.getChildren().isEmpty()){
             for(UIElement grandChild : child.getChildren()){
@@ -114,7 +112,7 @@ public class HierarchyViewer extends VerticalBox {
 
         public HierarchyViewerChildElementButton(UIElement element) {
             super(element.getId(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-            setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
+            setImage(Tex.stat(UICommonResources.button03_square));
             this.element = element;
 
             label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);

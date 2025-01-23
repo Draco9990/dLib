@@ -3,7 +3,7 @@ package dLib.ui.elements.items.resourcepicker;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.VerticalCollapsableBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
-import dLib.ui.elements.items.itembox.VerticalListBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.util.Reflection;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -43,11 +43,11 @@ public abstract class AbstractUIListResourcePicker extends AbstractUIResourcePic
                 VerticalCollapsableBox classBox = new VerticalCollapsableBox(entry.getKey().getSimpleName());
                 classBox.setPaddingLeft(Padd.px(50));
 
-                VerticalListBox<ListResourcePickerItem> fieldBox = new VerticalListBox<>(Dim.fill(), Dim.auto());
+                VerticalDataBox<ListResourcePickerItem> fieldBox = new VerticalDataBox<>(Dim.fill(), Dim.auto());
                 fieldBox.setItemSpacing(10);
                 {
                     for(Field field : entry.getValue()){
-                        fieldBox.addItem(new ListResourcePickerItem(entry.getKey(), field));
+                        fieldBox.addChild(new ListResourcePickerItem(entry.getKey(), field));
                     }
                 }
                 fieldBox.onItemSelectionChangedEvent.subscribe(this, selectedItems -> {
@@ -60,7 +60,7 @@ public abstract class AbstractUIListResourcePicker extends AbstractUIResourcePic
                 });
 
                 classBox.addItem(fieldBox);
-                mainBox.addItem(classBox);
+                mainBox.addChild(classBox);
             }
         }
 

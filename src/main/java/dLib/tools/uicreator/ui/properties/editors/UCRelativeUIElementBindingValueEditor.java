@@ -43,10 +43,10 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
                 });
                 MouseStateManager.get().enterMouseState(state);
             });
-            mainContentBox.addItem(referenceButton);
+            mainContentBox.addChild(referenceButton);
 
             bindingBox = new ImageTextBox(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
-            mainContentBox.addItem(bindingBox);
+            mainContentBox.addChild(bindingBox);
         }
 
         if(property.getValue() instanceof UIElementRelativePathBinding){

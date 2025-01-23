@@ -47,23 +47,23 @@ public class StaticMethodBindingValueEditor extends MethodBindingValueEditor<Sta
                         e.printStackTrace();
                     }
                 });
-                propertyValueBox.addItem(selectedMethodBinding);
+                propertyValueBox.addChild(selectedMethodBinding);
 
                 VerticalBox methodBindingOptionsBox = new VerticalBox(Dim.px(28), Dim.fill());
                 {
-                    methodBindingOptionsBox.addItem(new Spacer(Dim.fill(), Dim.fill()));
-                    methodBindingOptionsBox.addItem(makeSwapComboBox());
+                    methodBindingOptionsBox.addChild(new Spacer(Dim.fill(), Dim.fill()));
+                    methodBindingOptionsBox.addChild(makeSwapComboBox());
                 }
-                propertyValueBox.addItem(methodBindingOptionsBox);
+                propertyValueBox.addChild(methodBindingOptionsBox);
             }
-            mainContentBox.addItem(propertyValueBox);
+            mainContentBox.addChild(propertyValueBox);
 
             methodBindingArgumentsBox = new VerticalBox(Dim.fill(), Dim.auto());
             {
                 buildStaticBindingPropertiesBox(property);
             }
             methodBindingArgumentsBox.setPaddingLeft(Padd.px(20));
-            mainContentBox.addItem(methodBindingArgumentsBox);
+            mainContentBox.addChild(methodBindingArgumentsBox);
         }
 
         property.onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {
@@ -82,7 +82,7 @@ public class StaticMethodBindingValueEditor extends MethodBindingValueEditor<Sta
         for(TProperty<?, ?> param : ((StaticMethodBinding)property.getValue()).getDeclaredParams()){
             if(!param.isVisible()) continue;
 
-            methodBindingArgumentsBox.addItem(param.makeEditorFor(true));
+            methodBindingArgumentsBox.addChild(param.makeEditorFor(true));
 
             param.onValueChangedEvent.subscribe(this, (property1, property2) -> {
                 buildStaticBindingPropertiesBox(boundProperty);

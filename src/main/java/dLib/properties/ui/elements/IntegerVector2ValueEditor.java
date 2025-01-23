@@ -31,7 +31,7 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
         {
             if(property.getXValueName() != null) {
                 TextBox xLabel = new TextBox(property.getXValueName() + ":", Dim.perc(0.2), Dim.fill());
-                mainContentBox.addItem(xLabel);
+                mainContentBox.addChild(xLabel);
             }
 
             xInput = new Inputfield(String.valueOf(property.getXValue()), Dim.perc(0.25), Dim.fill());
@@ -41,13 +41,13 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
                 currentVal.x = Integer.valueOf(s);
                 property.setValue(currentVal);
             });
-            mainContentBox.addItem(xInput);
+            mainContentBox.addChild(xInput);
 
-            mainContentBox.addItem(new Spacer(Dim.perc(0.1), Dim.fill()));
+            mainContentBox.addChild(new Spacer(Dim.perc(0.1), Dim.fill()));
 
             if(property.getYValueName() != null){
                 TextBox yLabel = new TextBox(property.getYValueName() + ":", Dim.perc(0.2), Dim.fill());
-                mainContentBox.addItem(yLabel);
+                mainContentBox.addChild(yLabel);
             }
 
             yInput = new Inputfield(String.valueOf(property.getYValue()), Dim.perc(0.25), Dim.fill());
@@ -57,7 +57,7 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
                 currentVal.y = Integer.valueOf(s);
                 property.setValue(currentVal);
             });
-            mainContentBox.addItem(yInput);
+            mainContentBox.addChild(yInput);
         }
 
         property.onValueChangedEvent.subscribe(this, (integerVector2, integerVector22) -> {

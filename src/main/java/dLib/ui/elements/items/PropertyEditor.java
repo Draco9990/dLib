@@ -4,7 +4,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalBox;
-import dLib.ui.elements.items.itembox.VerticalListBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.elements.items.text.TextBox;
@@ -40,13 +40,13 @@ public class PropertyEditor extends UIElement {
                 propertyList.setItemSpacing(20);
             }
             propertyListScrollbox.setIsHorizontal(false);
-            elementList.addItem(propertyListScrollbox);
+            elementList.addChild(propertyListScrollbox);
 
             descriptionBox = new ImageTextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.2));
             descriptionBox.textBox.setWrap(true);
             descriptionBox.textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
             descriptionBox.textBox.setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
-            elementList.addItem(descriptionBox);
+            elementList.addChild(descriptionBox);
         }
         addChild(elementList);
     }
@@ -87,7 +87,7 @@ public class PropertyEditor extends UIElement {
             if(!categories.containsKey(category)){
                 categories.put(category, makePropertyGroup(category));
             }
-            categories.get(category).propertyList.updateItems(propertiesByCategory.get(category));
+            categories.get(category).propertyList.updateChildren(propertiesByCategory.get(category));
         }
         for(String category : new ArrayList<>(categories.keySet())){
             if(!propertiesByCategory.containsKey(category)){
@@ -96,7 +96,7 @@ public class PropertyEditor extends UIElement {
             }
         }
 
-        propertyList.updateItems(new ArrayList<>(categories.values()));
+        propertyList.updateChildren(new ArrayList<>(categories.values()));
     }
 
     protected PropertyGroup makePropertyGroup(String category){
@@ -106,7 +106,7 @@ public class PropertyEditor extends UIElement {
     //region Child Elements
 
     public static class PropertyGroup extends VerticalCollapsableBox{
-        protected VerticalListBox<TProperty<?, ?>> propertyList;
+        protected VerticalDataBox<TProperty<?, ?>> propertyList;
 
         private UUID valueChangedEventId;
 
@@ -117,7 +117,7 @@ public class PropertyEditor extends UIElement {
 
             this.multiline = multiline;
 
-            propertyList = new VerticalListBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
+            propertyList = new VerticalDataBox<TProperty<?, ?>>(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
                 @Override
                 public UIElement makeUIForItem(TProperty<?, ?> item) {
                     UIElement editor = item.makeEditorFor(getParentOfType(PropertyGroup.class).multiline);

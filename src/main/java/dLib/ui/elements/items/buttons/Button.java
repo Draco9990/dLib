@@ -23,7 +23,7 @@ public class Button extends Interactable {
         this(Pos.px(0), Pos.px(0), width, height);
     }
     public Button(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
-        super(Tex.stat(UICommonResources.button03_horizontal), xPos, yPos, width, height);
+        super(Tex.stat(UICommonResources.button03_square), xPos, yPos, width, height);
     }
 
     public Button(ButtonData data){

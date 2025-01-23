@@ -23,14 +23,14 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
-            valueBox.setImage(Tex.stat(UICommonResources.button02_horizontal));
+            valueBox.setImage(Tex.stat(UICommonResources.button02_square));
             valueBox.onLeftClickEvent.subscribe(this, () -> {
                 AbstractUIResourcePicker picker = new UIGlobalTextureResourcePicker();
                 picker.onResourceSelectedEvent.subscribeManaged((aClass, s) -> property.setValue(new TextureResourceBinding(aClass, s)));
                 picker.open();
             });
-            contentBox.addItem(valueBox);
-            contentBox.addItem(makeSwapComboBox());
+            contentBox.addChild(valueBox);
+            contentBox.addChild(makeSwapComboBox());
         }
 
         property.onValueChangedEvent.subscribe(this, (textureBinding, textureBinding2) -> {

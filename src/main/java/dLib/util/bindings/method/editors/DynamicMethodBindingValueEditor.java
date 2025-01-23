@@ -28,7 +28,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
             dynamicMethodBinding = new Inputfield(((DynamicMethodBinding) property.getValue()).getBoundMethod(), Dim.fill(), Dim.fill());
             dynamicMethodBinding.textBox.onTextChangedEvent.subscribeManaged(s -> ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(((UIElementData) boundProperty.getOwningContainer()).rootOwnerId, s));
 
-            propertyValueBox.addItem(dynamicMethodBinding);
+            propertyValueBox.addChild(dynamicMethodBinding);
 
             VerticalBox methodBindingOptionsBox = new VerticalBox(Dim.px(28), Dim.fill());
             {
@@ -42,11 +42,11 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
                     }
                     bindDynamicBindingButton.hideAndDisableInstantly();
                 });
-                methodBindingOptionsBox.addItem(bindDynamicBindingButton);
-                methodBindingOptionsBox.addItem(new Spacer(Dim.fill(), Dim.fill()));
-                methodBindingOptionsBox.addItem(makeSwapComboBox());
+                methodBindingOptionsBox.addChild(bindDynamicBindingButton);
+                methodBindingOptionsBox.addChild(new Spacer(Dim.fill(), Dim.fill()));
+                methodBindingOptionsBox.addChild(makeSwapComboBox());
             }
-            propertyValueBox.addItem(methodBindingOptionsBox);
+            propertyValueBox.addChild(methodBindingOptionsBox);
         }
 
         ((DynamicMethodBinding)property.getValue()).getBoundMethodRaw().onValueChangedEvent.subscribe(this, (methodBinding, methodBinding2) -> {

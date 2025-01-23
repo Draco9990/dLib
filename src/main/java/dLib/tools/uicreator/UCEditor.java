@@ -15,7 +15,7 @@ import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
-import dLib.ui.elements.items.itembox.VerticalListBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
@@ -51,9 +51,9 @@ public class UCEditor extends Renderable {
         {
             VerticalBox firstColumn = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(1536), Dim.fill());
             {
-                firstColumn.addItem(toolbar = new UC_EditorToolbar());
-                firstColumn.addItem(new Spacer(Dim.fill(), Dim.px(10)));
-                firstColumn.addItem(mainScreen = new UC_EditorMainScreen());
+                firstColumn.addChild(toolbar = new UC_EditorToolbar());
+                firstColumn.addChild(new Spacer(Dim.fill(), Dim.px(10)));
+                firstColumn.addChild(mainScreen = new UC_EditorMainScreen());
                 {
                     canvas = new Renderable(Tex.stat(DLibUIElements.UIEditorElements.transparentBg), Dim.px(10000), Dim.px(10000));
                     canvas.addComponent(new UIDraggableComponent());
@@ -70,9 +70,9 @@ public class UCEditor extends Renderable {
                     mainScreen.addChild(canvas);
                 }
             }
-            mainBox.addItem(firstColumn);
-            mainBox.addItem(new Spacer(Dim.px(10), Dim.fill()));
-            mainBox.addItem(properties = new UC_EditorProperties());
+            mainBox.addChild(firstColumn);
+            mainBox.addChild(new Spacer(Dim.px(10), Dim.fill()));
+            mainBox.addChild(properties = new UC_EditorProperties());
         }
         mainBox.setPadding(Padd.px(10));
         addChild(mainBox);
@@ -113,11 +113,11 @@ public class UCEditor extends Renderable {
                     toolboxButton.onLeftClickEvent.subscribeManaged(() -> {
                         getTopParent().close();
                     });
-                    toolboxButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
-                    mainOptions.addItem(toolboxButton);
+                    toolboxButton.setImage(Tex.stat(UICommonResources.button03_square));
+                    mainOptions.addChild(toolboxButton);
                 }
-                toolbar.addItem(mainOptions);
-                toolbar.addItem(new Spacer(Dim.px(10), Dim.fill()));
+                toolbar.addChild(mainOptions);
+                toolbar.addChild(new Spacer(Dim.px(10), Dim.fill()));
 
                 VerticalBox propertiesOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill());
                 propertiesOptions.setDefaultItemHeight(30);
@@ -131,8 +131,8 @@ public class UCEditor extends Renderable {
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
                     });
-                    toolboxButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
-                    propertiesOptions.addItem(toolboxButton);
+                    toolboxButton.setImage(Tex.stat(UICommonResources.button03_square));
+                    propertiesOptions.addChild(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     elementListButton.onLeftClickEvent.subscribeManaged(() -> {
@@ -141,8 +141,8 @@ public class UCEditor extends Renderable {
                         getProperties().hierarchyViewer.showAndEnableInstantly();
                         getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElementData.getComponent(UCEditorDataComponent.class).liveElement);
                     });
-                    elementListButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
-                    propertiesOptions.addItem(elementListButton);
+                    elementListButton.setImage(Tex.stat(UICommonResources.button03_square));
+                    propertiesOptions.addChild(elementListButton);
 
                     TextButton rootPropertiesButton = new TextButton("Root Properties", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     rootPropertiesButton.onLeftClickEvent.subscribeManaged(() -> {
@@ -150,10 +150,10 @@ public class UCEditor extends Renderable {
                         getProperties().propertyEditor.showAndEnableInstantly();
                         getProperties().propertyEditor.setProperties(((UCEditor)getTopParent()).itemTree.rootElementData);
                     });
-                    rootPropertiesButton.setImage(Tex.stat(UICommonResources.itembox_itembg_horizontal));
-                    propertiesOptions.addItem(rootPropertiesButton);
+                    rootPropertiesButton.setImage(Tex.stat(UICommonResources.button03_square));
+                    propertiesOptions.addChild(rootPropertiesButton);
                 }
-                toolbar.addItem(propertiesOptions);
+                toolbar.addChild(propertiesOptions);
             }
             toolbar.setPadding(Padd.px(10));
             addChild(toolbar);
@@ -199,20 +199,20 @@ public class UCEditor extends Renderable {
 
         //region Subclasses
 
-        public static class UC_EP_Toolbox extends VerticalListBox<UCEITemplate> {
+        public static class UC_EP_Toolbox extends VerticalDataBox<UCEITemplate> {
             public UC_EP_Toolbox() {
                 super(Dim.fill(), Dim.fill());
                 setImage(new TextureNoneBinding());
 
                 setSelectionMode(ESelectionMode.SINGLE_NOPERSIST);
 
-                setItems(UCEITemplateManager.getTemplates());
+                setChildren(UCEITemplateManager.getTemplates());
             }
 
             @Override
             public void show() { //replace with onShowed
                 super.show();
-                setItems(UCEITemplateManager.getTemplates());
+                setChildren(UCEITemplateManager.getTemplates());
             }
 
             @Override

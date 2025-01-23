@@ -1,7 +1,7 @@
 package dLib.ui.elements.items;
 
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import dLib.ui.elements.items.itembox.VerticalListBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class SimpleListPicker<OptionType> extends Renderable {
-    private VerticalListBox<OptionType> listBox;
+    private VerticalDataBox<OptionType> listBox;
 
     public Event<Consumer<OptionType>> onOptionSelectedEvent = new Event<>();
 
@@ -24,7 +24,7 @@ public class SimpleListPicker<OptionType> extends Renderable {
         Scrollbox scrollbox = new Scrollbox(Pos.px(35), Pos.px(40), Dim.px(465), Dim.px(250));
         scrollbox.setIsHorizontal(false);
         {
-            listBox = new VerticalListBox<OptionType>(Dim.fill(), Dim.fill()){
+            listBox = new VerticalDataBox<OptionType>(Dim.fill(), Dim.fill()){
                 @Override
                 public void onItemSelectionChanged(ArrayList<OptionType> items) {
                     super.onItemSelectionChanged(items);
@@ -42,7 +42,7 @@ public class SimpleListPicker<OptionType> extends Renderable {
                     return SimpleListPicker.this.itemToString(item);
                 }
             };
-            listBox.setItems(options);
+            listBox.setChildren(options);
             scrollbox.addChild(listBox);
         }
         addChild(scrollbox);

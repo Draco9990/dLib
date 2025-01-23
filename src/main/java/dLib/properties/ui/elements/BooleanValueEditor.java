@@ -26,7 +26,7 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
 
         HorizontalBox box = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
         {
-            box.addItem(new Spacer(Dim.fill(), Dim.px(1)));
+            box.addChild(new Spacer(Dim.fill(), Dim.px(1)));
 
             button = new Checkbox(Dim.mirror(), Dim.px(50)){
                 @Override
@@ -36,7 +36,7 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
                 }
             };
             button.setToggled(property.getValue());
-            box.addItem(button);
+            box.addChild(button);
         }
 
         property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {

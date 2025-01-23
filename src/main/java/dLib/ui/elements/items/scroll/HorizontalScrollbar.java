@@ -34,9 +34,9 @@ public class HorizontalScrollbar extends Scrollbar {
         HorizontalBox elements = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         elements.setItemSpacing(0);
         {
-            elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_left), Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
-            elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_mid), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
-            elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_right), Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
+            elements.addChild(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_left), Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
+            elements.addChild(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_mid), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            elements.addChild(new Renderable(Tex.stat(UICommonResources.scrollbar_horizontal_right), Pos.px(0), Pos.px(0), Dim.px(22), Dim.fill()));
         }
         addChild(elements);
     }

@@ -8,14 +8,11 @@ import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextBox;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
-
-import java.util.function.Consumer;
 
 public class PropertyValueEditor<PropertyType extends TProperty> extends AbstractValueEditor<PropertyType, PropertyType> {
     //region Variables
@@ -90,10 +87,10 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
         TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
         boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
-        vBox.addItem(boundPropertyNameBox);
+        vBox.addChild(boundPropertyNameBox);
 
         buildValueContent(Dim.fill(), Dim.auto());
-        vBox.addItem(contentEditor);
+        vBox.addChild(contentEditor);
         addChild(vBox);
     }
 
@@ -122,10 +119,10 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
         TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.75), Dim.px(50));
         boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
-        hBox.addItem(boundPropertyNameBox);
+        hBox.addChild(boundPropertyNameBox);
 
         buildValueContent(Dim.perc(0.25), Dim.px(50));
-        hBox.addItem(contentEditor);
+        hBox.addChild(contentEditor);
         addChild(hBox);
     }
 

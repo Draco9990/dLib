@@ -35,9 +35,9 @@ public class VerticalScrollbar extends Scrollbar {
         VerticalBox elements = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         elements.setItemSpacing(0);
         {
-            elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_top), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
-            elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_mid), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
-            elements.addItem(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_bottom), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
+            elements.addChild(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_top), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
+            elements.addChild(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_mid), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+            elements.addChild(new Renderable(Tex.stat(UICommonResources.scrollbar_vertical_bottom), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(22)));
         }
         addChild(elements);
     }

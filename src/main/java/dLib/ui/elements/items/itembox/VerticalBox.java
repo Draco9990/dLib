@@ -1,5 +1,6 @@
 package dLib.ui.elements.items.itembox;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.TextureNoneBinding;
@@ -10,7 +11,7 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
-public class VerticalBox extends VerticalListBox<UIElement> {
+public class VerticalBox extends UIItemBox {
     //region Variables
 
     //endregion
@@ -26,37 +27,22 @@ public class VerticalBox extends VerticalListBox<UIElement> {
     public VerticalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
-        disableItemWrapping();
-
-        setSelectionMode(ESelectionMode.NONE);
-        setImage(new TextureNoneBinding());
+        setContentAlignmentType(Alignment.AlignmentType.VERTICAL);
     }
 
     public VerticalBox(VerticalBoxData data) {
         super(data);
 
-        disableItemWrapping(); //TODO move to data after exposing
+        setContentAlignmentType(Alignment.AlignmentType.VERTICAL);
     }
 
     //endregion
 
-    //region Methods
-
-    @Override
-    public UIElement makeUIForItem(UIElement item) {
-        return item;
-    }
-
-    //endregion
-
-    public static class VerticalBoxData extends VerticalListBoxData implements Serializable {
+    public static class VerticalBoxData extends UIItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public VerticalBoxData() {
             super();
-
-            selectionMode.setValue(ESelectionMode.NONE);
-            texture.setValue(new TextureNoneBinding());
         }
 
         @Override

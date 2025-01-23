@@ -21,9 +21,9 @@ public class PercentagePositionValueEditor extends PositionValueEditor<Percentag
             inputfield = new Inputfield(String.valueOf(((PercentagePosition)property.getValue()).getValueRaw()), Dim.fill(), Dim.px(50));
             inputfield.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
             inputfield.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
-            contentBox.addItem(inputfield);
+            contentBox.addChild(inputfield);
 
-            contentBox.addItem(makeSwapComboBox());
+            contentBox.addChild(makeSwapComboBox());
         }
         addChild(contentBox);
 

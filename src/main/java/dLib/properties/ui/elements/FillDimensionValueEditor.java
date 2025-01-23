@@ -19,9 +19,9 @@ public class FillDimensionValueEditor extends DimensionValueEditor<FillDimension
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.auto());
         {
             textBox = new ImageTextBox(property.getValueForDisplay(), Dim.fill(), Dim.px(50));
-            contentBox.addItem(textBox);
+            contentBox.addChild(textBox);
 
-            contentBox.addItem(makeSwapComboBox());
+            contentBox.addChild(makeSwapComboBox());
         }
         addChild(contentBox);
     }

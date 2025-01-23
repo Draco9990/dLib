@@ -8,9 +8,9 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.ItemboxChildComponent;
 import dLib.ui.elements.items.itembox.GridItemBox;
-import dLib.ui.elements.items.itembox.HorizontalListBox;
+import dLib.ui.elements.items.itembox.HorizontalDataBox;
 import dLib.ui.elements.items.itembox.ItemBox;
-import dLib.ui.elements.items.itembox.VerticalListBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.util.ui.position.PercentagePosition;
 import dLib.util.ui.position.PixelPosition;
 
@@ -43,7 +43,7 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
     public int calculateWidth(UIElement self) {
         if(self.getParent() == null) return 1920;
 
-        if((self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
+        if((self.getParent() instanceof HorizontalDataBox) && (self.getParent()).hasChild(self)){
             ItemBox itemBox = self.getParent();
 
             int staticWidth = 0;
@@ -85,7 +85,7 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
     public int calculateHeight(UIElement self) {
         if(self.getParent() == null) return 1080;
 
-        if((self.getParent() instanceof VerticalListBox || self.getParent() instanceof GridItemBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
+        if((self.getParent() instanceof VerticalDataBox || self.getParent() instanceof GridItemBox) && ((ItemBox) self.getParent()).hasChild(self)){
             ItemBox itemBox = self.getParent();
 
             int staticHeight = 0;

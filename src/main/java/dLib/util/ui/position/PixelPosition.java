@@ -7,9 +7,9 @@ import dLib.properties.ui.elements.PixelPositionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.GridItemBox;
-import dLib.ui.elements.items.itembox.HorizontalListBox;
+import dLib.ui.elements.items.itembox.HorizontalDataBox;
 import dLib.ui.elements.items.itembox.ItemBox;
-import dLib.ui.elements.items.itembox.VerticalListBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
@@ -31,7 +31,7 @@ public class PixelPosition extends AbstractStaticPosition implements Serializabl
     @Override
     public int getLocalX(UIElement self) {
         if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT ||
-                (self.getParent() instanceof HorizontalListBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
+                (self.getParent() instanceof HorizontalDataBox) && ((ItemBox) self.getParent()).hasChild(self)){
             return position;
         }
         else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
@@ -75,7 +75,7 @@ public class PixelPosition extends AbstractStaticPosition implements Serializabl
     @Override
     public int getLocalY(UIElement self) {
         if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM ||
-                (self.getParent() instanceof VerticalListBox || self.getParent() instanceof GridItemBox) && ((ItemBox) self.getParent()).containsRenderItem(self)){
+                (self.getParent() instanceof VerticalDataBox || self.getParent() instanceof GridItemBox) && ((ItemBox) self.getParent()).hasChild(self)){
             return position;
         }
         else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){

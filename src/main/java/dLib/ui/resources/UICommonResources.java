@@ -28,10 +28,8 @@ public class UICommonResources implements ITextureSource {
     public static final Texture button01_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/button01/horizontal.png");
 
     public static final NinePatch button02_square = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/button02/square.png"), 45, 45, 45, 45);
-    public static final Texture button02_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/button02/horizontal.png");
 
     public static final NinePatch button03_square = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/button03/square.png"), 53, 53, 53, 53);
-    public static final Texture button03_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/button03/horizontal.png");
 
     public static final Texture alignment_base = ImageMaster.loadImage("dLibResources/images/ui/common/alignment/base.png");
     public static final Texture alignment_leftbottom = ImageMaster.loadImage("dLibResources/images/ui/common/alignment/00.png");
@@ -52,9 +50,6 @@ public class UICommonResources implements ITextureSource {
     public static final Texture scrollbar_vertical_mid = ImageMaster.loadImage("dLibResources/images/ui/common/scrollbar/vertical_mid.png");
     public static final Texture scrollbar_vertical_bottom = ImageMaster.loadImage("dLibResources/images/ui/common/scrollbar/vertical_bottom.png");
     public static final Texture scrollbar_vertical_train = ImageMaster.loadImage("dLibResources/images/ui/common/scrollbar/vertical_train.png");
-
-    public static final Texture itembox_itembg_vertical = ImageMaster.loadImage("dLibResources/images/ui/common/itembox/itembg_vertical.png");
-    public static final Texture itembox_itembg_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/itembox/itembg_horizontal.png");
 
     public static final Texture background_big = ImageMaster.loadImage("dLibResources/images/ui/common/bgs/big.png");
     public static final Texture background_medium = ImageMaster.loadImage("dLibResources/images/ui/common/bgs/medium.png");

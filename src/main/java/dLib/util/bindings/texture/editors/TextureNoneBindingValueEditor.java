@@ -20,9 +20,9 @@ public class TextureNoneBindingValueEditor extends TextureBindingValueEditor<Tex
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             ImageTextBox valueBox = new ImageTextBox("NONE", Dim.fill(), Dim.fill());
-            valueBox.setImage(Tex.stat(UICommonResources.button02_horizontal));
-            contentBox.addItem(valueBox);
-            contentBox.addItem(makeSwapComboBox());
+            valueBox.setImage(Tex.stat(UICommonResources.button02_square));
+            contentBox.addChild(valueBox);
+            contentBox.addChild(makeSwapComboBox());
         }
         addChild(contentBox);
     }

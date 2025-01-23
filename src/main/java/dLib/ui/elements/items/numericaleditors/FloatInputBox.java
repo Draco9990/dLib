@@ -38,16 +38,16 @@ public class FloatInputBox extends UIElement {
             leftArrow = new Button(Dim.mirror(), Dim.fill());
             leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
             leftArrow.setControllerSelectable(false);
-            hBox.addItem(leftArrow);
+            hBox.addChild(leftArrow);
 
             inputbox = new Inputfield("", Dim.fill(), Dim.fill());
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
-            hBox.addItem(inputbox);
+            hBox.addChild(inputbox);
 
             rightArrow = new Button(Dim.mirror(), Dim.fill());
             rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
             rightArrow.setControllerSelectable(false);
-            hBox.addItem(rightArrow);
+            hBox.addChild(rightArrow);
         }
         addChild(hBox);
 

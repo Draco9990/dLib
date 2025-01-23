@@ -37,7 +37,7 @@ public class VerticalCollapsableBox extends UIElement {
         {
             HorizontalBox titleHBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
             {
-                titleHBox.addItem(toggleArrow = new Toggle(Tex.stat(UICommonResources.arrow_right), Tex.stat(UICommonResources.arrow_down), Pos.px(0), Pos.px(0), Dim.px(50), Dim.px(50)));
+                titleHBox.addChild(toggleArrow = new Toggle(Tex.stat(UICommonResources.arrow_right), Tex.stat(UICommonResources.arrow_down), Pos.px(0), Pos.px(0), Dim.px(50), Dim.px(50)));
                 toggleArrow.onLeftClickEvent.subscribeManaged(() -> {
                     if(toggleArrow.isToggled()) {
                         contentBox.showAndEnable();
@@ -47,17 +47,17 @@ public class VerticalCollapsableBox extends UIElement {
                 });
                 toggleArrow.setToggled(true);
 
-                titleHBox.addItem(titleBox = new TextBox(title, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
+                titleHBox.addChild(titleBox = new TextBox(title, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
                 titleBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
             }
             Color renderColor = Color.BLACK.cpy();
             renderColor.a = 0.6f;
             titleHBox.setImage(Tex.stat(UICommonResources.white_pixel));
             titleHBox.setRenderColor(renderColor);
-            mainBox.addItem(titleHBox);
+            mainBox.addChild(titleHBox);
 
             contentBox = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
-            mainBox.addItem(contentBox);
+            mainBox.addChild(contentBox);
         }
         addChild(mainBox);
     }

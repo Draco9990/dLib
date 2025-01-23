@@ -30,8 +30,8 @@ public class UIDebuggerScreen extends UIElement {
             setVerticalAlignment(Alignment.VerticalAlignment.TOP);
             setItemSpacing(30);
 
-            addItem(toolbar = new UIDebuggerToolbar());
-            addItem(elementInfo = new UIDebuggerElementInfo());
+            addChild(toolbar = new UIDebuggerToolbar());
+            addChild(elementInfo = new UIDebuggerElementInfo());
         }
 
         public static class UIDebuggerToolbar extends HorizontalBox {
@@ -42,10 +42,10 @@ public class UIDebuggerScreen extends UIElement {
 
                 setItemSpacing(10);
 
-                addItem(new TextButton("D", Dim.px(50), Dim.px(50)));
+                addChild(new TextButton("D", Dim.px(50), Dim.px(50)));
 
                 TextButton informationButton = new TextButton("i", Dim.px(50), Dim.px(50));
-                addItem(informationButton);
+                addChild(informationButton);
                 informationButton.onLeftClickEvent.subscribeManaged(() -> {
                     UIDebuggerElementList topScreen = getParentOfType(UIDebuggerElementList.class);
                     if(topScreen.elementInfo.isVisible()){

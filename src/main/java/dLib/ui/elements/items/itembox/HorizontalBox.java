@@ -1,5 +1,6 @@
 package dLib.ui.elements.items.itembox;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.TextureNoneBinding;
@@ -10,7 +11,7 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
-public class HorizontalBox extends HorizontalListBox<UIElement> {
+public class HorizontalBox extends UIItemBox {
     //region Variables
 
     //endregion
@@ -26,37 +27,22 @@ public class HorizontalBox extends HorizontalListBox<UIElement> {
     public HorizontalBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
-        disableItemWrapping();
-
-        setSelectionMode(ESelectionMode.NONE);
-        setImage(new TextureNoneBinding());
+        setContentAlignmentType(Alignment.AlignmentType.HORIZONTAL);
     }
 
     public HorizontalBox(HorizontalBoxData data) {
         super(data);
 
-        disableItemWrapping(); //TODO move to data after exposing
+        setContentAlignmentType(Alignment.AlignmentType.HORIZONTAL);
     }
 
     //endregion
 
-    //region Methods
-
-    @Override
-    public UIElement makeUIForItem(UIElement item) {
-        return item;
-    }
-
-    //endregion
-
-    public static class HorizontalBoxData extends HorizontalListBoxData implements Serializable {
+    public static class HorizontalBoxData extends UIItemBox.UIItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public HorizontalBoxData() {
             super();
-
-            selectionMode.setValue(ESelectionMode.NONE);
-            texture.setValue(new TextureNoneBinding());
         }
 
         @Override

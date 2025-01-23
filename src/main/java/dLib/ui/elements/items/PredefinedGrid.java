@@ -42,9 +42,9 @@ public class PredefinedGrid extends UIElement {
         for(int i = 0; i < rowCount; i++){
             rows[i] = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             for(int j = 0; j < columnCount; j++){
-                rows[i].addItem(new UIElement(Dim.fill(), Dim.fill()));
+                rows[i].addChild(new UIElement(Dim.fill(), Dim.fill()));
             }
-            mainColumn.addItem(rows[i]);
+            mainColumn.addChild(rows[i]);
         }
         addChild(mainColumn);
     }

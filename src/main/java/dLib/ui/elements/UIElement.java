@@ -74,6 +74,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     protected UIElement parent;
     protected List<UIElement> children = new ArrayList<>();
+    public ConsumerEvent<UIElement> onChildAddedEvent = new ConsumerEvent<>();
+    public ConsumerEvent<UIElement> onChildRemovedEvent = new ConsumerEvent<>();
+    public RunnableEvent onChildrenChangedEvent = new RunnableEvent();
     public RunnableEvent onHierarchyChangedEvent = new RunnableEvent();
 
     public String rootOwnerId;
@@ -701,6 +704,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         this.children.add(child);
         child.setParent(this);
+        onChildAddedEvent.invoke(child);
         onChildrenChanged();
     }
     public void setChildren(ArrayList<UIElement> children){
@@ -716,6 +720,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         this.children.add(index, child);
         child.setParent(this);
+        onChildAddedEvent.invoke(child);
         onChildrenChanged();
     }
 
@@ -730,6 +735,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void removeChild(UIElement child){
         if(children.remove(child)){
             child.setParent(null);
+            onChildRemovedEvent.invoke(child);
             onChildrenChanged();
         }
     }
@@ -744,11 +750,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         original.dispose();
 
         replacement.setParent(this);
+        onChildRemovedEvent.invoke(original);
+        onChildAddedEvent.invoke(replacement);
         onChildrenChanged();
     }
     public void clearChildren(){
         for(UIElement child : children){
             child.setParent(null);
+            onChildRemovedEvent.invoke(child);
         }
         children.clear();
         onChildrenChanged();
@@ -757,6 +766,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected void onChildrenChanged(){
         invalidateCachesForElementTree();
         onHierarchyChangedEvent.invoke();
+        onChildrenChangedEvent.invoke();
     }
 
     public UIElement getFirstChild(){

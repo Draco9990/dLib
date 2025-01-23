@@ -95,6 +95,7 @@ public class Toggle extends Interactable {
                     colorToRender = toggledDisabledColor.cpy();
                     if(toggledDisabledColorMultiplier != 1.0f){
                         colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - toggledDisabledColorMultiplier);
+                        return colorToRender;
                     }
                 }
             }
@@ -103,6 +104,7 @@ public class Toggle extends Interactable {
                     colorToRender = toggledHoveredColor.cpy();
                     if(toggledHoveredColorMultiplier != 1.0f){
                         colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - toggledHoveredColorMultiplier);
+                        return colorToRender;
                     }
                 }
             }
@@ -112,6 +114,27 @@ public class Toggle extends Interactable {
         }
 
         return super.getColorForRender();
+    }
+
+    public void setToggledColor(Color color){
+        this.toggledColor = color;
+    }
+    public void setToggledColorMultiplier(float multiplier){
+        this.toggledColorMultiplier = multiplier;
+    }
+
+    public void setToggledHoveredColor(Color color){
+        this.toggledHoveredColor = color;
+    }
+    public void setToggledHoveredColorMultiplier(float multiplier){
+        this.toggledHoveredColorMultiplier = multiplier;
+    }
+
+    public void setToggledDisabledColor(Color color){
+        this.toggledDisabledColor = color;
+    }
+    public void setToggledDisabledColorMultiplier(float multiplier){
+        this.toggledDisabledColorMultiplier = multiplier;
     }
 
     //endregion

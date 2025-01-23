@@ -25,7 +25,7 @@ public class PasswordBox extends UIElement {
             inputfield.textBox.setFont(Font.stat(FontHelper.cardTitleFont));
             inputfield.textBox.setTextRenderColor(Color.WHITE);
             inputfield.textBox.setObscureText(true);
-            box.addItem(inputfield);
+            box.addChild(inputfield);
 
             showPasswordButton = new Button(Pos.px(0), Pos.px(0), Dim.mirror(), Dim.fill());
             showPasswordButton.setImage(Tex.stat("dLibResources/images/ui/common/peekButton.png"));
@@ -35,7 +35,7 @@ public class PasswordBox extends UIElement {
             showPasswordButton.onLeftClickReleaseEvent.subscribeManaged(() -> {
                 inputfield.textBox.setObscureText(true);
             });
-            box.addItem(showPasswordButton);
+            box.addChild(showPasswordButton);
 
             addChild(box);
         }

@@ -34,6 +34,11 @@ public class Alignment implements IEditableValue, Serializable {
         return new AlignmentValueEditor((AlignmentProperty) property);
     }
 
+    public enum AlignmentType {
+        HORIZONTAL,
+        VERTICAL
+    }
+
     public enum HorizontalAlignment {
         LEFT,
         CENTER,
