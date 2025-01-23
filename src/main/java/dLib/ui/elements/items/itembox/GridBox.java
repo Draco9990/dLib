@@ -1,5 +1,6 @@
 package dLib.ui.elements.items.itembox;
 
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.TextureNoneBinding;
@@ -8,32 +9,56 @@ import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
 
-public class GridBox extends GridItemBox<UIElement> {
+public class GridBox extends UIItemBox {
     public GridBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
-        disableItemWrapping();
+        setContentAlignmentType(Alignment.AlignmentType.VERTICAL);
     }
 
     public GridBox(GridBoxData data){
         super(data);
 
-        disableItemWrapping(); //TODO move to data after exposing
+        setContentAlignmentType(Alignment.AlignmentType.VERTICAL);
     }
 
     @Override
-    public UIElement makeUIForItem(UIElement item) {
-        return item;
+    protected void updateListVerticalBottomTop() {
     }
 
-    public static class GridBoxData extends GridItemBoxData implements Serializable {
+    @Override
+    protected void updateListVerticalCentered() {
+    }
+
+    @Override
+    protected void updateListVerticalTopBottom() {
+        int currentYPos = getHeight();
+        int currentXPos = 0;
+
+        for(UIElement child : children){
+            if(!child.isActive()){
+                continue;
+            }
+
+            if(currentXPos + child.getWidth() + itemSpacing > getWidth()){
+                currentXPos = 0;
+
+                currentYPos -= child.getHeight();
+                currentYPos -= itemSpacing;
+                currentYPos -= child.getPaddingBottom();
+            }
+
+            child.setLocalPosition(currentXPos, currentYPos - child.getHeight());
+
+            currentXPos += child.getWidth() + itemSpacing + child.getPaddingRight();
+        }
+    }
+
+    public static class GridBoxData extends UIItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public GridBoxData() {
             super();
-
-            selectionMode.setValue(ESelectionMode.NONE);
-            texture.setValue(new TextureNoneBinding());
         }
 
         @Override

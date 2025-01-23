@@ -84,7 +84,7 @@ public abstract class ItemBox extends Renderable {
         }
     }
 
-    private void updateListVerticalBottomTop(){
+    protected void updateListVerticalBottomTop(){
         int currentYPos = 0;
 
         for(UIElement child : filteredChildren){
@@ -100,10 +100,10 @@ public abstract class ItemBox extends Renderable {
             currentYPos += child.getPaddingTop();
         }
     }
-    private void updateListVerticalCentered(){
+    protected void updateListVerticalCentered(){
 
     }
-    private void updateListVerticalTopBottom(){
+    protected void updateListVerticalTopBottom(){
         int currentYPos = getHeight();
 
         for(UIElement child : filteredChildren){
@@ -120,7 +120,7 @@ public abstract class ItemBox extends Renderable {
         }
     }
 
-    private void updateListHorizontalLeftRight(){
+    protected void updateListHorizontalLeftRight(){
         int currentXPos = 0;
 
         for(UIElement child : filteredChildren){
@@ -136,10 +136,10 @@ public abstract class ItemBox extends Renderable {
             currentXPos += child.getPaddingRight();
         }
     }
-    private void updateListHorizontalCentered(){
+    protected void updateListHorizontalCentered(){
 
     }
-    private void updateListHorizontalRightLeft(){
+    protected void updateListHorizontalRightLeft(){
 
     }
 

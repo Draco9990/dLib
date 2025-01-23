@@ -11,7 +11,7 @@ import dLib.util.ui.position.AbstractPosition;
 import java.io.Serializable;
 
 //Gridboxes do not support elements that change their size after being added. All GridBox items must be identical in dimensions. This is a TODO.
-public class GridItemBox<ItemType> extends ItemBox<ItemType> {
+public class GridItemBox<ItemType> extends DataItemBox<ItemType> {
     //region Variables
 
     //endregion
@@ -21,16 +21,18 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType> {
     public GridItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
+        setContentAlignmentType(Alignment.AlignmentType.VERTICAL);
+
         defaultItemHeight = 75;
         defaultItemWidth = 75;
 
         itemSpacing = 5;
-
-        setVerticalContentAlignment(Alignment.VerticalAlignment.TOP);
     }
 
     public GridItemBox(GridItemBoxData data){
         super(data);
+
+        setContentAlignmentType(Alignment.AlignmentType.VERTICAL);
     }
 
     //endregion
@@ -40,42 +42,34 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType> {
     //region Update & Render
 
     @Override
-    public void updateSelf() {
-        super.updateSelf();
-
-        if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM) updateListBottomTop();
-        else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) updateListCentered();
-        else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP) updateListTopBottom();
+    protected void updateListVerticalBottomTop() {
     }
 
-    private void updateListBottomTop(){
-
+    @Override
+    protected void updateListVerticalCentered() {
     }
 
-    private void updateListCentered(){
-
-    }
-
-    private void updateListTopBottom(){
+    @Override
+    protected void updateListVerticalTopBottom() {
         int currentYPos = getHeight();
         int currentXPos = 0;
 
-        for(ItemBoxItem item : items){
-            if(!item.renderForItem.isActive()){
+        for(UIElement child : children){
+            if(!child.isActive()){
                 continue;
             }
 
-            if(currentXPos + item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight() > getWidth()){
+            if(currentXPos + child.getWidth() + itemSpacing > getWidth()){
                 currentXPos = 0;
 
-                currentYPos -= item.renderForItem.getHeight();
+                currentYPos -= child.getHeight();
                 currentYPos -= itemSpacing;
-                currentYPos -= item.renderForItem.getPaddingBottom();
+                currentYPos -= child.getPaddingBottom();
             }
 
-            item.renderForItem.setLocalPosition(currentXPos, currentYPos - item.renderForItem.getHeight());
+            child.setLocalPosition(currentXPos, currentYPos - child.getHeight());
 
-            currentXPos += item.renderForItem.getWidth() + itemSpacing + item.renderForItem.getPaddingRight();
+            currentXPos += child.getWidth() + itemSpacing + child.getPaddingRight();
         }
     }
 
@@ -83,20 +77,9 @@ public class GridItemBox<ItemType> extends ItemBox<ItemType> {
 
     //region Item Management
 
-    //region Item UI
-
-    @Override
-    public UIElement makeUIForItem(ItemType item) {
-        ImageTextBox box = (ImageTextBox) super.makeUIForItem(item);
-        box.setImage(Tex.stat(UICommonResources.button03_square));
-        return box;
-    }
-
     //endregion
 
-    //endregion
-
-    public static class GridItemBoxData extends ItemBoxData implements Serializable {
+    public static class GridItemBoxData extends DataItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override
