@@ -108,8 +108,9 @@ public class Renderable extends UIElement {
             sb.getShader().setUniformf("u_hueShift", (hueShiftAmount / 255f) * 2 * 3.14f);
         }
 
-        NinePatch ninePatchToRender = getTextureForRender();
-        if (ninePatchToRender != null) {
+        NinePatch texture = getTextureForRender();
+        if(texture != null){
+            NinePatch ninePatchToRender = new NinePatch(texture);
             int textureWidth = ninePatchToRender.getTexture().getWidth();
             int textureHeight = ninePatchToRender.getTexture().getHeight();
 
@@ -117,6 +118,18 @@ public class Renderable extends UIElement {
             float renderPosY = getWorldPositionY() * Settings.yScale;
             float renderWidth = getWidth() * Settings.xScale;
             float renderHeight = getHeight() * Settings.yScale;
+
+            float rescaleX = 1.0f;
+            float rescaleY = 1.0f;
+            if(textureWidth > renderWidth){
+                rescaleX = renderWidth / textureWidth;
+            }
+            if(textureHeight > renderHeight){
+                rescaleY = renderHeight / textureHeight;
+            }
+            float min = Math.min(rescaleX, rescaleY);
+
+            ninePatchToRender.scale(min, min);
 
             // Preserve aspect ratio
             if (isPreservingAspectRatio()) {

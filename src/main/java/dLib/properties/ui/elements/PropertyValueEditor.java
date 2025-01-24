@@ -64,7 +64,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
     private void buildMultiline(){
         VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
-            @Override
+            /*@Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
@@ -81,7 +81,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
                 item.addChild(hoverable);
 
                 return item;
-            }
+            }*/ //TODO
         };
         vBox.setPadding(Padd.px(15), Padd.px(0));
 
@@ -96,7 +96,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
     private void buildSingleLine(){
         HorizontalBox hBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
-            @Override
+            /*@Override
             public UIElement wrapUIForItem(UIElement item) {
                 UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
                     @Override
@@ -113,7 +113,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
                 item.addChild(hoverable);
 
                 return item;
-            }
+            }*/ //TODO
         };
         hBox.setPadding(Padd.px(15), Padd.px(0));
 

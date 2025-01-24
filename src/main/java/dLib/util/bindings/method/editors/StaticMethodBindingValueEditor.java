@@ -77,7 +77,7 @@ public class StaticMethodBindingValueEditor extends MethodBindingValueEditor<Sta
     }
 
     private void buildStaticBindingPropertiesBox(TMethodBindingProperty<? extends TMethodBindingProperty> property){
-        methodBindingArgumentsBox.clearItems();
+        methodBindingArgumentsBox.clearChildren();
 
         for(TProperty<?, ?> param : ((StaticMethodBinding)property.getValue()).getDeclaredParams()){
             if(!param.isVisible()) continue;

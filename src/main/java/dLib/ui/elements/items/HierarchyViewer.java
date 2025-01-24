@@ -29,12 +29,10 @@ public class HierarchyViewer extends VerticalBox {
 
     public HierarchyViewer() {
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-
-        disableItemWrapping();
     }
 
     public void loadForElement(UIElement element){
-        clearItems();
+        clearChildren();
         if(element == null) return;
 
         this.forElement = element;

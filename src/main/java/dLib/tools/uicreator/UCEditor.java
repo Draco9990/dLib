@@ -104,10 +104,8 @@ public class UCEditor extends Renderable {
             HorizontalBox toolbar = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
                 VerticalBox mainOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill());
-                mainOptions.setDefaultItemHeight(30);
                 mainOptions.setImage(new TextureNoneBinding());
                 mainOptions.setItemSpacing(10);
-                mainOptions.disableItemWrapping();
                 {
                     TextButton toolboxButton = new TextButton("Close", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     toolboxButton.onLeftClickEvent.subscribeManaged(() -> {
@@ -120,10 +118,8 @@ public class UCEditor extends Renderable {
                 toolbar.addChild(new Spacer(Dim.px(10), Dim.fill()));
 
                 VerticalBox propertiesOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill());
-                propertiesOptions.setDefaultItemHeight(30);
                 propertiesOptions.setImage(new TextureNoneBinding());
                 propertiesOptions.setItemSpacing(10);
-                propertiesOptions.disableItemWrapping();
                 {
                     TextButton toolboxButton = new TextButton("Toolbox", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     toolboxButton.onLeftClickEvent.subscribeManaged(() -> {
@@ -216,9 +212,10 @@ public class UCEditor extends Renderable {
             }
 
             @Override
-            public void onItemSelectionChanged(ArrayList<UCEITemplate> items) {
-                super.onItemSelectionChanged(items);
+            public void onItemSelectionChanged() {
+                super.onItemSelectionChanged();
 
+                ArrayList<UCEITemplate> items = getCurrentlySelectedItems();
                 if(!items.isEmpty()){
                     UIElementData elementData = items.get(0).makeElementData();
                     items.get(0).makeEditorItem(elementData);

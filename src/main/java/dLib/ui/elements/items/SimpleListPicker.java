@@ -26,11 +26,12 @@ public class SimpleListPicker<OptionType> extends Renderable {
         {
             listBox = new VerticalDataBox<OptionType>(Dim.fill(), Dim.fill()){
                 @Override
-                public void onItemSelectionChanged(ArrayList<OptionType> items) {
-                    super.onItemSelectionChanged(items);
+                public void onItemSelectionChanged() {
+                    super.onItemSelectionChanged();
 
-                    if(!items.isEmpty()){
-                        onOptionSelectedEvent.invoke(optionTypeConsumer -> optionTypeConsumer.accept(items.get(0)));
+                    ArrayList<OptionType> selectedItems = getCurrentlySelectedItems();
+                    if(!selectedItems.isEmpty()){
+                        onOptionSelectedEvent.invoke(optionTypeConsumer -> optionTypeConsumer.accept(selectedItems.get(0)));
 
                         SimpleListPicker parent = getParentOfType(SimpleListPicker.class);
                         parent.close();

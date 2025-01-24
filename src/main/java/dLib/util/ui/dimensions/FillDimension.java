@@ -6,7 +6,6 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.FillDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.components.ItemboxChildComponent;
 import dLib.ui.elements.items.itembox.GridItemBox;
 import dLib.ui.elements.items.itembox.HorizontalDataBox;
 import dLib.ui.elements.items.itembox.ItemBox;
@@ -43,16 +42,12 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
     public int calculateWidth(UIElement self) {
         if(self.getParent() == null) return 1920;
 
-        if((self.getParent() instanceof HorizontalDataBox) && (self.getParent()).hasChild(self)){
+        if(self.getParent() instanceof ItemBox && ((ItemBox)self.getParent()).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
             ItemBox itemBox = self.getParent();
 
             int staticWidth = 0;
             int fillElementCount = 0;
             for(UIElement sibling : self.getParent().getChildren()){
-                if(!sibling.hasComponent(ItemboxChildComponent.class)){
-                    continue;
-                }
-
                 if(!(sibling.getWidthRaw() instanceof FillDimension)){ //* Implies sibling != self
                     staticWidth += sibling.getWidth();
                 }
@@ -85,16 +80,12 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
     public int calculateHeight(UIElement self) {
         if(self.getParent() == null) return 1080;
 
-        if((self.getParent() instanceof VerticalDataBox || self.getParent() instanceof GridItemBox) && ((ItemBox) self.getParent()).hasChild(self)){
+        if(self.getParent() instanceof ItemBox && ((ItemBox)self.getParent()).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
             ItemBox itemBox = self.getParent();
 
             int staticHeight = 0;
             int fillElementCount = 0;
             for(UIElement sibling : self.getParent().getChildren()){
-                if(!sibling.hasComponent(ItemboxChildComponent.class)){
-                    continue;
-                }
-
                 if(!(sibling.getHeightRaw() instanceof FillDimension)){ //* Implies sibling != self
                     staticHeight += sibling.getHeight();
                 }

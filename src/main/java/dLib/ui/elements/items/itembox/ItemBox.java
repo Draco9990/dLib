@@ -206,6 +206,9 @@ public abstract class ItemBox extends Renderable {
     protected void setContentAlignmentType(Alignment.AlignmentType alignmentType){
         this.alignmentType = alignmentType;
     }
+    public Alignment.AlignmentType getContentAlignmentType(){
+        return alignmentType;
+    }
 
     public void setHorizontalContentAlignment(Alignment.HorizontalAlignment horizontalAlignment){
         this.horizontalContentAlignment = horizontalAlignment;

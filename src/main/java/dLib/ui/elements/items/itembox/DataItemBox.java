@@ -6,9 +6,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.components.ItemboxChildComponent;
 import dLib.ui.elements.items.Toggle;
-import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
@@ -17,10 +15,10 @@ import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
-import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 import java.util.*;
@@ -46,6 +44,10 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     protected Integer defaultItemHeight = null;
 
     private boolean disableItemWrapping = false;
+
+    public ConsumerEvent<ItemType> onItemAddedEvent = new ConsumerEvent<>();
+    public ConsumerEvent<ItemType> onItemRemovedEvent = new ConsumerEvent<>();
+
     //endregion
 
     //region Constructors
@@ -63,7 +65,14 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         this.canReorder = data.canReorder;
     }
 
-    //endregion
+    @Override
+    public void registerCommonEvents() {
+        super.registerCommonEvents();
+
+        onChildAddedEvent.subscribeManaged(element -> onItemAddedEvent.invoke(childWrapperMap.getByKey(element)));
+        onChildRemovedEvent.subscribeManaged(element -> onItemRemovedEvent.invoke(childWrapperMap.getByKey(element)));
+    }
+//endregion
 
     //region Methods
 
@@ -92,7 +101,6 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         toAdd = wrapUIForItem(item);
 
         toAdd.setElementMask(this);
-        toAdd.addComponent(new ItemboxChildComponent());
 
         return toAdd;
     }
@@ -170,10 +178,6 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         ItemType item = childWrapperMap.getByKey(original);
         childWrapperMap.removeByKey(original);
         childWrapperMap.put(replacement, item);
-
-        if(!replacement.hasComponent(ItemboxChildComponent.class)){
-            replacement.addComponent(new ItemboxChildComponent());
-        }
     }
 
     //endregion
@@ -196,8 +200,11 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     }
 
-    public final UIElement wrapUIForItem(ItemType item){
+    private UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = makeUIForItem(item);
+        if(disableItemWrapping){
+            return itemUI;
+        }
 
         Toggle overlay = new Toggle(new TextureNoneBinding(), Dim.fill(), Dim.fill()){
             @Override
@@ -299,6 +306,14 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 wrapOverlay.toggle();
             }
         }
+    }
+
+    //endregion
+
+    //region Item Wrapping
+
+    public void disableItemWrapping(){
+        disableItemWrapping = true;
     }
 
     //endregion
