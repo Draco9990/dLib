@@ -206,7 +206,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             return itemUI;
         }
 
-        Toggle overlay = new Toggle(new TextureNoneBinding(), Dim.fill(), Dim.fill()){
+        Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), Dim.fill(), Dim.fill()){
             @Override
             public void toggle() {
                 if(isToggled() || trySelectItem(item)){

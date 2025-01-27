@@ -26,6 +26,20 @@ public abstract class UIItemBox extends ItemBox {
 
     //region Item Management
 
+    @Override
+    public void addChild(UIElement child) {
+        super.addChild(child);
+
+        child.setElementMask(this);
+    }
+
+    @Override
+    public void insertChild(int index, UIElement child) {
+        super.insertChild(index, child);
+
+        child.setElementMask(this);
+    }
+
     public void updateChildren(ArrayList<UIElement> items){
         ArrayList<UIElement> itemsToAdd = new ArrayList<>(items);
         ArrayList<UIElement> originalChildren = new ArrayList<>(children);

@@ -98,7 +98,7 @@ public class UCEditor extends Renderable {
 
     public static class UC_EditorToolbar extends Renderable{
         public UC_EditorToolbar() {
-            super(Tex.stat(UICommonResources.white_pixel), Dim.perc(100), Dim.fill());
+            super(Tex.stat(UICommonResources.white_pixel), Dim.fill(), Dim.fill());
             setRenderColor(DARK_GRAY);
 
             HorizontalBox toolbar = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
