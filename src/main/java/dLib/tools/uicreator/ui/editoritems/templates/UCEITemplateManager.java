@@ -7,6 +7,7 @@ import dLib.ui.elements.items.itembox.GridItemBox;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.scroll.HorizontalScrollbar;
+import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.scroll.VerticalScrollbar;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.elements.items.text.TextButton;
@@ -29,6 +30,8 @@ public class UCEITemplateManager {
 
         templates.put(VerticalScrollbar.VerticalScrollbarData.class, new UCEITVerticalScrollbar());
         templates.put(HorizontalScrollbar.HorizontalScrollbarData.class, new UCEITHorizontalScrollbar());
+
+        templates.put(Scrollbox.ScrollboxData.class, new UCEITScrollbox());
     }
 
     public static ArrayList<UCEITemplate> getTemplates(){

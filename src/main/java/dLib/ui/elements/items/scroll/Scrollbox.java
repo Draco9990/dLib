@@ -1,5 +1,10 @@
 package dLib.ui.elements.items.scroll;
 
+import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.Property;
+import dLib.ui.bindings.AbstractUIElementBinding;
+import dLib.ui.bindings.UIElementRelativePathBinding;
+import dLib.ui.bindings.UIElementUndefinedRelativePathBinding;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.itembox.HorizontalBox;
@@ -10,6 +15,7 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
+import java.util.function.Function;
 
 public class Scrollbox extends UIElement {
     //region Variables
@@ -56,10 +62,14 @@ public class Scrollbox extends UIElement {
     public Scrollbox(ScrollboxData data) {
         super(data);
 
-        mainBox = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-        verticalScroll = new VerticalScrollbar(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        isVertical = data.isVertical.getValue();
+        isHorizontal = data.isHorizontal.getValue();
+
+        mainBox = findChildById("contentBox");
+
+        verticalScroll = findChildById("verticalScrollbar");
         verticalScroll.setBoundElement(mainBox);
-        horizontalScroll = new HorizontalScrollbar(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        horizontalScroll = findChildById("horizontalScrollbar");
         horizontalScroll.setBoundElement(mainBox);
 
         reinitChildLayout();
@@ -176,6 +186,38 @@ public class Scrollbox extends UIElement {
 
     public static class ScrollboxData extends UIElementData implements Serializable {
         public static float serialVersionUID = 1L;
+
+        public UIElementData contentBox = new UIElementData();
+        public VerticalScrollbar.VerticalScrollbarData verticalScrollbar = new VerticalScrollbar.VerticalScrollbarData();
+        public HorizontalScrollbar.HorizontalScrollbarData horizontalScrollbar = new HorizontalScrollbar.HorizontalScrollbarData();
+
+        public BooleanProperty isVertical = new BooleanProperty(true)
+                .setName("Vertical")
+                .setDescription("Whether the scrollbox should scroll vertically")
+                .setCategory("Scrollbox");
+
+        public BooleanProperty isHorizontal = new BooleanProperty(true)
+                .setName("Horizontal")
+                .setDescription("Whether the scrollbox should scroll horizontally")
+                .setCategory("Scrollbox");
+
+        public ScrollboxData(){
+            width.setValue(Dim.px(300));
+            height.setValue(Dim.px(300));
+
+            contentBox.id.setValue("contentBox");
+            children.add(contentBox);
+
+            //TODO we need to add the temp vbox and hbox generated elements as children otherwise we get a crash. yipee.
+
+            verticalScrollbar.id.setValue("verticalScrollbar");
+            verticalScrollbar.boundElement.addIsPropertyVisibleFunction(abstractUIElementBindingProperty -> false);
+            children.add(verticalScrollbar);
+
+            horizontalScrollbar.id.setValue("horizontalScrollbar");
+            horizontalScrollbar.boundElement.addIsPropertyVisibleFunction(abstractUIElementBindingProperty -> false);
+            children.add(horizontalScrollbar);
+        }
 
         @Override
         public UIElement makeUIElement_internal() {

@@ -147,6 +147,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public BiConsumerEvent<UIElement, Float> onHoverTickChildEvent = new BiConsumerEvent<>();
     public ConsumerEvent<UIElement> onUnhoveredChildEvent = new ConsumerEvent<>();
 
+                                                                                                                        public static ConsumerEvent<UIElement> preLeftClickGlobalEvent = new ConsumerEvent<>();
     public RunnableEvent onLeftClickEvent = new RunnableEvent();
     public ConsumerEvent<Float> onLeftClickHeldEvent = new ConsumerEvent<>();
     public RunnableEvent onLeftClickReleaseEvent = new RunnableEvent();
@@ -285,8 +286,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         registerCommonEvents();
 
-        GlobalEvents.subscribe(this, PreUILeftClickEvent.class, (event) -> {
-            if(this.isContextual() && event.source != this && !event.source.isDescendantOf(this)){
+        preLeftClickGlobalEvent.subscribe(this, (element) -> {
+            if(this.isContextual() && element != this && !element.isDescendantOf(this)){
                 dispose();
             }
         });
@@ -805,10 +806,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return null;
     }
 
-    public UIElement findChildById(String elementId){
+    public <T extends UIElement> T findChildById(String elementId){
         for(UIElement child : children){
             if(child.getId().equals(elementId)){
-                return child;
+                return (T) child;
             }
         }
 
@@ -1650,6 +1651,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         setDimensions(widthCopy, heightCopy);
     }
 
+    public void setPositionAndDimensionsFromWorldBounds(PositionBounds bounds){
+
+    }
+
     //endregion
 
     //region Animations
@@ -2020,6 +2025,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void removeComponent(AbstractUIElementComponent component){
         components.remove(component);
         component.onUnregisterComponent(this);
+        component.dispose();
     }
 
     public <T extends AbstractUIElementComponent> T getComponent(Class<T> componentClass){
@@ -2106,6 +2112,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void onLeftClick(){
+        preLeftClickGlobalEvent.invoke(this);
         GlobalEvents.sendMessage(new PreUILeftClickEvent(this));
 
         totalLeftClickDuration = 0.f;

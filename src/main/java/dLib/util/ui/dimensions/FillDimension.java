@@ -42,12 +42,25 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
     public int calculateWidth(UIElement self) {
         if(self.getParent() == null) return 1920;
 
+        int parentWidth = 1920;
+        UIElement parent = self.getParent();
+        while(parent.getWidthRaw() instanceof AutoDimension){
+            parent = parent.getParent();
+            if(parent == null){
+                break;
+            }
+        }
+
+        if(parent != null){
+            parentWidth = parent.getWidth();
+        }
+
         if(self.getParent() instanceof ItemBox && ((ItemBox)self.getParent()).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
             ItemBox itemBox = self.getParent();
 
             int staticWidth = 0;
             int fillElementCount = 0;
-            for(UIElement sibling : self.getParent().getChildren()){
+            for(UIElement sibling : ((ItemBox) self.getParent()).getActiveChildren()){
                 if(!(sibling.getWidthRaw() instanceof FillDimension)){ //* Implies sibling != self
                     staticWidth += sibling.getWidth();
                 }
@@ -58,12 +71,12 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
                 staticWidth += sibling.getPaddingLeft() + sibling.getPaddingRight();
             }
 
-            staticWidth += (self.getParent().getChildren().size() -1 ) * itemBox.getItemSpacing();
+            staticWidth += (((ItemBox) self.getParent()).getActiveChildren().size() -1 ) * itemBox.getItemSpacing();
 
-            return Math.max((int) ((self.getParent().getWidth() - staticWidth) / (float) fillElementCount), 1);
+            return Math.max((int) ((parentWidth - staticWidth) / (float) fillElementCount), 1);
         }
         else{
-            int maxWidth = self.getParent().getWidth() - self.getLocalPositionX();
+            int maxWidth = parentWidth - self.getLocalPositionX();
             if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
                 if(self.getLocalPositionXRaw() instanceof PixelPosition){
                     maxWidth -= ((PixelPosition) self.getLocalPositionXRaw()).getValueRaw();
@@ -80,12 +93,25 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
     public int calculateHeight(UIElement self) {
         if(self.getParent() == null) return 1080;
 
+        int parentHeight = 1080;
+        UIElement parent = self.getParent();
+        while(parent.getHeightRaw() instanceof AutoDimension){
+            parent = parent.getParent();
+            if(parent == null){
+                break;
+            }
+        }
+
+        if(parent != null){
+            parentHeight = parent.getHeight();
+        }
+
         if(self.getParent() instanceof ItemBox && ((ItemBox)self.getParent()).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
             ItemBox itemBox = self.getParent();
 
             int staticHeight = 0;
             int fillElementCount = 0;
-            for(UIElement sibling : self.getParent().getChildren()){
+            for(UIElement sibling : ((ItemBox) self.getParent()).getActiveChildren()){
                 if(!(sibling.getHeightRaw() instanceof FillDimension)){ //* Implies sibling != self
                     staticHeight += sibling.getHeight();
                 }
@@ -96,12 +122,12 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
                 staticHeight += sibling.getPaddingTop() + sibling.getPaddingBottom();
             }
 
-            staticHeight += (self.getParent().getChildren().size() -1 ) * itemBox.getItemSpacing();
+            staticHeight += (((ItemBox) self.getParent()).getActiveChildren().size() -1 ) * itemBox.getItemSpacing();
 
-            return Math.max((int) ((self.getParent().getHeight() - staticHeight) / (float) fillElementCount), 1);
+            return Math.max((int) ((parentHeight - staticHeight) / (float) fillElementCount), 1);
         }
         else{
-            int maxHeight = self.getParent().getHeight() - self.getLocalPositionY();
+            int maxHeight = parentHeight - self.getLocalPositionY();
             if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
                 if(self.getLocalPositionYRaw() instanceof PixelPosition){
                     maxHeight -= ((PixelPosition) self.getLocalPositionYRaw()).getValueRaw();

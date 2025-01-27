@@ -9,6 +9,7 @@ import dLib.tools.uicreator.ui.elements.UCEHierarchyViewer;
 import dLib.tools.uicreator.ui.elements.UCEPropertyEditor;
 import dLib.ui.Alignment;
 import dLib.ui.DLibUIElements;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.components.UIZoomableComponent;
 import dLib.ui.elements.items.Renderable;
@@ -77,7 +78,10 @@ public class UCEditor extends Renderable {
         mainBox.setPadding(Padd.px(10));
         addChild(mainBox);
 
-        itemTree = new UCEditorItemTree(canvas);
+        UIElement canvasChild = new UIElement(Pos.px(0), Pos.px(0), Dim.px((int) (1920 * 0.8f)), Dim.px((int) (1080 * 0.8f)));
+        canvasChild.setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER);
+        canvas.addChild(canvasChild);
+        itemTree = new UCEditorItemTree(canvasChild);
     }
 
     //region Methods

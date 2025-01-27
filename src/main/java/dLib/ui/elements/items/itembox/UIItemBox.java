@@ -1,6 +1,7 @@
 package dLib.ui.elements.items.itembox;
 
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
@@ -64,6 +65,27 @@ public abstract class UIItemBox extends ItemBox {
     //endregion
 
     //region Item Management Overrides
+
+    //endregion
+
+    //region Filters
+
+    @Override
+    public void refilterItems(){
+        filteredChildren.clear();
+
+        for(UIElement child : children){
+            if(!filterCheck(filterText, child)){
+                continue;
+            }
+
+            filteredChildren.add(child);
+        }
+    }
+
+    protected boolean filterCheck(String filterText, UIElement item){
+        return item.toString().toLowerCase(Locale.ROOT).contains(filterText.toLowerCase(Locale.ROOT)) && !item.hasComponent(UITransientElementComponent.class);
+    }
 
     //endregion
 

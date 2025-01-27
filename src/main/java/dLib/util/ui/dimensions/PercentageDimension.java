@@ -28,12 +28,40 @@ public class PercentageDimension extends AbstractStaticDimension implements Seri
     }
 
     public int calculateWidth(UIElement self) {
-        int parentWidth = self.getParent() != null ? self.getParent().getWidthUnscaled() : 1920;
+        int parentWidth = 1920;
+        if(self.getParent() != null){
+            UIElement parent = self.getParent();
+            while(parent.getWidthRaw() instanceof AutoDimension){
+                parent = parent.getParent();
+                if(parent == null){
+                    break;
+                }
+            }
+
+            if(parent != null){
+                parentWidth = parent.getWidthUnscaled();
+            }
+        }
+
         return (int) (parentWidth * percentage);
     }
 
     public int calculateHeight(UIElement self) {
-        int parentHeight = self.getParent() != null ? self.getParent().getHeightUnscaled() : 1080;
+        int parentHeight = 1080;
+        if(self.getParent() != null){
+            UIElement parent = self.getParent();
+            while(parent.getHeightRaw() instanceof AutoDimension){
+                parent = parent.getParent();
+                if(parent == null){
+                    break;
+                }
+            }
+
+            if(parent != null){
+                parentHeight = parent.getHeightUnscaled();
+            }
+        }
+
         return (int) (parentHeight * percentage);
     }
 

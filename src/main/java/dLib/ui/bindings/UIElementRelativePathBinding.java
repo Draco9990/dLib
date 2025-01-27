@@ -14,7 +14,6 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
 
     private StringProperty objectRelativePath = new StringProperty("");
 
-    private transient UIElement ownerCache;
     private transient UIElement objectCache;
 
     protected UIElementRelativePathBinding() {
@@ -29,6 +28,11 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
         object.onHierarchyChangedEvent.subscribe(this, () -> {
             objectRelativePath.setValue(owner.getRelativePathToElement(object));
         });
+    }
+
+    public UIElementRelativePathBinding(String relativePath) {
+        super();
+        objectRelativePath.setValue(relativePath);
     }
 
     @Override

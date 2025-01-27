@@ -3,6 +3,7 @@ package dLib.util.ui.position;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.Binding;
+import dLib.util.ui.bounds.PositionBounds;
 
 import java.io.Serializable;
 
@@ -25,4 +26,6 @@ public abstract class AbstractPosition extends Binding implements IEditableValue
 
     public abstract void offsetHorizontal(UIElement element, int amount);
     public abstract void offsetVertical(UIElement element, int amount);
+
+    public abstract void setForBounds(UIElement element, PositionBounds bounds);
 }

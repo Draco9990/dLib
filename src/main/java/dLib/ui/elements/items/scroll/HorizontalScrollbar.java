@@ -138,28 +138,34 @@ public class HorizontalScrollbar extends Scrollbar {
         public HorizontalScrollbarData () {
             super();
 
-            //TODO wrap in box
+            HorizontalBox.HorizontalBoxData hBox = new HorizontalBox.HorizontalBoxData();
+            hBox.id.setValue("background");
+            hBox.width.setValue(Dim.fill());
+            hBox.height.setValue(Dim.fill());
+            hBox.itemSpacing.setValue(0);
+            {
+                Image.ImageData left = new Image.ImageData();
+                left.id.setValue("bg_left");
+                left.width.setValue(Dim.px(22));
+                left.height.setValue(Dim.fill());
+                left.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_horizontal_left"));
+                hBox.children.add(left);
 
-            Image.ImageData left = new Image.ImageData();
-            left.id.setValue("bg_left");
-            left.width.setValue(Dim.px(22));
-            left.height.setValue(Dim.fill());
-            left.texture.setValue(Tex.stat(UICommonResources.scrollbar_horizontal_left));
-            children.add(left);
+                Image.ImageData mid = new Image.ImageData();
+                mid.id.setValue("bg_mid");
+                mid.width.setValue(Dim.fill());
+                mid.height.setValue(Dim.fill());
+                mid.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_horizontal_mid"));
+                hBox.children.add(mid);
 
-            Image.ImageData mid = new Image.ImageData();
-            mid.id.setValue("bg_mid");
-            mid.width.setValue(Dim.fill());
-            mid.height.setValue(Dim.fill());
-            mid.texture.setValue(Tex.stat(UICommonResources.scrollbar_horizontal_mid));
-            children.add(mid);
-
-            Image.ImageData right = new Image.ImageData();
-            right.id.setValue("bg_right");
-            right.width.setValue(Dim.px(22));
-            right.height.setValue(Dim.fill());
-            right.texture.setValue(Tex.stat(UICommonResources.scrollbar_horizontal_right));
-            children.add(right);
+                Image.ImageData right = new Image.ImageData();
+                right.id.setValue("bg_right");
+                right.width.setValue(Dim.px(22));
+                right.height.setValue(Dim.fill());
+                right.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_horizontal_right"));
+                hBox.children.add(right);
+            }
+            children.add(hBox);
         }
 
         @Override

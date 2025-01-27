@@ -40,7 +40,9 @@ public abstract class UCEITemplate {
 
         wrapEditorItem(elementData, editorItem);
         for(UIElement child : editorItem.getAllChildren()){
-            wrapEditorItem(child.getComponent(GeneratedElementComponent.class).sourceData, child);
+            if(child.hasComponent(GeneratedElementComponent.class) && child.getComponent(GeneratedElementComponent.class).sourceData != null){
+                UCEITemplateManager.getBestTemplateFor(child.getComponent(GeneratedElementComponent.class).sourceData).wrapEditorItem(child.getComponent(GeneratedElementComponent.class).sourceData, child);
+            }
         }
 
         return editorItem;

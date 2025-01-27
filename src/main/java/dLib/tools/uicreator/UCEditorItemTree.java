@@ -13,14 +13,14 @@ import dLib.util.SerializationHelpers;
 public class UCEditorItemTree {
     public RootElement.RootElementData rootElementData;
 
-    public UCEditorItemTree(Renderable canvas) {
+    public UCEditorItemTree(UIElement rootParent) {
         super();
 
         UCEITRootElement template = new UCEITRootElement();
         RootElement.RootElementData rootElementData = new RootElement.RootElementData();
         RootElement newRoot = (RootElement) template.makeEditorItem(rootElementData);
 
-        canvas.addChild(newRoot);
+        rootParent.addChild(newRoot);
         this.rootElementData = rootElementData;
     }
 

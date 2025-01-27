@@ -25,27 +25,7 @@ public class PixelDimension extends AbstractStaticDimension implements Serializa
 
     @Override
     public void resizeBy(UIElement self, int amount) {
-        if(refDimension == ReferenceDimension.WIDTH){
-            resizeWidthBy(self, amount);
-        } else if(refDimension == ReferenceDimension.HEIGHT){
-            resizeHeightBy(self, amount);
-        }
-    }
-
-    public void resizeWidthBy(UIElement self, int amount) {
-        if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            size += amount;
-        } else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
-            size -= amount;
-        }
-    }
-
-    public void resizeHeightBy(UIElement self, int amount) {
-        if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            size += amount;
-        } else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-            size -= amount;
-        }
+        size += amount;
     }
 
     @Override

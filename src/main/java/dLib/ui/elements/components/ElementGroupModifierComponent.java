@@ -3,10 +3,12 @@ package dLib.ui.elements.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import dLib.ui.elements.UIElement;
+import dLib.util.events.GlobalEvents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class ElementGroupModifierComponent extends AbstractUIElementComponent<UIElement> {
     private static HashMap<String, ArrayList<ElementGroupModifierComponent>> groupComponents = new HashMap<>();

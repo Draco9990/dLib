@@ -152,8 +152,10 @@ public class VerticalScrollbar extends Scrollbar {
             super();
 
             VerticalBox.VerticalBoxData vBox = new VerticalBox.VerticalBoxData();
+            vBox.id.setValue("background");
             vBox.width.setValue(Dim.fill());
             vBox.height.setValue(Dim.fill());
+            vBox.itemSpacing.setValue(0);
             {
                 Image.ImageData topData = new Image.ImageData();
                 topData.id.setValue("bg_top");

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
@@ -25,7 +26,7 @@ public abstract class ItemBox extends Renderable {
     private Alignment.HorizontalAlignment horizontalContentAlignment = Alignment.HorizontalAlignment.LEFT;
     private Alignment.VerticalAlignment verticalContentAlignment = Alignment.VerticalAlignment.TOP;
 
-    private String filterText = "";
+    protected String filterText = "";
 
     // Properties
     protected int itemSpacing = 1;
@@ -55,6 +56,8 @@ public abstract class ItemBox extends Renderable {
         this.invertedItemOrder = data.invertedItemOrder.getValue();
 
         registerCommonEvents();
+
+        refilterItems();
     }
 
     public void registerCommonEvents(){
@@ -176,6 +179,10 @@ public abstract class ItemBox extends Renderable {
 
     //region Filter
 
+    public ArrayList<UIElement> getActiveChildren(){
+        return filteredChildren;
+    }
+
     public void setFilterText(String filterText){
         if(filterText == null) filterText = "";
 
@@ -183,21 +190,7 @@ public abstract class ItemBox extends Renderable {
         refilterItems();
     }
 
-    public boolean filterCheck(String filterText, UIElement item){
-        return item.toString().toLowerCase(Locale.ROOT).contains(filterText.toLowerCase(Locale.ROOT));
-    }
-
-    public void refilterItems(){
-        filteredChildren.clear();
-
-        for(UIElement child : children){
-            if(!filterCheck(filterText, child)){
-                continue;
-            }
-
-            filteredChildren.add(child);
-        }
-    }
+    public abstract void refilterItems();
 
     //endregion Filter
 

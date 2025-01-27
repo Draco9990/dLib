@@ -40,14 +40,6 @@ public class RootElement extends Renderable {
 
         if(inEditor){
             onLeftClickEvent.subscribeManaged(() -> ElementGroupModifierComponent.deselectGroupComponents("editorItem"));
-
-            //* The fill dimension in-editor is set to 1920x1080, whereas it'll actually fill the parent container in-game
-            if(getWidthRaw() instanceof FillDimension){
-                setWidth(Dim.px(1920));
-            }
-            if(getHeightRaw() instanceof FillDimension){
-                setHeight(Dim.px(1080));
-            }
         }
         else{
             setRenderColor(new Color(0, 0, 0, 0));

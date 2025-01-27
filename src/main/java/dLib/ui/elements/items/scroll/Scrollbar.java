@@ -2,7 +2,11 @@ package dLib.ui.elements.items.scroll;
 
 import basemod.Pair;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.MethodBindingProperty;
+import dLib.properties.objects.Property;
+import dLib.ui.bindings.AbstractUIElementBinding;
+import dLib.ui.bindings.UIElementUndefinedRelativePathBinding;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.elements.items.buttons.Button;
@@ -41,6 +45,7 @@ public abstract class Scrollbar extends UIElement {
         super(data);
 
         slider = (Interactable) findChildById(data.sliderData.id.getValue());
+        boundElement = data.boundElement.getValue().getBoundObject();
 
         onScrollbarScrolledEvent.subscribeManaged(aFloat -> data.onScrollbarScrolledEvent.getValue().executeBinding(this, aFloat));
     }
@@ -117,6 +122,11 @@ public abstract class Scrollbar extends UIElement {
                 .setDescription("Event that is triggered when the scrollbar is scrolled.")
                 .setCategory("Scrollbar")
                 .setDynamicCreationParameters(new Pair<>("newScrolledPercentage", Float.class));
+
+        public Property<AbstractUIElementBinding> boundElement = new Property<AbstractUIElementBinding>(new UIElementUndefinedRelativePathBinding())
+                .setName("Bound Element")
+                .setDescription("The element that the scrollbar is bound to. Can be null.")
+                .setCategory("Scrollbar");
 
         public ScrollbarData() {
             sliderData.id.setValue("slider");

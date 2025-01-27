@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Toggle;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.resources.UICommonResources;
@@ -163,6 +164,13 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         super.removeChild(child);
 
         childWrapperMap.removeByKey(child);
+    }
+
+    public void removeChild(ItemType item){
+        UIElement child = childWrapperMap.getByValue(item);
+        if(child != null){
+            removeChild(child);
+        }
     }
 
     public boolean hasChild(ItemType item){
@@ -384,11 +392,26 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     //endregion
 
+    //region Filters
+
     @Override
-    public boolean filterCheck(String filterText, UIElement item){
-        ItemType elementType = childWrapperMap.getByKey(item);
-        return elementType.toString().toLowerCase(Locale.ROOT).contains(filterText.toLowerCase(Locale.ROOT));
+    public void refilterItems(){
+        filteredChildren.clear();
+
+        for(UIElement child : children){
+            if(!filterCheck(filterText, child, childWrapperMap.getByKey(child))){
+                continue;
+            }
+
+            filteredChildren.add(child);
+        }
     }
+
+    protected boolean filterCheck(String filterText, UIElement item, ItemType originalItem){
+        return originalItem.toString().toLowerCase(Locale.ROOT).contains(filterText.toLowerCase(Locale.ROOT)) && !item.hasComponent(UITransientElementComponent.class);
+    }
+
+    //endregion
 
     //endregion
 

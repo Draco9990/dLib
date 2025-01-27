@@ -7,6 +7,7 @@ import dLib.properties.ui.elements.PercentagePositionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.text.TextBox;
+import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.FillDimension;
 
 import java.io.Serializable;
@@ -102,6 +103,11 @@ public class PercentagePosition extends AbstractStaticPosition implements Serial
         else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             percentage -= (float)amount / parentHeight;
         }
+    }
+
+    @Override
+    public void setForBounds(UIElement element, PositionBounds bounds) {
+        
     }
 
     @Override

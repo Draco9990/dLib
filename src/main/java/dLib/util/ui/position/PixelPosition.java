@@ -10,6 +10,8 @@ import dLib.ui.elements.items.itembox.GridItemBox;
 import dLib.ui.elements.items.itembox.HorizontalDataBox;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
+import dLib.util.IntegerVector2;
+import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
@@ -134,6 +136,13 @@ public class PixelPosition extends AbstractStaticPosition implements Serializabl
         else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             position -= amount;
         }
+    }
+
+    @Override
+    public void setForBounds(UIElement element, PositionBounds bounds) {
+        IntegerVector2 bl = element.worldToLocal(new IntegerVector2(bounds.left, bounds.bottom));
+        IntegerVector2 tr = element.worldToLocal(new IntegerVector2(bounds.right, bounds.top));
+
     }
 
     @Override

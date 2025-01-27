@@ -63,4 +63,7 @@ public class UICommonResources implements ITextureSource {
 
     public static final NinePatch dropZoneOptionBg = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneOptionBg.png"), 50, 50, 50, 50);
     public static final Texture dropZoneBg = ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneBg.png");
+
+    public static final NinePatch bg02_background = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bg02/background.png"), 26, 26, 26, 26);
+    public static final NinePatch bg02_inner = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bg02/inner.png"), 26, 26, 26, 26);
 }

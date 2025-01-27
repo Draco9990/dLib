@@ -8,10 +8,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITScrollbox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/UCEditorItemTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/RootElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/elements/RootElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/bindings/UIElementRelativePathBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/bindings/UIElementRelativePathBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/AbstractUIElementComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/AbstractUIElementComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/ElementGroupModifierComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/ElementGroupModifierComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIResizeableComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/components/UIResizeableComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/DataItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/DataItemBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/UIItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/UIItemBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/scroll/HorizontalScrollbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/scroll/HorizontalScrollbar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/scroll/Scrollbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/scroll/Scrollbar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/scroll/Scrollbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/scroll/Scrollbox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/scroll/VerticalScrollbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/scroll/VerticalScrollbar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/resources/UICommonResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/resources/UICommonResources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDynamicDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDynamicDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PixelDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PixelDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/AbstractPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/AbstractPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PercentagePosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PercentagePosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PixelPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PixelPosition.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/null.genui" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/null.genui" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -109,8 +132,8 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="dLib.ui.elements.items.itembox" />
       <recent name="dLib.tools.uicreator.ui.editoritems.templates" />
+      <recent name="dLib.ui.elements.items.itembox" />
       <recent name="dLib.util" />
       <recent name="dLib.util.events.localevents" />
       <recent name="dLib.steam" />
@@ -315,7 +338,7 @@
       <workItem from="1737477023143" duration="3783000" />
       <workItem from="1737503910450" duration="5377000" />
       <workItem from="1737630299065" duration="26438000" />
-      <workItem from="1737834874739" duration="3523000" />
+      <workItem from="1737834874739" duration="25383000" />
     </task>
     <servers />
   </component>
@@ -369,6 +392,11 @@
           <properties class="java.lang.ClassCastException" package="java.lang" />
           <option name="timeStamp" value="154" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/UIItemBox.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="168" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
