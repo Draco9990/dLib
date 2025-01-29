@@ -197,6 +197,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private boolean overridesBaseScreen = false;
 
     private transient boolean disposed = false;
+    private transient boolean updating = false;
+    private transient boolean rendering = false;
 
     //endregion
 
@@ -406,13 +408,18 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public final void update(){
         if(!shouldUpdate()) return;
 
+        updating = true;
+
         updateChildren();
+        if(disposed) return;
 
         preUpdateEvent.invoke(Runnable::run);
         updateSelf();
         postUpdateEvent.invoke(Runnable::run);
 
         ensureElementWithinBounds();
+
+        updating = false;
     }
     protected void updateSelf(){
         //Update Visibility
@@ -566,11 +573,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected void updateChildren(){
         for(int i = children.size() - 1; i >= 0; i--){
             children.get(i).update();
+
+            if(disposed){ //!If any of the children disposes us and themselves, we should stop updating the children
+                return;
+            }
         }
     }
 
     public final void render(SpriteBatch sb){
         if(!shouldRender()) return;
+
+        rendering = true;
 
         boolean pushedScissors = false;
         PositionBounds maskBounds = getMaskWorldBounds();
@@ -594,6 +607,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         renderChildren(sb);
+
+        rendering = false;
     }
 
     protected void renderSelf(SpriteBatch sb){
@@ -617,10 +632,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected boolean shouldUpdate(){
-        return isActive() && (isEnabled() || isVisible());
+        return isActive() && (isEnabled() || isVisible()) && !disposed;
     }
     protected boolean shouldRender(){
-        return isActive() && isVisible();
+        return isActive() && isVisible() && !disposed;
     }
     //endregion
 
@@ -2069,7 +2084,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         totalHoverDuration = 0.f;
 
         GlobalEvents.sendMessage(new PreUIUnhoverEvent(this));
-        onUnhoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
+        onUnhoveredEvent.invoke();
     }
 
     public boolean isHovered(){ return (hb.hovered || hb.justHovered); }

@@ -210,10 +210,14 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     private UIElement wrapUIForItem(ItemType item){
         UIElement itemUI = makeUIForItem(item);
         if(disableItemWrapping){
+            postMakeUIForItem(item, itemUI);
             return itemUI;
         }
 
-        Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), Dim.fill(), Dim.fill()){
+        UIElement parent = new UIElement(Dim.auto(), Dim.auto());
+        parent.addChild(itemUI);
+
+        Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
             @Override
             public void toggle() {
                 if(isToggled() || trySelectItem(item)){
@@ -235,9 +239,13 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         overlay.setRenderColor(new Color(0, 0, 0, 0f));
         overlay.setToggledColor(new Color(0, 0, 0, 0.5f));
 
-        itemUI.addChild(overlay);
+        parent.addChild(overlay);
 
-        return itemUI;
+        postMakeUIForItem(item, itemUI);
+        return parent;
+    }
+
+    protected void postMakeUIForItem(ItemType item, UIElement itemUI){
     }
 
     //endregion

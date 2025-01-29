@@ -406,7 +406,14 @@ public class Reflection {
                         }
                     }
 
-                    foundMethods.addAll(Arrays.asList(ctClass.getDeclaredConstructors()));
+                    CtConstructor[] constructors = ctClass.getDeclaredConstructors();
+                    if(constructors.length > 0){
+                        foundMethods.addAll(Arrays.asList(constructors));
+                    }
+                    else {
+                        CtConstructor constructor = CtNewConstructor.defaultConstructor(ctClass);
+                        foundMethods.add(constructor);
+                    }
                 }catch (Exception patchException){
                     DLibLogger.log("Could not find class constructors due to: " + patchException.getMessage());
                     patchException.printStackTrace();
@@ -449,12 +456,9 @@ public class Reflection {
 
         ClassFilter filter = new AndClassFilter(
                 new NotClassFilter(new InterfaceOnlyClassFilter()),
-                new ClassModifiersClassFilter(Modifier.PUBLIC),
-                (
-                        new OrClassFilter(
-                                new SubclassClassFilter(parentClass),
-                                (classInfo, classFinder) -> classInfo.getClassName().equals(parentClass.getName()))
-                )
+                new OrClassFilter(
+                        new SubclassClassFilter(parentClass),
+                        (classInfo, classFinder) -> classInfo.getClassName().equals(parentClass.getName()))
         );
 
         ArrayList<ClassInfo> foundClasses = new ArrayList<>();
