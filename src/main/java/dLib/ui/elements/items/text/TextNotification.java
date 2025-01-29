@@ -15,7 +15,15 @@ public class TextNotification extends TextBox{
     public TextNotification(String text, VerboseLevel verbosity, AbstractPosition yPos) {
         super(text, Pos.px(0), yPos, Dim.fill(), Dim.px(30));
 
+        setFontSize(18);
+
         switch (verbosity) {
+            case NONE:
+                setTextRenderColor(Color.WHITE);
+                break;
+            case SUCCESS:
+                setTextRenderColor(Color.GREEN);
+                break;
             case INFO:
                 setTextRenderColor(Color.BLUE);
                 break;
@@ -31,6 +39,6 @@ public class TextNotification extends TextBox{
     }
 
     public enum VerboseLevel {
-        INFO, WARNING, ERROR
+        NONE, INFO, SUCCESS, WARNING, ERROR
     }
 }

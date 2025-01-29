@@ -303,6 +303,13 @@ public class TextBox extends UIElement {
 
     //region Text Font
 
+    public void setFont(BitmapFont font){
+        setFont(Font.stat(font));
+    }
+    public void setFont(Class<?> resourceClass, String fieldName){
+        setFont(Font.resource(resourceClass, fieldName));
+    }
+
     public void setFont(AbstractFontBinding font){
         this.font = font;
     }

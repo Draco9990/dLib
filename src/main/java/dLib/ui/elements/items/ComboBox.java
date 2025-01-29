@@ -3,14 +3,12 @@ package dLib.ui.elements.items;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public class ComboBox<OptionType> extends TextButton {
     private boolean canBeNull = false;
@@ -43,7 +41,7 @@ public class ComboBox<OptionType> extends TextButton {
             picker.onOptionSelectedEvent.subscribeManaged(this::setSelectedItem);
             picker.open();
         });
-        setImage(Tex.stat(UICommonResources.button02_square));
+        setTexture(Tex.stat(UICommonResources.button02_square));
     }
 
     public void setCanBeNull(boolean canBeNull) {

@@ -25,7 +25,7 @@ public class UICommonResources implements ITextureSource {
 
     public static final NinePatch inputfield = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/inputfield.png"), 23, 23, 18, 18);
 
-    public static final Texture button01_horizontal = ImageMaster.loadImage("dLibResources/images/ui/common/button01/horizontal.png");
+    public static final NinePatch button01_horizontal = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/button01/horizontal.png"), 41, 43, 21, 20);
 
     public static final NinePatch button02_square = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/button02/square.png"), 45, 45, 45, 45);
 

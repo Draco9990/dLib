@@ -48,7 +48,7 @@ public class ContextMenu extends Renderable{
             super(text, Dim.fill(), Dim.px(30));
 
             label.setFont(Font.stat(FontHelper.buttonLabelFont));
-            setImage(Tex.stat(UICommonResources.button03_square));
+            setTexture(Tex.stat(UICommonResources.button03_square));
             label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
 
             onOptionSelectedEvent.subscribe(this, () -> getParentOfType(ContextMenu.class).close());

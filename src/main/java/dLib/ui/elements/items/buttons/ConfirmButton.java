@@ -13,7 +13,7 @@ public class ConfirmButton extends TextButton {
     public ConfirmButton() {
         super("Confirm", Pos.px(1650), Pos.px(130), Dim.px(270), Dim.px(90));
 
-        setImage(Tex.stat("dLibResources/images/ui/common/ConfirmButton.png"));
+        setTexture(Tex.stat("dLibResources/images/ui/common/ConfirmButton.png"));
 
         label.setDimensions(186, 54);
         label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);

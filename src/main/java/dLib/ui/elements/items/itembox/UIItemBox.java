@@ -14,7 +14,7 @@ public abstract class UIItemBox extends ItemBox {
 
     public UIItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
-        setImage(new TextureNoneBinding());
+        setTexture(new TextureNoneBinding());
     }
 
     public UIItemBox(UIItemBoxData data){

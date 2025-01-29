@@ -10,7 +10,7 @@ public class ConfirmButtonSmall extends TextButton {
     public ConfirmButtonSmall(AbstractPosition xPos, AbstractPosition yPos) {
         super("Confirm", xPos, yPos, Dim.px(173), Dim.px(75));
 
-        setImage(Tex.stat(UICommonResources.confirmButtonSmall));
+        setTexture(Tex.stat(UICommonResources.confirmButtonSmall));
         label.setFontSize(18);
     }
 }

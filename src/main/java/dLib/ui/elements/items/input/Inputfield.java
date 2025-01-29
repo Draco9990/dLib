@@ -63,7 +63,7 @@ public class Inputfield extends Button {
 
         preInitialize();
 
-        setImage(Tex.stat(UICommonResources.inputfield));
+        setTexture(Tex.stat(UICommonResources.inputfield));
 
         this.textBox = new TextBox(initialValue, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);

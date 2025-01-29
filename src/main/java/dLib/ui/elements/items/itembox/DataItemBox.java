@@ -14,7 +14,6 @@ import dLib.ui.util.ESelectionMode;
 import dLib.util.BiMap;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -195,7 +194,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public UIElement makeUIForItem(ItemType item){
         ImageTextBox box = new ImageTextBox(itemToString(item), defaultItemWidth == null ? Dim.fill() : Dim.px(defaultItemWidth), defaultItemHeight == null ? Dim.fill() : Dim.px(defaultItemHeight));
         box.textBox.setFont(Font.stat(FontHelper.buttonLabelFont));
-        box.setImage(Tex.stat(UICommonResources.button03_square));
+        box.setTexture(Tex.stat(UICommonResources.button03_square));
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         return box;
     } //TODO expose with listeners

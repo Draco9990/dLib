@@ -63,6 +63,7 @@ public class GenericInputWindow extends UIElement {
             TextBox titleBox =new TextBox(title, Pos.px(35), Pos.px(286), Dim.px(643), Dim.px(49));
             titleBox.setFont(Font.stat(FontHelper.buttonLabelFont));
             titleBox.setTextRenderColor(Color.GOLD);
+            titleBox.setFontSize(20);
             addChild(titleBox);
 
             if(properties.canCancel){

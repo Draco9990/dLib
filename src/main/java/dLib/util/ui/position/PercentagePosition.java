@@ -107,7 +107,7 @@ public class PercentagePosition extends AbstractStaticPosition implements Serial
 
     @Override
     public void setForBounds(UIElement element, PositionBounds bounds) {
-        
+
     }
 
     @Override

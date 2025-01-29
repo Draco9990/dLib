@@ -36,7 +36,7 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
                 colorPickerPopup.open();
             }
         };
-        middleButton.setImage(Tex.stat(UICommonResources.white_pixel));
+        middleButton.setTexture(Tex.stat(UICommonResources.white_pixel));
         middleButton.setRenderColor(property.getColorValue());
 
         property.onValueChangedEvent.subscribe(this, (oldColor, newColor) -> {

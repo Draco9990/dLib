@@ -10,7 +10,7 @@ public class CancelButtonSmall extends TextButton {
     public CancelButtonSmall(AbstractPosition xPos, AbstractPosition yPos) {
         super("Cancel", xPos, yPos, Dim.px(161), Dim.px(74));
 
-        setImage(Tex.stat(UICommonResources.cancelButtonSmall));
+        setTexture(Tex.stat(UICommonResources.cancelButtonSmall));
         label.setFontSize(18);
     }
 }

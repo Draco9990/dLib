@@ -21,7 +21,7 @@ public class FontResourceBindingValueEditor extends AbstractValueEditor<FontReso
         super(property);
 
         valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.px(50));
-        valueBox.setImage(Tex.stat(UICommonResources.button02_square));
+        valueBox.setTexture(Tex.stat(UICommonResources.button02_square));
         valueBox.onLeftClickEvent.subscribe(this, () -> {
             AbstractUIResourcePicker picker = new UIGlobalFontResourcePicker();
             picker.onResourceSelectedEvent.subscribeManaged((aClass, s) -> property.setValue(new FontResourceBinding(aClass, s)));

@@ -110,7 +110,7 @@ public class HierarchyViewer extends VerticalBox {
 
         public HierarchyViewerChildElementButton(UIElement element) {
             super(element.getId(), Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-            setImage(Tex.stat(UICommonResources.button03_square));
+            setTexture(Tex.stat(UICommonResources.button03_square));
             this.element = element;
 
             label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);

@@ -36,7 +36,7 @@ public class IntegerInputBox extends UIElement {
         HorizontalBox hBox = new HorizontalBox(Dim.fill(), Dim.fill());
         {
             leftArrow = new Button(Dim.mirror(), Dim.fill());
-            leftArrow.setImage(Tex.stat(UICommonResources.arrow_left));
+            leftArrow.setTexture(Tex.stat(UICommonResources.arrow_left));
             leftArrow.setControllerSelectable(false);
             hBox.addChild(leftArrow);
 
@@ -45,7 +45,7 @@ public class IntegerInputBox extends UIElement {
             hBox.addChild(inputbox);
 
             rightArrow = new Button(Dim.mirror(), Dim.fill());
-            rightArrow.setImage(Tex.stat(UICommonResources.arrow_right));
+            rightArrow.setTexture(Tex.stat(UICommonResources.arrow_right));
             rightArrow.setControllerSelectable(false);
             hBox.addChild(rightArrow);
         }

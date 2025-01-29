@@ -12,7 +12,7 @@ public class CancelButton extends TextButton {
     public CancelButton() {
         super("Cancel", Pos.px(0), Pos.px(131), Dim.px(278), Dim.px(102));
 
-        setImage(Tex.stat("dLibResources/images/ui/common/CancelButton.png"));
+        setTexture(Tex.stat("dLibResources/images/ui/common/CancelButton.png"));
 
         label.setDimensions(186, 54);
         label.setLocalPosition(27, 27);

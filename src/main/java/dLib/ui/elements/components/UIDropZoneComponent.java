@@ -48,7 +48,7 @@ public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementCompon
                 hoveringWithPayload = true;
 
                 payloadOverlay = new ImageTextBox("Drop here!", Dim.fill(), Dim.fill());
-                payloadOverlay.setImage(Tex.stat(UICommonResources.dropZoneBg));
+                payloadOverlay.setTexture(Tex.stat(UICommonResources.dropZoneBg));
                 payloadOverlay.setPassthrough(true);
                 owner.addChild(payloadOverlay);
             }

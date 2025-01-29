@@ -108,21 +108,21 @@ public class UCEditor extends Renderable {
             HorizontalBox toolbar = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
                 VerticalBox mainOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill());
-                mainOptions.setImage(new TextureNoneBinding());
+                mainOptions.setTexture(new TextureNoneBinding());
                 mainOptions.setItemSpacing(10);
                 {
                     TextButton toolboxButton = new TextButton("Close", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     toolboxButton.onLeftClickEvent.subscribeManaged(() -> {
                         getTopParent().close();
                     });
-                    toolboxButton.setImage(Tex.stat(UICommonResources.button03_square));
+                    toolboxButton.setTexture(Tex.stat(UICommonResources.button03_square));
                     mainOptions.addChild(toolboxButton);
                 }
                 toolbar.addChild(mainOptions);
                 toolbar.addChild(new Spacer(Dim.px(10), Dim.fill()));
 
                 VerticalBox propertiesOptions = new VerticalBox(Pos.px(0), Pos.px(0), Dim.px(200), Dim.fill());
-                propertiesOptions.setImage(new TextureNoneBinding());
+                propertiesOptions.setTexture(new TextureNoneBinding());
                 propertiesOptions.setItemSpacing(10);
                 {
                     TextButton toolboxButton = new TextButton("Toolbox", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
@@ -131,7 +131,7 @@ public class UCEditor extends Renderable {
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
                     });
-                    toolboxButton.setImage(Tex.stat(UICommonResources.button03_square));
+                    toolboxButton.setTexture(Tex.stat(UICommonResources.button03_square));
                     propertiesOptions.addChild(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
@@ -141,7 +141,7 @@ public class UCEditor extends Renderable {
                         getProperties().hierarchyViewer.showAndEnableInstantly();
                         getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElementData.getComponent(UCEditorDataComponent.class).liveElement);
                     });
-                    elementListButton.setImage(Tex.stat(UICommonResources.button03_square));
+                    elementListButton.setTexture(Tex.stat(UICommonResources.button03_square));
                     propertiesOptions.addChild(elementListButton);
 
                     TextButton rootPropertiesButton = new TextButton("Root Properties", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
@@ -150,7 +150,7 @@ public class UCEditor extends Renderable {
                         getProperties().propertyEditor.showAndEnableInstantly();
                         getProperties().propertyEditor.setProperties(((UCEditor)getTopParent()).itemTree.rootElementData);
                     });
-                    rootPropertiesButton.setImage(Tex.stat(UICommonResources.button03_square));
+                    rootPropertiesButton.setTexture(Tex.stat(UICommonResources.button03_square));
                     propertiesOptions.addChild(rootPropertiesButton);
                 }
                 toolbar.addChild(propertiesOptions);
@@ -202,7 +202,7 @@ public class UCEditor extends Renderable {
         public static class UC_EP_Toolbox extends VerticalDataBox<UCEITemplate> {
             public UC_EP_Toolbox() {
                 super(Dim.fill(), Dim.fill());
-                setImage(new TextureNoneBinding());
+                setTexture(new TextureNoneBinding());
 
                 setSelectionMode(ESelectionMode.SINGLE_NOPERSIST);
 

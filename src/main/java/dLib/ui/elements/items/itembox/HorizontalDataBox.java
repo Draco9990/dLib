@@ -53,7 +53,7 @@ public class HorizontalDataBox<ItemType> extends DataItemBox<ItemType> {
     @Override
     public UIElement makeUIForItem(ItemType item) {
         ImageTextBox box = (ImageTextBox) super.makeUIForItem(item);
-        box.setImage(Tex.stat(UICommonResources.button03_square));
+        box.setTexture(Tex.stat(UICommonResources.button03_square));
         return box;
     }
 

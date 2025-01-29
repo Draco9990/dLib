@@ -28,7 +28,7 @@ public class TextButton extends Button {
     public TextButton(String text, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        setImage(Tex.stat(UICommonResources.button01_horizontal));
+        setTexture(Tex.stat(UICommonResources.button01_horizontal));
 
         label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         label.setFont(Font.stat(FontHelper.buttonLabelFont));

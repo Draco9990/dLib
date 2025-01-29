@@ -52,7 +52,7 @@ public class VerticalCollapsableBox extends UIElement {
             }
             Color renderColor = Color.BLACK.cpy();
             renderColor.a = 0.6f;
-            titleHBox.setImage(Tex.stat(UICommonResources.white_pixel));
+            titleHBox.setTexture(Tex.stat(UICommonResources.white_pixel));
             titleHBox.setRenderColor(renderColor);
             mainBox.addChild(titleHBox);
 

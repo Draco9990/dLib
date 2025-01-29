@@ -49,7 +49,7 @@ public class ColorWheel extends Renderable {
             }
         }
 
-        setImage(Tex.stat(new Texture(pixmap)));
+        setTexture(Tex.stat(new Texture(pixmap)));
 
         pixmap.dispose();
     }

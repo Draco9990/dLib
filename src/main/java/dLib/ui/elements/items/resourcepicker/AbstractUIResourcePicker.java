@@ -39,7 +39,7 @@ public abstract class AbstractUIResourcePicker extends UIElement {
                 AbstractUIResourcePicker parent = getParentOfType(AbstractUIResourcePicker.class);
                 parent.close();
             });
-            cancelButton.setImage(Tex.stat(UICommonResources.cancelButtonSmall));
+            cancelButton.setTexture(Tex.stat(UICommonResources.cancelButtonSmall));
             addChild(cancelButton);
 
             Scrollbox scrollbox = new Scrollbox(Pos.px(336), Pos.px(1080-922), Dim.px(1242), Dim.px(814));

@@ -1,8 +1,7 @@
 package dLib.ui.elements.items;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,8 +15,8 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.IntegerVector2;
-import dLib.util.Reflection;
 import dLib.util.bindings.texture.AbstractTextureBinding;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -246,7 +245,20 @@ public class Renderable extends UIElement {
 
     //region Image
 
-    public void setImage(AbstractTextureBinding image){
+    public void setTexture(Texture tex){
+        setTexture(Tex.stat(tex));
+    }
+    public void setTexture(TextureRegion tex){
+        setTexture(Tex.stat(tex));
+    }
+    public void setTexture(NinePatch tex){
+        setTexture(Tex.stat(tex));
+    }
+    public void setTexture(Class<?> resourceClazz, String fieldName){
+        setTexture(Tex.resource(resourceClazz, fieldName));
+    }
+
+    public void setTexture(AbstractTextureBinding image){
         this.image = image;
     }
 
