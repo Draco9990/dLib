@@ -9,6 +9,8 @@ import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
+import dLib.modsscreen.DLibModSettingsManager;
+import dLib.modsscreen.IDLibModSettingsContainer;
 import dLib.ui.Alignment;
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
@@ -177,6 +179,31 @@ public class DLibModListScreen extends UIElement {
                     }
                 }
 
+                for(IDLibModSettingsContainer container : DLibModSettingsManager.modSettingsContainers){
+                    String modId = Reflection.invokeMethod("getModID", container);
+                    if(modId != null && modId.equals(modFile.modInfo.ID)){
+                        Button configButton = new Button(Dim.px(80), Dim.px(79));
+                        configButton.setTexture(Tex.stat(UICommonResources.settingsButton));
+                        configButton.onLeftClickEvent.subscribe(configButton, () -> {
+                            UIElement masterContainer = new UIElement();
+                            {
+                                masterContainer.addChild(new DarkenLayer());
+
+                                CancelButton cancelButton = new CancelButton();
+                                cancelButton.label.setText("Close");
+                                cancelButton.onLeftClickEvent.subscribeManaged(masterContainer::close);
+                                masterContainer.addChild(cancelButton);
+
+                                masterContainer.addChild(container.getSettingsUI());
+                            }
+                            masterContainer.open();
+                        });
+                        buttonsBox.addChild(configButton);
+
+                        break;
+                    }
+                }
+
                 Object steamUrlObject = Reflection.getFieldValue("steamWorkshopDetails", modFile.modInfo);
                 if(steamUrlObject != null){
                     Object publishedFileID = Reflection.getFieldValue("publishedFileID", steamUrlObject);
@@ -253,7 +280,7 @@ public class DLibModListScreen extends UIElement {
             creditsBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
             modContentBox.addChild(creditsBox);
 
-            ImageTextBox creditsTextBox = new ImageTextBox(modFile.modInfo.Credits, Pos.px(392), Pos.px(955-684), Dim.px(851), Dim.px(259));
+            ImageTextBox creditsTextBox = new ImageTextBox(modFile.modInfo.Credits, Pos.px(392), Pos.px(955-684), Dim.px(840), Dim.px(259));
             creditsTextBox.textBox.setContentAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
             creditsTextBox.textBox.setWrap(true);
             modContentBox.addChild(creditsTextBox);
