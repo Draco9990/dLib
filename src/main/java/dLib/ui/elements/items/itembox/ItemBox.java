@@ -143,7 +143,20 @@ public abstract class ItemBox extends Renderable {
 
     }
     protected void updateListHorizontalRightLeft(){
+        int currentXPos = getWidth();
 
+        for(UIElement child : filteredChildren){
+            if(!child.isActive()){
+                continue;
+            }
+
+            currentXPos -= child.getPaddingRight();
+            currentXPos -= child.getWidth();
+            child.setLocalPositionX(currentXPos);
+
+            currentXPos += child.getPaddingLeft();
+            currentXPos += itemSpacing;
+        }
     }
 
     @Override

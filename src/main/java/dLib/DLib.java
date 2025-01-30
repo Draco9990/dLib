@@ -47,7 +47,7 @@ public class DLib implements PostInitializeSubscriber{
 
     @Override
     public void receivePostInitialize() {
-        GeneratedUIManager.registerMod(DLib.class);
+        GeneratedUIManager.initialize();
 
         SteamHelpers.init();
 

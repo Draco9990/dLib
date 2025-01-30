@@ -2604,11 +2604,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
             ois.defaultReadObject();
-            bindCommonEvents();
-
-            components = new ArrayList<>();
 
             verifyNullProperties();
+            bindCommonEvents();
+            components = new ArrayList<>();
         }
 
         protected void bindCommonEvents(){

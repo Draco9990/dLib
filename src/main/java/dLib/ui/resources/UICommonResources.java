@@ -3,6 +3,7 @@ package dLib.ui.resources;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.textureresource.ITextureSource;
 
 public class UICommonResources implements ITextureSource {
@@ -56,6 +57,11 @@ public class UICommonResources implements ITextureSource {
 
     public static final Texture xButton = ImageMaster.loadImage("dLibResources/images/ui/common/xButton.png");
     public static final Texture deleteButton = ImageMaster.loadImage("dLibResources/images/ui/common/DeleteButton.png");
+    public static final Texture settingsButton = ImageMaster.loadImage("dLibResources/images/ui/common/settingsButton.png");
+
+    public static final Texture discordButton = ImageMaster.loadImage("dLibResources/images/ui/common/discordButton.png");
+    public static final Texture patreonButton = ImageMaster.loadImage("dLibResources/images/ui/common/patreonButton.png");
+    public static final Texture steamButton = ImageMaster.loadImage("dLibResources/images/ui/common/steamButton.png");
 
     public static final Texture lightnessBar = ImageMaster.loadImage("dLibResources/images/ui/common/color/lightnessBar.png");
     public static final Texture lightnessBarOverlay = ImageMaster.loadImage("dLibResources/images/ui/common/color/lightnessBarOverlay.png");

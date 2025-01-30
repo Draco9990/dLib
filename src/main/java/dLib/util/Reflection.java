@@ -221,7 +221,7 @@ public class Reflection {
 
     private static final LinkedHashMap<Class<?>, LinkedHashMap<String, Method>> methodMap = new LinkedHashMap();
 
-    public static Object invokeMethod(String methodName, Object object, Object... params) {
+    public static <T> T invokeMethod(String methodName, Object object, Object... params) {
         if(methodName == null){
             DLib.logError("invokeMethod called with null methodName. Stacktrace:");
             DebugHelpers.printStacktrace(5);
@@ -252,7 +252,7 @@ public class Reflection {
             e.printStackTrace();
         }
 
-        return result;
+        return (T) result;
     }
 
     public static Method getMethodByNameAndParams(String methodName, Class<?> objectClass, Class<?>[] params){
@@ -533,7 +533,7 @@ public class Reflection {
 
     //region Misc
 
-    private static ClassFinder generateClassFinder(){
+    public static ClassFinder generateClassFinder(){
         ClassFinder finder = new ClassFinder();
 
         finder.add(new File(Loader.STS_JAR));

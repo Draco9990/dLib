@@ -1,3 +1,5 @@
+-- Save only properites of UI elements that have been modified?
+
 --> Set interaction layer, drag and drop for teams
 --> Allow any property to Dyn bind
 

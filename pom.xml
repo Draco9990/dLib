@@ -7,7 +7,7 @@
     <artifactId>dLib</artifactId> <!--Keep a note of this one: this is the ID used in the "auto add cards" method-->
     <name>dLib</name>
     <version>0.3.0</version>
-    <description>A default base to start your own mod from.</description>
+    <description>A new kid on the block! This mod provides amazing UI functionality to developers, alongside other miscellaneous utilities, while giving the user a fresh look at some of the base StS UI.</description>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -35,7 +35,7 @@
             <artifactId>modthespire</artifactId>
             <version>${ModTheSpire.version}</version>
             <scope>system</scope>
-            <systemPath>${Libraries.path}/ModTheSpire.jar</systemPath>
+            <systemPath>${WorkshopContent.path}/1605060445/ModTheSpire.jar</systemPath>
             <!--<systemPath>${basedir}/../lib/ModTheSpire.jar</systemPath>-->
         </dependency>
         <dependency>

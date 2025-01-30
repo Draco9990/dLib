@@ -35,7 +35,7 @@ public interface IGeneratedUIElement {
 
         UIElement rootComp = data.makeUIElement();
         for(UIElement child : rootComp.getAllChildren()){
-            if(Objects.equals(child.rootOwnerId, ((UIElement)this).getId())){
+            if(Objects.equals(child.rootOwnerId, rootComp.getId())){
                 Reflection.setFieldValue(child.getId(), this, child);
             }
         }
