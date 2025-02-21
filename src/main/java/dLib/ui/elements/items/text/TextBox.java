@@ -17,6 +17,7 @@ import dLib.util.events.Event;
 import dLib.util.helpers.FontHelpers;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
@@ -37,6 +38,8 @@ public class TextBox extends UIElement {
     private Color textRenderColor;
     private AbstractFontBinding font;
     private boolean wrap;
+
+    private boolean useSelfAsMask = true;
 
     private boolean obscureText = false;
 
@@ -108,10 +111,10 @@ public class TextBox extends UIElement {
         getFontForRender().getData().setScale(getFontSizeForRender());
         getFontForRender().setColor(textRenderColor);
 
-        int renderX = getWorldPositionX() + (int)(getPaddingLeft() * Settings.xScale);
-        int renderY = getWorldPositionY() + (int)(getPaddingBottom() * Settings.yScale);
-        int renderWidth = getWidth() - getPaddingLeft() - getPaddingRight();
-        int renderHeight = getHeight() - getPaddingTop() - getPaddingBottom();
+        int renderX = getWorldPositionX() + getPaddingLeft();
+        int renderY = getWorldPositionY() + getPaddingBottom();
+        int renderWidth = getWidth() - getPaddingLeft();
+        int renderHeight = getHeight() - getPaddingTop();
 
         float halfWidth = (float) renderWidth / 2;
         float halfHeight = (float) renderHeight / 2;
@@ -252,6 +255,8 @@ public class TextBox extends UIElement {
     }
 
     public void onTextChanged(String newText){
+        invalidateCachesFull();
+
         if(ModManager.SayTheSpire.isActive()){
             if(getOnTextChangedLine(text) != null){
                 Output.text(getOnTextChangedLine(text), true);
@@ -295,7 +300,7 @@ public class TextBox extends UIElement {
         this.wrap = wrap;
     }
 
-    public boolean getWrap(){
+    public boolean canWrap(){
         return wrap;
     }
 
@@ -316,24 +321,88 @@ public class TextBox extends UIElement {
 
     //endregion
 
+    //region Text Dimensions
+
+    public int getTextWidth(){
+        if(text == null || text.isEmpty()) return 0;
+
+        getFontForRender().getData().setScale(getFontSizeForRender());
+
+        if(getHeightRaw() instanceof AutoDimension && canWrap() && !(getWidthRaw() instanceof AutoDimension)){
+            int align = 0;
+            if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.LEFT) align = Align.left;
+            else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER) align = Align.center;
+            else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT) align = Align.right;
+
+            FontHelper.layout.setText(getFontForRender(), text, Color.WHITE, getWidth() * Settings.xScale, align, true);
+        }
+        else{
+            FontHelper.layout.setText(getFontForRender(), text);
+        }
+
+        int width = (int) FontHelper.layout.width;
+
+        getFontForRender().getData().setScale(1.f);
+        return width;
+    }
+
+    public int getTextHeight(){
+        if(text == null || text.isEmpty()) return 0;
+
+        getFontForRender().getData().setScale(getFontSizeForRender());
+
+        if(getHeightRaw() instanceof AutoDimension && canWrap()){
+            int align = 0;
+            if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.LEFT) align = Align.left;
+            else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER) align = Align.center;
+            else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT) align = Align.right;
+
+            FontHelper.layout.setText(getFontForRender(), text, Color.WHITE, getWidth() * Settings.xScale, align, true);
+        }
+        else{
+            FontHelper.layout.setText(getFontForRender(), text);
+        }
+
+        int height = (int) FontHelper.layout.height;
+
+        getFontForRender().getData().setScale(1.f);
+        return height;
+    }
+
+    //endregion
+
     //region Mask
 
     @Override
     public PositionBounds getMaskWorldBounds() {
         PositionBounds superBounds = super.getMaskWorldBounds();
-        PositionBounds myBounds = getWorldBounds();
-        myBounds.left -= getPaddingLeft();
-        myBounds.right += getPaddingRight();
-        myBounds.top += getPaddingTop();
-        myBounds.bottom -= getPaddingBottom();
 
-        if(superBounds == null){
-            return myBounds;
+        if(usesSelfAsMask()){
+            PositionBounds myBounds = getWorldBounds();
+            myBounds.left -= getPaddingLeft();
+            myBounds.right += getPaddingRight();
+            myBounds.top += getPaddingTop();
+            myBounds.bottom -= getPaddingBottom();
+
+            if(superBounds != null){
+                superBounds.clip(myBounds);
+                return superBounds;
+            }
+            else{
+                return myBounds;
+            }
         }
         else{
-            superBounds.clip(myBounds);
             return superBounds;
         }
+    }
+
+    public boolean usesSelfAsMask(){
+        return useSelfAsMask;
+    }
+
+    public void setUseSelfAsMask(boolean useSelfAsMask){
+        this.useSelfAsMask = useSelfAsMask;
     }
 
 

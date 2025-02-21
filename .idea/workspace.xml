@@ -8,10 +8,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/modsscreen/DLibModSettingsManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/modsscreen/IDLibModSettingsContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/custominput/CustomKeybindManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/KeyInputEventPatches.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Tooltip.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/docs/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/custominput/CustomInputSetManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/custominput/InputSetPatches.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/modsscreen/ui/elements/items/DLibModListScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/modsscreen/ui/elements/items/DLibModListScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/ContextMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/ContextMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Toggle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Toggle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/DataItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/DataItemBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/UIItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/UIItemBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/ImageTextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/ImageTextBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/TextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/TextBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/resources/UICommonResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/resources/UICommonResources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/UIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PixelPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PixelPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/null.genui" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/null.genui" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,35 +79,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Attach to process.pid 23800.executor": "ProcessAttachDebug",
-    "JAR Application.Slay the Spire.executor": "Debug",
-    "JavaClassFindUsagesOptions.isMethodsUsages": "true",
-    "JavaMethodFindUsagesOptions.isSearchForTextOccurrences": "true",
-    "Maven.dLib [clean].executor": "Run",
-    "Maven.dLib [install:install-file...].executor": "Run",
-    "Maven.dLib [package].executor": "Run",
-    "Maven.dLib [test].executor": "Run",
-    "Maven.dLib [verify].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "1.8",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Marino/Projects/StS DLib/IntelliJForStS/Source/IntelliJForStS/build/distributions/IntelliJForStS-1.0.zip",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Attach to process.pid 23800.executor&quot;: &quot;ProcessAttachDebug&quot;,
+    &quot;JAR Application.Slay the Spire.executor&quot;: &quot;Debug&quot;,
+    &quot;JavaClassFindUsagesOptions.isMethodsUsages&quot;: &quot;true&quot;,
+    &quot;JavaMethodFindUsagesOptions.isSearchForTextOccurrences&quot;: &quot;true&quot;,
+    &quot;Maven.dLib [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.dLib [install:install-file...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.dLib [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.dLib [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.dLib [verify].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Marino/Projects/StS DLib/IntelliJForStS/Source/IntelliJForStS/build/distributions/IntelliJForStS-1.0.zip&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Marino\Projects\StS DLib\DLib\Source\dLib" />
@@ -323,7 +345,17 @@
       <workItem from="1738152824279" duration="17350000" />
       <workItem from="1738200667720" duration="4032000" />
       <workItem from="1738244977861" duration="22000" />
-      <workItem from="1738245005481" duration="17266000" />
+      <workItem from="1738245005481" duration="27841000" />
+      <workItem from="1739553494323" duration="86000" />
+      <workItem from="1739578864676" duration="6256000" />
+      <workItem from="1739715552461" duration="7860000" />
+      <workItem from="1739836103503" duration="4773000" />
+      <workItem from="1739884417848" duration="4524000" />
+      <workItem from="1740013220091" duration="202000" />
+      <workItem from="1740013478321" duration="80000" />
+      <workItem from="1740013606869" duration="8000" />
+      <workItem from="1740094507433" duration="1749000" />
+      <workItem from="1740157712467" duration="9566000" />
     </task>
     <servers />
   </component>

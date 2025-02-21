@@ -1,9 +1,11 @@
 package dLib.ui.elements.items;
 
+import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.Font;
@@ -13,46 +15,52 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 
-public class ContextMenu extends Renderable{
-    public VerticalBox optionsBox;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption> {
     public ContextMenu(AbstractPosition xPos, AbstractPosition yPos) {
-        super(Tex.stat(UICommonResources.button02_square), xPos, yPos, Dim.px(300), Dim.auto());
+        super(xPos, yPos, Dim.px(300), Dim.auto());
 
-        UIElement paddedBox = new UIElement(Dim.fill(), Dim.auto());
-        paddedBox.setPaddingHorizontal(Padd.px(20)); //TODO this is a mess
-        paddedBox.setPaddingTop(Padd.px(-10));
-        paddedBox.setPaddingBottom(Padd.px(10));
-        {
-            optionsBox = new VerticalBox(Dim.fill(), Dim.auto());
-            paddedBox.addChild(optionsBox);
-        }
-        addChild(paddedBox);
+        setTexture(Tex.stat(UICommonResources.button02_square));
+        setRenderColor(Color.WHITE);
+
+        setContentPadding(Padd.px(10));
 
         setContextual(true);
         setDrawFocusOnOpen(true);
     }
 
-    public void addOption(ContextMenuOption option){
-        optionsBox.addChild((UIElement) option);
+    @Override
+    public UIElement makeUIForItem(IContextMenuOption item) {
+        return item.get();
     }
 
-    private static interface ContextMenuOption{
+    public static interface IContextMenuOption extends Supplier<UIElement> {
 
     }
 
-    public static class ContextMenuButtonOption extends TextButton implements ContextMenuOption {
+    public static class ContextMenuButtonOption implements IContextMenuOption {
+        public String optionText;
         public Event<Runnable> onOptionSelectedEvent = new Event<>();
 
-        public ContextMenuButtonOption(String text) {
-            super(text, Dim.fill(), Dim.px(30));
+        public ContextMenuButtonOption(String text, Runnable onOptionSelectedEvent) {
+            this.optionText = text;
+            this.onOptionSelectedEvent.subscribeManaged(onOptionSelectedEvent);
+        }
 
-            label.setFont(Font.stat(FontHelper.buttonLabelFont));
-            setTexture(Tex.stat(UICommonResources.button03_square));
-            label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+        @Override
+        public UIElement get() {
+            TextButton button = new TextButton(optionText, Dim.fill(), Dim.px(30));
 
-            onOptionSelectedEvent.subscribe(this, () -> getParentOfType(ContextMenu.class).close());
-            onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke(Runnable::run));
+            button.label.setFont(Font.stat(FontHelper.buttonLabelFont));
+            button.setTexture(Tex.stat(UICommonResources.button03_square));
+            button.label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+
+            onOptionSelectedEvent.subscribe(this, () -> button.getParentOfType(ContextMenu.class).close());
+            button.onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke(Runnable::run));
+
+            return button;
         }
     }
 }

@@ -98,19 +98,17 @@ public abstract class UCEITemplate {
 
             ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
 
-            ContextMenu.ContextMenuButtonOption duplicateOption = new ContextMenu.ContextMenuButtonOption("Duplicate");
-            duplicateOption.onOptionSelectedEvent.subscribe(duplicateOption, () -> {
+            ContextMenu.ContextMenuButtonOption duplicateOption = new ContextMenu.ContextMenuButtonOption("Duplicate", () -> {
                 UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
                 editor.itemTree.duplicateItem(editorItem);
             });
-            contextMenu.addOption(duplicateOption);
+            contextMenu.addChild(duplicateOption);
 
-            ContextMenu.ContextMenuButtonOption deleteOption = new ContextMenu.ContextMenuButtonOption("Delete");
-            deleteOption.onOptionSelectedEvent.subscribe(deleteOption, () -> {
+            ContextMenu.ContextMenuButtonOption deleteOption = new ContextMenu.ContextMenuButtonOption("Delete", () -> {
                 UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
                 editor.itemTree.deleteItem(editorItem);
             });
-            contextMenu.addOption(deleteOption);
+            contextMenu.addChild(deleteOption);
 
             contextMenu.open();
         });

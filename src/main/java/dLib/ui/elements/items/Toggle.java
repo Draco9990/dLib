@@ -25,10 +25,10 @@ public class Toggle extends Interactable {
     private AbstractTextureBinding toggledDisabledTexture;
 
     private Color toggledColor = Color.BLACK.cpy();
-    private float toggledColorMultiplier = 0.15f;
+    private float toggledColorMultiplier = 0.25f;
 
     private Color toggledHoveredColor = Color.BLACK.cpy();
-    private float toggledHoveredColorMultiplier = 0.25f;
+    private float toggledHoveredColorMultiplier = 0.35f;
 
     private Color toggledDisabledColor = Color.WHITE.cpy();
     private float toggledDisabledColorMultiplier = 0.25f;

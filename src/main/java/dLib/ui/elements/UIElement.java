@@ -20,25 +20,22 @@ import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
-import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.tools.uicreator.ui.elements.interfaces.IGeneratedUIElement;
-import dLib.tools.uicreator.ui.properties.editors.UCRelativeUIElementBindingValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.animations.exit.UIExitAnimation;
-import dLib.ui.bindings.AbstractUIElementBinding;
-import dLib.ui.bindings.UIElementRelativePathBinding;
 import dLib.ui.elements.components.GeneratedElementComponent;
 import dLib.ui.elements.components.UIDebuggableComponent;
 import dLib.ui.elements.components.AbstractUIElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.components.data.AbstractUIElementDataComponent;
+import dLib.ui.elements.items.ContextMenu;
+import dLib.ui.elements.items.Tooltip;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.screens.UIManager;
 import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
-import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
 import dLib.util.events.localevents.BiConsumerEvent;
@@ -64,8 +61,6 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Variables
@@ -73,7 +68,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected String ID;
 
     protected UIElement parent;
-    protected List<UIElement> children = new ArrayList<>();
+    protected List<UIElement> children = Collections.synchronizedList(new ArrayList<>());
     public ConsumerEvent<UIElement> onChildAddedEvent = new ConsumerEvent<>();
     public ConsumerEvent<UIElement> onChildRemovedEvent = new ConsumerEvent<>();
     public RunnableEvent onChildrenChangedEvent = new RunnableEvent();
@@ -136,10 +131,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public RunnableEvent preUpdateEvent = new RunnableEvent();
     public RunnableEvent postUpdateEvent = new RunnableEvent();
-    public ConsumerEvent<SpriteBatch> preRenderEvent = new ConsumerEvent<>();
-    public ConsumerEvent<SpriteBatch> postRenderEvent = new ConsumerEvent<>();
+    public ConsumerEvent<SpriteBatch> preRenderEvent = new ConsumerEvent<>();                                           public static BiConsumerEvent<UIElement, SpriteBatch> preRenderGlobalEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<SpriteBatch> postRenderEvent = new ConsumerEvent<>();                                          public static BiConsumerEvent<UIElement, SpriteBatch> postRenderGlobalEvent = new BiConsumerEvent<>();
 
     public RunnableEvent onHoveredEvent = new RunnableEvent();
+                                                                                                                        public static ConsumerEvent<UIElement> postHoverGlobalEvent = new ConsumerEvent<>();
     public ConsumerEvent<Float> onHoverTickEvent = new ConsumerEvent<>();
     public RunnableEvent onUnhoveredEvent = new RunnableEvent();
 
@@ -152,6 +148,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public ConsumerEvent<Float> onLeftClickHeldEvent = new ConsumerEvent<>();
     public RunnableEvent onLeftClickReleaseEvent = new RunnableEvent();
 
+                                                                                                                        public static ConsumerEvent<UIElement> preRightClickGlobalEvent = new ConsumerEvent<>();
     public RunnableEvent onRightClickEvent = new RunnableEvent();
     public ConsumerEvent<Float> onRightClickHeldEvent = new ConsumerEvent<>();
     public RunnableEvent onRightClickReleaseEvent = new RunnableEvent();
@@ -196,9 +193,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private boolean overridesBaseScreen = false;
 
+    private transient boolean initialized = false;
     private transient boolean disposed = false;
     private transient boolean updating = false;
     private transient boolean rendering = false;
+
+    private LinkedHashMap<UUID, ContextMenu.IContextMenuOption> contextMenuOptions = new LinkedHashMap<>();
+
+    private UIElement tooltipObject = null;
 
     //endregion
 
@@ -288,12 +290,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         registerCommonEvents();
 
-        preLeftClickGlobalEvent.subscribe(this, (element) -> {
-            if(this.isContextual() && element != this && !element.isDescendantOf(this)){
-                dispose();
-            }
-        });
-
         GlobalEvents.subscribe(this, PreUIHoverEvent.class, (event) -> {
             if(event.source.isPassthrough() || event.source == this){
                 return;
@@ -367,6 +363,35 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 uiElementConsumer.invalidateCachesForElementTree();
             });
         }
+
+        //Context Menu
+        {
+            this.onRightClickEvent.subscribeManaged(() -> {
+                if(contextMenuOptions.isEmpty()){
+                    return;
+                }
+
+                IntegerVector2 mousePos = UIHelpers.getMouseWorldPosition();
+
+                ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
+                for(Map.Entry<UUID, ContextMenu.IContextMenuOption> entry : contextMenuOptions.entrySet()){
+                    contextMenu.addChild(entry.getValue());
+                }
+                contextMenu.open();
+            });
+
+            preLeftClickGlobalEvent.subscribe(this, (element) -> {
+                if(this.isContextual() && element != this && !element.isDescendantOf(this)){
+                    dispose();
+                }
+            });
+
+            preRightClickGlobalEvent.subscribe(this, (element) -> {
+                if(this.isContextual() && element != this && !element.isDescendantOf(this)){
+                    dispose();
+                }
+            });
+        }
     }
 
     //endregion
@@ -398,6 +423,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         delayedActions.clear();
 
         disposed = true;
+
+        if(tooltipObject != null){
+            tooltipObject.close();
+            tooltipObject.dispose();
+        }
     }
 
     //endregion
@@ -420,6 +450,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         ensureElementWithinBounds();
 
         updating = false;
+
+        initialized = true;
     }
     protected void updateSelf(){
         //Update Visibility
@@ -559,14 +591,31 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         //Update Lifespan
         {
-            if(totalLifespan == -1) return;
+            if(totalLifespan != -1){
+                remainingLifespan -= Gdx.graphics.getDeltaTime();
+                if(remainingLifespan <= 0){
+                    hideAndDisable();
+                    //TODO wait for animations to finish
+                    dispose();
+                    //TODO fire on death event
+                }
+            }
+        }
 
-            remainingLifespan -= Gdx.graphics.getDeltaTime();
-            if(remainingLifespan <= 0){
-                hideAndDisable();
-                //TODO wait for animations to finish
-                dispose();
-                //TODO fire on death event
+        //Update Tooltip
+        {
+            if(tooltipObject != null){
+                if(isHovered() && totalHoverDuration > 0.5f){
+                    tooltipObject.open();
+
+                    IntegerVector2 tooltipPos = UIHelpers.getMouseWorldPosition();
+                    tooltipObject.setLocalPosition(tooltipPos.x, tooltipPos.y);
+
+                    tooltipObject.show();
+                }
+                else{
+                    tooltipObject.hide();
+                }
             }
         }
     }
@@ -581,6 +630,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public final void render(SpriteBatch sb){
+        if(!initialized){
+            update();
+        }
+
         if(!shouldRender()) return;
 
         rendering = true;
@@ -597,9 +650,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             pushedScissors = ScissorStack.pushScissors(scissors);
         }
 
-        preRenderEvent.invoke(spriteBatchConsumer -> spriteBatchConsumer.accept(sb));
+        preRenderEvent.invoke(sb);
+        preRenderGlobalEvent.invoke(this, sb);
         renderSelf(sb);
-        postRenderEvent.invoke(spriteBatchConsumer -> spriteBatchConsumer.accept(sb));
+        postRenderGlobalEvent.invoke(this, sb);
+        postRenderEvent.invoke(sb);
 
         if(pushedScissors){
             ScissorStack.popScissors();
@@ -1334,7 +1389,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Caches
 
-    private void invalidateCaches(){
+    protected void invalidateCaches(){
         localPosXCache = null;
         localPosYCache = null;
 
@@ -1347,24 +1402,29 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
     }
 
-    private void invalidateCachesForElementTree(){
+    protected void invalidateCachesForElementTree(){
         invalidateCaches();
         invalidateParentCacheRecursive();
         invalidateChildrenCacheRecursive();
     }
 
-    private void invalidateParentCacheRecursive(){
+    protected void invalidateParentCacheRecursive(){
         if(hasParent()){
             parent.invalidateCaches();
             parent.invalidateParentCacheRecursive();
         }
     }
 
-    private void invalidateChildrenCacheRecursive(){
+    protected void invalidateChildrenCacheRecursive(){
         for(UIElement child : children){
             child.invalidateCaches();
             child.invalidateChildrenCacheRecursive();
         }
+    }
+
+    protected void invalidateCachesFull(){
+        getTopParent().invalidateCaches();
+        getTopParent().invalidateChildrenCacheRecursive();
     }
 
     //endregion
@@ -1762,6 +1822,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
 
             PositionBounds childBounds = child.getFullLocalBoundsForAutoDim();
+            if(childBounds == null){
+                continue;
+            }
+
+            childBounds.left -= child.getPaddingLeft();
+            childBounds.right += child.getPaddingRight();
+            childBounds.bottom -= child.getPaddingBottom();
+            childBounds.top += child.getPaddingTop();
+
             if(fullChildBounds == null){
                 fullChildBounds = childBounds;
                 continue;
@@ -1914,6 +1983,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Top-Level Display
 
     public void open(){
+        if(isOpen()) return;
+
         boolean shouldAnimate = isVisible();
         if(shouldAnimate){
             hideAndDisableInstantly();
@@ -1924,7 +1995,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
     }
 
+    public boolean isOpen(){
+        return UIManager.isOpen(this);
+    }
+
     public void close(){
+        if(!isOpen()) return;
+
         UIManager.closeUIElement(this);
 
         onCloseEvent.invoke();
@@ -2074,6 +2151,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         GlobalEvents.sendMessage(new PreUIHoverEvent(this));
         onHoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
+
+        postHoverGlobalEvent.invoke(this);
     }
     protected void onHoverTick(float totalTickDuration){
         if(!isPassthrough()) InputHelpers.alreadyHovered = true;
@@ -2167,6 +2246,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void onRightClick(){
+        preRightClickGlobalEvent.invoke(this);
+
         totalRightClickDuration = 0.f;
         holdingRight = true;
 
@@ -2405,6 +2486,44 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     //endregion Overrides Base Screen
+
+    //region Context Menu Options
+
+    public UUID addContextMenuOption(ContextMenu.IContextMenuOption action){
+        UUID id = UUID.randomUUID();
+        contextMenuOptions.put(id, action);
+        return id;
+    }
+
+    public void removeContextMenuOption(UUID optionId){
+        contextMenuOptions.remove(optionId);
+    }
+
+    //endregion
+
+    //region Tooltip
+
+    public void setTooltip(String tooltip){
+        if(tooltipObject != null){
+            tooltipObject.dispose();
+        }
+
+        tooltipObject = new Tooltip(tooltip);
+    }
+
+    public void setTooltipObject(UIElement tooltipObject){
+        if(this.tooltipObject != null){
+            this.tooltipObject.dispose();
+        }
+
+        this.tooltipObject = tooltipObject;
+    }
+
+    public UIElement getTooltipObject(){
+        return tooltipObject;
+    }
+
+    //endregion
 
     //endregion
 

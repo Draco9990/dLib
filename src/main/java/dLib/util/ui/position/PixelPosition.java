@@ -39,12 +39,7 @@ public class PixelPosition extends AbstractStaticPosition implements Serializabl
         else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             int parentWidth = 1920;
             if(self.hasParent()){
-                if(self.getParent().getWidthRaw() instanceof AutoDimension && self.getParent().getWidthCache() == null){
-                    return 0;
-                }
-                else{
-                    parentWidth = self.getParent().getWidthUnscaled();
-                }
+                parentWidth = self.getParent().getWidthUnscaled();
             }
 
             if(self.getWidthRaw() instanceof FillDimension){
@@ -83,12 +78,7 @@ public class PixelPosition extends AbstractStaticPosition implements Serializabl
         else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             int parentHeight = 1080;
             if(self.hasParent()){
-                if(self.getParent().getHeightRaw() instanceof AutoDimension && self.getParent().getHeightCache() == null){
-                    return 0;
-                }
-                else{
-                    parentHeight = self.getParent().getHeightUnscaled();
-                }
+                parentHeight = self.getParent().getHeightUnscaled();
             }
 
             if(self.getHeightRaw() instanceof FillDimension){

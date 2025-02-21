@@ -72,4 +72,8 @@ public class UICommonResources implements ITextureSource {
 
     public static final NinePatch bg02_background = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bg02/background.png"), 26, 26, 26, 26);
     public static final NinePatch bg02_inner = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bg02/inner.png"), 26, 26, 26, 26);
+
+    public static final Texture errorIcon = ImageMaster.loadImage("dLibResources/images/ui/common/errorIcon.png");
+
+    public static final NinePatch tooltipBg = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/tooltipBg.png"), 18, 17, 17, 18);
 }

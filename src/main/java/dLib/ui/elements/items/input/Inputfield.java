@@ -13,7 +13,9 @@ import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
@@ -37,11 +39,9 @@ public class Inputfield extends Button {
 
     public Event<Consumer<String>> onValueChangedEvent = new Event<>();
     public Event<Consumer<String>> onValueCommittedEvent = new Event<>();
+    public ConsumerEvent<String> onValueConfirmedEvent = new ConsumerEvent<>();
 
     //Temps
-
-    private ArrayList<Consumer<String>> onValueChangedListeners = new ArrayList<>();
-    private ArrayList<Consumer<String>> onValueCommittedListeners = new ArrayList<>();
 
     private InputProcessor cachedInputProcessor;
     private InputProcessor inputProcessor;
@@ -65,13 +65,13 @@ public class Inputfield extends Button {
 
         setTexture(Tex.stat(UICommonResources.inputfield));
 
-        this.textBox = new TextBox(initialValue, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        this.textBox = new TextBox(initialValue, Pos.px(0), Pos.px(0), width instanceof AutoDimension ? Dim.auto() : Dim.fill(), height instanceof AutoDimension ? Dim.auto() : Dim.fill());
         textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         textBox.setOnTextChangedLine("Value changed to: " + textBox.getText());
         textBox.setPaddingLeft(Padd.px(20));
         addChild(textBox);
 
-        this.previewTextBox = new TextBox("", Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
+        this.previewTextBox = new TextBox("", Pos.px(0), Pos.px(0), width instanceof AutoDimension ? Dim.auto() : Dim.fill(), height instanceof AutoDimension ? Dim.auto() : Dim.fill()){
             @Override
             protected boolean shouldRender() {
                 return super.shouldRender() && textBox.getText().isEmpty();
@@ -181,6 +181,10 @@ public class Inputfield extends Button {
                 if(keycode == Input.Keys.BACKSPACE){
                     removeLastCharacter();
                     holdingDelete = true;
+                    return true;
+                }
+                else if(keycode == Input.Keys.ENTER){
+                    onValueConfirmedEvent.invoke(textBox.getText());
                     return true;
                 }
                 return false;

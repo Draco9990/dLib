@@ -84,7 +84,7 @@ public class DLibModListScreen extends UIElement {
                         return new ModBadgeWrapepr(item);
                     }
                 };
-                modBadgeBox.setSelectionMode(ESelectionMode.SINGLE_NOPERSIST);
+                modBadgeBox.setSelectionMode(ESelectionMode.SINGLE);
                 modBadgeBox.setChildren(getRegisteredMods());
                 modBadgeBox.setTexture(UICommonResources.bg02_inner);
                 modBadgeBox.setRenderColor(Color.valueOf("#1F272B"));

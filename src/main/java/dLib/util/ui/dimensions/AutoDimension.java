@@ -5,6 +5,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.AutoDimensionValueEditor;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.text.TextBox;
 import dLib.util.ui.bounds.PositionBounds;
 
 import java.io.Serializable;
@@ -35,13 +36,39 @@ public class AutoDimension extends AbstractDynamicDimension implements Serializa
 
     public int calculateWidth(UIElement self) {
         PositionBounds childBounds = self.getFullChildLocalBoundsForAutoDim();
-        if(childBounds == null) return 1;
+
+        if(self instanceof TextBox){
+            int textWidth = ((TextBox) self).getTextWidth();
+            if(childBounds == null || textWidth > (childBounds.right - childBounds.left)){
+                return textWidth + self.getPaddingLeft() + self.getPaddingRight();
+            }
+        }
+        else if(childBounds == null){
+            return 1;
+        }
+
+        childBounds.right += self.getPaddingRight();
+        childBounds.left -= self.getPaddingLeft();
+
         return (childBounds.right - childBounds.left);
     }
 
     public int calculateHeight(UIElement self) {
         PositionBounds childBounds = self.getFullChildLocalBoundsForAutoDim();
-        if(childBounds == null) return 1;
+
+        if(self instanceof TextBox){
+            int textHeight = ((TextBox) self).getTextHeight();
+            if(childBounds == null || textHeight > (childBounds.top - childBounds.bottom)){
+                return textHeight + self.getPaddingTop() + self.getPaddingBottom();
+            }
+        }
+        else if(childBounds == null){
+            return 1;
+        }
+
+        childBounds.top += self.getPaddingTop();
+        childBounds.bottom -= self.getPaddingBottom();
+
         return (childBounds.top - childBounds.bottom);
     }
 

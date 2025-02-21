@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import dLib.external.ExternalEditorCommunicationManager;
 import dLib.commands.CommandManager;
-import dLib.custominput.CustomInputSetManager;
+import dLib.custominput.CustomKeybindManager;
 import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.GeneratedUIManager;
@@ -60,6 +60,8 @@ public class DLib implements PostInitializeSubscriber{
         UCEITemplateManager.initialize();
 
         ShaderManager.init();
+
+        CustomKeybindManager.registerCommonEvents();
     }
 
     public static void logError(String message){
@@ -70,15 +72,19 @@ public class DLib implements PostInitializeSubscriber{
         logger.info(message);
     }
 
-    public static void registerCustomInputAction(String actionId, Function<String, String> getLocalizedDisplayName, InputAction inputAction, CInputAction cInputAction){
-        CustomInputSetManager.register(actionId, getLocalizedDisplayName, inputAction, cInputAction);
+    public static void registerCustomKeybind(String actionId, Function<String, String> getLocalizedDisplayName, InputAction inputAction, CInputAction cInputAction){
+        registerCustomKeybind(actionId, getLocalizedDisplayName, inputAction, cInputAction, () -> {});
     }
 
-    public static InputAction getCustomInputAction(String actionId){
-        return CustomInputSetManager.getAction(actionId);
+    public static void registerCustomKeybind(String actionId, Function<String, String> getLocalizedDisplayName, InputAction inputAction, CInputAction cInputAction, Runnable onKeyPressed){
+        CustomKeybindManager.register(actionId, getLocalizedDisplayName, inputAction, cInputAction, onKeyPressed);
     }
 
-    public static CInputAction getCustomCInputAction(String actionId){
-        return CustomInputSetManager.getCAction(actionId);
+    public static InputAction getCustomKeybind(String actionId){
+        return CustomKeybindManager.getAction(actionId);
+    }
+
+    public static CInputAction getCustomCKeybind(String actionId){
+        return CustomKeybindManager.getCAction(actionId);
     }
 }

@@ -176,6 +176,14 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         return childWrapperMap.containsValue(item);
     }
 
+    public ArrayList<ItemType> getItems(){
+        ArrayList<ItemType> items = new ArrayList<>();
+        for(UIElement child : children){
+            items.add(childWrapperMap.getByKey(child));
+        }
+        return items;
+    }
+
     //endregion
 
     //region Item Management Overrides
@@ -220,7 +228,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
             @Override
             public void toggle() {
-                if(isToggled() || trySelectItem(item)){
+                if((isToggled() && getSelectionMode() == ESelectionMode.MULTIPLE) || trySelectItem(item)){
                     super.toggle();
                     onItemSelectionChanged();
 
@@ -237,8 +245,6 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         };
         overlay.setID("wrap_overlay");
         overlay.setRenderColor(new Color(0, 0, 0, 0f));
-        overlay.setToggledColor(new Color(0, 0, 0, 0.5f));
-
         parent.addChild(overlay);
 
         postMakeUIForItem(item, itemUI);
@@ -261,14 +267,20 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             return false;
         }
 
-        for(UIElement child : children){
-            Toggle wrapOverlay = (Toggle) child.findChildById("wrap_overlay");
-            if(wrapOverlay == null){
-                continue;
-            }
+        if(((Toggle) childWrapperMap.getByValue(selectedItem).findChildById("wrap_overlay")).isToggled() && !selectionMode.equals(ESelectionMode.MULTIPLE)){
+            return false;
+        }
 
-            if(child != childWrapperMap.getByValue(selectedItem) && wrapOverlay.isToggled() && (selectionMode == ESelectionMode.SINGLE || selectionMode == ESelectionMode.SINGLE_NOPERSIST)){
-                wrapOverlay.toggle();
+        if(selectionMode == ESelectionMode.SINGLE || selectionMode == ESelectionMode.SINGLE_NOPERSIST){
+            for(UIElement child : children){
+                Toggle wrapOverlay = child.findChildById("wrap_overlay");
+                if(wrapOverlay == null){
+                    continue;
+                }
+
+                if(childWrapperMap.getByValue(selectedItem) != child && wrapOverlay.isToggled()){
+                    wrapOverlay.setToggled(false);
+                }
             }
         }
 
@@ -311,6 +323,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     }
 
     public void deselectAllItems(){
+        boolean changed = false;
+
         for(UIElement child : children){
             Toggle wrapOverlay = (Toggle) child.findChildById("wrap_overlay");
             if(wrapOverlay == null){
@@ -318,8 +332,13 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             }
 
             if(wrapOverlay.isToggled()){
-                wrapOverlay.toggle();
+                wrapOverlay.setToggled(false);
+                changed = true;
             }
+        }
+
+        if(changed){
+            onItemSelectionChanged();
         }
     }
 
@@ -407,6 +426,10 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
         for(UIElement child : children){
             if(!filterCheck(filterText, child, childWrapperMap.getByKey(child))){
+                continue;
+            }
+
+            if(child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 

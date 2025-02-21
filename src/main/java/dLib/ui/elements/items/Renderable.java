@@ -302,6 +302,19 @@ public class Renderable extends UIElement {
 
     //endregion
 
+    //region Render Orientation
+
+    public Renderable setRenderOrientation(Alignment orientation){
+        renderOrientation = orientation;
+        return this;
+    }
+
+    public Alignment getRenderOrientation(){
+        return renderOrientation;
+    }
+
+    //endregion
+
     //region Render Width & Height Percentage
 
     public Renderable setRenderWidthPerc(float perc){
@@ -335,6 +348,19 @@ public class Renderable extends UIElement {
 
     public Vector2 getRenderDimensionsPerc(){
         return renderDimensionsPerc;
+    }
+
+    //endregion
+
+    //region Render Dimension Orientation
+
+    public Renderable setRenderDimensionOrientation(Alignment orientation){
+        renderDimensionsOrientation = orientation;
+        return this;
+    }
+
+    public Alignment getRenderDimensionOrientation(){
+        return renderDimensionsOrientation;
     }
 
     //endregion
@@ -386,6 +412,19 @@ public class Renderable extends UIElement {
     }
 
     //endregion Scale offsets
+
+    //region Hue Shift
+
+    public Renderable setHueShiftAmount(int amount){
+        hueShiftAmount = amount;
+        return this;
+    }
+
+    public int getHueShiftAmount(){
+        return hueShiftAmount;
+    }
+
+    //endregion
 
     //endregion
 

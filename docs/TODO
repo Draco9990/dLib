@@ -1,3 +1,7 @@
+-- rework padding and auto dimensions
+
+-- make propertie name and description as annotations instead
+
 -- Save only properites of UI elements that have been modified?
 
 --> Set interaction layer, drag and drop for teams

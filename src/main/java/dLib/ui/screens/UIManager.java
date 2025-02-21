@@ -34,6 +34,10 @@ public class UIManager {
     //region Class Methods
 
     public static void openUIElement(UIElement element){ //TODO draw 'focus' to the first element
+        if(isOpen(element)){
+            return;
+        }
+
         if(element.overridesBaseScreen() && !hasBaseScreenOverriders()){
             cachedScreenMainMenu = CardCrawlGame.mainMenuScreen.screen;
             cachedScreenInGame = AbstractDungeon.screen;
@@ -94,6 +98,10 @@ public class UIManager {
     }
     public static ArrayList<UIElement> getOpenElements(){
         return new ArrayList<>(uiElements);
+    }
+
+    public static boolean isOpen(UIElement element){
+        return uiElements.contains(element);
     }
 
     //region Input Manager

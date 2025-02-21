@@ -9,8 +9,11 @@ import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.padding.AbstractPadding;
+import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
@@ -25,6 +28,11 @@ public abstract class ItemBox extends Renderable {
     private Alignment.AlignmentType alignmentType;
     private Alignment.HorizontalAlignment horizontalContentAlignment = Alignment.HorizontalAlignment.LEFT;
     private Alignment.VerticalAlignment verticalContentAlignment = Alignment.VerticalAlignment.TOP;
+
+    private AbstractPadding leftContentPadding = Padd.px(0);
+    private AbstractPadding rightContentPadding = Padd.px(0);
+    private AbstractPadding topContentPadding = Padd.px(0);
+    private AbstractPadding bottomContentPadding = Padd.px(0);
 
     protected String filterText = "";
 
@@ -88,7 +96,7 @@ public abstract class ItemBox extends Renderable {
     }
 
     protected void updateListVerticalBottomTop(){
-        int currentYPos = 0;
+        int currentYPos = 0 + getContentPaddingBottom();
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -107,7 +115,7 @@ public abstract class ItemBox extends Renderable {
 
     }
     protected void updateListVerticalTopBottom(){
-        int currentYPos = getHeight();
+        int currentYPos = getHeight() - getContentPaddingTop();
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -124,7 +132,7 @@ public abstract class ItemBox extends Renderable {
     }
 
     protected void updateListHorizontalLeftRight(){
-        int currentXPos = 0;
+        int currentXPos = 0 + getContentPaddingLeft();
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -143,7 +151,7 @@ public abstract class ItemBox extends Renderable {
 
     }
     protected void updateListHorizontalRightLeft(){
-        int currentXPos = getWidth();
+        int currentXPos = getWidth() - getContentPaddingRight();
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -254,6 +262,77 @@ public abstract class ItemBox extends Renderable {
     }
 
     //endregion
+
+    //region Content Padding
+
+    public void setLeftContentPadding(AbstractPadding padding){
+        this.leftContentPadding = padding;
+    }
+    public void setRightContentPadding(AbstractPadding padding){
+        this.rightContentPadding = padding;
+    }
+    public void setTopContentPadding(AbstractPadding padding){
+        this.topContentPadding = padding;
+    }
+    public void setBottomContentPadding(AbstractPadding padding){
+        this.bottomContentPadding = padding;
+    }
+
+    public void setHorizontalContentPadding(AbstractPadding padding){
+        setLeftContentPadding(padding);
+        setRightContentPadding(padding);
+    }
+    public void setVerticalContentPadding(AbstractPadding padding){
+        setTopContentPadding(padding);
+        setBottomContentPadding(padding);
+    }
+
+    public void setContentPadding(AbstractPadding padding){
+        setLeftContentPadding(padding);
+        setRightContentPadding(padding);
+        setTopContentPadding(padding);
+        setBottomContentPadding(padding);
+    }
+
+    public int getContentPaddingLeft(){
+        return leftContentPadding.getHorizontal(this);
+    }
+    public int getContentPaddingRight(){
+        return rightContentPadding.getHorizontal(this);
+    }
+    public int getContentPaddingTop(){
+        return topContentPadding.getVertical(this);
+    }
+    public int getContentPaddingBottom(){
+        return bottomContentPadding.getVertical(this);
+    }
+
+    //endregion
+
+    @Override
+    public PositionBounds getFullChildLocalBounds() {
+        PositionBounds bounds = super.getFullChildLocalBounds();
+        if(bounds == null) return null;
+
+        bounds.left -= getContentPaddingLeft();
+        bounds.right += getContentPaddingRight();
+        bounds.top += getContentPaddingTop();
+        bounds.bottom -= getContentPaddingBottom();
+        return bounds;
+    }
+
+    @Override
+    public PositionBounds getFullChildLocalBoundsForAutoDim() {
+        PositionBounds bounds = super.getFullChildLocalBoundsForAutoDim();
+        if(bounds == null) return null;
+
+        bounds.left -= getContentPaddingLeft();
+        bounds.right += getContentPaddingRight();
+        bounds.top += getContentPaddingTop();
+        bounds.bottom -= getContentPaddingBottom();
+        return bounds;
+    }
+
 
     //endregion
 

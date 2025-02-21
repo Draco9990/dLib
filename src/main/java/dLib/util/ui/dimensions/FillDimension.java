@@ -58,6 +58,8 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
         if(self.getParent() instanceof ItemBox && ((ItemBox)self.getParent()).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
             ItemBox itemBox = self.getParent();
 
+            parentWidth -= itemBox.getContentPaddingLeft() + itemBox.getContentPaddingRight();
+
             int staticWidth = 0;
             int fillElementCount = 0;
             for(UIElement sibling : ((ItemBox) self.getParent()).getActiveChildren()){
@@ -108,6 +110,8 @@ public class FillDimension extends AbstractDynamicDimension implements Serializa
 
         if(self.getParent() instanceof ItemBox && ((ItemBox)self.getParent()).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
             ItemBox itemBox = self.getParent();
+
+            parentHeight -= itemBox.getContentPaddingTop() + itemBox.getContentPaddingBottom();
 
             int staticHeight = 0;
             int fillElementCount = 0;

@@ -78,6 +78,9 @@ public abstract class UIItemBox extends ItemBox {
             if(!filterCheck(filterText, child)){
                 continue;
             }
+            if(child.hasComponent(UITransientElementComponent.class)){
+                continue;
+            }
 
             filteredChildren.add(child);
         }
