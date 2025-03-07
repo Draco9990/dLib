@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import dLib.patches.InputHelpers;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.util.Help;
 import dLib.util.Reflection;
@@ -258,6 +259,7 @@ public class UIManager {
                     InputHelpers.alreadyHovered = false;
 
                     for(int i = uiElements.size() - 1; i >= 0; i--){
+                        ElementCalculationManager.calculateElementPositionAndDimension(uiElements.get(i));
                         uiElements.get(i).update();
                     }
                     updateInput();
@@ -290,6 +292,7 @@ public class UIManager {
                     InputHelpers.alreadyHovered = false;
 
                     for (int i = uiElements.size() - 1; i >= 0; i--) {
+                        ElementCalculationManager.calculateElementPositionAndDimension(uiElements.get(i));
                         uiElements.get(i).update();
                     }
                     updateInput();

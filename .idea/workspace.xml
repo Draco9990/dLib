@@ -8,32 +8,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/custominput/CustomKeybindManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/KeyInputEventPatches.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Tooltip.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/annotations/DisplayClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/docs/TODO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/DLib.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/custominput/CustomInputSetManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/custominput/InputSetPatches.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/modsscreen/ui/elements/items/DLibModListScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/modsscreen/ui/elements/items/DLibModListScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/DimensionValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/DimensionValueEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/PositionValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/PositionValueEditor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/tools/uicreator/ui/editoritems/templates/UCEITemplate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/ContextMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/ContextMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Renderable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Toggle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/Toggle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/DataItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/DataItemBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/UIItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/UIItemBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/ImageTextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/ImageTextBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/TextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/TextBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/resources/UICommonResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/resources/UICommonResources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/ComboBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/ComboBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/screens/UIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/Binding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/Binding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/FontResourceBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/FontResourceBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/FontStaticBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/FontStaticBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/editors/FontResourceBindingValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/font/editors/FontResourceBindingValueEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/PropertyElementPathBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/PropertyElementPathBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/PropertyElementPathUndefinedBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/PropertyElementPathUndefinedBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/editors/PropertyElementPathBindingValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/property/editors/PropertyElementPathBindingValueEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureNoneBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureNoneBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureResourceBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureResourceBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureStaticBinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/TextureStaticBinding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/editors/TextureResourceBindingValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/bindings/texture/editors/TextureResourceBindingValueEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/helpers/UIHelpers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/helpers/UIHelpers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDynamicDimension.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractStaticDimension.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/MirrorDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/MirrorDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PixelDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PixelDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/AbstractDynamicPosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/AbstractPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/AbstractPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/AbstractStaticPosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PercentagePosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PercentagePosition.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PixelPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PixelPosition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/null.genui" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dLibResources/generated/ui/null.genui" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,11 +142,11 @@
       <recent name="dLib.ui" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dLib.ui.annotations" />
       <recent name="dLib.modsscreen.ui.elements.items" />
       <recent name="dLib.tools.uicreator.ui.editoritems.templates" />
       <recent name="dLib.ui.elements.items.itembox" />
       <recent name="dLib.util" />
-      <recent name="dLib.util.events.localevents" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -355,7 +363,11 @@
       <workItem from="1740013478321" duration="80000" />
       <workItem from="1740013606869" duration="8000" />
       <workItem from="1740094507433" duration="1749000" />
-      <workItem from="1740157712467" duration="9566000" />
+      <workItem from="1740157712467" duration="12500000" />
+      <workItem from="1740319210230" duration="1000" />
+      <workItem from="1741276222910" duration="23953000" />
+      <workItem from="1741307549819" duration="499000" />
+      <workItem from="1741344254337" duration="3988000" />
     </task>
     <servers />
   </component>

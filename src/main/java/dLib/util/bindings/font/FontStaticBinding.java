@@ -19,7 +19,7 @@ public class FontStaticBinding extends AbstractFontBinding {
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return "STATIC";
     }
 

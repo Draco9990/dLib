@@ -3,6 +3,7 @@ package dLib.properties.ui.elements;
 import dLib.properties.objects.DimensionProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ComboBox;
+import dLib.util.Reflection;
 import dLib.util.ui.dimensions.*;
 
 import java.util.ArrayList;
@@ -20,12 +21,7 @@ public class DimensionValueEditor<ValueType extends AbstractDimension> extends A
         positionOptions.add(new AutoDimension());
         positionOptions.add(new MirrorDimension());
 
-        ComboBox<AbstractDimension> comboBox = new ComboBox<AbstractDimension>(boundProperty.getValue(), positionOptions, Dim.px(28), Dim.px(15)){
-            @Override
-            public String itemToString(AbstractDimension item) {
-                return item.getSimpleDisplayName();
-            }
-        };
+        ComboBox<AbstractDimension> comboBox = new ComboBox<AbstractDimension>(boundProperty.getValue(), positionOptions, Dim.px(28), Dim.px(15));
         comboBox.label.setFontSize(6);
         comboBox.onSelectionChangedEvent.subscribe(comboBox, (option) -> {
             if(option == null || boundProperty.getValue().getClass() == option.getClass()) return;

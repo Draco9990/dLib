@@ -22,7 +22,7 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
 
         HorizontalBox contentBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
-            valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
+            valueBox = new TextButton(property.getValue().toString(), Dim.fill(), Dim.fill());
             valueBox.setTexture(Tex.stat(UICommonResources.button02_square));
             valueBox.onLeftClickEvent.subscribe(this, () -> {
                 AbstractUIResourcePicker picker = new UIGlobalTextureResourcePicker();
@@ -36,7 +36,7 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
         property.onValueChangedEvent.subscribe(this, (textureBinding, textureBinding2) -> {
             if (!isEditorValidForPropertyChange()) return;
 
-            valueBox.label.setText(textureBinding2.getDisplayValue());
+            valueBox.label.setText(textureBinding2.toString());
         });
 
         addChild(contentBox);

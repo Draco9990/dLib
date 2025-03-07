@@ -59,7 +59,7 @@ public class TextureResourceBinding extends AbstractTextureBinding implements Se
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return resourceClass.getSimpleName() + "/" + fieldName;
     }
 

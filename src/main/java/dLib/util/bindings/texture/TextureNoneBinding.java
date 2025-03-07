@@ -28,7 +28,7 @@ public class TextureNoneBinding extends AbstractTextureBinding implements Serial
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return "NULL";
     }
 

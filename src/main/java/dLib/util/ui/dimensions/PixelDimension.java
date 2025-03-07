@@ -1,31 +1,73 @@
 package dLib.util.ui.dimensions;
 
+import basemod.Pair;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PixelDimensionValueEditor;
-import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
+import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
 
-public class PixelDimension extends AbstractStaticDimension implements Serializable {
+@DisplayClass(shortDisplayName = "px")
+public class PixelDimension extends AbstractDimension implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //region Variables
+
     private int size;
+
+    //endregion
+
+    //region Constructors
 
     public PixelDimension(int size){
         this.size = size;
     }
 
+    //endregion
+
+    //region Methods
+
+    //region Calculations
+
     @Override
-    public int calculateDimension(UIElement self) {
+    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
+        return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedWidth(size)));
+    }
+
+    @Override
+    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
+        return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedWidth(size)));
+    }
+
+    //endregion
+
+    //region Value
+
+    public int getValueRaw(){
         return size;
     }
 
     @Override
-    public void resizeBy(UIElement self, int amount) {
-        size += amount;
+    public void setValueFromString(String value) {
+        size = Integer.parseInt(value);
+    }
+
+    //endregion
+
+    //region Utility
+
+    @Override
+    public AbstractDimension cpy() {
+        return Dim.px(size);
+    }
+
+    @Override
+    public String toString() {
+        return "Px[" + size + "]";
     }
 
     @Override
@@ -38,10 +80,9 @@ public class PixelDimension extends AbstractStaticDimension implements Serializa
         return other.size == size;
     }
 
-    @Override
-    public void setValueFromString(String value) {
-        size = Integer.parseInt(value);
-    }
+    //endregion
+
+    //region Editor
 
     @Override
     public AbstractValueEditor makeEditorFor() {
@@ -53,24 +94,25 @@ public class PixelDimension extends AbstractStaticDimension implements Serializa
         return new PixelDimensionValueEditor((DimensionProperty) property);
     }
 
-    public int getValueRaw(){
-        return size;
-    }
+    //endregion
+
+    //endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
-    public AbstractDimension cpy() {
-        PixelDimension pixelDimension = new PixelDimension(size);
-        pixelDimension.setReferenceDimension(refDimension);
-        return pixelDimension;
-    }
-
-    @Override
-    public String getSimpleDisplayName() {
-        return "px";
-    }
-
-    @Override
-    public String toString() {
-        return "Px[" + size + "]";
+    public void resizeBy(UIElement self, int amount) {
+        size += amount;
     }
 }

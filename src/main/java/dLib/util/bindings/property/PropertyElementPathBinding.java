@@ -34,8 +34,8 @@ public class PropertyElementPathBinding extends AbstractPropertyBinding implemen
     }
 
     @Override
-    public String getDisplayValue() {
-        return elementBinding.getDisplayValue() + "/" + propertyName;
+    public String toString() {
+        return elementBinding.toString() + "/" + propertyName;
     }
 
     @Override

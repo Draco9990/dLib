@@ -51,7 +51,7 @@ public class FontResourceBinding extends AbstractFontBinding implements Serializ
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return resourceClass.getSimpleName() + "/" + fieldName;
     }
 

@@ -27,7 +27,7 @@ public class TextureStaticBinding extends AbstractTextureBinding {
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return "STATIC";
     }
 

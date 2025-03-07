@@ -20,7 +20,7 @@ public class FontResourceBindingValueEditor extends AbstractValueEditor<FontReso
     public FontResourceBindingValueEditor(FontBindingProperty property) {
         super(property);
 
-        valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.px(50));
+        valueBox = new TextButton(property.getValue().toString(), Dim.fill(), Dim.px(50));
         valueBox.setTexture(Tex.stat(UICommonResources.button02_square));
         valueBox.onLeftClickEvent.subscribe(this, () -> {
             AbstractUIResourcePicker picker = new UIGlobalFontResourcePicker();
@@ -29,10 +29,10 @@ public class FontResourceBindingValueEditor extends AbstractValueEditor<FontReso
         });
         addChild(valueBox);
 
-        property.onValueChangedEvent.subscribe(this, (textureBinding, textureBinding2) -> {
+        property.onValueChangedEvent.subscribe(this, (oldFontBinding, newFontBinding) -> {
             if (!isEditorValidForPropertyChange()) return;
 
-            valueBox.label.setText(textureBinding2.getDisplayValue());
+            valueBox.label.setText(newFontBinding.toString());
         });
     }
 }

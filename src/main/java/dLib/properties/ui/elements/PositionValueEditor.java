@@ -21,12 +21,7 @@ public class PositionValueEditor<ValueType> extends AbstractValueEditor<ValueTyp
         positionOptions.add(new PixelPosition(0));
         positionOptions.add(new PercentagePosition(0));
 
-        ComboBox<AbstractPosition> comboBox = new ComboBox<AbstractPosition>(boundProperty.getValue(), positionOptions, Dim.px(28), Dim.px(15)){
-            @Override
-            public String itemToString(AbstractPosition item) {
-                return item.getDisplayValue();
-            }
-        };
+        ComboBox<AbstractPosition> comboBox = new ComboBox<AbstractPosition>(boundProperty.getValue(), positionOptions, Dim.px(28), Dim.px(15));
         comboBox.label.setFontSize(6);
         comboBox.onSelectionChangedEvent.subscribe(comboBox, (option) -> {
             if(option == null || boundProperty.getValue().getClass() == option.getClass()) return;

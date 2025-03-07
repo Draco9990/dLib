@@ -1,5 +1,6 @@
 package dLib.ui.elements.items;
 
+import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
@@ -66,6 +67,7 @@ public class ComboBox<OptionType> extends TextButton {
 
     public String itemToString(OptionType item){
         if(item == null) return "None";
+        if(item.getClass().isAnnotationPresent(DisplayClass.class)) return item.getClass().getAnnotation(DisplayClass.class).shortDisplayName();
         return item.toString();
     }
 
@@ -76,6 +78,7 @@ public class ComboBox<OptionType> extends TextButton {
 
     public String itemToStringShort(OptionType item){
         if(item == null) return "None";
+        if(item.getClass().isAnnotationPresent(DisplayClass.class)) return item.getClass().getAnnotation(DisplayClass.class).shortDisplayName();
         return itemToString(item);
     }
 }

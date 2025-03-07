@@ -53,7 +53,6 @@ import dLib.util.ui.events.PreUIUnhoverEvent;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
-import dLib.util.ui.position.AbstractStaticPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.IOException;
@@ -61,8 +60,10 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class UIElement implements Disposable, IEditableValue, Constructable {
+    
     //region Variables
 
     protected String ID;
@@ -80,10 +81,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private AbstractPosition localPosX = Pos.px(0);
     private AbstractPosition localPosY = Pos.px(0);
-    private Integer localPosXCache = null;
-    protected Integer localPosYCache = null;
-    private Integer worldPosXCache = null;
-    private Integer worldPosYCache = null;
+    private AbstractDimension width = Dim.fill();
+    private AbstractDimension height = Dim.fill();
+    
+    private Integer calculated_localPositionX = null;
+    private Integer calculated_localPositionY = null;
+    private Integer calculated_width = null;
+    private Integer calculated_height = null;
+    private Integer calculated_worldPositionX = null;
+    private Integer calculated_worldPositionY = null;
+
     public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
     private int localChildOffsetX = 0;
@@ -91,10 +98,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private Alignment alignment = new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
 
-    private AbstractDimension width = Dim.fill();
-    private AbstractDimension height = Dim.fill();
-    private Integer widthCache = null;
-    private Integer heightCache = null;
     private AbstractBounds containerBounds = null;
     private BoundCalculationType containerBoundCalculationType = BoundCalculationType.CONTAINS;
     public ConsumerEvent<UIElement> onDimensionsChangedEvent = new ConsumerEvent<>();
@@ -1048,28 +1051,28 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public int getWorldPositionX(){
-        worldPosXCache = null;
-        if (worldPosXCache == null) {
+        calculated_worldPositionX = null;
+        if (calculated_worldPositionX == null) {
             int parentWorldX = getParent() != null ?
                     getParent().getWorldPositionX() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetX()) :
                     0;
 
-            worldPosXCache = parentWorldX + getLocalPositionX();
+            calculated_worldPositionX = parentWorldX + getLocalPositionX();
         }
 
-        return worldPosXCache;
+        return calculated_worldPositionX;
     }
     public int getWorldPositionY(){
-        worldPosYCache = null;
-        if(worldPosYCache == null){
+        calculated_worldPositionY = null;
+        if(calculated_worldPositionY == null){
             int parentWorldY = getParent() != null ?
                     getParent().getWorldPositionY() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetY()) :
                     0;
 
-            worldPosYCache = parentWorldY + getLocalPositionY();
+            calculated_worldPositionY = parentWorldY + getLocalPositionY();
         }
 
-        return worldPosYCache;
+        return calculated_worldPositionY;
     }
     public IntegerVector2 getWorldPosition(){
         return new IntegerVector2(getWorldPositionX(), getWorldPositionY());
@@ -1393,8 +1396,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         localPosXCache = null;
         localPosYCache = null;
 
-        worldPosXCache = null;
-        worldPosYCache = null;
+        calculated_worldPositionX = null;
+        calculated_worldPositionY = null;
 
         if(playingAnimation == null){
             widthCache = null;
@@ -1845,9 +1848,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public PositionBounds getFullLocalBoundsForAutoDim(){
         PositionBounds myBounds = getLocalBounds();
-        myBounds.bottom -= getPaddingBottom();
-        myBounds.left -= getPaddingLeft();
-
         PositionBounds fullChildBounds = getFullChildLocalBoundsForAutoDim();
 
         if(fullChildBounds != null){
@@ -2526,6 +2526,53 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //endregion
+
+    public Integer getCalculatedLocalPositionX(){
+        return calculated_localPositionX;
+    }
+    public Integer getCalculatedLocalPositionY(){
+        return calculated_localPositionY;
+    }
+
+    public Integer getCalculatedWidth(){
+        return calculated_width;
+    }
+    public Integer getCalculatedHeight(){
+        return calculated_height;
+    }
+
+    public void setCalculatedLocalPositionX(int calculated_localPositionX){
+        this.calculated_localPositionX = calculated_localPositionX;
+    }
+    public void setCalculatedLocalPositionY(int calculated_localPositionY){
+        this.calculated_localPositionY = calculated_localPositionY;
+    }
+
+    public void setCalculatedWidth(int calculated_width){
+        this.calculated_width = calculated_width;
+    }
+    public void setCalculatedHeight(int calculated_height){
+        this.calculated_height = calculated_height;
+    }
+
+    public ArrayList<UIElement> getHierarchyForUpdateOrder(){
+        ArrayList<UIElement> hierarchy = new ArrayList<>();
+
+        for(UIElement child : children){
+            hierarchy.addAll(child.getHierarchyForUpdateOrder());
+        }
+
+        hierarchy.add(this);
+
+        return hierarchy;
+    }
+
+    public ArrayList<UIElement> getSiblings(){
+        if(hasParent()){
+            return parent.getChildren().stream().filter(element -> element != this).collect(Collectors.toCollection(ArrayList::new));
+        }
+        return new ArrayList<>();
+    }
 
     public enum BoundCalculationType{
         CONTAINS,

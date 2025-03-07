@@ -1,34 +1,57 @@
 package dLib.util.ui.dimensions;
 
+import basemod.Pair;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.MirrorDimensionValueEditor;
+import dLib.ui.ElementCalculationManager;
+import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
 
-public class MirrorDimension extends AbstractDynamicDimension implements Serializable {
-    @Override
-    public int calculateDimension(UIElement self) {
-        if(refDimension == AbstractDimension.ReferenceDimension.WIDTH){
-            return self.getHeight();
-        }
-        else if(refDimension == AbstractDimension.ReferenceDimension.HEIGHT){
-            return self.getWidth();
-        }
+@DisplayClass(shortDisplayName = "mirror")
+public class MirrorDimension extends AbstractDimension implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-        return 1;
+    //region Constructors
+
+    public MirrorDimension(){
+        super();
     }
 
-    @Override
-    public void resizeBy(UIElement self, int amount) {
-    }
+    //endregion
+
+    //region Class Methods
+
+    //region Calculation Methods
+
+    //region Width
 
     @Override
-    public void setValueFromString(String value) {
-
+    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
+        return new Pair<>(1, new ElementCalculationManager.ElementCalculationInstruction(
+                () -> forElement.setCalculatedWidth(forElement.getCalculatedHeight()),
+                () -> forElement.getCalculatedHeight() != null));
     }
+
+    //endregion
+
+    //region Height
+
+    @Override
+    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
+        return new Pair<>(1, new ElementCalculationManager.ElementCalculationInstruction(
+                () -> forElement.setCalculatedHeight(forElement.getCalculatedWidth()),
+                () -> forElement.getCalculatedWidth() != null));
+    }
+
+    //endregion
+
+    //endregion
+
+    //region Editor
 
     @Override
     public AbstractValueEditor makeEditorFor() {
@@ -40,6 +63,10 @@ public class MirrorDimension extends AbstractDynamicDimension implements Seriali
         return new MirrorDimensionValueEditor((DimensionProperty) property);
     }
 
+    //endregion
+
+    //region Utility
+
     @Override
     public AbstractDimension cpy() {
         MirrorDimension mirror = new MirrorDimension();
@@ -47,8 +74,7 @@ public class MirrorDimension extends AbstractDynamicDimension implements Seriali
         return mirror;
     }
 
-    @Override
-    public String getSimpleDisplayName() {
-        return "mirror";
-    }
+    //endregion
+
+    //endregion
 }

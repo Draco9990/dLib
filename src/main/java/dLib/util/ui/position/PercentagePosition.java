@@ -1,85 +1,205 @@
 package dLib.util.ui.position;
 
+import basemod.Pair;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PercentagePositionValueEditor;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
+import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.text.TextBox;
-import dLib.util.ui.bounds.PositionBounds;
+import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.FillDimension;
 
 import java.io.Serializable;
 
-public class PercentagePosition extends AbstractStaticPosition implements Serializable {
+@DisplayClass(shortDisplayName = "%")
+public class PercentagePosition extends AbstractPosition implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //region Variables
+
     private float percentage;
+
+    //endregion
+
+    //region Constructors
 
     public PercentagePosition(float percentage){
         this.percentage = percentage;
     }
+
+    //endregion
+
+    //region Class Methods
+
+    //region Calculation
+
+    @Override
+    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_X(UIElement forElement) {
+        if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
+            return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
+                    () -> forElement.setCalculatedLocalPositionX((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                    () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null));
+        }
+        else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
+            if(forElement.getWidthRaw() instanceof FillDimension){
+                return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> forElement.setCalculatedLocalPositionX(0)));
+            }
+            else{
+                return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> forElement.setCalculatedLocalPositionX((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth()) * 0.5f)),
+                        () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
+                        () -> forElement.getCalculatedWidth() != null
+                ));
+            }
+        }
+        else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
+            if(forElement.getWidthRaw() instanceof FillDimension){
+                return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> forElement.setCalculatedLocalPositionX((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                        () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null
+                ));
+            }
+            else{
+                return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> forElement.setCalculatedLocalPositionX(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth() - (int)(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                        () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
+                        () -> forElement.getCalculatedWidth() != null
+                ));
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Y(UIElement forElement) {
+        if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
+            return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
+                    () -> forElement.setCalculatedLocalPositionY((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                    () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null));
+        }
+        else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
+            if(forElement.getHeightRaw() instanceof FillDimension){
+                return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> forElement.setCalculatedLocalPositionY(0)));
+            }
+            else{
+                return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> forElement.setCalculatedLocalPositionY((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight()) * 0.5f)),
+                        () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
+                        () -> forElement.getCalculatedHeight() != null
+                ));
+            }
+        }
+        else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
+            if(forElement.getHeightRaw() instanceof FillDimension){
+                return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> forElement.setCalculatedLocalPositionY((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                        () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null
+                ));
+            }
+            else{
+                return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> forElement.setCalculatedLocalPositionY(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight() - (int)(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                        () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
+                        () -> forElement.getCalculatedHeight() != null
+                ));
+            }
+        }
+
+        return null;
+    }
+
+    //endregion
+
+    //region Value
 
     public float getValueRaw(){
         return percentage;
     }
 
     @Override
-    public int getLocalX(UIElement element) {
-        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element instanceof TextBox){
-            int parentWidth = element.getParent() != null ? element.getParent().getWidthUnscaled() : 1920;
-            return (int)(parentWidth * percentage);
-        }
-        else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            int parentWidth = element.getParent() != null ? element.getParent().getWidthUnscaled() : 1920;
+    public void setValueFromString(String value) {
+        percentage = Float.parseFloat(value);
+    }
 
-            if(element.getWidthRaw() instanceof FillDimension){
-                return 0;
-            }
-            else{
-                return parentWidth / 2 - (int) (element.getWidthLocalScaled() * percentage);
-            }
-        }
-        else{ //element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT
-            int parentWidth = element.getParent() != null ? element.getParent().getWidthUnscaled() : 1920;
+    //endregion
 
-            if(element.getWidthRaw() instanceof FillDimension){
-                return 0;
-            }
-            else{
-                return parentWidth - (int) ((parentWidth - element.getWidthLocalScaled()) * percentage);
-            }
-        }
+    //region Editor
+
+    @Override
+    public AbstractValueEditor makeEditorFor() {
+        return new PercentagePositionValueEditor(this);
     }
 
     @Override
-    public int getLocalY(UIElement element) {
-        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element instanceof TextBox){
-            int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
-            return (int)(parentHeight * percentage);
-        }
-        else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
-
-            if(element.getHeightRaw() instanceof FillDimension){
-                return 0;
-            }
-            else{
-                return parentHeight / 2 - (int) (element.getHeightLocalScaled() * percentage);
-            }
-        }
-        else{ //element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP
-            int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
-
-            if(element.getHeightRaw() instanceof FillDimension){
-                return 0;
-            }
-            else{
-                return parentHeight - (int) ((parentHeight - element.getHeightLocalScaled()) * percentage);
-            }
-        }
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new PercentagePositionValueEditor((PositionProperty) property);
     }
+
+    //endregion
+
+    //region Utility Methods
+
+    @Override
+    public AbstractPosition cpy() {
+        PercentagePosition cpy = new PercentagePosition(percentage);
+        cpy.setReferencePosition(refPosition);
+        return cpy;
+    }
+
+    @Override
+    public String toString() {
+        return "%[" + percentage + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PercentagePosition)) {
+            return false;
+        }
+
+        return ((PercentagePosition)obj).percentage == percentage;
+    }
+
+    //endregion
+
+    //endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void offsetHorizontal(UIElement element, int amount) {
@@ -92,7 +212,6 @@ public class PercentagePosition extends AbstractStaticPosition implements Serial
             percentage -= (float)amount / parentWidth;
         }
     }
-
     @Override
     public void offsetVertical(UIElement element, int amount) {
         int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
@@ -103,49 +222,5 @@ public class PercentagePosition extends AbstractStaticPosition implements Serial
         else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             percentage -= (float)amount / parentHeight;
         }
-    }
-
-    @Override
-    public void setForBounds(UIElement element, PositionBounds bounds) {
-
-    }
-
-    @Override
-    public void setValueFromString(String value) {
-        percentage = Float.parseFloat(value);
-    }
-
-    @Override
-    public AbstractValueEditor makeEditorFor() {
-        return new PercentagePositionValueEditor(this);
-    }
-
-    @Override
-    public AbstractValueEditor makeEditorFor(TProperty property) {
-        return new PercentagePositionValueEditor((PositionProperty) property);
-    }
-
-    @Override
-    public AbstractPosition cpy() {
-        return new PercentagePosition(percentage);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PercentagePosition)) {
-            return false;
-        }
-
-        return ((PercentagePosition)obj).percentage == percentage;
-    }
-
-    @Override
-    public String toString() {
-        return "%[" + percentage + "]";
-    }
-
-    @Override
-    public String getDisplayValue() {
-        return "%";
     }
 }

@@ -19,8 +19,6 @@ import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.position.PixelPosition;
 import dLib.util.ui.position.Pos;
 
-import java.util.ArrayList;
-
 public abstract class UCEITemplate {
     private String displayName;
 

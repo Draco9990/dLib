@@ -20,7 +20,7 @@ public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<A
     public PropertyElementPathBindingValueEditor(Property<AbstractPropertyBinding> property) {
         super(property);
 
-        valueBox = new TextButton(property.getValue().getDisplayValue(), Dim.fill(), Dim.px(50));
+        valueBox = new TextButton(property.getValue().toString(), Dim.fill(), Dim.px(50));
         valueBox.setTexture(Tex.stat(UICommonResources.button02_square));
         valueBox.onLeftClickEvent.subscribe(this, () -> {
             UIObjectPropertyResourcePicker resourcePicker = new UIObjectPropertyResourcePicker(((PropertyElementPathBinding)boundProperty.getValue()).elementBinding.getBoundObject());
@@ -39,7 +39,7 @@ public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<A
         property.onValueChangedEvent.subscribe(this, (textureBinding, propertyBinding) -> {
             if (!isEditorValidForPropertyChange()) return;
 
-            valueBox.label.setText(propertyBinding.getDisplayValue());
+            valueBox.label.setText(propertyBinding.toString());
         });
     }
 }

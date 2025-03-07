@@ -1,69 +1,141 @@
 package dLib.util.ui.dimensions;
 
+import basemod.Pair;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PercentageDimensionValueEditor;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
+import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
+import dLib.util.helpers.UIHelpers;
 
 import java.io.Serializable;
 
-public class PercentageDimension extends AbstractStaticDimension implements Serializable {
+@DisplayClass(shortDisplayName = "%")
+public class PercentageDimension extends AbstractDimension implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private float percentage;
+
+    //region Constructors
 
     public PercentageDimension(float percentage){
         this.percentage = percentage;
     }
 
+    //endregion
+
+    //region Class Methods
+
+    //region Calculation Methods
+
+    //region Width
+
     @Override
-    public int calculateDimension(UIElement self) {
-        if(refDimension == ReferenceDimension.WIDTH){
-            return calculateWidth(self);
-        } else {
-            return calculateHeight(self);
-        }
+    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
+        return new Pair<>(2, new ElementCalculationManager.ElementCalculationInstruction(
+                () -> forElement.setCalculatedWidth((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null));
     }
 
-    public int calculateWidth(UIElement self) {
-        int parentWidth = 1920;
-        if(self.getParent() != null){
-            UIElement parent = self.getParent();
-            while(parent.getWidthRaw() instanceof AutoDimension){
-                parent = parent.getParent();
-                if(parent == null){
-                    break;
-                }
-            }
+    //endregion
 
-            if(parent != null){
-                parentWidth = parent.getWidthUnscaled();
-            }
-        }
+    //region Height
 
-        return (int) (parentWidth * percentage);
+    @Override
+    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
+        return new Pair<>(2, new ElementCalculationManager.ElementCalculationInstruction(
+                () -> forElement.setCalculatedHeight((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null));
     }
 
-    public int calculateHeight(UIElement self) {
-        int parentHeight = 1080;
-        if(self.getParent() != null){
-            UIElement parent = self.getParent();
-            while(parent.getHeightRaw() instanceof AutoDimension){
-                parent = parent.getParent();
-                if(parent == null){
-                    break;
-                }
-            }
+    //endregion
 
-            if(parent != null){
-                parentHeight = parent.getHeightUnscaled();
-            }
+    //endregion
+
+    //region Value
+
+    public float getValueRaw(){
+        return percentage;
+    }
+
+    @Override
+    public void setValueFromString(String value) {
+        percentage = Float.parseFloat(value);
+    }
+
+    //endregion
+
+    //region Utility Methods
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PercentageDimension)) {
+            return false;
         }
 
-        return (int) (parentHeight * percentage);
+        PercentageDimension pd = (PercentageDimension) obj;
+        return pd.percentage == this.percentage;
     }
+
+    @Override
+    public AbstractDimension cpy() {
+        PercentageDimension percDim = new PercentageDimension(percentage);
+        percDim.setReferenceDimension(refDimension);
+        return percDim;
+    }
+
+    @Override
+    public String toString() {
+        return "%[" + percentage + "]";
+    }
+
+
+    //endregion
+
+    //region Editor
+
+    @Override
+    public AbstractValueEditor makeEditorFor() {
+        return new PercentageDimensionValueEditor(this);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new PercentageDimensionValueEditor((DimensionProperty) property);
+    }
+
+    //endregion
+
+    //endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void resizeBy(UIElement self, int amount) {
@@ -92,51 +164,5 @@ public class PercentageDimension extends AbstractStaticDimension implements Seri
         } else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             percentage -= (float)amount / parentHeight;
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PercentageDimension)) {
-            return false;
-        }
-
-        PercentageDimension pd = (PercentageDimension) obj;
-        return pd.percentage == this.percentage;
-    }
-
-    @Override
-    public void setValueFromString(String value) {
-        percentage = Float.parseFloat(value);
-    }
-
-    @Override
-    public AbstractValueEditor makeEditorFor() {
-        return new PercentageDimensionValueEditor(this);
-    }
-
-    @Override
-    public AbstractValueEditor makeEditorFor(TProperty property) {
-        return new PercentageDimensionValueEditor((DimensionProperty) property);
-    }
-
-    public float getValueRaw(){
-        return percentage;
-    }
-
-    @Override
-    public AbstractDimension cpy() {
-        PercentageDimension percDim = new PercentageDimension(percentage);
-        percDim.setReferenceDimension(refDimension);
-        return percDim;
-    }
-
-    @Override
-    public String getSimpleDisplayName() {
-        return "%";
-    }
-
-    @Override
-    public String toString() {
-        return "%[" + percentage + "]";
     }
 }

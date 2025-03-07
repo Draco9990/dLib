@@ -18,7 +18,7 @@ public class PropertyElementPathUndefinedBinding extends PropertyElementPathBind
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return "NONE";
     }
 }
