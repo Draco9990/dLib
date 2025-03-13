@@ -9,34 +9,44 @@ import java.util.Iterator;
 import java.util.function.Supplier;
 
 public class ElementCalculationManager {
-    public static void calculateElementPositionAndDimension(UIElement topElement){
+    public static void calculate(UIElement topElement){
+        ArrayList<UIElement> updatedElements = calculateElementPositionAndDimension(topElement);
+
+        for (UIElement element : updatedElements){
+            element.ensureElementWithinBounds();
+        }
+    }
+
+    private static ArrayList<UIElement> calculateElementPositionAndDimension(UIElement topElement){
         ArrayList<UIElement> elements = topElement.getHierarchyForUpdateOrder();
         Iterator<UIElement> iterator = elements.iterator();
         while(iterator.hasNext()){
             UIElement element = iterator.next();
-            if(element.getCalculatedWidth() != null && element.getCalculatedHeight() != null &&
-               element.getCalculatedLocalPositionX() != null && element.getCalculatedLocalPositionY() != null){
+            if (element.getCalculatedWidth() != null && element.getCalculatedHeight() != null && (Integer) element.getLocalPositionXRaw().getPreCalculatedValue() != null && (Integer) element.getLocalPositionYRaw().getPreCalculatedValue() != null) {
                 iterator.remove();
             }
         }
 
         ArrayList<Pair<Integer, ElementCalculationInstruction>> calculationInstructions = new ArrayList<>();
         for (UIElement element : topElement.getHierarchyForUpdateOrder()){
-            if(element.getCalculatedLocalPositionX() == null) calculationInstructions.add(element.getLocalPositionXRaw().getCalculationInstruction(element));
+            if(element.needsLocalPositionXRecalculation()) calculationInstructions.add(element.getLocalPositionXRaw().getCalculationInstruction(element));
             if(!calculationInstructions.isEmpty() && calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                element.getLocalPositionXRaw().getCalculationInstruction(element);
+                element.getLocalPositionXRaw().getCalculationInstruction(element); //* For Debug
             }
-            if(element.getCalculatedLocalPositionY() == null) calculationInstructions.add(element.getLocalPositionYRaw().getCalculationInstruction(element));
+
+            if(element.needsLocalPositionYRecalculation()) calculationInstructions.add(element.getLocalPositionYRaw().getCalculationInstruction(element));
             if(!calculationInstructions.isEmpty() && calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                element.getLocalPositionYRaw().getCalculationInstruction(element);
+                element.getLocalPositionYRaw().getCalculationInstruction(element); //* For Debug
             }
+
             if(element.getCalculatedWidth() == null) calculationInstructions.add(element.getWidthRaw().getCalculationInstruction(element));
             if(!calculationInstructions.isEmpty() && calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                element.getWidthRaw().getCalculationInstruction(element);
+                element.getWidthRaw().getCalculationInstruction(element); //* For Debug
             }
+
             if(element.getCalculatedHeight() == null) calculationInstructions.add(element.getHeightRaw().getCalculationInstruction(element));
             if(!calculationInstructions.isEmpty() && calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                element.getHeightRaw().getCalculationInstruction(element);
+                element.getHeightRaw().getCalculationInstruction(element); //* For Debug
             }
         }
 
@@ -68,6 +78,12 @@ public class ElementCalculationManager {
                 throw new RuntimeException("Circular dependency detected in element calculation");
             }
         }
+
+        return elements;
+    }
+
+    private static void calculateElementFinalisedPositionAndDimensions(){
+
     }
 
     public static class ElementCalculationInstruction{

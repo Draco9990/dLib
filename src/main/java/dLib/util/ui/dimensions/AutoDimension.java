@@ -41,6 +41,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     }
 
     private Integer calculateWidth(UIElement forElement){
+        if(forElement.getChildren().isEmpty()) return 0;
+
         Pair<Integer, Integer> totalWidth = null;
         for (UIElement child : forElement.getChildren()){
             Pair<Integer, Integer> childWidth = calculateWidthRecursive(child);
@@ -61,7 +63,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            Integer localPosX = forElement.getCalculatedLocalPositionX();
+            Integer localPosX = forElement.getLocalPositionXRaw().getPreCalculatedValue();
             if(localPosX == null){
                 return null;
             }
@@ -95,7 +97,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        Integer calculatedLocalX = forElement.getCalculatedLocalPositionX();
+        Integer calculatedLocalX = forElement.getLocalPositionXRaw().getPreCalculatedValue();
         if(calculatedLocalX == null){
             return null;
         }
@@ -115,21 +117,21 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                     return false;
                 }
 
-                if(child.getCalculatedLocalPositionX() == null){
+                if((Integer) child.getLocalPositionXRaw().getPreCalculatedValue() == null){
                     if(child.getLocalPositionXRaw() instanceof PixelPosition && child.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
                         return false;
                     }
                 }
             }
             else{
-                if(child.getCalculatedWidth() == null || child.getCalculatedLocalPositionX() == null){
+                if(child.getCalculatedWidth() == null || (Integer) child.getLocalPositionXRaw().getPreCalculatedValue() == null){
                     return false;
                 }
             }
         }
 
         if(forElement instanceof TextBox){
-            if(forElement.getCalculatedLocalPositionX() == null){
+            if((Integer) forElement.getLocalPositionXRaw().getPreCalculatedValue() == null){
                 return false;
             }
         }
@@ -150,6 +152,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     }
 
     private Integer calculateHeight(UIElement forElement){
+        if(forElement.getChildren().isEmpty()) return 0;
+
         Pair<Integer, Integer> totalHeight = null;
         for (UIElement child : forElement.getChildren()){
             Pair<Integer, Integer> childHeight = calculateHeightRecursive(child);
@@ -170,7 +174,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            Integer localPosY = forElement.getCalculatedLocalPositionY();
+            Integer localPosY = forElement.getLocalPositionYRaw().getPreCalculatedValue();
             if(localPosY == null){
                 return null;
             }
@@ -204,7 +208,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        Integer calculatedLocalY = forElement.getCalculatedLocalPositionY();
+        Integer calculatedLocalY = forElement.getLocalPositionYRaw().getPreCalculatedValue();
         if(calculatedLocalY == null){
             return null;
         }
@@ -226,21 +230,21 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                     }
                 }
 
-                if(child.getCalculatedLocalPositionY() == null){
+                if((Integer) child.getLocalPositionYRaw().getPreCalculatedValue() == null){
                     if(child.getLocalPositionYRaw() instanceof PixelPosition && child.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
                         return false;
                     }
                 }
             }
             else{
-                if(child.getCalculatedHeight() == null || child.getCalculatedLocalPositionY() == null){
+                if(child.getCalculatedHeight() == null || (Integer) child.getLocalPositionYRaw().getPreCalculatedValue() == null){
                     return false;
                 }
             }
         }
 
         if(forElement instanceof TextBox){
-            if(forElement.getCalculatedLocalPositionY() == null){
+            if((Integer) forElement.getLocalPositionYRaw().getPreCalculatedValue() == null){
                 return false;
             }
         }

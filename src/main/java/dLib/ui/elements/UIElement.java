@@ -84,17 +84,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private AbstractDimension width = Dim.fill();
     private AbstractDimension height = Dim.fill();
     
-    private Integer calculated_localPositionX = null;
-    private Integer calculated_localPositionY = null;
     private Integer calculated_width = null;
     private Integer calculated_height = null;
-    private Integer lastCalculatedWorldPositionX = null;
-    private Integer lastCalculatedWorldPositionY = null;
 
     public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
-    private int localChildOffsetX = 0;
-    private int localChildOffsetY = 0;
+    private int offsetX = 0;
+    private int offsetY = 0;
+    private int childOffsetX = 0;
+    private int childOffsetY = 0;
 
     private Alignment alignment = new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
 
@@ -359,13 +357,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             });
         }
 
-        //Scale
-        {
-            this.onScaleChangedEvent.subscribeManaged(uiElementConsumer -> {
-                uiElementConsumer.invalidateCachesForElementTree();
-            });
-        }
-
         //Context Menu
         {
             this.onRightClickEvent.subscribeManaged(() -> {
@@ -448,8 +439,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         preUpdateEvent.invoke(Runnable::run);
         updateSelf();
         postUpdateEvent.invoke(Runnable::run);
-
-        ensureElementWithinBounds();
 
         updating = false;
 
@@ -837,7 +826,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void onChildrenChanged(){
-        invalidateCachesForElementTree();
         onHierarchyChangedEvent.invoke();
         onChildrenChangedEvent.invoke();
     }
@@ -923,7 +911,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public void setLocalPosition(AbstractPosition newX, AbstractPosition newY){
         setLocalPosition_internal(newX, newY);
-        ensureElementWithinBounds();
     }
     private final void setLocalPosition_internal(AbstractPosition newX, AbstractPosition newY){
         AbstractPosition oldPosX = localPosX;
@@ -940,21 +927,20 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public int getLocalPositionX(){
-        if(calculated_localPositionX == null){
-            return 0;
-        }
-
-        return calculated_localPositionX;
+        return localPosX.getCalculatedValue();
     }
     public int getLocalPositionY(){
-        if(calculated_localPositionY == null){
-            return 0;
-        }
-
-        return calculated_localPositionY;
+        return localPosX.getCalculatedValue();
     }
     public IntegerVector2 getLocalPosition(){
         return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
+    }
+
+    public boolean needsLocalPositionXRecalculation(){
+        return localPosX.needsRecalculation();
+    }
+    public boolean needsLocalPositionYRecalculation(){
+        return localPosY.needsRecalculation();
     }
 
     public AbstractPosition getLocalPositionXRaw(){
@@ -992,54 +978,24 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //region World Position
-    public void setWorldPositionX(int newPos){
-        setWorldPosition(newPos, getWorldPositionY());
-    }
-    public void setWorldPositionY(int newPos){
-        setWorldPosition(getWorldPositionX(), newPos);
-    }
-    public void setWorldPosition(int newPosX, int newPosY){
-        int xDiff = newPosX - getWorldPositionX();
-        int yDiff = newPosY - getWorldPositionY();
-
-        DLibLogger.log("Offsetting by " + xDiff + ", " + yDiff);
-
-        offset(xDiff, yDiff);
-    }
-
     public int getWorldPositionX(){
         int parentWorldX = getParent() != null ?
-                getParent().getWorldPositionX() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetX()) :
+                getParent().getWorldPositionX() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getChildOffsetX()) :
                 0;
 
-        lastCalculatedWorldPositionX = parentWorldX + getLocalPositionX();
-
-        return lastCalculatedWorldPositionX;
+        return parentWorldX + getLocalPositionX();
     }
     public int getWorldPositionY(){
         int parentWorldY = getParent() != null ?
-                getParent().getWorldPositionY() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetY()) :
+                getParent().getWorldPositionY() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getChildOffsetY()) :
                 0;
 
-        lastCalculatedWorldPositionY = parentWorldY + getLocalPositionY();
-
-        return lastCalculatedWorldPositionY;
+        return parentWorldY + getLocalPositionY();
     }
     public IntegerVector2 getWorldPosition(){
         return new IntegerVector2(getWorldPositionX(), getWorldPositionY());
     }
 
-    public void setWorldPositionCenteredX(int newPos){
-        setWorldPositionCentered(newPos, getWorldPositionCenteredY());
-    }
-    public void setWorldPositionCenteredY(int newPos){
-        setWorldPositionCentered(getWorldPositionCenteredX(), newPos);
-    }
-    public void setWorldPositionCentered(int newPosX, int newPosY){
-        int wHalf = (int)(getWidth() * 0.5f);
-        int hHalf = (int)(getHeight() * 0.5f);
-        setWorldPosition(newPosX - wHalf, newPosY - hHalf);
-    }
 
     public final int getWorldPositionCenteredX(){
         return getWorldPositionCentered().x;
@@ -1093,9 +1049,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     public void onPositionChanged(){
-        invalidateCachesForElementTree();
-
         onPositionChangedEvent.invoke(this);
+
+        requestLocalPositionXRecalculation();
+        requestLocalPositionYRecalculation();
 
         for(UIElement child : children){
             child.onParentPositionChanged();
@@ -1109,11 +1066,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     protected void onChildPositionChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension){
-            invalidateCaches();
+            invalidateCalculatedWidth();
         }
 
         if(getHeightRaw() instanceof AutoDimension){
-            invalidateCaches();
+            invalidateCalculatedHeight();
         }
     }
 
@@ -1171,7 +1128,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion
 
-    private void ensureElementWithinBounds(){
+    public void ensureElementWithinBounds(){
         PositionBounds localContainerBounds = getLocalContainerBounds();
         if(localContainerBounds == null) return;
 
@@ -1242,11 +1199,24 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(desiredWidth == null) desiredWidth = getWidth();
         if(desiredHeight == null) desiredHeight = getHeight();
 
-        if(desiredWidth != getWidth() || desiredHeight != getHeight()){
+        /*if(desiredWidth != getWidth() || desiredHeight != getHeight()){
             resizeBy(desiredWidth - getWidth(), desiredHeight - getHeight());
         }
         else if(desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
             offset(desiredPositionX - getLocalPositionX(), desiredPositionY - getLocalPositionY());
+        }*/
+
+        if(desiredWidth != getWidth() || desiredHeight != getHeight() || desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
+            DLibLogger.log("Setting " + getClass() + " object: \n" +
+                    "Position X: " + getLocalPositionXRaw().getPreCalculatedValue() + " -> " + desiredPositionX + "\n" +
+                    "Position Y: " + getLocalPositionYRaw().getPreCalculatedValue() + " -> " + desiredPositionY + "\n" +
+                    "Width: " + getCalculatedWidth() + " -> " + desiredWidth + "\n" +
+                    "Height: " + getCalculatedHeight() + " -> " + desiredHeight);
+
+            getLocalPositionXRaw().overrideCalculatedValue(desiredPositionX);
+            getLocalPositionYRaw().overrideCalculatedValue(desiredPositionY);
+            setCalculatedWidth(desiredWidth);
+            setCalculatedHeight(desiredHeight);
         }
     }
 
@@ -1387,8 +1357,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     protected void setVisibility(boolean visible){
         isVisible = visible;
-
-        invalidateCachesForElementTree();
     }
     public boolean isVisible(){
         if(hasParent() && !parent.isVisible()) return false;
@@ -1485,7 +1453,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public void setDimensions(AbstractDimension newWidth, AbstractDimension newHeight){
         setDimensions_internal(newWidth, newHeight);
-        ensureElementWithinBounds();
     }
     private final void setDimensions_internal(AbstractDimension newWidth, AbstractDimension newHeight){
         AbstractDimension oldWidth = width;
@@ -1519,8 +1486,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void onDimensionsChanged(){
-        invalidateCachesForElementTree();
-
         for(UIElement child : children){
             child.onParentDimensionsChanged();
         }
@@ -1535,11 +1500,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     protected void onChildDimensionsChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
-            invalidateCaches();
+            invalidateCalculatedWidth();
         }
 
         if(getHeightRaw() instanceof AutoDimension || getHeightRaw() instanceof MirrorDimension){
-            invalidateCaches();
+            invalidateCalculatedHeight();
         }
     }
 
@@ -2128,41 +2093,45 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Local Child Offset
 
-    public void setLocalChildOffsetX(int offset){
-        localChildOffsetX = offset;
+    public void setChildOffsetX(int offset){
+        if(childOffsetX == offset) return;
+
+        childOffsetX = offset;
 
         for(UIElement child : children){
             child.onPositionChanged();
         }
     }
-    public void setLocalChildOffsetY(int offset){
-        localChildOffsetY = offset;
+    public void setChildOffsetY(int offset){
+        if(childOffsetY == offset) return;
+
+        childOffsetY = offset;
 
         for(UIElement child : children){
             child.onPositionChanged();
         }
     }
 
-    public int getLocalChildOffsetX(){
-        return localChildOffsetX;
+    public int getChildOffsetX(){
+        return childOffsetX;
     }
-    public int getLocalChildOffsetY(){
-        return localChildOffsetY;
+    public int getChildOffsetY(){
+        return childOffsetY;
     }
 
     public final int getLocalChildOffsetXRaw(){
-        return localChildOffsetX;
+        return childOffsetX;
     }
     public final int getLocalChildOffsetYRaw(){
-        return localChildOffsetY;
+        return childOffsetY;
     }
 
     public int getTotalLocalChildOffsetX(){
-        return localChildOffsetX + (hasParent() ? parent.getTotalLocalChildOffsetX() : 0);
+        return childOffsetX + (hasParent() ? parent.getTotalLocalChildOffsetX() : 0);
     }
 
     public int getTotalLocalChildOffsetY(){
-        return localChildOffsetY + (hasParent() ? parent.getTotalLocalChildOffsetY() : 0);
+        return childOffsetY + (hasParent() ? parent.getTotalLocalChildOffsetY() : 0);
     }
 
     //endregion
@@ -2294,8 +2263,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         setScaleY(scale);
     }
 
-    public void onScaleChanged(){
+    protected void onScaleChanged(){
         onScaleChangedEvent.invoke(this);
+
+        if(getParent() != null) getParent().onChildScaleChanged(this);
+        for (UIElement child : getChildren()) child.onParentScaleChanged();
+    }
+    protected void onParentScaleChanged(){
+
+    }
+    protected void onChildScaleChanged(UIElement child){
+
     }
 
     public float getScaleX(){
@@ -2372,13 +2350,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion
 
-    public Integer getCalculatedLocalPositionX(){
-        return calculated_localPositionX;
-    }
-    public Integer getCalculatedLocalPositionY(){
-        return calculated_localPositionY;
-    }
-
     public Integer getCalculatedWidth(){
         return calculated_width;
     }
@@ -2392,12 +2363,24 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void setCalculatedLocalPositionY(int calculated_localPositionY){
         this.calculated_localPositionY = calculated_localPositionY;
     }
-
     public void setCalculatedWidth(int calculated_width){
         this.calculated_width = calculated_width;
     }
     public void setCalculatedHeight(int calculated_height){
         this.calculated_height = calculated_height;
+    }
+
+    public void requestLocalPositionXRecalculation(){
+        getLocalPositionXRaw().requestRecalculation();
+    }
+    public void requestLocalPositionYRecalculation(){
+        getLocalPositionYRaw().requestRecalculation();
+    }
+    public void invalidateCalculatedWidth(){
+        calculated_width = null;
+    }
+    public void invalidateCalculatedHeight(){
+        calculated_height = null;
     }
 
     public ArrayList<UIElement> getHierarchyForUpdateOrder(){

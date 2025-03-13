@@ -106,7 +106,7 @@ public class VerticalScrollbar extends Scrollbar {
             int scrollableArea = oobAmounts.getKey() + oobAmounts.getValue();
             int offset = (int) (scrollableArea - (scrollableArea * percentage)) - oobAmounts.getValue();
 
-            boundElement.setLocalChildOffsetY(offset);
+            boundElement.setChildOffsetY(offset);
         }
 
         super.onScrollbarScrolled(percentage);

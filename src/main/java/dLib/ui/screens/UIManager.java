@@ -259,9 +259,9 @@ public class UIManager {
                     InputHelpers.alreadyHovered = false;
 
                     for(int i = uiElements.size() - 1; i >= 0; i--){
-                        ElementCalculationManager.calculateElementPositionAndDimension(uiElements.get(i));
+                        ElementCalculationManager.calculate(uiElements.get(i));
                         uiElements.get(i).update();
-                        ElementCalculationManager.calculateElementPositionAndDimension(uiElements.get(i));
+                        ElementCalculationManager.calculate(uiElements.get(i));
                     }
                     updateInput();
 
@@ -293,8 +293,9 @@ public class UIManager {
                     InputHelpers.alreadyHovered = false;
 
                     for (int i = uiElements.size() - 1; i >= 0; i--) {
-                        ElementCalculationManager.calculateElementPositionAndDimension(uiElements.get(i));
+                        ElementCalculationManager.calculate(uiElements.get(i));
                         uiElements.get(i).update();
+                        ElementCalculationManager.calculate(uiElements.get(i));
                     }
                     updateInput();
 

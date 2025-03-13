@@ -148,7 +148,7 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     @Override
     public AbstractPosition cpy() {
         PercentagePosition cpy = new PercentagePosition(percentage);
-        cpy.setReferencePosition(refPosition);
+        copyValues(cpy);
         return cpy;
     }
 

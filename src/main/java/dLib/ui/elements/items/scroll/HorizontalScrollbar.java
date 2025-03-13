@@ -105,7 +105,7 @@ public class HorizontalScrollbar extends Scrollbar {
             int scrollableArea = oobAmounts.getKey() + oobAmounts.getValue();
             int offset = (int) (scrollableArea - (scrollableArea * percentage)) - oobAmounts.getValue();
 
-            boundElement.setLocalChildOffsetX(offset);
+            boundElement.setChildOffsetX(offset);
         }
 
         super.onScrollbarScrolled(percentage);

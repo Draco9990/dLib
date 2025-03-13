@@ -50,7 +50,7 @@ public class MainMenuButtonPatches {
                     UCStartupPopup popup = new UCStartupPopup();
                     popup.open();
                 }
-                else if(false){
+                else if(true){
                     UCEditor editor = new UCEditor();
                     editor.open();
                 }

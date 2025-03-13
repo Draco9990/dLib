@@ -255,8 +255,6 @@ public class TextBox extends UIElement {
     }
 
     public void onTextChanged(String newText){
-        invalidateCachesFull();
-
         if(ModManager.SayTheSpire.isActive()){
             if(getOnTextChangedLine(text) != null){
                 Output.text(getOnTextChangedLine(text), true);

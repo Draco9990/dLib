@@ -142,7 +142,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     @Override
     public AbstractPosition cpy() {
         PixelPosition pos = new PixelPosition(position);
-        pos.setReferencePosition(refPosition);
+        copyValues(pos);
         return pos;
     }
 

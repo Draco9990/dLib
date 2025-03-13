@@ -13,6 +13,11 @@ public abstract class AbstractPosition extends Binding implements IEditableValue
 
     //region Variables
 
+    protected int preCalculatedValue = 0;
+
+    protected int calculatedValue = 0;
+    protected boolean needsRecalculation = true;
+
     protected ReferencePosition refPosition;
 
     //endregion
@@ -43,6 +48,24 @@ public abstract class AbstractPosition extends Binding implements IEditableValue
     protected abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_X(UIElement forElement);
     protected abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Y(UIElement forElement);
 
+    public int getPreCalculatedValue(){
+        return preCalculatedValue;
+    }
+
+    public int getCalculatedValue(){
+        return calculatedValue;
+    }
+    public void overrideCalculatedValue(int value){
+        calculatedValue = value;
+    }
+
+    public boolean needsRecalculation(){
+        return needsRecalculation;
+    }
+    public void requestRecalculation(){
+        needsRecalculation = true;
+    }
+
     //endregion
 
     //region Reference Position
@@ -63,6 +86,12 @@ public abstract class AbstractPosition extends Binding implements IEditableValue
     public abstract void setValueFromString(String value);
 
     public abstract AbstractPosition cpy();
+    protected final void copyValues(AbstractPosition position){
+        position.calculatedValue = calculatedValue;
+        position.needsRecalculation = needsRecalculation;
+
+        position.refPosition = refPosition;
+    }
 
     //endregion
 

@@ -103,7 +103,7 @@ public abstract class ItemBox extends Renderable {
             }
 
             currentYPos += child.getPaddingBottom();
-            child.setCalculatedLocalPositionY(currentYPos);
+            child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
 
             currentYPos += child.getHeight();
             currentYPos += itemSpacing;
@@ -122,7 +122,7 @@ public abstract class ItemBox extends Renderable {
             }
 
             currentYPos -= child.getPaddingTop();
-            child.setCalculatedLocalPositionY(currentYPos - child.getHeight());
+            child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos - child.getHeight());
 
             currentYPos -= child.getHeight();
             currentYPos -= itemSpacing;
@@ -139,7 +139,7 @@ public abstract class ItemBox extends Renderable {
             }
 
             currentXPos += child.getPaddingLeft();
-            child.setCalculatedLocalPositionX(currentXPos);
+            child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
 
             currentXPos += child.getWidth();
             currentXPos += itemSpacing;
@@ -159,7 +159,7 @@ public abstract class ItemBox extends Renderable {
 
             currentXPos -= child.getPaddingRight();
             currentXPos -= child.getWidth();
-            child.setCalculatedLocalPositionX(currentXPos);
+            child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
 
             currentXPos += child.getPaddingLeft();
             currentXPos += itemSpacing;
@@ -242,22 +242,22 @@ public abstract class ItemBox extends Renderable {
     //region Local Child Offsets
 
     @Override
-    public int getLocalChildOffsetX() {
+    public int getChildOffsetX() {
         if(getParent() == null){
-            return super.getLocalChildOffsetX();
+            return super.getChildOffsetX();
         }
 
         //! This is a hack to get the local offset of the parent in case of recursive item boxes
-        return getParent().getLocalChildOffsetXRaw() + super.getLocalChildOffsetX();
+        return getParent().getLocalChildOffsetXRaw() + super.getChildOffsetX();
     }
 
     @Override
-    public int getLocalChildOffsetY() {
+    public int getChildOffsetY() {
         if(getParent() == null){
-            return super.getLocalChildOffsetY();
+            return super.getChildOffsetY();
         }
 
-        return getParent().getLocalChildOffsetYRaw() + super.getLocalChildOffsetY();
+        return getParent().getLocalChildOffsetYRaw() + super.getChildOffsetY();
     }
 
     //endregion
