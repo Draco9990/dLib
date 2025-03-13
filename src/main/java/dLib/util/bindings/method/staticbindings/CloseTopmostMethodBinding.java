@@ -19,7 +19,7 @@ public class CloseTopmostMethodBinding extends StaticMethodBinding implements Se
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return PROPERTY_EDITOR_LONG_NAME;
     }
 }

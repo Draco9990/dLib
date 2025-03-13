@@ -40,7 +40,7 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedWidth(size)));
+        return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedHeight(size)));
     }
 
     //endregion
@@ -62,7 +62,9 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
     @Override
     public AbstractDimension cpy() {
-        return Dim.px(size);
+        PixelDimension px = Dim.px(size);
+        px.setReferenceDimension(refDimension);
+        return px;
     }
 
     @Override
@@ -96,23 +98,19 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
     //endregion
 
-    //endregion
+    //region Resizing
 
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    protected boolean canResize() {
+        return true;
+    }
 
     @Override
     public void resizeBy(UIElement self, int amount) {
         size += amount;
     }
+
+    //endregion
+
+    //endregion
 }

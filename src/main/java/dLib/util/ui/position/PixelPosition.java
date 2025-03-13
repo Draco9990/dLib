@@ -162,6 +162,12 @@ public class PixelPosition extends AbstractPosition implements Serializable {
 
     //endregion
 
+    //region Resizing
+
+
+
+    //endregion
+
     //endregion
 
 

@@ -22,7 +22,7 @@ public class UIElementUndefinedRelativePathBinding extends UIElementRelativePath
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return "none";
     }
 }

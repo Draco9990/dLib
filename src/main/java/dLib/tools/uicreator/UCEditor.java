@@ -68,7 +68,7 @@ public class UCEditor extends Renderable {
                     canvas.setElementMask(mainScreen);
                     canvas.setHorizontalAlignment(Alignment.HorizontalAlignment.CENTER);
                     canvas.setVerticalAlignment(Alignment.VerticalAlignment.CENTER);
-                    mainScreen.addChild(canvas);
+                    //mainScreen.addChild(canvas);
                 }
             }
             mainBox.addChild(firstColumn);

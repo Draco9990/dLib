@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
+import dLib.ui.ILayoutController;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
@@ -19,7 +19,7 @@ import dLib.util.ui.position.AbstractPosition;
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class ItemBox extends Renderable {
+public abstract class ItemBox extends Renderable implements ILayoutController {
     //region Variables
 
     // Elements
@@ -104,7 +104,7 @@ public abstract class ItemBox extends Renderable {
             }
 
             currentYPos += child.getPaddingBottom();
-            child.setLocalPositionY(currentYPos);
+            child.setCalculatedLocalPositionY(currentYPos);
 
             currentYPos += child.getHeight();
             currentYPos += itemSpacing;
@@ -123,7 +123,7 @@ public abstract class ItemBox extends Renderable {
             }
 
             currentYPos -= child.getPaddingTop();
-            child.setLocalPositionY(currentYPos - child.getHeight());
+            child.setCalculatedLocalPositionY(currentYPos - child.getHeight());
 
             currentYPos -= child.getHeight();
             currentYPos -= itemSpacing;
@@ -140,7 +140,7 @@ public abstract class ItemBox extends Renderable {
             }
 
             currentXPos += child.getPaddingLeft();
-            child.setLocalPositionX(currentXPos);
+            child.setCalculatedLocalPositionX(currentXPos);
 
             currentXPos += child.getWidth();
             currentXPos += itemSpacing;
@@ -160,7 +160,7 @@ public abstract class ItemBox extends Renderable {
 
             currentXPos -= child.getPaddingRight();
             currentXPos -= child.getWidth();
-            child.setLocalPositionX(currentXPos);
+            child.setCalculatedLocalPositionX(currentXPos);
 
             currentXPos += child.getPaddingLeft();
             currentXPos += itemSpacing;

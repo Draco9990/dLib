@@ -34,7 +34,7 @@ public class HideAndDisableTopmostMethodBinding extends StaticMethodBinding impl
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return PROPERTY_EDITOR_LONG_NAME;
     }
 }

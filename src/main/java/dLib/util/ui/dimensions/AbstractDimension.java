@@ -66,6 +66,16 @@ public abstract class AbstractDimension implements IEditableValue, Serializable 
 
     //endregion
 
+    //region Resizing
+
+    protected boolean canResize(){
+        return false;
+    }
+
+    public void resizeBy(UIElement self, int amount){}
+
+    //endregion
+
     //endregion
 
     //region Enums
@@ -76,24 +86,4 @@ public abstract class AbstractDimension implements IEditableValue, Serializable 
     }
 
     //endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public abstract void resizeBy(UIElement self, int amount);
 }

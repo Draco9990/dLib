@@ -35,7 +35,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(3, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> calculateWidth(forElement),
+                () -> forElement.setCalculatedWidth(calculateWidth(forElement)),
                 () -> canCalculateWidth(forElement)
         ));
     }
@@ -126,8 +126,6 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                     return false;
                 }
             }
-
-            return false;
         }
 
         if(forElement instanceof TextBox){
@@ -146,7 +144,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(3, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> calculateHeight(forElement),
+                () -> forElement.setCalculatedHeight(calculateHeight(forElement)),
                 () -> canCalculateHeight(forElement)
         ));
     }
@@ -239,8 +237,6 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                     return false;
                 }
             }
-
-            return false;
         }
 
         if(forElement instanceof TextBox){

@@ -8,6 +8,8 @@ import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.HorizontalDataBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
+import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.mousestates.DragAndDropMouseState;
 import dLib.ui.resources.UICommonResources;
@@ -21,13 +23,18 @@ public class TestScreen extends UIElement {
     public TestScreen(){
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
-        HorizontalDataBox<String> test = new HorizontalDataBox<String>(Pos.px(100), Pos.px(100), Dim.px(300), Dim.px(300));
+        Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(350), Dim.px(300));
+        scrollbox.setIsHorizontal(false);
         {
-            test.addChild("AAA");
-            test.addChild("BBBB");
-            test.addChild("CCCC");
-            test.addChild("DDDD");
+            VerticalDataBox<String> test = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
+            {
+                test.addChild("AAA");
+                test.addChild("BBBB");
+                test.addChild("CCCC");
+                test.addChild("DDDD");
+            }
+            scrollbox.addChild(test);
         }
-        addChild(test);
+        addChild(scrollbox);
     }
 }

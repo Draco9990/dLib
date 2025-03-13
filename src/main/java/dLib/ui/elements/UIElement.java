@@ -88,8 +88,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private Integer calculated_localPositionY = null;
     private Integer calculated_width = null;
     private Integer calculated_height = null;
-    private Integer calculated_worldPositionX = null;
-    private Integer calculated_worldPositionY = null;
+    private Integer lastCalculatedWorldPositionX = null;
+    private Integer lastCalculatedWorldPositionY = null;
 
     public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
@@ -226,8 +226,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public UIElement(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         this.ID = getClass().getSimpleName() + "_" + UUID.randomUUID().toString().replace("-", "");
-        this.localPosX = xPos;
-        this.localPosY = yPos;
+        setLocalPosition_internal(xPos, yPos);
         setWidthRaw(width);
         setHeightRaw(height);
 
@@ -634,7 +633,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public final void render(SpriteBatch sb){
         if(!initialized){
-            update();
+            return;
         }
 
         if(!shouldRender()) return;
@@ -931,66 +930,31 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         AbstractPosition oldPosY = localPosY;
 
         localPosX = newX;
+        localPosX.setReferencePosition(AbstractPosition.ReferencePosition.X);
         localPosY = newY;
+        localPosY.setReferencePosition(AbstractPosition.ReferencePosition.Y);
 
-        if(!oldPosX.equals(localPosX) || !oldPosY.equals(localPosY)){
+        if(oldPosX != null && oldPosY != null && (!oldPosX.equals(localPosX) || !oldPosY.equals(localPosY))){
             onPositionChanged();
         }
     }
 
     public int getLocalPositionX(){
-        if(localPosXCache == null){
-            localPosXCache = localPosX.getLocalX(this);
+        if(calculated_localPositionX == null){
+            return 0;
         }
 
-        int toReturn = localPosXCache;
-        toReturn += getPaddingLeft();
-        if(localPosX instanceof AbstractStaticPosition){
-            toReturn = Math.round(toReturn * getParentScaleX());
-        }
-
-        return toReturn;
+        return calculated_localPositionX;
     }
     public int getLocalPositionY(){
-        if(localPosYCache == null){
-            localPosYCache = localPosY.getLocalY(this);
+        if(calculated_localPositionY == null){
+            return 0;
         }
 
-        int toReturn = localPosYCache;
-        toReturn += getPaddingBottom();
-        if(localPosY instanceof AbstractStaticPosition){
-            toReturn = Math.round(toReturn * getParentScaleY());
-        }
-
-        return toReturn;
+        return calculated_localPositionY;
     }
     public IntegerVector2 getLocalPosition(){
         return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
-    }
-
-    public int getLocalPositionXUnpadded(){
-        if(localPosXCache == null){
-            localPosXCache = localPosX.getLocalX(this);
-        }
-
-        int toReturn = localPosXCache;
-        if(localPosX instanceof AbstractStaticPosition){
-            toReturn = Math.round(toReturn * getParentScaleX());
-        }
-
-        return toReturn;
-    }
-    public int getLocalPositionYUnpadded(){
-        if(localPosYCache == null){
-            localPosYCache = localPosY.getLocalY(this);
-        }
-
-        int toReturn = localPosYCache;
-        if(localPosY instanceof AbstractStaticPosition){
-            toReturn = Math.round(toReturn * getParentScaleY());
-        }
-
-        return toReturn;
     }
 
     public AbstractPosition getLocalPositionXRaw(){
@@ -998,13 +962,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public AbstractPosition getLocalPositionYRaw(){
         return localPosY;
-    }
-
-    public Integer getLocalPositionXCache(){
-        return localPosXCache;
-    }
-    public Integer getLocalPositionYCache(){
-        return localPosYCache;
     }
 
     public void setLocalPositionCenteredX(int newPos){
@@ -1051,28 +1008,22 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public int getWorldPositionX(){
-        calculated_worldPositionX = null;
-        if (calculated_worldPositionX == null) {
-            int parentWorldX = getParent() != null ?
-                    getParent().getWorldPositionX() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetX()) :
-                    0;
+        int parentWorldX = getParent() != null ?
+                getParent().getWorldPositionX() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetX()) :
+                0;
 
-            calculated_worldPositionX = parentWorldX + getLocalPositionX();
-        }
+        lastCalculatedWorldPositionX = parentWorldX + getLocalPositionX();
 
-        return calculated_worldPositionX;
+        return lastCalculatedWorldPositionX;
     }
     public int getWorldPositionY(){
-        calculated_worldPositionY = null;
-        if(calculated_worldPositionY == null){
-            int parentWorldY = getParent() != null ?
-                    getParent().getWorldPositionY() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetY()) :
-                    0;
+        int parentWorldY = getParent() != null ?
+                getParent().getWorldPositionY() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getLocalChildOffsetY()) :
+                0;
 
-            calculated_worldPositionY = parentWorldY + getLocalPositionY();
-        }
+        lastCalculatedWorldPositionY = parentWorldY + getLocalPositionY();
 
-        return calculated_worldPositionY;
+        return lastCalculatedWorldPositionY;
     }
     public IntegerVector2 getWorldPosition(){
         return new IntegerVector2(getWorldPositionX(), getWorldPositionY());
@@ -1393,15 +1344,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Caches
 
     protected void invalidateCaches(){
-        localPosXCache = null;
-        localPosYCache = null;
-
-        calculated_worldPositionX = null;
-        calculated_worldPositionY = null;
+        calculated_localPositionX = null;
+        calculated_localPositionY = null;
 
         if(playingAnimation == null){
-            widthCache = null;
-            heightCache = null;
+            calculated_width = null;
+            calculated_height = null;
         }
     }
 
@@ -1635,74 +1583,21 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public int getWidth(){
-        if(widthCache == null || widthCache <= 0){
-            widthCache = width.calculateDimension(this);
+        if(calculated_width == null){
+            return 0;
         }
 
-        int toReturn = widthCache;
-
-        toReturn -= getPaddingRight();
-        if(width instanceof AbstractStaticDimension){
-            toReturn = (int) (toReturn * getScaleX());
-        }
-
-        return toReturn;
+        return calculated_width;
     }
     public int getHeight(){
-        if(heightCache == null || heightCache <= 0){
-            heightCache = height.calculateDimension(this);
+        if(calculated_height == null){
+            return 0;
         }
 
-        int toReturn = heightCache;
-
-        toReturn -= getPaddingTop();
-        if(height instanceof AbstractStaticDimension){
-            toReturn = (int) (toReturn * getScaleY());
-        }
-
-        return toReturn;
+        return calculated_height;
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
-    }
-
-    public int getWidthUnpadded(){
-        if(widthCache == null || widthCache <= 0){
-            widthCache = width.calculateDimension(this);
-        }
-
-        int toReturn = widthCache;
-        if(width instanceof AbstractStaticDimension){
-            toReturn = (int) (toReturn * getScaleX());
-        }
-
-        return toReturn;
-    }
-    public int getHeightUnpadded(){
-        if(heightCache == null || heightCache <= 0){
-            heightCache = height.calculateDimension(this);
-        }
-
-        int toReturn = heightCache;
-        if(height instanceof AbstractStaticDimension){
-            toReturn = (int) (toReturn * getScaleY());
-        }
-
-        return toReturn;
-    }
-
-    public int getWidthUnscaled(){
-        return (int) (getWidth() / getScaleX());
-    }
-    public int getHeightUnscaled(){
-        return (int) (getHeight() / getScaleY());
-    }
-
-    public int getWidthLocalScaled(){
-        return (int) (getWidth() / getParentScaleX());
-    }
-    public int getHeightLocalScaled(){
-        return (int) (getHeight() / getParentScaleY());
     }
 
     public AbstractDimension getWidthRaw(){
@@ -1710,13 +1605,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public AbstractDimension getHeightRaw(){
         return height.cpy();
-    }
-
-    public Integer getWidthCache(){
-        return widthCache;
-    }
-    public Integer getHeightCache(){
-        return heightCache;
     }
 
     public void resizeBy(int widthDiff, int heightDiff){
@@ -1769,10 +1657,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public PositionBounds getLocalBounds(){
         return new PositionBounds(getLocalPositionX(), getLocalPositionY(), getLocalPositionX() + getWidth(), getLocalPositionY() + getHeight());
-    }
-
-    public PositionBounds getLocalBoundsUnpadded(){
-        return new PositionBounds(getLocalPositionXUnpadded(), getLocalPositionYUnpadded(), getLocalPositionXUnpadded() + getWidthUnpadded(), getLocalPositionYUnpadded() + getHeightUnpadded());
     }
 
     public boolean overlapsParent(){

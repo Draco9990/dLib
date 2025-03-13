@@ -68,7 +68,7 @@ public class DynamicMethodBinding extends AbstractMethodBinding implements Seria
 
     /** Validity */
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return methodToExecute.getValue().isEmpty() ? "CUSTOM" : methodToExecute.getValue();
     }
 

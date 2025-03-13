@@ -109,33 +109,12 @@ public class PercentageDimension extends AbstractDimension implements Serializab
 
     //endregion
 
-    //endregion
+    //region Resizing
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    protected boolean canResize() {
+        return true;
+    }
 
     @Override
     public void resizeBy(UIElement self, int amount) {
@@ -147,7 +126,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     }
 
     public void resizeWidthBy(UIElement self, int amount) {
-        int parentWidth = self.getParent() != null ? self.getParent().getWidthUnscaled() : 1920;
+        int parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(self);
 
         if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             percentage += (float)amount / parentWidth;
@@ -157,7 +136,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     }
 
     public void resizeHeightBy(UIElement self, int amount) {
-        int parentHeight = self.getParent() != null ? self.getParent().getHeightUnscaled() : 1080;
+        int parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(self);
 
         if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             percentage += (float)amount / parentHeight;
@@ -165,4 +144,8 @@ public class PercentageDimension extends AbstractDimension implements Serializab
             percentage -= (float)amount / parentHeight;
         }
     }
+
+    //endregion
+
+    //endregion
 }

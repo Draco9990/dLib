@@ -45,7 +45,7 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
             });
             mainContentBox.addChild(referenceButton);
 
-            bindingBox = new ImageTextBox(property.getValue().getDisplayValue(), Dim.fill(), Dim.fill());
+            bindingBox = new ImageTextBox(property.getValue().toString(), Dim.fill(), Dim.fill());
             mainContentBox.addChild(bindingBox);
         }
 

@@ -22,15 +22,29 @@ public class ElementCalculationManager {
 
         ArrayList<Pair<Integer, ElementCalculationInstruction>> calculationInstructions = new ArrayList<>();
         for (UIElement element : topElement.getHierarchyForUpdateOrder()){
-            if(element.getCalculatedLocalPositionX() == null) calculationInstructions.add(element.getLocalPositionXRaw().getCalculationInstruction(element));
+            if(element.getCalculatedLocalPositionX() == null && (!(element.getParent() instanceof ILayoutController))) calculationInstructions.add(element.getLocalPositionXRaw().getCalculationInstruction(element));
+            if(calculationInstructions.size() > 0 && calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                element.getLocalPositionXRaw().getCalculationInstruction(element);
+            }
             if(element.getCalculatedLocalPositionY() == null) calculationInstructions.add(element.getLocalPositionYRaw().getCalculationInstruction(element));
+            if(calculationInstructions.size() > 0 && calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                element.getLocalPositionYRaw().getCalculationInstruction(element);
+            }
             if(element.getCalculatedWidth() == null) calculationInstructions.add(element.getWidthRaw().getCalculationInstruction(element));
+            if(calculationInstructions.size() > 0 && calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                element.getWidthRaw().getCalculationInstruction(element);
+            }
             if(element.getCalculatedHeight() == null) calculationInstructions.add(element.getHeightRaw().getCalculationInstruction(element));
+            if(calculationInstructions.size() > 0 && calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                element.getHeightRaw().getCalculationInstruction(element);
+            }
         }
 
-        calculationInstructions.sort(Comparator.comparing(Pair::getKey));
+        calculationInstructions.sort(Comparator.comparingInt(Pair::getKey));
 
         while(!calculationInstructions.isEmpty()){
+            boolean somethingChanged = false;
+
             Iterator<Pair<Integer, ElementCalculationInstruction>> iterator2 = calculationInstructions.iterator();
             while(iterator2.hasNext()){
                 Pair<Integer, ElementCalculationInstruction> pair = iterator2.next();
@@ -46,7 +60,12 @@ public class ElementCalculationManager {
                 if(canCalculate){
                     pair.getValue().calculateFormula.run();
                     iterator2.remove();
+                    somethingChanged = true;
                 }
+            }
+
+            if(!somethingChanged){
+                throw new RuntimeException("Circular dependency detected in element calculation");
             }
         }
     }

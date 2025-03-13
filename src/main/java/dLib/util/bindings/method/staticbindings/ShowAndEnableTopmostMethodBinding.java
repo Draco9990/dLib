@@ -34,7 +34,7 @@ public class ShowAndEnableTopmostMethodBinding extends StaticMethodBinding imple
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return PROPERTY_EDITOR_LONG_NAME;
     }
 }

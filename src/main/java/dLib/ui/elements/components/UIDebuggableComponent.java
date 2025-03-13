@@ -68,8 +68,8 @@ public class UIDebuggableComponent extends AbstractUIElementComponent {
     }
 
     private String generateDebugTextForUIElement(UIElement element){
-        String cachedPosition = " Cached(" + (element.getLocalPositionXCache() == null ? "null" : element.getLocalPositionXCache()) + ", " + (element.getLocalPositionYCache() == null ? "null" : element.getLocalPositionYCache()) + ")";
-        String cachedDimensions = " Cached(" + (element.getWidthCache() == null ? "null" : element.getWidthCache()) + ", " + (element.getHeightCache() == null ? "null" : element.getHeightCache()) + ")";
+        String cachedPosition = " Cached(" + element.getLocalPositionX() + ", " + element.getLocalPositionY() + ")";
+        String cachedDimensions = " Cached(" + element.getWidth() + ", " + element.getHeight() + ")";
 
         return "Element ID: " + element.getId() + "\n" +
                 "Position: " + element.getLocalPositionXRaw().toString() + ", " + element.getLocalPositionYRaw().toString() + cachedPosition + "\n" +

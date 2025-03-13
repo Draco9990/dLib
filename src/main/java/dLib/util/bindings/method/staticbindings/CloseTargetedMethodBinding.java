@@ -34,7 +34,7 @@ public class CloseTargetedMethodBinding extends StaticMethodBinding implements S
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return PROPERTY_EDITOR_LONG_NAME;
     }
 }

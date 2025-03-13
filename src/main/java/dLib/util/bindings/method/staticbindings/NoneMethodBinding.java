@@ -16,7 +16,7 @@ public class NoneMethodBinding extends StaticMethodBinding implements Serializab
 
     /** Name */
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return "NONE";
     }
 }

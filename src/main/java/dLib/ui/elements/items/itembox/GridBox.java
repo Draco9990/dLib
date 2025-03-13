@@ -14,6 +14,7 @@ public class GridBox extends UIItemBox {
         super(xPos, yPos, width, height);
 
         setContentAlignmentType(Alignment.AlignmentType.VERTICAL);
+        
     }
 
     public GridBox(GridBoxData data){

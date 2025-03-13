@@ -41,12 +41,9 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     private Integer calculateWidth(UIElement forElement){
         Integer parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-        if(parentWidth == null) return null;
 
-        if(!(forElement.getParent() instanceof ItemBox) || ((ItemBox)forElement.getParent()).getContentAlignmentType() != Alignment.AlignmentType.VERTICAL){
+        if(!isWithinHorizontalBox(forElement)){
             if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
-                if(forElement.getCalculatedLocalPositionX() == null) return null;
-
                 return parentWidth - forElement.getCalculatedLocalPositionX();
             }
             else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
@@ -66,10 +63,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
                     fillElementCount++;
                 }
                 else{
-                    if(sibling.getCalculatedWidth() == null){
-                        return null;
-                    }
-                    staticWidth += sibling.getWidth();
+                    staticWidth += sibling.getCalculatedWidth();
                 }
             }
 
@@ -82,7 +76,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
     }
 
     private boolean canCalculateWidth(UIElement forElement){
-        if(!(forElement.getParent() instanceof ItemBox) || ((ItemBox)forElement.getParent()).getContentAlignmentType() != Alignment.AlignmentType.VERTICAL){
+        if(!isWithinHorizontalBox(forElement)){
             return (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null) &&
                    (forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER || forElement.getCalculatedLocalPositionX() != null);
         }
@@ -94,7 +88,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
                 return false;
             }
 
-            return true;
+            return UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null;
         }
     }
 
@@ -111,12 +105,9 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     private Integer calculateHeight(UIElement forElement){
         Integer parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-        if(parentHeight == null) return null;
 
-        if(!(forElement.getParent() instanceof ItemBox) || ((ItemBox)forElement.getParent()).getContentAlignmentType() != Alignment.AlignmentType.HORIZONTAL){
+        if(!isWithinVerticalBox(forElement)){
             if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                if(forElement.getCalculatedLocalPositionY() == null) return null;
-
                 return parentHeight - forElement.getCalculatedLocalPositionY();
             }
             else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
@@ -136,10 +127,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
                     fillElementCount++;
                 }
                 else{
-                    if(sibling.getCalculatedHeight() == null){
-                        return null;
-                    }
-                    staticHeight += sibling.getHeight();
+                    staticHeight += sibling.getCalculatedHeight();
                 }
             }
 
@@ -152,7 +140,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
     }
 
     private boolean canCalculateHeight(UIElement forElement){
-        if(!(forElement.getParent() instanceof ItemBox) || ((ItemBox)forElement.getParent()).getContentAlignmentType() != Alignment.AlignmentType.HORIZONTAL){
+        if(!isWithinVerticalBox(forElement)){
             return (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null) &&
                    (forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER || forElement.getCalculatedLocalPositionY() != null);
         }
@@ -164,7 +152,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
                 return false;
             }
 
-            return true;
+            return UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null;
         }
     }
 
@@ -173,6 +161,13 @@ public class FillDimension extends AbstractDimension implements Serializable {
     //endregion
 
     //region Utility Methods
+
+    private boolean isWithinVerticalBox(UIElement forElement){
+        return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL;
+    }
+    private boolean isWithinHorizontalBox(UIElement forElement){
+        return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
+    }
 
     @Override
     public boolean equals(Object obj) {

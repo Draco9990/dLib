@@ -261,6 +261,7 @@ public class UIManager {
                     for(int i = uiElements.size() - 1; i >= 0; i--){
                         ElementCalculationManager.calculateElementPositionAndDimension(uiElements.get(i));
                         uiElements.get(i).update();
+                        ElementCalculationManager.calculateElementPositionAndDimension(uiElements.get(i));
                     }
                     updateInput();
 

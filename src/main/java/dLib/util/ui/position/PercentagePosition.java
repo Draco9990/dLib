@@ -168,6 +168,12 @@ public class PercentagePosition extends AbstractPosition implements Serializable
 
     //endregion
 
+    //region Resizing
+
+
+
+    //endregion
+
     //endregion
 
 
@@ -203,7 +209,7 @@ public class PercentagePosition extends AbstractPosition implements Serializable
 
     @Override
     public void offsetHorizontal(UIElement element, int amount) {
-        int parentWidth = element.getParent() != null ? element.getParent().getWidthUnscaled() : 1920;
+        int parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(element);
 
         if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             percentage += (float)amount / parentWidth;
@@ -214,7 +220,7 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     }
     @Override
     public void offsetVertical(UIElement element, int amount) {
-        int parentHeight = element.getParent() != null ? element.getParent().getHeightUnscaled() : 1080;
+        int parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(element);
 
         if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             percentage += (float)amount / parentHeight;

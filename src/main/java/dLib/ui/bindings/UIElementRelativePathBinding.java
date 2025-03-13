@@ -69,7 +69,7 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
     }
 
     @Override
-    public String getDisplayValue() {
+    public String toString() {
         return objectRelativePath.getValue();
     }
 }
