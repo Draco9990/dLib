@@ -1341,45 +1341,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion
 
-    //region Caches
-
-    protected void invalidateCaches(){
-        calculated_localPositionX = null;
-        calculated_localPositionY = null;
-
-        if(playingAnimation == null){
-            calculated_width = null;
-            calculated_height = null;
-        }
-    }
-
-    protected void invalidateCachesForElementTree(){
-        invalidateCaches();
-        invalidateParentCacheRecursive();
-        invalidateChildrenCacheRecursive();
-    }
-
-    protected void invalidateParentCacheRecursive(){
-        if(hasParent()){
-            parent.invalidateCaches();
-            parent.invalidateParentCacheRecursive();
-        }
-    }
-
-    protected void invalidateChildrenCacheRecursive(){
-        for(UIElement child : children){
-            child.invalidateCaches();
-            child.invalidateChildrenCacheRecursive();
-        }
-    }
-
-    protected void invalidateCachesFull(){
-        getTopParent().invalidateCaches();
-        getTopParent().invalidateChildrenCacheRecursive();
-    }
-
-    //endregion
-
     //region Visible & Enabled States
 
     //region Visibility

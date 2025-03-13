@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
-import dLib.ui.ILayoutController;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
@@ -19,7 +18,7 @@ import dLib.util.ui.position.AbstractPosition;
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class ItemBox extends Renderable implements ILayoutController {
+public abstract class ItemBox extends Renderable {
     //region Variables
 
     // Elements
