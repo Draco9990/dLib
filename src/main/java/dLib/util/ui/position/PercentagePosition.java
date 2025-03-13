@@ -40,17 +40,18 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_X(UIElement forElement) {
         if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
             return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                    () -> forElement.setCalculatedLocalPositionX((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                    () -> setCalculatedValue(((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)) + forElement.getOffsetX()),
                     () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null));
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             if(forElement.getWidthRaw() instanceof FillDimension){
                 return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionX(0)));
+                        () -> setCalculatedValue(0 + forElement.getOffsetX())
+                ));
             }
             else{
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionX((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth()) * 0.5f)),
+                        () -> setCalculatedValue(((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth()) * 0.5f)) + forElement.getOffsetX()),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
                         () -> forElement.getCalculatedWidth() != null
                 ));
@@ -59,13 +60,13 @@ public class PercentagePosition extends AbstractPosition implements Serializable
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
             if(forElement.getWidthRaw() instanceof FillDimension){
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionX((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                        () -> setCalculatedValue(((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)) - forElement.getOffsetX()),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null
                 ));
             }
             else{
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionX(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth() - (int)(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                        () -> setCalculatedValue((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth() - (int)(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)) - forElement.getOffsetX()),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
                         () -> forElement.getCalculatedWidth() != null
                 ));
@@ -79,17 +80,18 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Y(UIElement forElement) {
         if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
             return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                    () -> forElement.setCalculatedLocalPositionY((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                    () -> setCalculatedValue(((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)) + forElement.getOffsetY()),
                     () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null));
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             if(forElement.getHeightRaw() instanceof FillDimension){
                 return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionY(0)));
+                        () -> setCalculatedValue(0 + forElement.getOffsetY())
+                ));
             }
             else{
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionY((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight()) * 0.5f)),
+                        () -> setCalculatedValue(((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight()) * 0.5f)) + forElement.getOffsetY()),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
                         () -> forElement.getCalculatedHeight() != null
                 ));
@@ -98,13 +100,13 @@ public class PercentagePosition extends AbstractPosition implements Serializable
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             if(forElement.getHeightRaw() instanceof FillDimension){
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionY((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                        () -> setCalculatedValue(((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)) - forElement.getOffsetY()),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null
                 ));
             }
             else{
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionY(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight() - (int)(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                        () -> setCalculatedValue((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight() - (int)(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)) - forElement.getOffsetY()),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
                         () -> forElement.getCalculatedHeight() != null
                 ));
@@ -148,7 +150,7 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     @Override
     public AbstractPosition cpy() {
         PercentagePosition cpy = new PercentagePosition(percentage);
-        copyValues(cpy);
+        cpy.copyFrom(this);
         return cpy;
     }
 
@@ -168,65 +170,5 @@ public class PercentagePosition extends AbstractPosition implements Serializable
 
     //endregion
 
-    //region Resizing
-
-
-
     //endregion
-
-    //endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Override
-    public void offsetHorizontal(UIElement element, int amount) {
-        int parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(element);
-
-        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            percentage += (float)amount / parentWidth;
-        }
-        else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
-            percentage -= (float)amount / parentWidth;
-        }
-    }
-    @Override
-    public void offsetVertical(UIElement element, int amount) {
-        int parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(element);
-
-        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            percentage += (float)amount / parentHeight;
-        }
-        else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-            percentage -= (float)amount / parentHeight;
-        }
-    }
 }

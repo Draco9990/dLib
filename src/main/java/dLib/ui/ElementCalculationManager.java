@@ -1,6 +1,7 @@
 package dLib.ui;
 
 import basemod.Pair;
+import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class ElementCalculationManager {
         Iterator<UIElement> iterator = elements.iterator();
         while(iterator.hasNext()){
             UIElement element = iterator.next();
-            if (element.getCalculatedWidth() != null && element.getCalculatedHeight() != null && (Integer) element.getLocalPositionXRaw().getPreCalculatedValue() != null && (Integer) element.getLocalPositionYRaw().getPreCalculatedValue() != null) {
+            if (element.getCalculatedWidth() != null && element.getCalculatedHeight() != null && (Integer) element.getLocalPositionXRaw().getCalculatedValue() != null && (Integer) element.getLocalPositionYRaw().getCalculatedValue() != null) {
                 iterator.remove();
             }
         }
@@ -82,10 +83,6 @@ public class ElementCalculationManager {
         return elements;
     }
 
-    private static void calculateElementFinalisedPositionAndDimensions(){
-
-    }
-
     public static class ElementCalculationInstruction{
         private Runnable calculateFormula;
         private Supplier<Boolean>[] prerequisites;
@@ -93,13 +90,6 @@ public class ElementCalculationManager {
         public ElementCalculationInstruction(Runnable calculateFormula, Supplier<Boolean>... prerequisites){
             this.calculateFormula = calculateFormula;
             this.prerequisites = prerequisites;
-        }
-
-        private enum CalculationType{
-            POSITION_X,
-            POSITION_Y,
-            WIDTH,
-            HEIGHT
         }
     }
 }

@@ -39,15 +39,19 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_X(UIElement forElement) {
         if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
-            return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedLocalPositionX(position)));
+            return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(
+                    () -> setCalculatedValue(position + forElement.getOffsetX())
+            ));
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             if(forElement.getWidthRaw() instanceof FillDimension){
-                return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedLocalPositionX(0)));
+                return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> setCalculatedValue(0 + forElement.getOffsetX())
+                ));
             }
             else{
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionX((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth()) * 0.5f)),
+                        () -> setCalculatedValue(((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth()) * 0.5f)) + forElement.getOffsetX()),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
                         () -> forElement.getCalculatedWidth() != null
                 ));
@@ -56,13 +60,13 @@ public class PixelPosition extends AbstractPosition implements Serializable {
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
             if(forElement.getWidthRaw() instanceof FillDimension){
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionX(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - position),
+                        () -> setCalculatedValue(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - position - forElement.getOffsetX()),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null
                 ));
             }
             else{
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionX(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth() - position),
+                        () -> setCalculatedValue(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth() - position - forElement.getOffsetX()),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
                         () -> forElement.getCalculatedWidth() != null
                 ));
@@ -75,15 +79,19 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Y(UIElement forElement) {
         if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
-            return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedLocalPositionY(position)));
+            return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(
+                    () -> setCalculatedValue(position + forElement.getOffsetY())
+            ));
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             if(forElement.getHeightRaw() instanceof FillDimension){
-                return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedLocalPositionY(0)));
+                return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(
+                        () -> setCalculatedValue(0 + forElement.getOffsetY())
+                ));
             }
             else{
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionY((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight()) * 0.5f)),
+                        () -> setCalculatedValue(((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight()) * 0.5f)) + forElement.getOffsetY()),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
                         () -> forElement.getCalculatedHeight() != null
                 ));
@@ -92,13 +100,13 @@ public class PixelPosition extends AbstractPosition implements Serializable {
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             if(forElement.getHeightRaw() instanceof FillDimension){
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionY(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - position),
+                        () -> setCalculatedValue(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - position - forElement.getOffsetY()),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null
                 ));
             }
             else{
                 return new Pair<>(4, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> forElement.setCalculatedLocalPositionY(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight() - position),
+                        () -> setCalculatedValue(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight() - position - forElement.getOffsetY()),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
                         () -> forElement.getCalculatedHeight() != null
                 ));
@@ -142,7 +150,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     @Override
     public AbstractPosition cpy() {
         PixelPosition pos = new PixelPosition(position);
-        copyValues(pos);
+        pos.copyFrom(this);
         return pos;
     }
 
@@ -162,49 +170,5 @@ public class PixelPosition extends AbstractPosition implements Serializable {
 
     //endregion
 
-    //region Resizing
-
-
-
     //endregion
-
-    //endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Override
-    public void offsetHorizontal(UIElement element, int amount) {
-        if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || element.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            position += amount;
-        }
-        else if(element.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
-            position -= amount;
-        }
-    }
-    @Override
-    public void offsetVertical(UIElement element, int amount) {
-        if(element.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || element.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            position += amount;
-        }
-        else if(element.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-            position -= amount;
-        }
-    }
 }

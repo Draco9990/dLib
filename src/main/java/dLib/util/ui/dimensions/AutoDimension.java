@@ -63,7 +63,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            Integer localPosX = forElement.getLocalPositionXRaw().getPreCalculatedValue();
+            Integer localPosX = forElement.getLocalPositionXRaw().getCalculatedValue();
             if(localPosX == null){
                 return null;
             }
@@ -97,7 +97,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        Integer calculatedLocalX = forElement.getLocalPositionXRaw().getPreCalculatedValue();
+        Integer calculatedLocalX = forElement.getLocalPositionXRaw().getCalculatedValue();
         if(calculatedLocalX == null){
             return null;
         }
@@ -117,21 +117,21 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                     return false;
                 }
 
-                if((Integer) child.getLocalPositionXRaw().getPreCalculatedValue() == null){
+                if((Integer) child.getLocalPositionXRaw().getCalculatedValue() == null){
                     if(child.getLocalPositionXRaw() instanceof PixelPosition && child.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
                         return false;
                     }
                 }
             }
             else{
-                if(child.getCalculatedWidth() == null || (Integer) child.getLocalPositionXRaw().getPreCalculatedValue() == null){
+                if(child.getCalculatedWidth() == null || (Integer) child.getLocalPositionXRaw().getCalculatedValue() == null){
                     return false;
                 }
             }
         }
 
         if(forElement instanceof TextBox){
-            if((Integer) forElement.getLocalPositionXRaw().getPreCalculatedValue() == null){
+            if((Integer) forElement.getLocalPositionXRaw().getCalculatedValue() == null){
                 return false;
             }
         }
@@ -174,7 +174,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            Integer localPosY = forElement.getLocalPositionYRaw().getPreCalculatedValue();
+            Integer localPosY = forElement.getLocalPositionYRaw().getCalculatedValue();
             if(localPosY == null){
                 return null;
             }
@@ -208,7 +208,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        Integer calculatedLocalY = forElement.getLocalPositionYRaw().getPreCalculatedValue();
+        Integer calculatedLocalY = forElement.getLocalPositionYRaw().getCalculatedValue();
         if(calculatedLocalY == null){
             return null;
         }
@@ -230,21 +230,21 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                     }
                 }
 
-                if((Integer) child.getLocalPositionYRaw().getPreCalculatedValue() == null){
+                if((Integer) child.getLocalPositionYRaw().getCalculatedValue() == null){
                     if(child.getLocalPositionYRaw() instanceof PixelPosition && child.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
                         return false;
                     }
                 }
             }
             else{
-                if(child.getCalculatedHeight() == null || (Integer) child.getLocalPositionYRaw().getPreCalculatedValue() == null){
+                if(child.getCalculatedHeight() == null || (Integer) child.getLocalPositionYRaw().getCalculatedValue() == null){
                     return false;
                 }
             }
         }
 
         if(forElement instanceof TextBox){
-            if((Integer) forElement.getLocalPositionYRaw().getPreCalculatedValue() == null){
+            if((Integer) forElement.getLocalPositionYRaw().getCalculatedValue() == null){
                 return false;
             }
         }

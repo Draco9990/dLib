@@ -917,9 +917,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         AbstractPosition oldPosY = localPosY;
 
         localPosX = newX;
-        localPosX.setReferencePosition(AbstractPosition.ReferencePosition.X);
+        localPosX.setReference(AbstractPosition.ReferencePosition.X);
         localPosY = newY;
-        localPosY.setReferencePosition(AbstractPosition.ReferencePosition.Y);
+        localPosY.setReference(AbstractPosition.ReferencePosition.Y);
 
         if(oldPosX != null && oldPosY != null && (!oldPosX.equals(localPosX) || !oldPosY.equals(localPosY))){
             onPositionChanged();
@@ -930,7 +930,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return localPosX.getCalculatedValue();
     }
     public int getLocalPositionY(){
-        return localPosX.getCalculatedValue();
+        return localPosY.getCalculatedValue();
     }
     public IntegerVector2 getLocalPosition(){
         return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
@@ -1012,6 +1012,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //region Offset
+
     public void offsetX(int xOffset){
         offset(xOffset, 0);
     }
@@ -1019,14 +1020,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         offset(0, yOffset);
     }
     public void offset(int xOffset, int yOffset){
-        AbstractPosition xCopy = getLocalPositionXRaw().cpy();
-        AbstractPosition yCopy = getLocalPositionYRaw().cpy();
+        offsetX += xOffset;
+        offsetY += yOffset;
 
-        xCopy.offsetHorizontal(this, xOffset);
-        yCopy.offsetVertical(this, yOffset);
-
-        setLocalPosition(xCopy, yCopy);
+        localPosX.requestRecalculation();
+        localPosY.requestRecalculation();
     }
+
     //endregion
 
     //region Transforming
@@ -1208,8 +1208,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         if(desiredWidth != getWidth() || desiredHeight != getHeight() || desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
             DLibLogger.log("Setting " + getClass() + " object: \n" +
-                    "Position X: " + getLocalPositionXRaw().getPreCalculatedValue() + " -> " + desiredPositionX + "\n" +
-                    "Position Y: " + getLocalPositionYRaw().getPreCalculatedValue() + " -> " + desiredPositionY + "\n" +
+                    "Position X: " + getLocalPositionXRaw().getCalculatedValue() + " -> " + desiredPositionX + "\n" +
+                    "Position Y: " + getLocalPositionYRaw().getCalculatedValue() + " -> " + desiredPositionY + "\n" +
                     "Width: " + getCalculatedWidth() + " -> " + desiredWidth + "\n" +
                     "Height: " + getCalculatedHeight() + " -> " + desiredHeight);
 
@@ -2357,12 +2357,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return calculated_height;
     }
 
-    public void setCalculatedLocalPositionX(int calculated_localPositionX){
-        this.calculated_localPositionX = calculated_localPositionX;
-    }
-    public void setCalculatedLocalPositionY(int calculated_localPositionY){
-        this.calculated_localPositionY = calculated_localPositionY;
-    }
     public void setCalculatedWidth(int calculated_width){
         this.calculated_width = calculated_width;
     }
@@ -2381,6 +2375,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public void invalidateCalculatedHeight(){
         calculated_height = null;
+    }
+
+    public int getOffsetX(){
+        return offsetX;
+    }
+    public int getOffsetY(){
+        return offsetY;
     }
 
     public ArrayList<UIElement> getHierarchyForUpdateOrder(){
