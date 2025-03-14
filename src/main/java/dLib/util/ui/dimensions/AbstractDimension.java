@@ -2,8 +2,10 @@ package dLib.util.ui.dimensions;
 
 import basemod.Pair;
 import dLib.properties.ui.elements.IEditableValue;
+import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.itembox.ItemBox;
 
 import java.io.Serializable;
 
@@ -55,6 +57,13 @@ public abstract class AbstractDimension implements IEditableValue, Serializable 
     //region Utility
 
     public abstract AbstractDimension cpy();
+
+    protected boolean isWithinVerticalBox(UIElement forElement){
+        return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL;
+    }
+    protected boolean isWithinHorizontalBox(UIElement forElement){
+        return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
+    }
 
     //endregion
 

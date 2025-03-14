@@ -9,6 +9,7 @@ import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.ui.position.PixelPosition;
 
@@ -88,11 +89,16 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 totalWidth = childWidth;
             }
             else{
-                if(childWidth.getKey() < totalWidth.getKey()){
-                    totalWidth = new Pair<>(childWidth.getKey(), totalWidth.getValue());
+                if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
+                    totalWidth = new Pair<>(totalWidth.getKey(), totalWidth.getValue() + (childWidth.getValue() - childWidth.getKey()));
                 }
-                if(childWidth.getValue() > totalWidth.getValue()){
-                    totalWidth = new Pair<>(totalWidth.getKey(), childWidth.getValue());
+                else{
+                    if(childWidth.getKey() < totalWidth.getKey()){
+                        totalWidth = new Pair<>(childWidth.getKey(), totalWidth.getValue());
+                    }
+                    if(childWidth.getValue() > totalWidth.getValue()){
+                        totalWidth = new Pair<>(totalWidth.getKey(), childWidth.getValue());
+                    }
                 }
             }
         }
@@ -161,11 +167,16 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 totalHeight = childHeight;
             }
             else{
-                if(childHeight.getKey() < totalHeight.getKey()){
-                    totalHeight = new Pair<>(childHeight.getKey(), totalHeight.getValue());
+                if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
+                    totalHeight = new Pair<>(totalHeight.getKey(), totalHeight.getValue() + (childHeight.getValue() - childHeight.getKey()));
                 }
-                if(childHeight.getValue() > totalHeight.getValue()){
-                    totalHeight = new Pair<>(totalHeight.getKey(), childHeight.getValue());
+                else{
+                    if(childHeight.getKey() < totalHeight.getKey()){
+                        totalHeight = new Pair<>(childHeight.getKey(), totalHeight.getValue());
+                    }
+                    if(childHeight.getValue() > totalHeight.getValue()){
+                        totalHeight = new Pair<>(totalHeight.getKey(), childHeight.getValue());
+                    }
                 }
             }
         }

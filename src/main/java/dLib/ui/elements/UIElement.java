@@ -54,6 +54,7 @@ import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
+import org.lwjgl.util.vector.Vector4f;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -1020,11 +1021,18 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         offset(0, yOffset);
     }
     public void offset(int xOffset, int yOffset){
+        if(xOffset == 0 && yOffset == 0) return;
+
         offsetX += xOffset;
         offsetY += yOffset;
 
-        localPosX.requestRecalculation();
-        localPosY.requestRecalculation();
+        if(!isWithinBounds()){
+            offsetX -= xOffset;
+            offsetY -= yOffset;
+            return;
+        }
+
+        onPositionChanged();
     }
 
     //endregion
@@ -1129,8 +1137,25 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     public void ensureElementWithinBounds(){
+        Vector4f desiredBounds = calculateDesiredBounds();
+        if(desiredBounds == null) return;
+
+        int desiredPositionX = (int) desiredBounds.x;
+        int desiredPositionY = (int) desiredBounds.y;
+        int desiredWidth = (int) desiredBounds.z;
+        int desiredHeight = (int) desiredBounds.w;
+
+        if(desiredWidth != getWidth() || desiredHeight != getHeight() || desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
+            getLocalPositionXRaw().overrideCalculatedValue(desiredPositionX);
+            getLocalPositionYRaw().overrideCalculatedValue(desiredPositionY);
+            setCalculatedWidth(desiredWidth);
+            setCalculatedHeight(desiredHeight);
+        }
+    }
+
+    public Vector4f calculateDesiredBounds(){
         PositionBounds localContainerBounds = getLocalContainerBounds();
-        if(localContainerBounds == null) return;
+        if(localContainerBounds == null) return null;
 
         Integer desiredWidth = null;
         Integer desiredHeight = null;
@@ -1199,25 +1224,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(desiredWidth == null) desiredWidth = getWidth();
         if(desiredHeight == null) desiredHeight = getHeight();
 
-        /*if(desiredWidth != getWidth() || desiredHeight != getHeight()){
-            resizeBy(desiredWidth - getWidth(), desiredHeight - getHeight());
-        }
-        else if(desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
-            offset(desiredPositionX - getLocalPositionX(), desiredPositionY - getLocalPositionY());
-        }*/
+        return new Vector4f(desiredPositionX, desiredPositionY, desiredWidth, desiredHeight);
+    }
 
-        if(desiredWidth != getWidth() || desiredHeight != getHeight() || desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
-            DLibLogger.log("Setting " + getClass() + " object: \n" +
-                    "Position X: " + getLocalPositionXRaw().getCalculatedValue() + " -> " + desiredPositionX + "\n" +
-                    "Position Y: " + getLocalPositionYRaw().getCalculatedValue() + " -> " + desiredPositionY + "\n" +
-                    "Width: " + getCalculatedWidth() + " -> " + desiredWidth + "\n" +
-                    "Height: " + getCalculatedHeight() + " -> " + desiredHeight);
+    private boolean isWithinBounds(){
+        Vector4f desiredBounds = calculateDesiredBounds();
+        if(desiredBounds == null) return true;
 
-            getLocalPositionXRaw().overrideCalculatedValue(desiredPositionX);
-            getLocalPositionYRaw().overrideCalculatedValue(desiredPositionY);
-            setCalculatedWidth(desiredWidth);
-            setCalculatedHeight(desiredHeight);
-        }
+        return getLocalPositionX() == desiredBounds.x && getLocalPositionY() == desiredBounds.y && getWidth() == desiredBounds.z && getHeight() == desiredBounds.w;
     }
 
     //region Interactions

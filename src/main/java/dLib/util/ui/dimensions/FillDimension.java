@@ -160,13 +160,6 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     //region Utility Methods
 
-    private boolean isWithinVerticalBox(UIElement forElement){
-        return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL;
-    }
-    private boolean isWithinHorizontalBox(UIElement forElement){
-        return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
-    }
-
     @Override
     public boolean equals(Object obj) {
         return obj instanceof FillDimension;
