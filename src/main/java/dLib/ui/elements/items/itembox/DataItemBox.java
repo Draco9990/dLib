@@ -433,6 +433,10 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 continue;
             }
 
+            if(!child.isActive()){
+                continue;
+            }
+
             filteredChildren.add(child);
         }
     }

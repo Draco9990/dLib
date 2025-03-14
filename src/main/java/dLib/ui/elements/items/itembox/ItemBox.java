@@ -180,6 +180,10 @@ public abstract class ItemBox extends Renderable {
         }
     }
 
+    public boolean isChildVisible(UIElement child){
+        return filteredChildren.contains(child);
+    }
+
     //endregion
 
     //region Item Properties
@@ -211,6 +215,20 @@ public abstract class ItemBox extends Renderable {
     }
 
     public abstract void refilterItems();
+
+    @Override
+    protected void onChildVisibilityChanged(UIElement changedChild) {
+        super.onChildVisibilityChanged(changedChild);
+
+        refilterItems();
+    }
+
+    @Override
+    protected void onChildEnabledStatusChanged(UIElement changedChild) {
+        super.onEnabledStatusChanged();
+
+        refilterItems();
+    }
 
     //endregion Filter
 

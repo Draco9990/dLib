@@ -88,7 +88,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
             else{
                 if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
-                    totalWidth = new Pair<>(totalWidth.getKey(), totalWidth.getValue() + (childWidth.getValue() - childWidth.getKey()));
+                    if(((ItemBox) forElement).isChildVisible(child)) totalWidth = new Pair<>(totalWidth.getKey(), totalWidth.getValue() + (childWidth.getValue() - childWidth.getKey()) + ((ItemBox) forElement).getItemSpacing());
                 }
                 else{
                     if(childWidth.getKey() < totalWidth.getKey()){
@@ -103,8 +103,9 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
         int calculatedLocalX = forElement.getLocalPositionX();
         int widthRaw = forElement.getWidth();
+        int bonusWidth = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
 
-        return new Pair<>(calculatedLocalX, calculatedLocalX + widthRaw + forElement.getPaddingLeft() + forElement.getPaddingRight());
+        return new Pair<>(calculatedLocalX, calculatedLocalX + widthRaw + forElement.getPaddingLeft() + forElement.getPaddingRight() + bonusWidth);
     }
 
     private boolean canCalculateWidth(UIElement forElement){
@@ -162,8 +163,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 totalHeight = childHeight;
             }
             else{
-                if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
-                    totalHeight = new Pair<>(totalHeight.getKey(), totalHeight.getValue() + (childHeight.getValue() - childHeight.getKey()));
+                if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
+                    if(((ItemBox) forElement).isChildVisible(child)) totalHeight = new Pair<>(totalHeight.getKey(), totalHeight.getValue() + (childHeight.getValue() - childHeight.getKey()) + ((ItemBox) forElement).getItemSpacing());
                 }
                 else{
                     if(childHeight.getKey() < totalHeight.getKey()){
@@ -212,8 +213,9 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
         int calculatedLocalY = forElement.getLocalPositionY();
         int heightRaw = forElement.getHeight();
+        int bonusHeight = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
 
-        return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw + forElement.getPaddingTop() + forElement.getPaddingBottom());
+        return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw + forElement.getPaddingTop() + forElement.getPaddingBottom() + bonusHeight);
     }
 
     private boolean canCalculateHeight(UIElement forElement){

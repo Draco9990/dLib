@@ -1363,11 +1363,27 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void setVisibility(boolean visible){
+        if(isVisible == visible) return;
         isVisible = visible;
+
+        onVisiblityChanged();
     }
     public boolean isVisible(){
         if(hasParent() && !parent.isVisible()) return false;
         return isVisible;
+    }
+
+    protected void onVisiblityChanged(){
+        if(getParent() != null) getParent().onChildVisibilityChanged(this);
+        for(UIElement child : children){
+            child.onParentVisibilityChanged();
+        }
+    }
+    protected void onParentVisibilityChanged(){
+
+    }
+    protected void onChildVisibilityChanged(UIElement changedChild){
+
     }
 
     //endregion
@@ -1381,11 +1397,27 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         setEnabled(true);
     }
     protected void setEnabled(boolean enabled){
+        if(isEnabled == enabled) return;
+
         isEnabled = enabled;
+        onEnabledStatusChanged();
     }
     public boolean isEnabled(){
         if(hasParent() && !parent.isEnabled()) return false;
         return isEnabled;
+    }
+
+    protected void onEnabledStatusChanged(){
+        if(getParent() != null) getParent().onChildEnabledStatusChanged(this);
+        for(UIElement child : children){
+            child.onParentEnabledStatusChanged();
+        }
+    }
+    protected void onParentEnabledStatusChanged(){
+
+    }
+    protected void onChildEnabledStatusChanged(UIElement changedChild){
+
     }
 
     //endregion
@@ -1505,7 +1537,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     protected void onParentDimensionsChanged(){
     }
-    protected void onChildDimensionsChanged(UIElement child){
+    public void onChildDimensionsChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
             requestWidthRecalculation();
         }
