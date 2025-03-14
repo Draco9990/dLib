@@ -44,6 +44,7 @@ public class VerticalCollapsableBox extends UIElement {
                     } else {
                         contentBox.hideAndDisable();
                     }
+                    VerticalCollapsableBox.this.onDimensionsChanged();
                 });
                 toggleArrow.setToggled(true);
 

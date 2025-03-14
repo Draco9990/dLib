@@ -111,10 +111,10 @@ public class TextBox extends UIElement {
         getFontForRender().getData().setScale(getFontSizeForRender());
         getFontForRender().setColor(textRenderColor);
 
-        int renderX = getWorldPositionX() + getPaddingLeft();
-        int renderY = getWorldPositionY() + getPaddingBottom();
-        int renderWidth = getWidth() - getPaddingLeft();
-        int renderHeight = getHeight() - getPaddingTop();
+        int renderX = getWorldPositionX();
+        int renderY = getWorldPositionY();
+        int renderWidth = getWidth();
+        int renderHeight = getHeight();
 
         float halfWidth = (float) renderWidth / 2;
         float halfHeight = (float) renderHeight / 2;
