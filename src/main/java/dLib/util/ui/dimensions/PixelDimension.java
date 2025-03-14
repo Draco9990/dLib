@@ -9,6 +9,7 @@ import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
+import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
 
@@ -35,16 +36,30 @@ public class PixelDimension extends AbstractDimension implements Serializable {
     //region Calculations
 
     @Override
+    protected void setCalculatedValue(UIElement forElement, int value) {
+        if(reference == ReferenceDimension.WIDTH){
+            value -= forElement.getPaddingRight();
+        }
+        else if(reference == ReferenceDimension.HEIGHT){
+            value -= forElement.getPaddingTop();
+        }
+
+        super.setCalculatedValue(forElement, value);
+    }
+
+    @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, size)
+                () -> setCalculatedValue(forElement, size),
+                () -> !forElement.getPaddingRightRaw().needsRecalculation()
         ));
     }
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, size)
+                () -> setCalculatedValue(forElement, size),
+                () -> !forElement.getPaddingTopRaw().needsRecalculation()
         ));
     }
 

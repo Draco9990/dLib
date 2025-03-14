@@ -31,13 +31,27 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     //region Calculation Methods
 
+    @Override
+    protected void setCalculatedValue(UIElement forElement, int value) {
+        if(reference == ReferenceDimension.WIDTH){
+            value -= forElement.getPaddingRight();
+        }
+        else if(reference == ReferenceDimension.HEIGHT){
+            value -= forElement.getPaddingTop();
+        }
+
+        super.setCalculatedValue(forElement, value);
+    }
+
     //region Width
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> setCalculatedValue(forElement, calculateWidth(forElement)),
-                () -> canCalculateWidth(forElement)));
+                () -> canCalculateWidth(forElement),
+                () -> !forElement.getPaddingRightRaw().needsRecalculation()
+        ));
     }
 
     private Integer calculateWidth(UIElement forElement){
@@ -100,7 +114,9 @@ public class FillDimension extends AbstractDimension implements Serializable {
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> setCalculatedValue(forElement, calculateHeight(forElement)),
-                () -> canCalculateHeight(forElement)));
+                () -> canCalculateHeight(forElement),
+                () -> !forElement.getPaddingTopRaw().needsRecalculation()
+        ));
     }
 
     private Integer calculateHeight(UIElement forElement){

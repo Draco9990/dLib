@@ -102,13 +102,9 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         int calculatedLocalX = forElement.getLocalPositionX();
+        int widthRaw = forElement.getWidth();
 
-        Integer widthRaw = forElement.getWidth();
-        if(widthRaw == null){
-            return null;
-        }
-
-        return new Pair<>(calculatedLocalX, calculatedLocalX + widthRaw);
+        return new Pair<>(calculatedLocalX, calculatedLocalX + widthRaw + forElement.getPaddingLeft() + forElement.getPaddingRight());
     }
 
     private boolean canCalculateWidth(UIElement forElement){
@@ -128,6 +124,10 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 if(child.getWidthRaw().needsRecalculation() || child.getLocalPositionXRaw().needsRecalculation()){
                     return false;
                 }
+            }
+
+            if(child.getPaddingLeftRaw().needsRecalculation() || child.getPaddingRightRaw().needsRecalculation()){
+                return false;
             }
         }
 
@@ -213,7 +213,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         int calculatedLocalY = forElement.getLocalPositionY();
         int heightRaw = forElement.getHeight();
 
-        return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw);
+        return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw + forElement.getPaddingTop() + forElement.getPaddingBottom());
     }
 
     private boolean canCalculateHeight(UIElement forElement){
@@ -235,6 +235,10 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 if(child.getHeightRaw().needsRecalculation() || child.getLocalPositionYRaw().needsRecalculation()){
                     return false;
                 }
+            }
+
+            if(child.getPaddingTopRaw().needsRecalculation() || child.getPaddingBottomRaw().needsRecalculation()){
+                return false;
             }
         }
 
