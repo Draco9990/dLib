@@ -8,14 +8,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/descriptors/ElementDescriptorCalcOrders.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/patches/MainMenuButtonPatches.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/descriptors/ElementDescriptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/descriptors/ElementDescriptor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/UIElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AbstractDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/AutoDimension.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/FillDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/MirrorDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/MirrorDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PercentageDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PixelDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/dimensions/PixelDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/padding/AbstractPadding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/padding/AbstractPadding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/padding/PercentagePadding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/padding/PercentagePadding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/padding/PixelPadding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/padding/PixelPadding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PercentagePosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PercentagePosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PixelPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/position/PixelPosition.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -345,7 +354,7 @@
       <workItem from="1741558039599" duration="7475000" />
       <workItem from="1741689914262" duration="7736000" />
       <workItem from="1741828564346" duration="2740000" />
-      <workItem from="1741898987391" duration="12804000" />
+      <workItem from="1741898987391" duration="18493000" />
     </task>
     <servers />
   </component>
@@ -399,6 +408,51 @@
           <properties class="java.lang.ClassCastException" package="java.lang" />
           <option name="timeStamp" value="154" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>117</line>
+          <option name="timeStamp" value="208" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="210" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>78</line>
+          <option name="timeStamp" value="211" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="212" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="213" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="214" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="215" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="216" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/ElementCalculationManager.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="217" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

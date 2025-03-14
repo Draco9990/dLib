@@ -7,6 +7,7 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PixelDimensionValueEditor;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
+import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
@@ -35,12 +36,12 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedWidth(size)));
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedWidth(size)));
     }
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(0, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedHeight(size)));
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedHeight(size)));
     }
 
     //endregion

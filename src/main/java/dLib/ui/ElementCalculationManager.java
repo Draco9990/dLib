@@ -1,7 +1,6 @@
 package dLib.ui;
 
 import basemod.Pair;
-import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class ElementCalculationManager {
         ArrayList<UIElement> elementsThatNeedUpdate = new ArrayList<>();
         ArrayList<Pair<Integer, ElementCalculationInstruction>> calculationInstructions = new ArrayList<>();
         for (UIElement element : topElement.getHierarchyForUpdateOrder()){
-            if(element.needsLocalPositionXRecalculation()) {
+            if(element.getLocalPositionXRaw().needsRecalculation()) {
                 calculationInstructions.add(element.getLocalPositionXRaw().getCalculationInstruction(element));
                 if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
 
@@ -30,8 +29,7 @@ public class ElementCalculationManager {
                     element.getLocalPositionXRaw().getCalculationInstruction(element); //* For Debug
                 }
             }
-
-            if(element.needsLocalPositionYRecalculation()){
+            if(element.getLocalPositionYRaw().needsRecalculation()){
                 calculationInstructions.add(element.getLocalPositionYRaw().getCalculationInstruction(element));
                 if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
 
@@ -48,13 +46,45 @@ public class ElementCalculationManager {
                     element.getWidthRaw().getCalculationInstruction(element); //* For Debug
                 }
             }
-
             if(element.getCalculatedHeight() == null) {
                 calculationInstructions.add(element.getHeightRaw().getCalculationInstruction(element));
                 if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
 
                 if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
                     element.getHeightRaw().getCalculationInstruction(element); //* For Debug
+                }
+            }
+
+            if(element.getPaddingLeftRaw().needsRecalculation()){
+                calculationInstructions.add(element.getPaddingLeftRaw().getCalculationInstruction(element));
+                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
+
+                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                    element.getPaddingLeftRaw().getCalculationInstruction(element); //* For Debug
+                }
+            }
+            if(element.getPaddingBottomRaw().needsRecalculation()){
+                calculationInstructions.add(element.getPaddingBottomRaw().getCalculationInstruction(element));
+                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
+
+                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                    element.getPaddingBottomRaw().getCalculationInstruction(element); //* For Debug
+                }
+            }
+            if(element.getPaddingRightRaw().needsRecalculation()){
+                calculationInstructions.add(element.getPaddingRightRaw().getCalculationInstruction(element));
+                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
+
+                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                    element.getPaddingRightRaw().getCalculationInstruction(element); //* For Debug
+                }
+            }
+            if(element.getPaddingTopRaw().needsRecalculation()){
+                calculationInstructions.add(element.getPaddingTopRaw().getCalculationInstruction(element));
+                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
+
+                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                    element.getPaddingTopRaw().getCalculationInstruction(element); //* For Debug
                 }
             }
         }
@@ -84,7 +114,8 @@ public class ElementCalculationManager {
             }
 
             if(!somethingChanged){
-                throw new RuntimeException("Circular dependency detected in element calculation");
+                //throw new RuntimeException("Circular dependency detected in element calculation");
+                int j = 0;
             }
         }
 

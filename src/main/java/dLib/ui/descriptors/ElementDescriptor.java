@@ -44,7 +44,7 @@ public abstract class ElementDescriptor<TReferenceEnum> implements Serializable 
     public void overrideCalculatedValue(int value){
         calculatedValue = value;
     }
-    protected void setCalculatedValue(int value){
+    protected void setCalculatedValue(UIElement forElement, int value){
         calculatedValue = value;
         needsRecalculation = false;
     }

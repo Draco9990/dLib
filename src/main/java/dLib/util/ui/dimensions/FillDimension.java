@@ -8,6 +8,7 @@ import dLib.properties.ui.elements.FillDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
+import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.util.helpers.UIHelpers;
@@ -34,7 +35,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(2, new ElementCalculationManager.ElementCalculationInstruction(
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> forElement.setCalculatedWidth(calculateWidth(forElement)),
                 () -> canCalculateWidth(forElement)));
     }
@@ -77,7 +78,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     private boolean canCalculateWidth(UIElement forElement){
         if(!isWithinHorizontalBox(forElement)){
-            return UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null && (forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER || (Integer) forElement.getLocalPositionXRaw().getCalculatedValue() != null);
+            return UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null && (forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER || !forElement.getLocalPositionXRaw().needsRecalculation());
         }
         else{
             for (UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){
@@ -97,7 +98,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(2, new ElementCalculationManager.ElementCalculationInstruction(
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> forElement.setCalculatedHeight(calculateHeight(forElement)),
                 () -> canCalculateHeight(forElement)));
     }
@@ -140,7 +141,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     private boolean canCalculateHeight(UIElement forElement){
         if(!isWithinVerticalBox(forElement)){
-            return UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null && (forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER || (Integer) forElement.getLocalPositionYRaw().getCalculatedValue() != null);
+            return UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null && (forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER || !forElement.getLocalPositionYRaw().needsRecalculation());
         }
         else{
             for (UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){

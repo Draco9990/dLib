@@ -8,6 +8,7 @@ import dLib.properties.ui.elements.AutoDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
+import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.text.TextBox;
@@ -35,7 +36,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(3, new ElementCalculationManager.ElementCalculationInstruction(
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_AUTO, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> forElement.setCalculatedWidth(calculateWidth(forElement)),
                 () -> canCalculateWidth(forElement)
         ));
@@ -151,7 +152,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(3, new ElementCalculationManager.ElementCalculationInstruction(
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_AUTO, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> forElement.setCalculatedHeight(calculateHeight(forElement)),
                 () -> canCalculateHeight(forElement)
         ));

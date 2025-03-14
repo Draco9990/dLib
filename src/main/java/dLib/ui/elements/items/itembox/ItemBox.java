@@ -264,6 +264,7 @@ public abstract class ItemBox extends Renderable {
 
     //region Content Padding
 
+    //TODO standardize and move to UIElement
     public void setLeftContentPadding(AbstractPadding padding){
         this.leftContentPadding = padding;
     }
@@ -294,16 +295,16 @@ public abstract class ItemBox extends Renderable {
     }
 
     public int getContentPaddingLeft(){
-        return leftContentPadding.getHorizontal(this);
+        return leftContentPadding.getCalculatedValue();
     }
     public int getContentPaddingRight(){
-        return rightContentPadding.getHorizontal(this);
+        return rightContentPadding.getCalculatedValue();
     }
     public int getContentPaddingTop(){
-        return topContentPadding.getVertical(this);
+        return topContentPadding.getCalculatedValue();
     }
     public int getContentPaddingBottom(){
-        return bottomContentPadding.getVertical(this);
+        return bottomContentPadding.getCalculatedValue();
     }
 
     //endregion

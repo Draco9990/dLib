@@ -106,10 +106,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private boolean scaleWithParent = true;
     public ConsumerEvent<UIElement> onScaleChangedEvent = new ConsumerEvent<>();
 
-    private AbstractPadding paddingLeft = Padd.px(0);
-    private AbstractPadding paddingBottom = Padd.px(0);
-    private AbstractPadding paddingRight = Padd.px(0);
-    private AbstractPadding paddingTop = Padd.px(0);
+    private AbstractPadding paddingLeft;
+    private AbstractPadding paddingBottom;
+    private AbstractPadding paddingRight;
+    private AbstractPadding paddingTop;
 
     private UIElement elementMask = null;
     private boolean inheritMaskFromParent = true; //TODO: Expose
@@ -228,6 +228,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         setLocalPosition_internal(xPos, yPos);
         setWidthRaw(width);
         setHeightRaw(height);
+        setPadding(Padd.px(0));
 
         String uiStrings = getUIStringsKey();
         if(uiStrings != null){
@@ -275,6 +276,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.onTriggeredLine = data.onTriggeredLine.getValue();
 
         this.rootOwnerId = data.rootOwnerId;
+
+        setPadding(Padd.px(0));
 
         addComponent(new GeneratedElementComponent(data));
         for(UIElementData childData : data.children){
@@ -935,13 +938,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public IntegerVector2 getLocalPosition(){
         return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
-    }
-
-    public boolean needsLocalPositionXRecalculation(){
-        return localPosX.needsRecalculation();
-    }
-    public boolean needsLocalPositionYRecalculation(){
-        return localPosY.needsRecalculation();
     }
 
     public AbstractPosition getLocalPositionXRaw(){
@@ -1856,16 +1852,20 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Padding
 
     public void setPadding(AbstractPadding all){
-        setPadding(all, all, all, all);
+        setPadding(all.cpy(), all.cpy(), all.cpy(), all.cpy());
     }
     public void setPadding(AbstractPadding leftRight, AbstractPadding topBottom){
-        setPadding(topBottom, leftRight, topBottom, leftRight);
+        setPadding(topBottom.cpy(), leftRight.cpy(), topBottom.cpy(), leftRight.cpy());
     }
     public void setPadding(AbstractPadding top, AbstractPadding right, AbstractPadding bottom, AbstractPadding left){
         this.paddingTop = top;
+        this.paddingTop.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
         this.paddingRight = right;
+        this.paddingRight.setReference(AbstractPadding.ReferenceDimension.HORIZONTAL);
         this.paddingBottom = bottom;
+        this.paddingBottom.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
         this.paddingLeft = left;
+        this.paddingLeft.setReference(AbstractPadding.ReferenceDimension.HORIZONTAL);
     }
 
     public void setPaddingHorizontal(AbstractPadding horizontal){
@@ -1891,16 +1891,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public int getPaddingTop(){
-        return paddingTop.getVertical(this);
+        return paddingTop.getCalculatedValue();
     }
     public int getPaddingRight(){
-        return paddingRight.getHorizontal(this);
+        return paddingRight.getCalculatedValue();
     }
     public int getPaddingBottom(){
-        return paddingBottom.getVertical(this);
+        return paddingBottom.getCalculatedValue();
     }
     public int getPaddingLeft(){
-        return paddingLeft.getHorizontal(this);
+        return paddingLeft.getCalculatedValue();
     }
 
     //endregion Padding
@@ -2415,6 +2415,19 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             return parent.getChildren().stream().filter(element -> element != this).collect(Collectors.toCollection(ArrayList::new));
         }
         return new ArrayList<>();
+    }
+
+    public AbstractPadding getPaddingLeftRaw(){
+        return paddingLeft;
+    }
+    public AbstractPadding getPaddingRightRaw(){
+        return paddingRight;
+    }
+    public AbstractPadding getPaddingTopRaw(){
+        return paddingTop;
+    }
+    public AbstractPadding getPaddingBottomRaw(){
+        return paddingBottom;
     }
 
     public enum BoundCalculationType{

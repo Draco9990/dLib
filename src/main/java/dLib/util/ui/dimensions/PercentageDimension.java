@@ -8,6 +8,7 @@ import dLib.properties.ui.elements.PercentageDimensionValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
+import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.util.helpers.UIHelpers;
 
@@ -35,7 +36,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(2, new ElementCalculationManager.ElementCalculationInstruction(
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> forElement.setCalculatedWidth((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
                 () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null));
     }
@@ -46,7 +47,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(2, new ElementCalculationManager.ElementCalculationInstruction(
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> forElement.setCalculatedHeight((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
                 () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null));
     }

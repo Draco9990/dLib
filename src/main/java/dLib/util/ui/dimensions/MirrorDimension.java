@@ -7,6 +7,7 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.MirrorDimensionValueEditor;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
+import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
@@ -31,7 +32,7 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(1, new ElementCalculationManager.ElementCalculationInstruction(
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_MIRROR, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> forElement.setCalculatedWidth(forElement.getCalculatedHeight()),
                 () -> forElement.getCalculatedHeight() != null));
     }
@@ -42,7 +43,7 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(1, new ElementCalculationManager.ElementCalculationInstruction(
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_MIRROR, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> forElement.setCalculatedHeight(forElement.getCalculatedWidth()),
                 () -> forElement.getCalculatedWidth() != null));
     }
