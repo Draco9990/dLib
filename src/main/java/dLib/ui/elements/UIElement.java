@@ -762,6 +762,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         onHierarchyChangedEvent.invoke();
     }
 
+    public int getParentWidthSafe(){
+        return parent != null ? parent.getWidth() : 1920;
+    }
+    public int getParentHeightSafe(){
+        return parent != null ? parent.getHeight() : 1080;
+    }
+
     //endregion
 
     //region Children
@@ -1559,6 +1566,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void onDimensionsChanged(){
+        if(getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER || getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
+            requestLocalPositionXRecalculation();
+        }
+        if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER || getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
+            requestLocalPositionYRecalculation();
+        }
+
         for(UIElement child : children){
             child.onParentDimensionsChanged();
         }
@@ -1574,10 +1588,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void onChildDimensionsChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
             requestWidthRecalculation();
+            onDimensionsChanged();
         }
 
         if(getHeightRaw() instanceof AutoDimension || getHeightRaw() instanceof MirrorDimension){
             requestHeightRecalculation();
+            onDimensionsChanged();
         }
     }
 
@@ -1678,49 +1694,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         PositionBounds myBounds = getLocalBounds();
 
         PositionBounds fullChildBounds = getFullChildLocalBounds();
-
-        if(fullChildBounds != null){
-            if(fullChildBounds.left < 0) myBounds.left += fullChildBounds.left;
-            if(fullChildBounds.right > myBounds.right - myBounds.left) myBounds.right += fullChildBounds.right - myBounds.right;
-            if(fullChildBounds.bottom < 0) myBounds.bottom += fullChildBounds.bottom;
-            if(fullChildBounds.top > myBounds.top - myBounds.bottom) myBounds.top += fullChildBounds.top - myBounds.top;
-        }
-
-        return myBounds;
-    }
-
-    public PositionBounds getFullChildLocalBoundsForAutoDim(){
-        PositionBounds fullChildBounds = null;
-        for(UIElement child : children){
-            if(!(child.isActive()) || child.hasComponent(UITransientElementComponent.class)){
-                continue;
-            }
-
-            PositionBounds childBounds = child.getFullLocalBoundsForAutoDim();
-            if(childBounds == null){
-                continue;
-            }
-
-            childBounds.left -= child.getPaddingLeft();
-            childBounds.right += child.getPaddingRight();
-            childBounds.bottom -= child.getPaddingBottom();
-            childBounds.top += child.getPaddingTop();
-
-            if(fullChildBounds == null){
-                fullChildBounds = childBounds;
-                continue;
-            }
-
-            if(childBounds.left < fullChildBounds.left) fullChildBounds.left = childBounds.left;
-            if(childBounds.right > fullChildBounds.right) fullChildBounds.right = childBounds.right;
-            if(childBounds.bottom < fullChildBounds.bottom) fullChildBounds.bottom = childBounds.bottom;
-            if(childBounds.top > fullChildBounds.top) fullChildBounds.top = childBounds.top;
-        }
-        return fullChildBounds;
-    }
-    public PositionBounds getFullLocalBoundsForAutoDim(){
-        PositionBounds myBounds = getLocalBounds();
-        PositionBounds fullChildBounds = getFullChildLocalBoundsForAutoDim();
 
         if(fullChildBounds != null){
             if(fullChildBounds.left < 0) myBounds.left += fullChildBounds.left;

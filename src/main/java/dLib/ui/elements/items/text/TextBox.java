@@ -19,6 +19,7 @@ import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.dimensions.MirrorDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 import sayTheSpire.Output;
@@ -259,6 +260,16 @@ public class TextBox extends UIElement {
             if(getOnTextChangedLine(text) != null){
                 Output.text(getOnTextChangedLine(text), true);
             }
+        }
+
+        if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
+            requestWidthRecalculation();
+            onDimensionsChanged();
+        }
+
+        if(getHeightRaw() instanceof AutoDimension || getHeightRaw() instanceof MirrorDimension){
+            requestHeightRecalculation();
+            onDimensionsChanged();
         }
 
         onTextChangedEvent.invoke(stringConsumer -> stringConsumer.accept(newText));

@@ -44,8 +44,6 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     }
 
     private Integer calculateWidth(UIElement forElement){
-        if(forElement.getChildren().isEmpty()) return 0;
-
         Pair<Integer, Integer> totalWidth = null;
         for (UIElement child : forElement.getChildren()){
             if(child.hasComponent(UITransientElementComponent.class)) continue;
@@ -63,22 +61,20 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 }
             }
         }
-        if(totalWidth == null){
-            return null;
-        }
 
         if(forElement instanceof TextBox){
             int localPosX = forElement.getLocalPositionX();
-
             int width = ((TextBox) forElement).getTextWidth();
-            if(totalWidth.getKey() < localPosX){
-                totalWidth = new Pair<>(localPosX, totalWidth.getValue());
-            }
-            if(totalWidth.getValue() < localPosX + width){
-                totalWidth = new Pair<>(totalWidth.getKey(), localPosX + width);
-            }
+
+            totalWidth = new Pair<>(
+                    totalWidth == null ? localPosX : Math.min(localPosX, totalWidth.getKey()),
+                    totalWidth == null ? localPosX + width : Math.max(localPosX + width, totalWidth.getValue())
+            );
         }
 
+        if(totalWidth == null){
+            return 0;
+        }
         return totalWidth.getValue() - totalWidth.getKey();
     }
     private Pair<Integer, Integer> calculateWidthRecursive(UIElement forElement){
@@ -161,8 +157,6 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     }
 
     private Integer calculateHeight(UIElement forElement){
-        if(forElement.getChildren().isEmpty()) return 0;
-
         Pair<Integer, Integer> totalHeight = null;
         for (UIElement child : forElement.getChildren()){
             if(child.hasComponent(UITransientElementComponent.class)) continue;
@@ -185,21 +179,20 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 }
             }
         }
-        if(totalHeight == null){
-            return null;
-        }
 
         if(forElement instanceof TextBox){
             int localPosY = forElement.getLocalPositionY();
             int height = ((TextBox) forElement).getTextHeight();
-            if(totalHeight.getKey() < localPosY){
-                totalHeight = new Pair<>(localPosY, totalHeight.getValue());
-            }
-            if(totalHeight.getValue() < localPosY + height){
-                totalHeight = new Pair<>(totalHeight.getKey(), localPosY + height);
-            }
+
+            totalHeight = new Pair<>(
+                    totalHeight == null ? localPosY : Math.min(localPosY, totalHeight.getKey()),
+                    totalHeight == null ? localPosY + height : Math.max(localPosY + height, totalHeight.getValue())
+            );
         }
 
+        if(totalHeight == null){
+            return 0;
+        }
         return totalHeight.getValue() - totalHeight.getKey();
     }
     private Pair<Integer, Integer> calculateHeightRecursive(UIElement forElement){

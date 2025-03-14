@@ -11,6 +11,7 @@ import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.dimensions.FillDimension;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
@@ -76,7 +77,6 @@ public abstract class ItemBox extends Renderable {
     //region Methods
 
     //region Update & Render
-
 
     @Override
     protected void updateSelf() {
@@ -340,15 +340,17 @@ public abstract class ItemBox extends Renderable {
     }
 
     @Override
-    public PositionBounds getFullChildLocalBoundsForAutoDim() {
-        PositionBounds bounds = super.getFullChildLocalBoundsForAutoDim();
-        if(bounds == null) return null;
+    public void onChildDimensionsChanged(UIElement child) {
+        super.onChildDimensionsChanged(child);
 
-        bounds.left -= getContentPaddingLeft();
-        bounds.right += getContentPaddingRight();
-        bounds.top += getContentPaddingTop();
-        bounds.bottom -= getContentPaddingBottom();
-        return bounds;
+        for(UIElement element : getChildren()){
+            if(element.getWidthRaw() instanceof FillDimension){
+                element.getWidthRaw().requestRecalculation();
+            }
+            if(element.getHeightRaw() instanceof FillDimension){
+                element.getHeightRaw().requestRecalculation();
+            }
+        }
     }
 
 

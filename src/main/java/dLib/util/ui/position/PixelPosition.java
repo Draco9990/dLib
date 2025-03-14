@@ -68,27 +68,30 @@ public class PixelPosition extends AbstractPosition implements Serializable {
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getWidth()) * 0.5f))),
+                        () -> setCalculatedValue(forElement, ((int) ((forElement.getParentWidthSafe() - forElement.getWidth()) * 0.5f))),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
                         () -> !forElement.getWidthRaw().needsRecalculation(),
-                        () -> !forElement.getPaddingLeftRaw().needsRecalculation()
+                        () -> !forElement.getPaddingLeftRaw().needsRecalculation(),
+                        () -> forElement.getParent() == null || !forElement.getParent().getWidthRaw().needsRecalculation()
                 ));
             }
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
             if(forElement.getWidthRaw() instanceof FillDimension){
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - position),
+                        () -> setCalculatedValue(forElement, forElement.getParentWidthSafe() - position),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                        () -> !forElement.getPaddingLeftRaw().needsRecalculation()
+                        () -> !forElement.getPaddingLeftRaw().needsRecalculation(),
+                        () -> forElement.getParent() == null || !forElement.getParent().getWidthRaw().needsRecalculation()
                 ));
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getWidth() - position),
+                        () -> setCalculatedValue(forElement, forElement.getParentWidthSafe() - forElement.getWidth() - position),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
                         () -> !forElement.getWidthRaw().needsRecalculation(),
-                        () -> !forElement.getPaddingLeftRaw().needsRecalculation()
+                        () -> !forElement.getPaddingLeftRaw().needsRecalculation(),
+                        () -> forElement.getParent() == null || !forElement.getParent().getWidthRaw().needsRecalculation()
                 ));
             }
         }
@@ -113,27 +116,30 @@ public class PixelPosition extends AbstractPosition implements Serializable {
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getHeight()) * 0.5f))),
+                        () -> setCalculatedValue(forElement, ((int) ((forElement.getParentHeightSafe() - forElement.getHeight()) * 0.5f))),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
                         () -> !forElement.getHeightRaw().needsRecalculation(),
-                        () -> !forElement.getPaddingBottomRaw().needsRecalculation()
+                        () -> !forElement.getPaddingBottomRaw().needsRecalculation(),
+                        () -> forElement.getParent() == null || !forElement.getParent().getHeightRaw().needsRecalculation()
                 ));
             }
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             if(forElement.getHeightRaw() instanceof FillDimension){
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - position),
+                        () -> setCalculatedValue(forElement, forElement.getParentHeightSafe() - position),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                        () -> !forElement.getPaddingBottomRaw().needsRecalculation()
+                        () -> !forElement.getPaddingBottomRaw().needsRecalculation(),
+                        () -> forElement.getParent() == null || !forElement.getParent().getHeightRaw().needsRecalculation()
                 ));
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getHeight() - position),
+                        () -> setCalculatedValue(forElement, forElement.getParentHeightSafe() - forElement.getHeight() - position),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
                         () -> !forElement.getHeightRaw().needsRecalculation(),
-                        () -> !forElement.getPaddingBottomRaw().needsRecalculation()
+                        () -> !forElement.getPaddingBottomRaw().needsRecalculation(),
+                        () -> forElement.getParent() == null || !forElement.getParent().getHeightRaw().needsRecalculation()
                 ));
             }
         }
