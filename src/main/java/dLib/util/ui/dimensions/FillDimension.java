@@ -36,7 +36,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> forElement.setCalculatedWidth(calculateWidth(forElement)),
+                () -> setCalculatedValue(forElement, calculateWidth(forElement)),
                 () -> canCalculateWidth(forElement)));
     }
 
@@ -45,13 +45,13 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
         if(!isWithinHorizontalBox(forElement)){
             if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
-                return parentWidth - (Integer) forElement.getLocalPositionXRaw().getCalculatedValue();
+                return parentWidth - forElement.getLocalPositionX();
             }
             else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
                 return parentWidth;
             }
             else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
-                return forElement.getLocalPositionXRaw().getCalculatedValue();
+                return forElement.getLocalPositionX();
             }
         }
         else{
@@ -64,7 +64,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
                     fillElementCount++;
                 }
                 else{
-                    staticWidth += sibling.getCalculatedWidth();
+                    staticWidth += sibling.getWidth();
                 }
             }
 
@@ -83,7 +83,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
         else{
             for (UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){
                 if(sibling.getWidthRaw() instanceof FillDimension) continue;
-                if(sibling.getCalculatedWidth() != null) continue;
+                if(!sibling.getWidthRaw().needsRecalculation()) continue;
 
                 return false;
             }
@@ -99,7 +99,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> forElement.setCalculatedHeight(calculateHeight(forElement)),
+                () -> setCalculatedValue(forElement, calculateHeight(forElement)),
                 () -> canCalculateHeight(forElement)));
     }
 
@@ -108,13 +108,13 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
         if(!isWithinVerticalBox(forElement)){
             if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                return parentHeight - (Integer) forElement.getLocalPositionYRaw().getCalculatedValue();
+                return parentHeight - forElement.getLocalPositionY();
             }
             else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
                 return parentHeight;
             }
             else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-                return forElement.getLocalPositionYRaw().getCalculatedValue();
+                return forElement.getLocalPositionY();
             }
         }
         else{
@@ -127,7 +127,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
                     fillElementCount++;
                 }
                 else{
-                    staticHeight += sibling.getCalculatedHeight();
+                    staticHeight += sibling.getHeight();
                 }
             }
 
@@ -146,7 +146,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
         else{
             for (UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){
                 if(sibling.getHeightRaw() instanceof FillDimension) continue;
-                if(sibling.getCalculatedHeight() != null) continue;
+                if(!sibling.getHeightRaw().needsRecalculation()) continue;
 
                 return false;
             }
@@ -169,7 +169,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
     @Override
     public AbstractDimension cpy() {
         FillDimension dimension = new FillDimension();
-        dimension.setReferenceDimension(this.refDimension);
+        dimension.copyFrom(this);
         return dimension;
     }
 

@@ -37,7 +37,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> forElement.setCalculatedWidth((int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                () -> setCalculatedValue(forElement, (int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
                 () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null));
     }
 
@@ -48,7 +48,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> forElement.setCalculatedHeight((int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                () -> setCalculatedValue(forElement, (int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
                 () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null));
     }
 
@@ -84,7 +84,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     @Override
     public AbstractDimension cpy() {
         PercentageDimension percDim = new PercentageDimension(percentage);
-        percDim.setReferenceDimension(refDimension);
+        percDim.copyFrom(this);
         return percDim;
     }
 
@@ -119,7 +119,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
 
     @Override
     public void resizeBy(UIElement self, int amount) {
-        if(refDimension == ReferenceDimension.WIDTH){
+        if(reference == ReferenceDimension.WIDTH){
             resizeWidthBy(self, amount);
         } else {
             resizeHeightBy(self, amount);

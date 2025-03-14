@@ -4,19 +4,14 @@ import basemod.Pair;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
+import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
 
 import java.io.Serializable;
 
-public abstract class AbstractDimension implements IEditableValue, Serializable {
+public abstract class AbstractDimension extends ElementDescriptor<AbstractDimension.ReferenceDimension> implements IEditableValue, Serializable {
     private static final long serialVersionUID = 1L;
-
-    //region Variables
-
-    protected ReferenceDimension refDimension;
-
-    //endregion
 
     //region Constructors
 
@@ -31,10 +26,10 @@ public abstract class AbstractDimension implements IEditableValue, Serializable 
     //region Calculations
 
     public Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationInstruction(UIElement forElement) {
-        if(refDimension == ReferenceDimension.WIDTH){
+        if(reference == ReferenceDimension.WIDTH){
             return getCalculationFormula_Width(forElement);
         }
-        else if(refDimension == ReferenceDimension.HEIGHT){
+        else if(reference == ReferenceDimension.HEIGHT){
             return getCalculationFormula_Height(forElement);
         }
 
@@ -63,14 +58,6 @@ public abstract class AbstractDimension implements IEditableValue, Serializable 
     }
     protected boolean isWithinHorizontalBox(UIElement forElement){
         return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
-    }
-
-    //endregion
-
-    //region Reference Dimension
-
-    public void setReferenceDimension(ReferenceDimension dimension){
-        this.refDimension = dimension;
     }
 
     //endregion

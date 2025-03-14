@@ -84,9 +84,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private AbstractPosition localPosY = Pos.px(0);
     private AbstractDimension width = Dim.fill();
     private AbstractDimension height = Dim.fill();
-    
-    private Integer calculated_width = null;
-    private Integer calculated_height = null;
 
     public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
@@ -931,10 +928,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public int getLocalPositionX(){
-        return localPosX.getCalculatedValue();
+        return getLocalPositionXRaw().getCalculatedValue();
     }
     public int getLocalPositionY(){
-        return localPosY.getCalculatedValue();
+        return getLocalPositionYRaw().getCalculatedValue();
     }
     public IntegerVector2 getLocalPosition(){
         return new IntegerVector2(getLocalPositionX(), getLocalPositionY());
@@ -1070,11 +1067,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     protected void onChildPositionChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension){
-            invalidateCalculatedWidth();
+            requestWidthRecalculation();
         }
 
         if(getHeightRaw() instanceof AutoDimension){
-            invalidateCalculatedHeight();
+            requestHeightRecalculation();
         }
     }
 
@@ -1144,8 +1141,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(desiredWidth != getWidth() || desiredHeight != getHeight() || desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
             getLocalPositionXRaw().overrideCalculatedValue(desiredPositionX);
             getLocalPositionYRaw().overrideCalculatedValue(desiredPositionY);
-            setCalculatedWidth(desiredWidth);
-            setCalculatedHeight(desiredHeight);
+            getWidthRaw().overrideCalculatedValue(desiredWidth);
+            getHeightRaw().overrideCalculatedValue(desiredHeight);
         }
     }
 
@@ -1478,11 +1475,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private final void setWidthRaw(AbstractDimension newWidth){
         width = newWidth;
-        width.setReferenceDimension(AbstractDimension.ReferenceDimension.WIDTH);
+        width.setReference(AbstractDimension.ReferenceDimension.WIDTH);
     }
     private final void setHeightRaw(AbstractDimension newHeight){
         height = newHeight;
-        height.setReferenceDimension(AbstractDimension.ReferenceDimension.HEIGHT);
+        height.setReference(AbstractDimension.ReferenceDimension.HEIGHT);
     }
 
     public void setWidth(int newWidth){
@@ -1510,37 +1507,29 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     protected void onChildDimensionsChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
-            invalidateCalculatedWidth();
+            requestWidthRecalculation();
         }
 
         if(getHeightRaw() instanceof AutoDimension || getHeightRaw() instanceof MirrorDimension){
-            invalidateCalculatedHeight();
+            requestHeightRecalculation();
         }
     }
 
     public int getWidth(){
-        if(calculated_width == null){
-            return 0;
-        }
-
-        return calculated_width;
+        return getWidthRaw().getCalculatedValue();
     }
     public int getHeight(){
-        if(calculated_height == null){
-            return 0;
-        }
-
-        return calculated_height;
+        return getHeightRaw().getCalculatedValue();
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
     }
 
     public AbstractDimension getWidthRaw(){
-        return width.cpy();
+        return width;
     }
     public AbstractDimension getHeightRaw(){
-        return height.cpy();
+        return height;
     }
 
     public void resizeBy(int widthDiff, int heightDiff){
@@ -2364,31 +2353,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion
 
-    public Integer getCalculatedWidth(){
-        return calculated_width;
-    }
-    public Integer getCalculatedHeight(){
-        return calculated_height;
-    }
-
-    public void setCalculatedWidth(int calculated_width){
-        this.calculated_width = calculated_width;
-    }
-    public void setCalculatedHeight(int calculated_height){
-        this.calculated_height = calculated_height;
-    }
-
     public void requestLocalPositionXRecalculation(){
         getLocalPositionXRaw().requestRecalculation();
     }
     public void requestLocalPositionYRecalculation(){
         getLocalPositionYRaw().requestRecalculation();
     }
-    public void invalidateCalculatedWidth(){
-        calculated_width = null;
+    public void requestWidthRecalculation(){
+        getWidthRaw().requestRecalculation();
     }
-    public void invalidateCalculatedHeight(){
-        calculated_height = null;
+    public void requestHeightRecalculation(){
+        getHeightRaw().requestRecalculation();
     }
 
     public int getOffsetX(){

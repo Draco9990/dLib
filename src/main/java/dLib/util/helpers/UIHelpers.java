@@ -24,8 +24,8 @@ public class UIHelpers {
 
         UIElement parent = forElement.getParent();
         while(parent != null){
-            if(parent.getCalculatedWidth() != null){
-                parentWidth = parent.getCalculatedWidth();
+            if(!parent.getWidthRaw().needsRecalculation()){
+                parentWidth = parent.getWidth();
                 break;
             }
             else if(!(parent.getWidthRaw() instanceof AutoDimension)){
@@ -43,8 +43,8 @@ public class UIHelpers {
 
         UIElement parent = forElement.getParent();
         while(parent != null){
-            if(parent.getCalculatedHeight() != null){
-                parentHeight = parent.getCalculatedHeight();
+            if(!parent.getHeightRaw().needsRecalculation()){
+                parentHeight = parent.getHeight();
                 break;
             }
             else if(!(parent.getHeightRaw() instanceof AutoDimension)){

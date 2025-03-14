@@ -69,9 +69,9 @@ public class PercentagePosition extends AbstractPosition implements Serializable
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth()) * 0.5f))),
+                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getWidth()) * 0.5f))),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                        () -> forElement.getCalculatedWidth() != null,
+                        () -> !forElement.getWidthRaw().needsRecalculation(),
                         () -> !forElement.getPaddingLeftRaw().needsRecalculation()
                 ));
             }
@@ -86,9 +86,9 @@ public class PercentagePosition extends AbstractPosition implements Serializable
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth() - (int)(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage))),
+                        () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getWidth() - (int)(UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage))),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                        () -> forElement.getCalculatedWidth() != null,
+                        () -> !forElement.getWidthRaw().needsRecalculation(),
                         () -> !forElement.getPaddingLeftRaw().needsRecalculation()
                 ));
             }
@@ -115,9 +115,9 @@ public class PercentagePosition extends AbstractPosition implements Serializable
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight()) * 0.5f))),
+                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getHeight()) * 0.5f))),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                        () -> forElement.getCalculatedHeight() != null,
+                        () -> !forElement.getHeightRaw().needsRecalculation(),
                         () -> !forElement.getPaddingBottomRaw().needsRecalculation()
                 ));
             }
@@ -132,9 +132,9 @@ public class PercentagePosition extends AbstractPosition implements Serializable
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight() - (int)(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage))),
+                        () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getHeight() - (int)(UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage))),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                        () -> forElement.getCalculatedHeight() != null,
+                        () -> !forElement.getHeightRaw().needsRecalculation(),
                         () -> !forElement.getPaddingBottomRaw().needsRecalculation()
                 ));
             }

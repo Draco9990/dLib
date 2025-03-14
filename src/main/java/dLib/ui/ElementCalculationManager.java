@@ -38,7 +38,7 @@ public class ElementCalculationManager {
                 }
             }
 
-            if(element.getCalculatedWidth() == null) {
+            if(element.getWidthRaw().needsRecalculation()) {
                 calculationInstructions.add(element.getWidthRaw().getCalculationInstruction(element));
                 if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
 
@@ -46,7 +46,7 @@ public class ElementCalculationManager {
                     element.getWidthRaw().getCalculationInstruction(element); //* For Debug
                 }
             }
-            if(element.getCalculatedHeight() == null) {
+            if(element.getHeightRaw().needsRecalculation()) {
                 calculationInstructions.add(element.getHeightRaw().getCalculationInstruction(element));
                 if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
 

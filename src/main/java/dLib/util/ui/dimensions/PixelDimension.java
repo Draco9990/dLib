@@ -36,12 +36,16 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedWidth(size)));
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(
+                () -> setCalculatedValue(forElement, size)
+        ));
     }
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(() -> forElement.setCalculatedHeight(size)));
+        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(
+                () -> setCalculatedValue(forElement, size)
+        ));
     }
 
     //endregion
@@ -64,7 +68,7 @@ public class PixelDimension extends AbstractDimension implements Serializable {
     @Override
     public AbstractDimension cpy() {
         PixelDimension px = Dim.px(size);
-        px.setReferenceDimension(refDimension);
+        px.copyFrom(this);
         return px;
     }
 

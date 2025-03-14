@@ -37,7 +37,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_AUTO, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> forElement.setCalculatedWidth(calculateWidth(forElement)),
+                () -> setCalculatedValue(forElement, calculateWidth(forElement)),
                 () -> canCalculateWidth(forElement)
         ));
     }
@@ -65,10 +65,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            Integer localPosX = forElement.getLocalPositionXRaw().getCalculatedValue();
-            if(localPosX == null){
-                return null;
-            }
+            int localPosX = forElement.getLocalPositionX();
 
             int width = ((TextBox) forElement).getTextWidth();
             if(totalWidth.getKey() < localPosX){
@@ -104,12 +101,9 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        Integer calculatedLocalX = forElement.getLocalPositionXRaw().getCalculatedValue();
-        if(calculatedLocalX == null){
-            return null;
-        }
+        int calculatedLocalX = forElement.getLocalPositionX();
 
-        Integer widthRaw = forElement.getCalculatedWidth();
+        Integer widthRaw = forElement.getWidth();
         if(widthRaw == null){
             return null;
         }
@@ -120,25 +114,25 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     private boolean canCalculateWidth(UIElement forElement){
         for (UIElement child : forElement.getAllChildren()) {
             if(child.getParent() == forElement){
-                if(child.getCalculatedWidth() == null){
+                if(child.getWidthRaw().needsRecalculation()){
                     return false;
                 }
 
-                if((Integer) child.getLocalPositionXRaw().getCalculatedValue() == null){
+                if(child.getLocalPositionXRaw().needsRecalculation()){
                     if(child.getLocalPositionXRaw() instanceof PixelPosition && child.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
                         return false;
                     }
                 }
             }
             else{
-                if(child.getCalculatedWidth() == null || (Integer) child.getLocalPositionXRaw().getCalculatedValue() == null){
+                if(child.getWidthRaw().needsRecalculation() || child.getLocalPositionXRaw().needsRecalculation()){
                     return false;
                 }
             }
         }
 
         if(forElement instanceof TextBox){
-            if((Integer) forElement.getLocalPositionXRaw().getCalculatedValue() == null){
+            if(forElement.getLocalPositionXRaw().needsRecalculation()){
                 return false;
             }
         }
@@ -153,7 +147,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_AUTO, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> forElement.setCalculatedHeight(calculateHeight(forElement)),
+                () -> setCalculatedValue(forElement, calculateHeight(forElement)),
                 () -> canCalculateHeight(forElement)
         ));
     }
@@ -186,11 +180,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            Integer localPosY = forElement.getLocalPositionYRaw().getCalculatedValue();
-            if(localPosY == null){
-                return null;
-            }
-
+            int localPosY = forElement.getLocalPositionY();
             int height = ((TextBox) forElement).getTextHeight();
             if(totalHeight.getKey() < localPosY){
                 totalHeight = new Pair<>(localPosY, totalHeight.getValue());
@@ -220,15 +210,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        Integer calculatedLocalY = forElement.getLocalPositionYRaw().getCalculatedValue();
-        if(calculatedLocalY == null){
-            return null;
-        }
-
-        Integer heightRaw = forElement.getCalculatedHeight();
-        if(heightRaw == null){
-            return null;
-        }
+        int calculatedLocalY = forElement.getLocalPositionY();
+        int heightRaw = forElement.getHeight();
 
         return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw);
     }
@@ -236,27 +219,27 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     private boolean canCalculateHeight(UIElement forElement){
         for (UIElement child : forElement.getAllChildren()) {
             if(child.getParent() == forElement){
-                if(child.getCalculatedHeight() == null){
+                if(child.getHeightRaw().needsRecalculation()){
                     if(!(child.getHeightRaw() instanceof FillDimension) && !(child.getHeightRaw() instanceof PercentageDimension)){
                         return false;
                     }
                 }
 
-                if((Integer) child.getLocalPositionYRaw().getCalculatedValue() == null){
+                if(child.getLocalPositionYRaw().needsRecalculation()){
                     if(child.getLocalPositionYRaw() instanceof PixelPosition && child.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
                         return false;
                     }
                 }
             }
             else{
-                if(child.getCalculatedHeight() == null || (Integer) child.getLocalPositionYRaw().getCalculatedValue() == null){
+                if(child.getHeightRaw().needsRecalculation() || child.getLocalPositionYRaw().needsRecalculation()){
                     return false;
                 }
             }
         }
 
         if(forElement instanceof TextBox){
-            if((Integer) forElement.getLocalPositionYRaw().getCalculatedValue() == null){
+            if(forElement.getLocalPositionYRaw().needsRecalculation()){
                 return false;
             }
         }
@@ -278,7 +261,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     @Override
     public AbstractDimension cpy() {
         AutoDimension cpy = new AutoDimension();
-        cpy.setReferenceDimension(refDimension);
+        cpy.copyFrom(this);
         return cpy;
     }
 

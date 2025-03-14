@@ -68,9 +68,9 @@ public class PixelPosition extends AbstractPosition implements Serializable {
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth()) * 0.5f))),
+                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getWidth()) * 0.5f))),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                        () -> forElement.getCalculatedWidth() != null,
+                        () -> !forElement.getWidthRaw().needsRecalculation(),
                         () -> !forElement.getPaddingLeftRaw().needsRecalculation()
                 ));
             }
@@ -85,9 +85,9 @@ public class PixelPosition extends AbstractPosition implements Serializable {
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getCalculatedWidth() - position),
+                        () -> setCalculatedValue(forElement, UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getWidth() - position),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                        () -> forElement.getCalculatedWidth() != null,
+                        () -> !forElement.getWidthRaw().needsRecalculation(),
                         () -> !forElement.getPaddingLeftRaw().needsRecalculation()
                 ));
             }
@@ -113,9 +113,9 @@ public class PixelPosition extends AbstractPosition implements Serializable {
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight()) * 0.5f))),
+                        () -> setCalculatedValue(forElement, ((int) ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getHeight()) * 0.5f))),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                        () -> forElement.getCalculatedHeight() != null,
+                        () -> !forElement.getHeightRaw().needsRecalculation(),
                         () -> !forElement.getPaddingBottomRaw().needsRecalculation()
                 ));
             }
@@ -130,9 +130,9 @@ public class PixelPosition extends AbstractPosition implements Serializable {
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getCalculatedHeight() - position),
+                        () -> setCalculatedValue(forElement, UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getHeight() - position),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                        () -> forElement.getCalculatedHeight() != null,
+                        () -> !forElement.getHeightRaw().needsRecalculation(),
                         () -> !forElement.getPaddingBottomRaw().needsRecalculation()
                 ));
             }
