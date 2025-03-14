@@ -35,10 +35,10 @@ public class UIAnimation_SlideOutDown extends UIExitAnimation {
 
         float newPos = element.getLocalPositionY() - lerpDistance;
 
-        element.setLocalPositionY((int) newPos);
+        element.getLocalPositionYRaw().overrideCalculatedValue((int) newPos);
 
         if (element.getLocalPositionY() - Settings.UI_SNAP_THRESHOLD < properties.refPointY - element.getHeight()) {
-            isPlaying = false;
+            state = EAnimationState.FINISHED;
         }
     }
 
@@ -46,7 +46,7 @@ public class UIAnimation_SlideOutDown extends UIExitAnimation {
     public void finishInstantly() {
         super.finishInstantly();
 
-        element.setLocalPositionY(origElementY);
+        element.getLocalPositionYRaw().overrideCalculatedValue(origElementY);
     }
 
     public static class AnimationProperties{

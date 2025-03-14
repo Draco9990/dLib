@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 @DisplayClass(shortDisplayName = "mirror")
 public class MirrorDimension extends AbstractDimension implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1521206809273241997L; // TODO set to 1 after removing currently generated elements
 
     //region Constructors
 

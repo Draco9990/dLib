@@ -26,17 +26,17 @@ public class UIAnimation_SlideInLeft extends UIAnimation {
         super.start();
 
         origElementX = element.getLocalPositionX();
-        element.setLocalPositionX(properties.refPointX + element.getWidth());
+        element.getLocalPositionXRaw().overrideCalculatedValue(properties.refPointX + element.getWidth());
     }
 
     @Override
     public void update() {
         float newPos = MathUtils.lerp(this.element.getLocalPositionX(), origElementX, Gdx.graphics.getDeltaTime() * properties.speed);
 
-        element.setLocalPositionX((int) newPos);
+        element.getLocalPositionXRaw().overrideCalculatedValue((int) newPos);
 
         if (element.getLocalPositionX() - Settings.UI_SNAP_THRESHOLD <= origElementX) {
-            isPlaying = false;
+            state = EAnimationState.FINISHED;
         }
     }
 
@@ -44,7 +44,7 @@ public class UIAnimation_SlideInLeft extends UIAnimation {
     public void finishInstantly() {
         super.finishInstantly();
 
-        element.setLocalPositionX(origElementX);
+        element.getLocalPositionXRaw().overrideCalculatedValue(origElementX);
     }
 
     public static class AnimationProperties{

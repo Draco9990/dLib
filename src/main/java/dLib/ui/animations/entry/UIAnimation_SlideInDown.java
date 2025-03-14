@@ -26,17 +26,17 @@ public class UIAnimation_SlideInDown extends UIAnimation {
         super.start();
 
         origElementY = element.getLocalPositionY();
-        element.setLocalPositionY(properties.refPointY + element.getHeight());
+        element.getLocalPositionYRaw().overrideCalculatedValue(properties.refPointY + element.getHeight());
     }
 
     @Override
     public void update() {
         float newPos = MathUtils.lerp(this.element.getLocalPositionY(), origElementY, Gdx.graphics.getDeltaTime() * properties.speed);
 
-        element.setLocalPositionY((int) newPos);
+        element.getLocalPositionYRaw().overrideCalculatedValue((int) newPos);
 
         if (element.getLocalPositionY() - Settings.UI_SNAP_THRESHOLD <= origElementY) {
-            isPlaying = false;
+            state = EAnimationState.FINISHED;
         }
     }
 
@@ -44,7 +44,7 @@ public class UIAnimation_SlideInDown extends UIAnimation {
     public void finishInstantly() {
         super.finishInstantly();
 
-        element.setLocalPositionY(origElementY);
+        element.getLocalPositionYRaw().overrideCalculatedValue(origElementY);
     }
 
     public static class AnimationProperties{

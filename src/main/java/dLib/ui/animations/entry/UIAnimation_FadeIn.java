@@ -39,7 +39,7 @@ public class UIAnimation_FadeIn extends UIAnimation {
         getElement().setRenderColorAlphaMultiplier(newAlpha);
 
         if (newAlpha + 0.01 >= origColorAlpha){
-            isPlaying = false;
+            state = EAnimationState.FINISHED;
         }
     }
 

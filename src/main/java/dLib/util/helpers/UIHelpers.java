@@ -5,6 +5,8 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AutoDimension;
+import dLib.util.ui.dimensions.FillDimension;
+import dLib.util.ui.dimensions.PercentageDimension;
 
 import java.util.UUID;
 

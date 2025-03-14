@@ -37,7 +37,7 @@ public class UIAnimation_FadeOut extends UIExitAnimation {
         getElement().setRenderColorAlphaMultiplier(newAlpha);
 
         if (newAlpha - 0.01 <= 0){
-            isPlaying = false;
+            state = EAnimationState.FINISHED;
         }
     }
 

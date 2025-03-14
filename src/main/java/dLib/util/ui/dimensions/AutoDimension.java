@@ -10,6 +10,7 @@ import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.ui.position.PixelPosition;
@@ -47,6 +48,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
         Pair<Integer, Integer> totalWidth = null;
         for (UIElement child : forElement.getChildren()){
+            if(child.hasComponent(UITransientElementComponent.class)) continue;
+
             Pair<Integer, Integer> childWidth = calculateWidthRecursive(child);
             if(totalWidth == null){
                 totalWidth = childWidth;
@@ -82,6 +85,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         Pair<Integer, Integer> totalWidth = null;
 
         for (UIElement child : forElement.getChildren()) {
+            if(child.hasComponent(UITransientElementComponent.class)) continue;
+
             Pair<Integer, Integer> childWidth = calculateWidthRecursive(child);
             if(totalWidth == null){
                 totalWidth = childWidth;
@@ -110,6 +115,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     private boolean canCalculateWidth(UIElement forElement){
         for (UIElement child : forElement.getAllChildren()) {
+            if(child.hasComponent(UITransientElementComponent.class)) continue;
+
             if(child.getParent() == forElement){
                 if(child.getWidthRaw().needsRecalculation()){
                     return false;
@@ -158,6 +165,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
         Pair<Integer, Integer> totalHeight = null;
         for (UIElement child : forElement.getChildren()){
+            if(child.hasComponent(UITransientElementComponent.class)) continue;
+
             Pair<Integer, Integer> childHeight = calculateHeightRecursive(child);
             if(totalHeight == null){
                 totalHeight = childHeight;
@@ -197,6 +206,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         Pair<Integer, Integer> totalHeight = null;
 
         for (UIElement child : forElement.getChildren()) {
+            if(child.hasComponent(UITransientElementComponent.class)) continue;
+
             Pair<Integer, Integer> childHeight = calculateHeightRecursive(child);
             if(totalHeight == null){
                 totalHeight = childHeight;
@@ -220,6 +231,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     private boolean canCalculateHeight(UIElement forElement){
         for (UIElement child : forElement.getAllChildren()) {
+            if(child.hasComponent(UITransientElementComponent.class)) continue;
+
             if(child.getParent() == forElement){
                 if(child.getHeightRaw().needsRecalculation()){
                     if(!(child.getHeightRaw() instanceof FillDimension) && !(child.getHeightRaw() instanceof PercentageDimension)){

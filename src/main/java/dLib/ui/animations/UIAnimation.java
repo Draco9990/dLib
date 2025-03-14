@@ -7,7 +7,7 @@ public abstract class UIAnimation {
 
     protected UIElement element;
 
-    protected boolean isPlaying = false;
+    protected EAnimationState state = EAnimationState.IDLE;
 
     //endregion
 
@@ -22,18 +22,24 @@ public abstract class UIAnimation {
     //region Methods
 
     public void start(){
-        isPlaying = true;
+        state = EAnimationState.PLAYING;
     }
 
     public abstract void update();
 
     public void finishInstantly(){
-        isPlaying = false;
+        state = EAnimationState.FINISHED;
     }
 
-    public boolean isPlaying(){
-        return isPlaying;
+    public EAnimationState getAnimationState(){
+        return state;
     }
 
     //endregion
+
+    public enum EAnimationState{
+        IDLE,
+        PLAYING,
+        FINISHED
+    }
 }

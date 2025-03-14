@@ -245,6 +245,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         };
         overlay.setID("wrap_overlay");
         overlay.setRenderColor(new Color(0, 0, 0, 0f));
+        overlay.addComponent(new UITransientElementComponent());
         parent.addChild(overlay);
 
         postMakeUIForItem(item, itemUI);

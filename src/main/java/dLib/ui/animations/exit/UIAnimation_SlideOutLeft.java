@@ -33,10 +33,10 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
         float lerpDistance = Math.abs(lerpPos - element.getLocalPositionX());
         float newPos = element.getLocalPositionX() - lerpDistance;
 
-        element.setLocalPositionX(Math.round(newPos));
+        element.getLocalPositionXRaw().overrideCalculatedValue(Math.round(newPos));
 
         if (element.getLocalPositionX() - Settings.UI_SNAP_THRESHOLD <= properties.refPointX - element.getWidth()) {
-            isPlaying = false;
+            state = EAnimationState.FINISHED;
         }
     }
 
@@ -44,7 +44,7 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
     public void finishInstantly() {
         super.finishInstantly();
 
-        element.setLocalPositionX(origElementX);
+        element.getLocalPositionXRaw().overrideCalculatedValue(origElementX);
     }
 
     public static class AnimationProperties{

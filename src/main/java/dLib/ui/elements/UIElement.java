@@ -566,8 +566,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         //Update Playing Animation
         {
             if(playingAnimation != null){
+                if(playingAnimation.getAnimationState() == UIAnimation.EAnimationState.IDLE){
+                    playingAnimation.start();
+                }
+
                 playingAnimation.update();
-                if(!playingAnimation.isPlaying()){
+
+                if(playingAnimation.getAnimationState() == UIAnimation.EAnimationState.FINISHED){
                     playingAnimation.finishInstantly();
                     playingAnimation = null;
                 }
@@ -972,6 +977,35 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //region World Position
+
+    public void setWorldPositionX(int newPos){
+        setWorldPosition(newPos, getWorldPositionY());
+    }
+    public void setWorldPositionY(int newPos){
+        setWorldPosition(getWorldPositionX(), newPos);
+    }
+    public void setWorldPosition(int newPosX, int newPosY){
+        int localPosX = newPosX - (getParent() != null ? getParent().getWorldPositionX() : 0);
+        localPosX -= getPaddingLeft();
+        localPosX -= getOffsetX();
+
+        int localPosY = newPosY - (getParent() != null ? getParent().getWorldPositionY() : 0);
+        localPosY -= getPaddingBottom();
+        localPosY -= getOffsetY();
+
+        if(localPosX != getLocalPositionX() && localPosY != getLocalPositionY()){
+            setLocalPosition(localPosX, localPosY);
+        }
+        else{
+            if(localPosX != getLocalPositionX()){
+                setLocalPositionX(localPosX);
+            }
+            if(localPosY != getLocalPositionY()){
+                setLocalPositionY(localPosY);
+            }
+        }
+    }
+
     public int getWorldPositionX(){
         int parentWorldX = getParent() != null ?
                 getParent().getWorldPositionX() + (this instanceof ItemBox && !(getParent() instanceof ItemBox) ? 0 : getParent().getChildOffsetX()) :
@@ -1600,9 +1634,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         playingAnimation = animation;
-        if(playingAnimation != null){
-            playingAnimation.start();
-        }
     }
 
     //endregion
