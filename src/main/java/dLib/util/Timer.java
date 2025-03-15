@@ -2,8 +2,9 @@ package dLib.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import dLib.util.events.localevents.RunnableEvent;
 
-public abstract class Timer {
+public class Timer {
     /** Variables */
     private float minDuration;
     private float maxDuration;
@@ -11,6 +12,8 @@ public abstract class Timer {
 
     private float currentDuration;
     private boolean finished = false;
+
+    public RunnableEvent onTriggerEvent = new RunnableEvent();
 
     /** Constructors */
     public Timer(float duration){
@@ -48,7 +51,9 @@ public abstract class Timer {
     }
 
     /** Methods */
-    public abstract void onTrigger();
+    public void onTrigger(){
+        onTriggerEvent.invoke();
+    }
     private void reset(){
         currentDuration = MathUtils.random(minDuration, maxDuration);
     }

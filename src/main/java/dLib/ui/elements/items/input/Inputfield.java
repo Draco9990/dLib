@@ -5,10 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
+import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.buttons.Button;
+import dLib.ui.elements.items.text.InputCaret;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
@@ -24,6 +27,7 @@ import dLib.util.ui.position.Pos;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Inputfield extends Button {
@@ -40,6 +44,8 @@ public class Inputfield extends Button {
     public Event<Consumer<String>> onValueChangedEvent = new Event<>();
     public Event<Consumer<String>> onValueCommittedEvent = new Event<>();
     public ConsumerEvent<String> onValueConfirmedEvent = new ConsumerEvent<>();
+
+    private InputCaret caret;
 
     //Temps
 
@@ -84,6 +90,11 @@ public class Inputfield extends Button {
 
         textBox.setPadding(Padd.px(10));
 
+        caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSize())));
+        caret.addComponent(new UITransientElementComponent());
+        recalculateCaretPosition();
+        textBox.addChild(caret);
+
         postInitialize();
     }
 
@@ -100,6 +111,11 @@ public class Inputfield extends Button {
         characterLimit = data.characterLimit.getValue();
 
         setPreset(data.inputfieldPreset);
+
+        caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSize())));
+        caret.addComponent(new UITransientElementComponent());
+        recalculateCaretPosition();
+        textBox.addChild(caret);
 
         postInitialize();
     }
@@ -203,17 +219,29 @@ public class Inputfield extends Button {
     }
 
     private void postInitialize(){
+        caret.hideAndDisableInstantly();
+
         onSelectionStateChangedEvent.subscribeManaged(aBoolean -> {
             if(aBoolean){
                 Gdx.input.setInputProcessor(inputProcessor);
+                caret.showAndEnableInstantly();
             }
             else{
                 resetInputProcessor();
                 onValueCommittedEvent.invoke(stringConsumer -> stringConsumer.accept(textBox.getText()));
+                caret.hideAndDisableInstantly();
             }
         });
 
-        textBox.onTextChangedEvent.subscribeManaged(s -> onValueChangedEvent.invoke(stringConsumer -> stringConsumer.accept(s)));
+        textBox.onTextChangedEvent.subscribeManaged(s -> {
+            onValueChangedEvent.invoke(stringConsumer -> stringConsumer.accept(s));
+            recalculateCaretPosition();
+        });
+
+        textBox.onFontSizeChangedEvent.subscribe(this, (aFloat, aFloat2) -> {
+            caret.setHeight(Dim.px((int) Math.ceil(aFloat)));
+            recalculateCaretPosition();
+        });
     }
 
     //endregion
@@ -233,6 +261,31 @@ public class Inputfield extends Button {
                 removeLastCharacter();
             }
         }
+    }
+
+    //endregion
+
+    //region Caret
+
+    private void recalculateCaretPosition(){
+        float totalWidth = FontHelper.getWidth(textBox.getFontForRender(), textBox.getText(), 1.0f);
+        float lineHeight = FontHelper.getHeight(textBox.getFontForRender(), textBox.getText(), 1.0f);
+
+        float textboxWidth = textBox.getWidth();
+        if(textboxWidth == 0){
+            textboxWidth = Integer.MAX_VALUE;
+        }
+
+        int localX = 0;
+        int localY = 0;
+
+        while(totalWidth > textboxWidth){
+            localY += lineHeight;
+            totalWidth -= textboxWidth;
+        }
+        localX = (int) totalWidth;
+
+        caret.setLocalPosition(Pos.px(localX), Pos.px(localY));
     }
 
     //endregion
@@ -262,14 +315,6 @@ public class Inputfield extends Button {
     public void filterAddAToZ(){
         filterAddLowercase();
         filterAddUpercase();
-    }
-
-    //endregion
-
-    //region Blinking Cursor
-
-    private void calculateCursorBlinkPosition(){
-        //TODO
     }
 
     //endregion

@@ -184,7 +184,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private UIAnimation entryAnimation;
     private UIAnimation reentryAnimation; //TODO
     private UIExitAnimation exitAnimation;
-    private UIAnimation animation;
+    private UIAnimation idleAnimation;
 
     private UIAnimation playingAnimation;
 
@@ -590,6 +590,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 if(playingAnimation.getAnimationState() == UIAnimation.EAnimationState.FINISHED){
                     playingAnimation.finishInstantly();
                     playingAnimation = null;
+                }
+            }
+            else{
+                if(idleAnimation != null && idleAnimation.getAnimationState() != UIAnimation.EAnimationState.FINISHED){
+                    playAnimation(idleAnimation);
                 }
             }
         }
@@ -1404,18 +1409,31 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         setVisibility(true);
         pendingHide = false;
-        playAnimation(entryAnimation);
 
-        for(UIElement child : getChildren()){
-            if(child.isVisible() && child.entryAnimation != null){
-                child.playAnimation(child.entryAnimation);
+        if(entryAnimation == null){
+            for(UIElement child : getChildren()){
+                if(child.isVisible() && child.entryAnimation != null){
+                    child.playAnimation(child.entryAnimation);
+                }
             }
+        }
+        else{
+            playAnimation(entryAnimation);
         }
     }
     public void showInstantly(){
         if(isVisible) return;
 
         setVisibility(true);
+    }
+
+    public void toggleVisibility(){
+        if(isVisible()){
+            hide();
+        }
+        else{
+            show();
+        }
     }
 
     protected void setVisibility(boolean visible){
@@ -1663,8 +1681,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.exitAnimation = exitAnimation;
     }
 
-    public void setAnimation(UIAnimation animation){
-        this.animation = animation;
+    public void setIdleAnimation(UIAnimation idleAnimation){
+        this.idleAnimation = idleAnimation;
     }
 
     public void playAnimation(UIAnimation animation){

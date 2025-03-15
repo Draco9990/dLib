@@ -14,6 +14,9 @@ import dLib.util.bindings.font.AbstractFontBinding;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.helpers.FontHelpers;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -35,6 +38,8 @@ public class TextBox extends UIElement {
 
     private float fontSize = 16f;
     private boolean trueSize = false;
+
+    public BiConsumerEvent<Float, Float> onFontSizeChangedEvent = new BiConsumerEvent<>();                              public TriConsumerEvent<UIElement, Float, Float> onFontSizeChangedGlobalEvent = new TriConsumerEvent<>();
 
     private Color textRenderColor;
     private AbstractFontBinding font;
@@ -448,6 +453,9 @@ public class TextBox extends UIElement {
 
     public void setFontSize(float fontSize){
         this.fontSize = fontSize;
+
+        onFontSizeChangedEvent.invoke(fontSize, getFontSizeForRender());
+        onFontSizeChangedGlobalEvent.invoke(this, fontSize, getFontSizeForRender());
     }
 
     public float getFontSizeForRender(){
@@ -460,13 +468,17 @@ public class TextBox extends UIElement {
         }
     }
 
+    public float getFontSize(){
+        return fontSize;
+    }
+
     //region Obscure Text
 
     public void setObscureText(boolean obscureText){
         this.obscureText = obscureText;
     }
 
-    public boolean isObsuringText(){
+    public boolean isObscuringText(){
         return obscureText;
     }
 
