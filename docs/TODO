@@ -1,3 +1,7 @@
+-- fix color select
+-- remove old chat window
+-- fix resizing if possible
+
 -- rework padding and auto dimensions
 
 -- make propertie name and description as annotations instead

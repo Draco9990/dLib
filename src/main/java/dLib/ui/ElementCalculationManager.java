@@ -38,7 +38,41 @@ public class ElementCalculationManager {
                 }
             }
 
-            if(element.getWidthRaw().needsRecalculation()) {
+            if(element.getMinimumWidthRaw().needsRecalculation()) {
+                calculationInstructions.add(element.getMinimumWidthRaw().getCalculationInstruction(element));
+                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
+
+                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                    element.getMinimumWidthRaw().getCalculationInstruction(element); //* For Debug
+                }
+            }
+            if(element.getMinimumHeightRaw().needsRecalculation()) {
+                calculationInstructions.add(element.getMinimumHeightRaw().getCalculationInstruction(element));
+                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
+
+                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                    element.getMinimumHeightRaw().getCalculationInstruction(element); //* For Debug
+                }
+            }
+
+            if(element.getMaximumWidthRaw().needsRecalculation()) {
+                calculationInstructions.add(element.getMaximumWidthRaw().getCalculationInstruction(element));
+                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
+
+                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                    element.getMaximumWidthRaw().getCalculationInstruction(element); //* For Debug
+                }
+            }
+            if(element.getMaximumHeightRaw().needsRecalculation()) {
+                calculationInstructions.add(element.getMaximumHeightRaw().getCalculationInstruction(element));
+                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
+
+                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                    element.getMaximumHeightRaw().getCalculationInstruction(element); //* For Debug
+                }
+            }
+
+            if(element.needsWidthCalculation()) {
                 calculationInstructions.add(element.getWidthRaw().getCalculationInstruction(element));
                 if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
 
@@ -46,7 +80,7 @@ public class ElementCalculationManager {
                     element.getWidthRaw().getCalculationInstruction(element); //* For Debug
                 }
             }
-            if(element.getHeightRaw().needsRecalculation()) {
+            if(element.needsHeightCalculation()) {
                 calculationInstructions.add(element.getHeightRaw().getCalculationInstruction(element));
                 if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
 

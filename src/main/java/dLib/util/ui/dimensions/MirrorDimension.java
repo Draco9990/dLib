@@ -34,7 +34,7 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_MIRROR, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> setCalculatedValue(forElement, forElement.getHeight()),
-                () -> !forElement.getHeightRaw().needsRecalculation()));
+                () -> !forElement.needsHeightCalculation()));
     }
 
     //endregion
@@ -45,7 +45,7 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_MIRROR, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> setCalculatedValue(forElement, forElement.getWidth()),
-                () -> !forElement.getWidthRaw().needsRecalculation()));
+                () -> !forElement.needsWidthCalculation()));
     }
 
     //endregion

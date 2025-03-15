@@ -114,7 +114,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             if(child.hasComponent(UITransientElementComponent.class)) continue;
 
             if(child.getParent() == forElement){
-                if(child.getWidthRaw().needsRecalculation()){
+                if(child.needsWidthCalculation()){
                     return false;
                 }
 
@@ -125,7 +125,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 }
             }
             else{
-                if(child.getWidthRaw().needsRecalculation() || child.getLocalPositionXRaw().needsRecalculation()){
+                if(child.needsWidthCalculation() || child.getLocalPositionXRaw().needsRecalculation()){
                     return false;
                 }
             }
@@ -227,7 +227,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             if(child.hasComponent(UITransientElementComponent.class)) continue;
 
             if(child.getParent() == forElement){
-                if(child.getHeightRaw().needsRecalculation()){
+                if(child.needsHeightCalculation()){
                     if(!(child.getHeightRaw() instanceof FillDimension) && !(child.getHeightRaw() instanceof PercentageDimension)){
                         return false;
                     }
@@ -240,7 +240,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 }
             }
             else{
-                if(child.getHeightRaw().needsRecalculation() || child.getLocalPositionYRaw().needsRecalculation()){
+                if(child.needsHeightCalculation() || child.getLocalPositionYRaw().needsRecalculation()){
                     return false;
                 }
             }
@@ -251,7 +251,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            if(forElement.getLocalPositionYRaw().needsRecalculation()){
+            if(forElement.getLocalPositionYRaw().needsRecalculation() || forElement.getWidthRaw().needsRecalculation()){
                 return false;
             }
         }

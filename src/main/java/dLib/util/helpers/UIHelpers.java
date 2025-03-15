@@ -26,7 +26,7 @@ public class UIHelpers {
 
         UIElement parent = forElement.getParent();
         while(parent != null){
-            if(!parent.getWidthRaw().needsRecalculation()){
+            if(!parent.needsWidthCalculation()){
                 parentWidth = parent.getWidth();
                 break;
             }
@@ -45,7 +45,7 @@ public class UIHelpers {
 
         UIElement parent = forElement.getParent();
         while(parent != null){
-            if(!parent.getHeightRaw().needsRecalculation()){
+            if(!parent.needsHeightCalculation()){
                 parentHeight = parent.getHeight();
                 break;
             }

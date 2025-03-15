@@ -85,6 +85,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private AbstractDimension width = Dim.fill();
     private AbstractDimension height = Dim.fill();
 
+    private AbstractDimension minimumWidth = Dim.px(Integer.MIN_VALUE);
+    private AbstractDimension maximumWidth = Dim.px(Integer.MAX_VALUE);
+    private AbstractDimension minimumHeight = Dim.px(Integer.MIN_VALUE);
+    private AbstractDimension maximumHeight = Dim.px(Integer.MAX_VALUE);
+
     public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
     private int offsetX = 0;
@@ -227,6 +232,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         setHeightRaw(height);
         setPadding(Padd.px(0));
 
+        setMinimumWidth(Dim.px(Integer.MIN_VALUE + 1000000));
+        setMinimumHeight(Dim.px(Integer.MIN_VALUE + 1000000));
+        setMaximumWidth(Dim.px(Integer.MAX_VALUE - 1000000));
+        setMaximumHeight(Dim.px(Integer.MAX_VALUE - 1000000));
+
         String uiStrings = getUIStringsKey();
         if(uiStrings != null){
             stringTable = CardCrawlGame.languagePack.getUIString(uiStrings);
@@ -275,6 +285,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.rootOwnerId = data.rootOwnerId;
 
         setPadding(Padd.px(0));
+
+        setMinimumWidth(Dim.px(Integer.MIN_VALUE));
+        setMinimumHeight(Dim.px(Integer.MIN_VALUE));
+        setMaximumWidth(Dim.px(Integer.MAX_VALUE));
+        setMaximumHeight(Dim.px(Integer.MAX_VALUE));
 
         addComponent(new GeneratedElementComponent(data));
         for(UIElementData childData : data.children){
@@ -1598,10 +1613,18 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public int getWidth(){
-        return getWidthRaw().getCalculatedValue();
+        int width = getWidthRaw().getCalculatedValue();
+        int minWidth = getMinimumWidthRaw().getCalculatedValue();
+        int maxWidth = getMaximumWidthRaw().getCalculatedValue();
+
+        return Math.max(minWidth, Math.min(maxWidth, width));
     }
     public int getHeight(){
-        return getHeightRaw().getCalculatedValue();
+        int height = getHeightRaw().getCalculatedValue();
+        int minHeight = getMinimumHeightRaw().getCalculatedValue();
+        int maxHeight = getMaximumHeightRaw().getCalculatedValue();
+
+        return Math.max(minHeight, Math.min(maxHeight, height));
     }
     public IntegerVector2 getDimensions(){
         return new IntegerVector2(getWidth(), getHeight());
@@ -2439,6 +2462,45 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public AbstractPadding getPaddingBottomRaw(){
         return paddingBottom;
+    }
+
+    public void setMinimumWidth(AbstractDimension minimumWidth){
+        this.minimumWidth = minimumWidth;
+        this.minimumWidth.setReference(AbstractDimension.ReferenceDimension.WIDTH);
+    }
+    public void setMinimumHeight(AbstractDimension minimumHeight){
+        this.minimumHeight = minimumHeight;
+        this.minimumHeight.setReference(AbstractDimension.ReferenceDimension.HEIGHT);
+    }
+
+    public void setMaximumWidth(AbstractDimension maximumWidth){
+        this.maximumWidth = maximumWidth;
+        this.maximumWidth.setReference(AbstractDimension.ReferenceDimension.WIDTH);
+    }
+    public void setMaximumHeight(AbstractDimension maximumHeight){
+        this.maximumHeight = maximumHeight;
+        this.maximumHeight.setReference(AbstractDimension.ReferenceDimension.HEIGHT);
+    }
+
+    public AbstractDimension getMinimumWidthRaw(){
+        return minimumWidth;
+    }
+    public AbstractDimension getMinimumHeightRaw(){
+        return minimumHeight;
+    }
+
+    public AbstractDimension getMaximumWidthRaw(){
+        return maximumWidth;
+    }
+    public AbstractDimension getMaximumHeightRaw(){
+        return maximumHeight;
+    }
+
+    public boolean needsWidthCalculation(){
+        return getWidthRaw().needsRecalculation() || getMinimumWidthRaw().needsRecalculation() || getMaximumWidthRaw().needsRecalculation();
+    }
+    public boolean needsHeightCalculation(){
+        return getHeightRaw().needsRecalculation() || getMinimumHeightRaw().needsRecalculation() || getMaximumHeightRaw().needsRecalculation();
     }
 
     public enum BoundCalculationType{
