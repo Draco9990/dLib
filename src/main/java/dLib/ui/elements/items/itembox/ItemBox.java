@@ -197,6 +197,7 @@ public abstract class ItemBox extends Renderable {
 
     public void setInvertedItemOrder(boolean invertedItemOrder){
         this.invertedItemOrder = invertedItemOrder;
+        refilterItems();
     }
 
     //endregion

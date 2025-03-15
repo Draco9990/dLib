@@ -135,12 +135,6 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        if(forElement instanceof TextBox){
-            if(forElement.getLocalPositionXRaw().needsRecalculation()){
-                return false;
-            }
-        }
-
         return true;
     }
 
@@ -251,7 +245,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            if(forElement.getLocalPositionYRaw().needsRecalculation() || forElement.getWidthRaw().needsRecalculation()){
+            if(forElement.getWidthRaw().needsRecalculation()){
                 return false;
             }
         }

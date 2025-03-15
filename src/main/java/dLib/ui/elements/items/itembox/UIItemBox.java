@@ -89,6 +89,10 @@ public abstract class UIItemBox extends ItemBox {
 
             filteredChildren.add(child);
         }
+
+        if(invertedItemOrder){
+            Collections.reverse(filteredChildren);
+        }
     }
 
     protected boolean filterCheck(String filterText, UIElement item){

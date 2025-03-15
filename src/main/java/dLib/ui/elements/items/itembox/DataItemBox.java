@@ -440,6 +440,10 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
             filteredChildren.add(child);
         }
+
+        if(invertedItemOrder){
+            Collections.reverse(filteredChildren);
+        }
     }
 
     protected boolean filterCheck(String filterText, UIElement item, ItemType originalItem){
