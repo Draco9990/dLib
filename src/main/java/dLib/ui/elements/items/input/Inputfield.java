@@ -277,15 +277,22 @@ public class Inputfield extends Button {
             return;
         }
 
+        int caretOffsetFromStart = textBox.getText().length() - caretOffset;
+
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
-        GlyphLayout.GlyphRun lastRun = layout.getValue().runs.get(layout.getValue().runs.size-1);
-        BitmapFont.Glyph lastGlyph = lastRun.glyphs.get(lastRun.glyphs.size-1);
 
-        float x = layout.getKey().x + lastRun.x;
-        float y = layout.getKey().y - lastRun.y - textBox.getFontSizeRaw();
+        int currentRun = 0;
+        GlyphLayout.GlyphRun charRun = layout.getValue().runs.get(currentRun);
+        while(caretOffsetFromStart > charRun.glyphs.size){
+            caretOffsetFromStart -= charRun.glyphs.size;
+            charRun = layout.getValue().runs.get(++currentRun);
+        }
 
-        for (int i = 0; i < lastRun.glyphs.size + 1; i++) {
-            x += lastRun.xAdvances.get(i);
+        float x = layout.getKey().x + charRun.x;
+        float y = layout.getKey().y + charRun.y - textBox.getFontSizeRaw();
+
+        for (int i = 0; i < Math.min(charRun.glyphs.size + 1, caretOffsetFromStart + 1); i++) {
+            x += charRun.xAdvances.get(i);
         }
 
         caret.setWorldPosition((int) (x / Settings.xScale), (int) (y / Settings.yScale));
