@@ -1684,6 +1684,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void setIdleAnimation(UIAnimation idleAnimation){
         this.idleAnimation = idleAnimation;
     }
+    public UIAnimation getIdleAnimation(){
+        return idleAnimation;
+    }
 
     public void playAnimation(UIAnimation animation){
         if(playingAnimation != null){
@@ -1691,6 +1694,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         playingAnimation = animation;
+        playingAnimation.setAnimationState(UIAnimation.EAnimationState.IDLE);
     }
 
     //endregion

@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -199,7 +198,7 @@ public class Inputfield extends Button {
             @Override
             public boolean keyDown(int keycode) {
                 if(keycode == Input.Keys.BACKSPACE){
-                    removeLastCharacter();
+                    backwardErase();
                     holdingDelete = true;
                     return true;
                 }
@@ -262,7 +261,7 @@ public class Inputfield extends Button {
             float delta = Gdx.graphics.getDeltaTime();
             deleteTimerCount += delta;
             if(deleteTimerCount > 0.5){
-                removeLastCharacter();
+                backwardErase();
             }
         }
     }
@@ -277,8 +276,30 @@ public class Inputfield extends Button {
             return;
         }
 
-        int caretOffsetFromStart = textBox.getText().length() - caretOffset;
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Integer, Integer> currentCaretPosition = getCurrentCaretPosition();
 
+        GlyphLayout.GlyphRun currentRun = layout.getValue().runs.get(currentCaretPosition.getKey());
+        Integer runGlyphIndex = currentCaretPosition.getValue();
+
+        if(currentCaretPosition.getValue() == currentRun.glyphs.size && layout.getValue().runs.size > currentCaretPosition.getKey() + 1){
+            currentRun = layout.getValue().runs.get(currentCaretPosition.getKey() + 1);
+            runGlyphIndex = 0;
+        }
+
+        float x = layout.getKey().x + currentRun.x;
+        float y = layout.getKey().y + currentRun.y - textBox.getFontSizeRaw();
+
+        for (int i = 0; i < Math.min(currentRun.glyphs.size + 1, runGlyphIndex + 1); i++) {
+            x += currentRun.xAdvances.get(i);
+        }
+
+        caret.setWorldPosition((int) (x / Settings.xScale), (int) (y / Settings.yScale));
+        caret.playAnimation(caret.getIdleAnimation());
+    }
+
+    private Pair<Integer, Integer> getCurrentCaretPosition(){
+        int caretOffsetFromStart = textBox.getText().length() - caretOffset;
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
 
         int currentRun = 0;
@@ -288,14 +309,12 @@ public class Inputfield extends Button {
             charRun = layout.getValue().runs.get(++currentRun);
         }
 
-        float x = layout.getKey().x + charRun.x;
-        float y = layout.getKey().y + charRun.y - textBox.getFontSizeRaw();
-
-        for (int i = 0; i < Math.min(charRun.glyphs.size + 1, caretOffsetFromStart + 1); i++) {
-            x += charRun.xAdvances.get(i);
+        if(caretOffsetFromStart == charRun.glyphs.size && layout.getValue().runs.size > currentRun + 1){
+            caretOffsetFromStart = 0;
+            currentRun++;
         }
 
-        caret.setWorldPosition((int) (x / Settings.xScale), (int) (y / Settings.yScale));
+        return new Pair<>(currentRun, caretOffsetFromStart);
     }
 
     //endregion
@@ -341,10 +360,19 @@ public class Inputfield extends Button {
         String newText = currentText.substring(0, insertPos) + character + currentText.substring(insertPos);
         this.textBox.setText(newText);
     }
-    private void removeLastCharacter(){
+    private void backwardErase(){
         if(this.textBox.getText().isEmpty()) return;
 
-        String newText = this.textBox.getText().substring(0, this.textBox.getText().length()-1);
+        String currentText = this.textBox.getText();
+        int deletePos = currentText.length() - this.caretOffset;
+
+        // Ensure deletePos is valid and there's something to delete
+        if (deletePos <= 0 || deletePos > currentText.length()) {
+            return;
+        }
+
+        String newText = currentText.substring(0, deletePos - 1) + currentText.substring(deletePos);
+
         if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE || preset == EInputfieldPreset.NUMERICAL_DECIMAL)){
             newText = "0";
         }
@@ -376,6 +404,94 @@ public class Inputfield extends Button {
     }
 
     //endregion Character Limit
+
+    //region KYB controls
+
+    @Override
+    public boolean onLeftInteraction() {
+        if(caretOffset == textBox.getText().length()) return true;
+
+        caretOffset++;
+        recalculateCaretPosition();
+        return true;
+    }
+
+    @Override
+    public boolean onRightInteraction() {
+        if(caretOffset == 0) return true;
+
+        caretOffset--;
+        recalculateCaretPosition();
+        return true;
+    }
+
+    @Override
+    public boolean onUpInteraction() {
+        if(textBox.getText().isEmpty()) return super.onUpInteraction();
+
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        if(layout.getValue().runs.size == 1) return super.onUpInteraction();
+
+        Pair<Integer, Integer> currentCaretPosition = getCurrentCaretPosition();
+        if(currentCaretPosition.getKey() == 0) return super.onUpInteraction();
+
+        GlyphLayout.GlyphRun currentRun = layout.getValue().runs.get(currentCaretPosition.getKey());
+        GlyphLayout.GlyphRun prevRun = layout.getValue().runs.get(currentCaretPosition.getKey() - 1);
+
+        float x = currentRun.x;
+        for (int i = 0; i < Math.min(currentRun.glyphs.size + 1, currentCaretPosition.getValue() + 1); i++) {
+            x += currentRun.xAdvances.get(i);
+        }
+
+        int newCaretOffset = 0;
+        x -= prevRun.x;
+        for (int i = 0; i < prevRun.glyphs.size; i++) {
+            x -= prevRun.xAdvances.get(i);
+            if(x < prevRun.xAdvances.get(i + 1) * 0.5f){
+                newCaretOffset = i;
+                break;
+            }
+        }
+
+        caretOffset += currentCaretPosition.getValue() + (prevRun.glyphs.size - newCaretOffset);
+        recalculateCaretPosition();
+        return true;
+    }
+
+    @Override
+    public boolean onDownInteraction() {
+        if(textBox.getText().isEmpty()) return super.onDownInteraction();
+
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        if(layout.getValue().runs.size == 1) return super.onDownInteraction();
+
+        Pair<Integer, Integer> currentCaretPosition = getCurrentCaretPosition();
+        if(currentCaretPosition.getKey() == layout.getValue().runs.size - 1) return super.onDownInteraction();
+
+        GlyphLayout.GlyphRun currentRun = layout.getValue().runs.get(currentCaretPosition.getKey());
+        GlyphLayout.GlyphRun nextRun = layout.getValue().runs.get(currentCaretPosition.getKey() + 1);
+
+        float x = currentRun.x;
+        for (int i = 0; i < Math.min(currentRun.glyphs.size + 1, currentCaretPosition.getValue() + 1); i++) {
+            x += currentRun.xAdvances.get(i);
+        }
+
+        int newCaretOffset = 0;
+        x -= nextRun.x;
+        for (int i = 0; i < nextRun.glyphs.size; i++) {
+            x -= nextRun.xAdvances.get(i);
+            if(x < nextRun.xAdvances.get(i + 1) * 0.5f){
+                newCaretOffset = i;
+                break;
+            }
+        }
+
+        caretOffset -= (currentRun.glyphs.size - currentCaretPosition.getValue()) + newCaretOffset;
+        recalculateCaretPosition();
+        return true;
+    }
+
+    //endregion
 
     //endregion
 

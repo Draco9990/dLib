@@ -176,44 +176,40 @@ public class UIManager {
     }
 
     private static void onDownPressed(){
-        if(false){ // Interaction context
-            UIElement selectedElement = getCurrentlySelectedElement();
-            if(selectedElement != null){
-                selectedElement.onDownInteraction();
+        UIElement selectedElement = getCurrentlySelectedElement();
+        if(selectedElement != null){
+            if(selectedElement.onDownInteraction()){
+                return;
             }
         }
-        else{
-            Boolean foundSelectedElement = false;
 
-            for(UIElement uiElement : uiElements){
-                if(!uiElement.isActive()){
-                    continue;
-                }
+        Boolean foundSelectedElement = false;
+        for(UIElement uiElement : uiElements){
+            if(!uiElement.isActive()){
+                continue;
+            }
 
-                if(selectNextElement(uiElement, foundSelectedElement)){
-                    return;
-                }
+            if(selectNextElement(uiElement, foundSelectedElement)){
+                return;
             }
         }
     }
     private static void onUpPressed(){
-        if(false){ // Interaction context
-            UIElement selectedElement = getCurrentlySelectedElement();
-            if(selectedElement != null){
-                selectedElement.onUpInteraction();
+        UIElement selectedElement = getCurrentlySelectedElement();
+        if(selectedElement != null){
+            if(selectedElement.onUpInteraction()){
+                return;
             }
         }
-        else{
-            Boolean foundSelectedElement = false;
 
-            for(UIElement uiElement : uiElements){
-                if(!uiElement.isActive()){
-                    continue;
-                }
+        Boolean foundSelectedElement = false;
+        for(UIElement uiElement : uiElements){
+            if(!uiElement.isActive()){
+                continue;
+            }
 
-                if(selectPreviousElement(uiElement, foundSelectedElement)){
-                    return;
-                }
+            if(selectPreviousElement(uiElement, foundSelectedElement)){
+                return;
             }
         }
     }

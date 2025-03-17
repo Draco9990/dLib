@@ -34,6 +34,9 @@ public abstract class UIAnimation {
     public EAnimationState getAnimationState(){
         return state;
     }
+    public void setAnimationState(EAnimationState state){
+        this.state = state;
+    }
 
     //endregion
 
