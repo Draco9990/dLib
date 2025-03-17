@@ -1,7 +1,10 @@
 package dLib.ui.elements.items.text;
 
+import basemod.Pair;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.megacrit.cardcrawl.core.Settings;
@@ -10,12 +13,12 @@ import dLib.modcompat.ModManager;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.util.IntegerVector2;
 import dLib.util.bindings.font.AbstractFontBinding;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.BiConsumerEvent;
-import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.helpers.FontHelpers;
 import dLib.util.ui.bounds.PositionBounds;
@@ -114,8 +117,28 @@ public class TextBox extends UIElement {
 
         if(text == null || text.isEmpty()) return;
 
-        getFontForRender().getData().setScale(getFontSizeForRender());
         getFontForRender().setColor(textRenderColor);
+
+        prepareForRender();
+        getFontForRender().getCache().draw(sb);
+
+        sb.flush(); //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
+
+        getFontForRender().setColor(Color.WHITE);
+
+        if(hb != null){
+            hb.render(sb);
+        }
+    }
+
+    public static void renderFont(SpriteBatch sb, BitmapFont font, String msg, float x, float y, Color c) {
+        font.draw(sb, msg, x, y);
+    }
+
+    public Pair<IntegerVector2, GlyphLayout> prepareForRender(){
+        getFontForRender().getData().setScale(getFontSizeForRender());
+
+        BitmapFontCache cache = getFontForRender().getCache();
 
         int renderX = getWorldPositionX();
         int renderY = getWorldPositionY();
@@ -125,98 +148,78 @@ public class TextBox extends UIElement {
         float halfWidth = (float) renderWidth / 2;
         float halfHeight = (float) renderHeight / 2;
 
-        String textToRender = text;
+        BitmapFont font = getFontForRender();
+
+        String msg = text;
         if(obscureText){
-            textToRender = text.replaceAll(".", "*");
+            msg = text.replaceAll(".", "*");
         }
 
+        GlyphLayout layout = FontHelper.layout;
+
+        GlyphLayout layoutToReturn = null;
+        int x = 0;
+        int y = 0;
+
         if(!wrap){
-            FontHelper.layout.setText(getFontForRender(), "lL");
+            layout.setText(getFontForRender(), msg);
             if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.LEFT){
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP){
-                    FontHelper.renderFontLeftTopAligned(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            renderX * Settings.xScale,
-                            (renderY + renderHeight) * Settings.yScale,
-                            textRenderColor);
+                    x = (int) (renderX * Settings.xScale);
+                    y = (int) ((renderY + renderHeight) * Settings.yScale);
+                    layoutToReturn = cache.addText(msg, x, y);
                 }
+
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER){
-                    FontHelper.renderFontLeft(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            renderX * Settings.xScale,
-                            (renderY + halfHeight) * Settings.yScale,
-                            textRenderColor);
+                    x = (int) (renderX * Settings.xScale);
+                    y = (int) ((renderY + halfHeight) * Settings.yScale + layout.height / 2.0F);
+                    layoutToReturn = cache.addText(msg, x, y);
                 }
+
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                    FontHelper.renderFontLeftDownAligned(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            renderX * Settings.xScale,
-                            (renderY) * Settings.yScale,
-                            textRenderColor);
+                    x = (int) (renderX * Settings.xScale);
+                    y = (int) ((renderY) * Settings.yScale + layout.height);
+                    layoutToReturn = cache.addText(msg, x, y);
                 }
             }
             if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER){
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP){
-                    FontHelper.renderFontCenteredTopAligned(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            (renderX + halfWidth) * Settings.xScale,
-                            (renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2,
-                            textRenderColor);
+                    layout.setText(font, "lL");
+                    x = (int) ((renderX + halfWidth) * Settings.xScale);
+                    y = (int) (((renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2) + layout.height / 2.0F);
+                    layoutToReturn = cache.addText(msg, x, y, 0.0F, 1, false);
                 }
-                if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER){
-                    FontHelper.renderFontCentered(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            (renderX + halfWidth) * Settings.xScale,
-                            (renderY + halfHeight) * Settings.yScale,
-                            textRenderColor);
+
+                if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) {
+                    x = (int) (((renderX + halfWidth) * Settings.xScale) - layout.width / 2.0F);
+                    y = (int) (((renderY + halfHeight) * Settings.yScale) + layout.height / 2.0F);
+                    layoutToReturn = cache.addText(msg, x, y);
                 }
+
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                    FontHelper.renderFontCentered(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            (renderX + halfWidth) * Settings.xScale,
-                            (renderY) * Settings.yScale + FontHelper.layout.height / 2,
-                            textRenderColor);
+                    x = (int) (((renderX + halfWidth) * Settings.xScale) - layout.width / 2.0F);
+                    y = (int) (((renderY) * Settings.yScale + FontHelper.layout.height / 2) + layout.height / 2.0F);
+                    layoutToReturn = cache.addText(msg, x, y);
                 }
+
             }
             if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT){
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP){
-                    FontHelper.renderFontRightTopAligned(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            (renderX + renderWidth) * Settings.xScale,
-                            (renderY + renderHeight) * Settings.yScale,
-                            textRenderColor);
+                    x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
+                    y = (int) ((renderY + renderHeight) * Settings.yScale);
+                    layoutToReturn = cache.addText(msg, x, y);
                 }
+
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER){
-                    FontHelper.renderFontRightAligned(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            (renderX + renderWidth) * Settings.xScale,
-                            (renderY + halfHeight) * Settings.yScale,
-                            textRenderColor);
+                    x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
+                    y = (int) ((renderY + halfHeight) * Settings.yScale + layout.height / 2.0F);
+                    layoutToReturn = cache.addText(msg, x, y);
                 }
+
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                    FontHelper.renderFontRightAligned(
-                            sb,
-                            getFontForRender(),
-                            textToRender,
-                            (renderX + renderWidth) * Settings.xScale,
-                            (renderY) * Settings.yScale + FontHelper.layout.height / 2,
-                            textRenderColor);
+                    x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
+                    y = (int) (((renderY) * Settings.yScale + FontHelper.layout.height / 2) + layout.height / 2.0F);
+                    layoutToReturn = cache.addText(msg, x, y);
                 }
             }
         }
@@ -226,23 +229,20 @@ public class TextBox extends UIElement {
             else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER) align = Align.center;
             else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT) align = Align.right;
 
-            FontHelper.layout.setText(getFontForRender(), textToRender, Color.WHITE, renderWidth * Settings.xScale, align, true);
+            FontHelper.layout.setText(getFontForRender(), msg, Color.WHITE, renderWidth * Settings.xScale, align, true);
 
             if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP) renderY = renderY + renderHeight;
             else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) renderY = renderY + renderHeight / 2 + (int) (FontHelper.layout.height / 2 / Settings.yScale);
             else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM) renderY = renderY + (int) (FontHelper.layout.height / Settings.yScale);
 
-            getFontForRender().draw(sb, textToRender, renderX * Settings.xScale, renderY * Settings.yScale, renderWidth * Settings.xScale, align, true);
+            x = (int) (renderX * Settings.xScale);
+            y = (int) (renderY * Settings.yScale);
+            layoutToReturn = cache.addText(msg, x, y, renderWidth * Settings.xScale, align, true);
         }
 
-        sb.flush(); //* We have to flush after drawing because ScissorStack only applies to the last drawn elements for some reason
-
-        getFontForRender().setColor(Color.WHITE);
         getFontForRender().getData().setScale(1.f);
 
-        if(hb != null){
-            hb.render(sb);
-        }
+        return new Pair<>(new IntegerVector2(x, y), layoutToReturn);
     }
 
     //endregion
@@ -468,7 +468,7 @@ public class TextBox extends UIElement {
         }
     }
 
-    public float getFontSize(){
+    public float getFontSizeRaw(){
         return fontSize;
     }
 

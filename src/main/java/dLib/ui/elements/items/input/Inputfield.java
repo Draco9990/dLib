@@ -1,11 +1,14 @@
 package dLib.ui.elements.items.input;
 
+import basemod.Pair;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
@@ -14,6 +17,7 @@ import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.InputCaret;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
@@ -27,7 +31,6 @@ import dLib.util.ui.position.Pos;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Inputfield extends Button {
@@ -46,6 +49,7 @@ public class Inputfield extends Button {
     public ConsumerEvent<String> onValueConfirmedEvent = new ConsumerEvent<>();
 
     private InputCaret caret;
+    private int caretOffset = 0; //! Offsets from the END of the text instead of the start
 
     //Temps
 
@@ -90,7 +94,7 @@ public class Inputfield extends Button {
 
         textBox.setPadding(Padd.px(10));
 
-        caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSize())));
+        caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSizeRaw())));
         caret.addComponent(new UITransientElementComponent());
         recalculateCaretPosition();
         textBox.addChild(caret);
@@ -112,7 +116,7 @@ public class Inputfield extends Button {
 
         setPreset(data.inputfieldPreset);
 
-        caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSize())));
+        caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSizeRaw())));
         caret.addComponent(new UITransientElementComponent());
         recalculateCaretPosition();
         textBox.addChild(caret);
@@ -268,24 +272,23 @@ public class Inputfield extends Button {
     //region Caret
 
     private void recalculateCaretPosition(){
-        float totalWidth = FontHelper.getWidth(textBox.getFontForRender(), textBox.getText(), 1.0f);
-        float lineHeight = FontHelper.getHeight(textBox.getFontForRender(), textBox.getText(), 1.0f);
-
-        float textboxWidth = textBox.getWidth();
-        if(textboxWidth == 0){
-            textboxWidth = Integer.MAX_VALUE;
+        if(textBox.getText().isEmpty()){
+            caret.setWorldPosition(0, 0);
+            return;
         }
 
-        int localX = 0;
-        int localY = 0;
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        GlyphLayout.GlyphRun lastRun = layout.getValue().runs.get(layout.getValue().runs.size-1);
+        BitmapFont.Glyph lastGlyph = lastRun.glyphs.get(lastRun.glyphs.size-1);
 
-        while(totalWidth > textboxWidth){
-            localY += lineHeight;
-            totalWidth -= textboxWidth;
+        float x = layout.getKey().x + lastRun.x;
+        float y = layout.getKey().y - lastRun.y - textBox.getFontSizeRaw();
+
+        for (int i = 0; i < lastRun.glyphs.size + 1; i++) {
+            x += lastRun.xAdvances.get(i);
         }
-        localX = (int) totalWidth;
 
-        caret.setLocalPosition(Pos.px(localX), Pos.px(localY));
+        caret.setWorldPosition((int) (x / Settings.xScale), (int) (y / Settings.yScale));
     }
 
     //endregion
@@ -322,7 +325,14 @@ public class Inputfield extends Button {
     //region Input Processing
 
     private void addCharacter(char character){
-        this.textBox.setText(this.textBox.getText() + character);
+        String currentText = this.textBox.getText();
+        int insertPos = currentText.length() - this.caretOffset;
+
+        // Ensure insertPos is within bounds
+        insertPos = Math.max(0, Math.min(insertPos, currentText.length()));
+
+        String newText = currentText.substring(0, insertPos) + character + currentText.substring(insertPos);
+        this.textBox.setText(newText);
     }
     private void removeLastCharacter(){
         if(this.textBox.getText().isEmpty()) return;
