@@ -59,6 +59,7 @@ public class Inputfield extends Button {
     private InputProcessor inputProcessor;
 
     private boolean holdingDelete = false;
+    private boolean holdingForwardDelete = false;
     private float deleteTimerCount = 0;
 
     private float blinkingCursorPosX = 0;
@@ -200,6 +201,11 @@ public class Inputfield extends Button {
                     holdingDelete = true;
                     return true;
                 }
+                else if(keycode == Input.Keys.FORWARD_DEL){
+                    forwardErase();
+                    holdingForwardDelete = true;
+                    return true;
+                }
                 else if(keycode == Input.Keys.ENTER){
                     onValueConfirmedEvent.invoke(textBox.getText());
                     return true;
@@ -211,6 +217,11 @@ public class Inputfield extends Button {
             public boolean keyUp(int keycode) {
                 if(keycode == Input.Keys.BACKSPACE){
                     holdingDelete = false;
+                    deleteTimerCount = 0;
+                    return true;
+                }
+                else if(keycode == Input.Keys.FORWARD_DEL){
+                    holdingForwardDelete = false;
                     deleteTimerCount = 0;
                     return true;
                 }
@@ -243,6 +254,10 @@ public class Inputfield extends Button {
             caret.setHeight(Dim.px((int) Math.ceil(aFloat)));
             recalculateCaretPosition();
         });
+
+        textBox.onDimensionsChangedEvent.subscribe(this, (element) -> {
+            recalculateCaretPosition();
+        });
     }
 
     //endregion
@@ -255,11 +270,14 @@ public class Inputfield extends Button {
     public void updateSelf() {
         super.updateSelf();
 
-        if(holdingDelete){
+        if(holdingDelete || holdingForwardDelete){
             float delta = Gdx.graphics.getDeltaTime();
             deleteTimerCount += delta;
-            if(deleteTimerCount > 0.5){
-                backwardErase();
+            if(deleteTimerCount > 0.75){
+                if(holdingDelete) backwardErase();
+                if(holdingForwardDelete) forwardErase();
+
+                deleteTimerCount = 0.71f;
             }
         }
     }
@@ -272,7 +290,7 @@ public class Inputfield extends Button {
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
         int glyphCount = getTotalGlyphCount(layout.getValue());
         if(glyphCount == 0){
-            caret.setWorldPosition(0, 0);
+            caret.setWorldPosition((int) (layout.getKey().x / Settings.xScale), (int) (layout.getKey().y / Settings.yScale));
             return;
         }
 
@@ -438,7 +456,8 @@ public class Inputfield extends Button {
 
     private void backwardErase(){
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
-        if(getTotalGlyphCount(layout.getValue()) == 0){
+        int glyphCount = getTotalGlyphCount(layout.getValue());
+        if(glyphCount == 0 || caretOffset == glyphCount){
             return;
         }
 
@@ -462,6 +481,41 @@ public class Inputfield extends Button {
         }
 
         this.textBox.setText(newText);
+    }
+
+    private void forwardErase(){
+        if(caretOffset == 0){
+            return;
+        }
+
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        if(getTotalGlyphCount(layout.getValue()) == 0){
+            return;
+        }
+
+        String currentText = this.textBox.getText();
+        int deletePos = currentText.length() - getCaretOffsetFromRealText(layout.getValue(), true) + 1;
+
+        // Ensure deletePos is valid and there's something to delete
+        if (deletePos <= 0 || deletePos > currentText.length()) {
+            return;
+        }
+
+        String newText = currentText.substring(0, deletePos - 1) + currentText.substring(deletePos);
+        newText = removeNullifiedMarkup(newText);
+
+        if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE || preset == EInputfieldPreset.NUMERICAL_DECIMAL)){
+            newText = "0";
+        }
+
+        if(newText.equals("-")){
+            newText = "-0";
+        }
+
+        this.textBox.setText(newText);
+
+        caretOffset--;
+        recalculateCaretPosition();
     }
 
     public void resetInputProcessor(){
