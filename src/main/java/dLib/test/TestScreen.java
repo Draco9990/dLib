@@ -29,47 +29,49 @@ public class TestScreen extends UIElement {
 
         TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();
 
-        Inputfield in1 = new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
+        String text = "THIS IS SOME [RED]TEXT[] WOAHHHH[GREEN]HHHHHHH[]HHHHHHHHHHHHHHHHH DAMN BOI";
+
+        Inputfield in1 = new Inputfield(text, Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
         in1.textBox.setWrap(true);
         in1.textBox.setContentAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
         addChild(in1);
 
-        Inputfield in2= new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(400), Pos.px(100), Dim.px(200), Dim.px(200));
+        Inputfield in2= new Inputfield(text, Pos.px(400), Pos.px(100), Dim.px(200), Dim.px(200));
         in2.textBox.setWrap(true);
         in2.textBox.setContentAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.TOP);
         addChild(in2);
 
-        Inputfield in3= new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(700), Pos.px(100), Dim.px(200), Dim.px(200));
+        Inputfield in3= new Inputfield(text, Pos.px(700), Pos.px(100), Dim.px(200), Dim.px(200));
         in3.textBox.setWrap(true);
         in3.textBox.setContentAlignment(Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.TOP);
         addChild(in3);
 
-        in1 = new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(100), Pos.px(400), Dim.px(200), Dim.px(200));
+        in1 = new Inputfield(text, Pos.px(100), Pos.px(400), Dim.px(200), Dim.px(200));
         in1.textBox.setWrap(true);
         in1.textBox.setContentAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);
         addChild(in1);
 
-        in2= new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(400), Pos.px(400), Dim.px(200), Dim.px(200));
+        in2= new Inputfield(text, Pos.px(400), Pos.px(400), Dim.px(200), Dim.px(200));
         in2.textBox.setWrap(true);
         in2.textBox.setContentAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER);
         addChild(in2);
 
-        in3= new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(700), Pos.px(400), Dim.px(200), Dim.px(200));
+        in3= new Inputfield(text, Pos.px(700), Pos.px(400), Dim.px(200), Dim.px(200));
         in3.textBox.setWrap(true);
         in3.textBox.setContentAlignment(Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.CENTER);
         addChild(in3);
 
-        in1 = new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(100), Pos.px(700), Dim.px(200), Dim.px(200));
+        in1 = new Inputfield(text, Pos.px(100), Pos.px(700), Dim.px(200), Dim.px(200));
         in1.textBox.setWrap(true);
         in1.textBox.setContentAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
         addChild(in1);
 
-        in2= new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(400), Pos.px(700), Dim.px(200), Dim.px(200));
+        in2= new Inputfield(text, Pos.px(400), Pos.px(700), Dim.px(200), Dim.px(200));
         in2.textBox.setWrap(true);
         in2.textBox.setContentAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.BOTTOM);
         addChild(in2);
 
-        in3= new Inputfield("THIS IS SOME TEXT WOAHHHHHHHHHHHHHHHHHHHHHHHHHHHH DAMN BOI", Pos.px(700), Pos.px(700), Dim.px(200), Dim.px(200));
+        in3= new Inputfield(text, Pos.px(700), Pos.px(700), Dim.px(200), Dim.px(200));
         in3.textBox.setWrap(true);
         in3.textBox.setContentAlignment(Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
         addChild(in3);

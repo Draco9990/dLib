@@ -271,12 +271,13 @@ public class Inputfield extends Button {
     //region Caret
 
     private void recalculateCaretPosition(){
-        if(textBox.getText().isEmpty()){
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        int glyphCount = getTotalGlyphCount(layout.getValue());
+        if(glyphCount == 0){
             caret.setWorldPosition(0, 0);
             return;
         }
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
         Pair<Integer, Integer> currentCaretPosition = getCurrentCaretPosition();
 
         GlyphLayout.GlyphRun currentRun = layout.getValue().runs.get(currentCaretPosition.getKey());
@@ -299,8 +300,13 @@ public class Inputfield extends Button {
     }
 
     private Pair<Integer, Integer> getCurrentCaretPosition(){
-        int caretOffsetFromStart = textBox.getText().length() - caretOffset;
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        int glyphCount = getTotalGlyphCount(layout.getValue());
+        if(glyphCount == 0){
+            return new Pair<>(0, 0);
+        }
+
+        int caretOffsetFromStart = glyphCount - caretOffset;
 
         int currentRun = 0;
         GlyphLayout.GlyphRun charRun = layout.getValue().runs.get(currentRun);
@@ -315,6 +321,58 @@ public class Inputfield extends Button {
         }
 
         return new Pair<>(currentRun, caretOffsetFromStart);
+    }
+
+    private int getTotalGlyphCount(GlyphLayout layout){
+        int count = 0;
+        for (GlyphLayout.GlyphRun run : layout.runs) {
+            count += run.glyphs.size;
+        }
+        return count;
+    }
+
+    private String getGlyphText(GlyphLayout layout){
+        StringBuilder builder = new StringBuilder();
+        for (GlyphLayout.GlyphRun run : layout.runs) {
+            for (int i = 0; i < run.glyphs.size; i++) {
+                builder.append(run.glyphs.get(i));
+            }
+        }
+        return builder.toString();
+    }
+
+    private int getCaretOffsetFromRealText(GlyphLayout layout, boolean withHesitancy){
+        String glyphText = getGlyphText(layout);
+        String realText = textBox.getText();
+        if(glyphText.isEmpty() || realText.isEmpty()){
+            return 0;
+        }
+
+        int hesitancy = 0;
+        int caretOffsetRemaining = caretOffset;
+        int realIndex = realText.length() - 1;
+        int bracketDepth = 0;
+        for(int glyphIndex = glyphText.length() - 1; glyphIndex >= 0; glyphIndex--, realIndex--, caretOffsetRemaining--){
+            while (glyphText.charAt(glyphIndex) != realText.charAt(realIndex) || bracketDepth > 0){
+                if(realText.charAt(realIndex) == ']'){
+                    bracketDepth++;
+                }
+                else if(realText.charAt(realIndex) == '['){
+                    bracketDepth--;
+                }
+
+                realIndex--;
+                hesitancy++;
+            }
+
+            if(caretOffsetRemaining == 0){
+                return (realText.length() - 1) - (realIndex + (withHesitancy ? hesitancy : 0));
+            }
+
+            hesitancy = 0;
+        }
+
+        return 0;
     }
 
     //endregion
@@ -351,8 +409,10 @@ public class Inputfield extends Button {
     //region Input Processing
 
     private void addCharacter(char character){
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+
         String currentText = this.textBox.getText();
-        int insertPos = currentText.length() - this.caretOffset;
+        int insertPos = currentText.length() - getCaretOffsetFromRealText(layout.getValue(), true);
 
         // Ensure insertPos is within bounds
         insertPos = Math.max(0, Math.min(insertPos, currentText.length()));
@@ -360,11 +420,15 @@ public class Inputfield extends Button {
         String newText = currentText.substring(0, insertPos) + character + currentText.substring(insertPos);
         this.textBox.setText(newText);
     }
+
     private void backwardErase(){
-        if(this.textBox.getText().isEmpty()) return;
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        if(getTotalGlyphCount(layout.getValue()) == 0){
+            return;
+        }
 
         String currentText = this.textBox.getText();
-        int deletePos = currentText.length() - this.caretOffset;
+        int deletePos = currentText.length() - getCaretOffsetFromRealText(layout.getValue(), false);
 
         // Ensure deletePos is valid and there's something to delete
         if (deletePos <= 0 || deletePos > currentText.length()) {
