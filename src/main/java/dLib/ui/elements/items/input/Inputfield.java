@@ -349,18 +349,28 @@ public class Inputfield extends Button {
         int hesitancy = 0;
         int caretOffsetRemaining = caretOffset;
         int realIndex = realText.length() - 1;
-        int bracketDepth = 0;
         for(int glyphIndex = glyphText.length() - 1; glyphIndex >= 0; glyphIndex--, realIndex--, caretOffsetRemaining--){
-            while (glyphText.charAt(glyphIndex) != realText.charAt(realIndex) || bracketDepth > 0){
-                if(realText.charAt(realIndex) == ']'){
-                    bracketDepth++;
-                }
-                else if(realText.charAt(realIndex) == '['){
-                    bracketDepth--;
+            while(true){
+                if (realText.charAt(realIndex) != ']') {
+                    break;
                 }
 
-                realIndex--;
-                hesitancy++;
+                int bracketStart = realText.lastIndexOf('[', realIndex);
+                int potentialNewBracketEnd = realText.indexOf(']', realIndex);
+                if(potentialNewBracketEnd <= bracketStart){
+                    break;
+                }
+
+                String markup = realText.substring(bracketStart + 1, potentialNewBracketEnd);
+                if(!isValidMarkup(markup)){
+                    break;
+                }
+
+                hesitancy += (realIndex - bracketStart) + 1;
+                realIndex = bracketStart - 1;
+                if(realIndex < 0){
+                    break;
+                }
             }
 
             if(caretOffsetRemaining == 0){
@@ -478,7 +488,10 @@ public class Inputfield extends Button {
     //region Hidden Input
 
     public boolean isValidMarkup(String markup){
-        if(markup.startsWith("#")){
+        if(markup.isEmpty()){
+            return true;
+        }
+        else if(markup.startsWith("#")){
             //Check if the rest of the string is a valid hex color code
             String hex = markup.substring(1);
             try{
