@@ -432,7 +432,7 @@ public class Inputfield extends Button {
                 InputCharacterHB glyphHbLeft = new InputCharacterHB(
                         Pos.px(0),
                         Pos.px(0),
-                        Dim.px((int) Math.floor(run.xAdvances.get(glyphIndex + 1) * 0.5f)),
+                        Dim.px((int) Math.floor((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)),
                         Dim.px((int) textBox.getFontSizeRaw()),
                         runIndex, glyphIndex);
                 textBox.addChild(glyphHbLeft);
@@ -448,12 +448,12 @@ public class Inputfield extends Button {
                     caretOffset = getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
                     recalculateCaretPosition();
                 });
-                glyphHbLeft.setWorldPosition((int) (runX / Settings.xScale), (int) (runY / Settings.yScale));
+                glyphHbLeft.setWorldPosition((int) Math.floor(runX / Settings.xScale), (int) (runY / Settings.yScale));
 
                 InputCharacterHB glyphHbRight = new InputCharacterHB(
                         Pos.px(0),
                         Pos.px(0),
-                        Dim.px((int) (Math.ceil(run.xAdvances.get(glyphIndex + 1) * 0.5f))),
+                        Dim.px((int) Math.ceil((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)),
                         Dim.px((int) textBox.getFontSizeRaw()),
                         runIndex, glyphIndex + 1);
                 textBox.addChild(glyphHbRight);
@@ -469,7 +469,7 @@ public class Inputfield extends Button {
                     caretOffset = getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
                     recalculateCaretPosition();
                 });
-                glyphHbRight.setWorldPosition((int) (runX / Settings.xScale + (Math.floor(run.xAdvances.get(glyphIndex + 1) * 0.5f))), (int) (runY / Settings.yScale));
+                glyphHbRight.setWorldPosition((int) Math.floor((runX + run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale) , (int) (runY / Settings.yScale));
 
                 runX += run.xAdvances.get(glyphIndex + 1);
             }
