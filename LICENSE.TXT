@@ -1,0 +1,20 @@
+📜 Custom License (CL) v1.0
+
+Copyright© Draco9990 2025
+
+This software is licensed under the following terms:
+✅ You ARE permitted to:
+-> Use, copy, modify, and distribute this code for the purposes of creating or enhancing MODs for Slay the Spire.
+-> Submit contributions (e.g., code, bug fixes, features) under this same license to the official project repository on github.
+-> Share modified versions of this MOD with proper credit to the original author(s), provided the modifications remain within the scope of this MOD and the original game.
+
+❌ You are NOT permitted to:
+-> Upload or distribute modified versions of this MOD as separate or standalone MODs under a different name or as a new project.
+-> Use this code to create a general-purpose library or framework not directly tied to modding Slay the Spire.
+-> Remove or alter attribution notices in the source code or any accompanying documentation.
+
+💬 Attribution:
+You must give appropriate credit, including a link to the original project and acknowledgment of the original author(s). This is done as specifying the original mod as mandatory on the page of the Steam Workshop mod that uses this library, or in the form of credits somewhere in the mod description if you're using a modified version of the code.
+
+📘 Disclaimer:
+This software is provided "as is", without warranty of any kind. Use at your own risk.

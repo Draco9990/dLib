@@ -1,4 +1,4 @@
-package dLib.ui.elements.items.text;
+package dLib.ui.elements.items.input;
 
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.animations.misc.UIAnimation_Blinking;

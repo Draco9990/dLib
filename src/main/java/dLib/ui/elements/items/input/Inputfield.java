@@ -7,14 +7,15 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
+import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.buttons.Button;
-import dLib.ui.elements.items.text.InputCaret;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.IntegerVector2;
@@ -30,6 +31,7 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -53,6 +55,8 @@ public class Inputfield extends Button {
     private InputCaret caret;
     private int caretOffset = 0; //! Offsets from the END of the text instead of the start
 
+    private List<UIElement> characterHitboxes = new ArrayList<>();
+
     //Temps
 
     private InputProcessor cachedInputProcessor;
@@ -61,8 +65,6 @@ public class Inputfield extends Button {
     private boolean holdingDelete = false;
     private boolean holdingForwardDelete = false;
     private float deleteTimerCount = 0;
-
-    private float blinkingCursorPosX = 0;
 
     //endregion
 
@@ -100,6 +102,7 @@ public class Inputfield extends Button {
         caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSizeRaw())));
         caret.addComponent(new UITransientElementComponent());
         recalculateCaretPosition();
+        reinitializeCharacterHBs();
         textBox.addChild(caret);
 
         postInitialize();
@@ -122,6 +125,7 @@ public class Inputfield extends Button {
         caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSizeRaw())));
         caret.addComponent(new UITransientElementComponent());
         recalculateCaretPosition();
+        reinitializeCharacterHBs();
         textBox.addChild(caret);
 
         postInitialize();
@@ -141,6 +145,7 @@ public class Inputfield extends Button {
 
                 boolean success = true;
 
+                List<Character> charsToAddList = new ArrayList<>();
                 for(char c : charsToAdd){
                     if(Character.isISOControl(c)) {
                         success = false;
@@ -188,8 +193,10 @@ public class Inputfield extends Button {
                         continue;
                     }
 
-                    success = success && addCharacter(c);
+                    charsToAddList.add(c);
                 }
+
+                success &= addCharacters(charsToAddList);
 
                 return success;
             }
@@ -248,6 +255,7 @@ public class Inputfield extends Button {
         textBox.onTextChangedEvent.subscribeManaged(s -> {
             onValueChangedEvent.invoke(stringConsumer -> stringConsumer.accept(s));
             recalculateCaretPosition();
+            reinitializeCharacterHBs();
         });
 
         textBox.onFontSizeChangedEvent.subscribe(this, (aFloat, aFloat2) -> {
@@ -403,6 +411,73 @@ public class Inputfield extends Button {
 
     //endregion
 
+    //region Character Selection
+
+    public void reinitializeCharacterHBs(){
+        for (UIElement existingHb : characterHitboxes){
+            textBox.removeChild(existingHb);
+        }
+        characterHitboxes.clear();
+
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+
+        for (int runIndex = 0; runIndex < layout.getValue().runs.size; runIndex++){
+            GlyphLayout.GlyphRun run = layout.getValue().runs.get(runIndex);
+            float runX = layout.getKey().x + run.x + run.xAdvances.get(0);
+            float runY = layout.getKey().y + run.y - textBox.getFontSizeRaw();
+
+            for(int glyphIndex = 0; glyphIndex < run.glyphs.size; glyphIndex++){
+                BitmapFont.Glyph glyph = run.glyphs.get(glyphIndex);
+
+                InputCharacterHB glyphHbLeft = new InputCharacterHB(
+                        Pos.px(0),
+                        Pos.px(0),
+                        Dim.px((int) Math.floor(run.xAdvances.get(glyphIndex + 1) * 0.5f)),
+                        Dim.px((int) textBox.getFontSizeRaw()),
+                        runIndex, glyphIndex);
+                textBox.addChild(glyphHbLeft);
+                characterHitboxes.add(glyphHbLeft);
+                glyphHbLeft.onLeftClickEvent.subscribe(this, () -> {
+                    int totalCharsUpTo = 0;
+                    Pair<IntegerVector2, GlyphLayout> layout1 = textBox.prepareForRender();
+                    for (int i = 0; i < glyphHbLeft.glyphRowIndex; i++){
+                        totalCharsUpTo += layout1.getValue().runs.get(i).glyphs.size;
+                    }
+                    totalCharsUpTo += glyphHbLeft.glyphIndex;
+
+                    caretOffset = getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
+                    recalculateCaretPosition();
+                });
+                glyphHbLeft.setWorldPosition((int) (runX / Settings.xScale), (int) (runY / Settings.yScale));
+
+                InputCharacterHB glyphHbRight = new InputCharacterHB(
+                        Pos.px(0),
+                        Pos.px(0),
+                        Dim.px((int) (Math.ceil(run.xAdvances.get(glyphIndex + 1) * 0.5f))),
+                        Dim.px((int) textBox.getFontSizeRaw()),
+                        runIndex, glyphIndex + 1);
+                textBox.addChild(glyphHbRight);
+                characterHitboxes.add(glyphHbRight);
+                glyphHbRight.onLeftClickEvent.subscribe(this, () -> {
+                    int totalCharsUpTo = 0;
+                    Pair<IntegerVector2, GlyphLayout> layout1 = textBox.prepareForRender();
+                    for (int i = 0; i < glyphHbRight.glyphRowIndex; i++){
+                        totalCharsUpTo += layout1.getValue().runs.get(i).glyphs.size;
+                    }
+                    totalCharsUpTo += glyphHbRight.glyphIndex;
+
+                    caretOffset = getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
+                    recalculateCaretPosition();
+                });
+                glyphHbRight.setWorldPosition((int) (runX / Settings.xScale + (Math.floor(run.xAdvances.get(glyphIndex + 1) * 0.5f))), (int) (runY / Settings.yScale));
+
+                runX += run.xAdvances.get(glyphIndex + 1);
+            }
+        }
+    }
+
+    //endregion
+
     //region Preset & Filters
 
     public void setPreset(EInputfieldPreset preset){
@@ -434,11 +509,18 @@ public class Inputfield extends Button {
 
     //region Input Processing
 
-    private boolean addCharacter(char character){
+    private boolean addCharacters(List<Character> characters){
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
 
-        if(characterLimit >= 0 && getTotalGlyphCount(layout.getValue()) >= characterLimit) {
-            return false;
+        if(characterLimit >= 0) {
+            int currentGlyphCount = getTotalGlyphCount(layout.getValue());
+            while (currentGlyphCount + characters.size() > characterLimit) {
+                characters.remove(characters.size() - 1);
+
+                if(characters.isEmpty()){
+                    return false;
+                }
+            }
         }
 
         String currentText = this.textBox.getText();
@@ -447,7 +529,7 @@ public class Inputfield extends Button {
         // Ensure insertPos is within bounds
         insertPos = Math.max(0, Math.min(insertPos, currentText.length()));
 
-        String newText = currentText.substring(0, insertPos) + character + currentText.substring(insertPos);
+        String newText = currentText.substring(0, insertPos) + Arrays.toString(characters.toArray()) + currentText.substring(insertPos);
         newText = removeNullifiedMarkup(newText);
         this.textBox.setText(newText);
 
