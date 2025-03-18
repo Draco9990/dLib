@@ -58,6 +58,8 @@ public class TextBox extends UIElement {
 
     public Event<Consumer<String>> onTextChangedEvent = new Event<>();
 
+    private GlyphLayout layoutCache = null;
+
     //endregion
 
     //region Constructors
@@ -157,7 +159,7 @@ public class TextBox extends UIElement {
 
         GlyphLayout layout = FontHelper.layout;
 
-        GlyphLayout layoutToReturn = null;
+        GlyphLayout layoutToReturn = layoutCache;
         int x = 0;
         int y = 0;
 
@@ -167,19 +169,19 @@ public class TextBox extends UIElement {
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP){
                     x = (int) (renderX * Settings.xScale);
                     y = (int) ((renderY + renderHeight) * Settings.yScale);
-                    layoutToReturn = cache.addText(msg, x, y);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER){
                     x = (int) (renderX * Settings.xScale);
                     y = (int) ((renderY + halfHeight) * Settings.yScale + layout.height / 2.0F);
-                    layoutToReturn = cache.addText(msg, x, y);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
                     x = (int) (renderX * Settings.xScale);
                     y = (int) ((renderY) * Settings.yScale + layout.height);
-                    layoutToReturn = cache.addText(msg, x, y);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
             }
             if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER){
@@ -187,19 +189,19 @@ public class TextBox extends UIElement {
                     layout.setText(font, "lL");
                     x = (int) ((renderX + halfWidth) * Settings.xScale);
                     y = (int) (((renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2) + layout.height / 2.0F);
-                    layoutToReturn = cache.addText(msg, x, y, 0.0F, 1, false);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y, 0.0F, 1, false);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) {
                     x = (int) (((renderX + halfWidth) * Settings.xScale) - layout.width / 2.0F);
                     y = (int) (((renderY + halfHeight) * Settings.yScale) + layout.height / 2.0F);
-                    layoutToReturn = cache.addText(msg, x, y);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
                     x = (int) (((renderX + halfWidth) * Settings.xScale) - layout.width / 2.0F);
                     y = (int) (((renderY) * Settings.yScale + FontHelper.layout.height / 2) + layout.height / 2.0F);
-                    layoutToReturn = cache.addText(msg, x, y);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
             }
@@ -207,19 +209,19 @@ public class TextBox extends UIElement {
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP){
                     x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
                     y = (int) ((renderY + renderHeight) * Settings.yScale);
-                    layoutToReturn = cache.addText(msg, x, y);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER){
                     x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
                     y = (int) ((renderY + halfHeight) * Settings.yScale + layout.height / 2.0F);
-                    layoutToReturn = cache.addText(msg, x, y);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
                     x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
                     y = (int) (((renderY) * Settings.yScale + FontHelper.layout.height / 2) + layout.height / 2.0F);
-                    layoutToReturn = cache.addText(msg, x, y);
+                    if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
             }
         }
@@ -237,7 +239,7 @@ public class TextBox extends UIElement {
 
             x = (int) (renderX * Settings.xScale);
             y = (int) (renderY * Settings.yScale);
-            layoutToReturn = cache.addText(msg, x, y, renderWidth * Settings.xScale, align, true);
+            if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y, renderWidth * Settings.xScale, align, true);
         }
 
         getFontForRender().getData().setScale(1.f);
@@ -261,6 +263,8 @@ public class TextBox extends UIElement {
     }
 
     public void onTextChanged(String newText){
+        layoutCache = null;
+
         if(ModManager.SayTheSpire.isActive()){
             if(getOnTextChangedLine(text) != null){
                 Output.text(getOnTextChangedLine(text), true);
@@ -331,6 +335,7 @@ public class TextBox extends UIElement {
 
     public void setFont(AbstractFontBinding font){
         this.font = font;
+        layoutCache = null;
     }
 
     //endregion
@@ -433,6 +438,8 @@ public class TextBox extends UIElement {
     public void setContentAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
         contentAlignment.horizontalAlignment = horizontalAlignment;
         contentAlignment.verticalAlignment = verticalAlignment;
+
+        layoutCache = null;
     }
 
     public Alignment.HorizontalAlignment getHorizontalContentAlignment(){
@@ -453,6 +460,8 @@ public class TextBox extends UIElement {
 
     public void setFontSize(float fontSize){
         this.fontSize = fontSize;
+
+        layoutCache = null;
 
         onFontSizeChangedEvent.invoke(fontSize, getFontSizeForRender());
         onFontSizeChangedGlobalEvent.invoke(this, fontSize, getFontSizeForRender());

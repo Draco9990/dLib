@@ -510,6 +510,10 @@ public class Inputfield extends Button {
     //region Input Processing
 
     private boolean addCharacters(List<Character> characters){
+        if(characters.isEmpty()){
+            return false;
+        }
+
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
 
         if(characterLimit >= 0) {
