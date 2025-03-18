@@ -138,11 +138,6 @@ public class Inputfield extends Button {
                 boolean success = true;
 
                 for(char c : charsToAdd){
-                    if(characterLimit >= 0 && textBox.getText().length() >= characterLimit) {
-                        success = false;
-                        continue;
-                    }
-
                     if(Character.isISOControl(c)) {
                         success = false;
                         continue;
@@ -189,7 +184,7 @@ public class Inputfield extends Button {
                         continue;
                     }
 
-                    addCharacter(c);
+                    success = success && addCharacter(c);
                 }
 
                 return success;
@@ -408,8 +403,12 @@ public class Inputfield extends Button {
 
     //region Input Processing
 
-    private void addCharacter(char character){
+    private boolean addCharacter(char character){
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+
+        if(characterLimit >= 0 && getTotalGlyphCount(layout.getValue()) >= characterLimit) {
+            return false;
+        }
 
         String currentText = this.textBox.getText();
         int insertPos = currentText.length() - getCaretOffsetFromRealText(layout.getValue(), true);
@@ -419,6 +418,8 @@ public class Inputfield extends Button {
 
         String newText = currentText.substring(0, insertPos) + character + currentText.substring(insertPos);
         this.textBox.setText(newText);
+
+        return true;
     }
 
     private void backwardErase(){
