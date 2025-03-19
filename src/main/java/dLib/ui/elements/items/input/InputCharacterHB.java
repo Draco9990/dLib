@@ -22,7 +22,7 @@ public class InputCharacterHB extends Interactable {
 
         addComponent(new UITransientElementComponent());
 
-        setRenderColor(new Color(0.6f, 0.6f, 1, 0.75f));
+        setRenderColor(new Color(0.6f, 0.6f, 1, 0.45f));
 
         setPassthrough(true);
 

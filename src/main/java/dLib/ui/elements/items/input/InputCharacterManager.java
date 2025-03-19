@@ -7,10 +7,10 @@ import dLib.util.IntegerVector2;
 import java.util.Objects;
 
 public class InputCharacterManager extends UIElement {
-    private IntegerVector2 selectionStart;
-    private IntegerVector2 selectionEnd;
+    public IntegerVector2 selectionStart;
+    public IntegerVector2 selectionEnd;
 
-    private ESelectionMode selectionMode = ESelectionMode.Standard;
+    public ESelectionMode selectionMode = ESelectionMode.Standard;
 
     public InputCharacterManager() {
         super();
@@ -102,11 +102,25 @@ public class InputCharacterManager extends UIElement {
         }
     }
 
-    public boolean hasSelection(){
+    public boolean hasValidUserSelection(){
         return selectionStart != null && selectionEnd != null && !Objects.equals(selectionStart, selectionEnd);
     }
 
-    private enum ESelectionMode{
+    public boolean userSelectedForward(){
+        return selectionStart.x < selectionEnd.x || (selectionStart.x.equals(selectionEnd.x) && selectionStart.y < selectionEnd.y);
+    }
+    public boolean userSelectedBackward(){
+        return selectionStart.x > selectionEnd.x || (selectionStart.x.equals(selectionEnd.x) && selectionStart.y > selectionEnd.y);
+    }
+
+    public void clearSelection(){
+        selectionStart = null;
+        selectionEnd = null;
+
+        onSelectionUpdated();
+    }
+
+    public enum ESelectionMode{
         Standard
     }
 }

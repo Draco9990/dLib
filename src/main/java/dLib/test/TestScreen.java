@@ -29,7 +29,7 @@ public class TestScreen extends UIElement {
 
         TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();
 
-        String text = "THIS IS SOME [RED]TEXT[] WOAHHHH[GREEN]HHHHHHH[]HHHHHHHHHHHHHHHHH DAMN BOI";
+        String text = "LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM";
 
         Inputfield in1 = new Inputfield(text, Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
         in1.textBox.setWrap(true);

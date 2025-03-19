@@ -13,7 +13,6 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.TextBox;
@@ -36,6 +35,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Inputfield extends Button {
     //region Variables
@@ -371,7 +371,11 @@ public class Inputfield extends Button {
         return builder.toString();
     }
 
-    private int getCaretOffsetFromRealText(GlyphLayout layout, boolean withHesitancy){
+    private int getRealtextOffsetForCaretOffset(GlyphLayout layout, boolean withHesitancy){
+        return getRealtextOffsetForGlyphOffset(layout, caretOffset, withHesitancy);
+    }
+
+    private int getRealtextOffsetForGlyphOffset(GlyphLayout layout, int offset, boolean withHesitancy){
         String glyphText = getGlyphText(layout);
         String realText = textBox.getText();
         if(glyphText.isEmpty() || realText.isEmpty()){
@@ -379,9 +383,8 @@ public class Inputfield extends Button {
         }
 
         int hesitancy = 0;
-        int caretOffsetRemaining = caretOffset;
         int realIndex = realText.length() - 1;
-        for(int glyphIndex = glyphText.length() - 1; glyphIndex >= 0; glyphIndex--, realIndex--, caretOffsetRemaining--){
+        for(int glyphIndex = glyphText.length() - 1; glyphIndex >= 0; glyphIndex--, realIndex--, offset--){
             while(true){
                 if (realText.charAt(realIndex) != ']') {
                     break;
@@ -405,7 +408,7 @@ public class Inputfield extends Button {
                 }
             }
 
-            if(caretOffsetRemaining == 0){
+            if(offset == 0){
                 return (realText.length() - 1) - (realIndex + (withHesitancy ? hesitancy : 0));
             }
 
@@ -517,6 +520,10 @@ public class Inputfield extends Button {
             return false;
         }
 
+        if(characterHbManager.hasValidUserSelection()){
+            eraseSelection();
+        }
+
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
 
         if(characterLimit >= 0) {
@@ -531,12 +538,12 @@ public class Inputfield extends Button {
         }
 
         String currentText = this.textBox.getText();
-        int insertPos = currentText.length() - getCaretOffsetFromRealText(layout.getValue(), true);
+        int insertPos = currentText.length() - getRealtextOffsetForCaretOffset(layout.getValue(), true);
 
         // Ensure insertPos is within bounds
         insertPos = Math.max(0, Math.min(insertPos, currentText.length()));
 
-        String newText = currentText.substring(0, insertPos) + Arrays.toString(characters.toArray()) + currentText.substring(insertPos);
+        String newText = currentText.substring(0, insertPos) + characters.stream().map(String::valueOf).collect(Collectors.joining()) + currentText.substring(insertPos);
         newText = removeNullifiedMarkup(newText);
         this.textBox.setText(newText);
 
@@ -544,6 +551,11 @@ public class Inputfield extends Button {
     }
 
     private void backwardErase(){
+        if(characterHbManager.hasValidUserSelection()){
+            eraseSelection();
+            return;
+        }
+
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
         int glyphCount = getTotalGlyphCount(layout.getValue());
         if(glyphCount == 0 || caretOffset == glyphCount){
@@ -551,7 +563,7 @@ public class Inputfield extends Button {
         }
 
         String currentText = this.textBox.getText();
-        int deletePos = currentText.length() - getCaretOffsetFromRealText(layout.getValue(), false);
+        int deletePos = currentText.length() - getRealtextOffsetForCaretOffset(layout.getValue(), false);
 
         // Ensure deletePos is valid and there's something to delete
         if (deletePos <= 0 || deletePos > currentText.length()) {
@@ -559,20 +571,17 @@ public class Inputfield extends Button {
         }
 
         String newText = currentText.substring(0, deletePos - 1) + currentText.substring(deletePos);
-        newText = removeNullifiedMarkup(newText);
-
-        if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE || preset == EInputfieldPreset.NUMERICAL_DECIMAL)){
-            newText = "0";
-        }
-
-        if(newText.equals("-")){
-            newText = "-0";
-        }
+        newText = removalTextVerification(newText);
 
         this.textBox.setText(newText);
     }
 
     private void forwardErase(){
+        if(characterHbManager.hasValidUserSelection()){
+            eraseSelection();
+            return;
+        }
+
         if(caretOffset == 0){
             return;
         }
@@ -583,7 +592,7 @@ public class Inputfield extends Button {
         }
 
         String currentText = this.textBox.getText();
-        int deletePos = currentText.length() - getCaretOffsetFromRealText(layout.getValue(), true) + 1;
+        int deletePos = currentText.length() - getRealtextOffsetForCaretOffset(layout.getValue(), true) + 1;
 
         // Ensure deletePos is valid and there's something to delete
         if (deletePos <= 0 || deletePos > currentText.length()) {
@@ -591,15 +600,7 @@ public class Inputfield extends Button {
         }
 
         String newText = currentText.substring(0, deletePos - 1) + currentText.substring(deletePos);
-        newText = removeNullifiedMarkup(newText);
-
-        if(newText.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE || preset == EInputfieldPreset.NUMERICAL_DECIMAL)){
-            newText = "0";
-        }
-
-        if(newText.equals("-")){
-            newText = "-0";
-        }
+        newText = removalTextVerification(newText);
 
         this.textBox.setText(newText);
 
@@ -607,10 +608,73 @@ public class Inputfield extends Button {
         recalculateCaretPosition();
     }
 
+    private void eraseSelection(){
+        if(!characterHbManager.hasValidUserSelection()){
+            return;
+        }
+
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        if(getTotalGlyphCount(layout.getValue()) == 0){
+            return;
+        }
+
+        if(characterHbManager.selectionMode == InputCharacterManager.ESelectionMode.Standard){
+            String currentText = this.textBox.getText();
+
+            int targetCaretOffset;
+            int startCaretOffset;
+            if(characterHbManager.userSelectedForward()){
+                startCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
+                targetCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
+            }
+            else{
+                startCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
+                targetCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
+            }
+
+            int deletePosStart = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), startCaretOffset, true);
+            int deletePosEnd = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), targetCaretOffset, true);
+
+            String newText = currentText.substring(0, Math.min(deletePosStart, deletePosEnd)) + currentText.substring(Math.max(deletePosStart, deletePosEnd));
+            newText = removalTextVerification(newText);
+
+            this.textBox.setText(newText);
+
+            caretOffset = startCaretOffset;
+            recalculateCaretPosition();
+        }
+
+        characterHbManager.clearSelection();
+    }
+
+    private String removalTextVerification(String newText){
+        String fixed = removeNullifiedMarkup(newText);
+
+        if(fixed.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE || preset == EInputfieldPreset.NUMERICAL_DECIMAL)){
+            fixed = "0";
+        }
+
+        if(fixed.equals("-")){
+            fixed = "-0";
+        }
+
+        return fixed;
+    }
+
     public void resetInputProcessor(){
         if(Gdx.input.getInputProcessor() == inputProcessor){
             Gdx.input.setInputProcessor(cachedInputProcessor);
         }
+    }
+
+    private int getCaretOffsetForIndex(GlyphLayout layout, int runIndex, int glyphIndex){
+        int totalCharsUpTo = 0;
+        for (int i = 0; i < runIndex; i++){
+            totalCharsUpTo += layout.runs.get(i).glyphs.size;
+        }
+        totalCharsUpTo += glyphIndex;
+
+        return getTotalGlyphCount(layout) - totalCharsUpTo;
     }
 
     //endregion
