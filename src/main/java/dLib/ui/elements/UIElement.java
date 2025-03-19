@@ -471,6 +471,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                         break;
                     }
                 }
+                if(playingAnimation instanceof UIExitAnimation){
+                    canHide = false;
+                }
                 if(canHide){
                     pendingHide = false;
                     setVisibility(false);
@@ -1390,18 +1393,23 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Visibility
 
     public void hide(){
-        if(!isVisible) return;
+        if(!isVisible || pendingHide) return;
 
         if(exitAnimation == null){
-            pendingHide = true;
             for(UIElement child : getChildren()){
                 if(child.isVisible() && child.exitAnimation != null){
+                    pendingHide = true;
                     child.playAnimation(child.exitAnimation);
                 }
             }
         }
         else{
+            pendingHide = true;
             playAnimation(exitAnimation);
+        }
+
+        if(!pendingHide){
+            setVisibility(false);
         }
     }
     public void hideInstantly(){
@@ -1411,7 +1419,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void show(){
-        if(isVisible) return;
+        if(isVisible && !pendingHide) return;
 
         setVisibility(true);
         pendingHide = false;

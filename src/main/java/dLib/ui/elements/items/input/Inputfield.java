@@ -297,6 +297,15 @@ public class Inputfield extends Button {
         textBox.onDimensionsChangedEvent.subscribe(this, (element) -> {
             recalculateCaretPosition();
         });
+
+        characterHbManager.onSelectionChangedEvent.subscribe(this, () -> {
+            if(characterHbManager.hasValidUserSelection()){
+                toolbar.showAndEnable();
+            }
+            else{
+                toolbar.hideAndDisable();
+            }
+        });
     }
 
     //endregion

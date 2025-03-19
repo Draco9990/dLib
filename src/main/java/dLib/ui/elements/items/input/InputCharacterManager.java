@@ -30,6 +30,7 @@ public class InputCharacterManager extends UIElement {
             hb.onLeftClickEvent.subscribe(this, () -> {
                 selectionEnd = null;
                 selectionStart = new IntegerVector2(hb.glyphRowIndex, hb.glyphIndex);
+                onSelectionUpdated();
             });
             hb.onHoveredEvent.subscribe(this, () -> {
                 if (selectionStart != null && InputHelper.isMouseDown) {

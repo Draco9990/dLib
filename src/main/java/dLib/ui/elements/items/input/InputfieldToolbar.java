@@ -3,6 +3,7 @@ package dLib.ui.elements.items.input;
 import dLib.ui.animations.entry.UIAnimation_FadeIn;
 import dLib.ui.animations.exit.UIAnimation_FadeOut;
 import dLib.ui.elements.components.UITransientElementComponent;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
@@ -24,16 +25,12 @@ public class InputfieldToolbar extends HorizontalBox {
         setEntryAnimation(new UIAnimation_FadeIn(this));
         setExitAnimation(new UIAnimation_FadeOut(this));
 
-        TextButton b1 = new TextButton("A", Dim.px(30), Dim.px(30));
+        hideAndDisableInstantly();
+
+        Button b1 = new Button(Dim.px(30), Dim.px(30));
         addChild(b1);
 
-        b1 = new TextButton("B", Dim.px(30), Dim.px(30));
-        addChild(b1);
-
-        b1 = new TextButton("C", Dim.px(30), Dim.px(30));
-        addChild(b1);
-
-        b1 = new TextButton("D", Dim.px(30), Dim.px(30));
+        b1 = new Button(Dim.px(30), Dim.px(30));
         addChild(b1);
     }
 }
