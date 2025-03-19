@@ -22,6 +22,13 @@ import java.io.Serializable;
 public class AutoDimension extends AbstractDimension implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //region Variables
+
+    //! Child dynamic calculations shouldn't account for padding
+    private int calculatedValueForChildren = 0;
+
+    //endregion
+
     //region Constructors
 
     public AutoDimension(){
@@ -39,17 +46,20 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_AUTO, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, calculateWidth(forElement)),
+                () -> {
+                    setCalculatedValue(forElement, calculateWidth(forElement, true));
+                    calculatedValueForChildren = calculateWidth(forElement, false);
+                },
                 () -> canCalculateWidth(forElement)
         ));
     }
 
-    private Integer calculateWidth(UIElement forElement){
+    private Integer calculateWidth(UIElement forElement, boolean includePadding){
         Pair<Integer, Integer> totalWidth = null;
         for (UIElement child : forElement.getChildren()){
             if(child.hasComponent(UITransientElementComponent.class)) continue;
 
-            Pair<Integer, Integer> childWidth = calculateWidthRecursive(child);
+            Pair<Integer, Integer> childWidth = calculateWidthRecursive(child, includePadding);
             if(totalWidth == null){
                 totalWidth = childWidth;
             }
@@ -68,7 +78,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        if(forElement instanceof ILayoutProvider){
+        if(forElement instanceof ILayoutProvider && includePadding){
             int width = ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
 
             totalWidth = new Pair<>(
@@ -92,13 +102,13 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
         return totalWidth.getValue() - totalWidth.getKey();
     }
-    private Pair<Integer, Integer> calculateWidthRecursive(UIElement forElement){
+    private Pair<Integer, Integer> calculateWidthRecursive(UIElement forElement, boolean includePadding){
         Pair<Integer, Integer> totalWidth = null;
 
         for (UIElement child : forElement.getChildren()) {
             if(child.hasComponent(UITransientElementComponent.class)) continue;
 
-            Pair<Integer, Integer> childWidth = calculateWidthRecursive(child);
+            Pair<Integer, Integer> childWidth = calculateWidthRecursive(child, includePadding);
             if(totalWidth == null){
                 totalWidth = childWidth;
             }
@@ -121,7 +131,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         int widthRaw = forElement.getWidth();
         int bonusWidth = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
 
-        return new Pair<>(calculatedLocalX, calculatedLocalX + widthRaw + forElement.getPaddingLeft() + forElement.getPaddingRight() + bonusWidth);
+        return new Pair<>(calculatedLocalX, calculatedLocalX + widthRaw + (includePadding ? forElement.getPaddingLeft() + forElement.getPaddingRight() : 0) + bonusWidth);
     }
 
     private boolean canCalculateWidth(UIElement forElement){
@@ -161,22 +171,29 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     //endregion
 
+    public int getCalculatedValueForChildren() {
+        return calculatedValueForChildren;
+    }
+
     //region Height
 
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_AUTO, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, calculateHeight(forElement)),
+                () -> {
+                    setCalculatedValue(forElement, calculateHeight(forElement, true));
+                    calculatedValueForChildren = calculateHeight(forElement, false);
+                },
                 () -> canCalculateHeight(forElement)
         ));
     }
 
-    private Integer calculateHeight(UIElement forElement){
+    private Integer calculateHeight(UIElement forElement, boolean includePadding){
         Pair<Integer, Integer> totalHeight = null;
         for (UIElement child : forElement.getChildren()){
             if(child.hasComponent(UITransientElementComponent.class)) continue;
 
-            Pair<Integer, Integer> childHeight = calculateHeightRecursive(child);
+            Pair<Integer, Integer> childHeight = calculateHeightRecursive(child, includePadding);
             if(totalHeight == null){
                 totalHeight = childHeight;
             }
@@ -195,7 +212,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        if(forElement instanceof ILayoutProvider){
+        if(forElement instanceof ILayoutProvider && includePadding){
             int height = ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
 
             totalHeight = new Pair<>(
@@ -219,13 +236,13 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
         return totalHeight.getValue() - totalHeight.getKey();
     }
-    private Pair<Integer, Integer> calculateHeightRecursive(UIElement forElement){
+    private Pair<Integer, Integer> calculateHeightRecursive(UIElement forElement, boolean includePadding){
         Pair<Integer, Integer> totalHeight = null;
 
         for (UIElement child : forElement.getChildren()) {
             if(child.hasComponent(UITransientElementComponent.class)) continue;
 
-            Pair<Integer, Integer> childHeight = calculateHeightRecursive(child);
+            Pair<Integer, Integer> childHeight = calculateHeightRecursive(child, includePadding);
             if(totalHeight == null){
                 totalHeight = childHeight;
             }
@@ -248,7 +265,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         int heightRaw = forElement.getHeight();
         int bonusHeight = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
 
-        return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw + forElement.getPaddingTop() + forElement.getPaddingBottom() + bonusHeight);
+        return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw + (includePadding ? forElement.getPaddingTop() + forElement.getPaddingBottom() : 0) + bonusHeight);
     }
 
     private boolean canCalculateHeight(UIElement forElement){

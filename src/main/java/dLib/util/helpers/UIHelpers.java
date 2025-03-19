@@ -3,6 +3,7 @@ package dLib.util.helpers;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
+import dLib.ui.layout.ILayoutProvider;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
@@ -36,6 +37,15 @@ public class UIHelpers {
         while(parent != null){
             if(!parent.needsWidthCalculation()){
                 parentWidth = parent.getWidth();
+                if(parent.getWidthRaw() instanceof AutoDimension){
+                    parentWidth = ((AutoDimension) parent.getWidthRaw()).getCalculatedValueForChildren();
+                }
+
+                if(parent instanceof ILayoutProvider){
+                    parentWidth -= ((ILayoutProvider) parent).getContentPaddingLeft();
+                    parentWidth -= ((ILayoutProvider) parent).getContentPaddingRight();
+                }
+
                 break;
             }
             else if(!(parent.getWidthRaw() instanceof AutoDimension)){
@@ -55,6 +65,15 @@ public class UIHelpers {
         while(parent != null){
             if(!parent.needsHeightCalculation()){
                 parentHeight = parent.getHeight();
+                if(parent.getHeightRaw() instanceof AutoDimension){
+                    parentHeight = ((AutoDimension) parent.getHeightRaw()).getCalculatedValueForChildren();
+                }
+
+                if(parent instanceof ILayoutProvider){
+                    parentHeight -= ((ILayoutProvider) parent).getContentPaddingTop();
+                    parentHeight -= ((ILayoutProvider) parent).getContentPaddingBottom();
+                }
+
                 break;
             }
             else if(!(parent.getHeightRaw() instanceof AutoDimension)){
