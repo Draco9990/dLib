@@ -83,7 +83,7 @@ public abstract class UIItemBox extends ItemBox {
                 continue;
             }
 
-            if(!child.isActive()){
+            if(!child.isActiveRaw()){
                 continue;
             }
 

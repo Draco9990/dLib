@@ -1456,8 +1456,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         onVisiblityChanged();
     }
+
     public boolean isVisible(){
         if(hasParent() && !parent.isVisible()) return false;
+        return isVisible;
+    }
+    public boolean isVisibleRaw(){
         return isVisible;
     }
 
@@ -1490,8 +1494,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         isEnabled = enabled;
         onEnabledStatusChanged();
     }
+
     public boolean isEnabled(){
         if(hasParent() && !parent.isEnabled()) return false;
+        return isEnabled;
+    }
+    public boolean isEnabledRaw(){
         return isEnabled;
     }
 
@@ -1533,6 +1541,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(hasParent() && !parent.isActive()) return false;
 
         return isVisible() || isEnabled();
+    }
+
+    public boolean isActiveRaw(){
+        return isVisibleRaw() || isEnabledRaw();
     }
 
     //endregion

@@ -434,7 +434,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 continue;
             }
 
-            if(!child.isActive()){
+            if(!child.isActiveRaw()){
                 continue;
             }
 
