@@ -19,6 +19,18 @@ public class InputCharacterManager extends UIElement {
 
     public InputCharacterManager() {
         super();
+
+        preLeftClickGlobalEvent.subscribe(this, (element) -> {
+            if(element != getParentOfType(Inputfield.class) && !element.isDescendantOf(getParentOfType(Inputfield.class))){
+                clearSelection();
+            }
+        });
+
+        preRightClickGlobalEvent.subscribe(this, (element) -> {
+            if(element != getParentOfType(Inputfield.class) && !element.isDescendantOf(getParentOfType(Inputfield.class))){
+                clearSelection();
+            }
+        });
     }
 
     @Override

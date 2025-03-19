@@ -19,10 +19,12 @@ public class ColorWheel extends Renderable {
     public Event<Consumer<Color>> onColorHoveredEvent = new Event<>();
     public Event<Consumer<Color>> onColorSelectedEvent = new Event<>();
 
+    private boolean pendingTextureRecreation = false;
+
     public ColorWheel(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(new TextureNoneBinding(), xPos, yPos, width, height);
 
-        recreateTexture();
+        pendingTextureRecreation = true;
     }
 
     //region Methods
@@ -33,7 +35,17 @@ public class ColorWheel extends Renderable {
     public void onDimensionsChanged() {
         super.onDimensionsChanged();
 
-        recreateTexture();
+        pendingTextureRecreation = true;
+    }
+
+    @Override
+    protected void updateSelf() {
+        super.updateSelf();
+
+        if(pendingTextureRecreation){
+            recreateTexture();
+            pendingTextureRecreation = false;
+        }
     }
 
     private void recreateTexture(){

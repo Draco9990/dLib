@@ -475,7 +475,6 @@ public class Inputfield extends Button {
                         Dim.px((int) Math.floor((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)),
                         Dim.px((int) textBox.getFontSizeRaw()),
                         runIndex, glyphIndex, InputCharacterHB.ECharHbSide.Left);
-                textBox.addChild(glyphHbLeft);
                 characterHbManager.addChild(glyphHbLeft);
                 glyphHbLeft.onLeftClickEvent.subscribe(this, () -> {
                     int totalCharsUpTo = 0;
@@ -496,7 +495,6 @@ public class Inputfield extends Button {
                         Dim.px((int) Math.ceil((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)),
                         Dim.px((int) textBox.getFontSizeRaw()),
                         runIndex, glyphIndex + 1, InputCharacterHB.ECharHbSide.Right);
-                textBox.addChild(glyphHbRight);
                 characterHbManager.addChild(glyphHbRight);
                 glyphHbRight.onLeftClickEvent.subscribe(this, () -> {
                     int totalCharsUpTo = 0;
