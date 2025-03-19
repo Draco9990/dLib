@@ -120,6 +120,19 @@ public class InputCharacterManager extends UIElement {
         onSelectionUpdated();
     }
 
+    public void selectAll(){
+        if(children.isEmpty()){
+            return;
+        }
+
+        InputCharacterHB lastChild = ((InputCharacterHB)children.get(children.size() - 1));
+
+        selectionStart = new IntegerVector2(0, 0);
+        selectionEnd = new IntegerVector2(lastChild.glyphRowIndex, lastChild.glyphIndex);
+
+        onSelectionUpdated();
+    }
+
     public enum ESelectionMode{
         Standard
     }

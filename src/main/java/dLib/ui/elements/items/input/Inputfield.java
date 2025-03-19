@@ -149,6 +149,10 @@ public class Inputfield extends Button {
                     charsToAdd = Gdx.app.getClipboard().getContents().toCharArray();
                 }
 
+                if(InputHelper.isShortcutModifierKeyPressed() && Gdx.input.isKeyJustPressed(Input.Keys.A)){
+                    characterHbManager.selectAll();
+                }
+
                 boolean success = true;
 
                 List<Character> charsToAddList = new ArrayList<>();
@@ -415,7 +419,7 @@ public class Inputfield extends Button {
             hesitancy = 0;
         }
 
-        return 0;
+        return (realText.length() - 1) - (realIndex + (withHesitancy ? hesitancy : 0));
     }
 
     //endregion
@@ -633,9 +637,9 @@ public class Inputfield extends Button {
             }
 
             int deletePosStart = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), startCaretOffset, true);
-            int deletePosEnd = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), targetCaretOffset, true);
+            int deletePosEnd = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), targetCaretOffset, false);
 
-            String newText = currentText.substring(0, Math.min(deletePosStart, deletePosEnd)) + currentText.substring(Math.max(deletePosStart, deletePosEnd));
+            String newText = currentText.substring(0, deletePosEnd) + currentText.substring(deletePosStart);
             newText = removalTextVerification(newText);
 
             this.textBox.setText(newText);
@@ -737,6 +741,8 @@ public class Inputfield extends Button {
 
     @Override
     public boolean onLeftInteraction() {
+        characterHbManager.clearSelection();
+
         if(caretOffset == textBox.getText().length()) return true;
 
         caretOffset++;
@@ -746,6 +752,8 @@ public class Inputfield extends Button {
 
     @Override
     public boolean onRightInteraction() {
+        characterHbManager.clearSelection();
+
         if(caretOffset == 0) return true;
 
         caretOffset--;
@@ -755,6 +763,8 @@ public class Inputfield extends Button {
 
     @Override
     public boolean onUpInteraction() {
+        characterHbManager.clearSelection();
+
         if(textBox.getText().isEmpty()) return super.onUpInteraction();
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
@@ -788,6 +798,8 @@ public class Inputfield extends Button {
 
     @Override
     public boolean onDownInteraction() {
+        characterHbManager.clearSelection();
+
         if(textBox.getText().isEmpty()) return super.onDownInteraction();
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
