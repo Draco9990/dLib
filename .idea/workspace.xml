@@ -8,6 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -393,6 +394,26 @@
           <properties class="java.lang.ClassCastException" package="java.lang" />
           <option name="timeStamp" value="154" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java</url>
+          <line>384</line>
+          <option name="timeStamp" value="413" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java</url>
+          <line>377</line>
+          <option name="timeStamp" value="414" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java</url>
+          <line>370</line>
+          <option name="timeStamp" value="415" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/itembox/ItemBox.java</url>
+          <line>363</line>
+          <option name="timeStamp" value="416" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

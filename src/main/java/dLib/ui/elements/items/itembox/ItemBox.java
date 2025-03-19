@@ -296,15 +296,15 @@ public abstract class ItemBox extends Renderable {
     }
     public void setRightContentPadding(AbstractPadding padding){
         this.rightContentPadding = padding;
-        leftContentPadding.setReference(AbstractPadding.ReferenceDimension.HORIZONTAL);
+        rightContentPadding.setReference(AbstractPadding.ReferenceDimension.HORIZONTAL);
     }
     public void setTopContentPadding(AbstractPadding padding){
         this.topContentPadding = padding;
-        leftContentPadding.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
+        topContentPadding.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
     }
     public void setBottomContentPadding(AbstractPadding padding){
         this.bottomContentPadding = padding;
-        leftContentPadding.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
+        bottomContentPadding.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
     }
 
     public void setHorizontalContentPadding(AbstractPadding padding){
