@@ -416,7 +416,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
             child.dispose();
 
-
             if(children.size() == elementCountBefore){
                 int i = 0;
             }
@@ -850,12 +849,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         onChildrenChanged();
     }
     public void clearChildren(){
-        for(UIElement child : children){
-            child.setParent(null);
-            onChildRemovedEvent.invoke(child);
+        for(UIElement child : new ArrayList<>(children)){
+            child.dispose();
         }
-        children.clear();
-        onChildrenChanged();
     }
 
     protected void onChildrenChanged(){
@@ -873,6 +869,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public ArrayList<UIElement> getChildren(){
         return new ArrayList<>(children);
+    }
+    public <T extends UIElement> ArrayList<T> getChildren(Class<T> desiredType){
+        ArrayList<T> children = new ArrayList<>();
+        for(UIElement child : this.children){
+            if(desiredType.isAssignableFrom(child.getClass())){
+                children.add((T) child);
+            }
+        }
+        return children;
     }
 
     public ArrayList<UIElement> getAllChildren(){

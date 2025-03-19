@@ -15,16 +15,14 @@ public class InputCharacterHB extends Interactable {
     public int glyphRowIndex;
     public int glyphIndex;
 
-    private static InputCharacterHB selectionStart;
+    public ECharHbSide side;
 
-    public InputCharacterHB(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height, int glyphRowIndex, int glyphIndex) {
+    public InputCharacterHB(AbstractPosition x, AbstractPosition y, AbstractDimension width, AbstractDimension height, int glyphRowIndex, int glyphIndex, ECharHbSide side) {
         super(Tex.stat(UICommonResources.white_pixel), x, y, width, height);
 
         addComponent(new UITransientElementComponent());
 
-        setRenderColor(new Color(1, 1, 1, 1));
-        setHoveredColor(new Color(0.85f, 0.85f, 1, 1f));
-        setHoveredColorMultiplier(0.75f);
+        setRenderColor(new Color(0.6f, 0.6f, 1, 0.75f));
 
         setPassthrough(true);
 
@@ -33,5 +31,14 @@ public class InputCharacterHB extends Interactable {
 
         this.glyphRowIndex = glyphRowIndex;
         this.glyphIndex = glyphIndex;
+
+        hideInstantly();
+
+        this.side = side;
+    }
+
+    public enum ECharHbSide{
+        Left,
+        Right
     }
 }

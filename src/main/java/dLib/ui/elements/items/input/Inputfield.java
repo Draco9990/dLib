@@ -55,7 +55,7 @@ public class Inputfield extends Button {
     private InputCaret caret;
     private int caretOffset = 0; //! Offsets from the END of the text instead of the start
 
-    private List<UIElement> characterHitboxes = new ArrayList<>();
+    private InputCharacterManager characterHbManager = new InputCharacterManager();
 
     //Temps
 
@@ -102,8 +102,11 @@ public class Inputfield extends Button {
         caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSizeRaw())));
         caret.addComponent(new UITransientElementComponent());
         recalculateCaretPosition();
-        reinitializeCharacterHBs();
         textBox.addChild(caret);
+
+        characterHbManager = new InputCharacterManager();
+        textBox.addChild(characterHbManager);
+        reinitializeCharacterHBs();
 
         postInitialize();
     }
@@ -125,8 +128,11 @@ public class Inputfield extends Button {
         caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSizeRaw())));
         caret.addComponent(new UITransientElementComponent());
         recalculateCaretPosition();
-        reinitializeCharacterHBs();
         textBox.addChild(caret);
+
+        characterHbManager = new InputCharacterManager();
+        textBox.addChild(characterHbManager);
+        reinitializeCharacterHBs();
 
         postInitialize();
     }
@@ -414,10 +420,7 @@ public class Inputfield extends Button {
     //region Character Selection
 
     public void reinitializeCharacterHBs(){
-        for (UIElement existingHb : characterHitboxes){
-            textBox.removeChild(existingHb);
-        }
-        characterHitboxes.clear();
+        characterHbManager.clearChildren();
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
 
@@ -434,9 +437,9 @@ public class Inputfield extends Button {
                         Pos.px(0),
                         Dim.px((int) Math.floor((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)),
                         Dim.px((int) textBox.getFontSizeRaw()),
-                        runIndex, glyphIndex);
+                        runIndex, glyphIndex, InputCharacterHB.ECharHbSide.Left);
                 textBox.addChild(glyphHbLeft);
-                characterHitboxes.add(glyphHbLeft);
+                characterHbManager.addChild(glyphHbLeft);
                 glyphHbLeft.onLeftClickEvent.subscribe(this, () -> {
                     int totalCharsUpTo = 0;
                     Pair<IntegerVector2, GlyphLayout> layout1 = textBox.prepareForRender();
@@ -455,9 +458,9 @@ public class Inputfield extends Button {
                         Pos.px(0),
                         Dim.px((int) Math.ceil((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)),
                         Dim.px((int) textBox.getFontSizeRaw()),
-                        runIndex, glyphIndex + 1);
+                        runIndex, glyphIndex + 1, InputCharacterHB.ECharHbSide.Right);
                 textBox.addChild(glyphHbRight);
-                characterHitboxes.add(glyphHbRight);
+                characterHbManager.addChild(glyphHbRight);
                 glyphHbRight.onLeftClickEvent.subscribe(this, () -> {
                     int totalCharsUpTo = 0;
                     Pair<IntegerVector2, GlyphLayout> layout1 = textBox.prepareForRender();
