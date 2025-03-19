@@ -1,8 +1,11 @@
 package dLib.ui.elements.items.input;
 
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.util.IntegerVector2;
+import dLib.util.events.localevents.RunnableEvent;
+import dLib.util.ui.position.Pos;
 
 import java.util.Objects;
 
@@ -11,6 +14,8 @@ public class InputCharacterManager extends UIElement {
     public IntegerVector2 selectionEnd;
 
     public ESelectionMode selectionMode = ESelectionMode.Standard;
+
+    public RunnableEvent onSelectionChangedEvent = new RunnableEvent();
 
     public InputCharacterManager() {
         super();
@@ -100,6 +105,8 @@ public class InputCharacterManager extends UIElement {
                 }
             }
         }
+
+        onSelectionChangedEvent.invoke();
     }
 
     public boolean hasValidUserSelection(){

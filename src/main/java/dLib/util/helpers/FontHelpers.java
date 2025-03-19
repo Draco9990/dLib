@@ -61,7 +61,7 @@ public class FontHelpers {
     }
 
     private static void calculateFontTrueScale(BitmapFont font){
-        float height = FontHelper.getHeight(font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 1.0f);
+        float height = FontHelper.getHeight(font, "lL", 1.0f);
         float scale = 1f / height;
         trueScaleMap.put(font, scale);
     }

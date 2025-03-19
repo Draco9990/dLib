@@ -56,6 +56,7 @@ public class Inputfield extends Button {
     private int caretOffset = 0; //! Offsets from the END of the text instead of the start
 
     private InputCharacterManager characterHbManager = new InputCharacterManager();
+    private InputfieldToolbar toolbar;
 
     //Temps
 
@@ -108,6 +109,10 @@ public class Inputfield extends Button {
         textBox.addChild(characterHbManager);
         reinitializeCharacterHBs();
 
+        toolbar = new InputfieldToolbar(Pos.px(0), Pos.perc(1));
+        toolbar.setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.TOP);
+        addChild(toolbar);
+
         postInitialize();
     }
 
@@ -134,6 +139,10 @@ public class Inputfield extends Button {
         textBox.addChild(characterHbManager);
         reinitializeCharacterHBs();
 
+        toolbar = new InputfieldToolbar(Pos.px(0), Pos.perc(1));
+        toolbar.setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.TOP);
+        addChild(toolbar);
+
         postInitialize();
     }
 
@@ -151,6 +160,18 @@ public class Inputfield extends Button {
 
                 if(InputHelper.isShortcutModifierKeyPressed() && Gdx.input.isKeyJustPressed(Input.Keys.A)){
                     characterHbManager.selectAll();
+                    return true;
+                }
+
+                if(InputHelper.isShortcutModifierKeyPressed() && Gdx.input.isKeyJustPressed(Input.Keys.X)){
+                    Gdx.app.getClipboard().setContents(getSelectionAsText());
+                    eraseSelection();
+                    return true;
+                }
+
+                if(InputHelper.isShortcutModifierKeyPressed() && Gdx.input.isKeyJustPressed(Input.Keys.C)){
+                    Gdx.app.getClipboard().setContents(getSelectionAsText());
+                    return true;
                 }
 
                 boolean success = true;
@@ -610,6 +631,39 @@ public class Inputfield extends Button {
 
         caretOffset--;
         recalculateCaretPosition();
+    }
+
+    private String getSelectionAsText(){
+        if(!characterHbManager.hasValidUserSelection()){
+            return "";
+        }
+
+        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        if(getTotalGlyphCount(layout.getValue()) == 0){
+            return "";
+        }
+
+        if(characterHbManager.selectionMode == InputCharacterManager.ESelectionMode.Standard){
+            String currentText = this.textBox.getText();
+
+            int targetCaretOffset;
+            int startCaretOffset;
+            if(characterHbManager.userSelectedForward()){
+                startCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
+                targetCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
+            }
+            else{
+                startCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
+                targetCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
+            }
+
+            int readPosStart = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), startCaretOffset, true);
+            int readPosEnd = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), targetCaretOffset, false);
+
+            return currentText.substring(readPosEnd, readPosStart);
+        }
+
+        return "";
     }
 
     private void eraseSelection(){
