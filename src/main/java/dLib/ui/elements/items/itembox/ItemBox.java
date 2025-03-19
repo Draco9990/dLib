@@ -31,10 +31,10 @@ public abstract class ItemBox extends Renderable {
     private Alignment.HorizontalAlignment horizontalContentAlignment = Alignment.HorizontalAlignment.LEFT;
     private Alignment.VerticalAlignment verticalContentAlignment = Alignment.VerticalAlignment.TOP;
 
-    private AbstractPadding leftContentPadding = Padd.px(0);
-    private AbstractPadding rightContentPadding = Padd.px(0);
-    private AbstractPadding topContentPadding = Padd.px(0);
-    private AbstractPadding bottomContentPadding = Padd.px(0);
+    private AbstractPadding leftContentPadding;
+    private AbstractPadding rightContentPadding;
+    private AbstractPadding topContentPadding;
+    private AbstractPadding bottomContentPadding;
 
     protected String filterText = "";
 
@@ -56,6 +56,8 @@ public abstract class ItemBox extends Renderable {
 
         setPassthrough(true);
 
+        setContentPadding(Padd.px(0));
+
         registerCommonEvents();
     }
 
@@ -64,6 +66,8 @@ public abstract class ItemBox extends Renderable {
 
         this.itemSpacing = data.itemSpacing.getValue();
         this.invertedItemOrder = data.invertedItemOrder.getValue();
+
+        setContentPadding(Padd.px(0));
 
         registerCommonEvents();
 
@@ -288,31 +292,35 @@ public abstract class ItemBox extends Renderable {
     //TODO standardize and move to UIElement
     public void setLeftContentPadding(AbstractPadding padding){
         this.leftContentPadding = padding;
+        leftContentPadding.setReference(AbstractPadding.ReferenceDimension.HORIZONTAL);
     }
     public void setRightContentPadding(AbstractPadding padding){
         this.rightContentPadding = padding;
+        leftContentPadding.setReference(AbstractPadding.ReferenceDimension.HORIZONTAL);
     }
     public void setTopContentPadding(AbstractPadding padding){
         this.topContentPadding = padding;
+        leftContentPadding.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
     }
     public void setBottomContentPadding(AbstractPadding padding){
         this.bottomContentPadding = padding;
+        leftContentPadding.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
     }
 
     public void setHorizontalContentPadding(AbstractPadding padding){
-        setLeftContentPadding(padding);
-        setRightContentPadding(padding);
+        setLeftContentPadding(padding.cpy());
+        setRightContentPadding(padding.cpy());
     }
     public void setVerticalContentPadding(AbstractPadding padding){
-        setTopContentPadding(padding);
-        setBottomContentPadding(padding);
+        setTopContentPadding(padding.cpy());
+        setBottomContentPadding(padding.cpy());
     }
 
     public void setContentPadding(AbstractPadding padding){
-        setLeftContentPadding(padding);
-        setRightContentPadding(padding);
-        setTopContentPadding(padding);
-        setBottomContentPadding(padding);
+        setLeftContentPadding(padding.cpy());
+        setRightContentPadding(padding.cpy());
+        setTopContentPadding(padding.cpy());
+        setBottomContentPadding(padding.cpy());
     }
 
     public int getContentPaddingLeft(){
