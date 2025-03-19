@@ -1,9 +1,11 @@
 package dLib.ui.elements.items.itembox;
 
+import basemod.Pair;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
@@ -326,6 +328,58 @@ public abstract class ItemBox extends Renderable {
         return bottomContentPadding.getCalculatedValue();
     }
 
+    public AbstractPadding getContentPaddingLeftRaw(){
+        return leftContentPadding;
+    }
+    public AbstractPadding getContentPaddingRightRaw(){
+        return rightContentPadding;
+    }
+    public AbstractPadding getContentPaddingTopRaw(){
+        return topContentPadding;
+    }
+    public AbstractPadding getContentPaddingBottomRaw(){
+        return bottomContentPadding;
+    }
+
+    //endregion
+
+    //region Calculation Instructions
+
+    @Override
+    public ArrayList<Pair<Integer, ElementCalculationManager.ElementCalculationInstruction>> collectCalculationInstructions() {
+        ArrayList<Pair<Integer, ElementCalculationManager.ElementCalculationInstruction>> calculationInstructions = super.collectCalculationInstructions();
+
+        if(getContentPaddingLeftRaw().needsRecalculation()){
+            calculationInstructions.add(getContentPaddingLeftRaw().getCalculationInstruction(this));
+
+            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                getContentPaddingLeftRaw().getCalculationInstruction(this); //* For Debug
+            }
+        }
+        if(getContentPaddingBottomRaw().needsRecalculation()){
+            calculationInstructions.add(getContentPaddingBottomRaw().getCalculationInstruction(this));
+
+            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                getContentPaddingBottomRaw().getCalculationInstruction(this); //* For Debug
+            }
+        }
+        if(getContentPaddingRightRaw().needsRecalculation()){
+            calculationInstructions.add(getContentPaddingRightRaw().getCalculationInstruction(this));
+
+            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                getContentPaddingRightRaw().getCalculationInstruction(this); //* For Debug
+            }
+        }
+        if(getContentPaddingTopRaw().needsRecalculation()){
+            calculationInstructions.add(getContentPaddingTopRaw().getCalculationInstruction(this));
+
+            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
+                getContentPaddingTopRaw().getCalculationInstruction(this); //* For Debug
+            }
+        }
+
+        return calculationInstructions;
+    }
     //endregion
 
     @Override

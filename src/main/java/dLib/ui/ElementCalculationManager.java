@@ -21,106 +21,12 @@ public class ElementCalculationManager {
         ArrayList<UIElement> elementsThatNeedUpdate = new ArrayList<>();
         ArrayList<Pair<Integer, ElementCalculationInstruction>> calculationInstructions = new ArrayList<>();
         for (UIElement element : topElement.getHierarchyForUpdateOrder()){
-            if(element.getLocalPositionXRaw().needsRecalculation()) {
-                calculationInstructions.add(element.getLocalPositionXRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getLocalPositionXRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-            if(element.getLocalPositionYRaw().needsRecalculation()){
-                calculationInstructions.add(element.getLocalPositionYRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getLocalPositionYRaw().getCalculationInstruction(element); //* For Debug
-                }
+            ArrayList<Pair<Integer, ElementCalculationInstruction>> childInstructions = element.collectCalculationInstructions();
+            if(!childInstructions.isEmpty()){
+                elementsThatNeedUpdate.add(element);
             }
 
-            if(element.getMinimumWidthRaw().needsRecalculation()) {
-                calculationInstructions.add(element.getMinimumWidthRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getMinimumWidthRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-            if(element.getMinimumHeightRaw().needsRecalculation()) {
-                calculationInstructions.add(element.getMinimumHeightRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getMinimumHeightRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-
-            if(element.getMaximumWidthRaw().needsRecalculation()) {
-                calculationInstructions.add(element.getMaximumWidthRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getMaximumWidthRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-            if(element.getMaximumHeightRaw().needsRecalculation()) {
-                calculationInstructions.add(element.getMaximumHeightRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getMaximumHeightRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-
-            if(element.needsWidthCalculation()) {
-                calculationInstructions.add(element.getWidthRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getWidthRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-            if(element.needsHeightCalculation()) {
-                calculationInstructions.add(element.getHeightRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getHeightRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-
-            if(element.getPaddingLeftRaw().needsRecalculation()){
-                calculationInstructions.add(element.getPaddingLeftRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getPaddingLeftRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-            if(element.getPaddingBottomRaw().needsRecalculation()){
-                calculationInstructions.add(element.getPaddingBottomRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getPaddingBottomRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-            if(element.getPaddingRightRaw().needsRecalculation()){
-                calculationInstructions.add(element.getPaddingRightRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getPaddingRightRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
-            if(element.getPaddingTopRaw().needsRecalculation()){
-                calculationInstructions.add(element.getPaddingTopRaw().getCalculationInstruction(element));
-                if(!elementsThatNeedUpdate.contains(element)) elementsThatNeedUpdate.add(element);
-
-                if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                    element.getPaddingTopRaw().getCalculationInstruction(element); //* For Debug
-                }
-            }
+            calculationInstructions.addAll(childInstructions);
         }
 
         calculationInstructions.sort(Comparator.comparingInt(Pair::getKey));
