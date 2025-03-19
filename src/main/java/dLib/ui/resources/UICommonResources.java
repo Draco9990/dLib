@@ -76,4 +76,6 @@ public class UICommonResources implements ITextureSource {
     public static final Texture errorIcon = ImageMaster.loadImage("dLibResources/images/ui/common/errorIcon.png");
 
     public static final NinePatch tooltipBg = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/tooltipBg.png"), 18, 17, 17, 18);
+
+    public static final Texture inputfield_color = ImageMaster.loadImage("dLibResources/images/ui/common/inputfield/color.png");
 }

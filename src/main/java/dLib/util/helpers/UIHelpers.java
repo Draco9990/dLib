@@ -12,7 +12,15 @@ import java.util.UUID;
 
 public class UIHelpers {
     public static IntegerVector2 getMouseWorldPosition(){
-        return new IntegerVector2((int) (InputHelper.mX / Settings.xScale), (int) (InputHelper.mY / Settings.yScale));
+        return new IntegerVector2(getMouseWorldPositionX(), getMouseWorldPositionY());
+    }
+
+    public static int getMouseWorldPositionX(){
+        return (int) Math.floor(InputHelper.mX / Settings.xScale);
+    }
+
+    public static int getMouseWorldPositionY(){
+        return (int) Math.floor(InputHelper.mY / Settings.yScale);
     }
 
     public static String generateRandomElementId(){

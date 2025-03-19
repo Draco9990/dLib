@@ -14,6 +14,7 @@ import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.helpers.ColorHelpers;
+import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
@@ -38,6 +39,10 @@ public class ColorPickerPopup extends Renderable {
     public IntegerInputBox bValInput;
     public IntegerInputBox aValInput;
     public Inputfield hexValInput;
+
+    public ColorPickerPopup(Color initialColor) {
+        this(initialColor, Pos.px(UIHelpers.getMouseWorldPositionX()), Pos.px(UIHelpers.getMouseWorldPositionY()));
+    }
 
     public ColorPickerPopup(Color initialColor, AbstractPosition xPos, AbstractPosition yPos) {
         super(Tex.stat(ImageMaster.OPTION_CONFIRM), xPos, yPos, Dim.px(438), Dim.px(340));
