@@ -90,15 +90,11 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         super.updateSelf();
 
         if(alignmentType == Alignment.AlignmentType.HORIZONTAL) {
-            setChildOffsetX(0);
-            setChildOffsetY(getContentPaddingBottom());
             if (horizontalContentAlignment == Alignment.HorizontalAlignment.LEFT) updateListHorizontalLeftRight();
             else if (horizontalContentAlignment == Alignment.HorizontalAlignment.CENTER) updateListHorizontalCentered();
             else if (horizontalContentAlignment == Alignment.HorizontalAlignment.RIGHT) updateListHorizontalRightLeft();
         }
         else if(alignmentType == Alignment.AlignmentType.VERTICAL){
-            setChildOffsetX(getContentPaddingLeft());
-            setChildOffsetY(0);
             if(verticalContentAlignment == Alignment.VerticalAlignment.BOTTOM) updateListVerticalBottomTop();
             else if(verticalContentAlignment == Alignment.VerticalAlignment.CENTER) updateListVerticalCentered();
             else if(verticalContentAlignment == Alignment.VerticalAlignment.TOP) updateListVerticalTopBottom();
@@ -115,6 +111,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
             currentYPos += child.getPaddingBottom();
             child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
+            child.getLocalPositionXRaw().overrideCalculatedValue(getContentPaddingLeft());
 
             currentYPos += child.getHeight();
             currentYPos += itemSpacing;
@@ -134,6 +131,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
             currentYPos -= child.getPaddingTop();
             child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos - child.getHeight());
+            child.getLocalPositionXRaw().overrideCalculatedValue(getContentPaddingLeft());
 
             currentYPos -= child.getHeight();
             currentYPos -= itemSpacing;
@@ -151,6 +149,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
             currentXPos += child.getPaddingLeft();
             child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
+            child.getLocalPositionYRaw().overrideCalculatedValue(getContentPaddingBottom());
 
             currentXPos += child.getWidth();
             currentXPos += itemSpacing;
@@ -171,6 +170,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             currentXPos -= child.getPaddingRight();
             currentXPos -= child.getWidth();
             child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
+            child.getLocalPositionYRaw().overrideCalculatedValue(getContentPaddingBottom());
 
             currentXPos += child.getPaddingLeft();
             currentXPos += itemSpacing;
