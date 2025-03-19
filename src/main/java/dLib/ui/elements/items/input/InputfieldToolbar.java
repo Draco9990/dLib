@@ -12,7 +12,9 @@ import dLib.util.ui.position.AbstractPosition;
 
 public class InputfieldToolbar extends HorizontalBox {
     public InputfieldToolbar(AbstractPosition xPos, AbstractPosition yPos) {
-        super(xPos, yPos, Dim.auto(), Dim.px(60));
+        super(xPos, yPos, Dim.auto(), Dim.px(40));
+
+        setItemSpacing(3);
 
         setTexture(UICommonResources.tooltipBg);
         setContentPadding(Padd.px(5));
@@ -22,16 +24,16 @@ public class InputfieldToolbar extends HorizontalBox {
         setEntryAnimation(new UIAnimation_FadeIn(this));
         setExitAnimation(new UIAnimation_FadeOut(this));
 
-        TextButton b1 = new TextButton("A", Dim.px(50), Dim.px(50));
+        TextButton b1 = new TextButton("A", Dim.px(30), Dim.px(30));
         addChild(b1);
 
-        b1 = new TextButton("A", Dim.px(50), Dim.px(50));
+        b1 = new TextButton("B", Dim.px(30), Dim.px(30));
         addChild(b1);
 
-        b1 = new TextButton("A", Dim.px(50), Dim.px(50));
+        b1 = new TextButton("C", Dim.px(30), Dim.px(30));
         addChild(b1);
 
-        b1 = new TextButton("A", Dim.px(50), Dim.px(50));
+        b1 = new TextButton("D", Dim.px(30), Dim.px(30));
         addChild(b1);
     }
 }
