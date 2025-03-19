@@ -110,7 +110,7 @@ public class Inputfield extends Button {
         reinitializeCharacterHBs();
 
         toolbar = new InputfieldToolbar(Pos.px(0), Pos.perc(1));
-        toolbar.setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.TOP);
+        toolbar.setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.BOTTOM);
         addChild(toolbar);
 
         postInitialize();
