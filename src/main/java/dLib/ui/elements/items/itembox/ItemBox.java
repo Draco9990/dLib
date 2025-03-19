@@ -8,6 +8,7 @@ import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Renderable;
+import dLib.ui.layout.ILayoutProvider;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.bounds.PositionBounds;
@@ -21,7 +22,7 @@ import dLib.util.ui.position.AbstractPosition;
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class ItemBox extends Renderable {
+public abstract class ItemBox extends Renderable implements ILayoutProvider {
     //region Variables
 
     // Elements
@@ -89,11 +90,15 @@ public abstract class ItemBox extends Renderable {
         super.updateSelf();
 
         if(alignmentType == Alignment.AlignmentType.HORIZONTAL) {
+            setChildOffsetX(0);
+            setChildOffsetY(getContentPaddingBottom());
             if (horizontalContentAlignment == Alignment.HorizontalAlignment.LEFT) updateListHorizontalLeftRight();
             else if (horizontalContentAlignment == Alignment.HorizontalAlignment.CENTER) updateListHorizontalCentered();
             else if (horizontalContentAlignment == Alignment.HorizontalAlignment.RIGHT) updateListHorizontalRightLeft();
         }
         else if(alignmentType == Alignment.AlignmentType.VERTICAL){
+            setChildOffsetX(getContentPaddingLeft());
+            setChildOffsetY(0);
             if(verticalContentAlignment == Alignment.VerticalAlignment.BOTTOM) updateListVerticalBottomTop();
             else if(verticalContentAlignment == Alignment.VerticalAlignment.CENTER) updateListVerticalCentered();
             else if(verticalContentAlignment == Alignment.VerticalAlignment.TOP) updateListVerticalTopBottom();
@@ -305,35 +310,6 @@ public abstract class ItemBox extends Renderable {
     public void setBottomContentPadding(AbstractPadding padding){
         this.bottomContentPadding = padding;
         bottomContentPadding.setReference(AbstractPadding.ReferenceDimension.VERTICAL);
-    }
-
-    public void setHorizontalContentPadding(AbstractPadding padding){
-        setLeftContentPadding(padding.cpy());
-        setRightContentPadding(padding.cpy());
-    }
-    public void setVerticalContentPadding(AbstractPadding padding){
-        setTopContentPadding(padding.cpy());
-        setBottomContentPadding(padding.cpy());
-    }
-
-    public void setContentPadding(AbstractPadding padding){
-        setLeftContentPadding(padding.cpy());
-        setRightContentPadding(padding.cpy());
-        setTopContentPadding(padding.cpy());
-        setBottomContentPadding(padding.cpy());
-    }
-
-    public int getContentPaddingLeft(){
-        return leftContentPadding.getCalculatedValue();
-    }
-    public int getContentPaddingRight(){
-        return rightContentPadding.getCalculatedValue();
-    }
-    public int getContentPaddingTop(){
-        return topContentPadding.getCalculatedValue();
-    }
-    public int getContentPaddingBottom(){
-        return bottomContentPadding.getCalculatedValue();
     }
 
     public AbstractPadding getContentPaddingLeftRaw(){

@@ -13,6 +13,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.text.TextBox;
+import dLib.ui.layout.ILayoutProvider;
 import dLib.util.ui.position.PixelPosition;
 
 import java.io.Serializable;
@@ -60,6 +61,15 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                     totalWidth = new Pair<>(totalWidth.getKey(), childWidth.getValue());
                 }
             }
+        }
+
+        if(forElement instanceof ILayoutProvider){
+            int width = ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
+
+            totalWidth = new Pair<>(
+                    totalWidth == null ? 0 : totalWidth.getKey() - ((ILayoutProvider) forElement).getContentPaddingLeft(),
+                    totalWidth == null ? width : totalWidth.getValue() + ((ILayoutProvider) forElement).getContentPaddingRight()
+            );
         }
 
         if(forElement instanceof TextBox){
@@ -135,6 +145,12 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
+        if(forElement instanceof ILayoutProvider){
+            if(((ILayoutProvider) forElement).getContentPaddingLeftRaw().needsRecalculation() || ((ILayoutProvider) forElement).getContentPaddingRightRaw().needsRecalculation()){
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -172,6 +188,15 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                     }
                 }
             }
+        }
+
+        if(forElement instanceof ILayoutProvider){
+            int height = ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
+
+            totalHeight = new Pair<>(
+                    totalHeight == null ? 0 : totalHeight.getKey() - ((ILayoutProvider) forElement).getContentPaddingBottom(),
+                    totalHeight == null ? height : totalHeight.getValue() + ((ILayoutProvider) forElement).getContentPaddingTop()
+            );
         }
 
         if(forElement instanceof TextBox){
@@ -240,6 +265,12 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
 
             if(child.getPaddingTopRaw().needsRecalculation() || child.getPaddingBottomRaw().needsRecalculation()){
+                return false;
+            }
+        }
+
+        if(forElement instanceof ILayoutProvider){
+            if(((ILayoutProvider) forElement).getContentPaddingTopRaw().needsRecalculation() || ((ILayoutProvider) forElement).getContentPaddingBottomRaw().needsRecalculation()){
                 return false;
             }
         }
