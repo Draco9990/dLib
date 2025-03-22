@@ -42,11 +42,11 @@ public class ColorPickerPopup extends VerticalBox {
     public IntegerInputBox aValInput;
     public Inputfield hexValInput;
 
-    public ColorPickerPopup(Color initialColor) {
-        this(initialColor, Pos.px(UIHelpers.getMouseWorldPositionX()), Pos.px(UIHelpers.getMouseWorldPositionY()));
+    public ColorPickerPopup(Color initialColor, boolean allowAlpha, boolean allowPresets, boolean allowClear) {
+        this(initialColor, Pos.px(UIHelpers.getMouseWorldPositionX()), Pos.px(UIHelpers.getMouseWorldPositionY()), allowAlpha, allowPresets, allowClear);
     }
 
-    public ColorPickerPopup(Color initialColor, AbstractPosition xPos, AbstractPosition yPos) {
+    public ColorPickerPopup(Color initialColor, AbstractPosition xPos, AbstractPosition yPos, boolean allowAlpha, boolean allowPresets, boolean allowClear) {
         super(xPos, yPos, Dim.px(400), Dim.auto());
 
         setContextual(true);
@@ -250,7 +250,7 @@ public class ColorPickerPopup extends VerticalBox {
             selectedColor.a = 1 - percentage;
             onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
         });
-        addChild(alphaBar);
+        if(allowAlpha) addChild(alphaBar);
 
         Consumer<Color> updateValuesForColor = color -> {
             if(!rValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.r * 255)))) rValInput.inputbox.textBox.setText(String.valueOf((int)(color.r * 255)));

@@ -9,9 +9,10 @@
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/color/ColorWheel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/color/ColorWheel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/ColorValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/ColorValueEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/color/ColorPickerPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/color/ColorPickerPopup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/InputCharacterManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/InputCharacterManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/InputfieldToolbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/InputfieldToolbar.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -423,6 +424,12 @@
           <option name="linesCode" value="11127" />
           <option name="totalLines" value="17534" />
           <option name="info" value="10 Dec 2024" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1742604756604" />
+          <option name="linesCode" value="16727" />
+          <option name="totalLines" value="25811" />
+          <option name="info" value="22 Mar 2025" />
         </TimePoint>
       </list>
     </option>

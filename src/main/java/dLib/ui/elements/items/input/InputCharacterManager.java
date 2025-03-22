@@ -3,6 +3,7 @@ package dLib.ui.elements.items.input;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.color.ColorPickerPopup;
 import dLib.util.IntegerVector2;
 import dLib.util.events.localevents.RunnableEvent;
 import dLib.util.ui.position.Pos;
@@ -21,13 +22,13 @@ public class InputCharacterManager extends UIElement {
         super();
 
         preLeftClickGlobalEvent.subscribe(this, (element) -> {
-            if(element != getParentOfType(Inputfield.class) && !element.isDescendantOf(getParentOfType(Inputfield.class))){
+            if(element != getParentOfType(Inputfield.class) && !element.isDescendantOf(getParentOfType(Inputfield.class)) && !(element.getTopParent() instanceof ColorPickerPopup)){
                 clearSelection();
             }
         });
 
         preRightClickGlobalEvent.subscribe(this, (element) -> {
-            if(element != getParentOfType(Inputfield.class) && !element.isDescendantOf(getParentOfType(Inputfield.class))){
+            if(element != getParentOfType(Inputfield.class) && !element.isDescendantOf(getParentOfType(Inputfield.class)) && !(element.getTopParent() instanceof ColorPickerPopup)){
                 clearSelection();
             }
         });

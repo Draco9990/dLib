@@ -38,7 +38,7 @@ public class InputfieldToolbar extends HorizontalBox {
 
         Button b1 = new Button(Dim.px(30), Dim.px(30));
         b1.onLeftClickEvent.subscribe(this, () -> {
-            ColorPickerPopup colorPicker = new ColorPickerPopup(Color.WHITE);
+            ColorPickerPopup colorPicker = new ColorPickerPopup(Color.WHITE, false, true, true);
             colorPicker.open();
         });
         {
@@ -46,9 +46,6 @@ public class InputfieldToolbar extends HorizontalBox {
             bImg.setPadding(Padd.px(5));
             b1.addChild(bImg);
         }
-        addChild(b1);
-
-        b1 = new Button(Dim.px(30), Dim.px(30));
         addChild(b1);
     }
 }
