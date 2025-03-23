@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.megacrit.cardcrawl.core.Settings;
@@ -21,6 +20,7 @@ import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.helpers.TextHelpers;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -30,11 +30,8 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Inputfield extends Button {
@@ -431,7 +428,7 @@ public class Inputfield extends Button {
                 }
 
                 String markup = realText.substring(bracketStart + 1, potentialNewBracketEnd);
-                if(!isValidMarkup(markup)){
+                if(!TextHelpers.isValidMarkup(markup)){
                     break;
                 }
 
@@ -576,7 +573,7 @@ public class Inputfield extends Button {
         insertPos = Math.max(0, Math.min(insertPos, currentText.length()));
 
         String newText = currentText.substring(0, insertPos) + characters.stream().map(String::valueOf).collect(Collectors.joining()) + currentText.substring(insertPos);
-        newText = removeNullifiedMarkup(newText);
+        newText = TextHelpers.removeNullifiedMarkup(newText);
         this.textBox.setText(newText);
 
         return true;
@@ -713,7 +710,7 @@ public class Inputfield extends Button {
     }
 
     private String removalTextVerification(String newText){
-        String fixed = removeNullifiedMarkup(newText);
+        String fixed = TextHelpers.removeNullifiedMarkup(newText);
 
         if(fixed.isEmpty() && (preset == EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE_POSITIVE || preset == EInputfieldPreset.NUMERICAL_WHOLE || preset == EInputfieldPreset.NUMERICAL_DECIMAL)){
             fixed = "0";
@@ -756,47 +753,6 @@ public class Inputfield extends Button {
     }
 
     //endregion Character Limit
-
-    //region Hidden Input
-
-    public boolean isValidMarkup(String markup){
-        if(markup.isEmpty()){
-            return true;
-        }
-        else if(markup.startsWith("#")){
-            //Check if the rest of the string is a valid hex color code
-            String hex = markup.substring(1);
-            try{
-                Color.valueOf(hex);
-                return true;
-            }catch (Exception ignored){}
-        }
-        else if(Colors.getColors().containsKey(markup)){
-            return true;
-        }
-
-        return false;
-    }
-
-    public String removeNullifiedMarkup(String text){
-        // Pattern to find [TAG][]
-        Pattern pattern = Pattern.compile("\\[([^\\]]+)\\]\\[\\]");
-        Matcher matcher = pattern.matcher(text);
-        StringBuffer result = new StringBuffer();
-
-        while (matcher.find()) {
-            String tag = matcher.group(1);
-            if (isValidMarkup(tag)) {
-                matcher.appendReplacement(result, "");
-            } else {
-                matcher.appendReplacement(result, Matcher.quoteReplacement(matcher.group(0)));
-            }
-        }
-        matcher.appendTail(result);
-        return result.toString();
-    }
-
-    //endregion
 
     //region KYB controls
 

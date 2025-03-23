@@ -8,11 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/helpers/TextHelpers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/CharMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/GlyphCharMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/Markup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/MarkupCharMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/TextMetadata.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/ColorValueEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/properties/ui/elements/ColorValueEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/color/ColorPickerPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/color/ColorPickerPopup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/InputCharacterManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/InputCharacterManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/InputfieldToolbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/InputfieldToolbar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,11 +99,11 @@
       <recent name="D:\Marino\Projects\StS DLib\DLib\theDefault\src\main\java\dLib" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="dLib.util.helpers.TextHelpers" />
       <recent name="dLib.util.helpers.DebugHelpers" />
       <recent name="dLib.util.GlobalEvents" />
       <recent name="dLib.modcompat.ModManager.SayTheSpire" />
       <recent name="dLib.util.Help.Input" />
-      <recent name="dLib.util.Help.Util" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Marino\Projects\StS DLib\DLib\Source\dLib\src\main\resources" />

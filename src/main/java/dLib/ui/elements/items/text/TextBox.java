@@ -28,6 +28,7 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.MirrorDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
+import dLib.util.ui.text.TextMetadata;
 import sayTheSpire.Output;
 
 import java.io.Serializable;
@@ -59,6 +60,7 @@ public class TextBox extends UIElement {
     public Event<Consumer<String>> onTextChangedEvent = new Event<>();
 
     private GlyphLayout layoutCache = null;
+    private TextMetadata metadata = new TextMetadata();
 
     //endregion
 
@@ -264,6 +266,7 @@ public class TextBox extends UIElement {
 
     public void onTextChanged(String newText){
         layoutCache = null;
+        metadata = null;
 
         if(ModManager.SayTheSpire.isActive()){
             if(getOnTextChangedLine(text) != null){
@@ -480,6 +483,20 @@ public class TextBox extends UIElement {
     public float getFontSizeRaw(){
         return fontSize;
     }
+
+    //region Metadata
+
+    public TextMetadata getMetadata(){
+        if(metadata == null){
+            if(layoutCache == null){
+                prepareForRender();
+            }
+            metadata = TextMetadata.generateFor(text, layoutCache);
+        }
+        return metadata;
+    }
+
+    //endregion
 
     //region Obscure Text
 
