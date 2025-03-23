@@ -7,5 +7,7 @@ public class GlyphCharMetadata extends CharMetadata {
     public int glyphRowIndex;
     public int glyphIndex;
 
+    public int totalGlyphIndex;
+
     public List<Markup> appliedMarkups = new ArrayList<>();
 }

@@ -27,9 +27,14 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
+import dLib.util.ui.text.CharMetadata;
+import dLib.util.ui.text.GlyphCharMetadata;
+import dLib.util.ui.text.MarkupCharMetadata;
+import dLib.util.ui.text.TextMetadata;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -333,7 +338,7 @@ public class Inputfield extends Button {
 
     private void recalculateCaretPosition(){
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
-        int glyphCount = getTotalGlyphCount(layout.getValue());
+        int glyphCount = TextHelpers.getTotalGlyphCount(layout.getValue());
         if(glyphCount == 0){
             caret.setWorldPosition((int) (layout.getKey().x / Settings.xScale), (int) (layout.getKey().y / Settings.yScale));
             return;
@@ -362,7 +367,7 @@ public class Inputfield extends Button {
 
     private Pair<Integer, Integer> getCurrentCaretPosition(){
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
-        int glyphCount = getTotalGlyphCount(layout.getValue());
+        int glyphCount = TextHelpers.getTotalGlyphCount(layout.getValue());
         if(glyphCount == 0){
             return new Pair<>(0, 0);
         }
@@ -384,14 +389,6 @@ public class Inputfield extends Button {
         return new Pair<>(currentRun, caretOffsetFromStart);
     }
 
-    private int getTotalGlyphCount(GlyphLayout layout){
-        int count = 0;
-        for (GlyphLayout.GlyphRun run : layout.runs) {
-            count += run.glyphs.size;
-        }
-        return count;
-    }
-
     private String getGlyphText(GlyphLayout layout){
         StringBuilder builder = new StringBuilder();
         for (GlyphLayout.GlyphRun run : layout.runs) {
@@ -407,47 +404,29 @@ public class Inputfield extends Button {
     }
 
     private int getRealtextOffsetForGlyphOffset(GlyphLayout layout, int offset, boolean withHesitancy){
-        textBox.getTextMetadata();
-        String glyphText = getGlyphText(layout);
-        String realText = textBox.getText();
-        if(glyphText.isEmpty() || realText.isEmpty()){
+        int glyphIndex = TextHelpers.getTotalGlyphCount(layout) - offset;
+        int realtextIndex = textBox.getText().length();
+        TextMetadata metadata = textBox.getTextMetadata();
+        for (CharMetadata charMetadata : metadata.values()) {
+            if(charMetadata instanceof GlyphCharMetadata){
+                GlyphCharMetadata glyphMetadata = (GlyphCharMetadata) charMetadata;
+                if(glyphMetadata.totalGlyphIndex == glyphIndex){
+                    realtextIndex = glyphMetadata.realStringIndex;
+
+                    if(withHesitancy){
+                        while(metadata.containsKey(realtextIndex + 1) && metadata.get(realtextIndex + 1) instanceof MarkupCharMetadata){
+                            realtextIndex++;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        if(realtextIndex == -1){
             return 0;
         }
-
-        int hesitancy = 0;
-        int realIndex = realText.length() - 1;
-        for(int glyphIndex = glyphText.length() - 1; glyphIndex >= 0; glyphIndex--, realIndex--, offset--){
-            while(true){
-                if (realText.charAt(realIndex) != ']') {
-                    break;
-                }
-
-                int bracketStart = realText.lastIndexOf('[', realIndex);
-                int potentialNewBracketEnd = realText.indexOf(']', realIndex);
-                if(potentialNewBracketEnd <= bracketStart){
-                    break;
-                }
-
-                String markup = realText.substring(bracketStart + 1, potentialNewBracketEnd);
-                if(!TextHelpers.isValidMarkup(markup)){
-                    break;
-                }
-
-                hesitancy += (realIndex - bracketStart) + 1;
-                realIndex = bracketStart - 1;
-                if(realIndex < 0){
-                    break;
-                }
-            }
-
-            if(offset == 0){
-                return (realText.length() - 1) - (realIndex + (withHesitancy ? hesitancy : 0));
-            }
-
-            hesitancy = 0;
-        }
-
-        return (realText.length() - 1) - (realIndex + (withHesitancy ? hesitancy : 0));
+        return textBox.getText().length() - realtextIndex;
     }
 
     //endregion
@@ -482,7 +461,7 @@ public class Inputfield extends Button {
                     }
                     totalCharsUpTo += glyphHbLeft.glyphIndex;
 
-                    caretOffset = getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
+                    caretOffset = TextHelpers.getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
                     recalculateCaretPosition();
                 });
                 glyphHbLeft.setWorldPosition((int) Math.floor(runX / Settings.xScale), (int) (runY / Settings.yScale));
@@ -502,7 +481,7 @@ public class Inputfield extends Button {
                     }
                     totalCharsUpTo += glyphHbRight.glyphIndex;
 
-                    caretOffset = getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
+                    caretOffset = TextHelpers.getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
                     recalculateCaretPosition();
                 });
                 glyphHbRight.setWorldPosition((int) Math.floor((runX + run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale) , (int) (runY / Settings.yScale));
@@ -557,7 +536,7 @@ public class Inputfield extends Button {
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
 
         if(characterLimit >= 0) {
-            int currentGlyphCount = getTotalGlyphCount(layout.getValue());
+            int currentGlyphCount = TextHelpers.getTotalGlyphCount(layout.getValue());
             while (currentGlyphCount + characters.size() > characterLimit) {
                 characters.remove(characters.size() - 1);
 
@@ -587,7 +566,7 @@ public class Inputfield extends Button {
         }
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
-        int glyphCount = getTotalGlyphCount(layout.getValue());
+        int glyphCount = TextHelpers.getTotalGlyphCount(layout.getValue());
         if(glyphCount == 0 || caretOffset == glyphCount){
             return;
         }
@@ -617,7 +596,7 @@ public class Inputfield extends Button {
         }
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
-        if(getTotalGlyphCount(layout.getValue()) == 0){
+        if(TextHelpers.getTotalGlyphCount(layout.getValue()) == 0){
             return;
         }
 
@@ -644,7 +623,7 @@ public class Inputfield extends Button {
         }
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
-        if(getTotalGlyphCount(layout.getValue()) == 0){
+        if(TextHelpers.getTotalGlyphCount(layout.getValue()) == 0){
             return "";
         }
 
@@ -654,12 +633,12 @@ public class Inputfield extends Button {
             int targetCaretOffset;
             int startCaretOffset;
             if(characterHbManager.userSelectedForward()){
-                startCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
-                targetCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
+                startCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
+                targetCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
             }
             else{
-                startCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
-                targetCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
+                startCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
+                targetCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
             }
 
             int readPosStart = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), startCaretOffset, true);
@@ -677,7 +656,7 @@ public class Inputfield extends Button {
         }
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
-        if(getTotalGlyphCount(layout.getValue()) == 0){
+        if(TextHelpers.getTotalGlyphCount(layout.getValue()) == 0){
             return;
         }
 
@@ -687,18 +666,21 @@ public class Inputfield extends Button {
             int targetCaretOffset;
             int startCaretOffset;
             if(characterHbManager.userSelectedForward()){
-                startCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
-                targetCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
+                startCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
+                targetCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
             }
             else{
-                startCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
-                targetCaretOffset = getCaretOffsetForIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
+                startCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionStart.x, characterHbManager.selectionStart.y);
+                targetCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
             }
 
             int deletePosStart = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), startCaretOffset, true);
             int deletePosEnd = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), targetCaretOffset, false);
 
-            String newText = currentText.substring(0, deletePosEnd) + currentText.substring(deletePosStart);
+            String textToRemove = currentText.substring(deletePosEnd, deletePosStart);
+            String markup = TextHelpers.getAllMarkup(textToRemove);
+
+            String newText = currentText.substring(0, deletePosEnd) + markup + currentText.substring(deletePosStart);
             newText = removalTextVerification(newText);
 
             this.textBox.setText(newText);
@@ -728,16 +710,6 @@ public class Inputfield extends Button {
         if(Gdx.input.getInputProcessor() == inputProcessor){
             Gdx.input.setInputProcessor(cachedInputProcessor);
         }
-    }
-
-    private int getCaretOffsetForIndex(GlyphLayout layout, int runIndex, int glyphIndex){
-        int totalCharsUpTo = 0;
-        for (int i = 0; i < runIndex; i++){
-            totalCharsUpTo += layout.runs.get(i).glyphs.size;
-        }
-        totalCharsUpTo += glyphIndex;
-
-        return getTotalGlyphCount(layout) - totalCharsUpTo;
     }
 
     //endregion

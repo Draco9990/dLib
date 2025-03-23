@@ -15,6 +15,7 @@ public class TextMetadata extends HashMap<Integer, CharMetadata> {
 
         List<Markup> currentMarkups = new ArrayList<>();
 
+        int totalGlyphCount = 0;
         for (int index = 0; index < text.length(); index++) {
             char c = text.charAt(index);
 
@@ -44,6 +45,7 @@ public class TextMetadata extends HashMap<Integer, CharMetadata> {
 
                             metadata.put(index, charMetadata);
                         }
+                        index--;
                         continue;
                     }
                 }
@@ -54,11 +56,13 @@ public class TextMetadata extends HashMap<Integer, CharMetadata> {
             charMetadata.realStringIndex = index;
             charMetadata.glyphRowIndex = glyphRowIndex;
             charMetadata.glyphIndex = glyphIndex;
+            charMetadata.totalGlyphIndex = totalGlyphCount;
             charMetadata.appliedMarkups = new ArrayList<>(currentMarkups);
 
             metadata.put(index, charMetadata);
 
             glyphIndex++;
+            totalGlyphCount++;
             if(glyphIndex >= layout.runs.get(glyphRowIndex).glyphs.size){
                 glyphRowIndex++;
                 glyphIndex = 0;

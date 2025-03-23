@@ -8,14 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77288f8f-cc49-4eba-a829-80e75b9acbc4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/ColorEndMarkup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/ColorMarkup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/test/TestScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/input/Inputfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/TextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/ui/elements/items/text/TextBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/helpers/TextHelpers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/helpers/TextHelpers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/Markup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/Markup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/GlyphCharMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/GlyphCharMetadata.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/TextMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dLib/util/ui/text/TextMetadata.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -402,9 +398,9 @@
           <option name="timeStamp" value="154" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dLib/util/ui/text/TextMetadata.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="457" />
+          <url>file://$PROJECT_DIR$/src/main/java/dLib/util/helpers/TextHelpers.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="473" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
