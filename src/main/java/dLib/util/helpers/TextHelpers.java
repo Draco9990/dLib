@@ -2,6 +2,9 @@ package dLib.util.helpers;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
+import dLib.util.ui.text.ColorEndMarkup;
+import dLib.util.ui.text.ColorMarkup;
+import dLib.util.ui.text.Markup;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,5 +45,12 @@ public class TextHelpers {
         }
         matcher.appendTail(result);
         return result.toString();
+    }
+
+    public static Markup getMarkupType(String markup){
+        if(!isValidMarkup(markup)) return null;
+
+        if(markup.isEmpty()) return new ColorEndMarkup();
+        else return new ColorMarkup();
     }
 }

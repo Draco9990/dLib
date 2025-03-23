@@ -407,6 +407,7 @@ public class Inputfield extends Button {
     }
 
     private int getRealtextOffsetForGlyphOffset(GlyphLayout layout, int offset, boolean withHesitancy){
+        textBox.getTextMetadata();
         String glyphText = getGlyphText(layout);
         String realText = textBox.getText();
         if(glyphText.isEmpty() || realText.isEmpty()){

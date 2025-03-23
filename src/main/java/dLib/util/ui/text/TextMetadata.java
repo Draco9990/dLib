@@ -26,11 +26,16 @@ public class TextMetadata extends HashMap<Integer, CharMetadata> {
                 if(otherMarkupStart == -1 || markupEnd < otherMarkupStart){
                     String markupText = text.substring(index + 1, markupEnd);
                     if(TextHelpers.isValidMarkup(markupText)){
-                        Markup markup = new Markup();
+                        Markup markup = TextHelpers.getMarkupType(markupText);
                         markup.indexStart = index;
                         markup.indexEnd = markupEnd;
 
-                        currentMarkups.add(markup);
+                        if(!(markup instanceof ColorEndMarkup)){
+                            currentMarkups.add(markup);
+                        }
+                        else{
+                            currentMarkups.remove(currentMarkups.size() - 1);
+                        }
 
                         for(; index <= markupEnd; index++){
                             MarkupCharMetadata charMetadata = new MarkupCharMetadata();

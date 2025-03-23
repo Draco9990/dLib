@@ -59,7 +59,6 @@ public class TextBox extends UIElement {
 
     public Event<Consumer<String>> onTextChangedEvent = new Event<>();
 
-    private GlyphLayout layoutCache = null;
     private TextMetadata metadata = new TextMetadata();
 
     //endregion
@@ -161,7 +160,7 @@ public class TextBox extends UIElement {
 
         GlyphLayout layout = FontHelper.layout;
 
-        GlyphLayout layoutToReturn = layoutCache;
+        GlyphLayout layoutToReturn = null;
         int x = 0;
         int y = 0;
 
@@ -265,7 +264,6 @@ public class TextBox extends UIElement {
     }
 
     public void onTextChanged(String newText){
-        layoutCache = null;
         metadata = null;
 
         if(ModManager.SayTheSpire.isActive()){
@@ -338,7 +336,6 @@ public class TextBox extends UIElement {
 
     public void setFont(AbstractFontBinding font){
         this.font = font;
-        layoutCache = null;
     }
 
     //endregion
@@ -441,8 +438,6 @@ public class TextBox extends UIElement {
     public void setContentAlignment(Alignment.HorizontalAlignment horizontalAlignment, Alignment.VerticalAlignment verticalAlignment){
         contentAlignment.horizontalAlignment = horizontalAlignment;
         contentAlignment.verticalAlignment = verticalAlignment;
-
-        layoutCache = null;
     }
 
     public Alignment.HorizontalAlignment getHorizontalContentAlignment(){
@@ -464,8 +459,6 @@ public class TextBox extends UIElement {
     public void setFontSize(float fontSize){
         this.fontSize = fontSize;
 
-        layoutCache = null;
-
         onFontSizeChangedEvent.invoke(fontSize, getFontSizeForRender());
         onFontSizeChangedGlobalEvent.invoke(this, fontSize, getFontSizeForRender());
     }
@@ -486,12 +479,10 @@ public class TextBox extends UIElement {
 
     //region Metadata
 
-    public TextMetadata getMetadata(){
+    public TextMetadata getTextMetadata(){
         if(metadata == null){
-            if(layoutCache == null){
-                prepareForRender();
-            }
-            metadata = TextMetadata.generateFor(text, layoutCache);
+            Pair<IntegerVector2, GlyphLayout> pair = prepareForRender();
+            metadata = TextMetadata.generateFor(text, pair.getValue());
         }
         return metadata;
     }
