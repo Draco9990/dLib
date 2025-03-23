@@ -434,7 +434,7 @@ public class Inputfield extends Button {
     //region Character Selection
 
     public void reinitializeCharacterHBs(){
-        characterHbManager.clearChildren();
+        characterHbManager.poolChildren();
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
 
@@ -444,47 +444,18 @@ public class Inputfield extends Button {
             float runY = layout.getKey().y + run.y - textBox.getFontSizeRaw();
 
             for(int glyphIndex = 0; glyphIndex < run.glyphs.size; glyphIndex++){
-                BitmapFont.Glyph glyph = run.glyphs.get(glyphIndex);
-
-                InputCharacterHB glyphHbLeft = new InputCharacterHB(
-                        Pos.px(0),
-                        Pos.px(0),
-                        Dim.px((int) Math.floor((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)),
-                        Dim.px((int) textBox.getFontSizeRaw()),
+                InputCharacterHB glyphHbLeft = characterHbManager.getCharacterHBFromPool();
+                glyphHbLeft.setForCharacter(
+                        (int) Math.floor(runX / Settings.xScale), (int) (runY / Settings.yScale),
+                        Dim.px((int) Math.floor((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)), Dim.px((int) textBox.getFontSizeRaw()),
                         runIndex, glyphIndex, InputCharacterHB.ECharHbSide.Left);
-                characterHbManager.addChild(glyphHbLeft);
-                glyphHbLeft.onLeftClickEvent.subscribe(this, () -> {
-                    int totalCharsUpTo = 0;
-                    Pair<IntegerVector2, GlyphLayout> layout1 = textBox.prepareForRender();
-                    for (int i = 0; i < glyphHbLeft.glyphRowIndex; i++){
-                        totalCharsUpTo += layout1.getValue().runs.get(i).glyphs.size;
-                    }
-                    totalCharsUpTo += glyphHbLeft.glyphIndex;
 
-                    caretOffset = TextHelpers.getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
-                    recalculateCaretPosition();
-                });
-                glyphHbLeft.setWorldPosition((int) Math.floor(runX / Settings.xScale), (int) (runY / Settings.yScale));
-
-                InputCharacterHB glyphHbRight = new InputCharacterHB(
-                        Pos.px(0),
-                        Pos.px(0),
-                        Dim.px((int) Math.ceil((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)),
-                        Dim.px((int) textBox.getFontSizeRaw()),
-                        runIndex, glyphIndex + 1, InputCharacterHB.ECharHbSide.Right);
-                characterHbManager.addChild(glyphHbRight);
-                glyphHbRight.onLeftClickEvent.subscribe(this, () -> {
-                    int totalCharsUpTo = 0;
-                    Pair<IntegerVector2, GlyphLayout> layout1 = textBox.prepareForRender();
-                    for (int i = 0; i < glyphHbRight.glyphRowIndex; i++){
-                        totalCharsUpTo += layout1.getValue().runs.get(i).glyphs.size;
-                    }
-                    totalCharsUpTo += glyphHbRight.glyphIndex;
-
-                    caretOffset = TextHelpers.getTotalGlyphCount(layout1.getValue()) - totalCharsUpTo;
-                    recalculateCaretPosition();
-                });
-                glyphHbRight.setWorldPosition((int) Math.floor((runX + run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale) , (int) (runY / Settings.yScale));
+                InputCharacterHB glyphHbRight = characterHbManager.getCharacterHBFromPool();
+                glyphHbRight.setForCharacter(
+                        (int) Math.floor((runX + run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale), (int) (runY / Settings.yScale),
+                        Dim.px((int) Math.ceil((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)), Dim.px((int) textBox.getFontSizeRaw()),
+                        runIndex, glyphIndex + 1, InputCharacterHB.ECharHbSide.Right
+                );
 
                 runX += run.xAdvances.get(glyphIndex + 1);
             }
@@ -819,6 +790,15 @@ public class Inputfield extends Button {
         caretOffset -= (currentRun.glyphs.size - currentCaretPosition.getValue()) + newCaretOffset;
         recalculateCaretPosition();
         return true;
+    }
+
+    //endregion
+
+    //region Caret Offset
+
+    public void setCaretOffset(int caretOffset){
+        this.caretOffset = caretOffset;
+        recalculateCaretPosition();
     }
 
     //endregion

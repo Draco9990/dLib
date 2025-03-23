@@ -5,11 +5,13 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.Alignment;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.DLibLogger;
 import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.helpers.DebugHelpers;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -36,7 +38,7 @@ public class SimpleHorizontalRangeSelector extends Renderable{
             draggable.setCanDragY(false);
             draggable.onDraggedEvent.subscribeManaged(() -> {
                 int totalWidth = getWidth();
-                int sliderPos = slider.getLocalPositionCenteredX();
+                int sliderPos = slider.getOffsetX();
                 float percent = (float) sliderPos / totalWidth;
                 onPercentageChangedEvent.invoke(percent);
             });
@@ -51,17 +53,15 @@ public class SimpleHorizontalRangeSelector extends Renderable{
             float finalPercentage = Math.max(0, Math.min(1, percentage));
             onPercentageChangedEvent.invoke(finalPercentage);
 
-            slider.setLocalPositionCenteredX(mouseLocalX);
-
-            slider.clickLeft();
+            //slider.clickLeft();
         });
     }
 
     public void setSliderFromPercentage(float percentage){
-        slider.setLocalPositionCenteredX((int) (getWidth() * percentage));
+        slider.setOffsetX((int) (getWidth() * percentage));
     }
 
     public float getSliderPercentage(){
-        return (float) slider.getLocalPositionCenteredX() / getWidth();
+        return (float) slider.getOffsetX() / getWidth();
     }
 }

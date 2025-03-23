@@ -2579,6 +2579,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return offsetY;
     }
 
+    public void setOffsetX(int offsetX){
+        this.offsetX = offsetX;
+        this.getLocalPositionXRaw().requestRecalculation();
+    }
+    public void setOffsetY(int offsetY){
+        this.offsetY = offsetY;
+        this.getLocalPositionYRaw().requestRecalculation();
+    }
+
     public ArrayList<UIElement> getHierarchyForUpdateOrder(){
         ArrayList<UIElement> hierarchy = new ArrayList<>();
 

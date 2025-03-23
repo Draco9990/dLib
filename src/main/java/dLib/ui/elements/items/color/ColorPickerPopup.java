@@ -2,6 +2,7 @@ package dLib.ui.elements.items.color;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import dLib.DLib;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.SimpleHorizontalRangeSelector;
@@ -12,15 +13,18 @@ import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.numericaleditors.IntegerInputBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.DLibLogger;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.helpers.ColorHelpers;
+import dLib.util.helpers.DebugHelpers;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 //TODO fix hex code input not upodating lightness and alpha correctly
@@ -84,7 +88,7 @@ public class ColorPickerPopup extends VerticalBox {
                 float[] hsl = ColorHelpers.toHSL(rawColorCache);
                 selectedColor = ColorHelpers.fromHSL(hsl[0], hsl[1], lightnessBar.getSliderPercentage());
 
-                selectedColor.a = 1 - alphaBar.getSliderPercentage();
+                if(allowAlpha) selectedColor.a = 1 - alphaBar.getSliderPercentage();
 
                 onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
             });
@@ -176,32 +180,34 @@ public class ColorPickerPopup extends VerticalBox {
                 }
                 rgbValuesBox.addChild(bVal);
 
-                HorizontalBox aVal = new HorizontalBox(Dim.fill(), Dim.px(27));
-                {
-                    TextBox aValText = new TextBox("A:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
-                    aVal.addChild(aValText);
+                if(allowAlpha){
+                    HorizontalBox aVal = new HorizontalBox(Dim.fill(), Dim.px(27));
+                    {
+                        TextBox aValText = new TextBox("A:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
+                        aVal.addChild(aValText);
 
-                    aValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
-                    aValInput.leftArrow.onLeftClickEvent.subscribe(aValInput, () -> {
-                        Integer a = Integer.parseInt(aValInput.inputbox.textBox.getText());
-                        a = Math.max(0, a - 1);
-                        aValInput.inputbox.textBox.setText(String.valueOf(a));
-                    });
-                    aValInput.rightArrow.onLeftClickEvent.subscribe(aValInput, () -> {
-                        Integer a = Integer.parseInt(aValInput.inputbox.textBox.getText());
-                        a = Math.min(255, a + 1);
-                        aValInput.inputbox.textBox.setText(String.valueOf(a));
-                    });
-                    aValInput.inputbox.onValueChangedEvent.subscribeManaged((value) -> {
-                        Integer a = Integer.parseInt(value);
-                        a = Math.min(255, Math.max(0, a));
-                        selectedColor.a = (float)a / 255f;
-                        onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
-                    });
-                    aValInput.inputbox.textBox.setText(String.valueOf((int)(selectedColor.a * 255)));
-                    aVal.addChild(aValInput);
+                        aValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
+                        aValInput.leftArrow.onLeftClickEvent.subscribe(aValInput, () -> {
+                            Integer a = Integer.parseInt(aValInput.inputbox.textBox.getText());
+                            a = Math.max(0, a - 1);
+                            aValInput.inputbox.textBox.setText(String.valueOf(a));
+                        });
+                        aValInput.rightArrow.onLeftClickEvent.subscribe(aValInput, () -> {
+                            Integer a = Integer.parseInt(aValInput.inputbox.textBox.getText());
+                            a = Math.min(255, a + 1);
+                            aValInput.inputbox.textBox.setText(String.valueOf(a));
+                        });
+                        aValInput.inputbox.onValueChangedEvent.subscribeManaged((value) -> {
+                            Integer a = Integer.parseInt(value);
+                            a = Math.min(255, Math.max(0, a));
+                            selectedColor.a = (float)a / 255f;
+                            onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
+                        });
+                        aValInput.inputbox.textBox.setText(String.valueOf((int)(selectedColor.a * 255)));
+                        aVal.addChild(aValInput);
+                    }
+                    rgbValuesBox.addChild(aVal);
                 }
-                rgbValuesBox.addChild(aVal);
 
                 HorizontalBox hexVal = new HorizontalBox(Dim.fill(), Dim.px(27));
                 {
@@ -230,7 +236,7 @@ public class ColorPickerPopup extends VerticalBox {
         lightnessBar.onPercentageChangedEvent.subscribeManaged((percentage) -> {
             float[] hsl = ColorHelpers.toHSL(rawColorCache);
             Color newColor = ColorHelpers.fromHSL(hsl[0], hsl[1], percentage);
-            newColor.a = 1 - alphaBar.getSliderPercentage();
+            if(allowAlpha) newColor.a = 1 - alphaBar.getSliderPercentage();
 
             selectedColor = newColor;
             onSelectedColorChangedEvent.invoke(colorConsumer -> colorConsumer.accept(selectedColor));
@@ -256,7 +262,7 @@ public class ColorPickerPopup extends VerticalBox {
             if(!rValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.r * 255)))) rValInput.inputbox.textBox.setText(String.valueOf((int)(color.r * 255)));
             if(!gValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.g * 255)))) gValInput.inputbox.textBox.setText(String.valueOf((int)(color.g * 255)));
             if(!bValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.b * 255)))) bValInput.inputbox.textBox.setText(String.valueOf((int)(color.b * 255)));
-            if(!aValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.a * 255)))) aValInput.inputbox.textBox.setText(String.valueOf((int)(color.a * 255)));
+            if(allowAlpha && !aValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.a * 255)))) aValInput.inputbox.textBox.setText(String.valueOf((int)(color.a * 255)));
             if(!hexValInput.textBox.getText().equals(color.toString().substring(0, 6))) hexValInput.textBox.setText(color.toString().substring(0, 6));
 
             float[] hsl = ColorHelpers.toHSL(color);
@@ -266,9 +272,5 @@ public class ColorPickerPopup extends VerticalBox {
 
         onSelectedColorChangedEvent.subscribe(this, updateValuesForColor);
         updateValuesForColor.accept(selectedColor);
-    }
-
-    public static class Properties{
-
     }
 }

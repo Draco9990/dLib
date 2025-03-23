@@ -8,6 +8,8 @@ import dLib.util.IntegerVector2;
 import dLib.util.events.localevents.RunnableEvent;
 import dLib.util.ui.position.Pos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class InputCharacterManager extends UIElement {
@@ -17,6 +19,8 @@ public class InputCharacterManager extends UIElement {
     public ESelectionMode selectionMode = ESelectionMode.Standard;
 
     public RunnableEvent onSelectionChangedEvent = new RunnableEvent();
+
+    private List<InputCharacterHB> inputCharHBPool = new ArrayList<>();
 
     public InputCharacterManager() {
         super();
@@ -152,6 +156,25 @@ public class InputCharacterManager extends UIElement {
         selectionEnd = new IntegerVector2(lastChild.glyphRowIndex, lastChild.glyphIndex);
 
         onSelectionUpdated();
+    }
+
+    public void poolChildren(){
+        for (InputCharacterHB child : getChildren(InputCharacterHB.class)){
+            inputCharHBPool.add(child);
+            removeChild(child);
+        }
+    }
+
+    public InputCharacterHB getCharacterHBFromPool(){
+        InputCharacterHB toReturn;
+        if(inputCharHBPool.isEmpty()){
+            toReturn = new InputCharacterHB(Pos.px(0), Pos.px(0));
+        }
+        else{
+            toReturn = inputCharHBPool.remove(0);
+        }
+        addChild(toReturn);
+        return toReturn;
     }
 
     public enum ESelectionMode{
