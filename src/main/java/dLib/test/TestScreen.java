@@ -27,9 +27,7 @@ public class TestScreen extends UIElement {
     public TestScreen(){
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
-        TextBox.TextBoxData textBoxData = new TextBox.TextBoxData();
-
-        String text = "THIS is a [ REE ] test [RED]text[GREEN] that im doing[] why not [] woahhhh";
+        /*String text = "THIS is a [ REE ] test [RED]text[GREEN] that im doing[] why not [] woahhhh";
 
         Inputfield in1 = new Inputfield(text, Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
         in1.textBox.setWrap(true);
@@ -74,6 +72,27 @@ public class TestScreen extends UIElement {
         in3= new Inputfield(text, Pos.px(700), Pos.px(700), Dim.px(200), Dim.px(200));
         in3.textBox.setWrap(true);
         in3.textBox.setContentAlignment(Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
-        addChild(in3);
+        addChild(in3);*/
+
+        Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
+        {
+            VerticalDataBox<String> vdb = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
+            vdb.addChild("Test1");
+            vdb.addChild("Test2");
+            vdb.addChild("Test3");
+            vdb.addChild("Test4");
+            vdb.addChild("Test5");
+            vdb.addChild("Test6");
+            vdb.addChild("Test7");
+            vdb.addChild("Test21");
+            vdb.addChild("Test22");
+            vdb.addChild("Test23");
+            vdb.addChild("Test24");
+            vdb.addChild("Test25");
+            vdb.addChild("Test26");
+            vdb.addChild("Test27");
+            scrollbox.addChild(vdb);
+        }
+        addChild(scrollbox);
     }
 }

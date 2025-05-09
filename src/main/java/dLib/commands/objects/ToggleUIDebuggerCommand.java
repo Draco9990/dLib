@@ -3,9 +3,11 @@ package dLib.commands.objects;
 import basemod.DevConsole;
 import basemod.devcommands.ConsoleCommand;
 import dLib.tools.uidebugger.ui.UIDebuggerScreen;
+import dLib.ui.screens.UIManager;
+
+import java.rmi.server.UID;
 
 public class ToggleUIDebuggerCommand extends ConsoleCommand {
-    private UIDebuggerScreen screenCache;
 
     public ToggleUIDebuggerCommand() {
         this.requiresPlayer = false;
@@ -14,13 +16,11 @@ public class ToggleUIDebuggerCommand extends ConsoleCommand {
     }
 
     public void execute(String[] tokens, int depth) {
-        if(screenCache == null) {
-            screenCache = new UIDebuggerScreen();
-            screenCache.open();
+        if(UIManager.getOpenElementOfType(UIDebuggerScreen.class) == null) {
+            new UIDebuggerScreen().open();
         }
         else{
-            screenCache.close();
-            screenCache = null;
+            UIManager.getOpenElementOfType(UIDebuggerScreen.class).dispose();
         }
     }
 

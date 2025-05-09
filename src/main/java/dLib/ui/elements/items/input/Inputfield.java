@@ -27,10 +27,7 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import dLib.util.ui.text.CharMetadata;
-import dLib.util.ui.text.GlyphCharMetadata;
-import dLib.util.ui.text.MarkupCharMetadata;
-import dLib.util.ui.text.TextMetadata;
+import dLib.util.ui.text.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -462,6 +459,40 @@ public class Inputfield extends Button {
         }
     }
 
+    public void setColorForSelection(Color color){
+        IntegerVector2 realtextIndices = getSelectionRealtextIndeices();
+        if(realtextIndices == null){
+            return;
+        }
+
+        if(characterHbManager.selectionMode == InputCharacterManager.ESelectionMode.Standard){
+            String currentText = this.textBox.getText();
+
+            int deletePosStart = realtextIndices.x;
+            int deletePosEnd = realtextIndices.y;
+
+            TextMetadata metadata = textBox.getTextMetadata();
+
+            boolean hasColorMarkupBefore = deletePosStart > 0 && metadata.get(deletePosStart - 1) instanceof MarkupCharMetadata && ((MarkupCharMetadata) metadata.get(deletePosStart - 1)).entireMarkup instanceof ColorMarkup;
+            boolean endsWithColorClearMarkup = deletePosEnd < currentText.length() && metadata.get(deletePosEnd) instanceof MarkupCharMetadata && ((MarkupCharMetadata) metadata.get(deletePosEnd)).entireMarkup instanceof ColorEndMarkup;
+
+            String newText;
+            if(!hasColorMarkupBefore || !endsWithColorClearMarkup){
+                newText = currentText.substring(0, deletePosStart) + "[#" + color.toString() + "]" + currentText.substring(deletePosStart) + "[]";
+            }
+            else{
+                ColorMarkup colorMarkup = (ColorMarkup) ((MarkupCharMetadata) metadata.get(deletePosStart - 1)).entireMarkup;
+                newText = currentText.substring(0, colorMarkup.indexStart + 2) + color.toString() + currentText.substring(colorMarkup.indexEnd);
+            }
+
+            newText = removalTextVerification(newText);
+
+            this.textBox.setText(newText);
+
+            recalculateCaretPosition();
+        }
+    }
+
     //endregion
 
     //region Preset & Filters
@@ -622,13 +653,40 @@ public class Inputfield extends Button {
     }
 
     private void eraseSelection(){
-        if(!characterHbManager.hasValidUserSelection()){
+        IntegerVector2 realtextIndices = getSelectionRealtextIndeices();
+        if(realtextIndices == null){
             return;
+        }
+
+        if(characterHbManager.selectionMode == InputCharacterManager.ESelectionMode.Standard){
+            String currentText = this.textBox.getText();
+
+            int deletePosEnd = realtextIndices.x;
+            int deletePosStart = realtextIndices.y;
+
+            String textToRemove = currentText.substring(deletePosStart, deletePosEnd);
+            String markup = TextHelpers.getAllMarkup(textToRemove);
+
+            String newText = currentText.substring(0, deletePosStart) + markup + currentText.substring(deletePosEnd);
+            newText = removalTextVerification(newText);
+
+            this.textBox.setText(newText);
+
+            caretOffset = (deletePosEnd - deletePosStart) - markup.length();
+            recalculateCaretPosition();
+        }
+
+        characterHbManager.clearSelection();
+    }
+
+    private IntegerVector2 getSelectionRealtextIndeices(){
+        if(!characterHbManager.hasValidUserSelection()){
+            return null;
         }
 
         Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
         if(TextHelpers.getTotalGlyphCount(layout.getValue()) == 0){
-            return;
+            return null;
         }
 
         if(characterHbManager.selectionMode == InputCharacterManager.ESelectionMode.Standard){
@@ -645,22 +703,13 @@ public class Inputfield extends Button {
                 targetCaretOffset = TextHelpers.getGlyphOffsetForRowAndIndex(layout.getValue(), characterHbManager.selectionEnd.x, characterHbManager.selectionEnd.y);
             }
 
-            int deletePosStart = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), startCaretOffset, true);
+            int deletePosStart = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), startCaretOffset, false);
             int deletePosEnd = currentText.length() - getRealtextOffsetForGlyphOffset(layout.getValue(), targetCaretOffset, false);
 
-            String textToRemove = currentText.substring(deletePosEnd, deletePosStart);
-            String markup = TextHelpers.getAllMarkup(textToRemove);
-
-            String newText = currentText.substring(0, deletePosEnd) + markup + currentText.substring(deletePosStart);
-            newText = removalTextVerification(newText);
-
-            this.textBox.setText(newText);
-
-            caretOffset = startCaretOffset;
-            recalculateCaretPosition();
+            return new IntegerVector2(deletePosEnd, deletePosStart);
         }
 
-        characterHbManager.clearSelection();
+        return null;
     }
 
     private String removalTextVerification(String newText){

@@ -1,3 +1,24 @@
+It doesn't correctly realise that a selection ends with []
+It doesn't recolor inside color, we need to extract the markup and append it to the end
+Until text is modified selection no worky as expected
+render of text overlaps other elements instead of being clipped by sb
+Capt crash when selecting hex text and pressing erase
+TiS Loading box issue
+WHEN HOST LEAVES THE LOBBY CLIENTS ARE STILL THERE
+lobbies not refreshing new ui
+Embark icon missing
+Lobby nameplates not disposing when embarking
+Once connected to a lobby and embarked you need to restart your fucking game to see the lobby menu again ill kms
+Rework turn ending
+when host doesnt reply retrying waiting on data doesnt ask again which si why they get kicked!!!!!
+connecting to game in progress dosn't work
+save delete button does not work
+rewards hsaring gone
+text overflow
+- map opening prevents proceeding fuck off
+-- lag spam for logs
+make inputfield toolbar be a custom popup
+maybe add priority to elements? idk
 
 
 -- rework padding and auto dimensions

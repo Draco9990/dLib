@@ -853,9 +853,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         onChildrenChanged();
     }
     public void clearChildren(){
-        for(UIElement child : new ArrayList<>(children)){
-            child.dispose();
+        //TODO this is currently called from both dispose (where the parent is already cleared) and from when it isnt, fix
+        for(UIElement child : children) {
+            child.setParent(null);
+            onChildRemovedEvent.invoke(child);
         }
+
+        children.clear();
+        onChildrenChanged();
     }
 
     protected void onChildrenChanged(){
@@ -1449,6 +1454,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             show();
         }
     }
+    public void toggleVisibilityInstantly(){
+        if(isVisible()){
+            hideInstantly();
+        }
+        else{
+            showInstantly();
+        }
+    }
 
     protected void setVisibility(boolean visible){
         if(isVisible == visible) return;
@@ -1475,7 +1488,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     }
     protected void onChildVisibilityChanged(UIElement changedChild){
+        if(getWidthRaw() instanceof AutoDimension){
+            getWidthRaw().requestRecalculation();
+        }
 
+        if(getHeightRaw() instanceof AutoDimension){
+            getHeightRaw().requestRecalculation();
+        }
     }
 
     //endregion
