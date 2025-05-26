@@ -3,7 +3,6 @@ package dLib.ui.resources;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.textureresource.ITextureSource;
 
 public class UICommonResources implements ITextureSource {
@@ -78,4 +77,8 @@ public class UICommonResources implements ITextureSource {
     public static final NinePatch tooltipBg = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/tooltipBg.png"), 18, 17, 17, 18);
 
     public static final Texture inputfield_color = ImageMaster.loadImage("dLibResources/images/ui/common/inputfield/color.png");
+
+    public static final Texture color_fill = ImageMaster.loadImage("dLibResources/images/ui/common/magiccolor/Fill.png");
+    public static final Texture color_outline = ImageMaster.loadImage("dLibResources/images/ui/common/magiccolor/Outline.png");
+    public static final Texture color_outline_selected = ImageMaster.loadImage("dLibResources/images/ui/common/magiccolor/Outline_selected.png");
 }

@@ -7,6 +7,8 @@ import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureNoneBinding;
+import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -32,6 +34,8 @@ public class Toggle extends Interactable {
 
     private Color toggledDisabledColor = Color.WHITE.cpy();
     private float toggledDisabledColorMultiplier = 0.25f;
+
+    public ConsumerEvent<Boolean> onToggledEvent = new ConsumerEvent<>();                                               public static BiConsumerEvent<Boolean, Toggle> onToggledEvent_Static = new BiConsumerEvent<>();
 
     //endregion
 
@@ -155,6 +159,9 @@ public class Toggle extends Interactable {
     public void toggle(){
         this.toggled = !toggled;
 
+        onToggledEvent.invoke(toggled);
+        onToggledEvent_Static.invoke(toggled, this);
+
         if(ModManager.SayTheSpire.isActive()){
             if(onTriggeredLine != null){
                 Output.text(onTriggeredLine, true);
@@ -168,6 +175,9 @@ public class Toggle extends Interactable {
 
     public void setToggled(boolean toggled){
         this.toggled = toggled;
+
+        onToggledEvent.invoke(toggled);
+        onToggledEvent_Static.invoke(toggled, this);
     }
     public void setToggledHoveredTexture(AbstractTextureBinding hoveredTexture){
         this.toggledHoveredTexture = hoveredTexture;

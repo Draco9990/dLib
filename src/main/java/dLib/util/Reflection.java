@@ -83,7 +83,7 @@ public class Reflection {
 
         ArrayList<T> fieldValues = new ArrayList<>();
         for(Field field : classFields){
-            if(source instanceof Class<?> && Modifier.isStatic(field.getModifiers())){
+            if(source instanceof Class<?> && !Modifier.isStatic(field.getModifiers())){
                 continue;
             }
             fieldValues.add(getFieldValue(field, source));

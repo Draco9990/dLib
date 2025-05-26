@@ -1,8 +1,21 @@
 package dLib.ui.layout;
 
+import basemod.Pair;
 import dLib.util.ui.padding.AbstractPadding;
 
 public interface ILayoutProvider {
+
+    // Content Width and Height
+
+    boolean providesWidth();
+    boolean canCalculateContentWidth();
+    Pair<Integer, Integer> calculateContentWidth();
+
+    boolean providesHeight();
+    boolean canCalculateContentHeight();
+    Pair<Integer, Integer> calculateContentHeight();
+
+    //endregion Content Width and Height
 
     //region Content Padding
 
