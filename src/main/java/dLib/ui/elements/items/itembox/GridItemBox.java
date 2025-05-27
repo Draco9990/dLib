@@ -1,5 +1,6 @@
 package dLib.ui.elements.items.itembox;
 
+import basemod.Pair;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.text.ImageTextBox;
@@ -11,7 +12,7 @@ import dLib.util.ui.position.AbstractPosition;
 import java.io.Serializable;
 
 //Gridboxes do not support elements that change their size after being added. All GridBox items must be identical in dimensions. This is a TODO.
-public class GridItemBox<ItemType> extends DataItemBox<ItemType> {
+public class GridItemBox<ItemType> extends DataItemBox<ItemType> implements IGridBoxCommons {
     //region Variables
 
     //endregion
@@ -78,6 +79,25 @@ public class GridItemBox<ItemType> extends DataItemBox<ItemType> {
     //region Item Management
 
     //endregion
+
+    //region ILayoutProvider
+
+    @Override
+    public boolean providesHeight(){
+        return IGridBoxCommons.super.providesHeight();
+    }
+    @Override
+    public boolean canCalculateContentHeight(){
+        return IGridBoxCommons.super.canCalculateContentHeight();
+    }
+    @Override
+    public Pair<Integer, Integer> calculateContentHeight(){
+        return IGridBoxCommons.super.calculateContentHeight();
+    }
+
+    //endregion
+
+    //endregion Methods
 
     public static class GridItemBoxData extends DataItemBoxData implements Serializable {
         private static final long serialVersionUID = 1L;

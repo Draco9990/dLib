@@ -95,4 +95,9 @@ public class ColorHelpers {
         if (t < 2/3f) return p + (q - p) * (2/3f - t) * 6;
         return p;
     }
+
+    public static Color getSaturatedColor(Color original) {
+        float[] hsl = toHSL(original);
+        return fromHSL(hsl[0], 1.0f, hsl[2]);
+    }
 }

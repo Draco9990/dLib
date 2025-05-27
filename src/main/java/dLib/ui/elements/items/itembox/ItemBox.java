@@ -366,6 +366,55 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     }
     //endregion
 
+    // Layout Provider Dimensions
+
+    @Override
+    public boolean providesWidth() {
+        return alignmentType == Alignment.AlignmentType.HORIZONTAL;
+    }
+    @Override
+    public Pair<Integer, Integer> calculateContentWidth() {
+        int width = 0;
+        for(UIElement child : filteredChildren){
+            if(!child.isActive()){
+                continue;
+            }
+
+            width += child.getPaddingLeft();
+            width += child.getWidth();
+            width += itemSpacing;
+            width += child.getPaddingRight();
+        }
+        width -= itemSpacing;
+
+        return new Pair<>(getLocalPositionX(), getLocalPositionX() + width);
+    }
+
+    @Override
+    public boolean providesHeight() {
+        return alignmentType == Alignment.AlignmentType.VERTICAL;
+    }
+    @Override
+    public Pair<Integer, Integer> calculateContentHeight() {
+        int height = 0;
+        for(UIElement child : filteredChildren){
+            if(!child.isActive()){
+                continue;
+            }
+
+            height += child.getPaddingBottom();
+            height += child.getHeight();
+            height += itemSpacing;
+            height += child.getPaddingTop();
+        }
+        height -= itemSpacing;
+
+        return new Pair<>(getLocalPositionX(), getLocalPositionX() + height);
+    }
+
+
+    // endregion Layout Provider Dimensions
+
     @Override
     public PositionBounds getFullChildLocalBounds() {
         PositionBounds bounds = super.getFullChildLocalBounds();

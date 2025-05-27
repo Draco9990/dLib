@@ -8,11 +8,11 @@ public interface ILayoutProvider {
     // Content Width and Height
 
     boolean providesWidth();
-    boolean canCalculateContentWidth();
+    default boolean canCalculateContentWidth() { return true; }
     Pair<Integer, Integer> calculateContentWidth();
 
     boolean providesHeight();
-    boolean canCalculateContentHeight();
+    default boolean canCalculateContentHeight() { return true; }
     Pair<Integer, Integer> calculateContentHeight();
 
     //endregion Content Width and Height

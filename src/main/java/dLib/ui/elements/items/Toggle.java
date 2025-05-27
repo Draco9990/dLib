@@ -174,6 +174,8 @@ public class Toggle extends Interactable {
 
 
     public void setToggled(boolean toggled){
+        if(this.toggled == toggled) return; // No change, do nothing
+
         this.toggled = toggled;
 
         onToggledEvent.invoke(toggled);

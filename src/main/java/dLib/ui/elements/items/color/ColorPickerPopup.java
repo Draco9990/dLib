@@ -15,6 +15,7 @@ import dLib.util.Reflection;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.helpers.ColorHelpers;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.Dim;
@@ -24,6 +25,7 @@ import dLib.util.ui.position.Pos;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 //TODO fix hex code input not upodating lightness and alpha correctly
@@ -31,7 +33,7 @@ import java.util.function.Consumer;
 public class ColorPickerPopup extends VerticalBox {
     private Color selectedColor;
 
-    public ConsumerEvent<Color> onSelectedColorChangedEvent = new ConsumerEvent<>();                                    public BiConsumerEvent<Color, ColorPickerPopup> onSelectedColorChangedEvent_Static = new BiConsumerEvent<>();
+    public BiConsumerEvent<Color, Boolean> onSelectedColorChangedEvent = new BiConsumerEvent<>();                       public TriConsumerEvent<Color, Boolean, ColorPickerPopup> onSelectedColorChangedEvent_Static = new TriConsumerEvent<>();
 
     ColorPickerStaticColorSelector staticColorPicker;
 
@@ -44,12 +46,7 @@ public class ColorPickerPopup extends VerticalBox {
 
         setContextual(true);
 
-        setTexture(UICommonResources.tooltipBg);
-        setRenderColor(Color.WHITE);
-
-        setContentPadding(Padd.px(20));
-
-        setItemSpacing(20);
+        setItemSpacing(10);
 
         selectedColor = initialColor;
 
@@ -59,19 +56,8 @@ public class ColorPickerPopup extends VerticalBox {
         }
 
         ColorPickerDynamicColorSelector colorSelector = new ColorPickerDynamicColorSelector(this, initialColor, allowAlpha);
-        onSelectedColorChangedEvent.subscribe(colorSelector, color -> {
-            if(staticColorPicker == null){
-                return;
-            }
-
-            AtomicBoolean selectedStaticColor = new AtomicBoolean(false);
-            staticColorPicker.colorBoxOutlines.forEach((outline, magiccolor) -> {
-                if(outline.isToggled()){
-                    selectedStaticColor.set(true);
-                }
-            });
-
-            if(selectedStaticColor.get()){
+        onSelectedColorChangedEvent.subscribe(colorSelector, (color, isStatic) -> {
+            if(isStatic){
                 colorSelector.disable();
             }
             else {
@@ -80,14 +66,14 @@ public class ColorPickerPopup extends VerticalBox {
         });
         addChild(colorSelector);
 
-        setSelectedColor(initialColor);
+        setSelectedColor(initialColor, initialColor instanceof MagicColor);
     }
 
-    private void setSelectedColor(Color color){
+    private void setSelectedColor(Color color, boolean isStatic){
         selectedColor = color;
 
-        onSelectedColorChangedEvent.invoke(selectedColor);
-        onSelectedColorChangedEvent_Static.invoke(selectedColor, this);
+        onSelectedColorChangedEvent.invoke(selectedColor, isStatic);
+        onSelectedColorChangedEvent_Static.invoke(selectedColor, isStatic, this);
     }
 
     private static class ColorPickerStaticColorSelector extends VerticalBox{
@@ -96,7 +82,13 @@ public class ColorPickerPopup extends VerticalBox {
         public ColorPickerStaticColorSelector(ColorPickerPopup parent) {
             super(Dim.fill(), Dim.auto());
 
+            setTexture(UICommonResources.tooltipBg);
+            setRenderColor(Color.WHITE);
+            setHueShiftAmount(180);
+
             setItemSpacing(20);
+
+            setContentPadding(Padd.px(20));
 
             VerticalBox colorPresetsBox = new VerticalBox(Dim.fill(), Dim.auto());
 
@@ -111,7 +103,7 @@ public class ColorPickerPopup extends VerticalBox {
                             if(toggleState){
                                 colorBoxOutlines.forEach((outline, magiccolor) -> outline.setToggled(false));
 
-                                parent.setSelectedColor(magicColor);
+                                parent.setSelectedColor(magicColor, true);
                             }
                         });
                         colorBox.addChild(colorBoxOutline);
@@ -126,27 +118,25 @@ public class ColorPickerPopup extends VerticalBox {
             staticColorPresets.setItemSpacing(5);
             {
                 for (Color staticColor : Reflection.getFieldValuesByClass(Color.class, Color.class)) {
-                    Image colorBox = new Image(Tex.stat(UICommonResources.white_pixel), Pos.px(0), Pos.px(0), Dim.px(25), Dim.px(25));
+                    Image colorBox = new Image(Tex.stat(UICommonResources.color_fill), Pos.px(0), Pos.px(0), Dim.px(25), Dim.px(25));
+                    colorBox.setRenderColor(staticColor);
                     {
                         Toggle colorBoxOutline = new Toggle(Tex.stat(UICommonResources.color_outline), Tex.stat(UICommonResources.color_outline_selected), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
                         colorBoxOutline.onToggledEvent.subscribe(colorBox, (toggleState) -> {
                             if(toggleState){
-                                colorBoxOutlines.forEach((outline, magiccolor) -> outline.setToggled(false));
-
-                                parent.setSelectedColor(staticColor);
+                                parent.setSelectedColor(staticColor, true);
                             }
                         });
                         colorBox.addChild(colorBoxOutline);
                         colorBoxOutlines.put(colorBoxOutline, staticColor);
                     }
-                    colorBox.setRenderColor(staticColor);
                     staticColorPresets.addChild(colorBox);
                 }
             }
             colorPresetsBox.addChild(staticColorPresets);
 
-            parent.onSelectedColorChangedEvent.subscribe(this, color -> colorBoxOutlines.forEach((outline, staticColor) -> {
-                outline.setToggled(color == staticColor || (color instanceof MagicColor && color.getClass() == staticColor.getClass()));
+            parent.onSelectedColorChangedEvent.subscribe(this, (color, isStatic) -> colorBoxOutlines.forEach((outline, staticColor) -> {
+                outline.setToggled(isStatic && (color == staticColor || (color instanceof MagicColor && color.getClass() == staticColor.getClass())));
             }));
 
             addChild(colorPresetsBox);
@@ -169,11 +159,16 @@ public class ColorPickerPopup extends VerticalBox {
         public ColorPickerDynamicColorSelector(ColorPickerPopup parent, Color initialColor, boolean allowAlpha) {
             super(Dim.fill(), Dim.auto());
 
+            setTexture(UICommonResources.tooltipBg);
+            setRenderColor(Color.WHITE);
+
             float[] rawHSL = ColorHelpers.toHSL(initialColor);
             preLightnessColorCache = ColorHelpers.fromHSL(rawHSL[0], rawHSL[1], 0.5f);
             preLightnessColorCache.a = 1f;
 
             setItemSpacing(20);
+
+            setContentPadding(Padd.px(20));
 
             HorizontalBox colorPickerBox = new HorizontalBox(Dim.fill(), Dim.px(156));
             {
@@ -197,7 +192,7 @@ public class ColorPickerPopup extends VerticalBox {
 
                     if(allowAlpha) newColor.a = 1 - alphaBar.getSliderPercentage();
 
-                    parent.setSelectedColor(newColor);
+                    parent.setSelectedColor(newColor, false);
                 });
                 colorPickerBox.addChild(colorWheel);
 
@@ -228,7 +223,7 @@ public class ColorPickerPopup extends VerticalBox {
 
                             Color newColor = parent.selectedColor.cpy();
                             newColor.r = (float)r / 255f;
-                            parent.setSelectedColor(newColor);
+                            parent.setSelectedColor(newColor, false);
                         });
                         rVal.addChild(rValInput);
                     }
@@ -256,7 +251,7 @@ public class ColorPickerPopup extends VerticalBox {
 
                             Color newColor = parent.selectedColor.cpy();
                             newColor.g = (float)g / 255f;
-                            parent.setSelectedColor(newColor);
+                            parent.setSelectedColor(newColor, false);
                         });
                         gVal.addChild(gValInput);
                     }
@@ -284,7 +279,7 @@ public class ColorPickerPopup extends VerticalBox {
 
                             Color newColor = parent.selectedColor.cpy();
                             newColor.b = (float)b / 255f;
-                            parent.setSelectedColor(newColor);
+                            parent.setSelectedColor(newColor, false);
                         });
                         bVal.addChild(bValInput);
                     }
@@ -313,7 +308,7 @@ public class ColorPickerPopup extends VerticalBox {
 
                                 Color newColor = parent.selectedColor.cpy();
                                 newColor.a = (float)a / 255f;
-                                parent.setSelectedColor(newColor);
+                                parent.setSelectedColor(newColor, false);
                             });
                             aVal.addChild(aValInput);
                         }
@@ -331,7 +326,7 @@ public class ColorPickerPopup extends VerticalBox {
                             if(value.length() == 6){
 
                                 Color newColor = Color.valueOf("#" + value);
-                                parent.setSelectedColor(newColor);
+                                parent.setSelectedColor(newColor, false);
                             }
                         });
                         hexVal.addChild(hexValInput);
@@ -350,7 +345,7 @@ public class ColorPickerPopup extends VerticalBox {
                 Color newColor = ColorHelpers.fromHSL(hsl[0], hsl[1], percentage);
                 if(allowAlpha) newColor.a = 1 - alphaBar.getSliderPercentage();
 
-                parent.setSelectedColor(newColor);
+                parent.setSelectedColor(newColor, false);
             });
             {
                 Image overlay = new Image(Tex.stat(UICommonResources.lightnessBarOverlay), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -366,13 +361,11 @@ public class ColorPickerPopup extends VerticalBox {
             alphaBar.onPercentageChangedEvent.subscribeManaged((percentage) -> {
                 Color newColor = parent.selectedColor.cpy();
                 newColor.a = 1 - percentage;
-                parent.setSelectedColor(newColor);
+                parent.setSelectedColor(newColor, false);
             });
             if(allowAlpha) addChild(alphaBar);
 
-            Consumer<Color> updateValuesForColor = color -> {
-                if(!isEnabled()) return;
-
+            BiConsumer<Color, Boolean> updateValuesForColor = (color, isStatic) -> {
                 if(!rValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.r * 255)))) rValInput.inputbox.textBox.setText(String.valueOf((int)(color.r * 255)));
                 if(!gValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.g * 255)))) gValInput.inputbox.textBox.setText(String.valueOf((int)(color.g * 255)));
                 if(!bValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.b * 255)))) bValInput.inputbox.textBox.setText(String.valueOf((int)(color.b * 255)));
@@ -382,10 +375,16 @@ public class ColorPickerPopup extends VerticalBox {
                 float[] hsl = ColorHelpers.toHSL(color);
                 if(lightnessBar.getSliderPercentage() != hsl[2]) lightnessBar.setSliderFromPercentage(hsl[2]);
                 if(alphaBar.getSliderPercentage() != 1 - color.a) alphaBar.setSliderFromPercentage(1 - color.a);
+
+                if(isStatic){
+                    preLightnessColorCache = ColorHelpers.getSaturatedColor(color);
+                    lightnessBar.setRenderColor(preLightnessColorCache);
+                    alphaBar.setRenderColor(preLightnessColorCache);
+                }
             };
 
             parent.onSelectedColorChangedEvent.subscribe(this, updateValuesForColor);
-            updateValuesForColor.accept(initialColor);
+            updateValuesForColor.accept(initialColor, initialColor instanceof MagicColor);
         }
     }
 }
