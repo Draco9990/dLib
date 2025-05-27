@@ -39,7 +39,7 @@ public class InputfieldToolbar extends HorizontalBox {
 
         Button b1 = new Button(Dim.px(30), Dim.px(30));
         b1.onLeftClickEvent.subscribe(this, () -> {
-            ColorPickerPopup colorPicker = new ColorPickerPopup(Color.WHITE, false, true, true);
+            ColorPickerPopup colorPicker = new ColorPickerPopup(Color.WHITE, false, true, false, true);
             colorPicker.onSelectedColorChangedEvent.subscribe(this, (color, isStatic) -> getParentOfType(Inputfield.class).setColorForSelection(color));
             colorPicker.open();
         });

@@ -133,9 +133,12 @@ public class SerializationHelpers {
 
     public static <T extends Serializable> T fromString(String objectToDeserialize){
         try {
-            return (T) Base64.getDecoder().decode(objectToDeserialize);
+            T target = fromByteArray(Base64.getDecoder().decode(objectToDeserialize));
+            if(target == null) target = fromByteArray(Base64.getDecoder().decode(objectToDeserialize), false);
+            if(target == null) throw new Exception("Deserialization returned null");
+            return target;
         }catch (Exception e){
-            DLibLogger.log("Failed to deserialize AbstractScreenData due to " + e.getLocalizedMessage());
+            DLibLogger.log("Failed to deserialize from string due to " + e.getLocalizedMessage());
             e.printStackTrace();
         }
 

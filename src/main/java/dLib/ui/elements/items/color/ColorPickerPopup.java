@@ -35,13 +35,23 @@ public class ColorPickerPopup extends VerticalBox {
 
     public BiConsumerEvent<Color, Boolean> onSelectedColorChangedEvent = new BiConsumerEvent<>();                       public TriConsumerEvent<Color, Boolean, ColorPickerPopup> onSelectedColorChangedEvent_Static = new TriConsumerEvent<>();
 
-    ColorPickerStaticColorSelector staticColorPicker;
-
-    public ColorPickerPopup(Color initialColor, boolean allowAlpha, boolean allowPresets, boolean allowClear) {
-        this(initialColor, Pos.px(UIHelpers.getMouseWorldPositionX()), Pos.px(UIHelpers.getMouseWorldPositionY()), allowAlpha, allowPresets, allowClear);
+    public ColorPickerPopup(Color initialColor,
+                            boolean allowAlpha,
+                            boolean allowPresets,
+                            boolean allowMagicColors,
+                            boolean allowClear) {
+        this(initialColor, Pos.px(UIHelpers.getMouseWorldPositionX()), Pos.px(UIHelpers.getMouseWorldPositionY()),
+                allowAlpha,
+                allowPresets,
+                allowMagicColors,
+                allowClear);
     }
 
-    public ColorPickerPopup(Color initialColor, AbstractPosition xPos, AbstractPosition yPos, boolean allowAlpha, boolean allowPresets, boolean allowClear) {
+    public ColorPickerPopup(Color initialColor, AbstractPosition xPos, AbstractPosition yPos,
+                            boolean allowAlpha,
+                            boolean allowPresets,
+                            boolean allowMagicColors,
+                            boolean allowClear) {
         super(xPos, yPos, Dim.px(400), Dim.auto());
 
         setContextual(true);
@@ -51,7 +61,7 @@ public class ColorPickerPopup extends VerticalBox {
         selectedColor = initialColor;
 
         if(allowPresets){
-            ColorPickerStaticColorSelector colorSelector = new ColorPickerStaticColorSelector(this);
+            ColorPickerStaticColorSelector colorSelector = new ColorPickerStaticColorSelector(this, allowMagicColors);
             addChild(colorSelector);
         }
 
@@ -79,7 +89,7 @@ public class ColorPickerPopup extends VerticalBox {
     private static class ColorPickerStaticColorSelector extends VerticalBox{
         private HashMap<Toggle, Color> colorBoxOutlines = new HashMap<>();
 
-        public ColorPickerStaticColorSelector(ColorPickerPopup parent) {
+        public ColorPickerStaticColorSelector(ColorPickerPopup parent, boolean allowMagicColors) {
             super(Dim.fill(), Dim.auto());
 
             setTexture(UICommonResources.tooltipBg);
@@ -92,27 +102,27 @@ public class ColorPickerPopup extends VerticalBox {
 
             VerticalBox colorPresetsBox = new VerticalBox(Dim.fill(), Dim.auto());
 
-            GridBox magicColorPresets = new GridBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
-            magicColorPresets.setItemSpacing(5);
-            {
-                for (MagicColor magicColor : MagicColorManager.magicColors){
-                    Image colorBox = new Image(Tex.stat(magicColor.getSquareImage()), Pos.px(0), Pos.px(0), Dim.px(25), Dim.px(25));
-                    {
-                        Toggle colorBoxOutline = new Toggle(Tex.stat(UICommonResources.color_outline), Tex.stat(UICommonResources.color_outline_selected), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-                        colorBoxOutline.onToggledEvent.subscribe(colorBox, (toggleState) -> {
-                            if(toggleState){
-                                colorBoxOutlines.forEach((outline, magiccolor) -> outline.setToggled(false));
-
-                                parent.setSelectedColor(magicColor, true);
-                            }
-                        });
-                        colorBox.addChild(colorBoxOutline);
-                        colorBoxOutlines.put(colorBoxOutline, magicColor);
+            if(allowMagicColors){
+                GridBox magicColorPresets = new GridBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+                magicColorPresets.setItemSpacing(5);
+                {
+                    for (MagicColor magicColor : MagicColorManager.magicColors.values()){
+                        Image colorBox = new Image(Tex.stat(magicColor.getSquareImage()), Pos.px(0), Pos.px(0), Dim.px(25), Dim.px(25));
+                        {
+                            Toggle colorBoxOutline = new Toggle(Tex.stat(UICommonResources.color_outline), Tex.stat(UICommonResources.color_outline_selected), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+                            colorBoxOutline.onToggledEvent.subscribe(colorBox, (toggleState) -> {
+                                if(toggleState){
+                                    parent.setSelectedColor(magicColor, true);
+                                }
+                            });
+                            colorBox.addChild(colorBoxOutline);
+                            colorBoxOutlines.put(colorBoxOutline, magicColor);
+                        }
+                        magicColorPresets.addChild(colorBox);
                     }
-                    magicColorPresets.addChild(colorBox);
                 }
+                colorPresetsBox.addChild(magicColorPresets);
             }
-            colorPresetsBox.addChild(magicColorPresets);
 
             GridBox staticColorPresets = new GridBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
             staticColorPresets.setItemSpacing(5);
@@ -366,20 +376,26 @@ public class ColorPickerPopup extends VerticalBox {
             if(allowAlpha) addChild(alphaBar);
 
             BiConsumer<Color, Boolean> updateValuesForColor = (color, isStatic) -> {
-                if(!rValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.r * 255)))) rValInput.inputbox.textBox.setText(String.valueOf((int)(color.r * 255)));
-                if(!gValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.g * 255)))) gValInput.inputbox.textBox.setText(String.valueOf((int)(color.g * 255)));
-                if(!bValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.b * 255)))) bValInput.inputbox.textBox.setText(String.valueOf((int)(color.b * 255)));
-                if(allowAlpha && !aValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.a * 255)))) aValInput.inputbox.textBox.setText(String.valueOf((int)(color.a * 255)));
-                if(!hexValInput.textBox.getText().equals(color.toString().substring(0, 6))) hexValInput.textBox.setText(color.toString().substring(0, 6));
+                if(!(color instanceof MagicColor)){
+                    if(!rValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.r * 255)))) rValInput.inputbox.textBox.setText(String.valueOf((int)(color.r * 255)));
+                    if(!gValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.g * 255)))) gValInput.inputbox.textBox.setText(String.valueOf((int)(color.g * 255)));
+                    if(!bValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.b * 255)))) bValInput.inputbox.textBox.setText(String.valueOf((int)(color.b * 255)));
+                    if(allowAlpha && !aValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.a * 255)))) aValInput.inputbox.textBox.setText(String.valueOf((int)(color.a * 255)));
+                    if(!hexValInput.textBox.getText().equals(color.toString().substring(0, 6))) hexValInput.textBox.setText(color.toString().substring(0, 6));
 
-                float[] hsl = ColorHelpers.toHSL(color);
-                if(lightnessBar.getSliderPercentage() != hsl[2]) lightnessBar.setSliderFromPercentage(hsl[2]);
-                if(alphaBar.getSliderPercentage() != 1 - color.a) alphaBar.setSliderFromPercentage(1 - color.a);
+                    float[] hsl = ColorHelpers.toHSL(color);
+                    if(lightnessBar.getSliderPercentage() != hsl[2]) lightnessBar.setSliderFromPercentage(hsl[2]);
+                    if(alphaBar.getSliderPercentage() != 1 - color.a) alphaBar.setSliderFromPercentage(1 - color.a);
+                }
 
-                if(isStatic){
+                if(isStatic && !(color instanceof MagicColor)){
                     preLightnessColorCache = ColorHelpers.getSaturatedColor(color);
                     lightnessBar.setRenderColor(preLightnessColorCache);
                     alphaBar.setRenderColor(preLightnessColorCache);
+                }
+                else if(isStatic){
+                    lightnessBar.setRenderColor(color);
+                    alphaBar.setRenderColor(color);
                 }
             };
 

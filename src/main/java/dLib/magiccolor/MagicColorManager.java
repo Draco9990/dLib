@@ -1,13 +1,14 @@
 package dLib.magiccolor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MagicColorManager {
-    public static ArrayList<MagicColor> magicColors = new ArrayList<>();
+    public static HashMap<String, MagicColor> magicColors = new HashMap<>();
 
     public static void addMagicColor(MagicColor magicColor) {
-        if (!magicColors.contains(magicColor)) {
-            magicColors.add(magicColor);
+        if (!magicColors.containsKey(magicColor.toString())) {
+            magicColors.put(magicColor.toString(), magicColor);
         }
     }
 }
