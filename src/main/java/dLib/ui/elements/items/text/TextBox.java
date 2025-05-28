@@ -142,6 +142,7 @@ public class TextBox extends UIElement {
         getFontForRender().getData().setScale(getFontSizeForRender());
 
         BitmapFontCache cache = getFontForRender().getCache();
+        cache.clear();
 
         int renderX = getWorldPositionX();
         int renderY = getWorldPositionY();
