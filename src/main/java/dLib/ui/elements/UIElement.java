@@ -1662,6 +1662,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void onParentDimensionsChanged(){
+        if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT || alignment.horizontalAlignment == Alignment.HorizontalAlignment.CENTER){
+            requestLocalPositionXRecalculation();
+        }
+        if(alignment.verticalAlignment == Alignment.VerticalAlignment.TOP || alignment.verticalAlignment == Alignment.VerticalAlignment.CENTER){
+            requestLocalPositionYRecalculation();
+        }
     }
     public void onChildDimensionsChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
@@ -1704,8 +1710,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         AbstractDimension widthCopy = width.cpy();
         AbstractDimension heightCopy = height.cpy();
 
-        widthCopy.resizeBy(this, widthDiff);
-        heightCopy.resizeBy(this, heightDiff);
+        if(widthDiff != 0) widthCopy.resizeBy(this, widthDiff);
+        if(heightDiff != 0) heightCopy.resizeBy(this, heightDiff);
 
         setDimensions(widthCopy, heightCopy);
     }

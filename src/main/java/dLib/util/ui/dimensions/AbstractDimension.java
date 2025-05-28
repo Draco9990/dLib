@@ -68,7 +68,9 @@ public abstract class AbstractDimension extends ElementDescriptor<AbstractDimens
         return false;
     }
 
-    public void resizeBy(UIElement self, int amount){}
+    public void resizeBy(UIElement self, int amount){
+        requestRecalculation();
+    }
 
     //endregion
 

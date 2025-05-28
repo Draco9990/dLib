@@ -128,6 +128,8 @@ public class PixelDimension extends AbstractDimension implements Serializable {
     @Override
     public void resizeBy(UIElement self, int amount) {
         size += amount;
+
+        super.resizeBy(self, amount);
     }
 
     //endregion

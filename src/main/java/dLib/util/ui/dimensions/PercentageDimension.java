@@ -140,6 +140,8 @@ public class PercentageDimension extends AbstractDimension implements Serializab
         } else {
             resizeHeightBy(self, amount);
         }
+
+        super.resizeBy(self, amount);
     }
 
     public void resizeWidthBy(UIElement self, int amount) {
