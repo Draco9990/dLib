@@ -40,6 +40,12 @@ public abstract class MagicColor extends Color {
             if(MagicColorManager.magicColors.containsKey(hex)) {
                 return SpireReturn.Return(MagicColorManager.magicColors.get(hex).cpy());
             }
+            else if(hex.startsWith("#")){ //* Needed so magic colors render correctly if used in a GlyphLayout
+                String colorName = hex.substring(1);
+                if(MagicColorManager.magicColors.containsKey(colorName)) {
+                    return SpireReturn.Return(MagicColorManager.magicColors.get(colorName).cpy());
+                }
+            }
 
             return SpireReturn.Continue();
         }

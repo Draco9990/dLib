@@ -5,7 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.helpers.controller.CInputAction;
+import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.helpers.input.ScrollInputProcessor;
 import dLib.util.events.Event;
@@ -31,6 +35,63 @@ public class KeyInputEventPatches {
             if (initialProcessor != null && Objects.equals(Gdx.input.getInputProcessor(), __instance)) {
                 onKeyPressed.invoke(keycode);
             }
+        }
+    }
+
+    @SpirePatch2(clz = InputAction.class, method = "isJustPressed")
+    public static class IA_IsJustPressed{
+        @SpirePrefixPatch
+        public static SpireReturn<Boolean> Prefix(InputAction __instance){
+            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+                return SpireReturn.Return(false);
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+    @SpirePatch2(clz = InputAction.class, method = "isPressed")
+    public static class IA_IsPressed{
+        @SpirePrefixPatch
+        public static SpireReturn<Boolean> Prefix(InputAction __instance){
+            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+                return SpireReturn.Return(false);
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch2(clz = CInputAction.class, method = "isJustPressed")
+    public static class CIA_IsJustPressed{
+        @SpirePrefixPatch
+        public static SpireReturn<Boolean> Prefix(CInputAction __instance){
+            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+                return SpireReturn.Return(false);
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+    @SpirePatch2(clz = CInputAction.class, method = "isJustReleased")
+    public static class IA_IsJustReleased{
+        @SpirePrefixPatch
+        public static SpireReturn<Boolean> Prefix(CInputAction __instance){
+            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+                return SpireReturn.Return(false);
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+    @SpirePatch2(clz = CInputAction.class, method = "isPressed")
+    public static class CIA_IsPressed{
+        @SpirePrefixPatch
+        public static SpireReturn<Boolean> Prefix(CInputAction __instance){
+            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+                return SpireReturn.Return(false);
+            }
+
+            return SpireReturn.Continue();
         }
     }
 }
