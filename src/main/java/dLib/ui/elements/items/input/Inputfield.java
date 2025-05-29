@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
@@ -99,7 +100,7 @@ public class Inputfield extends Button {
 
         textBox.setPadding(Padd.px(10));
 
-        caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSizeRaw())));
+        caret = new InputCaret(Dim.px(textBox.getFontSizeRaw()));
         caret.addComponent(new UITransientElementComponent());
         recalculateCaretPosition();
         textBox.addChild(caret);
@@ -129,7 +130,7 @@ public class Inputfield extends Button {
 
         setPreset(data.inputfieldPreset);
 
-        caret = new InputCaret(Dim.px((int) Math.ceil(textBox.getFontSizeRaw())));
+        caret = new InputCaret(Dim.px(textBox.getFontSizeRaw()));
         caret.addComponent(new UITransientElementComponent());
         recalculateCaretPosition();
         textBox.addChild(caret);
@@ -289,7 +290,7 @@ public class Inputfield extends Button {
         });
 
         textBox.onFontSizeChangedEvent.subscribe(this, (aFloat, aFloat2) -> {
-            caret.setHeight(Dim.px((int) Math.ceil(aFloat)));
+            caret.setHeight(Dim.px(aFloat));
             recalculateCaretPosition();
         });
 
@@ -334,10 +335,10 @@ public class Inputfield extends Button {
     //region Caret
 
     private void recalculateCaretPosition(){
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
         int glyphCount = TextHelpers.getTotalGlyphCount(layout.getValue());
         if(glyphCount == 0){
-            caret.setWorldPosition((int) (layout.getKey().x / Settings.xScale), (int) (layout.getKey().y / Settings.yScale));
+            caret.setWorldPosition((layout.getKey().x / Settings.xScale), (layout.getKey().y / Settings.yScale));
             return;
         }
 
@@ -358,12 +359,12 @@ public class Inputfield extends Button {
             x += currentRun.xAdvances.get(i);
         }
 
-        caret.setWorldPosition((int) (x / Settings.xScale), (int) (y / Settings.yScale));
+        caret.setWorldPosition((x / Settings.xScale), (y / Settings.yScale));
         caret.playAnimation(caret.getIdleAnimation());
     }
 
     private Pair<Integer, Integer> getCurrentCaretPosition(){
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
         int glyphCount = TextHelpers.getTotalGlyphCount(layout.getValue());
         if(glyphCount == 0){
             return new Pair<>(0, 0);
@@ -433,7 +434,7 @@ public class Inputfield extends Button {
     public void reinitializeCharacterHBs(){
         characterHbManager.poolChildren();
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
 
         for (int runIndex = 0; runIndex < layout.getValue().runs.size; runIndex++){
             GlyphLayout.GlyphRun run = layout.getValue().runs.get(runIndex);
@@ -443,14 +444,14 @@ public class Inputfield extends Button {
             for(int glyphIndex = 0; glyphIndex < run.glyphs.size; glyphIndex++){
                 InputCharacterHB glyphHbLeft = characterHbManager.getCharacterHBFromPool();
                 glyphHbLeft.setForCharacter(
-                        (int) Math.floor(runX / Settings.xScale), (int) (runY / Settings.yScale),
-                        Dim.px((int) Math.floor((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)), Dim.px((int) textBox.getFontSizeRaw()),
+                        (runX / Settings.xScale), (runY / Settings.yScale),
+                        Dim.px((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale), Dim.px(textBox.getFontSizeRaw()),
                         runIndex, glyphIndex, InputCharacterHB.ECharHbSide.Left);
 
                 InputCharacterHB glyphHbRight = characterHbManager.getCharacterHBFromPool();
                 glyphHbRight.setForCharacter(
-                        (int) Math.floor((runX + run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale), (int) (runY / Settings.yScale),
-                        Dim.px((int) Math.ceil((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale)), Dim.px((int) textBox.getFontSizeRaw()),
+                        ((runX + run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale), (runY / Settings.yScale),
+                        Dim.px((run.xAdvances.get(glyphIndex + 1) * 0.5f) / Settings.xScale), Dim.px(textBox.getFontSizeRaw()),
                         runIndex, glyphIndex + 1, InputCharacterHB.ECharHbSide.Right
                 );
 
@@ -535,7 +536,7 @@ public class Inputfield extends Button {
             eraseSelection();
         }
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
 
         if(characterLimit >= 0) {
             int currentGlyphCount = TextHelpers.getTotalGlyphCount(layout.getValue());
@@ -567,7 +568,7 @@ public class Inputfield extends Button {
             return;
         }
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
         int glyphCount = TextHelpers.getTotalGlyphCount(layout.getValue());
         if(glyphCount == 0 || caretOffset == glyphCount){
             return;
@@ -597,7 +598,7 @@ public class Inputfield extends Button {
             return;
         }
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
         if(TextHelpers.getTotalGlyphCount(layout.getValue()) == 0){
             return;
         }
@@ -624,7 +625,7 @@ public class Inputfield extends Button {
             return "";
         }
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
         if(TextHelpers.getTotalGlyphCount(layout.getValue()) == 0){
             return "";
         }
@@ -684,7 +685,7 @@ public class Inputfield extends Button {
             return null;
         }
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
         if(TextHelpers.getTotalGlyphCount(layout.getValue()) == 0){
             return null;
         }
@@ -777,7 +778,7 @@ public class Inputfield extends Button {
 
         if(textBox.getText().isEmpty()) return super.onUpInteraction();
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
         if(layout.getValue().runs.size == 1) return super.onUpInteraction();
 
         Pair<Integer, Integer> currentCaretPosition = getCurrentCaretPosition();
@@ -812,7 +813,7 @@ public class Inputfield extends Button {
 
         if(textBox.getText().isEmpty()) return super.onDownInteraction();
 
-        Pair<IntegerVector2, GlyphLayout> layout = textBox.prepareForRender();
+        Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
         if(layout.getValue().runs.size == 1) return super.onDownInteraction();
 
         Pair<Integer, Integer> currentCaretPosition = getCurrentCaretPosition();

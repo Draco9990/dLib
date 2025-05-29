@@ -22,7 +22,7 @@ import java.io.Serializable;
 public class HorizontalScrollbar extends Scrollbar {
     //region Variables
 
-    private Integer scrollbarTargetX = null;
+    private Float scrollbarTargetX = null;
 
     //endregion
 
@@ -49,7 +49,7 @@ public class HorizontalScrollbar extends Scrollbar {
     public void postConstruct() {
         super.postConstruct();
 
-        slider.onPositionChangedEvent.subscribeManaged((element) -> onScrollbarScrolled((float) slider.getLocalPositionX() / (getWidth() - slider.getWidth())));
+        slider.onPositionChangedEvent.subscribeManaged((element) -> onScrollbarScrolled(slider.getLocalPositionX() / (getWidth() - slider.getWidth())));
 
         UIDraggableComponent component = slider.addComponent(new UIDraggableComponent());
         component.setCanDragY(false);
@@ -65,7 +65,7 @@ public class HorizontalScrollbar extends Scrollbar {
 
                 if(scrollbarTargetX != null){
                     if(Math.abs(scrollbarTargetX - slider.getLocalPositionX()) > 0.5f){
-                        slider.setLocalPositionX((int) MathUtils.lerp(slider.getLocalPositionX(), scrollbarTargetX, scrollSpeed));
+                        slider.setLocalPositionX(MathUtils.lerp(slider.getLocalPositionX(), scrollbarTargetX, scrollSpeed));
                     }
                     else{
                         slider.setLocalPositionX(scrollbarTargetX);
@@ -86,7 +86,7 @@ public class HorizontalScrollbar extends Scrollbar {
 
     @Override
     protected Interactable buildSlider() {
-        Button slider = new Button(Pos.px(0), Pos.px((int) (5 * 1.29f)), Dim.px(60), Dim.perc(0.7762));
+        Button slider = new Button(Pos.px(0), Pos.px( (5 * 1.29f)), Dim.px(60), Dim.perc(0.7762));
         slider.setTexture(Tex.stat(UICommonResources.scrollbar_horizontal_train));
         slider.setContainerBounds(Bound.parent(slider));
         return slider;
@@ -100,10 +100,10 @@ public class HorizontalScrollbar extends Scrollbar {
     @Override
     public void onScrollbarScrolled(float percentage) {
         if(boundElement != null){
-            Pair<Integer, Integer> oobAmounts = boundElement.getHorizontalChildrenOOBAmount();
+            Pair<Float, Float> oobAmounts = boundElement.getHorizontalChildrenOOBAmount();
 
-            int scrollableArea = oobAmounts.getKey() + oobAmounts.getValue();
-            int offset = (int) (scrollableArea - (scrollableArea * percentage)) - oobAmounts.getValue();
+            float scrollableArea = oobAmounts.getKey() + oobAmounts.getValue();
+            float offset = (scrollableArea - (scrollableArea * percentage)) - oobAmounts.getValue();
 
             boundElement.setChildOffsetX(offset);
         }
@@ -113,7 +113,7 @@ public class HorizontalScrollbar extends Scrollbar {
 
     @Override
     public void setScrollbarScrollPercentageForExternalChange(float percentage) {
-        slider.setLocalPositionX((int) ((getWidth() - slider.getWidth()) * percentage));
+        slider.setLocalPositionX(((getWidth() - slider.getWidth()) * percentage));
     }
 
     public void reset(){
@@ -173,7 +173,7 @@ public class HorizontalScrollbar extends Scrollbar {
             height.setValue(Dim.px(50));
 
             sliderData.localPositionX.setValue(Pos.px(0));
-            sliderData.localPositionY.setValue(Pos.px((int) (5 * 1.29f)));
+            sliderData.localPositionY.setValue(Pos.px( (5 * 1.29f)));
             sliderData.width.setValue(Dim.px(60));
             sliderData.height.setValue(Dim.perc(0.7762));
             sliderData.texture.setValue(Tex.resource(UICommonResources.class, "scrollbar_horizontal_train"));

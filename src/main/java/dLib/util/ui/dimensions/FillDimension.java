@@ -32,7 +32,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
     //region Calculation Methods
 
     @Override
-    protected void setCalculatedValue(UIElement forElement, int value) {
+    protected void setCalculatedValue(UIElement forElement, float value) {
         if(reference == ReferenceDimension.WIDTH){
             value -= forElement.getPaddingRight();
         }
@@ -54,8 +54,8 @@ public class FillDimension extends AbstractDimension implements Serializable {
         ));
     }
 
-    private Integer calculateWidth(UIElement forElement){
-        Integer parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+    private Float calculateWidth(UIElement forElement){
+        Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
 
         if(!isWithinHorizontalBox(forElement)){
             if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
@@ -71,8 +71,8 @@ public class FillDimension extends AbstractDimension implements Serializable {
         else{
             ItemBox itemBox = forElement.getParent();
 
-            int staticWidth = 0;
-            int fillElementCount = 0;
+            float staticWidth = 0;
+            float fillElementCount = 0;
             for(UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){
                 if(sibling.getWidthRaw() instanceof FillDimension){
                     fillElementCount++;
@@ -84,7 +84,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
             staticWidth += (((ItemBox) forElement.getParent()).getActiveChildren().size() - 1) * itemBox.getItemSpacing();
 
-            return Math.max((int) ((parentWidth - staticWidth) / (float) fillElementCount), 1);
+            return Math.max((parentWidth - staticWidth) / fillElementCount, 1f);
         }
 
         return null;
@@ -119,8 +119,8 @@ public class FillDimension extends AbstractDimension implements Serializable {
         ));
     }
 
-    private Integer calculateHeight(UIElement forElement){
-        Integer parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
+    private Float calculateHeight(UIElement forElement){
+        Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
 
         if(!isWithinVerticalBox(forElement)){
             if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
@@ -149,7 +149,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
             staticHeight += (((ItemBox) forElement.getParent()).getActiveChildren().size() - 1) * itemBox.getItemSpacing();
 
-            return Math.max((int) ((parentHeight - staticHeight) / (float) fillElementCount), 1);
+            return Math.max((parentHeight - staticHeight) / (float) fillElementCount, 1f);
         }
 
         return null;

@@ -1,5 +1,6 @@
 package dLib.ui.elements.items;
 
+import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.Alignment;
@@ -37,19 +38,19 @@ public class SimpleHorizontalRangeSelector extends Renderable{
             UIDraggableComponent draggable = slider.addComponent(new UIDraggableComponent());
             draggable.setCanDragY(false);
             draggable.onDraggedEvent.subscribeManaged(() -> {
-                int totalWidth = getWidth();
-                int sliderPos = slider.getOffsetX();
-                float percent = (float) sliderPos / totalWidth;
+                float totalWidth = getWidth();
+                float sliderPos = slider.getOffsetX();
+                float percent = sliderPos / totalWidth;
                 onPercentageChangedEvent.invoke(percent);
             });
         }
         addChild(slider);
 
         onLeftClickEvent.subscribe(this, () -> {
-            int mouseWorldX = (int) (InputHelper.mX / Settings.xScale);
-            int mouseLocalX = worldToLocal(new IntegerVector2(mouseWorldX, 0)).x;
+            float mouseWorldX = (InputHelper.mX / Settings.xScale);
+            float mouseLocalX = worldToLocal(new Vector2(mouseWorldX, 0)).x;
 
-            float percentage = (float) mouseLocalX / getWidth();
+            float percentage = mouseLocalX / getWidth();
             float finalPercentage = Math.max(0, Math.min(1, percentage));
             onPercentageChangedEvent.invoke(finalPercentage);
 
@@ -58,10 +59,10 @@ public class SimpleHorizontalRangeSelector extends Renderable{
     }
 
     public void setSliderFromPercentage(float percentage){
-        slider.setOffsetX((int) (getWidth() * percentage));
+        slider.setOffsetX((getWidth() * percentage));
     }
 
     public float getSliderPercentage(){
-        return (float) slider.getOffsetX() / getWidth();
+        return slider.getOffsetX() / getWidth();
     }
 }

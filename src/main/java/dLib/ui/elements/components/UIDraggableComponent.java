@@ -16,8 +16,8 @@ public class UIDraggableComponent extends AbstractUIElementComponent<UIElement> 
     private boolean canDragX = true;
     private boolean canDragY = true;
 
-    private int xDragOffset;
-    private int yDragOffset;
+    private float xDragOffset;
+    private float yDragOffset;
 
     private UUID leftClickEventId;
     private UUID leftClickHeldEventId;
@@ -71,31 +71,31 @@ public class UIDraggableComponent extends AbstractUIElementComponent<UIElement> 
         yDragOffset = 0;
 
         if(canDragX) {
-            xDragOffset = (int) (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
-            xDragOffset = (int) (xDragOffset / owner.getScaleX());
+            xDragOffset = (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
+            xDragOffset = (xDragOffset / owner.getScaleX());
         }
 
         if(canDragY) {
-            yDragOffset = (int) (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
-            yDragOffset = (int) (yDragOffset / owner.getScaleY());
+            yDragOffset = (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
+            yDragOffset = (yDragOffset / owner.getScaleY());
         }
     }
 
     protected void onLeftClickHeld(float totalDuration) {
-        int localDragOffsetX = 0;
-        int localDragOffsetY = 0;
+        float localDragOffsetX = 0;
+        float localDragOffsetY = 0;
 
         if(xDragOffset != 0){
-            localDragOffsetX = (int) (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
-            localDragOffsetX = (int) (localDragOffsetX / owner.getScaleX());
+            localDragOffsetX = (InputHelper.mX - owner.getWorldPositionX() * Settings.xScale);
+            localDragOffsetX = (localDragOffsetX / owner.getScaleX());
         }
 
         if(yDragOffset != 0){
-            localDragOffsetY = (int) (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
-            localDragOffsetY = (int) (localDragOffsetY / owner.getScaleY());
+            localDragOffsetY = (InputHelper.mY - owner.getWorldPositionY() * Settings.yScale);
+            localDragOffsetY = (localDragOffsetY / owner.getScaleY());
         }
 
-        owner.offset((int) ((localDragOffsetX - xDragOffset) * owner.getScaleX()), (int) ((localDragOffsetY - yDragOffset) * owner.getScaleY()));
+        owner.offset(((localDragOffsetX - xDragOffset) * owner.getScaleX()), ((localDragOffsetY - yDragOffset) * owner.getScaleY()));
 
         onDraggedEvent.invoke();
     }

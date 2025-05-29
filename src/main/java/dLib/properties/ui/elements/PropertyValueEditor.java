@@ -29,7 +29,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
     //region Constructors
 
     public PropertyValueEditor(TProperty<?, ?> property) {
-        this((PropertyType) property, false);
+        this(property, false);
     }
 
     public PropertyValueEditor(TProperty<?, ?> property, boolean multiline) {

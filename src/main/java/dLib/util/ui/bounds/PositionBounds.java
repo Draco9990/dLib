@@ -3,12 +3,12 @@ package dLib.util.ui.bounds;
 import dLib.ui.elements.UIElement;
 
 public class PositionBounds extends AbstractBounds{
-    public Integer left;
-    public Integer top;
-    public Integer right;
-    public Integer bottom;
+    public float left;
+    public float top;
+    public float right;
+    public float bottom;
 
-    public PositionBounds(Integer left, Integer bottom, Integer right, Integer top) {
+    public PositionBounds(float left, float bottom, float right, float top) {
         this.left = left;
         this.top = top;
         this.right = right;
@@ -32,22 +32,22 @@ public class PositionBounds extends AbstractBounds{
     }
 
     @Override
-    public Integer getWorldLeft(UIElement reference) {
+    public Float getWorldLeft(UIElement reference) {
         return left;
     }
 
     @Override
-    public Integer getWorldBottom(UIElement reference) {
+    public Float getWorldBottom(UIElement reference) {
         return bottom;
     }
 
     @Override
-    public Integer getWorldRight(UIElement reference) {
+    public Float getWorldRight(UIElement reference) {
         return right;
     }
 
     @Override
-    public Integer getWorldTop(UIElement reference) {
+    public Float getWorldTop(UIElement reference) {
         return top;
     }
 }

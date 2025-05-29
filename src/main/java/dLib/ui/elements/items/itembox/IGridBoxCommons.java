@@ -10,8 +10,8 @@ public interface IGridBoxCommons extends ILayoutProvider {
         return false;
     }
     @Override
-    default Pair<Integer, Integer> calculateContentWidth(){
-        return new Pair<>(0, 0);
+    default Pair<Float, Float> calculateContentWidth(){
+        return new Pair<>(0f, 0f);
     }
 
     @Override
@@ -23,7 +23,7 @@ public interface IGridBoxCommons extends ILayoutProvider {
         return !((ItemBox)this).needsWidthCalculation();
     }
     @Override
-    default Pair<Integer, Integer> calculateContentHeight(){
+    default Pair<Float, Float> calculateContentHeight(){
         ItemBox itemBox = (ItemBox) this;
 
         int height = 0;

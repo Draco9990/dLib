@@ -28,14 +28,14 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
         cornerResizeNodes[0] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM);
         UIDraggableComponent blDraggable = cornerResizeNodes[0].getComponent(UIDraggableComponent.class);
         blDraggable.onDraggedEvent.subscribeManaged(() -> {
-            int worldCx = cornerResizeNodes[0].getWorldPositionCenteredX();
-            int worldCy = cornerResizeNodes[0].getWorldPositionCenteredY();
+            float worldCx = cornerResizeNodes[0].getWorldPositionCenteredX();
+            float worldCy = cornerResizeNodes[0].getWorldPositionCenteredY();
 
-            int elementWorldX = owner.getWorldPositionX();
-            int elementWorldY = owner.getWorldPositionY();
+            float elementWorldX = owner.getWorldPositionX();
+            float elementWorldY = owner.getWorldPositionY();
 
-            int offsetX = worldCx - elementWorldX;
-            int offsetY = worldCy - elementWorldY;
+            float offsetX = worldCx - elementWorldX;
+            float offsetY = worldCy - elementWorldY;
             owner.offset(offsetX, offsetY);
             owner.resizeBy(-offsetX, -offsetY);
         });
@@ -45,14 +45,14 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
         cornerResizeNodes[1] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
         UIDraggableComponent brDraggable = cornerResizeNodes[1].getComponent(UIDraggableComponent.class);
         brDraggable.onDraggedEvent.subscribeManaged(() -> {
-            int worldCx = cornerResizeNodes[1].getWorldPositionCenteredX();
-            int worldCy = cornerResizeNodes[1].getWorldPositionCenteredY();
+            float worldCx = cornerResizeNodes[1].getWorldPositionCenteredX();
+            float worldCy = cornerResizeNodes[1].getWorldPositionCenteredY();
 
-            int elementWorldX = owner.getWorldPositionX() + owner.getWidth();
-            int elementWorldY = owner.getWorldPositionY();
+            float elementWorldX = owner.getWorldPositionX() + owner.getWidth();
+            float elementWorldY = owner.getWorldPositionY();
 
-            int offsetX = worldCx - elementWorldX;
-            int offsetY = worldCy - elementWorldY;
+            float offsetX = worldCx - elementWorldX;
+            float offsetY = worldCy - elementWorldY;
             owner.offset(0, offsetY);
             owner.resizeBy(offsetX, -offsetY);
         });
@@ -62,14 +62,14 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
         cornerResizeNodes[2] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
         UIDraggableComponent tlDraggable = cornerResizeNodes[2].getComponent(UIDraggableComponent.class);
         tlDraggable.onDraggedEvent.subscribeManaged(() -> {
-            int worldCx = cornerResizeNodes[2].getWorldPositionCenteredX();
-            int worldCy = cornerResizeNodes[2].getWorldPositionCenteredY();
+            float worldCx = cornerResizeNodes[2].getWorldPositionCenteredX();
+            float worldCy = cornerResizeNodes[2].getWorldPositionCenteredY();
 
-            int elementWorldX = owner.getWorldPositionX();
-            int elementWorldY = owner.getWorldPositionY() + owner.getHeight();
+            float elementWorldX = owner.getWorldPositionX();
+            float elementWorldY = owner.getWorldPositionY() + owner.getHeight();
 
-            int offsetX = worldCx - elementWorldX;
-            int offsetY = worldCy - elementWorldY;
+            float offsetX = worldCx - elementWorldX;
+            float offsetY = worldCy - elementWorldY;
             owner.offset(offsetX, 0);
             owner.resizeBy(-offsetX, offsetY);
         });
@@ -79,14 +79,14 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
         cornerResizeNodes[3] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.TOP);
         UIDraggableComponent trDraggable = cornerResizeNodes[3].getComponent(UIDraggableComponent.class);
         trDraggable.onDraggedEvent.subscribeManaged(() -> {
-            int worldCx = cornerResizeNodes[3].getWorldPositionCenteredX();
-            int worldCy = cornerResizeNodes[3].getWorldPositionCenteredY();
+            float worldCx = cornerResizeNodes[3].getWorldPositionCenteredX();
+            float worldCy = cornerResizeNodes[3].getWorldPositionCenteredY();
 
-            int elementWorldX = owner.getWorldPositionX() + owner.getWidth();
-            int elementWorldY = owner.getWorldPositionY() + owner.getHeight();
+            float elementWorldX = owner.getWorldPositionX() + owner.getWidth();
+            float elementWorldY = owner.getWorldPositionY() + owner.getHeight();
 
-            int offsetX = worldCx - elementWorldX;
-            int offsetY = worldCy - elementWorldY;
+            float offsetX = worldCx - elementWorldX;
+            float offsetY = worldCy - elementWorldY;
             owner.resizeBy(offsetX, offsetY);
         });
         cornerResizeNodes[3].addComponent(new UITransientElementComponent());

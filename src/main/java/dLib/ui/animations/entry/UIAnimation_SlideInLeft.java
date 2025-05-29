@@ -10,7 +10,7 @@ public class UIAnimation_SlideInLeft extends UIAnimation {
 
     private AnimationProperties properties;
 
-    private int origElementX = 0;
+    private float origElementX = 0;
 
     public UIAnimation_SlideInLeft(UIElement element) {
         this(element, new AnimationProperties());
@@ -33,7 +33,7 @@ public class UIAnimation_SlideInLeft extends UIAnimation {
     public void update() {
         float newPos = MathUtils.lerp(this.element.getLocalPositionX(), origElementX, Gdx.graphics.getDeltaTime() * properties.speed);
 
-        element.getLocalPositionXRaw().overrideCalculatedValue((int) newPos);
+        element.getLocalPositionXRaw().overrideCalculatedValue(newPos);
 
         if (element.getLocalPositionX() - Settings.UI_SNAP_THRESHOLD <= origElementX) {
             state = EAnimationState.FINISHED;

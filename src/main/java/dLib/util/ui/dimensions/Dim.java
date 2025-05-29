@@ -4,6 +4,9 @@ public class Dim {
     public static PixelDimension px(int value) {
         return new PixelDimension(value);
     }
+    public static PixelDimension px(float value) {
+        return new PixelDimension(value);
+    }
 
     public static PercentageDimension perc(float value) {
         return new PercentageDimension(value);

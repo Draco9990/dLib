@@ -9,7 +9,6 @@ import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
-import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
 
@@ -19,13 +18,13 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
     //region Variables
 
-    private int size;
+    private float size;
 
     //endregion
 
     //region Constructors
 
-    public PixelDimension(int size){
+    public PixelDimension(float size){
         this.size = size;
     }
 
@@ -36,7 +35,7 @@ public class PixelDimension extends AbstractDimension implements Serializable {
     //region Calculations
 
     @Override
-    protected void setCalculatedValue(UIElement forElement, int value) {
+    protected void setCalculatedValue(UIElement forElement, float value) {
         if(reference == ReferenceDimension.WIDTH){
             value -= forElement.getPaddingRight();
         }
@@ -67,13 +66,13 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
     //region Value
 
-    public int getValueRaw(){
+    public float getValueRaw(){
         return size;
     }
 
     @Override
     public void setValueFromString(String value) {
-        size = Integer.parseInt(value);
+        size = Float.parseFloat(value);
     }
 
     //endregion
@@ -126,7 +125,7 @@ public class PixelDimension extends AbstractDimension implements Serializable {
     }
 
     @Override
-    public void resizeBy(UIElement self, int amount) {
+    public void resizeBy(UIElement self, float amount) {
         size += amount;
 
         super.resizeBy(self, amount);

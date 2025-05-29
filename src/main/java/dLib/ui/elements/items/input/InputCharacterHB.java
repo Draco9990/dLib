@@ -4,6 +4,7 @@ import basemod.Pair;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Vector2;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.elements.items.Renderable;
@@ -37,7 +38,7 @@ public class InputCharacterHB extends Interactable {
         hideInstantly();
     }
 
-    public void setForCharacter(int worldPosX, int worldPosY, AbstractDimension width, AbstractDimension height, int glyphRowIndex, int glyphIndex, ECharHbSide side){
+    public void setForCharacter(float worldPosX, float worldPosY, AbstractDimension width, AbstractDimension height, int glyphRowIndex, int glyphIndex, ECharHbSide side){
         setWidth(width);
         setHeight(height);
         this.glyphRowIndex = glyphRowIndex;
@@ -54,7 +55,7 @@ public class InputCharacterHB extends Interactable {
         onLeftClickEvent.subscribe(this, () -> {
             int totalCharsUpTo = 0;
             Inputfield parent = getParentOfType(Inputfield.class);
-            Pair<IntegerVector2, GlyphLayout> layout1 = parent.textBox.prepareForRender();
+            Pair<Vector2, GlyphLayout> layout1 = parent.textBox.prepareForRender();
             for (int i = 0; i < glyphRowIndex; i++){
                 totalCharsUpTo += layout1.getValue().runs.get(i).glyphs.size;
             }

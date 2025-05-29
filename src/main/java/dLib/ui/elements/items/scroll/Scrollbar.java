@@ -44,7 +44,7 @@ public abstract class Scrollbar extends UIElement {
     public Scrollbar(ScrollbarData data) {
         super(data);
 
-        slider = (Interactable) findChildById(data.sliderData.id.getValue());
+        slider = findChildById(data.sliderData.id.getValue());
         boundElement = data.boundElement.getValue().getBoundObject();
 
         onScrollbarScrolledEvent.subscribeManaged(aFloat -> data.onScrollbarScrolledEvent.getValue().executeBinding(this, aFloat));

@@ -25,7 +25,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     //region Variables
 
     //! Child dynamic calculations shouldn't account for padding
-    private int calculatedValueForChildren = 0;
+    private float calculatedValueForChildren = 0;
 
     //endregion
 
@@ -54,8 +54,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         ));
     }
 
-    private Integer calculateWidth(UIElement forElement, boolean includePadding){
-        Pair<Integer, Integer> totalWidth = null;
+    private Float calculateWidth(UIElement forElement, boolean includePadding){
+        Pair<Float, Float> totalWidth = null;
 
         if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesWidth()){
             totalWidth = ((ILayoutProvider) forElement).calculateContentWidth();
@@ -64,7 +64,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             for (UIElement child : forElement.getChildren()){
                 if(child.hasComponent(UITransientElementComponent.class)) continue;
 
-                Pair<Integer, Integer> childWidth = calculateWidthRecursive(child, includePadding);
+                Pair<Float, Float> childWidth = calculateWidthRecursive(child, includePadding);
                 if(totalWidth == null){
                     totalWidth = childWidth;
                 }
@@ -80,7 +80,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof ILayoutProvider && includePadding){
-            int width = ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
+            float width = ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
 
             totalWidth = new Pair<>(
                     totalWidth == null ? 0 : totalWidth.getKey() - ((ILayoutProvider) forElement).getContentPaddingLeft(),
@@ -89,8 +89,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            int localPosX = forElement.getLocalPositionX();
-            int width = ((TextBox) forElement).getTextWidth();
+            float localPosX = forElement.getLocalPositionX();
+            float width = ((TextBox) forElement).getTextWidth();
 
             totalWidth = new Pair<>(
                     totalWidth == null ? localPosX : Math.min(localPosX, totalWidth.getKey()),
@@ -99,14 +99,14 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(totalWidth == null){
-            return 0;
+            return 0f;
         }
         return totalWidth.getValue() - totalWidth.getKey();
     }
-    private Pair<Integer, Integer> calculateWidthRecursive(UIElement forElement, boolean includePadding){
-        int calculatedLocalX = forElement.getLocalPositionX();
-        int widthRaw = forElement.getWidth();
-        int bonusWidth = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
+    private Pair<Float, Float> calculateWidthRecursive(UIElement forElement, boolean includePadding){
+        float calculatedLocalX = forElement.getLocalPositionX();
+        float widthRaw = forElement.getWidth();
+        float bonusWidth = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
 
         return new Pair<>(calculatedLocalX, calculatedLocalX + widthRaw + (includePadding ? forElement.getPaddingLeft() + forElement.getPaddingRight() : 0) + bonusWidth);
     }
@@ -152,7 +152,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     //endregion
 
-    public int getCalculatedValueForChildren() {
+    public float getCalculatedValueForChildren() {
         return calculatedValueForChildren;
     }
 
@@ -169,8 +169,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         ));
     }
 
-    private Integer calculateHeight(UIElement forElement, boolean includePadding){
-        Pair<Integer, Integer> totalHeight = null;
+    private Float calculateHeight(UIElement forElement, boolean includePadding){
+        Pair<Float, Float> totalHeight = null;
 
         if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesHeight()){
             totalHeight = ((ILayoutProvider) forElement).calculateContentHeight();
@@ -179,7 +179,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             for (UIElement child : forElement.getChildren()){
                 if(child.hasComponent(UITransientElementComponent.class)) continue;
 
-                Pair<Integer, Integer> childHeight = calculateHeightRecursive(child, includePadding);
+                Pair<Float, Float> childHeight = calculateHeightRecursive(child, includePadding);
                 if(totalHeight == null){
                     totalHeight = childHeight;
                 }
@@ -195,7 +195,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof ILayoutProvider && includePadding){
-            int height = ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
+            float height = ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
 
             totalHeight = new Pair<>(
                     totalHeight == null ? 0 : totalHeight.getKey() - ((ILayoutProvider) forElement).getContentPaddingBottom(),
@@ -204,8 +204,8 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            int localPosY = forElement.getLocalPositionY();
-            int height = ((TextBox) forElement).getTextHeight();
+            float localPosY = forElement.getLocalPositionY();
+            float height = ((TextBox) forElement).getTextHeight();
 
             totalHeight = new Pair<>(
                     totalHeight == null ? localPosY : Math.min(localPosY, totalHeight.getKey()),
@@ -214,14 +214,14 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(totalHeight == null){
-            return 0;
+            return 0f;
         }
         return totalHeight.getValue() - totalHeight.getKey();
     }
-    private Pair<Integer, Integer> calculateHeightRecursive(UIElement forElement, boolean includePadding){
-        int calculatedLocalY = forElement.getLocalPositionY();
-        int heightRaw = forElement.getHeight();
-        int bonusHeight = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
+    private Pair<Float, Float> calculateHeightRecursive(UIElement forElement, boolean includePadding){
+        float calculatedLocalY = forElement.getLocalPositionY();
+        float heightRaw = forElement.getHeight();
+        float bonusHeight = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
 
         return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw + (includePadding ? forElement.getPaddingTop() + forElement.getPaddingBottom() : 0) + bonusHeight);
     }

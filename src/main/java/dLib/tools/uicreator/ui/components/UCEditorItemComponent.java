@@ -13,9 +13,11 @@ import dLib.ui.elements.components.AbstractUIElementComponent;
 import dLib.ui.screens.UIManager;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.PixelPosition;
+import dLib.util.ui.position.Pos;
 
 public class UCEditorItemComponent extends AbstractUIElementComponent<UIElement> {
 
@@ -38,10 +40,10 @@ public class UCEditorItemComponent extends AbstractUIElementComponent<UIElement>
                 AbstractPosition localPositionY = element.getLocalPositionYRaw();
 
                 if(localPositionX instanceof PixelPosition){
-                    localPositionX = new PixelPosition((int) (((PixelPosition) localPositionX).getValueRaw() * 1.25f));
+                    localPositionX = Pos.px((((PixelPosition) localPositionX).getValueRaw() * 1.25f));
                 }
                 if(localPositionY instanceof PixelPosition){
-                    localPositionY = new PixelPosition((int) (((PixelPosition) localPositionY).getValueRaw() * 1.25f));
+                    localPositionY = Pos.px((((PixelPosition) localPositionY).getValueRaw() * 1.25f));
                 }
 
                 if(elementData.localPositionX.getValue() != localPositionX){
@@ -66,10 +68,10 @@ public class UCEditorItemComponent extends AbstractUIElementComponent<UIElement>
                 AbstractDimension height = element.getHeightRaw();
 
                 if(width instanceof PixelDimension){
-                    width = new PixelDimension((int) (((PixelDimension) width).getValueRaw() * 1.25f));
+                    width = Dim.px((((PixelDimension) width).getValueRaw() * 1.25f));
                 }
                 if(height instanceof PixelDimension){
-                    height = new PixelDimension((int) (((PixelDimension) height).getValueRaw() * 1.25f));
+                    height = Dim.px((((PixelDimension) height).getValueRaw() * 1.25f));
                 }
 
                 if(elementData.width.getValue() != width){

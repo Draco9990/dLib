@@ -19,11 +19,12 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
+import java.util.function.IntFunction;
 
 public class VerticalScrollbar extends Scrollbar {
     //region Variables
 
-    private Integer scrollbarTargetY = null;
+    private Float scrollbarTargetY = null;
 
     //endregion
 
@@ -50,7 +51,7 @@ public class VerticalScrollbar extends Scrollbar {
     public void postConstruct() {
         super.postConstruct();
 
-        slider.onPositionChangedEvent.subscribeManaged((element) -> onScrollbarScrolled((float) slider.getLocalPositionY() / (getHeight() - slider.getHeight())));
+        slider.onPositionChangedEvent.subscribeManaged((element) -> onScrollbarScrolled(slider.getLocalPositionY() / (getHeight() - slider.getHeight())));
 
         UIDraggableComponent dragComp = slider.addComponent(new UIDraggableComponent());
         dragComp.setCanDragX(false);
@@ -67,7 +68,7 @@ public class VerticalScrollbar extends Scrollbar {
 
                 if(scrollbarTargetY != null){
                     if(Math.abs(scrollbarTargetY - slider.getLocalPositionY()) > 0.5f){
-                        slider.setLocalPositionY((int) MathUtils.lerp(slider.getLocalPositionY(), scrollbarTargetY, scrollSpeed));
+                        slider.setLocalPositionY(MathUtils.lerp(slider.getLocalPositionY(), scrollbarTargetY, scrollSpeed));
                     }
                     else{
                         slider.setLocalPositionY(scrollbarTargetY);
@@ -88,7 +89,7 @@ public class VerticalScrollbar extends Scrollbar {
 
     @Override
     protected Interactable buildSlider() {
-        Button slider = new Button(Pos.px((int) (5 * 1.29f)), Pos.px(0), Dim.perc(0.7762), Dim.px(60));
+        Button slider = new Button(Pos.px((5 * 1.29f)), Pos.px(0), Dim.perc(0.7762), Dim.px(60));
         slider.setTexture(Tex.stat(UICommonResources.scrollbar_vertical_train));
         slider.setContainerBounds(Bound.parent(slider));
         return slider;
@@ -101,10 +102,10 @@ public class VerticalScrollbar extends Scrollbar {
     @Override
     public void onScrollbarScrolled(float percentage) {
         if(boundElement != null){
-            Pair<Integer, Integer> oobAmounts = boundElement.getVerticalChildrenOOBAmount();
+            Pair<Float, Float> oobAmounts = boundElement.getVerticalChildrenOOBAmount();
 
-            int scrollableArea = oobAmounts.getKey() + oobAmounts.getValue();
-            int offset = (int) (scrollableArea - (scrollableArea * percentage)) - oobAmounts.getValue();
+            float scrollableArea = oobAmounts.getKey() + oobAmounts.getValue();
+            float offset = (scrollableArea - (scrollableArea * percentage)) - oobAmounts.getValue();
 
             boundElement.setChildOffsetY(offset);
         }
@@ -114,7 +115,7 @@ public class VerticalScrollbar extends Scrollbar {
 
     @Override
     public void setScrollbarScrollPercentageForExternalChange(float percentage) {
-        slider.setLocalPositionY((int) ((getHeight() - slider.getHeight()) * percentage));
+        slider.setLocalPositionY(((getHeight() - slider.getHeight()) * percentage));
     }
 
     public void reset(){
@@ -124,7 +125,7 @@ public class VerticalScrollbar extends Scrollbar {
     @Override
     public void onScrolledDown() {
         AbstractBounds sliderBounds = slider.getContainerBounds();
-        Integer maxDiff = null;
+        Float maxDiff = null;
         if(sliderBounds != null){
             maxDiff = slider.getWorldPositionY() - sliderBounds.getWorldBottom();
         }
@@ -135,7 +136,7 @@ public class VerticalScrollbar extends Scrollbar {
     @Override
     public void onScrolledUp() {
         AbstractBounds sliderBounds = slider.getContainerBounds();
-        Integer maxDiff = null;
+        Float maxDiff = null;
         if(sliderBounds != null){
             maxDiff = sliderBounds.getWorldTop() - slider.getWorldPositionY();
         }
@@ -185,7 +186,7 @@ public class VerticalScrollbar extends Scrollbar {
         public void postConstruct() {
             width.setValue(Dim.px(50));
 
-            sliderData.localPositionX.setValue(Pos.px((int) (5 * 1.29f)));
+            sliderData.localPositionX.setValue(Pos.px((5 * 1.29f)));
             sliderData.localPositionY.setValue(Pos.px(0));
             sliderData.width.setValue(Dim.perc(0.7762));
             sliderData.height.setValue(Dim.px(60));

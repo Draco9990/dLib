@@ -35,7 +35,7 @@ public class PercentagePadding extends AbstractPadding implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Horizontal(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.PADDING_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, (int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * perc)),
+                () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * perc)),
                 () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null
         ));
     }
@@ -43,7 +43,7 @@ public class PercentagePadding extends AbstractPadding implements Serializable {
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Vertical(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.PADDING_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, (int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * perc)),
+                () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * perc)),
                 () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null
         ));
     }

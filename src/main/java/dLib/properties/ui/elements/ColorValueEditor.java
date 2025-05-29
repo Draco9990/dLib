@@ -31,7 +31,7 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
             @Override
             protected void onLeftClick() {
                 super.onLeftClick();
-                ColorPickerPopup colorPickerPopup = new ColorPickerPopup(boundProperty.getColorValue(), Pos.px((int) (InputHelper.mX / Settings.xScale - 340)), Pos.px((int) (InputHelper.mY / Settings.yScale)), true, true, true, false);
+                ColorPickerPopup colorPickerPopup = new ColorPickerPopup(boundProperty.getColorValue(), Pos.px( (InputHelper.mX / Settings.xScale - 340)), Pos.px( (InputHelper.mY / Settings.yScale)), true, true, true, false);
                 colorPickerPopup.onSelectedColorChangedEvent.subscribe(colorPickerPopup, (color, isStatic) -> property.setValue(color.toString()));
                 colorPickerPopup.open();
             }

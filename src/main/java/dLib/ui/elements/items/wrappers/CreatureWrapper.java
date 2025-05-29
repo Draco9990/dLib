@@ -39,7 +39,7 @@ public class CreatureWrapper extends UIElement {
         this.creature = creature;
         hasUpdateMethod = Reflection.getMethodByNameAndParams("update", creature.getClass(), new Class[0]) != null;
 
-        refElement = new UIElement(Dim.px((int) creature.hb.width), Dim.px((int) creature.hb.height));
+        refElement = new UIElement(Dim.px(creature.hb.width), Dim.px(creature.hb.height));
         addChild(refElement);
     }
 

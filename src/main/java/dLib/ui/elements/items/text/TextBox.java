@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
@@ -13,7 +14,6 @@ import dLib.modcompat.ModManager;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.util.IntegerVector2;
 import dLib.util.bindings.font.AbstractFontBinding;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.font.FontResourceBinding;
@@ -138,19 +138,19 @@ public class TextBox extends UIElement {
         font.draw(sb, msg, x, y);
     }
 
-    public Pair<IntegerVector2, GlyphLayout> prepareForRender(){
+    public Pair<Vector2, GlyphLayout> prepareForRender(){
         getFontForRender().getData().setScale(getFontSizeForRender());
 
         BitmapFontCache cache = getFontForRender().getCache();
         cache.clear();
 
-        int renderX = getWorldPositionX();
-        int renderY = getWorldPositionY();
-        int renderWidth = getWidth();
-        int renderHeight = getHeight();
+        float renderX = getWorldPositionX();
+        float renderY = getWorldPositionY();
+        float renderWidth = getWidth();
+        float renderHeight = getHeight();
 
-        float halfWidth = (float) renderWidth / 2;
-        float halfHeight = (float) renderHeight / 2;
+        float halfWidth = renderWidth / 2;
+        float halfHeight = renderHeight / 2;
 
         BitmapFont font = getFontForRender();
 
@@ -162,67 +162,67 @@ public class TextBox extends UIElement {
         GlyphLayout layout = FontHelper.layout;
 
         GlyphLayout layoutToReturn = null;
-        int x = 0;
-        int y = 0;
+        float x = 0;
+        float y = 0;
 
         if(!wrap){
             layout.setText(getFontForRender(), msg);
             if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.LEFT){
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP){
-                    x = (int) (renderX * Settings.xScale);
-                    y = (int) ((renderY + renderHeight) * Settings.yScale);
+                    x = (renderX * Settings.xScale);
+                    y = ((renderY + renderHeight) * Settings.yScale);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER){
-                    x = (int) (renderX * Settings.xScale);
-                    y = (int) ((renderY + halfHeight) * Settings.yScale + layout.height / 2.0F);
+                    x = (renderX * Settings.xScale);
+                    y = ((renderY + halfHeight) * Settings.yScale + layout.height / 2.0F);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                    x = (int) (renderX * Settings.xScale);
-                    y = (int) ((renderY) * Settings.yScale + layout.height);
+                    x = (renderX * Settings.xScale);
+                    y = ((renderY) * Settings.yScale + layout.height);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
             }
             if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER){
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP){
                     layout.setText(font, "lL");
-                    x = (int) ((renderX + halfWidth) * Settings.xScale);
-                    y = (int) (((renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2) + layout.height / 2.0F);
+                    x = ((renderX + halfWidth) * Settings.xScale);
+                    y = (((renderY + renderHeight) * Settings.yScale - FontHelper.layout.height / 2) + layout.height / 2.0F);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y, 0.0F, 1, false);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) {
-                    x = (int) (((renderX + halfWidth) * Settings.xScale) - layout.width / 2.0F);
-                    y = (int) (((renderY + halfHeight) * Settings.yScale) + layout.height / 2.0F);
+                    x = (((renderX + halfWidth) * Settings.xScale) - layout.width / 2.0F);
+                    y = (((renderY + halfHeight) * Settings.yScale) + layout.height / 2.0F);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                    x = (int) (((renderX + halfWidth) * Settings.xScale) - layout.width / 2.0F);
-                    y = (int) (((renderY) * Settings.yScale + FontHelper.layout.height / 2) + layout.height / 2.0F);
+                    x = (((renderX + halfWidth) * Settings.xScale) - layout.width / 2.0F);
+                    y = (((renderY) * Settings.yScale + FontHelper.layout.height / 2) + layout.height / 2.0F);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
             }
             if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT){
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP){
-                    x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
-                    y = (int) ((renderY + renderHeight) * Settings.yScale);
+                    x = (((renderX + renderWidth) * Settings.xScale) - layout.width);
+                    y = ((renderY + renderHeight) * Settings.yScale);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER){
-                    x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
-                    y = (int) ((renderY + halfHeight) * Settings.yScale + layout.height / 2.0F);
+                    x = (((renderX + renderWidth) * Settings.xScale) - layout.width);
+                    y = ((renderY + halfHeight) * Settings.yScale + layout.height / 2.0F);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
 
                 if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                    x = (int) (((renderX + renderWidth) * Settings.xScale) - layout.width);
-                    y = (int) (((renderY) * Settings.yScale + FontHelper.layout.height / 2) + layout.height / 2.0F);
+                    x = (((renderX + renderWidth) * Settings.xScale) - layout.width);
+                    y = (((renderY) * Settings.yScale + FontHelper.layout.height / 2) + layout.height / 2.0F);
                     if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y);
                 }
             }
@@ -236,17 +236,17 @@ public class TextBox extends UIElement {
             FontHelper.layout.setText(getFontForRender(), msg, Color.WHITE, renderWidth * Settings.xScale, align, true);
 
             if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP) renderY = renderY + renderHeight;
-            else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) renderY = renderY + renderHeight / 2 + (int) (FontHelper.layout.height / 2 / Settings.yScale);
-            else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM) renderY = renderY + (int) (FontHelper.layout.height / Settings.yScale);
+            else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) renderY = renderY + renderHeight / 2 + (FontHelper.layout.height / 2 / Settings.yScale);
+            else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM) renderY = renderY + (FontHelper.layout.height / Settings.yScale);
 
-            x = (int) (renderX * Settings.xScale);
-            y = (int) (renderY * Settings.yScale);
+            x = (renderX * Settings.xScale);
+            y = (renderY * Settings.yScale);
             if(layoutToReturn == null) layoutToReturn = cache.addText(msg, x, y, renderWidth * Settings.xScale, align, true);
         }
 
         getFontForRender().getData().setScale(1.f);
 
-        return new Pair<>(new IntegerVector2(x, y), layoutToReturn);
+        return new Pair<>(new Vector2(x, y), layoutToReturn);
     }
 
     //endregion
@@ -343,7 +343,7 @@ public class TextBox extends UIElement {
 
     //region Text Dimensions
 
-    public int getTextWidth(){
+    public float getTextWidth(){
         if(text == null || text.isEmpty()) return 0;
 
         getFontForRender().getData().setScale(getFontSizeForRender());
@@ -360,13 +360,13 @@ public class TextBox extends UIElement {
             FontHelper.layout.setText(getFontForRender(), text);
         }
 
-        int width = (int) FontHelper.layout.width;
+        float width = FontHelper.layout.width;
 
         getFontForRender().getData().setScale(1.f);
         return width;
     }
 
-    public int getTextHeight(){
+    public float getTextHeight(){
         if(text == null || text.isEmpty()) return 0;
 
         getFontForRender().getData().setScale(getFontSizeForRender());
@@ -383,7 +383,7 @@ public class TextBox extends UIElement {
             FontHelper.layout.setText(getFontForRender(), text);
         }
 
-        int height = (int) FontHelper.layout.height;
+        float height = FontHelper.layout.height;
 
         getFontForRender().getData().setScale(1.f);
         return height;
@@ -482,7 +482,7 @@ public class TextBox extends UIElement {
 
     public TextMetadata getTextMetadata(){
         if(metadata == null){
-            Pair<IntegerVector2, GlyphLayout> pair = prepareForRender();
+            Pair<Vector2, GlyphLayout> pair = prepareForRender();
             metadata = TextMetadata.generateFor(text, pair.getValue());
         }
         return metadata;

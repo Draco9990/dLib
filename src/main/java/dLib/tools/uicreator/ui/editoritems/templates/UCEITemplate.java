@@ -1,5 +1,6 @@
 package dLib.tools.uicreator.ui.editoritems.templates;
 
+import com.badlogic.gdx.math.Vector2;
 import dLib.external.ExternalMessageSender;
 import dLib.external.ExternalStatics;
 import dLib.properties.objects.templates.TProperty;
@@ -61,17 +62,17 @@ public abstract class UCEITemplate {
     protected void rescaleDimensions(UIElement editorItem){
         //TODO rescale items
         if(editorItem.getLocalPositionXRaw() instanceof PixelPosition){
-            editorItem.setLocalPositionX((int) (((PixelPosition) editorItem.getLocalPositionXRaw()).getValueRaw() * 0.8f));
+            editorItem.setLocalPositionX((((PixelPosition) editorItem.getLocalPositionXRaw()).getValueRaw() * 0.8f));
         }
         if(editorItem.getLocalPositionYRaw() instanceof PixelPosition){
-            editorItem.setLocalPositionY((int) (((PixelPosition) editorItem.getLocalPositionYRaw()).getValueRaw() * 0.8f));
+            editorItem.setLocalPositionY((((PixelPosition) editorItem.getLocalPositionYRaw()).getValueRaw() * 0.8f));
         }
 
         if(editorItem.getWidthRaw() instanceof PixelDimension){
-            editorItem.setWidth((int) (((PixelDimension) editorItem.getWidthRaw()).getValueRaw() * 0.8f));
+            editorItem.setWidth((((PixelDimension) editorItem.getWidthRaw()).getValueRaw() * 0.8f));
         }
         if(editorItem.getHeightRaw() instanceof PixelDimension){
-            editorItem.setHeight((int) (((PixelDimension) editorItem.getHeightRaw()).getValueRaw() * 0.8f));
+            editorItem.setHeight((((PixelDimension) editorItem.getHeightRaw()).getValueRaw() * 0.8f));
         }
     }
 
@@ -92,7 +93,7 @@ public abstract class UCEITemplate {
 
     protected void bindRightClickEvent(UIElement editorItem){
         editorItem.onRightClickEvent.subscribeManaged(() -> {
-            IntegerVector2 mousePos = UIHelpers.getMouseWorldPosition();
+            Vector2 mousePos = UIHelpers.getMouseWorldPosition();
 
             ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
 

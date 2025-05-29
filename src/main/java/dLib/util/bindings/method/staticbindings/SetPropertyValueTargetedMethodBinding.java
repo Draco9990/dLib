@@ -41,7 +41,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
 
     @Override
     public Object executeBinding(Object invoker, Object... args) {
-        boundProperty.getValue().getBoundObject(((UIElement) target.getValue().getBoundObject())).setValue(args[0]);
+        boundProperty.getValue().getBoundObject(target.getValue().getBoundObject()).setValue(args[0]);
         return null;
     }
 

@@ -30,8 +30,8 @@ public class ComboBox<OptionType> extends TextButton {
         label.setText(itemToStringShort(initialOption));
 
         onLeftClickEvent.subscribeManaged(() -> {
-            int buttonX = getWorldPositionX();
-            int buttonY = getWorldPositionY();
+            float buttonX = getWorldPositionX();
+            float buttonY = getWorldPositionY();
 
             SimpleListPicker<OptionType> picker = new SimpleListPicker<OptionType>(buttonX, buttonY, this.options) {
                 @Override

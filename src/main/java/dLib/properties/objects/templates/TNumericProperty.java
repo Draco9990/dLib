@@ -84,10 +84,10 @@ public abstract class TNumericProperty<T extends Number, PropertyType> extends T
     //region Min & Max values
 
     public PropertyType setMinimumValue(T minimumValue){
-        return (PropertyType) setLimits(minimumValue, maximumValue);
+        return setLimits(minimumValue, maximumValue);
     }
     public PropertyType setMaximumValue(T maximumValue){
-        return (PropertyType) setLimits(minimumValue, maximumValue);
+        return setLimits(minimumValue, maximumValue);
     }
     public PropertyType setLimits(T minimumValue, T maximumValue){
         this.minimumValue = minimumValue;

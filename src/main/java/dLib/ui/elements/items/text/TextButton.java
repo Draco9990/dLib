@@ -40,7 +40,7 @@ public class TextButton extends Button {
     public TextButton(TextButtonData data){
         super(data);
 
-        label = (TextBox) findChildById("label");
+        label = findChildById("label");
     }
 
     //endregion

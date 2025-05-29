@@ -9,26 +9,26 @@ public interface ILayoutProvider {
 
     boolean providesWidth();
     default boolean canCalculateContentWidth() { return true; }
-    Pair<Integer, Integer> calculateContentWidth();
+    Pair<Float, Float> calculateContentWidth();
 
     boolean providesHeight();
     default boolean canCalculateContentHeight() { return true; }
-    Pair<Integer, Integer> calculateContentHeight();
+    Pair<Float, Float> calculateContentHeight();
 
     //endregion Content Width and Height
 
     //region Content Padding
 
-    default int getContentPaddingLeft(){
+    default float getContentPaddingLeft(){
         return getContentPaddingLeftRaw().getCalculatedValue();
     }
-    default int getContentPaddingRight(){
+    default float getContentPaddingRight(){
         return getContentPaddingRightRaw().getCalculatedValue();
     }
-    default int getContentPaddingTop(){
+    default float getContentPaddingTop(){
         return getContentPaddingTopRaw().getCalculatedValue();
     }
-    default int getContentPaddingBottom(){
+    default float getContentPaddingBottom(){
         return getContentPaddingBottomRaw().getCalculatedValue();
     }
 

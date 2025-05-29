@@ -13,7 +13,7 @@ public abstract class ElementDescriptor<TReferenceEnum> implements Serializable 
 
     protected TReferenceEnum reference;
 
-    private int calculatedValue = 0;
+    private float calculatedValue = 0;
     protected boolean needsRecalculation = true;
 
     //endregion
@@ -38,13 +38,13 @@ public abstract class ElementDescriptor<TReferenceEnum> implements Serializable 
         needsRecalculation = true;
     }
 
-    public int getCalculatedValue(){
+    public float getCalculatedValue(){
         return calculatedValue;
     }
-    public void overrideCalculatedValue(int value){
+    public void overrideCalculatedValue(float value){
         calculatedValue = value;
     }
-    protected void setCalculatedValue(UIElement forElement, int value){
+    protected void setCalculatedValue(UIElement forElement, float value){
         calculatedValue = value;
         needsRecalculation = false;
     }

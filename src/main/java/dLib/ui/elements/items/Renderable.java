@@ -42,7 +42,7 @@ public class Renderable extends UIElement {
     private boolean preserveAspectRatio = false;
     private boolean noUpsize = false;
 
-    private IntegerVector2 renderOffset = new IntegerVector2(0, 0);
+    private Vector2 renderOffset = new Vector2(0, 0);
     private Vector2 renderScaleOffset = new Vector2(1, 1);
 
     private int hueShiftAmount = 0;
@@ -55,7 +55,7 @@ public class Renderable extends UIElement {
         this(imageBinding, Pos.px(0), Pos.px(0));
     }
     public Renderable(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
-        this(imageBinding, xPos, yPos, Dim.px((int) imageBinding.getBoundObject().getTotalWidth()), Dim.px((int) imageBinding.getBoundObject().getTotalHeight()));
+        this(imageBinding, xPos, yPos, Dim.px(imageBinding.getBoundObject().getTotalWidth()), Dim.px(imageBinding.getBoundObject().getTotalHeight()));
     }
     public Renderable(AbstractTextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
         this(imageBinding, Pos.px(0), Pos.px(0), width, height);
@@ -181,8 +181,8 @@ public class Renderable extends UIElement {
             renderPosY += renderOffset.y;
 
             // Apply render dimension percentages
-            int noRenderAmountX = (int) (renderWidth * (1 - renderDimensionsPerc.x));
-            int noRenderAmountY = (int) (renderHeight * (1 - renderDimensionsPerc.y));
+            float noRenderAmountX = (renderWidth * (1 - renderDimensionsPerc.x));
+            float noRenderAmountY = (renderHeight * (1 - renderDimensionsPerc.y));
 
             // Apply render dimension orientation
             float clipPosAddX = 0;
@@ -194,7 +194,7 @@ public class Renderable extends UIElement {
                 clipWidth = renderWidth - noRenderAmountX;
             }
             else if (renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.CENTER) {
-                clipPosAddX = (float) noRenderAmountX / 2;
+                clipPosAddX = noRenderAmountX / 2;
                 clipWidth = renderWidth - noRenderAmountX;
             } else if (renderDimensionsOrientation.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT) {
                 clipPosAddX = noRenderAmountX;
@@ -205,7 +205,7 @@ public class Renderable extends UIElement {
                 clipHeight = renderHeight - noRenderAmountY;
             }
             else if (renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.CENTER) {
-                clipPosAddY = (float) noRenderAmountY / 2;
+                clipPosAddY = noRenderAmountY / 2;
                 clipHeight = renderHeight - noRenderAmountY;
             } else if (renderDimensionsOrientation.verticalAlignment == Alignment.VerticalAlignment.TOP) {
                 clipPosAddY = noRenderAmountY;
@@ -393,12 +393,12 @@ public class Renderable extends UIElement {
 
     //region Scale Offsets
 
-    public Renderable setRenderOffset(IntegerVector2 offset){
+    public Renderable setRenderOffset(Vector2 offset){
         renderOffset = offset;
         return this;
     }
 
-    public IntegerVector2 getRenderOffset(){
+    public Vector2 getRenderOffset(){
         return renderOffset;
     }
 
@@ -462,7 +462,7 @@ public class Renderable extends UIElement {
                 .setDescription("How to render the image within the element.")
                 .setCategory("Render");
 
-        public IntegerVector2Property positionOffset = new IntegerVector2Property(new IntegerVector2(0, 0))
+        public FloatVector2Property positionOffset = new FloatVector2Property(new Vector2(0, 0))
                 .setName("Position Offset")
                 .setDescription("Offset for the render position of the rendered image.")
                 .setCategory("Render")

@@ -3,9 +3,6 @@ package dLib.ui.elements.items.itembox;
 import basemod.Pair;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.text.ImageTextBox;
-import dLib.ui.resources.UICommonResources;
-import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -52,8 +49,8 @@ public class GridItemBox<ItemType> extends DataItemBox<ItemType> implements IGri
 
     @Override
     protected void updateListVerticalTopBottom() {
-        int currentYPos = getHeight();
-        int currentXPos = 0;
+        float currentYPos = getHeight();
+        float currentXPos = 0;
 
         for(UIElement child : children){
             if(!child.isActive()){
@@ -91,7 +88,7 @@ public class GridItemBox<ItemType> extends DataItemBox<ItemType> implements IGri
         return IGridBoxCommons.super.canCalculateContentHeight();
     }
     @Override
-    public Pair<Integer, Integer> calculateContentHeight(){
+    public Pair<Float, Float> calculateContentHeight(){
         return IGridBoxCommons.super.calculateContentHeight();
     }
 

@@ -1,27 +1,26 @@
 package dLib.util.helpers;
 
+import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.layout.ILayoutProvider;
 import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AutoDimension;
-import dLib.util.ui.dimensions.FillDimension;
-import dLib.util.ui.dimensions.PercentageDimension;
 
 import java.util.UUID;
 
 public class UIHelpers {
-    public static IntegerVector2 getMouseWorldPosition(){
-        return new IntegerVector2(getMouseWorldPositionX(), getMouseWorldPositionY());
+    public static Vector2 getMouseWorldPosition(){
+        return new Vector2(getMouseWorldPositionX(), getMouseWorldPositionY());
     }
 
-    public static int getMouseWorldPositionX(){
-        return (int) Math.floor(InputHelper.mX / Settings.xScale);
+    public static float getMouseWorldPositionX(){
+        return (InputHelper.mX / Settings.xScale);
     }
 
-    public static int getMouseWorldPositionY(){
-        return (int) Math.floor(InputHelper.mY / Settings.yScale);
+    public static float getMouseWorldPositionY(){
+        return (InputHelper.mY / Settings.yScale);
     }
 
     public static String generateRandomElementId(){
@@ -30,8 +29,8 @@ public class UIHelpers {
         return randomUUIDString.replaceAll("-", "");
     }
 
-    public static Integer getCalculatedParentWidthInHierarchy(UIElement forElement){
-        Integer parentWidth = 1920;
+    public static Float getCalculatedParentWidthInHierarchy(UIElement forElement){
+        float parentWidth = 1920;
 
         UIElement parent = forElement.getParent();
         while(parent != null){
@@ -58,8 +57,8 @@ public class UIHelpers {
         return parentWidth;
     }
 
-    public static Integer getCalculatedParentHeightInHierarchy(UIElement forElement){
-        Integer parentHeight = 1080;
+    public static Float getCalculatedParentHeightInHierarchy(UIElement forElement){
+        float parentHeight = 1080;
 
         UIElement parent = forElement.getParent();
         while(parent != null){

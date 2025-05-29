@@ -14,33 +14,33 @@ public class ElementBounds extends AbstractBounds{
     }
 
     @Override
-    public Integer getWorldLeft(UIElement reference) {
+    public Float getWorldLeft(UIElement reference) {
         if(getBoundElement() == null){
-            return 0;
+            return 0f;
         }
 
         return getBoundElement().getWorldPositionX();
     }
     @Override
-    public Integer getWorldBottom(UIElement reference) {
+    public Float getWorldBottom(UIElement reference) {
         if(getBoundElement() == null){
-            return 0;
+            return 0f;
         }
 
         return getBoundElement().getWorldPositionY();
     }
     @Override
-    public Integer getWorldRight(UIElement reference) {
+    public Float getWorldRight(UIElement reference) {
         if(getBoundElement() == null){
-            return 1920;
+            return 1920f;
         }
 
         return getBoundElement().getWorldPositionX() + getBoundElement().getWidth();
     }
     @Override
-    public Integer getWorldTop(UIElement reference) {
+    public Float getWorldTop(UIElement reference) {
         if(getBoundElement() == null){
-            return 1080;
+            return 1080f;
         }
 
         return getBoundElement().getWorldPositionY() + getBoundElement().getHeight();

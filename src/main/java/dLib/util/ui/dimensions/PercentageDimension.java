@@ -33,7 +33,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     //region Calculation Methods
 
     @Override
-    protected void setCalculatedValue(UIElement forElement, int value) {
+    protected void setCalculatedValue(UIElement forElement, float value) {
         if(reference == ReferenceDimension.WIDTH){
             value -= forElement.getPaddingRight();
         }
@@ -49,7 +49,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, (int) (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
+                () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
                 () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
                 () -> !forElement.getPaddingRightRaw().needsRecalculation()
         ));
@@ -62,7 +62,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     @Override
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, (int) (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
+                () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
                 () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
                 () -> !forElement.getPaddingTopRaw().needsRecalculation()
         ));
@@ -134,7 +134,7 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     }
 
     @Override
-    public void resizeBy(UIElement self, int amount) {
+    public void resizeBy(UIElement self, float amount) {
         if(reference == ReferenceDimension.WIDTH){
             resizeWidthBy(self, amount);
         } else {
@@ -144,23 +144,23 @@ public class PercentageDimension extends AbstractDimension implements Serializab
         super.resizeBy(self, amount);
     }
 
-    public void resizeWidthBy(UIElement self, int amount) {
-        int parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(self);
+    public void resizeWidthBy(UIElement self, float amount) {
+        float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(self);
 
         if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT || self.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-            percentage += (float)amount / parentWidth;
+            percentage += amount / parentWidth;
         } else if(self.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
-            percentage -= (float)amount / parentWidth;
+            percentage -= amount / parentWidth;
         }
     }
 
-    public void resizeHeightBy(UIElement self, int amount) {
-        int parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(self);
+    public void resizeHeightBy(UIElement self, float amount) {
+        float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(self);
 
         if(self.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM || self.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-            percentage += (float)amount / parentHeight;
+            percentage += amount / parentHeight;
         } else if(self.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-            percentage -= (float)amount / parentHeight;
+            percentage -= amount / parentHeight;
         }
     }
 

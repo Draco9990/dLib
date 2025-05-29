@@ -3,9 +3,6 @@ package dLib.ui.elements.items.itembox;
 import basemod.Pair;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.layout.ILayoutProvider;
-import dLib.ui.util.ESelectionMode;
-import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -35,8 +32,8 @@ public class GridBox extends UIItemBox implements IGridBoxCommons {
 
     @Override
     protected void updateListVerticalTopBottom() {
-        int currentYPos = getHeight();
-        int currentXPos = 0;
+        float currentYPos = getHeight();
+        float currentXPos = 0;
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -68,7 +65,7 @@ public class GridBox extends UIItemBox implements IGridBoxCommons {
         return IGridBoxCommons.super.canCalculateContentHeight();
     }
     @Override
-    public Pair<Integer, Integer> calculateContentHeight(){
+    public Pair<Float, Float> calculateContentHeight(){
         return IGridBoxCommons.super.calculateContentHeight();
     }
 

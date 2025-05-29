@@ -102,7 +102,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     }
 
     protected void updateListVerticalBottomTop(){
-        int currentYPos = 0 + getContentPaddingBottom();
+        float currentYPos = 0 + getContentPaddingBottom();
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -122,7 +122,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     }
     protected void updateListVerticalTopBottom(){
-        int currentYPos = getHeight() - getContentPaddingTop();
+        float currentYPos = getHeight() - getContentPaddingTop();
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -140,7 +140,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     }
 
     protected void updateListHorizontalLeftRight(){
-        int currentXPos = 0 + getContentPaddingLeft();
+        float currentXPos = 0 + getContentPaddingLeft();
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -160,7 +160,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     }
     protected void updateListHorizontalRightLeft(){
-        int currentXPos = getWidth() - getContentPaddingRight();
+        float currentXPos = getWidth() - getContentPaddingRight();
 
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -272,7 +272,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     //region Local Child Offsets
 
     @Override
-    public int getChildOffsetX() {
+    public float getChildOffsetX() {
         if(getParent() == null){
             return super.getChildOffsetX();
         }
@@ -282,7 +282,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     }
 
     @Override
-    public int getChildOffsetY() {
+    public float getChildOffsetY() {
         if(getParent() == null){
             return super.getChildOffsetY();
         }
@@ -373,7 +373,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         return alignmentType == Alignment.AlignmentType.HORIZONTAL;
     }
     @Override
-    public Pair<Integer, Integer> calculateContentWidth() {
+    public Pair<Float, Float> calculateContentWidth() {
         int width = 0;
         for(UIElement child : filteredChildren){
             if(!child.isActive()){
@@ -395,7 +395,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         return alignmentType == Alignment.AlignmentType.VERTICAL;
     }
     @Override
-    public Pair<Integer, Integer> calculateContentHeight() {
+    public Pair<Float, Float> calculateContentHeight() {
         int height = 0;
         for(UIElement child : filteredChildren){
             if(!child.isActive()){

@@ -10,7 +10,7 @@ public class UIAnimation_SlideInUp extends UIAnimation {
 
     private AnimationProperties properties;
 
-    private int origElementY = 0;
+    private float origElementY = 0;
 
     public UIAnimation_SlideInUp(UIElement element) {
         this(element, new AnimationProperties());
@@ -33,7 +33,7 @@ public class UIAnimation_SlideInUp extends UIAnimation {
     public void update() {
         float newPos = MathUtils.lerp(this.element.getLocalPositionY(), origElementY, Gdx.graphics.getDeltaTime() * properties.speed);
 
-        element.getLocalPositionYRaw().overrideCalculatedValue((int) newPos);
+        element.getLocalPositionYRaw().overrideCalculatedValue(newPos);
 
         if (element.getLocalPositionY() + Settings.UI_SNAP_THRESHOLD >= origElementY) {
             state = EAnimationState.FINISHED;

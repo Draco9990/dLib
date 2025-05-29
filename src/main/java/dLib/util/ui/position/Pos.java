@@ -4,6 +4,9 @@ public class Pos {
     public static PixelPosition px(int pos){
         return new PixelPosition(pos);
     }
+    public static PixelPosition px(float pos){
+        return new PixelPosition(pos);
+    }
 
     public static PercentagePosition perc(float pos){
         return new PercentagePosition(pos);

@@ -19,21 +19,21 @@ public abstract class AbstractBounds {
         return this.getWorldLeft() >= other.getWorldLeft() && this.getWorldRight() <= other.getWorldRight() && this.getWorldTop() <= other.getWorldTop() && this.getWorldBottom() >= other.getWorldBottom();
     }
 
-    public final Integer getWorldLeft(){
+    public final Float getWorldLeft(){
         return getWorldLeft(null);
     }
-    public final Integer getWorldBottom(){
+    public final Float getWorldBottom(){
         return getWorldBottom(null);
     }
-    public final Integer getWorldRight(){
+    public final Float getWorldRight(){
         return getWorldRight(null);
     }
-    public final Integer getWorldTop(){
+    public final Float getWorldTop(){
         return getWorldTop(null);
     }
 
-    public abstract Integer getWorldLeft(UIElement reference);
-    public abstract Integer getWorldBottom(UIElement reference);
-    public abstract Integer getWorldRight(UIElement reference);
-    public abstract Integer getWorldTop(UIElement reference);
+    public abstract Float getWorldLeft(UIElement reference);
+    public abstract Float getWorldBottom(UIElement reference);
+    public abstract Float getWorldRight(UIElement reference);
+    public abstract Float getWorldTop(UIElement reference);
 }

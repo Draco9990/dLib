@@ -49,7 +49,7 @@ public class ColorWheel extends Renderable {
     }
 
     private void recreateTexture(){
-        int radius = Math.min(getWidth(), getHeight()) / 2;
+        int radius = (int) Math.min(getWidth(), getHeight()) / 2;
         Pixmap pixmap = new Pixmap(radius * 2, radius * 2, Pixmap.Format.RGBA8888);
         for (int dy = -radius; dy < radius; dy++) {
             for (int dx = -radius; dx < radius; dx++) {
@@ -91,9 +91,9 @@ public class ColorWheel extends Renderable {
     }
 
     private Color calculateCurrentColor(){
-        int radius = Math.min(getWidth(), getHeight()) / 2;
-        float dx = InputHelper.mX / Settings.xScale - (getWorldPositionX() + (float)getWidth() / 2);
-        float dy = InputHelper.mY / Settings.yScale - (getWorldPositionY() + (float)getHeight() / 2);
+        float radius = Math.min(getWidth(), getHeight()) / 2;
+        float dx = InputHelper.mX / Settings.xScale - (getWorldPositionX() + getWidth() / 2);
+        float dy = InputHelper.mY / Settings.yScale - (getWorldPositionY() + getHeight() / 2);
         float hue = (float) ((Math.atan2(-dy, dx) / Math.PI / 2 + 1) % 1);
 
         if (dx * dx + dy * dy <= radius * radius) {

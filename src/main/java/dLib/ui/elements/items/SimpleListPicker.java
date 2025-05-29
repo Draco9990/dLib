@@ -16,7 +16,7 @@ public class SimpleListPicker<OptionType> extends Renderable {
 
     public Event<Consumer<OptionType>> onOptionSelectedEvent = new Event<>();
 
-    public SimpleListPicker(int right, int top, ArrayList<OptionType> options) {
+    public SimpleListPicker(float right, float top, ArrayList<OptionType> options) {
         super(Tex.stat(ImageMaster.OPTION_CONFIRM), Pos.px(right-400), Pos.px(top-300), Dim.px(530), Dim.px(315));
 
         setContextual(true);

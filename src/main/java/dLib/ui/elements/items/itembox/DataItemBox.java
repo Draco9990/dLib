@@ -294,7 +294,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public ArrayList<ItemType> getCurrentlySelectedItems(){
         ArrayList<ItemType> selectedItems = new ArrayList<>();
         for(UIElement child : children){
-            Toggle wrapOverlay = (Toggle) child.findChildById("wrap_overlay");
+            Toggle wrapOverlay = child.findChildById("wrap_overlay");
             if(wrapOverlay == null){
                 continue;
             }
@@ -327,7 +327,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         boolean changed = false;
 
         for(UIElement child : children){
-            Toggle wrapOverlay = (Toggle) child.findChildById("wrap_overlay");
+            Toggle wrapOverlay = child.findChildById("wrap_overlay");
             if(wrapOverlay == null){
                 continue;
             }

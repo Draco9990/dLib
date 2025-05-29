@@ -21,13 +21,13 @@ public class PixelPosition extends AbstractPosition implements Serializable {
 
     //region Variables
 
-    private int position;
+    private float position;
 
     //endregion
 
     //region Constructors
 
-    public PixelPosition(int position){
+    public PixelPosition(float position){
         this.position = position;
     }
 
@@ -38,7 +38,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     //region Calculation
 
     @Override
-    protected void setCalculatedValue(UIElement forElement, int value) {
+    protected void setCalculatedValue(UIElement forElement, float value) {
         if(reference == ReferencePosition.X){
             value += forElement.getOffsetX();
             value += forElement.getPaddingLeft();
@@ -68,7 +68,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((int) ((forElement.getParentWidthSafe() - forElement.getWidth()) * 0.5f))),
+                        () -> setCalculatedValue(forElement, ((forElement.getParentWidthSafe() - forElement.getWidth()) * 0.5f)),
                         () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
                         () -> !forElement.needsWidthCalculation(),
                         () -> !forElement.getPaddingLeftRaw().needsRecalculation(),
@@ -116,7 +116,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
             }
             else{
                 return new Pair<>(ElementDescriptorCalcOrders.POSITION_PIXEL_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((int) ((forElement.getParentHeightSafe() - forElement.getHeight()) * 0.5f))),
+                        () -> setCalculatedValue(forElement, ((forElement.getParentHeightSafe() - forElement.getHeight()) * 0.5f)),
                         () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
                         () -> !forElement.needsHeightCalculation(),
                         () -> !forElement.getPaddingBottomRaw().needsRecalculation(),
@@ -151,13 +151,13 @@ public class PixelPosition extends AbstractPosition implements Serializable {
 
     //region Value
 
-    public int getValueRaw(){
+    public float getValueRaw(){
         return position;
     }
 
     @Override
     public void setValueFromString(String value) {
-        position = Integer.parseInt(value);
+        position = Float.parseFloat(value);
     }
 
     //endregion

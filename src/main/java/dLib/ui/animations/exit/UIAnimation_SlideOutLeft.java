@@ -9,7 +9,7 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
 
     private AnimationProperties properties;
 
-    private int origElementX = 0;
+    private float origElementX = 0;
 
     public UIAnimation_SlideOutLeft(UIElement element) {
         this(element, new AnimationProperties());

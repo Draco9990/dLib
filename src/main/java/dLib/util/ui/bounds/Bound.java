@@ -3,7 +3,7 @@ package dLib.util.ui.bounds;
 import dLib.ui.elements.UIElement;
 
 public class Bound {
-    public static PositionBounds pos(Integer left, Integer bottom, Integer right, Integer top) {
+    public static PositionBounds pos(float left, float bottom, float right, float top) {
         return new PositionBounds(left, bottom, right, top);
     }
 

@@ -78,7 +78,7 @@ public class UCEditor extends Renderable {
         mainBox.setPadding(Padd.px(10));
         addChild(mainBox);
 
-        UIElement canvasChild = new UIElement(Pos.px(0), Pos.px(0), Dim.px((int) (1920 * 0.8f)), Dim.px((int) (1080 * 0.8f)));
+        UIElement canvasChild = new UIElement(Pos.px(0), Pos.px(0), Dim.px((1920 * 0.8f)), Dim.px((1080 * 0.8f)));
         canvasChild.setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.CENTER);
         canvas.addChild(canvasChild);
         itemTree = new UCEditorItemTree(canvasChild);
