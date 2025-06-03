@@ -5,6 +5,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.DLibLogger;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.Dim;
@@ -85,20 +86,13 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             float elementWorldX = owner.getWorldPositionX() + owner.getWidth();
             float elementWorldY = owner.getWorldPositionY() + owner.getHeight();
 
+            DLibLogger.log("C[" + worldCx + ", " + worldCy + "] E[" + elementWorldX + ", " + elementWorldY + "]");
+
             float offsetX = worldCx - elementWorldX;
             float offsetY = worldCy - elementWorldY;
             owner.resizeBy(offsetX, offsetY);
         });
         cornerResizeNodes[3].addComponent(new UITransientElementComponent());
-    }
-
-    private void onNodeMoved(){
-        PositionBounds nodeBounds = new PositionBounds(0, 0, 0, 0);
-        nodeBounds.left = Math.min(cornerResizeNodes[0].getWorldPositionCenteredX(), cornerResizeNodes[2].getWorldPositionCenteredX());
-        nodeBounds.bottom = Math.min(cornerResizeNodes[0].getWorldPositionCenteredY(), cornerResizeNodes[1].getWorldPositionCenteredY());
-        nodeBounds.right = Math.max(cornerResizeNodes[1].getWorldPositionCenteredX(), cornerResizeNodes[3].getWorldPositionCenteredX());
-        nodeBounds.top = Math.max(cornerResizeNodes[2].getWorldPositionCenteredY(), cornerResizeNodes[3].getWorldPositionCenteredY());
-        owner.setPositionAndDimensionsFromWorldBounds(nodeBounds);
     }
 
     @Override

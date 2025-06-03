@@ -2,6 +2,7 @@ package dLib.ui;
 
 import basemod.Pair;
 import dLib.ui.elements.UIElement;
+import dLib.util.DLibLogger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -54,8 +55,7 @@ public class ElementCalculationManager {
             }
 
             if(!somethingChanged){
-                //throw new RuntimeException("Circular dependency detected in element calculation");
-                int j = 0;
+                throw new RuntimeException("Circular dependency detected in element calculation");
             }
         }
 
