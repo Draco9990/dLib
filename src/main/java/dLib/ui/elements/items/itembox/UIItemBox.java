@@ -52,7 +52,7 @@ public abstract class UIItemBox extends ItemBox {
                 itemsToAdd.remove(existingChild);
             }
             else {
-                removeChild(existingChild);
+                removeChildById(existingChild);
             }
         }
 
@@ -76,10 +76,6 @@ public abstract class UIItemBox extends ItemBox {
 
         for(UIElement child : children){
             if(!filterCheck(filterText, child)){
-                continue;
-            }
-
-            if(child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 

@@ -7,6 +7,7 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.layout.ILayoutProvider;
 import dLib.ui.resources.UICommonResources;
@@ -105,7 +106,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float currentYPos = 0 + getContentPaddingBottom();
 
         for(UIElement child : filteredChildren){
-            if(!child.isActive()){
+            if(!child.isActive() || child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 
@@ -125,7 +126,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float currentYPos = getHeight() - getContentPaddingTop();
 
         for(UIElement child : filteredChildren){
-            if(!child.isActive()){
+            if(!child.isActive() || child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 
@@ -143,7 +144,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float currentXPos = 0 + getContentPaddingLeft();
 
         for(UIElement child : filteredChildren){
-            if(!child.isActive()){
+            if(!child.isActive() || child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 
@@ -163,7 +164,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float currentXPos = getWidth() - getContentPaddingRight();
 
         for(UIElement child : filteredChildren){
-            if(!child.isActive()){
+            if(!child.isActive() || child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 
@@ -189,10 +190,6 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         for(UIElement child : filteredChildren){
             child.render(sb);
         }
-    }
-
-    public boolean isChildVisible(UIElement child){
-        return filteredChildren.contains(child);
     }
 
     //endregion
@@ -441,6 +438,18 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         }
     }
 
+
+    //endregion
+
+    @Override
+    public boolean isChildEnabled(UIElement child) {
+        return filteredChildren.contains(child);
+    }
+
+    @Override
+    public boolean isChildVisible(UIElement child){
+        return filteredChildren.contains(child);
+    }
 
     //endregion
 

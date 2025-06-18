@@ -34,9 +34,9 @@ import dLib.ui.elements.components.data.AbstractUIElementDataComponent;
 import dLib.ui.elements.items.ContextMenu;
 import dLib.ui.elements.items.Tooltip;
 import dLib.ui.elements.items.itembox.ItemBox;
+import dLib.ui.layout.ILayoutProvider;
 import dLib.ui.screens.UIManager;
 import dLib.util.DLibLogger;
-import dLib.util.IntegerVector2;
 import dLib.util.Reflection;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
@@ -127,7 +127,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private float darkenedColorMultiplier = 0.4f;
     protected boolean isDarkened = false;
 
-    protected boolean controllerSelectable = false;
+    private boolean controllerSelectable = false;
     private boolean selected;
     public ConsumerEvent<Boolean> onSelectionStateChangedEvent = new ConsumerEvent<>();
 
@@ -424,7 +424,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         if(hasParent()){
-            parent.removeChild(this);
+            parent.removeChildById(this);
         }
         else{
             close();
@@ -748,16 +748,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
             while(!children.isEmpty()){
                 UIElement child = children.get(0);
-                removeChild(child);
+                removeChildById(child);
                 parent.addChild(child);
             }
 
-            parent.removeChild(this);
+            parent.removeChildById(this);
             newParent.addChild(this);
         }
         else {
             if(parent != null){
-                parent.removeChild(this);
+                parent.removeChildById(this);
             }
 
             newParent.addChild(this);
@@ -803,8 +803,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         this.children.add(child);
         child.setParent(this);
-        onChildAddedEvent.invoke(child);
-        onChildrenChanged();
+
+        if(!child.hasComponent(UITransientElementComponent.class)){
+            onChildAddedEvent.invoke(child);
+            onChildrenChanged();
+        }
     }
     public void setChildren(ArrayList<UIElement> children){
         clearChildren();
@@ -819,8 +822,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         this.children.add(index, child);
         child.setParent(this);
-        onChildAddedEvent.invoke(child);
-        onChildrenChanged();
+
+        if(!child.hasComponent(UITransientElementComponent.class)){
+            onChildAddedEvent.invoke(child);
+            onChildrenChanged();
+        }
     }
 
     public void swapChildren(int index1, int index2){
@@ -831,13 +837,25 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return children.contains(child);
     }
 
-    public void removeChild(UIElement child){
+    public void removeChildById(UIElement child){
         if(children.remove(child)){
             child.setParent(null);
-            onChildRemovedEvent.invoke(child);
-            onChildrenChanged();
+
+            if(!child.hasComponent(UITransientElementComponent.class)){
+                onChildRemovedEvent.invoke(child);
+                onChildrenChanged();
+            }
         }
     }
+    public void removeChildById(String childId){
+        UIElement child = findChildById(childId);
+        if(child == null){
+            return;
+        }
+
+        removeChildById(child);
+    }
+
     public void replaceChild(UIElement original, UIElement replacement){
         int childIndex = children.indexOf(original);
         if(childIndex == -1){
@@ -849,9 +867,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         original.dispose();
 
         replacement.setParent(this);
-        onChildRemovedEvent.invoke(original);
-        onChildAddedEvent.invoke(replacement);
-        onChildrenChanged();
+
+        if(!original.hasComponent(UITransientElementComponent.class)){
+            onChildRemovedEvent.invoke(original);
+        }
+
+        if(!replacement.hasComponent(UITransientElementComponent.class)){
+            onChildAddedEvent.invoke(replacement);
+            onChildrenChanged();
+        }
     }
     public void clearChildren(){
         //TODO this is currently called from both dispose (where the parent is already cleared) and from when it isnt, fix
@@ -1517,7 +1541,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public boolean isEnabled(){
         if(hasParent() && !parent.isEnabled()) return false;
-        return isEnabled;
+        return isEnabled && (getParent() == null || !(getParent() instanceof ILayoutProvider) || ((ILayoutProvider) getParent()).isChildEnabled(this));
     }
     public boolean isEnabledRaw(){
         return isEnabled;
@@ -2304,7 +2328,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.drawFocusOnOpen = drawControllerFocusOnOpen;
     }
     public boolean shouldDrawFocusOnOpen(){
-        return drawFocusOnOpen;
+        return drawFocusOnOpen || isModal() || isContextual();
     }
 
     public void focus(){

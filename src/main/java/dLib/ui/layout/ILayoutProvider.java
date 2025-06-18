@@ -1,6 +1,7 @@
 package dLib.ui.layout;
 
 import basemod.Pair;
+import dLib.ui.elements.UIElement;
 import dLib.util.ui.padding.AbstractPadding;
 
 public interface ILayoutProvider {
@@ -59,4 +60,16 @@ public interface ILayoutProvider {
     }
 
     //endregion
+
+    //region Child Manipulation
+
+    default boolean isChildEnabled(UIElement child){
+        return true;
+    }
+
+    default boolean isChildVisible(UIElement child){
+        return true;
+    }
+
+    //endregion Child Manipulation
 }

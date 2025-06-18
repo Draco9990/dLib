@@ -136,7 +136,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     selectionChanged = true;
                 }
 
-                removeChild(existingChild);
+                removeChildById(existingChild);
                 childWrapperMap.removeByKey(existingChild);
             }
         }
@@ -159,8 +159,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     }
 
     @Override
-    public void removeChild(UIElement child) {
-        super.removeChild(child);
+    public void removeChildById(UIElement child) {
+        super.removeChildById(child);
 
         childWrapperMap.removeByKey(child);
     }
@@ -168,7 +168,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public void removeChild(ItemType item){
         UIElement child = childWrapperMap.getByValue(item);
         if(child != null){
-            removeChild(child);
+            removeChildById(child);
         }
     }
 
@@ -427,10 +427,6 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
         for(UIElement child : children){
             if(!filterCheck(filterText, child, childWrapperMap.getByKey(child))){
-                continue;
-            }
-
-            if(child.hasComponent(UITransientElementComponent.class)){
                 continue;
             }
 

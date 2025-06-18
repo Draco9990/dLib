@@ -5,9 +5,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.DLibLogger;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
@@ -86,8 +84,6 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             float elementWorldX = owner.getWorldPositionX() + owner.getWidth();
             float elementWorldY = owner.getWorldPositionY() + owner.getHeight();
 
-            DLibLogger.log("C[" + worldCx + ", " + worldCy + "] E[" + elementWorldX + ", " + elementWorldY + "]");
-
             float offsetX = worldCx - elementWorldX;
             float offsetY = worldCy - elementWorldY;
             owner.resizeBy(offsetX, offsetY);
@@ -149,7 +145,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             super.updateSelf();
 
             if(pendingRemoval && !isHovered() && !isHeld()){
-                getParent().removeChild(this);
+                getParent().removeChildById(this);
                 hideAndDisableInstantly();
                 pendingRemoval = false;
             }

@@ -7,6 +7,7 @@ import dLib.util.bindings.texture.textureresource.ITextureSource;
 
 public class UICommonResources implements ITextureSource {
     public static final Texture white_pixel = ImageMaster.loadImage("dLibResources/images/ui/common/white_pixel.png");
+    public static final Texture transparent_pixel = ImageMaster.loadImage("dLibResources/images/ui/common/transparent_pixel.png");
 
     public static final Texture arrow_left = ImageMaster.loadImage("dLibResources/images/ui/common/arrow/left.png");
     public static final Texture arrow_right = ImageMaster.loadImage("dLibResources/images/ui/common/arrow/right.png");
@@ -81,4 +82,6 @@ public class UICommonResources implements ITextureSource {
     public static final Texture color_fill = ImageMaster.loadImage("dLibResources/images/ui/common/magiccolor/Fill.png");
     public static final Texture color_outline = ImageMaster.loadImage("dLibResources/images/ui/common/magiccolor/Outline.png");
     public static final Texture color_outline_selected = ImageMaster.loadImage("dLibResources/images/ui/common/magiccolor/Outline_selected.png");
+
+    public static final NinePatch advancedDebugOverlay = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/AdvancedElementHitbox.png"), 50, 50, 50, 50);
 }

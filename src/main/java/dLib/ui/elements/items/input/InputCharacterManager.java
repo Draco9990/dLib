@@ -1,7 +1,6 @@
 package dLib.ui.elements.items.input;
 
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.color.ColorPickerPopup;
 import dLib.util.IntegerVector2;
@@ -161,7 +160,7 @@ public class InputCharacterManager extends UIElement {
     public void poolChildren(){
         for (InputCharacterHB child : getChildren(InputCharacterHB.class)){
             inputCharHBPool.add(child);
-            removeChild(child);
+            removeChildById(child);
         }
     }
 

@@ -1,10 +1,11 @@
-package dLib.ui.elements.items;
+package dLib.ui.elements.items.hierarchyviewer;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDropZoneComponent;
 import dLib.ui.elements.components.UIPayloadComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
+import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextButton;
@@ -50,7 +51,9 @@ public class HierarchyViewer extends VerticalBox {
             currentLevelBox.addChild(new Spacer(Dim.px(20 * level), Dim.fill()));
             currentLevelBox.addChild(makeHierarchyViewerElementButton_internal(child));
         }
-        addChild(currentLevelBox);
+        if(shouldListChild(child)){
+            addChild(currentLevelBox);
+        }
 
         if(!child.getChildren().isEmpty()){
             for(UIElement grandChild : child.getChildren()){
@@ -61,6 +64,10 @@ public class HierarchyViewer extends VerticalBox {
                 recursivelyAddChild(grandChild, level + 1);
             }
         }
+    }
+
+    protected boolean shouldListChild(UIElement element) {
+        return !element.hasComponent(UITransientElementComponent.class);
     }
 
     protected HierarchyViewerChildElementButton makeHierarchyViewerElementButton_internal(UIElement element){
