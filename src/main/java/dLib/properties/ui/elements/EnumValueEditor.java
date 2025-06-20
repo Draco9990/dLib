@@ -47,6 +47,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             enumBox.onSelectionChangedEvent.subscribe(this, (Consumer<OfType>) (newVal) -> {
                 boundProperty.setValue(newVal);
             });
+            enumBox.setControllerSelectable(false);
             box.addChild(enumBox);
 
             rightArrow = new Button(Dim.mirror(), Dim.px(50));

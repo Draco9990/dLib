@@ -10,6 +10,7 @@ import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.text.TextBox;
@@ -62,7 +63,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
         else{
             for (UIElement child : forElement.getChildren()){
-                if(child.hasComponent(UITransientElementComponent.class)) continue;
+                if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
                 Pair<Float, Float> childWidth = calculateWidthRecursive(child, includePadding);
                 if(totalWidth == null){
@@ -113,7 +114,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     private boolean canCalculateWidth(UIElement forElement){
         for (UIElement child : forElement.getAllChildren()) {
-            if(child.hasComponent(UITransientElementComponent.class)) continue;
+            if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
             if(child.getParent() == forElement){
                 if(child.needsWidthCalculation()){
@@ -177,7 +178,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
         else{
             for (UIElement child : forElement.getChildren()){
-                if(child.hasComponent(UITransientElementComponent.class)) continue;
+                if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
                 Pair<Float, Float> childHeight = calculateHeightRecursive(child, includePadding);
                 if(totalHeight == null){
@@ -228,7 +229,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     private boolean canCalculateHeight(UIElement forElement){
         for (UIElement child : forElement.getAllChildren()) {
-            if(child.hasComponent(UITransientElementComponent.class)) continue;
+            if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
             if(child.getParent() == forElement){
                 if(child.needsHeightCalculation()){

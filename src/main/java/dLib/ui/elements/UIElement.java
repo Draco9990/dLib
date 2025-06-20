@@ -26,10 +26,7 @@ import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.animations.exit.UIExitAnimation;
-import dLib.ui.elements.components.GeneratedElementComponent;
-import dLib.ui.elements.components.UIDebuggableComponent;
-import dLib.ui.elements.components.AbstractUIElementComponent;
-import dLib.ui.elements.components.UITransientElementComponent;
+import dLib.ui.elements.components.*;
 import dLib.ui.elements.components.data.AbstractUIElementDataComponent;
 import dLib.ui.elements.items.ContextMenu;
 import dLib.ui.elements.items.Tooltip;
@@ -1794,7 +1791,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public PositionBounds getFullChildLocalBounds(){
         PositionBounds fullChildBounds = null;
         for(UIElement child : children){
-            if(!(child.isActive()) || child.hasComponent(UITransientElementComponent.class)){
+            if(!(child.isActive()) || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 

@@ -30,8 +30,6 @@ public class InputfieldToolbar extends HorizontalBox {
         setTexture(UICommonResources.tooltipBg);
         setContentPadding(Padd.px(5));
 
-        addComponent(new UITransientElementComponent());
-
         setEntryAnimation(new UIAnimation_FadeIn(this));
         setExitAnimation(new UIAnimation_FadeOut(this));
 

@@ -92,6 +92,7 @@ public class VerticalScrollbar extends Scrollbar {
         Button slider = new Button(Pos.px((5 * 1.29f)), Pos.px(0), Dim.perc(0.7762), Dim.px(60));
         slider.setTexture(Tex.stat(UICommonResources.scrollbar_vertical_train));
         slider.setContainerBounds(Bound.parent(slider));
+        slider.setControllerSelectable(false);
         return slider;
     }
 

@@ -7,6 +7,7 @@ import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.layout.ILayoutProvider;
@@ -106,7 +107,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float currentYPos = 0 + getContentPaddingBottom();
 
         for(UIElement child : filteredChildren){
-            if(!child.isActive() || child.hasComponent(UITransientElementComponent.class)){
+            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 
@@ -126,7 +127,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float currentYPos = getHeight() - getContentPaddingTop();
 
         for(UIElement child : filteredChildren){
-            if(!child.isActive() || child.hasComponent(UITransientElementComponent.class)){
+            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 
@@ -144,7 +145,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float currentXPos = 0 + getContentPaddingLeft();
 
         for(UIElement child : filteredChildren){
-            if(!child.isActive() || child.hasComponent(UITransientElementComponent.class)){
+            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 
@@ -164,7 +165,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float currentXPos = getWidth() - getContentPaddingRight();
 
         for(UIElement child : filteredChildren){
-            if(!child.isActive() || child.hasComponent(UITransientElementComponent.class)){
+            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 

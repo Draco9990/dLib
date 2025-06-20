@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Toggle;
 import dLib.ui.elements.items.text.ImageTextBox;
@@ -245,7 +246,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         };
         overlay.setID("wrap_overlay");
         overlay.setRenderColor(new Color(0, 0, 0, 0f));
-        overlay.addComponent(new UITransientElementComponent());
+        overlay.addComponent(new UIOverlayElementComponent());
+        overlay.setControllerSelectable(getSelectionMode() != ESelectionMode.NONE);
         parent.addChild(overlay);
 
         postMakeUIForItem(item, itemUI);

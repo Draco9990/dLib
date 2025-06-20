@@ -39,6 +39,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             owner.resizeBy(-offsetX, -offsetY);
         });
         cornerResizeNodes[0].addComponent(new UITransientElementComponent());
+        cornerResizeNodes[0].addComponent(new UIOverlayElementComponent());
 
         //Bottom right
         cornerResizeNodes[1] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
@@ -56,6 +57,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             owner.resizeBy(offsetX, -offsetY);
         });
         cornerResizeNodes[1].addComponent(new UITransientElementComponent());
+        cornerResizeNodes[0].addComponent(new UIOverlayElementComponent());
 
         //Top left
         cornerResizeNodes[2] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
@@ -73,6 +75,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             owner.resizeBy(-offsetX, offsetY);
         });
         cornerResizeNodes[2].addComponent(new UITransientElementComponent());
+        cornerResizeNodes[0].addComponent(new UIOverlayElementComponent());
 
         //Top right
         cornerResizeNodes[3] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.TOP);
@@ -89,6 +92,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             owner.resizeBy(offsetX, offsetY);
         });
         cornerResizeNodes[3].addComponent(new UITransientElementComponent());
+        cornerResizeNodes[0].addComponent(new UIOverlayElementComponent());
     }
 
     @Override
