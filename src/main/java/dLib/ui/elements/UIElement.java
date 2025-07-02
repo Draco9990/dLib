@@ -126,7 +126,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private boolean controllerSelectable = false;
     private boolean selected;
-    public ConsumerEvent<Boolean> onSelectionStateChangedEvent = new ConsumerEvent<>();
+    public ConsumerEvent<Boolean> postSelectionStateChangedEvent = new ConsumerEvent<>();                               public static BiConsumerEvent<UIElement, Boolean> postSelectionStateChangedEvent_Global = new BiConsumerEvent<>();
 
     private boolean isPassthrough = true;
 
@@ -1326,35 +1326,45 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Interactions
     public boolean onLeftInteraction(){
-        boolean hasInteraction = false;
+        /*boolean hasInteraction = false;
         for(UIElement child : children) hasInteraction = hasInteraction || child.onLeftInteraction();
-        return hasInteraction;
+        return hasInteraction;*/ //* See if we can remove
+        return false;
     }
     public boolean onRightInteraction(){
-        boolean hasInteraction = false;
+        /*boolean hasInteraction = false;
         for(UIElement child : children) hasInteraction = hasInteraction || child.onRightInteraction();
-        return hasInteraction;
+        return hasInteraction;*/
+        return false;
     }
     public boolean onUpInteraction(){
-        boolean hasInteraction = false;
+        /*boolean hasInteraction = false;
         for(UIElement child : children) hasInteraction = hasInteraction || child.onUpInteraction();
-        return hasInteraction;
+        return hasInteraction;*/
+        return false;
     }
     public boolean onDownInteraction(){
-        boolean hasInteraction = false;
+        /*boolean hasInteraction = false;
         for(UIElement child : children) hasInteraction = hasInteraction || child.onDownInteraction();
-        return hasInteraction;
+        return hasInteraction;*/
+        return false;
     }
 
     public boolean onConfirmInteraction(){
-        boolean hasInteraction = false;
+        /*boolean hasInteraction = false;
         for(UIElement child : children) hasInteraction = hasInteraction || child.onConfirmInteraction();
-        return hasInteraction;
+        return hasInteraction;*/
+
+        clickLeft();
+        return onLeftClickEvent.count() > 0 || onLeftClickHeldEvent.count() > 0 || onLeftClickReleaseEvent.count() > 0;
     }
     public boolean onCancelInteraction(){
-        boolean hasInteraction = false;
+        /*boolean hasInteraction = false;
         for(UIElement child : children) hasInteraction = hasInteraction || child.onCancelInteraction();
-        return hasInteraction;
+        return hasInteraction;*/
+
+
+        return false;
     }
     //endregion
 
@@ -1410,7 +1420,20 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
         }
 
-        onSelectionStateChangedEvent.invoke(isSelected());
+        postSelectionStateChangedEvent.invoke(isSelected());
+        postSelectionStateChangedEvent_Global.invoke(this, isSelected());
+    }
+
+    public void controllerSelect(){
+        onHovered();
+
+        select();
+    }
+
+    public void controllerDeselect(){
+        deselect();
+
+        onUnhovered();
     }
 
     //endregion
@@ -2165,8 +2188,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //region Left Click
-
-    public void trigger(){ clickLeft(); }
 
     public void clickLeft(){
         onLeftClick();

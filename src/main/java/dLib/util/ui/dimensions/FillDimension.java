@@ -11,6 +11,7 @@ import dLib.ui.annotations.DisplayClass;
 import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
+import dLib.util.DLibLogger;
 import dLib.util.helpers.UIHelpers;
 
 import java.io.Serializable;
@@ -49,7 +50,10 @@ public class FillDimension extends AbstractDimension implements Serializable {
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> setCalculatedValue(forElement, calculateWidth(forElement)),
-                () -> canCalculateWidth(forElement),
+                () -> {
+                    boolean test = canCalculateWidth(forElement);
+                    return test;
+                },
                 () -> !forElement.getPaddingRightRaw().needsRecalculation()
         ));
     }
@@ -102,7 +106,8 @@ public class FillDimension extends AbstractDimension implements Serializable {
                 return false;
             }
 
-            return UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null;
+            Float result = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+            return result != null;
         }
     }
 

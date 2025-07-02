@@ -19,7 +19,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 import java.util.UUID;
 
 public class HierarchyViewer extends VerticalBox {
-    private UIElement forElement;
+    protected UIElement forElement;
 
     private boolean allowReordering = false;
     private boolean canReorderRoot = false;

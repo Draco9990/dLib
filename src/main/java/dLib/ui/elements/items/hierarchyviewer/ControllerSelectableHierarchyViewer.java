@@ -9,7 +9,18 @@ import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureStaticBinding;
 import dLib.util.ui.dimensions.Dim;
 
+import java.util.function.Consumer;
+
 public class ControllerSelectableHierarchyViewer extends HierarchyViewer{
+
+    public ControllerSelectableHierarchyViewer(){
+        super();
+
+        UIElement.postSelectionStateChangedEvent_Global.subscribe(this, (element, selected) -> {
+            delayedActions.add(() -> loadForElement(element.getTopParent()));
+        });
+    }
+
     @Override
     protected HierarchyViewerChildElementButton makeHierarchyViewerElementButton_internal(UIElement element) {
         HierarchyViewerChildElementButton button = super.makeHierarchyViewerElementButton_internal(element);

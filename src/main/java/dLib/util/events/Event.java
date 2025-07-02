@@ -67,4 +67,8 @@ public class Event<EventType> {
 
         boundsObjects.remove(event.source);
     }
+
+    public int count(){
+        return subscribers.size();
+    }
 }

@@ -139,9 +139,9 @@ public class UIManager {
 
             if (child.isSelected()) {
                 Reflection.setFieldValue("value", foundSelectedElement, true);
-                child.deselect();
+                child.controllerDeselect();
             } else if (foundSelectedElement && !child.isSelected()) {
-                child.select();
+                child.controllerSelect();
                 return true;
             }
 
@@ -160,10 +160,10 @@ public class UIManager {
 
             if(child.isSelected()){
                 Reflection.setFieldValue("value", foundSelectedElement, true);
-                child.deselect();
+                child.controllerDeselect();
             }
             else if(foundSelectedElement && !child.isSelected()){
-                child.select();
+                child.controllerSelect();
                 return true;
             }
 

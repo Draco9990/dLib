@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
@@ -32,7 +31,6 @@ import dLib.util.ui.text.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -271,7 +269,7 @@ public class Inputfield extends Button {
     private void postInitialize(){
         caret.hideAndDisableInstantly();
 
-        onSelectionStateChangedEvent.subscribeManaged(aBoolean -> {
+        postSelectionStateChangedEvent.subscribeManaged(aBoolean -> {
             if(aBoolean){
                 Gdx.input.setInputProcessor(inputProcessor);
                 caret.showAndEnableInstantly();
