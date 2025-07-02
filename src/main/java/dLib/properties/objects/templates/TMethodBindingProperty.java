@@ -17,15 +17,15 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Abs
 
     //region Variables
 
-    private Class<?> dynamic_returnType = void.class;
-    private String dynamic_defaultMethodName = "MethodBinding_" + UUID.randomUUID().toString().replace("-", "");
-    private LinkedHashMap<String, Class<?>> dynamic_params = new LinkedHashMap<>();
-    private String dynamic_methodBody = "{\n//IMPLEMENTATION HERE\n}";
+    private transient Class<?> dynamic_returnType = void.class;
+    private transient String dynamic_defaultMethodName = "MethodBinding_" + UUID.randomUUID().toString().replace("-", "");
+    private transient LinkedHashMap<String, Class<?>> dynamic_params = new LinkedHashMap<>();
+    private transient String dynamic_methodBody = "{\n//IMPLEMENTATION HERE\n}";
 
-    private boolean dynamicBindingOnly = false;
-    private boolean noDynamicBinding = false;
+    private transient boolean dynamicBindingOnly = false;
+    private transient boolean noDynamicBinding = false;
 
-    private boolean dynamicCreated = false;
+    private transient boolean dynamicCreated = false;
 
     //endregion
 
