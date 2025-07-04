@@ -9,6 +9,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Toggle;
+import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
@@ -35,6 +36,9 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     // Properties
     private boolean canReorder = false; //TODO
     public Event<BiConsumer<ItemType, ItemType>> onItemsSwappedEvent = new Event<>(); //TODO expose
+
+    private boolean canErase = false; //TODO
+    public Event<Consumer<ItemType>> onItemErasedEvent = new Event<>(); //TODO expose
 
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
     private int selectionCountLimit = 1; //TODO expose
@@ -217,41 +221,71 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     }
 
     private UIElement wrapUIForItem(ItemType item){
+        UIElement toReturn;
+
         UIElement itemUI = makeUIForItem(item);
-        if(disableItemWrapping){
-            postMakeUIForItem(item, itemUI);
-            return itemUI;
-        }
+        toReturn = itemUI;
 
-        UIElement parent = new UIElement(Dim.auto(), Dim.auto());
-        parent.addChild(itemUI);
+        if(!disableItemWrapping){
+            UIElement parent = new UIElement(Dim.auto(), Dim.auto());
+            parent.addChild(itemUI);
 
-        Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
-            @Override
-            public void toggle() {
-                if((isToggled() && getSelectionMode() == ESelectionMode.MULTIPLE) || trySelectItem(item)){
-                    super.toggle();
-                    onItemSelectionChanged();
+            Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
+                @Override
+                public void toggle() {
+                    if((isToggled() && getSelectionMode() == ESelectionMode.MULTIPLE) || trySelectItem(item)){
+                        super.toggle();
+                        onItemSelectionChanged();
 
-                    if(selectionMode == ESelectionMode.SINGLE_NOPERSIST && isToggled()){
-                        setToggled(false);
+                        if(selectionMode == ESelectionMode.SINGLE_NOPERSIST && isToggled()){
+                            setToggled(false);
+                        }
                     }
                 }
+
+                @Override
+                public boolean isActive() {
+                    return getSelectionMode() != ESelectionMode.NONE && getSelectionCountLimit() > 0;
+                }
+            };
+            overlay.setID("wrap_overlay");
+            overlay.setRenderColor(new Color(0, 0, 0, 0f));
+            overlay.addComponent(new UIOverlayElementComponent());
+            overlay.setControllerSelectable(getSelectionMode() != ESelectionMode.NONE);
+            parent.addChild(overlay);
+
+            UIItemBox holder;
+
+            boolean contentHorizontal = getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
+            if(contentHorizontal) holder = new VerticalBox(Dim.auto(), Dim.fill());
+            else holder = new HorizontalBox(Dim.fill(), Dim.auto());
+            toReturn = holder;
+
+            if(canReorder){
+                Button moveUpButton = new Button(
+                        contentHorizontal ? Dim.fill() : Dim.mirror(),
+                        contentHorizontal ? Dim.mirror() : Dim.fill());
+                moveUpButton.setTexture(contentHorizontal ? UICommonResources.arrow_left : UICommonResources.arrow_up);
+                moveUpButton.onLeftClickEvent.subscribe(moveUpButton, () -> {
+                    moveItemUp(item);
+                });
+                holder.addChild(moveUpButton);
+
+                Button moveDownButton = new Button(
+                        contentHorizontal ? Dim.fill() : Dim.mirror(),
+                        contentHorizontal ? Dim.mirror() : Dim.fill());
+                moveDownButton.setTexture(contentHorizontal ? UICommonResources.arrow_right : UICommonResources.arrow_down);
+                moveDownButton.onLeftClickEvent.subscribe(moveDownButton, () -> {
+                    moveItemDown(item);
+                });
+                holder.addChild(moveDownButton);
             }
 
-            @Override
-            public boolean isActive() {
-                return getSelectionMode() != ESelectionMode.NONE && getSelectionCountLimit() > 0;
-            }
-        };
-        overlay.setID("wrap_overlay");
-        overlay.setRenderColor(new Color(0, 0, 0, 0f));
-        overlay.addComponent(new UIOverlayElementComponent());
-        overlay.setControllerSelectable(getSelectionMode() != ESelectionMode.NONE);
-        parent.addChild(overlay);
+            holder.addChild(parent);
+        }
 
         postMakeUIForItem(item, itemUI);
-        return parent;
+        return toReturn;
     }
 
     protected void postMakeUIForItem(ItemType item, UIElement itemUI){
@@ -357,7 +391,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     //region Reordering
 
-    /*public DataItemBox<ItemType> setCanReorder(boolean canReorder){
+    public DataItemBox<ItemType> setCanReorder(boolean canReorder){
         this.canReorder = canReorder;
         return this;
     }
@@ -365,59 +399,56 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         return canReorder;
     }
 
-    protected void moveItemDown(ItemType itemUI){
-        int itemIndex = -1;
-        for (int i = 0; i < items.size(); i++) {
-            ItemBoxItem item = items.get(i);
-            if(item.item.equals(itemUI)){
-                itemIndex = i;
-            }
-        }
-
-        if(itemIndex == -1){
+    protected void moveItemDown(ItemType item){
+        UIElement itemElement = childWrapperMap.getByValue(item);
+        int itemIndex = children.indexOf(itemElement);
+        if(itemIndex == -1 || itemIndex == children.size() - 1){
             return;
         }
 
-        int swapIndex = itemIndex + (invertedItemOrder ? -1 : 1);
-        if(swapIndex < 0 || swapIndex >= items.size()){
+        int itemFilteredIndex = filteredChildren.indexOf(itemElement);
+        int swapFilteredIndex = itemFilteredIndex + (invertedItemOrder ? -1 : 1);
+        if(swapFilteredIndex < 0 || swapFilteredIndex >= filteredChildren.size()){
             return;
         }
 
-        swap(itemIndex, swapIndex);
+        UIElement swapElement = filteredChildren.get(swapFilteredIndex);
+        int swapIndex = children.indexOf(swapElement);
+
+        swapChildren(itemIndex, swapIndex);
     }
-    protected void moveItemUp(ItemType itemUI){
-        int itemIndex = -1;
-        for (int i = 0; i < items.size(); i++) {
-            ItemBoxItem item = items.get(i);
-            if(item.item.equals(itemUI)){
-                itemIndex = i;
-            }
-        }
-
-        if(itemIndex == -1){
+    protected void moveItemUp(ItemType item){
+        UIElement itemElement = childWrapperMap.getByValue(item);
+        int itemIndex = children.indexOf(itemElement);
+        if(itemIndex == -1 || itemIndex == children.size() - 1){
             return;
         }
 
-        int swapIndex = itemIndex + (invertedItemOrder ? 1 : -1);
-        if(swapIndex < 0 || swapIndex >= items.size()){
+        int itemFilteredIndex = filteredChildren.indexOf(itemElement);
+        int swapFilteredIndex = itemFilteredIndex + (invertedItemOrder ? 1 : -1);
+        if(swapFilteredIndex < 0 || swapFilteredIndex >= filteredChildren.size()){
             return;
         }
 
-        swap(itemIndex, swapIndex);
+        UIElement swapElement = filteredChildren.get(swapFilteredIndex);
+        int swapIndex = children.indexOf(swapElement);
+
+        swapChildren(itemIndex, swapIndex);
     }
 
-    private void swap(int index1, int index2){
-        ItemBoxItem itemtoSwap1 = items.get(index1);
-        ItemBoxItem itemtoSwap2 = items.get(index2);
+    @Override
+    public void swapChildren(int index1, int index2) {
+        super.swapChildren(index1, index2);
 
-        Integer originalIndex1 = originalItems.indexOf(itemtoSwap1);
-        Integer originalIndex2 = originalItems.indexOf(itemtoSwap2);
+        UIElement child1 = children.get(index1);
+        UIElement child2 = children.get(index2);
 
-        Collections.swap(originalItems, originalIndex1, originalIndex2);
+        ItemType item1 = childWrapperMap.getByKey(child1);
+        ItemType item2 = childWrapperMap.getByKey(child2);
 
-        onItemsSwappedEvent.invoke(itemTypeItemTypeBiConsumer -> itemTypeItemTypeBiConsumer.accept(itemtoSwap1.item, itemtoSwap2.item));
-        onChildrenChangedEvent.invoke();
-    }*/
+        refilterItems();
+        onItemsSwappedEvent.invoke(itemTypeItemTypeBiConsumer -> itemTypeItemTypeBiConsumer.accept(item2, item1));
+    }
 
     //endregion
 

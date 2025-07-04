@@ -74,9 +74,10 @@ public class TestScreen extends UIElement {
         in3.textBox.setContentAlignment(Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
         addChild(in3);*/
 
-        Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
+        Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
         {
             VerticalDataBox<String> vdb = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
+            vdb.setCanReorder(true);
             vdb.addChild("Test1");
             vdb.addChild("Test2");
             vdb.addChild("Test3");
