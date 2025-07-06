@@ -52,7 +52,7 @@ public abstract class UIItemBox extends ItemBox {
                 itemsToAdd.remove(existingChild);
             }
             else {
-                removeChildById(existingChild);
+                removeChildByInstance(existingChild);
             }
         }
 

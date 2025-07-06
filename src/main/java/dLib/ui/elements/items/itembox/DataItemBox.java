@@ -37,8 +37,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     private boolean canReorder = false; //TODO
     public Event<BiConsumer<ItemType, ItemType>> onItemsSwappedEvent = new Event<>(); //TODO expose
 
-    private boolean canErase = false; //TODO
-    public Event<Consumer<ItemType>> onItemErasedEvent = new Event<>(); //TODO expose
+    private boolean canDelete = false; //TODO
+    public Event<Consumer<ItemType>> onItemDeletedEvent = new Event<>(); //TODO expose
 
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
     private int selectionCountLimit = 1; //TODO expose
@@ -141,7 +141,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     selectionChanged = true;
                 }
 
-                removeChildById(existingChild);
+                removeChildByInstance(existingChild);
                 childWrapperMap.removeByKey(existingChild);
             }
         }
@@ -164,8 +164,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     }
 
     @Override
-    public void removeChildById(UIElement child) {
-        super.removeChildById(child);
+    public void removeChildByInstance(UIElement child) {
+        super.removeChildByInstance(child);
 
         childWrapperMap.removeByKey(child);
     }
@@ -173,7 +173,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public void removeChild(ItemType item){
         UIElement child = childWrapperMap.getByValue(item);
         if(child != null){
-            removeChildById(child);
+            removeChildByInstance(child);
         }
     }
 
@@ -261,27 +261,32 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             else holder = new HorizontalBox(Dim.fill(), Dim.auto());
             toReturn = holder;
 
-            if(canReorder){
+            if(canReorder()){
                 Button moveUpButton = new Button(
                         contentHorizontal ? Dim.fill() : Dim.mirror(),
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 moveUpButton.setTexture(contentHorizontal ? UICommonResources.arrow_left : UICommonResources.arrow_up);
-                moveUpButton.onLeftClickEvent.subscribe(moveUpButton, () -> {
-                    moveItemUp(item);
-                });
+                moveUpButton.onLeftClickEvent.subscribe(moveUpButton, () -> moveItemUp(item));
                 holder.addChild(moveUpButton);
 
                 Button moveDownButton = new Button(
                         contentHorizontal ? Dim.fill() : Dim.mirror(),
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 moveDownButton.setTexture(contentHorizontal ? UICommonResources.arrow_right : UICommonResources.arrow_down);
-                moveDownButton.onLeftClickEvent.subscribe(moveDownButton, () -> {
-                    moveItemDown(item);
-                });
+                moveDownButton.onLeftClickEvent.subscribe(moveDownButton, () -> moveItemDown(item));
                 holder.addChild(moveDownButton);
             }
 
             holder.addChild(parent);
+
+            if(canDelete()){
+                Button deleteButton = new Button(
+                        contentHorizontal ? Dim.fill() : Dim.mirror(),
+                        contentHorizontal ? Dim.mirror() : Dim.fill());
+                deleteButton.setTexture(UICommonResources.deleteButton);
+                deleteButton.onLeftClickEvent.subscribe(deleteButton, () -> deleteItem(item));
+                holder.addChild(deleteButton);
+            }
         }
 
         postMakeUIForItem(item, itemUI);
@@ -451,6 +456,24 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     }
 
     //endregion
+
+    //region Erasing
+
+    public void setCanDelete(boolean canDelete){
+        this.canDelete = this.canDelete;
+    }
+    public boolean canDelete(){
+        return canDelete;
+    }
+
+    public void deleteItem(ItemType item){
+        removeChild(item);
+
+        refilterItems();
+        onItemDeletedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item));
+    }
+
+    //endregion Erasing
 
     //region Filters
 

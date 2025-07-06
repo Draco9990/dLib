@@ -11,7 +11,6 @@ import dLib.ui.annotations.DisplayClass;
 import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
-import dLib.util.DLibLogger;
 import dLib.util.helpers.UIHelpers;
 
 import java.io.Serializable;
@@ -59,26 +58,26 @@ public class FillDimension extends AbstractDimension implements Serializable {
     }
 
     private Float calculateWidth(UIElement forElement){
-        Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
 
-        if(!isWithinHorizontalBox(forElement)){
+        if(!isHorizontalBox(parentWidth.getValue())){
             if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
-                return parentWidth - forElement.getLocalPositionX();
+                return parentWidth.getKey() - forElement.getLocalPositionX();
             }
             else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
-                return parentWidth;
+                return parentWidth.getKey();
             }
             else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
                 return forElement.getLocalPositionX();
             }
         }
         else{
-            ItemBox itemBox = forElement.getParent();
+            ItemBox itemBox = (ItemBox) parentWidth.getValue();
 
             float staticWidth = 0;
             float fillElementCount = 0;
-            for(UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){
-                if(sibling.getWidthRaw() instanceof FillDimension){
+            for(UIElement sibling : itemBox.getActiveChildren()){
+                if(sibling.getWidthRaw() instanceof FillDimension || sibling.needsWidthCalculation()){ // Cases where sibling is parent of child but has something like auto dim
                     fillElementCount++;
                 }
                 else{
@@ -86,28 +85,31 @@ public class FillDimension extends AbstractDimension implements Serializable {
                 }
             }
 
-            staticWidth += (((ItemBox) forElement.getParent()).getActiveChildren().size() - 1) * itemBox.getItemSpacing();
+            staticWidth += (itemBox.getActiveChildren().size() - 1) * itemBox.getItemSpacing();
 
-            return Math.max((parentWidth - staticWidth) / fillElementCount, 1f);
+            return Math.max((parentWidth.getKey() - staticWidth) / fillElementCount, 1f);
         }
 
         return null;
     }
 
     private boolean canCalculateWidth(UIElement forElement){
-        if(!isWithinHorizontalBox(forElement)){
-            return UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null && (forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER || !forElement.getLocalPositionXRaw().needsRecalculation());
+        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+        if(parentWidth.getKey() == null) return false;
+
+        if(!isHorizontalBox(parentWidth.getValue())){
+            return (forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER || !forElement.getLocalPositionXRaw().needsRecalculation());
         }
         else{
-            for (UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){
+            for (UIElement sibling : ((ItemBox) parentWidth.getValue()).getActiveChildren()){
                 if(sibling.getWidthRaw() instanceof FillDimension) continue;
                 if(!sibling.needsWidthCalculation()) continue;
+                if(forElement.isDescendantOf(sibling)) continue;
 
                 return false;
             }
 
-            Float result = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-            return result != null;
+            return true;
         }
     }
 
@@ -125,26 +127,26 @@ public class FillDimension extends AbstractDimension implements Serializable {
     }
 
     private Float calculateHeight(UIElement forElement){
-        Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
+        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
 
-        if(!isWithinVerticalBox(forElement)){
+        if(!isVerticalBox(parentHeight.getValue())){
             if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                return parentHeight - forElement.getLocalPositionY();
+                return parentHeight.getKey() - forElement.getLocalPositionY();
             }
             else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
-                return parentHeight;
+                return parentHeight.getKey();
             }
             else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
                 return forElement.getLocalPositionY();
             }
         }
         else{
-            ItemBox itemBox = forElement.getParent();
+            ItemBox itemBox = (ItemBox) parentHeight.getValue();
 
-            int staticHeight = 0;
+            float staticHeight = 0;
             int fillElementCount = 0;
-            for(UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){
-                if(sibling.getHeightRaw() instanceof FillDimension){
+            for(UIElement sibling : itemBox.getActiveChildren()){
+                if(sibling.getHeightRaw() instanceof FillDimension || sibling.needsHeightCalculation()){ // Cases where sibling is parent of child but has something like auto dim
                     fillElementCount++;
                 }
                 else{
@@ -152,27 +154,31 @@ public class FillDimension extends AbstractDimension implements Serializable {
                 }
             }
 
-            staticHeight += (((ItemBox) forElement.getParent()).getActiveChildren().size() - 1) * itemBox.getItemSpacing();
+            staticHeight += (itemBox.getActiveChildren().size() - 1) * itemBox.getItemSpacing();
 
-            return Math.max((parentHeight - staticHeight) / (float) fillElementCount, 1f);
+            return Math.max((parentHeight.getKey() - staticHeight) / (float) fillElementCount, 1f);
         }
 
         return null;
     }
 
     private boolean canCalculateHeight(UIElement forElement){
-        if(!isWithinVerticalBox(forElement)){
-            return UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null && (forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER || !forElement.getLocalPositionYRaw().needsRecalculation());
+        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+        if(parentHeight.getKey() == null) return false;
+
+        if(!isVerticalBox(parentHeight.getValue())){
+            return (forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER || !forElement.getLocalPositionYRaw().needsRecalculation());
         }
         else{
-            for (UIElement sibling : ((ItemBox) forElement.getParent()).getActiveChildren()){
+            for (UIElement sibling : ((ItemBox) parentHeight.getValue()).getActiveChildren()){
                 if(sibling.getHeightRaw() instanceof FillDimension) continue;
                 if(!sibling.needsHeightCalculation()) continue;
+                if(forElement.isDescendantOf(sibling)) continue;
 
                 return false;
             }
 
-            return UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null;
+            return true;
         }
     }
 

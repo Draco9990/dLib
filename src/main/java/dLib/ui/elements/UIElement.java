@@ -421,7 +421,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         if(hasParent()){
-            parent.removeChildById(this);
+            parent.removeChildByInstance(this);
         }
         else{
             close();
@@ -745,16 +745,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
             while(!children.isEmpty()){
                 UIElement child = children.get(0);
-                removeChildById(child);
+                removeChildByInstance(child);
                 parent.addChild(child);
             }
 
-            parent.removeChildById(this);
+            parent.removeChildByInstance(this);
             newParent.addChild(this);
         }
         else {
             if(parent != null){
-                parent.removeChildById(this);
+                parent.removeChildByInstance(this);
             }
 
             newParent.addChild(this);
@@ -834,7 +834,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return children.contains(child);
     }
 
-    public void removeChildById(UIElement child){
+    public void removeChildByInstance(UIElement child){
         if(children.remove(child)){
             child.setParent(null);
 
@@ -850,7 +850,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             return;
         }
 
-        removeChildById(child);
+        removeChildByInstance(child);
     }
 
     public void replaceChild(UIElement original, UIElement replacement){

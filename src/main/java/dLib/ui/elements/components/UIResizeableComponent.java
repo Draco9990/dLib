@@ -149,7 +149,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             super.updateSelf();
 
             if(pendingRemoval && !isHovered() && !isHeld()){
-                getParent().removeChildById(this);
+                getParent().removeChildByInstance(this);
                 hideAndDisableInstantly();
                 pendingRemoval = false;
             }

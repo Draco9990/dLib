@@ -78,6 +78,7 @@ public class TestScreen extends UIElement {
         {
             VerticalDataBox<String> vdb = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
             vdb.setCanReorder(true);
+            vdb.setCanDelete(true);
             vdb.addChild("Test1");
             vdb.addChild("Test2");
             vdb.addChild("Test3");
@@ -92,6 +93,13 @@ public class TestScreen extends UIElement {
             vdb.addChild("Test25");
             vdb.addChild("Test26");
             vdb.addChild("Test27");
+            vdb.addChild("Test31");
+            vdb.addChild("Test32");
+            vdb.addChild("Test33");
+            vdb.addChild("Test34");
+            vdb.addChild("Test35");
+            vdb.addChild("Test36");
+            vdb.addChild("Test37");
             scrollbox.addChild(vdb);
         }
         addChild(scrollbox);

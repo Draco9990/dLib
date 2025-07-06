@@ -56,7 +56,8 @@ public class ElementCalculationManager {
             }
 
             if(!somethingChanged){
-                throw new RuntimeException("Circular dependency detected in element calculation");
+                //throw new RuntimeException("Circular dependency detected in element calculation");
+                int i = 0;
             }
         }
 

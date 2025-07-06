@@ -53,11 +53,11 @@ public abstract class AbstractDimension extends ElementDescriptor<AbstractDimens
 
     public abstract AbstractDimension cpy();
 
-    protected boolean isWithinVerticalBox(UIElement forElement){
-        return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL;
+    protected boolean isVerticalBox(UIElement forElement){
+        return forElement instanceof ItemBox && ((ItemBox)forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL;
     }
-    protected boolean isWithinHorizontalBox(UIElement forElement){
-        return forElement.getParent() instanceof ItemBox && ((ItemBox)forElement.getParent()).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
+    protected boolean isHorizontalBox(UIElement forElement){
+        return forElement instanceof ItemBox && ((ItemBox)forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
     }
 
     //endregion

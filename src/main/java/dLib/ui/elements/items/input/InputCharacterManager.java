@@ -160,7 +160,7 @@ public class InputCharacterManager extends UIElement {
     public void poolChildren(){
         for (InputCharacterHB child : getChildren(InputCharacterHB.class)){
             inputCharHBPool.add(child);
-            removeChildById(child);
+            removeChildByInstance(child);
         }
     }
 

@@ -1,5 +1,6 @@
 package dLib.util.helpers;
 
+import basemod.Pair;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -30,6 +31,9 @@ public class UIHelpers {
     }
 
     public static Float getCalculatedParentWidthInHierarchy(UIElement forElement){
+        return getCalculatedParentWidthInHierarchyWithParent(forElement).getKey();
+    }
+    public static Pair<Float, UIElement> getCalculatedParentWidthInHierarchyWithParent(UIElement forElement){
         float parentWidth = 1920;
 
         UIElement parent = forElement.getParent();
@@ -48,16 +52,19 @@ public class UIHelpers {
                 break;
             }
             else if(!(parent.getWidthRaw() instanceof AutoDimension)){
-                return null;
+                return new Pair<>(null, null);
             }
 
             parent = parent.getParent();
         }
 
-        return parentWidth;
+        return new Pair<>(parentWidth, parent);
     }
 
     public static Float getCalculatedParentHeightInHierarchy(UIElement forElement){
+        return getCalculatedParentHeightInHierarchyWithParent(forElement).getKey();
+    }
+    public static Pair<Float, UIElement> getCalculatedParentHeightInHierarchyWithParent(UIElement forElement){
         float parentHeight = 1080;
 
         UIElement parent = forElement.getParent();
@@ -76,12 +83,12 @@ public class UIHelpers {
                 break;
             }
             else if(!(parent.getHeightRaw() instanceof AutoDimension)){
-                return null;
+                return new Pair<>(null, null);
             }
 
             parent = parent.getParent();
         }
 
-        return parentHeight;
+        return new Pair<>(parentHeight, parent);
     }
 }
