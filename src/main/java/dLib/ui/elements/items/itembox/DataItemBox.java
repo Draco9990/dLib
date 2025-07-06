@@ -460,7 +460,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     //region Erasing
 
     public void setCanDelete(boolean canDelete){
-        this.canDelete = this.canDelete;
+        this.canDelete = canDelete;
     }
     public boolean canDelete(){
         return canDelete;
