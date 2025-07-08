@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.helpers.input.ScrollInputProcessor;
+import dLib.util.HistoryProperty;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
 
@@ -21,6 +22,8 @@ public class KeyInputEventPatches {
     public static ConsumerEvent<Integer> onKeyPressed = new ConsumerEvent<>();
 
     private static InputProcessor initialProcessor;
+
+    public static HistoryProperty<Boolean> linkProxyInput = new HistoryProperty<>(false);
 
     @SpirePatch2(clz = CardCrawlGame.class, method = "create")
     public static class KeyInputEventPatch {
@@ -32,7 +35,7 @@ public class KeyInputEventPatches {
     @SpirePatch2(clz = ScrollInputProcessor.class, method = "keyDown")
     public static class KeyInputEventPatch2 {
         public static void Prefix(ScrollInputProcessor __instance, int keycode) {
-            if (initialProcessor != null && Objects.equals(Gdx.input.getInputProcessor(), __instance)) {
+            if (suppressingProxyInput()) {
                 onKeyPressed.invoke(keycode);
             }
         }
@@ -42,7 +45,7 @@ public class KeyInputEventPatches {
     public static class IA_IsJustPressed{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(InputAction __instance){
-            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+            if(suppressingProxyInput()){
                 return SpireReturn.Return(false);
             }
 
@@ -53,7 +56,7 @@ public class KeyInputEventPatches {
     public static class IA_IsPressed{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(InputAction __instance){
-            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+            if(suppressingProxyInput()){
                 return SpireReturn.Return(false);
             }
 
@@ -65,7 +68,7 @@ public class KeyInputEventPatches {
     public static class CIA_IsJustPressed{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(CInputAction __instance){
-            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+            if(suppressingProxyInput()){
                 return SpireReturn.Return(false);
             }
 
@@ -76,7 +79,7 @@ public class KeyInputEventPatches {
     public static class IA_IsJustReleased{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(CInputAction __instance){
-            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+            if(suppressingProxyInput()){
                 return SpireReturn.Return(false);
             }
 
@@ -87,11 +90,15 @@ public class KeyInputEventPatches {
     public static class CIA_IsPressed{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(CInputAction __instance){
-            if(initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor)){
+            if(suppressingProxyInput()){
                 return SpireReturn.Return(false);
             }
 
             return SpireReturn.Continue();
         }
+    }
+
+    public static boolean suppressingProxyInput() {
+        return !linkProxyInput.get() && initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor);
     }
 }

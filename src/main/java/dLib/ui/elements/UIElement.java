@@ -162,6 +162,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected String onSelectLine; // Say the Spire mod compatibility
     protected String onTriggeredLine; // Say the Spire mod compatibility
 
+    private boolean controllerSelected = false;
+
     private float totalHoverDuration;
 
     private float totalLeftClickDuration;
@@ -532,7 +534,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
             if(isEnabled()){
                 if(this.hb.justHovered) onHovered();
-                if(this.hb.hovered || (isSelected() && Settings.isControllerMode)){
+                if(this.hb.hovered || controllerSelected){
                     totalHoverDuration += Gdx.graphics.getDeltaTime();
                     onHoverTick(totalHoverDuration);
                 }
@@ -1387,11 +1389,21 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return allChildren;
     }
 
-    public void select(){
+    public void select(boolean byController){
+        if(byController){
+            controllerSelected = true;
+            onHovered();
+        }
+
         setSelected(true);
     }
     public void deselect(){
         setSelected(false);
+
+        if(controllerSelected){
+            onUnhovered();
+            controllerSelected = false;
+        }
     }
     public void setSelected(boolean selected){
         if(this.selected == selected) {
@@ -1422,18 +1434,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         postSelectionStateChangedEvent.invoke(isSelected());
         postSelectionStateChangedEvent_Global.invoke(this, isSelected());
-    }
-
-    public void controllerSelect(){
-        onHovered();
-
-        select();
-    }
-
-    public void controllerDeselect(){
-        deselect();
-
-        onUnhovered();
     }
 
     //endregion
@@ -2156,7 +2156,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         onUnhoveredEvent.invoke();
     }
 
-    public boolean isHovered(){ return (hb.hovered || hb.justHovered); }
+    public boolean isHovered(){ return (hb.hovered || hb.justHovered || controllerSelected); }
 
     public boolean isHoveredOrChildHovered(){
         if(isHovered()) return true;
@@ -2207,7 +2207,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         if(!Settings.isControllerMode){
-            select();
+            select(false);
         }
 
         onLeftClickEvent.invoke(uiElementConsumer -> uiElementConsumer.run());

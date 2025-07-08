@@ -89,6 +89,10 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
         return value.toString();
     }
 
+    public boolean isNull(){
+        return value == null;
+    }
+
     public ValueType sanitizeValue(ValueType newValue){ return newValue; }
     public boolean isValidValue(ValueType value){
         return true;

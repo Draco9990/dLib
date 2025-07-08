@@ -11,6 +11,8 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import dLib.patches.InputHelpers;
+import dLib.patches.KeyInputEventPatches;
+import dLib.properties.objects.Property;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.util.Help;
@@ -57,7 +59,7 @@ public class UIManager {
                 selectedElement.deselect();
             }
 
-            selectNextElement(element, new AtomicBoolean(false));
+            selectNextElement(element, new Property<>(null));
         }
 
         pendingClose.remove(element);
@@ -108,12 +110,16 @@ public class UIManager {
 
     //region Input Manager
     private static void updateInput(){
+        KeyInputEventPatches.linkProxyInput.set(true);
+
         if(Help.Input.isPressed(CInputActionSet.down, InputActionSet.down)) onDownPressed();
         if(Help.Input.isPressed(CInputActionSet.up, InputActionSet.up)) onUpPressed();
         if(Help.Input.isPressed(CInputActionSet.left, InputActionSet.left)) onLeftPressed();
         if(Help.Input.isPressed(CInputActionSet.right, InputActionSet.right)) onRightPressed();
         if(Help.Input.isPressed(CInputActionSet.proceed, InputActionSet.confirm)) onConfirmPressed();
         if(Help.Input.isPressed(CInputActionSet.cancel, InputActionSet.cancel)) onCancelPressed();
+
+        KeyInputEventPatches.linkProxyInput.revert();
     }
 
     private static UIElement getCurrentlySelectedElement(){
@@ -133,47 +139,70 @@ public class UIManager {
         return null;
     }
 
-    private static boolean selectNextElement(UIElement topParent, AtomicBoolean foundSelectedElement){
+    private static boolean selectNextElement(UIElement topParent, Property<UIElement> foundSelectedElement){
         ArrayList<UIElement> children = topParent.getAllSelectableChildren();
-        for (int i = 0; i < children.size(); i++) {
-            UIElement child = children.get(i);
+        boolean firstPass = true;
+        while(true){
+            for (int i = 0; i < children.size(); i++) {
+                UIElement child = children.get(i);
 
-            if (child.isSelected()) {
-                foundSelectedElement.set(true);
-                child.controllerDeselect();
-            } else if (foundSelectedElement.get() && !child.isSelected()) {
-                child.controllerSelect();
-                return true;
+                if (child.isSelected()) {
+                    if(foundSelectedElement.getValue() == child){
+                        return false; // We looped back over, current element is the ONLY selectable element
+                    }
+
+                    foundSelectedElement.setValue(child);
+                } else if ((!foundSelectedElement.isNull() || !firstPass) && !child.isSelected()) {
+                    if(!foundSelectedElement.isNull()) foundSelectedElement.getValue().deselect();
+                    child.select(true);
+                    return true;
+                }
+
+                if (!foundSelectedElement.isNull() && child.isModal()) {
+                    i--;
+                }
             }
 
-            if (foundSelectedElement.get() && child.isModal()) {
-                i--;
+            if(foundSelectedElement.isNull() && !firstPass){
+                return false; // No selectable elements found
             }
+
+            firstPass = false;
         }
-
-        return false;
     }
 
-    private static boolean selectPreviousElement(UIElement topParent, AtomicBoolean foundSelectedElement){
+    private static boolean selectPreviousElement(UIElement topParent, Property<UIElement> foundSelectedElement){
         ArrayList<UIElement> children = topParent.getAllSelectableChildren();
-        for (int i = children.size() - 1; i >= 0; i--) {
-            UIElement child = children.get(i);
+        boolean firstPass = false;
+        while(true){
+            for (int i = children.size() - 1; i >= 0; i--) {
+                UIElement child = children.get(i);
 
-            if(child.isSelected()){
-                foundSelectedElement.set(true);
-                child.controllerDeselect();
-            }
-            else if(foundSelectedElement.get() && !child.isSelected()){
-                child.controllerSelect();
-                return true;
+                if(child.isSelected()){
+                    if(foundSelectedElement.getValue() == child){
+                        return false; // We looped back over, current element is the ONLY selectable element
+                    }
+
+                    foundSelectedElement.setValue(child);
+                }
+                else if((!foundSelectedElement.isNull() || !firstPass) && !child.isSelected()){
+                    if(!foundSelectedElement.isNull()) foundSelectedElement.getValue().deselect();
+                    child.select(true);
+                    return true;
+                }
+
+                if(!foundSelectedElement.isNull() && child.isModal()){
+                    i++;
+                }
             }
 
-            if(foundSelectedElement.get() && child.isModal()){
-                i++;
+            if(foundSelectedElement.isNull() && !firstPass){
+                return false; // No selectable elements found
             }
+
+            firstPass = true;
         }
 
-        return false;
     }
 
     private static void onDownPressed(){
@@ -184,7 +213,7 @@ public class UIManager {
             }
         }
 
-        AtomicBoolean foundSelectedElement = new AtomicBoolean(false);
+        Property<UIElement> foundSelectedElement = new Property<>(null);
         for(UIElement uiElement : uiElements){
             if(!uiElement.isActive()){
                 continue;
@@ -203,7 +232,7 @@ public class UIManager {
             }
         }
 
-        AtomicBoolean foundSelectedElement = new AtomicBoolean(false);
+        Property<UIElement> foundSelectedElement = new Property<>(null);
         for(UIElement uiElement : uiElements){
             if(!uiElement.isActive()){
                 continue;

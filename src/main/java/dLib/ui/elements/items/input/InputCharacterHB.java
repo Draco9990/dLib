@@ -32,6 +32,7 @@ public class InputCharacterHB extends Interactable {
         setRenderColor(new Color(0.6f, 0.6f, 1, 0.45f));
 
         setPassthrough(true);
+        setControllerSelectable(false);
 
         removeOnHoverSoundKey();
         removeOnTriggerSoundKey();
