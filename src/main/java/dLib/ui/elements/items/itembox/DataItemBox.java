@@ -30,6 +30,9 @@ import java.util.function.Consumer;
 public abstract class DataItemBox<ItemType> extends ItemBox {
     //region Variables
 
+    static String wrapperId = "wrapper";
+    static String wrapOverlayID = "wrap_overlay";
+
     // Elements
     protected BiMap<UIElement, ItemType> childWrapperMap = new BiMap<>();
 
@@ -228,6 +231,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
         if(!disableItemWrapping){
             UIElement parent = new UIElement(Dim.auto(), Dim.auto());
+            parent.setID(wrapperId);
             parent.addChild(itemUI);
 
             Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
@@ -248,7 +252,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     return getSelectionMode() != ESelectionMode.NONE && getSelectionCountLimit() > 0;
                 }
             };
-            overlay.setID("wrap_overlay");
+            overlay.setID(wrapOverlayID);
             overlay.setRenderColor(new Color(0, 0, 0, 0f));
             overlay.addComponent(new UIOverlayElementComponent());
             overlay.setControllerSelectable(getSelectionMode() != ESelectionMode.NONE);
@@ -309,13 +313,13 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             return false;
         }
 
-        if(((Toggle) childWrapperMap.getByValue(selectedItem).findChildById("wrap_overlay")).isToggled() && !selectionMode.equals(ESelectionMode.MULTIPLE)){
+        if(((Toggle) childWrapperMap.getByValue(selectedItem).findChildById(wrapperId).findChildById(wrapOverlayID)).isToggled() && !selectionMode.equals(ESelectionMode.MULTIPLE)){
             return false;
         }
 
         if(selectionMode == ESelectionMode.SINGLE || selectionMode == ESelectionMode.SINGLE_NOPERSIST){
             for(UIElement child : children){
-                Toggle wrapOverlay = child.findChildById("wrap_overlay");
+                Toggle wrapOverlay = child.findChildById(wrapperId).findChildById(wrapOverlayID);
                 if(wrapOverlay == null){
                     continue;
                 }
@@ -335,7 +339,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public ArrayList<ItemType> getCurrentlySelectedItems(){
         ArrayList<ItemType> selectedItems = new ArrayList<>();
         for(UIElement child : children){
-            Toggle wrapOverlay = child.findChildById("wrap_overlay");
+            Toggle wrapOverlay = child.findChildById(wrapperId).findChildById(wrapOverlayID);
             if(wrapOverlay == null){
                 continue;
             }
@@ -368,7 +372,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         boolean changed = false;
 
         for(UIElement child : children){
-            Toggle wrapOverlay = child.findChildById("wrap_overlay");
+            Toggle wrapOverlay = child.findChildById(wrapperId).findChildById(wrapOverlayID);
             if(wrapOverlay == null){
                 continue;
             }

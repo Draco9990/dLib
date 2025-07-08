@@ -18,6 +18,7 @@ import dLib.util.Reflection;
 import dLib.util.helpers.GameplayHelpers;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UIManager {
 
@@ -56,7 +57,7 @@ public class UIManager {
                 selectedElement.deselect();
             }
 
-            selectNextElement(element, false);
+            selectNextElement(element, new AtomicBoolean(false));
         }
 
         pendingClose.remove(element);
@@ -132,20 +133,20 @@ public class UIManager {
         return null;
     }
 
-    private static boolean selectNextElement(UIElement topParent, Boolean foundSelectedElement){
+    private static boolean selectNextElement(UIElement topParent, AtomicBoolean foundSelectedElement){
         ArrayList<UIElement> children = topParent.getAllSelectableChildren();
         for (int i = 0; i < children.size(); i++) {
             UIElement child = children.get(i);
 
             if (child.isSelected()) {
-                Reflection.setFieldValue("value", foundSelectedElement, true);
+                foundSelectedElement.set(true);
                 child.controllerDeselect();
-            } else if (foundSelectedElement && !child.isSelected()) {
+            } else if (foundSelectedElement.get() && !child.isSelected()) {
                 child.controllerSelect();
                 return true;
             }
 
-            if (foundSelectedElement && child.isModal()) {
+            if (foundSelectedElement.get() && child.isModal()) {
                 i--;
             }
         }
@@ -153,21 +154,21 @@ public class UIManager {
         return false;
     }
 
-    private static boolean selectPreviousElement(UIElement topParent, Boolean foundSelectedElement){
+    private static boolean selectPreviousElement(UIElement topParent, AtomicBoolean foundSelectedElement){
         ArrayList<UIElement> children = topParent.getAllSelectableChildren();
         for (int i = children.size() - 1; i >= 0; i--) {
             UIElement child = children.get(i);
 
             if(child.isSelected()){
-                Reflection.setFieldValue("value", foundSelectedElement, true);
+                foundSelectedElement.set(true);
                 child.controllerDeselect();
             }
-            else if(foundSelectedElement && !child.isSelected()){
+            else if(foundSelectedElement.get() && !child.isSelected()){
                 child.controllerSelect();
                 return true;
             }
 
-            if(foundSelectedElement && child.isModal()){
+            if(foundSelectedElement.get() && child.isModal()){
                 i++;
             }
         }
@@ -183,7 +184,7 @@ public class UIManager {
             }
         }
 
-        Boolean foundSelectedElement = false;
+        AtomicBoolean foundSelectedElement = new AtomicBoolean(false);
         for(UIElement uiElement : uiElements){
             if(!uiElement.isActive()){
                 continue;
@@ -202,7 +203,7 @@ public class UIManager {
             }
         }
 
-        Boolean foundSelectedElement = false;
+        AtomicBoolean foundSelectedElement = new AtomicBoolean(false);
         for(UIElement uiElement : uiElements){
             if(!uiElement.isActive()){
                 continue;

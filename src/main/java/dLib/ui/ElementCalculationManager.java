@@ -41,7 +41,7 @@ public class ElementCalculationManager {
 
                 boolean canCalculate = true;
                 for (Supplier<Boolean> prerequisite : pair.getValue().prerequisites){
-                    boolean prerequisiteResult = prerequisite.get();
+                    Boolean prerequisiteResult = prerequisite.get();
                     if(!prerequisiteResult){
                         canCalculate = false;
                         break;

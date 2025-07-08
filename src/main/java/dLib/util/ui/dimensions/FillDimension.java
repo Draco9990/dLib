@@ -49,10 +49,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
     protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
         return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
                 () -> setCalculatedValue(forElement, calculateWidth(forElement)),
-                () -> {
-                    boolean test = canCalculateWidth(forElement);
-                    return test;
-                },
+                () -> canCalculateWidth(forElement),
                 () -> !forElement.getPaddingRightRaw().needsRecalculation()
         ));
     }
