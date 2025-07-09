@@ -20,7 +20,6 @@ import dLib.util.Reflection;
 import dLib.util.helpers.GameplayHelpers;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UIManager {
 
@@ -54,12 +53,7 @@ public class UIManager {
 
         uiElements.add(element);
         if(element.shouldDrawFocusOnOpen()){
-            UIElement selectedElement = getCurrentlySelectedElement();
-            if(selectedElement != null){
-                selectedElement.deselect();
-            }
-
-            selectNextElement(element, new Property<>(null));
+            drawControllerFocusCond(element);
         }
 
         pendingClose.remove(element);
@@ -78,6 +72,25 @@ public class UIManager {
                 Reflection.invokeMethod("genericScreenOverlayReset", AbstractDungeon.class);
             }
         }
+    }
+
+    public static void drawControllerFocusCond(UIElement target){
+        if(!target.isActive()){
+            return;
+        }
+
+        UIElement selectedElement = getCurrentlySelectedElement();
+        boolean controllerFocus;
+        if(selectedElement != null){
+            controllerFocus = selectedElement.isControllerSelected();
+            if(!controllerFocus){
+                return;
+            }
+
+            selectedElement.deselect();
+        }
+
+        target.select(true);
     }
 
     private static boolean hasBaseScreenOverriders(){
@@ -173,7 +186,7 @@ public class UIManager {
 
     private static boolean selectPreviousElement(UIElement topParent, Property<UIElement> foundSelectedElement){
         ArrayList<UIElement> children = topParent.getAllSelectableChildren();
-        boolean firstPass = false;
+        boolean firstPass = true;
         while(true){
             for (int i = children.size() - 1; i >= 0; i--) {
                 UIElement child = children.get(i);
@@ -200,7 +213,7 @@ public class UIManager {
                 return false; // No selectable elements found
             }
 
-            firstPass = true;
+            firstPass = false;
         }
 
     }

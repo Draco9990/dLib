@@ -136,6 +136,10 @@ public class Interactable extends Renderable{
         onHoldSoundKey = null;
     }
 
+    protected String getOnHoverSoundKey() {
+        return onHoverSoundKey;
+    }
+
     //endregion
 
     //region Hovered
@@ -143,8 +147,8 @@ public class Interactable extends Renderable{
     @Override
     protected void onHovered() {
         super.onHovered();
-        if(onHoverSoundKey != null){
-            CardCrawlGame.sound.playA(onHoverSoundKey, -0.1F);
+        if(getOnHoverSoundKey() != null){
+            CardCrawlGame.sound.playA(getOnHoverSoundKey(), -0.1F);
         }
     }
 
@@ -202,10 +206,18 @@ public class Interactable extends Renderable{
 
     //region Sound
 
+    protected String getOnTriggerSoundKey() {
+        return onTriggerSoundKey;
+    }
+
+    protected String getOnHoldSoundKey() {
+        return onHoldSoundKey;
+    }
+
     @Override
     protected void onLeftClick() {
-        if(onTriggerSoundKey != null){
-            CardCrawlGame.sound.playA(onTriggerSoundKey, -0.1F);
+        if(getOnTriggerSoundKey() != null){
+            CardCrawlGame.sound.playA(getOnTriggerSoundKey(), -0.1F);
         }
 
         super.onLeftClick();
@@ -213,8 +225,8 @@ public class Interactable extends Renderable{
 
     @Override
     protected void onLeftClickHeld(float totalDuration) {
-        if(onHoldSoundKey != null){
-            CardCrawlGame.sound.playA(onHoldSoundKey, -0.1F);
+        if(getOnHoldSoundKey() != null){
+            CardCrawlGame.sound.playA(getOnHoldSoundKey(), -0.1F);
         }
 
         super.onLeftClickHeld(totalDuration);
@@ -222,8 +234,8 @@ public class Interactable extends Renderable{
 
     @Override
     protected void onRightClick() {
-        if(onTriggerSoundKey != null){
-            CardCrawlGame.sound.playA(onTriggerSoundKey, -0.1F);
+        if(getOnTriggerSoundKey() != null){
+            CardCrawlGame.sound.playA(getOnTriggerSoundKey(), -0.1F);
         }
 
         super.onRightClick();
@@ -231,8 +243,8 @@ public class Interactable extends Renderable{
 
     @Override
     protected void onRightClickHeld(float totalDuration) {
-        if(onHoldSoundKey != null){
-            CardCrawlGame.sound.playA(onHoldSoundKey, -0.1F);
+        if(getOnHoldSoundKey() != null){
+            CardCrawlGame.sound.playA(getOnHoldSoundKey(), -0.1F);
         }
 
         super.onRightClickHeld(totalDuration);

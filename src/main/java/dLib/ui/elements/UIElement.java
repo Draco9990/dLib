@@ -1422,6 +1422,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return selected;
     }
 
+    public boolean isControllerSelected(){
+        return controllerSelected;
+    }
+
     public void onSelectionStateChanged(){
         if(Settings.isControllerMode){
             if(selected){
@@ -1528,6 +1532,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         for(UIElement child : children){
             child.onParentVisibilityChanged();
         }
+
+        if(isModal()){
+            UIManager.drawControllerFocusCond(this);
+        }
     }
     protected void onParentVisibilityChanged(){
 
@@ -1571,6 +1579,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(getParent() != null) getParent().onChildEnabledStatusChanged(this);
         for(UIElement child : children){
             child.onParentEnabledStatusChanged();
+        }
+
+        if(isModal()){
+            UIManager.drawControllerFocusCond(this);
         }
     }
     protected void onParentEnabledStatusChanged(){
