@@ -17,6 +17,7 @@ import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.IntegerVector2;
+import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
@@ -35,7 +36,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class Inputfield extends Button {
+public class Inputfield extends Button implements ITextProvider {
     //region Variables
 
     public TextBox textBox;
@@ -850,6 +851,15 @@ public class Inputfield extends Button {
     }
 
     //endregion
+
+    // region ITextProvider implementation
+
+    @Override
+    public String getText() {
+        return textBox.getText();
+    }
+
+    // endregion
 
     //endregion
 

@@ -1,6 +1,8 @@
 package dLib.util.bindings;
 
-public abstract class ResourceBinding<ResourceType> extends Binding{
+import java.io.Serializable;
+
+public abstract class ResourceBinding<ResourceType> extends Binding implements Serializable {
 
     public abstract ResourceType getBoundObject(Object... params);
 }

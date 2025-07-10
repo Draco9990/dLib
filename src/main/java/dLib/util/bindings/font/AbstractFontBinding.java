@@ -6,7 +6,7 @@ import dLib.util.bindings.ResourceBinding;
 
 import java.io.Serializable;
 
-public abstract class AbstractFontBinding extends ResourceBinding<BitmapFont> implements Serializable, IEditableValue {
+public abstract class AbstractFontBinding extends ResourceBinding<BitmapFont> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Override

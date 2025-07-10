@@ -5,7 +5,7 @@ import dLib.util.bindings.Binding;
 
 import java.io.Serializable;
 
-public abstract class AbstractMethodBinding extends Binding implements Serializable, IEditableValue {
+public abstract class AbstractMethodBinding extends Binding implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Binding */

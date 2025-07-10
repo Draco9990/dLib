@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.Font;
+import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -13,7 +14,7 @@ import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 
-public class TextButton extends Button {
+public class TextButton extends Button implements ITextProvider {
     //region Variables
 
     public TextBox label;
@@ -42,6 +43,19 @@ public class TextButton extends Button {
 
         label = findChildById("label");
     }
+
+    //endregion
+
+    //region Methods
+
+    //region ITextProvider implementation
+
+    @Override
+    public String getText() {
+        return label.getText();
+    }
+
+    //endregion
 
     //endregion
 

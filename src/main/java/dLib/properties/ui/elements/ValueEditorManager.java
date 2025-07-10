@@ -23,7 +23,8 @@ public class ValueEditorManager {
             if(object instanceof BooleanProperty) return new BooleanValueEditor(((BooleanProperty) object));
             else return new BooleanValueEditor(((Boolean) value));
         }
-        else if(value instanceof Color){return new ColorValueEditor(Color.valueOf((String) value));
+        else if(value instanceof Color){
+            return new ColorValueEditor(Color.valueOf((String) value));
         }
         else if(value instanceof Enum){
             if(object instanceof EnumProperty) return new EnumValueEditor(((EnumProperty) object));

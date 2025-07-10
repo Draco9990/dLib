@@ -7,7 +7,7 @@ import dLib.util.bindings.ResourceBinding;
 
 import java.io.Serializable;
 
-public abstract class AbstractTextureBinding extends ResourceBinding<NinePatch> implements Serializable, IEditableValue {
+public abstract class AbstractTextureBinding extends ResourceBinding<NinePatch> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Override

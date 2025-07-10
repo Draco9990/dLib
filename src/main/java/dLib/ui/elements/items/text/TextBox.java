@@ -17,6 +17,7 @@ import dLib.ui.elements.UIElement;
 import dLib.util.bindings.font.AbstractFontBinding;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.font.FontResourceBinding;
+import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
@@ -35,7 +36,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class TextBox extends UIElement {
+public class TextBox extends UIElement implements ITextProvider {
     //region Variables
 
     private String text;

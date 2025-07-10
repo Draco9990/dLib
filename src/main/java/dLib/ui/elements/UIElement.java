@@ -35,6 +35,9 @@ import dLib.ui.layout.ILayoutProvider;
 import dLib.ui.screens.UIManager;
 import dLib.util.DLibLogger;
 import dLib.util.Reflection;
+import dLib.util.bindings.string.AbstractStringBinding;
+import dLib.util.bindings.string.Str;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
 import dLib.util.events.localevents.BiConsumerEvent;
@@ -159,8 +162,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion Events
 
     private String onHoverLine; // Say the Spire mod compatibility
-    protected String onSelectLine; // Say the Spire mod compatibility
-    protected String onTriggeredLine; // Say the Spire mod compatibility
+    protected AbstractStringBinding onSelectLine; // Say the Spire mod compatibility
+    protected AbstractStringBinding onTriggeredLine; // Say the Spire mod compatibility
 
     private boolean controllerSelected = false;
 
@@ -2272,11 +2275,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Trigger Lines
 
+    public void setOnTriggerLine(AbstractStringBinding binding){
+        this.onTriggeredLine = binding;
+    }
     public void setOnTriggerLine(String newLine) {
-        this.onTriggeredLine = newLine;
+        this.onTriggeredLine = Str.stat(newLine);
     }
     public String getOnTriggerLine(){
-        return onTriggeredLine;
+        return onTriggeredLine.getBoundObject();
     }
 
     //endregion
@@ -2857,11 +2863,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 .setDescription("Method to call when the element is released after being right clicked.")
                 .setCategory("Events");
 
-        public StringProperty onSelectLine = new StringProperty("")
+        public StringBindingProperty onSelectLine = new StringBindingProperty(Str.stat(""))
                 .setName("On Hover/Select Line")
                 .setDescription("Line to say when the element is hovered/selected.")
                 .setCategory("Say the Spire");
-        public StringProperty onTriggeredLine = new StringProperty("")
+        public StringBindingProperty onTriggeredLine = new StringBindingProperty(Str.stat(""))
                 .setName("On Trigger Line")
                 .setDescription("Line to say when the element is triggered.")
                 .setCategory("Say the Spire");

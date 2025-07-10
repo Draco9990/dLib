@@ -2,6 +2,7 @@ package dLib.ui.elements.items.text;
 
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.AutoDimension;
@@ -10,7 +11,7 @@ import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
-public class ImageTextBox extends Renderable {
+public class ImageTextBox extends Renderable implements ITextProvider {
     public TextBox textBox;
 
     public ImageTextBox(String text) {
@@ -35,4 +36,17 @@ public class ImageTextBox extends Renderable {
         textBox.setPadding(Padd.px(10));
         addChild(textBox);
     }
+
+    //region Methods
+
+    //region ITextProvider implementation
+
+    @Override
+    public String getText() {
+        return textBox.getText();
+    }
+
+    //endregion
+
+    //endregion
 }
