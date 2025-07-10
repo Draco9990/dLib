@@ -63,26 +63,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
     //region Methods
 
     private void buildMultiline(){
-        VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
-            /*@Override
-            public UIElement wrapUIForItem(UIElement item) {
-                UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
-                    @Override
-                    public void onHovered() {
-                        onPropertyHovered.invoke(boundProperty);
-                    }
-
-                    @Override
-                    public void onUnhovered() {
-                        onPropertyUnhovered.invoke(boundProperty);
-                    }
-                };
-                hoverable.setPassthrough(true);
-                item.addChild(hoverable);
-
-                return item;
-            }*/ //TODO
-        };
+        VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
         vBox.setPadding(Padd.px(15), Padd.px(0));
 
         TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
@@ -95,26 +76,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
     }
 
     private void buildSingleLine(){
-        HorizontalBox hBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto()){
-            /*@Override
-            public UIElement wrapUIForItem(UIElement item) {
-                UIElement hoverable = new UIElement(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()){
-                    @Override
-                    public void onHovered() {
-                        onPropertyHovered.invoke(boundProperty);
-                    }
-
-                    @Override
-                    public void onUnhovered() {
-                        onPropertyUnhovered.invoke(boundProperty);
-                    }
-                };
-                hoverable.setPassthrough(true);
-                item.addChild(hoverable);
-
-                return item;
-            }*/ //TODO
-        };
+        HorizontalBox hBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
         hBox.setPadding(Padd.px(15), Padd.px(0));
 
         TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.75), Dim.px(50));

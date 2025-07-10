@@ -2,6 +2,7 @@ package dLib.ui.elements.items.text;
 
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -35,6 +36,8 @@ public class ImageTextBox extends Renderable implements ITextProvider {
         textBox = new TextBox(text, Pos.px(0), Pos.px(0), getWidthRaw() instanceof AutoDimension ? Dim.auto() : Dim.fill(), getHeightRaw() instanceof AutoDimension ? Dim.auto() : Dim.fill());
         textBox.setPadding(Padd.px(10));
         addChild(textBox);
+
+        setOnHoverLine(Str.src(textBox));
     }
 
     //region Methods

@@ -90,7 +90,21 @@ public class UIManager {
             selectedElement.deselect();
         }
 
-        target.select(true);
+        selectNextElement(target, new Property<>(null));
+    }
+
+    public static void loseFocus(){
+        UIElement selectedElement = getCurrentlySelectedElement();
+        if(selectedElement != null){
+            selectedElement.deselect();
+        }
+    }
+
+    public static void loseFocus(UIElement focused){
+        UIElement selectedElement = focused.getSelectedChild();
+        if(selectedElement != null){
+            selectedElement.deselect();
+        }
     }
 
     private static boolean hasBaseScreenOverriders(){
@@ -219,14 +233,20 @@ public class UIManager {
     }
 
     private static void onDownPressed(){
+        Property<UIElement> foundSelectedElement = new Property<>(null);
+
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
             if(selectedElement.onDownInteraction()){
                 return;
             }
+
+            if(selectedElement.getModalParent() != null){
+                selectNextElement(selectedElement.getModalParent(), foundSelectedElement);
+                return;
+            }
         }
 
-        Property<UIElement> foundSelectedElement = new Property<>(null);
         for(UIElement uiElement : uiElements){
             if(!uiElement.isActive()){
                 continue;
@@ -238,14 +258,20 @@ public class UIManager {
         }
     }
     private static void onUpPressed(){
+        Property<UIElement> foundSelectedElement = new Property<>(null);
+
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
             if(selectedElement.onUpInteraction()){
                 return;
             }
+
+            if(selectedElement.getModalParent() != null){
+                selectPreviousElement(selectedElement.getModalParent(), foundSelectedElement);
+                return;
+            }
         }
 
-        Property<UIElement> foundSelectedElement = new Property<>(null);
         for(UIElement uiElement : uiElements){
             if(!uiElement.isActive()){
                 continue;

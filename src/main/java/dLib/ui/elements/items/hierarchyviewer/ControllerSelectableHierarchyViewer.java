@@ -17,6 +17,10 @@ public class ControllerSelectableHierarchyViewer extends HierarchyViewer{
         super();
 
         UIElement.postSelectionStateChangedEvent_Global.subscribe(this, (element, selected) -> {
+            if(element.getTopParent() instanceof HierarchyViewerPopup){
+                return;
+            }
+
             delayedActions.add(() -> loadForElement(element.getTopParent()));
         });
     }

@@ -147,9 +147,19 @@ public class Toggle extends Interactable {
 
     @Override
     public void clickLeft() {
-        toggle();
-
         super.clickLeft();
+        toggle();
+    }
+
+    @Override
+    public void deselect() {
+        super.deselect();
+
+        if(isControllerSelected() && isToggled()){
+            // If the toggle is selected with a controller, we want to deselect it when clicked
+            // This is to prevent the toggle from being stuck in a selected state
+            setToggled(false);
+        }
     }
 
     //endregion
@@ -157,14 +167,11 @@ public class Toggle extends Interactable {
     //region Toggled State
 
     public void toggle(){
-        this.toggled = !toggled;
-
-        onToggledEvent.invoke(toggled);
-        onToggledEvent_Static.invoke(toggled, this);
+        setToggled(!isToggled());
 
         if(ModManager.SayTheSpire.isActive()){
-            if(onTriggeredLine != null){
-                Output.text(onTriggeredLine, true);
+            if(getOnTriggerLine() != null){
+                Output.text(getOnTriggerLine(), true);
             }
         }
     }

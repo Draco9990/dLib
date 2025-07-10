@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.Font;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -36,6 +37,8 @@ public class TextButton extends Button implements ITextProvider {
         label.setFontSize(14);
         label.setPadding(Padd.px(10));
         addChild(label);
+
+        setOnHoverLine(Str.src(label));
     }
 
     public TextButton(TextButtonData data){

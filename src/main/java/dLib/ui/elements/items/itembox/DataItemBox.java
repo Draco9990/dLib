@@ -15,6 +15,8 @@ import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.BiMap;
 import dLib.util.bindings.font.Font;
+import dLib.util.bindings.string.Str;
+import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
@@ -256,6 +258,9 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             overlay.setRenderColor(new Color(0, 0, 0, 0f));
             overlay.addComponent(new UIOverlayElementComponent());
             overlay.setControllerSelectable(getSelectionMode() != ESelectionMode.NONE);
+            if(itemUI instanceof ITextProvider){
+                overlay.setOnHoverLine(Str.src(((ITextProvider) itemUI)));
+            }
             parent.addChild(overlay);
 
             UIItemBox holder;

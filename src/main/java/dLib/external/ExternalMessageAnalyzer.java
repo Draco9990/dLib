@@ -13,16 +13,10 @@ public class ExternalMessageAnalyzer {
             ExternalStatics.workingClass = screenClass;
             UCEditor editor = new UCEditor();
             editor.open();
-
-            /*ScreenEditorBaseScreen screen = new ScreenEditorBaseScreen(screenClass);
-            screen.open();*/
         }
 
         if(request.equals("screenListCallback")){
             List<String> screens = message.getData(List.class);
-            /*if(ScreenManager.getCurrentScreen() instanceof ScreenEditorScreenPickerScreen){
-                ((ScreenEditorScreenPickerScreen) ScreenManager.getCurrentScreen()).setScreenOptions(screens);
-            }*/
         }
     }
 }

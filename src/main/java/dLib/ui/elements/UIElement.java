@@ -37,7 +37,6 @@ import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.string.Str;
-import dLib.util.bindings.texture.Tex;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
 import dLib.util.events.localevents.BiConsumerEvent;
@@ -57,6 +56,7 @@ import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 import org.lwjgl.util.vector.Vector4f;
+import sayTheSpire.Output;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -161,9 +161,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion Events
 
-    private String onHoverLine; // Say the Spire mod compatibility
-    protected AbstractStringBinding onSelectLine; // Say the Spire mod compatibility
-    protected AbstractStringBinding onTriggeredLine; // Say the Spire mod compatibility
+    // Say the Spire mod compatibility
+    protected AbstractStringBinding onHoverLine = Str.stat(null); // Say the Spire mod compatibility
+    protected AbstractStringBinding onTriggeredLine = Str.stat(null); // Say the Spire mod compatibility
+    protected AbstractStringBinding onActivateLine = Str.stat(null); // Say the Spire mod compatibility
 
     private boolean controllerSelected = false;
 
@@ -283,7 +284,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         onRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(this, time));
         onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this));
 
-        this.onSelectLine = data.onSelectLine.getValue();
+        this.onHoverLine = data.onHoverLine.getValue();
         this.onTriggeredLine = data.onTriggeredLine.getValue();
 
         this.rootOwnerId = data.rootOwnerId;
@@ -342,8 +343,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                     getParent().onHoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(this));
                 }
 
-                if(getOnHoverLine() != null){
-                    if(ModManager.SayTheSpire.isActive()){
+                if(ModManager.SayTheSpire.isActive()){
+                    if(getOnHoverLine() != null){
                         SayTheSpireIntegration.Output(getOnHoverLine());
                     }
                 }
@@ -903,6 +904,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(children.isEmpty()) return null;
         return children.get(children.size() - 1);
     }
+    public UIElement getChildByIndex(int index){
+        if(index < 0 || index >= children.size()){
+            return null;
+        }
+        return children.get(index);
+    }
     public ArrayList<UIElement> getChildren(){
         return new ArrayList<>(children);
     }
@@ -1331,44 +1338,23 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Interactions
     public boolean onLeftInteraction(){
-        /*boolean hasInteraction = false;
-        for(UIElement child : children) hasInteraction = hasInteraction || child.onLeftInteraction();
-        return hasInteraction;*/ //* See if we can remove
         return false;
     }
     public boolean onRightInteraction(){
-        /*boolean hasInteraction = false;
-        for(UIElement child : children) hasInteraction = hasInteraction || child.onRightInteraction();
-        return hasInteraction;*/
         return false;
     }
     public boolean onUpInteraction(){
-        /*boolean hasInteraction = false;
-        for(UIElement child : children) hasInteraction = hasInteraction || child.onUpInteraction();
-        return hasInteraction;*/
         return false;
     }
     public boolean onDownInteraction(){
-        /*boolean hasInteraction = false;
-        for(UIElement child : children) hasInteraction = hasInteraction || child.onDownInteraction();
-        return hasInteraction;*/
         return false;
     }
 
     public boolean onConfirmInteraction(){
-        /*boolean hasInteraction = false;
-        for(UIElement child : children) hasInteraction = hasInteraction || child.onConfirmInteraction();
-        return hasInteraction;*/
-
         clickLeft();
         return onLeftClickEvent.count() > 0 || onLeftClickHeldEvent.count() > 0 || onLeftClickReleaseEvent.count() > 0;
     }
     public boolean onCancelInteraction(){
-        /*boolean hasInteraction = false;
-        for(UIElement child : children) hasInteraction = hasInteraction || child.onCancelInteraction();
-        return hasInteraction;*/
-
-
         return false;
     }
     //endregion
@@ -1430,15 +1416,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void onSelectionStateChanged(){
-        if(Settings.isControllerMode){
-            if(selected){
-                onHovered();
-            }
-            else if (isHovered()){
-                onUnhovered();
-            }
-        }
-
         postSelectionStateChangedEvent.invoke(isSelected());
         postSelectionStateChangedEvent_Global.invoke(this, isSelected());
     }
@@ -1536,8 +1513,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             child.onParentVisibilityChanged();
         }
 
-        if(isModal()){
-            UIManager.drawControllerFocusCond(this);
+        if(isEnabled() != isVisible()){
+            onActiveStateChanged();
         }
     }
     protected void onParentVisibilityChanged(){
@@ -1584,8 +1561,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             child.onParentEnabledStatusChanged();
         }
 
-        if(isModal()){
-            UIManager.drawControllerFocusCond(this);
+        if(isEnabled() != isVisible()){
+            onActiveStateChanged();
         }
     }
     protected void onParentEnabledStatusChanged(){
@@ -1624,6 +1601,23 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public boolean isActiveRaw(){
         return isVisibleRaw() || isEnabledRaw();
+    }
+
+    public void onActiveStateChanged(){
+        if(isModal()){
+            if(isActive()){
+                UIManager.drawControllerFocusCond(this);
+            }
+            else{
+                UIManager.loseFocus(this);
+            }
+        }
+
+        if(ModManager.SayTheSpire.isActive()){
+            if(getOnActivateLine() != null){
+                Output.text(getOnActivateLine(), true);
+            }
+        }
     }
 
     //endregion
@@ -2181,13 +2175,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return false;
     }
 
-    public void setOnHoverLine(String newLine){
-        this.onHoverLine = newLine;
-    }
-    public String getOnHoverLine(){
-        return onHoverLine;
-    }
-
     //endregion
 
     //region Clickthrough
@@ -2273,6 +2260,22 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion
 
+    //region Say the Spire
+
+    //region Hover Lines
+
+    public void setOnHoverLine(AbstractStringBinding binding){
+        this.onHoverLine = binding;
+    }
+    public void setOnHoverLine(String newLine){
+        this.onHoverLine = Str.stat(newLine);
+    }
+    public String getOnHoverLine(){
+        return onHoverLine.getBoundObject();
+    }
+
+    //endregion Hover Lines
+
     //region Trigger Lines
 
     public void setOnTriggerLine(AbstractStringBinding binding){
@@ -2286,6 +2289,22 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     //endregion
+
+    //region On Active Lines
+
+    public void setOnActivateLine(AbstractStringBinding binding){
+        this.onActivateLine = binding;
+    }
+    public void setOnActivateLine(String newLine) {
+        this.onActivateLine = Str.stat(newLine);
+    }
+    public String getOnActivateLine(){
+        return onActivateLine.getBoundObject();
+    }
+
+    //endregion
+
+    //endregion Say the Spire
 
     //region Local Child Offset
 
@@ -2354,6 +2373,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public boolean isModal(){
         return isModal;
+    }
+
+    public UIElement getModalParent(){
+        if(isModal()) return this;
+
+        if(hasParent()){
+            return parent.getModalParent();
+        }
+
+        return null;
     }
 
     //endregion
@@ -2863,7 +2892,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 .setDescription("Method to call when the element is released after being right clicked.")
                 .setCategory("Events");
 
-        public StringBindingProperty onSelectLine = new StringBindingProperty(Str.stat(""))
+        public StringBindingProperty onHoverLine = new StringBindingProperty(Str.stat(""))
                 .setName("On Hover/Select Line")
                 .setDescription("Line to say when the element is hovered/selected.")
                 .setCategory("Say the Spire");
