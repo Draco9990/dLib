@@ -65,6 +65,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//TODO add byproxy to all calls
 public class UIElement implements Disposable, IEditableValue, Constructable {
     
     //region Variables
@@ -551,13 +552,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             if(isEnabled()){
                 if(isHovered()){
                     if(InputHelper.justClickedLeft){
-                        clickLeft();
+                        onLeftClick(false);
                         if(!isPassthrough()){
                             InputHelper.justClickedLeft = false;
                         }
                     }
                     if(InputHelper.justClickedRight){
-                        clickRight();
+                        onRightClick();
                         if(!isPassthrough()) InputHelper.justClickedRight = false;
                     }
 
@@ -1337,24 +1338,24 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //region Interactions
-    public boolean onLeftInteraction(){
+    public boolean onLeftInteraction(boolean byProxy){
         return false;
     }
-    public boolean onRightInteraction(){
+    public boolean onRightInteraction(boolean byProxy){
         return false;
     }
-    public boolean onUpInteraction(){
+    public boolean onUpInteraction(boolean byProxy){
         return false;
     }
-    public boolean onDownInteraction(){
+    public boolean onDownInteraction(boolean byProxy){
         return false;
     }
 
-    public boolean onConfirmInteraction(){
-        clickLeft();
+    public boolean onConfirmInteraction(boolean byProxy){
+        onLeftClick(byProxy);
         return onLeftClickEvent.count() > 0 || onLeftClickHeldEvent.count() > 0 || onLeftClickReleaseEvent.count() > 0;
     }
-    public boolean onCancelInteraction(){
+    public boolean onCancelInteraction(boolean byProxy){
         return false;
     }
     //endregion
@@ -2162,6 +2163,18 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Hover
 
+    public void hover(){
+        if(isHovered()) return;
+
+        onHovered();
+    }
+
+    public void unhover(){
+        if(!isHovered()) return;
+
+        onUnhovered();
+    }
+
     protected void onHovered(){
         totalHoverDuration = 0.f;
         if(!isPassthrough()) InputHelpers.alreadyHovered = true;
@@ -2209,11 +2222,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Left Click
 
-    public void clickLeft(){
-        onLeftClick();
-    }
-
-    protected void onLeftClick(){
+    protected void onLeftClick(boolean byProxy){
         preLeftClickGlobalEvent.invoke(this);
         GlobalEvents.sendMessage(new PreUILeftClickEvent(this));
 
@@ -2226,7 +2235,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
         }
 
-        if(!Settings.isControllerMode){
+        if(!controllerSelected && !byProxy){
             select(false);
         }
 
@@ -2248,10 +2257,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //region Right Click
-
-    public void clickRight(){
-        onRightClick();
-    }
 
     protected void onRightClick(){
         preRightClickGlobalEvent.invoke(this);
@@ -2885,7 +2890,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         public MethodBindingProperty onLeftClick = new MethodBindingProperty()
                 .setName("On Left Click")
                 .setDescription("Method to call when the element is left clicked.")
-                .setCategory("Events");
+                .setCategory("Events")
+                .setDynamicCreationParameters(new Pair<>("byProxy", Boolean.class));
         public MethodBindingProperty onLeftClickHeld = new MethodBindingProperty()
                 .setName("On Left Click Held")
                 .setDescription("Method to call every tick the element is left clicked.")

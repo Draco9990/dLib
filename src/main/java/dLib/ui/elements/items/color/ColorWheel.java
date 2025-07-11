@@ -81,8 +81,8 @@ public class ColorWheel extends Renderable {
     }
 
     @Override
-    protected void onLeftClick() {
-        super.onLeftClick();
+    protected void onLeftClick(boolean byProxy) {
+        super.onLeftClick(byProxy);
 
         Color newColor = calculateCurrentColor();
         if(newColor != null){

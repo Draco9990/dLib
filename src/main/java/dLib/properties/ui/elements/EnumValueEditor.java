@@ -71,19 +71,42 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
 
     //region Methods
 
+
     @Override
-    public boolean onLeftInteraction() {
-        return leftArrow.onConfirmInteraction();
+    public void select(boolean byController) {
+        super.select(byController);
+
+        if(byController){
+            leftArrow.hover();
+            rightArrow.hover();
+            enumBox.hover();
+        }
     }
 
     @Override
-    public boolean onRightInteraction() {
-        return rightArrow.onConfirmInteraction();
+    public void deselect() {
+        if(isControllerSelected()){
+            leftArrow.unhover();
+            rightArrow.unhover();
+            enumBox.unhover();
+        }
+
+        super.deselect();
     }
 
     @Override
-    public boolean onConfirmInteraction() {
-        return enumBox.onConfirmInteraction();
+    public boolean onLeftInteraction(boolean byProxy) {
+        return leftArrow.onConfirmInteraction(true);
+    }
+
+    @Override
+    public boolean onRightInteraction(boolean byProxy) {
+        return rightArrow.onConfirmInteraction(true);
+    }
+
+    @Override
+    public boolean onConfirmInteraction(boolean byProxy) {
+        return enumBox.onConfirmInteraction(true);
     }
 
     //endregion

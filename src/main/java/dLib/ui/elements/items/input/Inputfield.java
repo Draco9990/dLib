@@ -750,7 +750,7 @@ public class Inputfield extends Button implements ITextProvider {
     //region KYB controls
 
     @Override
-    public boolean onLeftInteraction() {
+    public boolean onLeftInteraction(boolean byProxy) {
         characterHbManager.clearSelection();
 
         if(caretOffset == textBox.getText().length()) return true;
@@ -761,7 +761,7 @@ public class Inputfield extends Button implements ITextProvider {
     }
 
     @Override
-    public boolean onRightInteraction() {
+    public boolean onRightInteraction(boolean byProxy) {
         characterHbManager.clearSelection();
 
         if(caretOffset == 0) return true;
@@ -772,16 +772,16 @@ public class Inputfield extends Button implements ITextProvider {
     }
 
     @Override
-    public boolean onUpInteraction() {
+    public boolean onUpInteraction(boolean byProxy) {
         characterHbManager.clearSelection();
 
-        if(textBox.getText().isEmpty()) return super.onUpInteraction();
+        if(textBox.getText().isEmpty()) return super.onUpInteraction(byProxy);
 
         Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
-        if(layout.getValue().runs.size == 1) return super.onUpInteraction();
+        if(layout.getValue().runs.size == 1) return super.onUpInteraction(byProxy);
 
         Pair<Integer, Integer> currentCaretPosition = getCurrentCaretPosition();
-        if(currentCaretPosition.getKey() == 0) return super.onUpInteraction();
+        if(currentCaretPosition.getKey() == 0) return super.onUpInteraction(byProxy);
 
         GlyphLayout.GlyphRun currentRun = layout.getValue().runs.get(currentCaretPosition.getKey());
         GlyphLayout.GlyphRun prevRun = layout.getValue().runs.get(currentCaretPosition.getKey() - 1);
@@ -807,16 +807,16 @@ public class Inputfield extends Button implements ITextProvider {
     }
 
     @Override
-    public boolean onDownInteraction() {
+    public boolean onDownInteraction(boolean byProxy) {
         characterHbManager.clearSelection();
 
-        if(textBox.getText().isEmpty()) return super.onDownInteraction();
+        if(textBox.getText().isEmpty()) return super.onDownInteraction(byProxy);
 
         Pair<Vector2, GlyphLayout> layout = textBox.prepareForRender();
-        if(layout.getValue().runs.size == 1) return super.onDownInteraction();
+        if(layout.getValue().runs.size == 1) return super.onDownInteraction(byProxy);
 
         Pair<Integer, Integer> currentCaretPosition = getCurrentCaretPosition();
-        if(currentCaretPosition.getKey() == layout.getValue().runs.size - 1) return super.onDownInteraction();
+        if(currentCaretPosition.getKey() == layout.getValue().runs.size - 1) return super.onDownInteraction(byProxy);
 
         GlyphLayout.GlyphRun currentRun = layout.getValue().runs.get(currentCaretPosition.getKey());
         GlyphLayout.GlyphRun nextRun = layout.getValue().runs.get(currentCaretPosition.getKey() + 1);

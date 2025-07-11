@@ -238,9 +238,9 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
             Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
                 @Override
-                public void toggle() {
+                public void toggle(boolean byProxy) {
                     if((isToggled() && getSelectionMode() == ESelectionMode.MULTIPLE) || trySelectItem(item)){
-                        super.toggle();
+                        super.toggle(byProxy);
                         onItemSelectionChanged();
 
                         if(selectionMode == ESelectionMode.SINGLE_NOPERSIST && isToggled()){

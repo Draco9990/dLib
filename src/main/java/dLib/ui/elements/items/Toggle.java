@@ -146,9 +146,9 @@ public class Toggle extends Interactable {
     //region Left Click
 
     @Override
-    public void clickLeft() {
-        super.clickLeft();
-        toggle();
+    public void onLeftClick(boolean byProxy) {
+        super.onLeftClick(byProxy);
+        toggle(byProxy);
     }
 
     @Override
@@ -166,7 +166,7 @@ public class Toggle extends Interactable {
 
     //region Toggled State
 
-    public void toggle(){
+    public void toggle(boolean byProxy){
         setToggled(!isToggled());
 
         if(ModManager.SayTheSpire.isActive()){

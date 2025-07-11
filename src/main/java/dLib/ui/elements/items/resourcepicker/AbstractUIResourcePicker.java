@@ -52,7 +52,7 @@ public abstract class AbstractUIResourcePicker extends UIElement {
         }
 
         @Override
-        public boolean onCancelInteraction() {
+        public boolean onCancelInteraction(boolean byProxy) {
             AbstractUIResourcePicker parent = getParentOfType(AbstractUIResourcePicker.class);
             parent.close();
             return true;

@@ -42,12 +42,12 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
                 int finalJ = j;
                 alignmentButtons[i][j] = new Toggle(Tex.stat(alignmentTexture), Dim.fill(), Dim.fill()){
                     @Override
-                    public void toggle() {
+                    public void toggle(boolean byProxy) {
                         if(isToggled()){
                             return;
                         }
 
-                        super.toggle();
+                        super.toggle(byProxy);
 
                         for(int k = 0; k < 3; k++){
                             for(int l = 0; l < 3; l++){

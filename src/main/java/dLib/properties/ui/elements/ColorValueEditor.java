@@ -29,8 +29,8 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
 
         middleButton = new Button(Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50)){
             @Override
-            protected void onLeftClick() {
-                super.onLeftClick();
+            protected void onLeftClick(boolean byProxy) {
+                super.onLeftClick(byProxy);
                 ColorPickerPopup colorPickerPopup = new ColorPickerPopup(boundProperty.getColorValue(), Pos.px( (InputHelper.mX / Settings.xScale - 340)), Pos.px( (InputHelper.mY / Settings.yScale)), true, true, true, false);
                 colorPickerPopup.onSelectedColorChangedEvent.subscribe(colorPickerPopup, (color, isStatic) -> property.setValue(color.toString()));
                 colorPickerPopup.open();

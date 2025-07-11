@@ -55,17 +55,39 @@ public class IntegerInputBox extends UIElement {
     }
 
     @Override
-    public boolean onLeftInteraction() {
-        return leftArrow.onConfirmInteraction();
+    public void select(boolean byController) {
+        super.select(byController);
+
+        if(byController){
+            leftArrow.hover();
+            rightArrow.hover();
+            inputbox.hover();
+        }
     }
 
     @Override
-    public boolean onRightInteraction() {
-        return rightArrow.onConfirmInteraction();
+    public void deselect() {
+        if(isControllerSelected()){
+            leftArrow.unhover();
+            rightArrow.unhover();
+            inputbox.unhover();
+        }
+
+        super.deselect();
     }
 
     @Override
-    public boolean onConfirmInteraction() {
-        return inputbox.onConfirmInteraction();
+    public boolean onLeftInteraction(boolean byProxy) {
+        return leftArrow.onConfirmInteraction(true);
+    }
+
+    @Override
+    public boolean onRightInteraction(boolean byProxy) {
+        return rightArrow.onConfirmInteraction(true);
+    }
+
+    @Override
+    public boolean onConfirmInteraction(boolean byProxy) {
+        return inputbox.onConfirmInteraction(true);
     }
 }

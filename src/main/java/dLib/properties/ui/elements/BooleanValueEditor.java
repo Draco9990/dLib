@@ -30,8 +30,8 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
 
             button = new Checkbox(Dim.mirror(), Dim.px(50)){
                 @Override
-                public void toggle() {
-                    super.toggle();
+                public void toggle(boolean byProxy) {
+                    super.toggle(byProxy);
                     boundProperty.setValue(isToggled());
                 }
             };

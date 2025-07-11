@@ -237,7 +237,7 @@ public class UIManager {
 
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
-            if(selectedElement.onDownInteraction()){
+            if(selectedElement.onDownInteraction(false)){
                 return;
             }
 
@@ -262,7 +262,7 @@ public class UIManager {
 
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
-            if(selectedElement.onUpInteraction()){
+            if(selectedElement.onUpInteraction(false)){
                 return;
             }
 
@@ -285,26 +285,26 @@ public class UIManager {
     private static void onLeftPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
-            selectedElement.onLeftInteraction();
+            selectedElement.onLeftInteraction(false);
         }
     }
     private static void onRightPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
-            selectedElement.onRightInteraction();
+            selectedElement.onRightInteraction(false);
         }
     }
 
     private static void onConfirmPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
-            selectedElement.onConfirmInteraction();
+            selectedElement.onConfirmInteraction(false);
         }
     }
     private static void onCancelPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
-            selectedElement.onCancelInteraction();
+            selectedElement.onCancelInteraction(false);
         }
     }
 
