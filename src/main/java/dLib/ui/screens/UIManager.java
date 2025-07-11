@@ -308,10 +308,6 @@ public class UIManager {
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
             selectedElement.onConfirmInteraction(false);
-
-            if(selectedElement.isContextual()){
-                selectedElement.dispose();
-            }
         }
     }
     private static void onCancelPressed(){
