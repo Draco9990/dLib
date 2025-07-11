@@ -1589,7 +1589,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
                 if(ModManager.SayTheSpire.isActive()){
                     if(getOnEnabledLine() != null){
-                        Output.text(getOnEnabledLine(), true);
+                        SayTheSpireIntegration.Output(getOnEnabledLine());
                     }
                 }
             }
@@ -1616,7 +1616,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
                 if(ModManager.SayTheSpire.isActive()){
                     if(getOnEnabledLine() != null){
-                        Output.text(getOnEnabledLine(), true);
+                        SayTheSpireIntegration.Output(getOnEnabledLine());
                     }
                 }
             }

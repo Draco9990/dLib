@@ -3,6 +3,7 @@ package dLib.ui.elements.items.buttons;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import dLib.modcompat.ModManager;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.ui.elements.items.Interactable;
@@ -14,7 +15,6 @@ import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-import sayTheSpire.Output;
 
 import java.io.Serializable;
 
@@ -195,7 +195,7 @@ public class Toggle extends Interactable {
 
         if(ModManager.SayTheSpire.isActive()){
             if(getOnTriggerLine() != null){
-                Output.text(getOnTriggerLine(), true);
+                SayTheSpireIntegration.Output(getOnTriggerLine());
             }
         }
     }

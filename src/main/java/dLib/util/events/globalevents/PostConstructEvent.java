@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import dLib.util.DLibLogger;
 import dLib.util.MatcherUtils;
 import dLib.util.Reflection;
+import dLib.util.events.GlobalEvents;
 import javassist.CtBehavior;
 import javassist.CtConstructor;
 import javassist.Modifier;
@@ -38,17 +39,21 @@ public class PostConstructEvent extends GlobalEvent {
                         continue;
                     }
 
-                    constructor.insertAfter(
-                            "if($0.getClass() == " + constructor.getDeclaringClass().getName()  + ".class) { " +
-                            "$0.postConstruct();" +
-                            "dLib.util.events.GlobalEvents.sendMessage(new dLib.util.events.globalevents.PostConstructEvent($0));" +
-                            "}");
+                    constructor.insertAfter("dLib.util.events.globalevents.PostConstructEvent.postConstruct($0, \"" + constructor.getDeclaringClass().getName() + "\");");
                 }
                 catch (Exception e){
                     DLibLogger.logError("Failed to insert PostConstructEvent into constructor: " + constructor.getLongName() + " due to exception: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static void postConstruct(Constructable source, String constructorDeclaringClassName) {
+        String sourceClassName = source.getClass().getName();
+        if(sourceClassName.equals(constructorDeclaringClassName)) {
+            source.postConstruct();
+            GlobalEvents.sendMessage(new PostConstructEvent(source));
         }
     }
 

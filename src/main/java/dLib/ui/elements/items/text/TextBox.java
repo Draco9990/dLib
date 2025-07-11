@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.modcompat.ModManager;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
@@ -271,7 +272,7 @@ public class TextBox extends UIElement implements ITextProvider {
 
         if(ModManager.SayTheSpire.isActive()){
             if(getOnTextChangedLine(text) != null){
-                Output.text(getOnTextChangedLine(text), true);
+                SayTheSpireIntegration.Output(getOnTextChangedLine(text));
             }
         }
 

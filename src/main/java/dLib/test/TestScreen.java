@@ -7,6 +7,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDropZoneComponent;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.PropertyEditor;
+import dLib.ui.elements.items.VerticalCollapsableBox;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.HorizontalDataBox;
@@ -75,7 +76,7 @@ public class TestScreen extends UIElement {
         in3.textBox.setContentAlignment(Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
         addChild(in3);*/
 
-        Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
+        /*Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
         {
             VerticalDataBox<String> vdb = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
             vdb.setCanReorder(true);
@@ -104,6 +105,12 @@ public class TestScreen extends UIElement {
             vdb.addChild("Test37");
             scrollbox.addChild(vdb);
         }
-        addChild(scrollbox);
+        addChild(scrollbox);*/
+
+        VerticalCollapsableBox collapsableBox = new VerticalCollapsableBox("Test Collapsable Box", Dim.px(300), Dim.px(300));
+        {
+
+        }
+        addChild(collapsableBox);
     }
 }

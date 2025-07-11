@@ -389,7 +389,6 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             return line;
         };
         holder.setOnHoverLine(Str.lambda(hoverSupplier));
-        holder.setControllerSelectable(true);
 
         return holder;
     }
