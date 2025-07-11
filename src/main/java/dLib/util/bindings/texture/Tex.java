@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.util.TextureManager;
+import dLib.util.bindings.string.StringLambdaBinding;
+
+import java.util.function.Supplier;
 
 public class Tex {
     public static TextureStaticBinding stat(TextureRegion region) {
@@ -25,5 +28,9 @@ public class Tex {
 
     public static TextureNoneBinding none(){
         return new TextureNoneBinding();
+    }
+
+    public static TextureLambdaBinding lambda(Supplier<NinePatch> provider) {
+        return new TextureLambdaBinding(provider);
     }
 }

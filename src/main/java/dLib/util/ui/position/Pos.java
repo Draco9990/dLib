@@ -14,4 +14,8 @@ public class Pos {
     public static PercentagePosition perc(double pos){
         return new PercentagePosition((float)pos);
     }
+
+    public static MirrorPosition mirror(){
+        return new MirrorPosition();
+    }
 }

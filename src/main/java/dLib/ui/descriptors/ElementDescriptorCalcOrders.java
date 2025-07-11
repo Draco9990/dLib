@@ -6,6 +6,7 @@ public class ElementDescriptorCalcOrders {
     public static int DIMENSION_PIXEL = 0;
     public static int PADDING_PIXEL = 0;
 
+    public static int POSITION_MIRROR = 1;
     public static int DIMENSION_MIRROR = 1;
 
     public static int DIMENSION_PERCENTAGE = 2;

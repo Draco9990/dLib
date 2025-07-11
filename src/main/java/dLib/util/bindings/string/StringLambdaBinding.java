@@ -5,6 +5,7 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 
 import java.util.function.Supplier;
 
+//! Warning, not serializable
 public class StringLambdaBinding extends AbstractStringBinding {
 
     private Supplier<String> value;
