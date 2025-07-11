@@ -36,7 +36,7 @@ public class UIManager {
 
     //region Class Methods
 
-    public static void openUIElement(UIElement element){ //TODO draw 'focus' to the first element
+    public static void openUIElement(UIElement element){
         if(isOpen(element)){
             return;
         }
@@ -63,9 +63,11 @@ public class UIManager {
             element.showAndEnable();
         }
 
-        if(element.shouldDrawFocusOnOpen()){
+        UIElement currentlySelectedElement = getCurrentlySelectedElement();
+        if(currentlySelectedElement != null && currentlySelectedElement.isControllerSelected()){
             drawControllerFocusCond(element);
         }
+
     }
     public static void closeUIElement(UIElement element){
         pendingClose.add(element);
@@ -176,26 +178,36 @@ public class UIManager {
     }
 
     private static boolean selectNextElement(UIElement topParent, Property<UIElement> foundSelectedElement){
-        ArrayList<UIElement> children = topParent.getAllSelectableChildren();
+        return selectNextElement(new ArrayList<UIElement>(){{ add(topParent); }}, foundSelectedElement);
+    }
+    private static boolean selectNextElement(ArrayList<UIElement> topParents, Property<UIElement> foundSelectedElement){
         boolean firstPass = true;
         while(true){
-            for (int i = 0; i < children.size(); i++) {
-                UIElement child = children.get(i);
-
-                if (child.isSelected()) {
-                    if(foundSelectedElement.getValue() == child){
-                        return false; // We looped back over, current element is the ONLY selectable element
-                    }
-
-                    foundSelectedElement.setValue(child);
-                } else if ((!foundSelectedElement.isNull() || !firstPass) && !child.isSelected()) {
-                    if(!foundSelectedElement.isNull()) foundSelectedElement.getValue().deselect();
-                    child.select(true);
-                    return true;
+            for (UIElement topParent : topParents) {
+                if(!topParent.isActive()){
+                    continue;
                 }
 
-                if (!foundSelectedElement.isNull() && child.isControllerModal()) {
-                    i--;
+                ArrayList<UIElement> children = topParent.getAllSelectableChildren();
+
+                for (int i = 0; i < children.size(); i++) {
+                    UIElement child = children.get(i);
+
+                    if (child.isSelected()) {
+                        if(foundSelectedElement.getValue() == child){
+                            return false; // We looped back over, current element is the ONLY selectable element
+                        }
+
+                        foundSelectedElement.setValue(child);
+                    } else if ((!foundSelectedElement.isNull() || !firstPass) && !child.isSelected()) {
+                        if(!foundSelectedElement.isNull()) foundSelectedElement.getValue().deselect();
+                        child.select(true);
+                        return true;
+                    }
+
+                    if (!foundSelectedElement.isNull() && child.isControllerModal()) {
+                        i--;
+                    }
                 }
             }
 
@@ -208,27 +220,37 @@ public class UIManager {
     }
 
     private static boolean selectPreviousElement(UIElement topParent, Property<UIElement> foundSelectedElement){
-        ArrayList<UIElement> children = topParent.getAllSelectableChildren();
+        return selectPreviousElement(new ArrayList<UIElement>(){{ add(topParent); }}, foundSelectedElement);
+    }
+    private static boolean selectPreviousElement(ArrayList<UIElement> topParents, Property<UIElement> foundSelectedElement){
         boolean firstPass = true;
         while(true){
-            for (int i = children.size() - 1; i >= 0; i--) {
-                UIElement child = children.get(i);
+            for (UIElement topParent : topParents) {
+                if(!topParent.isActive()){
+                    continue;
+                }
 
-                if(child.isSelected()){
-                    if(foundSelectedElement.getValue() == child){
-                        return false; // We looped back over, current element is the ONLY selectable element
+                ArrayList<UIElement> children = topParent.getAllSelectableChildren();
+
+                for (int i = children.size() - 1; i >= 0; i--) {
+                    UIElement child = children.get(i);
+
+                    if(child.isSelected()){
+                        if(foundSelectedElement.getValue() == child){
+                            return false; // We looped back over, current element is the ONLY selectable element
+                        }
+
+                        foundSelectedElement.setValue(child);
+                    }
+                    else if((!foundSelectedElement.isNull() || !firstPass) && !child.isSelected()){
+                        if(!foundSelectedElement.isNull()) foundSelectedElement.getValue().deselect();
+                        child.select(true);
+                        return true;
                     }
 
-                    foundSelectedElement.setValue(child);
-                }
-                else if((!foundSelectedElement.isNull() || !firstPass) && !child.isSelected()){
-                    if(!foundSelectedElement.isNull()) foundSelectedElement.getValue().deselect();
-                    child.select(true);
-                    return true;
-                }
-
-                if(!foundSelectedElement.isNull() && child.isControllerModal()){
-                    i++;
+                    if(!foundSelectedElement.isNull() && child.isControllerModal()){
+                        i++;
+                    }
                 }
             }
 
@@ -238,7 +260,6 @@ public class UIManager {
 
             firstPass = false;
         }
-
     }
 
     private static void onDownPressed(){
@@ -256,15 +277,7 @@ public class UIManager {
             }
         }
 
-        for(UIElement uiElement : uiElements){
-            if(!uiElement.isActive()){
-                continue;
-            }
-
-            if(selectNextElement(uiElement, foundSelectedElement)){
-                return;
-            }
-        }
+        selectNextElement(uiElements, foundSelectedElement);
     }
     private static void onUpPressed(){
         Property<UIElement> foundSelectedElement = new Property<>(null);
@@ -281,15 +294,7 @@ public class UIManager {
             }
         }
 
-        for(UIElement uiElement : uiElements){
-            if(!uiElement.isActive()){
-                continue;
-            }
-
-            if(selectPreviousElement(uiElement, foundSelectedElement)){
-                return;
-            }
-        }
+        selectPreviousElement(uiElements, foundSelectedElement);
     }
     private static void onLeftPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();

@@ -567,7 +567,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
 
             if(isEnabled()){
-                if(isHovered()){
+                if(isMouseHovered()){
                     if(InputHelper.justClickedLeft){
                         onLeftClick(false);
                         if(!isPassthrough()){
@@ -2234,6 +2234,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public boolean isHovered(){ return (hb.hovered || hb.justHovered || controllerSelected || proxyHovered); }
+    public boolean isMouseHovered(){ return (hb.hovered || hb.justHovered); }
 
     public boolean isProxyHovered() { return proxyHovered; }
 

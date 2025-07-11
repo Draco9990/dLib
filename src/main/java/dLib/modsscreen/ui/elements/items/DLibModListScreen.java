@@ -183,6 +183,7 @@ public class DLibModListScreen extends UIElement {
                         configButton.setTexture(Tex.stat(UICommonResources.settingsButton));
                         configButton.onLeftClickEvent.subscribe(configButton, () -> {
                             UIElement masterContainer = new UIElement();
+                            masterContainer.setModal(true);
                             {
                                 masterContainer.addChild(new DarkenLayer());
 
