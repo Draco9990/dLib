@@ -107,14 +107,26 @@ public class UIManager {
     public static void loseFocus(){
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
+            boolean controllerSelected = selectedElement.isControllerSelected();
+
             selectedElement.deselect();
+
+            if(controllerSelected){
+                selectNextElement(uiElements, new Property<>(null));
+            }
         }
     }
 
     public static void loseFocus(UIElement focused){
         UIElement selectedElement = focused.getSelectedChild();
         if(selectedElement != null){
+            boolean controllerSelected = selectedElement.isControllerSelected();
+
             selectedElement.deselect();
+
+            if(controllerSelected){
+                selectNextElement(uiElements, new Property<>(null));
+            }
         }
     }
 

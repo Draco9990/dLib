@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.components.UITransientElementComponent;
@@ -109,6 +110,8 @@ public class Inputfield extends Toggle implements ITextProvider {
         addChild(toolbar);
 
         postInitialize();
+
+        setSayTheSpireElementType("Inputfield");
     }
 
     public Inputfield(InputfieldData data){
@@ -307,6 +310,15 @@ public class Inputfield extends Toggle implements ITextProvider {
             }
             else{
                 toolbar.hideAndDisable();
+            }
+        });
+
+        onValueChangedEvent.subscribeManaged(s -> { // TODO make this a string binding property instead
+            if(!s.isEmpty()){
+                SayTheSpireIntegration.Output(getSayTheSpireElementNameAndType() + " value changed to empty.");
+            }
+            else{
+                SayTheSpireIntegration.Output(getSayTheSpireElementNameAndType() + " value changed to " + s);
             }
         });
     }

@@ -7,6 +7,7 @@ import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.ui.elements.items.Interactable;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.events.localevents.BiConsumerEvent;
@@ -54,6 +55,9 @@ public class Toggle extends Interactable {
     public Toggle(AbstractTextureBinding imageBinding, AbstractTextureBinding toggledTexture, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(imageBinding, xPos, yPos, width, height);
         this.toggledTexture = toggledTexture;
+
+        setSayTheSpireElementType("Toggle");
+        setOnTriggerLine(Str.lambda(() -> getSayTheSpireElementNameAndType() + " is now " + (isToggled() ? "checked" : "unchecked")));
     }
 
     public Toggle(ToggleData data){

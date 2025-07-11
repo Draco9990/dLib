@@ -12,6 +12,8 @@ import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
+import java.util.function.Supplier;
+
 public class ImageTextBox extends Renderable implements ITextProvider {
     public TextBox textBox;
 
@@ -36,8 +38,6 @@ public class ImageTextBox extends Renderable implements ITextProvider {
         textBox = new TextBox(text, Pos.px(0), Pos.px(0), getWidthRaw() instanceof AutoDimension ? Dim.auto() : Dim.fill(), getHeightRaw() instanceof AutoDimension ? Dim.auto() : Dim.fill());
         textBox.setPadding(Padd.px(10));
         addChild(textBox);
-
-        setOnHoverLine(Str.src(textBox));
     }
 
     //region Methods

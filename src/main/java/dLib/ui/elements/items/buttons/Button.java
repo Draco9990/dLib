@@ -24,6 +24,8 @@ public class Button extends Interactable {
     }
     public Button(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(Tex.stat(UICommonResources.button03_square), xPos, yPos, width, height);
+
+        setSayTheSpireElementType("Button");
     }
 
     public Button(ButtonData data){

@@ -1,6 +1,7 @@
 package dLib.ui.elements.items.buttons;
 
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -32,6 +33,9 @@ public class RadioButton extends Toggle {
         super(Tex.stat(UICommonResources.radiobutton_checked_unchecked), Tex.stat(UICommonResources.radiobutton_checked_checked), xPos, yPos, width, height);
 
         this.groupId = groupId;
+
+        setSayTheSpireElementType("Radio Button");
+        setOnTriggerLine(Str.lambda(() -> "Selected " + getSayTheSpireElementNameAndType()));
     }
 
     public RadioButton(RadioButtonData data) {

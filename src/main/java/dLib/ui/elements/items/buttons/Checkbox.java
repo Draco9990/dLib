@@ -1,6 +1,7 @@
 package dLib.ui.elements.items.buttons;
 
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -8,6 +9,7 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 public class Checkbox extends Toggle {
     //region Variables
@@ -24,6 +26,8 @@ public class Checkbox extends Toggle {
     }
     public Checkbox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(Tex.stat(UICommonResources.checkbox_unchecked), Tex.stat(UICommonResources.checkbox_checked), xPos, yPos, width, height);
+
+        setSayTheSpireElementType("Checkbox");
     }
 
     public Checkbox(CheckboxData data) {

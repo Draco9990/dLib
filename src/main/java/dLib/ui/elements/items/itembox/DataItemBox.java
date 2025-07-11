@@ -338,7 +338,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     overlay.addComponent(new UIOverlayElementComponent());
                     overlay.setControllerSelectable(false);
                     if(itemUI instanceof ITextProvider){
-                        overlay.setOnHoverLine(Str.src(((ITextProvider) itemUI)));
+                        overlay.setSayTheSpireElementName(Str.src((ITextProvider) itemUI));
+                        overlay.setSayTheSpireElementType(Str.stat("List Entry"));
                     }
                     holder.onConfirmInteractionEvent.subscribe(holder, (byProxy) -> overlay.onConfirmInteraction(true));
                     holder.postSelectionStateChangedEvent.subscribe(overlay, (selected) -> {
@@ -388,7 +389,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
             return line;
         };
-        holder.setOnHoverLine(Str.lambda(hoverSupplier));
+        holder.setSayTheSpireElementName(Str.lambda(hoverSupplier));
+        holder.setSayTheSpireElementType("List Entry");
 
         return holder;
     }

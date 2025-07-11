@@ -38,7 +38,7 @@ public class TextButton extends Button implements ITextProvider {
         label.setPadding(Padd.px(10));
         addChild(label);
 
-        setOnHoverLine(Str.src(label));
+        setSayTheSpireElementName(Str.src(label));
     }
 
     public TextButton(TextButtonData data){
