@@ -19,6 +19,7 @@ import dLib.util.bindings.string.Str;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -28,6 +29,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public abstract class DataItemBox<ItemType> extends ItemBox {
     //region Variables
@@ -39,21 +41,22 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     protected BiMap<UIElement, ItemType> childWrapperMap = new BiMap<>();
 
     // Properties
+    private boolean shouldOverlayToggle = true;
+    private boolean externalToggling = false; //TODO expose
+
     private boolean canReorder = false; //TODO
-    public Event<BiConsumer<ItemType, ItemType>> onItemsSwappedEvent = new Event<>(); //TODO expose
+    public BiConsumerEvent<ItemType, ItemType> onItemsSwappedEvent = new BiConsumerEvent<>(); //TODO expose
 
     private boolean canDelete = false; //TODO
-    public Event<Consumer<ItemType>> onItemDeletedEvent = new Event<>(); //TODO expose
+    public ConsumerEvent<ItemType> onItemDeletedEvent = new ConsumerEvent<>(); //TODO expose
 
     private ESelectionMode selectionMode = ESelectionMode.SINGLE;
     private int selectionCountLimit = 1; //TODO expose
 
-    public Event<Consumer<ArrayList<ItemType>>> onItemSelectionChangedEvent = new Event<>();
+    public ConsumerEvent<ArrayList<ItemType>> onItemSelectionChangedEvent = new ConsumerEvent<>();
 
     protected Integer defaultItemWidth = null;
     protected Integer defaultItemHeight = null;
-
-    private boolean shouldOverlayToggle = true;
 
     public ConsumerEvent<ItemType> onItemAddedEvent = new ConsumerEvent<>();
     public ConsumerEvent<ItemType> onItemRemovedEvent = new ConsumerEvent<>();
@@ -82,7 +85,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         onChildAddedEvent.subscribeManaged(element -> onItemAddedEvent.invoke(childWrapperMap.getByKey(element)));
         onChildRemovedEvent.subscribeManaged(element -> onItemRemovedEvent.invoke(childWrapperMap.getByKey(element)));
     }
-//endregion
+
+    //endregion
 
     //region Methods
 
@@ -256,7 +260,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             {
                 parent.addChild(itemUI);
 
-                if(shouldOverlayToggle){
+                if(isToggleOverlayEnabled()){
                     Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
                         @Override
                         public void toggle(boolean byProxy) {
@@ -298,6 +302,20 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         }
 
         postMakeUIForItem(item, itemUI);
+
+        Supplier<String> hoverSupplier = () -> {
+            String line = "";
+
+            if(itemUI instanceof ITextProvider) line += ((ITextProvider) itemUI).getText();
+            else line += itemUI.toString();
+
+            line += " on position " + (filteredChildren.indexOf(holder) + 1) + " of " + children.size() + ".";
+
+            return line;
+        };
+        holder.setOnHoverLine(Str.lambda(hoverSupplier));
+        holder.setControllerSelectable(true);
+
         return holder;
     }
 
@@ -337,7 +355,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         return true;
     }
     public void onItemSelectionChanged(){
-        onItemSelectionChangedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(getCurrentlySelectedItems()));
+        onItemSelectionChangedEvent.invoke(getCurrentlySelectedItems());
     } //TODO expose
 
     public ArrayList<ItemType> getCurrentlySelectedItems(){
@@ -396,8 +414,18 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     //region Toggle Overlay
 
+    public void setExternalToggling(boolean externalToggling){
+        this.externalToggling = externalToggling;
+    }
+    public boolean isExternalToggling(){
+        return externalToggling;
+    }
+
     public void disableToggleOverlay(){
         shouldOverlayToggle = false;
+    }
+    public boolean isToggleOverlayEnabled(){
+        return shouldOverlayToggle && !externalToggling;
     }
 
     //endregion
@@ -460,7 +488,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         ItemType item2 = childWrapperMap.getByKey(child2);
 
         refilterItems();
-        onItemsSwappedEvent.invoke(itemTypeItemTypeBiConsumer -> itemTypeItemTypeBiConsumer.accept(item2, item1));
+        onItemsSwappedEvent.invoke(item2, item1);
     }
 
     //endregion
@@ -478,7 +506,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         removeChild(item);
 
         refilterItems();
-        onItemDeletedEvent.invoke(itemTypeConsumer -> itemTypeConsumer.accept(item));
+        onItemDeletedEvent.invoke(item);
     }
 
     //endregion Erasing

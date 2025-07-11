@@ -48,8 +48,8 @@ public class Inputfield extends Toggle implements ITextProvider {
 
     private EInputfieldPreset preset;
 
-    public Event<Consumer<String>> onValueChangedEvent = new Event<>();
-    public Event<Consumer<String>> onValueCommittedEvent = new Event<>();
+    public ConsumerEvent<String> onValueChangedEvent = new ConsumerEvent<>();
+    public ConsumerEvent<String> onValueCommittedEvent = new ConsumerEvent<>();
     public ConsumerEvent<String> onValueConfirmedEvent = new ConsumerEvent<>();
 
     private InputCaret caret;
@@ -276,7 +276,7 @@ public class Inputfield extends Toggle implements ITextProvider {
             }
             else{
                 resetInputProcessor();
-                onValueCommittedEvent.invoke(stringConsumer -> stringConsumer.accept(textBox.getText()));
+                onValueCommittedEvent.invoke(textBox.getText());
                 caret.hideAndDisableInstantly();
             }
         });
@@ -284,13 +284,13 @@ public class Inputfield extends Toggle implements ITextProvider {
         postSelectionStateChangedEvent.subscribeManaged(aBoolean -> {
             if(!aBoolean && Gdx.input.getInputProcessor() == inputProcessor){
                 resetInputProcessor();
-                onValueCommittedEvent.invoke(stringConsumer -> stringConsumer.accept(textBox.getText()));
+                onValueCommittedEvent.invoke(textBox.getText());
                 caret.hideAndDisableInstantly();
             }
         });
 
         textBox.onTextChangedEvent.subscribeManaged(s -> {
-            onValueChangedEvent.invoke(stringConsumer -> stringConsumer.accept(s));
+            onValueChangedEvent.invoke(s);
             recalculateCaretPosition();
             reinitializeCharacterHBs();
         });

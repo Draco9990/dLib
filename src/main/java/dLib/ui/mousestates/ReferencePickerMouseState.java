@@ -8,6 +8,7 @@ import dLib.mousestates.AbstractMouseState;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.events.PreUIHoverEvent;
 import dLib.util.ui.events.PreUILeftClickEvent;
 import dLib.util.ui.events.PreUIUnhoverEvent;
@@ -21,7 +22,7 @@ public class ReferencePickerMouseState extends AbstractMouseState {
 
     private UIElement optionalRequiredParent;
 
-    public Event<Consumer<UIElement>> onReferencePickedEvent = new Event<>();
+    public ConsumerEvent<UIElement> onReferencePickedEvent = new ConsumerEvent<>();
 
     public ReferencePickerMouseState(UIElement optionalRequiredParent) {
         super("ReferencePicker");
@@ -58,7 +59,7 @@ public class ReferencePickerMouseState extends AbstractMouseState {
                 return;
             }
 
-            onReferencePickedEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(preUILeftClickEvent.source));
+            onReferencePickedEvent.invoke(preUILeftClickEvent.source);
             exitMouseState();
 
             for(UUID renderEventId : renderEvents.values()){

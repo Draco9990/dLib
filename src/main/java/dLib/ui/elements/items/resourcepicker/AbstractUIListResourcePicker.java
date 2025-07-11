@@ -56,7 +56,7 @@ public abstract class AbstractUIListResourcePicker extends AbstractUIResourcePic
                     }
 
                     ListResourcePickerItem item = selectedItems.get(0);
-                    onResourceSelectedEvent.invoke(classStringBiConsumer -> classStringBiConsumer.accept(item.clazz, item.field.getName()));
+                    onResourceSelectedEvent.invoke(item.clazz, item.field.getName());
                 });
 
                 classBox.addItem(fieldBox);

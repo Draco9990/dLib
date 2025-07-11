@@ -73,7 +73,7 @@ public abstract class AbstractUIPreviewResourcePicker extends AbstractUIResource
             button.setRenderColor(darkTransparent);
             button.onLeftClickEvent.subscribe(this, () -> {
                 AbstractUIResourcePicker parent = getParentOfType(AbstractUIResourcePicker.class);
-                parent.onResourceSelectedEvent.invoke(classStringBiConsumer -> classStringBiConsumer.accept(clazz, field.getName()));
+                parent.onResourceSelectedEvent.invoke(clazz, field.getName());
                 parent.close();
             });
             addChild(button);

@@ -9,6 +9,7 @@ import dLib.ui.elements.items.Renderable;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.helpers.ColorHelpers;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
@@ -16,8 +17,8 @@ import dLib.util.ui.position.AbstractPosition;
 import java.util.function.Consumer;
 
 public class ColorWheel extends Renderable {
-    public Event<Consumer<Color>> onColorHoveredEvent = new Event<>();
-    public Event<Consumer<Color>> onColorSelectedEvent = new Event<>();
+    public ConsumerEvent<Color> onColorHoveredEvent = new ConsumerEvent<>();
+    public ConsumerEvent<Color> onColorSelectedEvent = new ConsumerEvent<>();
 
     private boolean pendingTextureRecreation = false;
 
@@ -76,7 +77,7 @@ public class ColorWheel extends Renderable {
 
         Color newColor = calculateCurrentColor();
         if(newColor != null){
-            onColorHoveredEvent.invoke(consumer -> consumer.accept(newColor));
+            onColorHoveredEvent.invoke(newColor);
         }
     }
 
@@ -86,7 +87,7 @@ public class ColorWheel extends Renderable {
 
         Color newColor = calculateCurrentColor();
         if(newColor != null){
-            onColorSelectedEvent.invoke(consumer -> consumer.accept(newColor));
+            onColorSelectedEvent.invoke(newColor);
         }
     }
 

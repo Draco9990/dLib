@@ -11,6 +11,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -22,7 +23,7 @@ public abstract class Scrollbar extends UIElement {
 
     protected Interactable slider;
 
-    public Event<Consumer<Float>> onScrollbarScrolledEvent = new Event<>();
+    public ConsumerEvent<Float> onScrollbarScrolledEvent = new ConsumerEvent<>();
 
     protected UIElement boundElement;
 
@@ -87,7 +88,7 @@ public abstract class Scrollbar extends UIElement {
 
     public void onScrollbarScrolled(float percentage){
         currentScrollPercentageCache = percentage;
-        onScrollbarScrolledEvent.invoke(floatConsumer -> floatConsumer.accept(percentage));
+        onScrollbarScrolledEvent.invoke(percentage);
     }
 
     public abstract void setScrollbarScrollPercentageForExternalChange(float percentage);

@@ -14,6 +14,7 @@ import dLib.ui.elements.items.text.TextButton;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -23,8 +24,8 @@ public class GenericInputWindow extends UIElement {
     public DarkenLayer darkenLayer;
     public InternalPasswordWindow popup;
 
-    public Event<Consumer<String>> onConfirmEvent = new Event<>();
-    public Event<Consumer<String>> onCancelEvent = new Event<>();
+    public ConsumerEvent<String> onConfirmEvent = new ConsumerEvent<>();
+    public ConsumerEvent<String> onCancelEvent = new ConsumerEvent<>();
 
     public GenericInputWindow(String title, String confirmButtonText) {
         this(title, confirmButtonText, new ElementProperties());
@@ -69,7 +70,7 @@ public class GenericInputWindow extends UIElement {
             if(properties.canCancel){
                 cancelButton = new CancelButtonSmall(Pos.px(-6), Pos.px(18));
                 cancelButton.onLeftClickEvent.subscribe(this, () -> {
-                    getParentOfType(GenericInputWindow.class).onCancelEvent.invoke(consumer -> consumer.accept(""));
+                    getParentOfType(GenericInputWindow.class).onCancelEvent.invoke("");
                     getParentOfType(GenericInputWindow.class).dispose();
                 });
                 addChild(cancelButton);
@@ -78,14 +79,12 @@ public class GenericInputWindow extends UIElement {
             confirmButton = new ConfirmButtonSmall(Pos.px(536), Pos.px(18));
             confirmButton.label.setText(confirmButtonText);
             confirmButton.onLeftClickEvent.subscribe(this, () -> {
-                getParentOfType(GenericInputWindow.class).onConfirmEvent.invoke(consumer -> {
-                    if(properties.isPassword){
-                        consumer.accept(passwordBox.inputfield.textBox.getText());
-                    }
-                    else{
-                        consumer.accept(inputBox.textBox.getText());
-                    }
-                });
+                if(properties.isPassword){
+                    getParentOfType(GenericInputWindow.class).onConfirmEvent.invoke(passwordBox.inputfield.textBox.getText());
+                }
+                else{
+                    getParentOfType(GenericInputWindow.class).onConfirmEvent.invoke(inputBox.textBox.getText());
+                }
             });
             addChild(confirmButton);
 

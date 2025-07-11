@@ -9,6 +9,8 @@ import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.bindings.texture.TextureStaticBinding;
 
+import java.util.function.Supplier;
+
 public class Str {
     public static StringStaticBinding stat(String text) {
         return new StringStaticBinding(text);
@@ -16,5 +18,9 @@ public class Str {
 
     public static StringSourceBinding src(ITextProvider provider) {
         return new StringSourceBinding(provider);
+    }
+
+    public static StringLambdaBinding lambda(Supplier<String> provider) {
+        return new StringLambdaBinding(provider);
     }
 }

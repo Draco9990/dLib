@@ -12,6 +12,7 @@ import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -26,7 +27,7 @@ public class HierarchyViewer extends VerticalBox {
 
     private UUID hierarchyViewerID = UUID.randomUUID();
 
-    public Event<TriConsumer<UIElement, UIElement, UIElement>> onReparentEvent = new Event<>();
+    public TriConsumerEvent<UIElement, UIElement, UIElement> onReparentEvent = new TriConsumerEvent<>();
 
     public HierarchyViewer() {
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -83,7 +84,7 @@ public class HierarchyViewer extends VerticalBox {
                 UIElement currentParent = element.getParent();
                 payload.reparent(element);
 
-                onReparentEvent.invoke(uiElementUIElementUIElementTriConsumer -> uiElementUIElementUIElementTriConsumer.accept(payload, currentParent, element));
+                onReparentEvent.invoke(payload, currentParent, element);
             });
         }
 

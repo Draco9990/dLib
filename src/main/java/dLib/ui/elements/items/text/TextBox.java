@@ -20,6 +20,7 @@ import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.events.Event;
 import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.helpers.FontHelpers;
 import dLib.util.ui.bounds.PositionBounds;
@@ -58,7 +59,7 @@ public class TextBox extends UIElement implements ITextProvider {
 
     private String onTextChangedLine; //TODO expose
 
-    public Event<Consumer<String>> onTextChangedEvent = new Event<>();
+    public ConsumerEvent<String> onTextChangedEvent = new ConsumerEvent<>();
 
     private TextMetadata metadata = new TextMetadata();
 
@@ -284,7 +285,7 @@ public class TextBox extends UIElement implements ITextProvider {
             onDimensionsChanged();
         }
 
-        onTextChangedEvent.invoke(stringConsumer -> stringConsumer.accept(newText));
+        onTextChangedEvent.invoke(newText);
     }
 
     public void setOnTextChangedLine(String newLine) {

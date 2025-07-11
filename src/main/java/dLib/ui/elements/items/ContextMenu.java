@@ -11,6 +11,7 @@ import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.Event;
+import dLib.util.events.localevents.RunnableEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
@@ -42,7 +43,7 @@ public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption>
 
     public static class ContextMenuButtonOption implements IContextMenuOption {
         public String optionText;
-        public Event<Runnable> onOptionSelectedEvent = new Event<>();
+        public RunnableEvent onOptionSelectedEvent = new RunnableEvent();
 
         public ContextMenuButtonOption(String text, Runnable onOptionSelectedEvent) {
             this.optionText = text;
@@ -58,7 +59,7 @@ public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption>
             button.label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
 
             onOptionSelectedEvent.subscribe(this, () -> button.getParentOfType(ContextMenu.class).close());
-            button.onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke(Runnable::run));
+            button.onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke());
 
             return button;
         }

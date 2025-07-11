@@ -37,6 +37,7 @@ import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.string.Str;
+import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
 import dLib.util.events.localevents.BiConsumerEvent;
@@ -63,6 +64,8 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 //TODO add byproxy to all calls
@@ -213,6 +216,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private UIElement tooltipObject = null;
 
+    private Event<Function<Boolean, String>> onLeftInteractionEvent = new Event<>();
+    private Event<Function<Boolean, String>> onRightInteractionEvent = new Event<>();
+    private Event<Function<Boolean, String>> onUpInteractionEvent = new Event<>();
+    private Event<Function<Boolean, String>> onDownInteractionEvent = new Event<>();
+    private Event<Function<Boolean, String>> onConfirmInteractionEvent = new Event<>();
+    private Event<Function<Boolean, String>> onCancelInteractionEvent = new Event<>();
+
     //endregion
 
     //region Statics
@@ -342,7 +352,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         {
             this.onHoveredEvent.subscribeManaged(() -> {
                 if(hasParent()){
-                    getParent().onHoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(this));
+                    getParent().onHoveredChildEvent.invoke(this);
                 }
 
                 if(ModManager.SayTheSpire.isActive()){
@@ -353,29 +363,29 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             });
             this.onHoveredChildEvent.subscribeManaged(child -> {
                 if(hasParent()){
-                    getParent().onHoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(child));
+                    getParent().onHoveredChildEvent.invoke(child);
                 }
             });
 
             this.onHoverTickEvent.subscribeManaged((time) -> {
                 if(hasParent()){
-                    getParent().onHoverTickChildEvent.invoke(uiElementFloatBiConsumer -> uiElementFloatBiConsumer.accept(UIElement.this, time));
+                    getParent().onHoverTickChildEvent.invoke(UIElement.this, time);
                 }
             });
             this.onHoveredChildEvent.subscribeManaged(child -> {
                 if(hasParent()){
-                    getParent().onHoverTickChildEvent.invoke(uiElementFloatBiConsumer -> uiElementFloatBiConsumer.accept(child, totalHoverDuration));
+                    getParent().onHoverTickChildEvent.invoke(child, totalHoverDuration);
                 }
             });
 
             this.onUnhoveredEvent.subscribeManaged(() -> {
                 if(hasParent()){
-                    getParent().onUnhoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(this));
+                    getParent().onUnhoveredChildEvent.invoke(this);
                 }
             });
             this.onUnhoveredChildEvent.subscribeManaged(child -> {
                 if(hasParent()){
-                    getParent().onUnhoveredChildEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(child));
+                    getParent().onUnhoveredChildEvent.invoke(child);
                 }
             });
         }
@@ -458,9 +468,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         updateChildren();
         if(disposed) return;
 
-        preUpdateEvent.invoke(Runnable::run);
+        preUpdateEvent.invoke();
         updateSelf();
-        postUpdateEvent.invoke(Runnable::run);
+        postUpdateEvent.invoke();
 
         updating = false;
 
@@ -2203,14 +2213,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(!isPassthrough()) InputHelpers.alreadyHovered = true;
 
         GlobalEvents.sendMessage(new PreUIHoverEvent(this));
-        onHoveredEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
+        onHoveredEvent.invoke();
 
         postHoverGlobalEvent.invoke(this);
     }
     protected void onHoverTick(float totalTickDuration){
         if(!isPassthrough()) InputHelpers.alreadyHovered = true;
 
-        onHoverTickEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalTickDuration));
+        onHoverTickEvent.invoke(totalTickDuration);
     }
     protected void onUnhovered(){
         totalHoverDuration = 0.f;
@@ -2264,15 +2274,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             select(false);
         }
 
-        onLeftClickEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
+        onLeftClickEvent.invoke();
     }
     protected void onLeftClickHeld(float totalDuration){
-        onLeftClickHeldEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalDuration));
+        onLeftClickHeldEvent.invoke(totalDuration);
     }
     protected void onLeftClickRelease(){
         holdingLeft = false;
 
-        onLeftClickReleaseEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
+        onLeftClickReleaseEvent.invoke();
     }
 
     public boolean isHeld(){
@@ -2295,15 +2305,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
         }
 
-        onRightClickEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
+        onRightClickEvent.invoke();
     }
     protected void onRightClickHeld(float totalDuration){
-        onRightClickHeldEvent.invoke(uiElementConsumer -> uiElementConsumer.accept(totalDuration));
+        onRightClickHeldEvent.invoke(totalDuration);
     }
     protected void onRightButtonRelease(){
         holdingRight = false;
 
-        onRightClickReleaseEvent.invoke(uiElementConsumer -> uiElementConsumer.run());
+        onRightClickReleaseEvent.invoke();
     }
 
     //endregion
