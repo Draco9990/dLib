@@ -1,17 +1,12 @@
 package dLib.util.bindings.string.editors;
 
 import dLib.properties.objects.StringBindingProperty;
-import dLib.properties.objects.TextureBindingProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ComboBox;
-import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
 import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.string.StringStaticBinding;
-import dLib.util.bindings.texture.AbstractTextureBinding;
-import dLib.util.bindings.texture.TextureNoneBinding;
-import dLib.util.bindings.texture.TextureResourceBinding;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;

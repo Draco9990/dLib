@@ -1,6 +1,5 @@
 package dLib.util.events.localevents;
 
-import dLib.util.consumers.HeptConsumer;
 import dLib.util.consumers.OctConsumer;
 import dLib.util.events.Event;
 

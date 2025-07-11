@@ -1,8 +1,6 @@
 package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import dLib.properties.ui.elements.IEditableValue;
 import dLib.util.bindings.ResourceBinding;
 
 import java.io.Serializable;

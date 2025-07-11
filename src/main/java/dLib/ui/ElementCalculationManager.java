@@ -2,7 +2,6 @@ package dLib.ui;
 
 import basemod.Pair;
 import dLib.ui.elements.UIElement;
-import dLib.util.DLibLogger;
 
 import java.util.ArrayList;
 import java.util.Comparator;

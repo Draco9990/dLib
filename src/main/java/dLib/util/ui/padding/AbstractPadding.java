@@ -4,7 +4,6 @@ import basemod.Pair;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
-import dLib.util.ui.dimensions.AbstractDimension;
 
 import java.io.Serializable;
 

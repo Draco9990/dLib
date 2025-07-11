@@ -1,7 +1,5 @@
 package dLib.util.bindings.string;
 
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import dLib.properties.ui.elements.IEditableValue;
 import dLib.util.bindings.ResourceBinding;
 
 import java.io.Serializable;

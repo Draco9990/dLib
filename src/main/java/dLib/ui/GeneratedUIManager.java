@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import dLib.util.DLibLogger;
 import dLib.util.Reflection;
-import javassist.CtBehavior;
 import org.clapper.util.classutil.ClassFinder;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;

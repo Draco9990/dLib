@@ -11,11 +11,9 @@ import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
-import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.UUID;
 

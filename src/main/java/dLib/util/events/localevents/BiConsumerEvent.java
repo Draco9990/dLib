@@ -3,7 +3,6 @@ package dLib.util.events.localevents;
 import dLib.util.events.Event;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class BiConsumerEvent<Type1, Type2> extends Event<BiConsumer<Type1, Type2>> {
     public BiConsumerEvent() {

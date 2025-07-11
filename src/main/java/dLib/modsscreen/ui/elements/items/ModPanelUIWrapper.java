@@ -1,6 +1,5 @@
 package dLib.modsscreen.ui.elements.items;
 
-import basemod.IUIElement;
 import basemod.ModPanel;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.ui.elements.UIElement;

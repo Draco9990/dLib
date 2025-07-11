@@ -1,9 +1,7 @@
 package dLib.properties.objects;
 
 import dLib.properties.objects.templates.TStringBindingProperty;
-import dLib.properties.objects.templates.TTextureBindingProperty;
 import dLib.util.bindings.string.AbstractStringBinding;
-import dLib.util.bindings.texture.AbstractTextureBinding;
 
 import java.io.Serializable;
 

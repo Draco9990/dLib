@@ -6,13 +6,11 @@ import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
-import java.util.function.BiConsumer;
 
 public abstract class AbstractUIResourcePicker extends UIElement {
     public BiConsumerEvent<Class<?>, String> onResourceSelectedEvent = new BiConsumerEvent<>();

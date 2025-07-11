@@ -14,7 +14,6 @@ import dLib.shaders.ShaderManager;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.bindings.texture.TextureResourceBinding;

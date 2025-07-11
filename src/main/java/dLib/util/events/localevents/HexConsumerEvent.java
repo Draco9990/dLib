@@ -1,7 +1,6 @@
 package dLib.util.events.localevents;
 
 import dLib.util.consumers.HexConsumer;
-import dLib.util.consumers.QuinConsumer;
 import dLib.util.events.Event;
 
 public class HexConsumerEvent<Type1, Type2, Type3, Type4, Type5, Type6> extends Event<HexConsumer<Type1, Type2, Type3, Type4, Type5, Type6>> {

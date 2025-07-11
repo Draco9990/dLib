@@ -1,12 +1,7 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.FloatProperty;
-import dLib.ui.elements.items.buttons.Button;
-import dLib.ui.elements.items.input.Inputfield;
-import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.numericaleditors.FloatInputBox;
-import dLib.ui.resources.UICommonResources;
-import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
 public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> {

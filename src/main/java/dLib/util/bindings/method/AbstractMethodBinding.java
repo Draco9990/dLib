@@ -1,6 +1,5 @@
 package dLib.util.bindings.method;
 
-import dLib.properties.ui.elements.IEditableValue;
 import dLib.util.bindings.Binding;
 
 import java.io.Serializable;

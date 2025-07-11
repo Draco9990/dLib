@@ -1,17 +1,12 @@
 package dLib.ui.elements.items.input;
 
 import basemod.Pair;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Interactable;
-import dLib.ui.elements.items.Renderable;
-import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.IntegerVector2;
-import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.helpers.TextHelpers;
 import dLib.util.ui.dimensions.AbstractDimension;

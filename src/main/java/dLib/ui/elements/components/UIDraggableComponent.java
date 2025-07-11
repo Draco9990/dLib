@@ -3,7 +3,6 @@ package dLib.ui.elements.components;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.RunnableEvent;
 
 import java.util.UUID;

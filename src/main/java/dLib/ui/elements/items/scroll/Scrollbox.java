@@ -1,10 +1,6 @@
 package dLib.ui.elements.items.scroll;
 
 import dLib.properties.objects.BooleanProperty;
-import dLib.properties.objects.Property;
-import dLib.ui.bindings.AbstractUIElementBinding;
-import dLib.ui.bindings.UIElementRelativePathBinding;
-import dLib.ui.bindings.UIElementUndefinedRelativePathBinding;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.itembox.HorizontalBox;
@@ -15,7 +11,6 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
-import java.util.function.Function;
 
 public class Scrollbox extends UIElement {
     //region Variables

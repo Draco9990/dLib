@@ -2,7 +2,6 @@ package dLib.ui.elements.items.scroll;
 
 import basemod.Pair;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.MethodBindingProperty;
 import dLib.properties.objects.Property;
 import dLib.ui.bindings.AbstractUIElementBinding;
@@ -10,13 +9,11 @@ import dLib.ui.bindings.UIElementUndefinedRelativePathBinding;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Interactable;
 import dLib.ui.elements.items.buttons.Button;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
-import java.util.function.Consumer;
 
 public abstract class Scrollbar extends UIElement {
     //region Variables

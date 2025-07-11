@@ -10,7 +10,6 @@ import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
-import dLib.util.DLibLogger;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.FillDimension;
 

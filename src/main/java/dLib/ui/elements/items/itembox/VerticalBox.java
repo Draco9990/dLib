@@ -2,8 +2,6 @@ package dLib.ui.elements.items.itembox;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.util.ESelectionMode;
-import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;

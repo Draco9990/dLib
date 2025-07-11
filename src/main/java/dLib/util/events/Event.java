@@ -3,7 +3,6 @@ package dLib.util.events;
 import dLib.util.events.globalevents.PostDisposeEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

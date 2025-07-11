@@ -1,7 +1,6 @@
 package dLib.util.bindings.texture;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;

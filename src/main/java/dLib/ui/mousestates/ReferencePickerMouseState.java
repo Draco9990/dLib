@@ -6,7 +6,6 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.mousestates.AbstractMouseState;
 import dLib.ui.elements.UIElement;
-import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.events.PreUIHoverEvent;
@@ -15,7 +14,6 @@ import dLib.util.ui.events.PreUIUnhoverEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class ReferencePickerMouseState extends AbstractMouseState {
     private HashMap<UIElement, UUID> renderEvents = new HashMap<>();

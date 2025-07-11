@@ -4,19 +4,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.RunnableEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption> {

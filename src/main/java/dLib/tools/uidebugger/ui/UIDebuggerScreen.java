@@ -1,15 +1,9 @@
 package dLib.tools.uidebugger.ui;
 
-import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIDraggableComponent;
-import dLib.ui.elements.items.itembox.HorizontalBox;
-import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.ImageTextBox;
-import dLib.ui.elements.items.text.TextButton;
-import dLib.ui.resources.UICommonResources;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.position.Pos;
 
 public class UIDebuggerScreen extends ImageTextBox {
     public UIDebuggerScreen(){

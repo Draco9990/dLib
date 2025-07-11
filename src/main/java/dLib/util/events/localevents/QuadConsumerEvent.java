@@ -2,7 +2,6 @@ package dLib.util.events.localevents;
 
 import dLib.util.consumers.QuadConsumer;
 import dLib.util.events.Event;
-import org.apache.logging.log4j.util.TriConsumer;
 
 public class QuadConsumerEvent<Type1, Type2, Type3, Type4> extends Event<QuadConsumer<Type1, Type2, Type3, Type4>> {
     public QuadConsumerEvent() {

@@ -19,7 +19,6 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
-import java.util.function.IntFunction;
 
 public class VerticalScrollbar extends Scrollbar {
     //region Variables

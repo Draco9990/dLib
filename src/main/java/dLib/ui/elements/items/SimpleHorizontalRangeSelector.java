@@ -6,20 +6,14 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.Alignment;
 import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.resources.UICommonResources;
-import dLib.util.DLibLogger;
-import dLib.util.IntegerVector2;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
-import dLib.util.helpers.DebugHelpers;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
-
-import java.util.function.Consumer;
 
 public class SimpleHorizontalRangeSelector extends Renderable{
     private Image slider;

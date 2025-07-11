@@ -1,7 +1,6 @@
 package dLib.external;
 
 import dLib.tools.uicreator.ui.elements.RootElement;
-import dLib.ui.elements.UIElement;
 import dLib.util.SerializationHelpers;
 
 import java.util.LinkedHashMap;

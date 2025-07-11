@@ -1,14 +1,8 @@
 package dLib.properties.ui.elements;
 
 import dLib.properties.objects.IntegerProperty;
-import dLib.ui.elements.items.buttons.Button;
-import dLib.ui.elements.items.input.Inputfield;
-import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.numericaleditors.IntegerInputBox;
-import dLib.ui.resources.UICommonResources;
-import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.position.Pos;
 
 public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProperty> {
     //region Variables

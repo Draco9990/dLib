@@ -3,7 +3,6 @@ package dLib.properties.objects.templates;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.properties.ui.elements.PropertyValueEditor;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.BiConsumerEvent;
 
 import java.io.IOException;
@@ -11,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public abstract class TProperty<ValueType, PropertyType> implements Serializable, IEditableValue {

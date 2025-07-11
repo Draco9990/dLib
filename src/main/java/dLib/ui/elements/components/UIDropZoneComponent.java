@@ -10,13 +10,11 @@ import dLib.ui.mousestates.events.PostEnterMouseStateEvent;
 import dLib.ui.mousestates.events.PreExitMouseStateEvent;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
 import dLib.util.events.GlobalEvents;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 
 public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementComponent<UIElement> {
     private UIElement owner;

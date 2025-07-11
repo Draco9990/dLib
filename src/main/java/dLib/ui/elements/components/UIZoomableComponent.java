@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
-import dLib.util.IntegerVector2;
 
 public class UIZoomableComponent extends AbstractUIElementComponent<UIElement> {
     private float minScale = 0.1f;

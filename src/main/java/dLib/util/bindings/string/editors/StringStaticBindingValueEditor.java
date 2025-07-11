@@ -1,15 +1,8 @@
 package dLib.util.bindings.string.editors;
 
 import dLib.properties.objects.StringBindingProperty;
-import dLib.properties.objects.TextureBindingProperty;
 import dLib.ui.elements.items.input.Inputfield;
-import dLib.ui.elements.items.itembox.HorizontalBox;
-import dLib.ui.elements.items.text.ImageTextBox;
-import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.string.StringStaticBinding;
-import dLib.util.bindings.texture.Tex;
-import dLib.util.bindings.texture.TextureNoneBinding;
-import dLib.util.bindings.texture.editors.TextureBindingValueEditor;
 import dLib.util.ui.dimensions.Dim;
 
 public class StringStaticBindingValueEditor extends StringBindingValueEditor<StringStaticBinding> {

@@ -7,7 +7,10 @@ import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Locale;
 
 public abstract class UIItemBox extends ItemBox {
     //region Constructors

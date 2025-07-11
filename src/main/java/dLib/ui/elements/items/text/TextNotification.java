@@ -1,8 +1,6 @@
 package dLib.ui.elements.items.text;
 
 import com.badlogic.gdx.graphics.Color;
-import dLib.ui.animations.exit.UIAnimation_FadeOut;
-import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;

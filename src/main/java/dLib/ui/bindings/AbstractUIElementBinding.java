@@ -1,6 +1,5 @@
 package dLib.ui.bindings;
 
-import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.elements.UIElement;
 import dLib.util.bindings.ResourceBinding;
 

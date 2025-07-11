@@ -11,7 +11,6 @@ import dLib.ui.annotations.DisplayClass;
 import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
-import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.layout.ILayoutProvider;

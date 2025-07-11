@@ -3,7 +3,6 @@ package dLib.util.bindings.method.staticbindings;
 import dLib.properties.objects.Property;
 import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.bindings.UIElementUndefinedRelativePathBinding;
-import dLib.ui.elements.UIElement;
 import dLib.util.bindings.property.AbstractPropertyBinding;
 import dLib.util.bindings.property.PropertyElementPathBinding;
 import dLib.util.bindings.property.PropertyElementPathUndefinedBinding;

@@ -4,13 +4,11 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public class SimpleListPicker<OptionType> extends Renderable {
     private VerticalDataBox<OptionType> listBox;

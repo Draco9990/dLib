@@ -1,8 +1,5 @@
 package dLib.ui.animations.misc;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.MathUtils;
-import com.megacrit.cardcrawl.core.Settings;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.elements.UIElement;
 import dLib.util.Timer;

@@ -19,7 +19,6 @@ import dLib.util.bindings.font.AbstractFontBinding;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.bindings.string.interfaces.ITextProvider;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
@@ -32,11 +31,9 @@ import dLib.util.ui.dimensions.MirrorDimension;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 import dLib.util.ui.text.TextMetadata;
-import sayTheSpire.Output;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 public class TextBox extends UIElement implements ITextProvider {
     //region Variables

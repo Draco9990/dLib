@@ -3,12 +3,12 @@ package dLib.ui.elements.items.itembox;
 import basemod.Pair;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dLib.properties.objects.*;
+import dLib.properties.objects.BooleanProperty;
+import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
-import dLib.ui.elements.components.UITransientElementComponent;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.layout.ILayoutProvider;
 import dLib.ui.resources.UICommonResources;
@@ -22,7 +22,7 @@ import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
 
 public abstract class ItemBox extends Renderable implements ILayoutProvider {
     //region Variables

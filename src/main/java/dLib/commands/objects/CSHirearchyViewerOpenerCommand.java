@@ -2,9 +2,7 @@ package dLib.commands.objects;
 
 import basemod.DevConsole;
 import basemod.devcommands.ConsoleCommand;
-import dLib.tools.uidebugger.ui.UIDebuggerScreen;
 import dLib.ui.elements.items.hierarchyviewer.ControllerSelectableHierarchyViewer;
-import dLib.ui.elements.items.hierarchyviewer.HierarchyViewer;
 import dLib.ui.elements.items.hierarchyviewer.HierarchyViewerPopup;
 import dLib.ui.screens.UIManager;
 

@@ -1,9 +1,7 @@
 package dLib.util.bindings.string;
 
-import dLib.properties.objects.StringBindingProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.util.bindings.string.editors.StringStaticBindingValueEditor;
 
 import java.util.function.Supplier;
 

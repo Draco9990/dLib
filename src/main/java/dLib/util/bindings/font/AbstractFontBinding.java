@@ -1,7 +1,6 @@
 package dLib.util.bindings.font;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import dLib.properties.ui.elements.IEditableValue;
 import dLib.util.bindings.ResourceBinding;
 
 import java.io.Serializable;

@@ -6,7 +6,6 @@ import dLib.tools.uicreator.ui.components.data.UCEditorDataComponent;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITRootElement;
 import dLib.tools.uicreator.ui.elements.RootElement;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.Renderable;
 import dLib.ui.screens.UIManager;
 import dLib.util.SerializationHelpers;
 

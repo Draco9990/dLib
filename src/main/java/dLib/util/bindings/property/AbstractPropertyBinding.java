@@ -1,7 +1,6 @@
 package dLib.util.bindings.property;
 
 import dLib.properties.objects.templates.TProperty;
-import dLib.properties.ui.elements.IEditableValue;
 import dLib.util.bindings.ResourceBinding;
 
 import java.io.Serializable;

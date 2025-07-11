@@ -6,7 +6,6 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.ui.elements.UIElement;
 import dLib.ui.layout.ILayoutProvider;
-import dLib.util.IntegerVector2;
 import dLib.util.ui.dimensions.AutoDimension;
 
 import java.util.UUID;

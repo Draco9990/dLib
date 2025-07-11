@@ -5,8 +5,6 @@ import basemod.devcommands.ConsoleCommand;
 import dLib.tools.uidebugger.ui.UIDebuggerScreen;
 import dLib.ui.screens.UIManager;
 
-import java.rmi.server.UID;
-
 public class ToggleUIDebuggerCommand extends ConsoleCommand {
 
     public ToggleUIDebuggerCommand() {

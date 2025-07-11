@@ -2,7 +2,6 @@ package dLib.magiccolor;
 
 import com.badlogic.gdx.graphics.Colors;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MagicColorManager {

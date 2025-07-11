@@ -2,7 +2,6 @@ package dLib.steam;
 
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.*;
 
 public class SteamCallbacks implements SteamMatchmakingCallback, SteamNetworkingCallback, SteamUtilsCallback, SteamFriendsCallback, SteamRemoteStorageCallback {

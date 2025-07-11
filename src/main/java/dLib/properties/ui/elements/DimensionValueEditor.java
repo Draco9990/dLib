@@ -3,7 +3,6 @@ package dLib.properties.ui.elements;
 import dLib.properties.objects.DimensionProperty;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ComboBox;
-import dLib.util.Reflection;
 import dLib.util.ui.dimensions.*;
 
 import java.util.ArrayList;
