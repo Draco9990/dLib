@@ -42,7 +42,9 @@ import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.events.localevents.FunctionEvent;
 import dLib.util.events.localevents.RunnableEvent;
+import dLib.util.helpers.DebugHelpers;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
@@ -216,12 +218,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private UIElement tooltipObject = null;
 
-    private Event<Function<Boolean, String>> onLeftInteractionEvent = new Event<>();
-    private Event<Function<Boolean, String>> onRightInteractionEvent = new Event<>();
-    private Event<Function<Boolean, String>> onUpInteractionEvent = new Event<>();
-    private Event<Function<Boolean, String>> onDownInteractionEvent = new Event<>();
-    private Event<Function<Boolean, String>> onConfirmInteractionEvent = new Event<>();
-    private Event<Function<Boolean, String>> onCancelInteractionEvent = new Event<>();
+    public FunctionEvent<Boolean, Boolean> onLeftInteractionEvent = new FunctionEvent<>();
+    public FunctionEvent<Boolean, Boolean> onRightInteractionEvent = new FunctionEvent<>();
+    public FunctionEvent<Boolean, Boolean> onUpInteractionEvent = new FunctionEvent<>();
+    public FunctionEvent<Boolean, Boolean> onDownInteractionEvent = new FunctionEvent<>();
+    public FunctionEvent<Boolean, Boolean> onConfirmInteractionEvent = new FunctionEvent<>();
+    public FunctionEvent<Boolean, Boolean> onCancelInteractionEvent = new FunctionEvent<>();
 
     //endregion
 
@@ -416,6 +418,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 if(this.isContextual() && element != this && !element.isDescendantOf(this)){
                     dispose();
                 }
+            });
+        }
+
+        // Interactions
+        {
+            onConfirmInteractionEvent.subscribe(this, (byProxy) -> {
+                onLeftClick(byProxy);
+                return onLeftClickEvent.count() > 0 || onLeftClickHeldEvent.count() > 0 || onLeftClickReleaseEvent.count() > 0;
             });
         }
     }
@@ -1350,24 +1360,30 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Interactions
     public boolean onLeftInteraction(boolean byProxy){
-        return false;
+        ArrayList<Boolean> interactionResults = onLeftInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
+        return interactionResults.stream().anyMatch(result -> result);
     }
     public boolean onRightInteraction(boolean byProxy){
-        return false;
+        ArrayList<Boolean> interactionResults = onRightInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
+        return interactionResults.stream().anyMatch(result -> result);
     }
     public boolean onUpInteraction(boolean byProxy){
-        return false;
+        ArrayList<Boolean> interactionResults = onUpInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
+        return interactionResults.stream().anyMatch(result -> result);
     }
     public boolean onDownInteraction(boolean byProxy){
-        return false;
+        ArrayList<Boolean> interactionResults = onDownInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
+        return interactionResults.stream().anyMatch(result -> result);
     }
 
     public boolean onConfirmInteraction(boolean byProxy){
-        onLeftClick(byProxy);
-        return onLeftClickEvent.count() > 0 || onLeftClickHeldEvent.count() > 0 || onLeftClickReleaseEvent.count() > 0;
+
+        ArrayList<Boolean> interactionResults = onConfirmInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
+        return interactionResults.stream().anyMatch(result -> result);
     }
     public boolean onCancelInteraction(boolean byProxy){
-        return false;
+        ArrayList<Boolean> interactionResults = onCancelInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
+        return interactionResults.stream().anyMatch(result -> result);
     }
     //endregion
 

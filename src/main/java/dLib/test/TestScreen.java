@@ -17,6 +17,7 @@ import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.mousestates.DragAndDropMouseState;
 import dLib.ui.resources.UICommonResources;
+import dLib.ui.util.ESelectionMode;
 import dLib.util.DLibLogger;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
@@ -79,6 +80,7 @@ public class TestScreen extends UIElement {
             VerticalDataBox<String> vdb = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
             vdb.setCanReorder(true);
             vdb.setCanDelete(true);
+            vdb.setSelectionMode(ESelectionMode.MULTIPLE);
             vdb.addChild("Test1");
             vdb.addChild("Test2");
             vdb.addChild("Test3");

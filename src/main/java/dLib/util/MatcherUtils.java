@@ -56,10 +56,6 @@ public class MatcherUtils {
                 String className = constPool.getMethodrefClassName(methodRefIndex);
 
                 if (methodName.equals("<init>") && className.equals(constructor.getDeclaringClass().getName())) {
-                    int pos = codeIterator.lookAhead();
-                    if (pos > 3) {
-                        return false;
-                    }
                     return true;
                 }
             }

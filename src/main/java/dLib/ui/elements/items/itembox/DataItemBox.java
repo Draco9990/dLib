@@ -29,6 +29,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class DataItemBox<ItemType> extends ItemBox {
@@ -238,6 +239,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         if(contentHorizontal) holder = new VerticalBox(Dim.auto(), Dim.fill());
         else holder = new HorizontalBox(Dim.fill(), Dim.auto());
 
+        holder.setControllerSelectable(true);
+
         {
             if(canReorder()){
                 Button moveUpButton = new Button(
@@ -245,6 +248,12 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 moveUpButton.setTexture(contentHorizontal ? UICommonResources.arrow_left : UICommonResources.arrow_up);
                 moveUpButton.onLeftClickEvent.subscribe(moveUpButton, () -> moveItemUp(item));
+                moveUpButton.setControllerSelectable(false);
+                holder.onLeftInteractionEvent.subscribe(moveUpButton, (byProxy) -> moveUpButton.onConfirmInteraction(true));
+                holder.postSelectionStateChangedEvent.subscribe(moveUpButton, (selected) -> {
+                    if(selected) moveUpButton.proxyHover();
+                    else moveUpButton.proxyUnhover();
+                });
                 holder.addChild(moveUpButton);
 
                 Button moveDownButton = new Button(
@@ -252,6 +261,12 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 moveDownButton.setTexture(contentHorizontal ? UICommonResources.arrow_right : UICommonResources.arrow_down);
                 moveDownButton.onLeftClickEvent.subscribe(moveDownButton, () -> moveItemDown(item));
+                moveDownButton.setControllerSelectable(false);
+                holder.onRightInteractionEvent.subscribe(moveDownButton, (byProxy) -> moveDownButton.onConfirmInteraction(true));
+                holder.postSelectionStateChangedEvent.subscribe(moveDownButton, (selected) -> {
+                    if(selected) moveDownButton.proxyHover();
+                    else moveDownButton.proxyUnhover();
+                });
                 holder.addChild(moveDownButton);
             }
 
@@ -282,11 +297,23 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     overlay.setID(wrapOverlayID);
                     overlay.setRenderColor(new Color(0, 0, 0, 0f));
                     overlay.addComponent(new UIOverlayElementComponent());
-                    overlay.setControllerSelectable(getSelectionMode() != ESelectionMode.NONE);
+                    overlay.setControllerSelectable(false);
                     if(itemUI instanceof ITextProvider){
                         overlay.setOnHoverLine(Str.src(((ITextProvider) itemUI)));
                     }
+                    holder.onConfirmInteractionEvent.subscribe(holder, (byProxy) -> overlay.onConfirmInteraction(true));
+                    holder.postSelectionStateChangedEvent.subscribe(overlay, (selected) -> {
+                        if(selected) overlay.proxyHover();
+                        else overlay.proxyUnhover();
+                    });
                     parent.addChild(overlay);
+                }
+                else if(!isExternalToggling()){
+                    holder.onLeftInteractionEvent.subscribe(holder, (byProxy) -> itemUI.onConfirmInteraction(true));
+                    holder.postSelectionStateChangedEvent.subscribe(itemUI, (selected) -> {
+                        if(selected) itemUI.proxyHover();
+                        else itemUI.proxyUnhover();
+                    });
                 }
             }
             holder.addChild(parent);
@@ -297,6 +324,12 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 deleteButton.setTexture(UICommonResources.deleteButton);
                 deleteButton.onLeftClickEvent.subscribe(deleteButton, () -> deleteItem(item));
+                deleteButton.setControllerSelectable(false);
+                holder.onCancelInteractionEvent.subscribe(holder, (byProxy) -> deleteButton.onConfirmInteraction(true));
+                holder.postSelectionStateChangedEvent.subscribe(deleteButton, (selected) -> {
+                    if(selected) deleteButton.proxyHover();
+                    else deleteButton.proxyUnhover();
+                });
                 holder.addChild(deleteButton);
             }
         }

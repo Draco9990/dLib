@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Event<EventType> {
     protected ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
@@ -54,6 +55,14 @@ public class Event<EventType> {
         //Events can modify subscribers
         for(EventType event : subscribers.values()){
             consumer.accept(event);
+        }
+    }
+    public void invokeWhile(Function<EventType, Boolean> consumer){
+        //Events can modify subscribers
+        for(EventType event : subscribers.values()){
+            if(!consumer.apply(event)){
+                return; // Stop processing if the condition is not met
+            }
         }
     }
 

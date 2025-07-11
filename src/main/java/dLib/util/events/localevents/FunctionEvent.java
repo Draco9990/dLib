@@ -20,4 +20,17 @@ public class FunctionEvent<Type1, Type2> extends Event<Function<Type1, Type2>> {
 
         return results;
     }
+
+    public ArrayList<Type2> invokeWhile(Type1 arg1, Function<Type2, Boolean> condition){
+        ArrayList<Type2> results = new ArrayList<>();
+
+        super.invokeWhile(consumer -> {
+            Type2 result = consumer.apply(arg1);
+            results.add(result);
+
+            return condition.apply(result);
+        });
+
+        return results;
+    }
 }
