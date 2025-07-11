@@ -41,6 +41,11 @@ public class UIManager {
             return;
         }
 
+        boolean shouldAnimate = element.isVisible();
+        if(shouldAnimate){
+            element.hideAndDisableInstantly();
+        }
+
         if(element.overridesBaseScreen() && !hasBaseScreenOverriders()){
             cachedScreenMainMenu = CardCrawlGame.mainMenuScreen.screen;
             cachedScreenInGame = AbstractDungeon.screen;
@@ -52,11 +57,15 @@ public class UIManager {
         }
 
         uiElements.add(element);
+        pendingClose.remove(element);
+
+        if(shouldAnimate){
+            element.showAndEnable();
+        }
+
         if(element.shouldDrawFocusOnOpen()){
             drawControllerFocusCond(element);
         }
-
-        pendingClose.remove(element);
     }
     public static void closeUIElement(UIElement element){
         pendingClose.add(element);
@@ -185,7 +194,7 @@ public class UIManager {
                     return true;
                 }
 
-                if (!foundSelectedElement.isNull() && child.isModal()) {
+                if (!foundSelectedElement.isNull() && child.isControllerModal()) {
                     i--;
                 }
             }
@@ -218,7 +227,7 @@ public class UIManager {
                     return true;
                 }
 
-                if(!foundSelectedElement.isNull() && child.isModal()){
+                if(!foundSelectedElement.isNull() && child.isControllerModal()){
                     i++;
                 }
             }
@@ -241,8 +250,8 @@ public class UIManager {
                 return;
             }
 
-            if(selectedElement.getModalParent() != null){
-                selectNextElement(selectedElement.getModalParent(), foundSelectedElement);
+            if(selectedElement.getControllerModalParent() != null){
+                selectNextElement(selectedElement.getControllerModalParent(), foundSelectedElement);
                 return;
             }
         }
@@ -266,8 +275,8 @@ public class UIManager {
                 return;
             }
 
-            if(selectedElement.getModalParent() != null){
-                selectPreviousElement(selectedElement.getModalParent(), foundSelectedElement);
+            if(selectedElement.getControllerModalParent() != null){
+                selectPreviousElement(selectedElement.getControllerModalParent(), foundSelectedElement);
                 return;
             }
         }
@@ -299,6 +308,10 @@ public class UIManager {
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
             selectedElement.onConfirmInteraction(false);
+
+            if(selectedElement.isContextual()){
+                selectedElement.dispose();
+            }
         }
     }
     private static void onCancelPressed(){

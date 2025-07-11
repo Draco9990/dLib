@@ -1581,7 +1581,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void onEnabledStatusChanged(){
-        if(isModal()){
+        if(isControllerModal()){
             if(isEnabled()){
                 UIManager.drawControllerFocusCond(this);
 
@@ -1608,7 +1608,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
     }
     protected void onParentEnabledStatusChanged(){
-        if(isModal()){
+        if(isControllerModal()){
             if(isEnabled()){
                 UIManager.drawControllerFocusCond(this);
 
@@ -2021,14 +2021,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void open(){
         if(isOpen()) return;
 
-        boolean shouldAnimate = isVisible();
-        if(shouldAnimate){
-            hideAndDisableInstantly();
-        }
         UIManager.openUIElement(this);
-        if(shouldAnimate){
-            showAndEnable();
-        }
     }
 
     public boolean isOpen(){
@@ -2444,11 +2437,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return isModal;
     }
 
-    public UIElement getModalParent(){
-        if(isModal()) return this;
+    public boolean isControllerModal(){
+        return isModal() || isContextual();
+    }
+    public UIElement getControllerModalParent(){
+        if(isControllerModal()) return this;
 
         if(hasParent()){
-            return parent.getModalParent();
+            return parent.getControllerModalParent();
         }
 
         return null;
@@ -2462,7 +2458,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.drawFocusOnOpen = drawControllerFocusOnOpen;
     }
     public boolean shouldDrawFocusOnOpen(){
-        return drawFocusOnOpen || isModal() || isContextual();
+        return drawFocusOnOpen || isControllerModal();
     }
 
     public void focus(){

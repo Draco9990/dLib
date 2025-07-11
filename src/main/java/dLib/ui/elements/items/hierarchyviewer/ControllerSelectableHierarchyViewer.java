@@ -28,13 +28,13 @@ public class ControllerSelectableHierarchyViewer extends HierarchyViewer{
         HierarchyViewerChildElementButton button = super.makeHierarchyViewerElementButton_internal(element);
 
         TextureStaticBinding imageTexture = Tex.stat(UICommonResources.transparent_pixel);
-        if((element.isControllerSelectable() && element.isEnabled()) || element.isSelected() || element.isModal()) {
+        if((element.isControllerSelectable() && element.isEnabled()) || element.isSelected() || element.isControllerModal()) {
             imageTexture = Tex.stat(UICommonResources.dropZoneOptionBg);
         }
 
         Image payloadOverlay = new Image(imageTexture, Dim.fill(), Dim.fill());
         if(element.isSelected()) payloadOverlay.setHueShiftAmount(220);
-        if(element.isModal()) payloadOverlay.setHueShiftAmount(150);
+        if(element.isControllerModal()) payloadOverlay.setHueShiftAmount(150);
         payloadOverlay.setPassthrough(true);
         payloadOverlay.onHoveredEvent.subscribe(payloadOverlay, () -> {
             Image hoverOverlay = new Image(Tex.stat(UICommonResources.advancedDebugOverlay), Dim.fill(), Dim.fill());
@@ -54,7 +54,7 @@ public class ControllerSelectableHierarchyViewer extends HierarchyViewer{
 
     @Override
     protected boolean shouldListChild(UIElement element) {
-        return (element.isControllerSelectable() && element.isEnabled()) || element.isSelected() || element.isModal();
+        return (element.isControllerSelectable() && element.isEnabled()) || element.isSelected() || element.isControllerModal();
     }
 
     @Override
