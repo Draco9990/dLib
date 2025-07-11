@@ -169,12 +169,6 @@ public class Toggle extends Interactable {
 
     public void toggle(boolean byProxy){
         setToggled(!isToggled());
-
-        if(ModManager.SayTheSpire.isActive()){
-            if(getOnTriggerLine() != null){
-                Output.text(getOnTriggerLine(), true);
-            }
-        }
     }
     public boolean isToggled(){
         return toggled;
@@ -186,14 +180,24 @@ public class Toggle extends Interactable {
 
         this.toggled = toggled;
 
-        postToggledEvent.invoke(toggled);
-        postToggledEvent_Static.invoke(toggled, this);
+        onToggledStateChanged();
     }
     public void setToggledHoveredTexture(AbstractTextureBinding hoveredTexture){
         this.toggledHoveredTexture = hoveredTexture;
     }
     public void setToggledDisabledTexture(AbstractTextureBinding disabledTexture){
         this.toggledDisabledTexture = disabledTexture;
+    }
+
+    public void onToggledStateChanged(){
+        postToggledEvent.invoke(toggled);
+        postToggledEvent_Static.invoke(toggled, this);
+
+        if(ModManager.SayTheSpire.isActive()){
+            if(getOnTriggerLine() != null){
+                Output.text(getOnTriggerLine(), true);
+            }
+        }
     }
 
     //endregion

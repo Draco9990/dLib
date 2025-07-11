@@ -24,6 +24,9 @@ public class UICommonResources implements ITextureSource {
     public static final Texture checkbox_checked = ImageMaster.loadImage("dLibResources/images/ui/common/checkbox_checked.png");
     public static final Texture checkbox_unchecked = ImageMaster.loadImage("dLibResources/images/ui/common/checkbox_unchecked.png");
 
+    public static final Texture radiobutton_checked_checked = ImageMaster.loadImage("dLibResources/images/ui/common/radiobutton_checked.png");
+    public static final Texture radiobutton_checked_unchecked = ImageMaster.loadImage("dLibResources/images/ui/common/radiobutton_unchecked.png");
+
     public static final NinePatch inputfield = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/inputfield.png"), 23, 23, 18, 18);
 
     public static final NinePatch button01_horizontal = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/button01/horizontal.png"), 41, 43, 21, 20);

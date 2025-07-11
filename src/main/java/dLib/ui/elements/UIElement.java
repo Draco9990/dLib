@@ -345,8 +345,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 deselect();
             }
         });
-
-        addComponent(new UIDebuggableComponent());
     }
 
     private void registerCommonEvents(){
@@ -1377,7 +1375,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public boolean onConfirmInteraction(boolean byProxy){
-
         ArrayList<Boolean> interactionResults = onConfirmInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
         return interactionResults.stream().anyMatch(result -> result);
     }

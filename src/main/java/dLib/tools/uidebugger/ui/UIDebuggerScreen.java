@@ -2,6 +2,7 @@ package dLib.tools.uidebugger.ui;
 
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.ImageTextBox;
@@ -10,57 +11,35 @@ import dLib.ui.resources.UICommonResources;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class UIDebuggerScreen extends UIElement {
-    public UIDebuggerToolbar toolbar;
-
-    public UIDebuggerElementInfo elementInfo;
-
+public class UIDebuggerScreen extends ImageTextBox {
     public UIDebuggerScreen(){
-        super();
+        super("", Dim.px(600), Dim.px(400));
 
-        VerticalBox elementList = new VerticalBox(Pos.px(100), Pos.px(100), Dim.auto(), Dim.auto());
-        elementList.setVerticalAlignment(Alignment.VerticalAlignment.TOP);
-        elementList.setItemSpacing(30);
-        elementList.setTexture(UICommonResources.white_pixel);
-        {
-            elementList.addChild(toolbar = new UIDebuggerToolbar());
-            elementList.addChild(elementInfo = new UIDebuggerElementInfo());
-        }
-        addChild(elementList);
+        addComponent(new UIDraggableComponent());
+
+        UIElement.postHoverGlobalEvent.subscribeManaged((element) -> {
+            if(element.getTopParent() instanceof UIDebuggerScreen) return;
+
+            String debugText = generateDebugTextForUIElement(element);
+            textBox.setText(debugText);
+            showAndEnable();
+        });
     }
 
     //region Subclasses
 
-    public static class UIDebuggerToolbar extends HorizontalBox {
-        public UIDebuggerToolbar(){
-            super(Pos.px(0), Pos.px(0), Dim.auto(), Dim.auto());
+    private String generateDebugTextForUIElement(UIElement element){
+        String cachedPosition = " Cached(" + element.getLocalPositionX() + ", " + element.getLocalPositionY() + ")";
+        String cachedDimensions = " Cached(" + element.getWidth() + ", " + element.getHeight() + ")";
 
-            setVerticalAlignment(Alignment.VerticalAlignment.TOP);
-
-            setItemSpacing(10);
-
-            addChild(new TextButton("D", Dim.px(50), Dim.px(50)));
-
-            TextButton informationButton = new TextButton("i", Dim.px(50), Dim.px(50));
-            addChild(informationButton);
-            informationButton.onLeftClickEvent.subscribeManaged(() -> {
-                UIDebuggerScreen parent = getParentOfType(UIDebuggerScreen.class);
-                if(parent.elementInfo.isActive()){
-                    parent.elementInfo.hideAndDisable();
-                }
-                else{
-                    parent.elementInfo.showAndEnable();
-                }
-            });
-        }
-    }
-
-    public static class UIDebuggerElementInfo extends ImageTextBox {
-        public UIDebuggerElementInfo(){
-            super("", Dim.px(600), Dim.px(400));
-
-            hideAndDisableInstantly();
-        }
+        return "Element ID: " + element.getId() + "\n" +
+                "Position: " + element.getLocalPositionXRaw().toString() + ", " + element.getLocalPositionYRaw().toString() + cachedPosition + "\n" +
+                "Dimensions: " + element.getWidthRaw().toString() + ", " + element.getHeightRaw().toString() + cachedDimensions + "\n" +
+                "Visible: " + element.isVisible() + "\n" +
+                "Enabled: " + element.isEnabled() + "\n" +
+                "Parent: " + (element.getParent() == null ? "null" : element.getParent().getId()) + "\n" +
+                "Children: " + element.getChildren().size() + "\n" +
+                "Alignment: " + element.getAlignment();
     }
 
     //endregion

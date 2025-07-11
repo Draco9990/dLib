@@ -80,6 +80,7 @@ public class TestScreen extends UIElement {
             VerticalDataBox<String> vdb = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
             vdb.setCanReorder(true);
             vdb.setCanDelete(true);
+            vdb.setExternalToggling(true);
             vdb.setSelectionMode(ESelectionMode.MULTIPLE);
             vdb.addChild("Test1");
             vdb.addChild("Test2");

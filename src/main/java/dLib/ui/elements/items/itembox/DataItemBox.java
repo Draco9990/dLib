@@ -8,6 +8,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
+import dLib.ui.elements.items.buttons.RadioButton;
 import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.ImageTextBox;
@@ -266,6 +267,20 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 holder.addChild(moveDownButton);
             }
 
+            if(isExternalToggling()){
+                RadioButton selectionButton = new RadioButton(
+                        "group1",
+                        contentHorizontal ? Dim.fill() : Dim.mirror(),
+                        contentHorizontal ? Dim.mirror() : Dim.fill());
+                selectionButton.setControllerSelectable(false);
+                holder.onConfirmInteractionEvent.subscribe(holder, (byProxy) -> selectionButton.onConfirmInteraction(true));
+                holder.postSelectionStateChangedEvent.subscribe(selectionButton, (selected) -> {
+                    if(selected) selectionButton.proxyHover();
+                    else selectionButton.proxyUnhover();
+                });
+                holder.addChild(selectionButton);
+            }
+
             UIElement parent = new UIElement(Dim.auto(), Dim.auto());
             parent.setID(wrapperId);
             {
@@ -313,10 +328,6 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 }
             }
             holder.addChild(parent);
-
-            if(isExternalToggling()){
-
-            }
 
             if(canDelete()){
                 Button deleteButton = new Button(
