@@ -153,13 +153,13 @@ public class Toggle extends Interactable {
 
     @Override
     public void deselect() {
-        super.deselect();
-
         if(isControllerSelected() && isToggled()){
             // If the toggle is selected with a controller, we want to deselect it when clicked
             // This is to prevent the toggle from being stuck in a selected state
             setToggled(false);
         }
+
+        super.deselect();
     }
 
     //endregion

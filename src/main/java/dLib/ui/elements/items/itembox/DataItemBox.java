@@ -138,7 +138,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             ItemType existingChildItem = childWrapperMap.getByKey(existingChild);
             if(itemsToAdd.contains(existingChildItem)){
                 itemsToAdd.remove(existingChildItem);
-                updateUIForItem(existingChildItem, existingChild);
+                updateUIForItem(existingChildItem, existingChild.findChildById(wrapperId).getFirstChild());
             }
             else {
                 if(existingChild.isSelected()){

@@ -164,7 +164,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     // Say the Spire mod compatibility
     protected AbstractStringBinding onHoverLine = Str.stat(null); // Say the Spire mod compatibility
     protected AbstractStringBinding onTriggeredLine = Str.stat(null); // Say the Spire mod compatibility
-    protected AbstractStringBinding onActivateLine = Str.stat(null); // Say the Spire mod compatibility
+    protected AbstractStringBinding onEnabledLine = Str.stat(null); // Say the Spire mod compatibility
 
     private boolean controllerSelected = false;
 
@@ -1493,10 +1493,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void setVisibility(boolean visible){
+        boolean isActive = isActive();
+
         if(isVisible == visible) return;
         isVisible = visible;
 
         onVisiblityChanged();
+
+        if(isActive != isActive()){
+            onActiveStateChanged();
+        }
     }
 
     public boolean isVisible(){
@@ -1511,10 +1517,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(getParent() != null) getParent().onChildVisibilityChanged(this);
         for(UIElement child : children){
             child.onParentVisibilityChanged();
-        }
-
-        if(isEnabled() != isVisible()){
-            onActiveStateChanged();
         }
     }
     protected void onParentVisibilityChanged(){
@@ -1556,17 +1558,47 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void onEnabledStatusChanged(){
+        if(isModal()){
+            if(isEnabled()){
+                UIManager.drawControllerFocusCond(this);
+
+                if(ModManager.SayTheSpire.isActive()){
+                    if(getOnEnabledLine() != null){
+                        Output.text(getOnEnabledLine(), true);
+                    }
+                }
+            }
+            else{
+                UIManager.loseFocus(this);
+            }
+        }
+
+        boolean isActive = isActive();
+
         if(getParent() != null) getParent().onChildEnabledStatusChanged(this);
         for(UIElement child : children){
             child.onParentEnabledStatusChanged();
         }
 
-        if(isEnabled() != isVisible()){
+        if(isActive != isActive()){
             onActiveStateChanged();
         }
     }
     protected void onParentEnabledStatusChanged(){
+        if(isModal()){
+            if(isEnabled()){
+                UIManager.drawControllerFocusCond(this);
 
+                if(ModManager.SayTheSpire.isActive()){
+                    if(getOnEnabledLine() != null){
+                        Output.text(getOnEnabledLine(), true);
+                    }
+                }
+            }
+            else{
+                UIManager.loseFocus(this);
+            }
+        }
     }
     protected void onChildEnabledStatusChanged(UIElement changedChild){
 
@@ -1604,20 +1636,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void onActiveStateChanged(){
-        if(isModal()){
-            if(isActive()){
-                UIManager.drawControllerFocusCond(this);
-            }
-            else{
-                UIManager.loseFocus(this);
-            }
-        }
-
-        if(ModManager.SayTheSpire.isActive()){
-            if(getOnActivateLine() != null){
-                Output.text(getOnActivateLine(), true);
-            }
-        }
     }
 
     //endregion
@@ -2292,14 +2310,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region On Active Lines
 
-    public void setOnActivateLine(AbstractStringBinding binding){
-        this.onActivateLine = binding;
+    public void setOnEnabledLine(AbstractStringBinding binding){
+        this.onEnabledLine = binding;
     }
     public void setOnActivateLine(String newLine) {
-        this.onActivateLine = Str.stat(newLine);
+        this.onEnabledLine = Str.stat(newLine);
     }
-    public String getOnActivateLine(){
-        return onActivateLine.getBoundObject();
+    public String getOnEnabledLine(){
+        return onEnabledLine.getBoundObject();
     }
 
     //endregion
