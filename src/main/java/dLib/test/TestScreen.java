@@ -81,7 +81,6 @@ public class TestScreen extends UIElement {
             vdb.setCanReorder(true);
             vdb.setCanDelete(true);
             vdb.setExternalToggling(true);
-            vdb.setSelectionMode(ESelectionMode.MULTIPLE);
             vdb.addChild("Test1");
             vdb.addChild("Test2");
             vdb.addChild("Test3");

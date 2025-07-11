@@ -8,6 +8,8 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
+import dLib.ui.elements.items.Interactable;
+import dLib.ui.elements.items.buttons.Checkbox;
 import dLib.ui.elements.items.buttons.RadioButton;
 import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.buttons.Button;
@@ -236,7 +238,9 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         if(contentHorizontal) holder = new VerticalBox(Dim.auto(), Dim.fill());
         else holder = new HorizontalBox(Dim.fill(), Dim.auto());
 
-        holder.setControllerSelectable(true);
+        holder.setControllerSelectable(
+                canReorder() || isToggleOverlayEnabled() || isExternalToggling() || canDelete()
+        );
 
         {
             if(canReorder()){
@@ -268,17 +272,46 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             }
 
             if(isExternalToggling()){
-                RadioButton selectionButton = new RadioButton(
-                        "group1",
-                        contentHorizontal ? Dim.fill() : Dim.mirror(),
-                        contentHorizontal ? Dim.mirror() : Dim.fill());
-                selectionButton.setControllerSelectable(false);
-                holder.onConfirmInteractionEvent.subscribe(holder, (byProxy) -> selectionButton.onConfirmInteraction(true));
-                holder.postSelectionStateChangedEvent.subscribe(selectionButton, (selected) -> {
-                    if(selected) selectionButton.proxyHover();
-                    else selectionButton.proxyUnhover();
+                Toggle toggle;
+                if(selectionMode == ESelectionMode.MULTIPLE){
+                    Checkbox selectionButton = new Checkbox(
+                            contentHorizontal ? Dim.fill() : Dim.mirror(),
+                            contentHorizontal ? Dim.mirror() : Dim.fill()){
+                        @Override
+                        public void toggle(boolean byProxy) {
+                            if(isToggled() || trySelectItem(item)){
+                                super.toggle(byProxy);
+                                onItemSelectionChanged();
+                            }
+                        }
+                    };
+                    toggle = selectionButton;
+                }
+                else if(selectionMode == ESelectionMode.SINGLE){
+                    RadioButton selectionButton = new RadioButton(
+                            "group1",
+                            contentHorizontal ? Dim.fill() : Dim.mirror(),
+                            contentHorizontal ? Dim.mirror() : Dim.fill()){
+                        @Override
+                        public void toggle(boolean byProxy) {
+                            if(trySelectItem(item)){
+                                super.toggle(byProxy);
+                                onItemSelectionChanged();
+                            }
+                        }
+                    };
+                    toggle = selectionButton;
+                }
+                else{
+                    toggle = null;
+                }
+                toggle.setControllerSelectable(false);
+                holder.onConfirmInteractionEvent.subscribe(holder, (byProxy) -> toggle.onConfirmInteraction(true));
+                holder.postSelectionStateChangedEvent.subscribe(toggle, (selected) -> {
+                    if(selected) toggle.proxyHover();
+                    else toggle.proxyUnhover();
                 });
-                holder.addChild(selectionButton);
+                holder.addChild(toggle);
             }
 
             UIElement parent = new UIElement(Dim.auto(), Dim.auto());
@@ -299,11 +332,6 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                                 }
                             }
                         }
-
-                        @Override
-                        public boolean isActive() {
-                            return getSelectionMode() != ESelectionMode.NONE && getSelectionCountLimit() > 0;
-                        }
                     };
                     overlay.setID(wrapOverlayID);
                     overlay.setRenderColor(new Color(0, 0, 0, 0f));
@@ -319,8 +347,11 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     });
                     parent.addChild(overlay);
                 }
-                else if(!isExternalToggling()){
-                    holder.onLeftInteractionEvent.subscribe(holder, (byProxy) -> itemUI.onConfirmInteraction(true));
+                else{
+                    if(!isExternalToggling()){
+                        holder.onLeftInteractionEvent.subscribe(holder, (byProxy) -> itemUI.onConfirmInteraction(true));
+                    }
+
                     holder.postSelectionStateChangedEvent.subscribe(itemUI, (selected) -> {
                         if(selected) itemUI.proxyHover();
                         else itemUI.proxyUnhover();
@@ -379,13 +410,13 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             return false;
         }
 
-        if(((Toggle) childWrapperMap.getByValue(selectedItem).findChildById(wrapperId).findChildById(wrapOverlayID)).isToggled() && !selectionMode.equals(ESelectionMode.MULTIPLE)){
+        if(getToggleForHolder(childWrapperMap.getByValue(selectedItem)).isToggled() && !selectionMode.equals(ESelectionMode.MULTIPLE)){
             return false;
         }
 
         if(selectionMode == ESelectionMode.SINGLE || selectionMode == ESelectionMode.SINGLE_NOPERSIST){
             for(UIElement child : children){
-                Toggle wrapOverlay = child.findChildById(wrapperId).findChildById(wrapOverlayID);
+                Toggle wrapOverlay = getToggleForHolder(child);
                 if(wrapOverlay == null){
                     continue;
                 }
@@ -405,7 +436,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public ArrayList<ItemType> getCurrentlySelectedItems(){
         ArrayList<ItemType> selectedItems = new ArrayList<>();
         for(UIElement child : children){
-            Toggle wrapOverlay = child.findChildById(wrapperId).findChildById(wrapOverlayID);
+            Toggle wrapOverlay = getToggleForHolder(child);
             if(wrapOverlay == null){
                 continue;
             }
@@ -416,6 +447,19 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         }
 
         return selectedItems;
+    }
+
+    private Toggle getToggleForHolder(UIElement holder){
+        Toggle wrapOverlay = null;
+        if(isToggleOverlayEnabled()){
+            wrapOverlay = holder.findChildById(wrapperId).findChildById(wrapOverlayID);
+        }
+        else if(isExternalToggling()){
+            if(selectionMode == ESelectionMode.SINGLE) wrapOverlay = holder.getChildren(RadioButton.class).get(0);
+            else if(selectionMode == ESelectionMode.MULTIPLE) wrapOverlay = holder.getChildren(Checkbox.class).get(0);
+        }
+
+        return wrapOverlay;
     }
 
     public void setSelectionMode(ESelectionMode selectionMode){
@@ -438,7 +482,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         boolean changed = false;
 
         for(UIElement child : children){
-            Toggle wrapOverlay = child.findChildById(wrapperId).findChildById(wrapOverlayID);
+            Toggle wrapOverlay = getToggleForHolder(child);
             if(wrapOverlay == null){
                 continue;
             }
@@ -462,14 +506,14 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         this.externalToggling = externalToggling;
     }
     public boolean isExternalToggling(){
-        return externalToggling;
+        return externalToggling && (selectionMode == ESelectionMode.SINGLE || selectionMode == ESelectionMode.MULTIPLE);
     }
 
     public void disableToggleOverlay(){
         shouldOverlayToggle = false;
     }
     public boolean isToggleOverlayEnabled(){
-        return shouldOverlayToggle && !externalToggling;
+        return shouldOverlayToggle && !isExternalToggling() && selectionMode != ESelectionMode.NONE;
     }
 
     //endregion
