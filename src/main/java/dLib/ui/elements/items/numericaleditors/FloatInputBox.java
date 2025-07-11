@@ -42,6 +42,7 @@ public class FloatInputBox extends UIElement {
 
             inputbox = new Inputfield("", Dim.fill(), Dim.fill());
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
+            inputbox.setControllerSelectable(false);
             hBox.addChild(inputbox);
 
             rightArrow = new Button(Dim.mirror(), Dim.fill());
@@ -59,18 +60,22 @@ public class FloatInputBox extends UIElement {
         super.select(byController);
 
         if(byController){
-            leftArrow.hover();
-            rightArrow.hover();
-            inputbox.hover();
+            leftArrow.proxyHover();
+            rightArrow.proxyHover();
+            inputbox.proxyHover();
         }
     }
 
     @Override
     public void deselect() {
         if(isControllerSelected()){
-            leftArrow.unhover();
-            rightArrow.unhover();
-            inputbox.unhover();
+            if(inputbox.isToggled()) {
+                inputbox.toggle(true);
+            }
+
+            leftArrow.proxyUnhover();
+            rightArrow.proxyUnhover();
+            inputbox.proxyUnhover();
         }
 
         super.deselect();
@@ -78,16 +83,31 @@ public class FloatInputBox extends UIElement {
 
     @Override
     public boolean onLeftInteraction(boolean byProxy) {
+        if(inputbox.isToggled()) return inputbox.onLeftInteraction(true);
+
         return leftArrow.onConfirmInteraction(true);
     }
 
     @Override
     public boolean onRightInteraction(boolean byProxy) {
+        if(inputbox.isToggled()) return inputbox.onRightInteraction(true);
+
         return rightArrow.onConfirmInteraction(true);
     }
 
     @Override
     public boolean onConfirmInteraction(boolean byProxy) {
-        return inputbox.onConfirmInteraction(true);
+        boolean inputBoxInteraction = inputbox.onConfirmInteraction(true);
+
+        if(inputbox.isToggled()){
+            leftArrow.proxyUnhover();
+            rightArrow.proxyUnhover();
+        }
+        else {
+            leftArrow.proxyHover();
+            rightArrow.proxyHover();
+        }
+
+        return inputBoxInteraction;
     }
 }

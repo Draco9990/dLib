@@ -152,7 +152,7 @@ public class PropertyEditor extends UIElement {
             };
             propertyList.setItemSpacing(10);
             propertyList.setSelectionMode(ESelectionMode.NONE);
-            propertyList.disableItemWrapping();
+            propertyList.disableToggleOverlay();
 
             BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).loadProperties());
 

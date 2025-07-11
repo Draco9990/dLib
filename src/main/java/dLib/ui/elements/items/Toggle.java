@@ -35,7 +35,7 @@ public class Toggle extends Interactable {
     private Color toggledDisabledColor = Color.WHITE.cpy();
     private float toggledDisabledColorMultiplier = 0.25f;
 
-    public ConsumerEvent<Boolean> onToggledEvent = new ConsumerEvent<>();                                               public static BiConsumerEvent<Boolean, Toggle> onToggledEvent_Static = new BiConsumerEvent<>();
+    public ConsumerEvent<Boolean> postToggledEvent = new ConsumerEvent<>();                                             public static BiConsumerEvent<Boolean, Toggle> postToggledEvent_Static = new BiConsumerEvent<>();
 
     //endregion
 
@@ -185,8 +185,8 @@ public class Toggle extends Interactable {
 
         this.toggled = toggled;
 
-        onToggledEvent.invoke(toggled);
-        onToggledEvent_Static.invoke(toggled, this);
+        postToggledEvent.invoke(toggled);
+        postToggledEvent_Static.invoke(toggled, this);
     }
     public void setToggledHoveredTexture(AbstractTextureBinding hoveredTexture){
         this.toggledHoveredTexture = hoveredTexture;

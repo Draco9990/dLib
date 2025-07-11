@@ -77,18 +77,18 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
         super.select(byController);
 
         if(byController){
-            leftArrow.hover();
-            rightArrow.hover();
-            enumBox.hover();
+            leftArrow.proxyHover();
+            rightArrow.proxyHover();
+            enumBox.proxyHover();
         }
     }
 
     @Override
     public void deselect() {
         if(isControllerSelected()){
-            leftArrow.unhover();
-            rightArrow.unhover();
-            enumBox.unhover();
+            leftArrow.proxyUnhover();
+            rightArrow.proxyUnhover();
+            enumBox.proxyUnhover();
         }
 
         super.deselect();

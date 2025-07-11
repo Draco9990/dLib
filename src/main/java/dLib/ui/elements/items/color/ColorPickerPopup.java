@@ -14,7 +14,6 @@ import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.BiConsumerEvent;
-import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.helpers.ColorHelpers;
 import dLib.util.helpers.UIHelpers;
@@ -24,9 +23,7 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 //TODO fix hex code input not upodating lightness and alpha correctly
 //TODO add a 'ping' to the color wheel when the color is changed
@@ -110,7 +107,7 @@ public class ColorPickerPopup extends VerticalBox {
                         Image colorBox = new Image(Tex.stat(magicColor.getSquareImage()), Pos.px(0), Pos.px(0), Dim.px(25), Dim.px(25));
                         {
                             Toggle colorBoxOutline = new Toggle(Tex.stat(UICommonResources.color_outline), Tex.stat(UICommonResources.color_outline_selected), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-                            colorBoxOutline.onToggledEvent.subscribe(colorBox, (toggleState) -> {
+                            colorBoxOutline.postToggledEvent.subscribe(colorBox, (toggleState) -> {
                                 if(toggleState){
                                     parent.setSelectedColor(magicColor, true);
                                 }
@@ -132,7 +129,7 @@ public class ColorPickerPopup extends VerticalBox {
                     colorBox.setRenderColor(staticColor);
                     {
                         Toggle colorBoxOutline = new Toggle(Tex.stat(UICommonResources.color_outline), Tex.stat(UICommonResources.color_outline_selected), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-                        colorBoxOutline.onToggledEvent.subscribe(colorBox, (toggleState) -> {
+                        colorBoxOutline.postToggledEvent.subscribe(colorBox, (toggleState) -> {
                             if(toggleState){
                                 parent.setSelectedColor(staticColor, true);
                             }

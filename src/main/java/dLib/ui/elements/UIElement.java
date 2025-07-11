@@ -168,6 +168,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected AbstractStringBinding onEnabledLine = Str.stat(null); // Say the Spire mod compatibility
 
     private boolean controllerSelected = false;
+    private boolean proxyHovered = false;
 
     private float totalHoverDuration;
 
@@ -539,7 +540,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
             if(isEnabled()){
                 if(this.hb.justHovered) onHovered();
-                if(this.hb.hovered || controllerSelected){
+                if(this.hb.hovered || controllerSelected || proxyHovered){
                     totalHoverDuration += Gdx.graphics.getDeltaTime();
                     onHoverTick(totalHoverDuration);
                 }
@@ -1371,7 +1372,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public ArrayList<UIElement> getAllSelectableChildren(){
         ArrayList<UIElement> allChildren = new ArrayList<>();
         for(UIElement child : children){
-            if(child.isControllerSelectable() && child.isEnabled()){
+            if((child.isControllerSelectable() && child.isEnabled()) || child.isSelected()){
                 allChildren.add(child);
             }
             allChildren.addAll(child.getAllSelectableChildren());
@@ -2175,6 +2176,28 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         onUnhovered();
     }
 
+    public void proxyHover(){
+        boolean hoveredExternally = isHovered();
+
+        if(!proxyHovered){
+            this.proxyHovered = true;
+        }
+
+        if(!hoveredExternally){
+            onHovered();
+        }
+    }
+
+    public void proxyUnhover(){
+        if(!proxyHovered) return;
+
+        proxyHovered = false;
+
+        if(!isHovered()){
+            onUnhovered();
+        }
+    }
+
     protected void onHovered(){
         totalHoverDuration = 0.f;
         if(!isPassthrough()) InputHelpers.alreadyHovered = true;
@@ -2196,7 +2219,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         onUnhoveredEvent.invoke();
     }
 
-    public boolean isHovered(){ return (hb.hovered || hb.justHovered || controllerSelected); }
+    public boolean isHovered(){ return (hb.hovered || hb.justHovered || controllerSelected || proxyHovered); }
+
+    public boolean isProxyHovered() { return proxyHovered; }
 
     public boolean isHoveredOrChildHovered(){
         if(isHovered()) return true;

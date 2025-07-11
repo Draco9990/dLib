@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.components.UITransientElementComponent;
+import dLib.ui.elements.items.Toggle;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
@@ -36,7 +37,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class Inputfield extends Button implements ITextProvider {
+public class Inputfield extends Toggle implements ITextProvider {
     //region Variables
 
     public TextBox textBox;
@@ -74,11 +75,9 @@ public class Inputfield extends Button implements ITextProvider {
         this(initialValue, Pos.px(0), Pos.px(0), width, height);
     }
     public Inputfield(String initialValue, AbstractPosition posX, AbstractPosition posY, AbstractDimension width, AbstractDimension height){
-        super(posX, posY, width, height);
+        super(Tex.stat(UICommonResources.inputfield), posX, posY, width, height);
 
         preInitialize();
-
-        setTexture(Tex.stat(UICommonResources.inputfield));
 
         this.textBox = new TextBox(initialValue, Pos.px(0), Pos.px(0), width instanceof AutoDimension ? Dim.auto() : Dim.fill(), height instanceof AutoDimension ? Dim.auto() : Dim.fill());
         textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
@@ -270,12 +269,20 @@ public class Inputfield extends Button implements ITextProvider {
     private void postInitialize(){
         caret.hideAndDisableInstantly();
 
-        postSelectionStateChangedEvent.subscribeManaged(aBoolean -> {
+        postToggledEvent.subscribeManaged(aBoolean -> {
             if(aBoolean){
                 Gdx.input.setInputProcessor(inputProcessor);
                 caret.showAndEnableInstantly();
             }
             else{
+                resetInputProcessor();
+                onValueCommittedEvent.invoke(stringConsumer -> stringConsumer.accept(textBox.getText()));
+                caret.hideAndDisableInstantly();
+            }
+        });
+
+        postSelectionStateChangedEvent.subscribeManaged(aBoolean -> {
+            if(!aBoolean && Gdx.input.getInputProcessor() == inputProcessor){
                 resetInputProcessor();
                 onValueCommittedEvent.invoke(stringConsumer -> stringConsumer.accept(textBox.getText()));
                 caret.hideAndDisableInstantly();
@@ -871,7 +878,7 @@ public class Inputfield extends Button implements ITextProvider {
         NUMERICAL_DECIMAL_POSITIVE
     }
 
-    public static class InputfieldData extends ButtonData implements Serializable {
+    public static class InputfieldData extends ToggleData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         public TextBox.TextBoxData textboxData = new TextBox.TextBoxData();

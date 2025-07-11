@@ -53,7 +53,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     protected Integer defaultItemWidth = null;
     protected Integer defaultItemHeight = null;
 
-    private boolean disableItemWrapping = false;
+    private boolean shouldOverlayToggle = true;
 
     public ConsumerEvent<ItemType> onItemAddedEvent = new ConsumerEvent<>();
     public ConsumerEvent<ItemType> onItemRemovedEvent = new ConsumerEvent<>();
@@ -226,50 +226,15 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     }
 
     private UIElement wrapUIForItem(ItemType item){
-        UIElement toReturn;
-
         UIElement itemUI = makeUIForItem(item);
-        toReturn = itemUI;
 
-        if(!disableItemWrapping){
-            UIElement parent = new UIElement(Dim.auto(), Dim.auto());
-            parent.setID(wrapperId);
-            parent.addChild(itemUI);
+        UIItemBox holder;
 
-            Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
-                @Override
-                public void toggle(boolean byProxy) {
-                    if((isToggled() && getSelectionMode() == ESelectionMode.MULTIPLE) || trySelectItem(item)){
-                        super.toggle(byProxy);
-                        onItemSelectionChanged();
+        boolean contentHorizontal = getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
+        if(contentHorizontal) holder = new VerticalBox(Dim.auto(), Dim.fill());
+        else holder = new HorizontalBox(Dim.fill(), Dim.auto());
 
-                        if(selectionMode == ESelectionMode.SINGLE_NOPERSIST && isToggled()){
-                            setToggled(false);
-                        }
-                    }
-                }
-
-                @Override
-                public boolean isActive() {
-                    return getSelectionMode() != ESelectionMode.NONE && getSelectionCountLimit() > 0;
-                }
-            };
-            overlay.setID(wrapOverlayID);
-            overlay.setRenderColor(new Color(0, 0, 0, 0f));
-            overlay.addComponent(new UIOverlayElementComponent());
-            overlay.setControllerSelectable(getSelectionMode() != ESelectionMode.NONE);
-            if(itemUI instanceof ITextProvider){
-                overlay.setOnHoverLine(Str.src(((ITextProvider) itemUI)));
-            }
-            parent.addChild(overlay);
-
-            UIItemBox holder;
-
-            boolean contentHorizontal = getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
-            if(contentHorizontal) holder = new VerticalBox(Dim.auto(), Dim.fill());
-            else holder = new HorizontalBox(Dim.fill(), Dim.auto());
-            toReturn = holder;
-
+        {
             if(canReorder()){
                 Button moveUpButton = new Button(
                         contentHorizontal ? Dim.fill() : Dim.mirror(),
@@ -286,6 +251,40 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 holder.addChild(moveDownButton);
             }
 
+            UIElement parent = new UIElement(Dim.auto(), Dim.auto());
+            parent.setID(wrapperId);
+            {
+                parent.addChild(itemUI);
+
+                if(shouldOverlayToggle){
+                    Toggle overlay = new Toggle(Tex.stat(UICommonResources.white_pixel), itemUI.getWidthRaw(), itemUI.getHeightRaw()){
+                        @Override
+                        public void toggle(boolean byProxy) {
+                            if((isToggled() && getSelectionMode() == ESelectionMode.MULTIPLE) || trySelectItem(item)){
+                                super.toggle(byProxy);
+                                onItemSelectionChanged();
+
+                                if(selectionMode == ESelectionMode.SINGLE_NOPERSIST && isToggled()){
+                                    setToggled(false);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public boolean isActive() {
+                            return getSelectionMode() != ESelectionMode.NONE && getSelectionCountLimit() > 0;
+                        }
+                    };
+                    overlay.setID(wrapOverlayID);
+                    overlay.setRenderColor(new Color(0, 0, 0, 0f));
+                    overlay.addComponent(new UIOverlayElementComponent());
+                    overlay.setControllerSelectable(getSelectionMode() != ESelectionMode.NONE);
+                    if(itemUI instanceof ITextProvider){
+                        overlay.setOnHoverLine(Str.src(((ITextProvider) itemUI)));
+                    }
+                    parent.addChild(overlay);
+                }
+            }
             holder.addChild(parent);
 
             if(canDelete()){
@@ -299,7 +298,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         }
 
         postMakeUIForItem(item, itemUI);
-        return toReturn;
+        return holder;
     }
 
     protected void postMakeUIForItem(ItemType item, UIElement itemUI){
@@ -395,10 +394,10 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     //endregion
 
-    //region Item Wrapping
+    //region Toggle Overlay
 
-    public void disableItemWrapping(){
-        disableItemWrapping = true;
+    public void disableToggleOverlay(){
+        shouldOverlayToggle = false;
     }
 
     //endregion
