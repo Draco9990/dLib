@@ -1,4 +1,4 @@
-package dLib.ui.elements.items;
+package dLib.ui.elements.items.buttons;
 
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;

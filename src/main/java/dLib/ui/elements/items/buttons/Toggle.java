@@ -1,10 +1,11 @@
-package dLib.ui.elements.items;
+package dLib.ui.elements.items.buttons;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
+import dLib.ui.elements.items.Interactable;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.TextureNoneBinding;
 import dLib.util.events.localevents.BiConsumerEvent;

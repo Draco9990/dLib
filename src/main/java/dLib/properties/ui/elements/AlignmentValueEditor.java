@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import dLib.properties.objects.AlignmentProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.items.PredefinedGrid;
-import dLib.ui.elements.items.Toggle;
+import dLib.ui.elements.items.buttons.Toggle;
 import dLib.util.TextureManager;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.helpers.EnumHelpers;

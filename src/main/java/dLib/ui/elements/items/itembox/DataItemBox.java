@@ -8,7 +8,7 @@ import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.components.UITransientElementComponent;
-import dLib.ui.elements.items.Toggle;
+import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.resources.UICommonResources;
@@ -18,7 +18,6 @@ import dLib.util.bindings.font.Font;
 import dLib.util.bindings.string.Str;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -27,9 +26,6 @@ import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class DataItemBox<ItemType> extends ItemBox {
@@ -317,6 +313,10 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 }
             }
             holder.addChild(parent);
+
+            if(isExternalToggling()){
+
+            }
 
             if(canDelete()){
                 Button deleteButton = new Button(

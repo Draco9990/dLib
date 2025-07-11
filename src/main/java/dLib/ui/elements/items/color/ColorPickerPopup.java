@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.magiccolor.MagicColor;
 import dLib.magiccolor.MagicColorManager;
 import dLib.ui.elements.items.*;
+import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.GridBox;
 import dLib.ui.elements.items.itembox.HorizontalBox;

@@ -3,6 +3,7 @@ package dLib.ui.elements.items;
 import com.badlogic.gdx.graphics.Color;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextBox;
