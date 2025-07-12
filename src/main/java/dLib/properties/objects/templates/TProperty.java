@@ -17,10 +17,10 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     //region Variables
 
-    private transient String name;
-    private transient String description;
+    private String name;
+    private String description;
 
-    private transient String category = "Uncategorized";
+    private String category = "Uncategorized";
 
     protected ValueType defaultValue;
     protected ValueType value;
