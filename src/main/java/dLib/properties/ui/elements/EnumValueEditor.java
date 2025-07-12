@@ -39,9 +39,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             leftArrow = new Button(Dim.mirror(), Dim.px(50));
             leftArrow.setTexture(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
-            leftArrow.setControllerSelectable(false);
-            leftArrow.setSayTheSpireElementName((String)null);
-            leftArrow.setSayTheSpireElementType((String)null);
+            leftArrow.disableControllerSelectionAndSayTheSpireIntegration();
             box.addChild(leftArrow);
 
             enumBox = new ComboBox<OfType>(boundProperty.getValue(), EnumHelpers.getAllEntries(boundProperty.getValue()), Dim.fill(), Dim.px(50)){
@@ -53,17 +51,13 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             enumBox.onSelectionChangedEvent.subscribe(this, (Consumer<OfType>) (newVal) -> {
                 boundProperty.setValue(newVal);
             });
-            enumBox.setControllerSelectable(false);
-            enumBox.setSayTheSpireElementName((String)null);
-            enumBox.setSayTheSpireElementType((String)null);
+            enumBox.disableControllerSelectionAndSayTheSpireIntegration();
             box.addChild(enumBox);
 
             rightArrow = new Button(Dim.mirror(), Dim.px(50));
             rightArrow.setTexture(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
-            rightArrow.setControllerSelectable(false);
-            rightArrow.setSayTheSpireElementName((String)null);
-            rightArrow.setSayTheSpireElementType((String)null);
+            rightArrow.disableControllerSelectionAndSayTheSpireIntegration();
             box.addChild(rightArrow);
         }
         addChild(box);

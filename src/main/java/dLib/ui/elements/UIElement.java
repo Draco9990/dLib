@@ -1387,6 +1387,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //region Controller Selection
+    public void disableControllerSelectionAndSayTheSpireIntegration(){
+        setControllerSelectable(false);
+        setSayTheSpireElementName((String)null);
+        setSayTheSpireElementType((String)null);
+    }
     public void setControllerSelectable(boolean controllerSelectable){
         this.controllerSelectable = controllerSelectable;
     }
@@ -2352,14 +2357,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public String getSayTheSpireElementNameAndType(boolean withValue){
         String elementName = sayTheSpireElementName.getBoundObject();
         String elementType = sayTheSpireElementType.getBoundObject();
-        String elementValue = sayTheSpireElementType.getBoundObject();
+        String elementValue = sayTheSpireElementValue.getBoundObject();
 
         if(elementName == null && elementType == null) return null;
 
         String sentence = "";
         if(elementName != null) sentence += elementName + " ";
         if(elementType != null) sentence += elementType + " ";
-        if(withValue && elementValue != null) sentence += "with value of " + elementValue;
+        if(withValue && elementValue != null && !elementValue.isEmpty()) sentence += "with value of " + elementValue;
         return sentence;
     }
 

@@ -36,27 +36,21 @@ public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProp
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
             leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
             leftArrow.setTexture(Tex.stat(UICommonResources.arrow_left));
-            leftArrow.setControllerSelectable(false);
-            leftArrow.setSayTheSpireElementName((String)null);
-            leftArrow.setSayTheSpireElementType((String)null);
+            leftArrow.disableControllerSelectionAndSayTheSpireIntegration();
             hBox.addChild(leftArrow);
 
             inputbox = new Inputfield("", Dim.fill(), Dim.fill());
             inputbox.textBox.setText(String.valueOf(boundProperty.getValue()));
             inputbox.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_WHOLE);
-            inputbox.setControllerSelectable(false);
-            inputbox.setSayTheSpireElementName((String)null);
-            inputbox.setSayTheSpireElementType((String)null);
+            inputbox.disableControllerSelectionAndSayTheSpireIntegration();
             hBox.addChild(inputbox);
 
             rightArrow = new Button(Dim.mirror(), Dim.fill());
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
             rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
             rightArrow.setTexture(Tex.stat(UICommonResources.arrow_right));
-            rightArrow.setControllerSelectable(false);
-            rightArrow.setSayTheSpireElementName((String)null);
-            rightArrow.setSayTheSpireElementType((String)null);
+            rightArrow.disableControllerSelectionAndSayTheSpireIntegration();
             hBox.addChild(rightArrow);
         }
         addChild(hBox);

@@ -249,7 +249,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 moveUpButton.setTexture(contentHorizontal ? UICommonResources.arrow_left : UICommonResources.arrow_up);
                 moveUpButton.onLeftClickEvent.subscribe(moveUpButton, () -> moveItemUp(item));
-                moveUpButton.setControllerSelectable(false);
+                moveUpButton.disableControllerSelectionAndSayTheSpireIntegration();
                 holder.onLeftInteractionEvent.subscribe(moveUpButton, (byProxy) -> moveUpButton.onConfirmInteraction(true));
                 holder.postSelectionStateChangedEvent.subscribe(moveUpButton, (selected) -> {
                     if(selected) moveUpButton.proxyHover();
@@ -262,7 +262,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 moveDownButton.setTexture(contentHorizontal ? UICommonResources.arrow_right : UICommonResources.arrow_down);
                 moveDownButton.onLeftClickEvent.subscribe(moveDownButton, () -> moveItemDown(item));
-                moveDownButton.setControllerSelectable(false);
+                moveDownButton.disableControllerSelectionAndSayTheSpireIntegration();
                 holder.onRightInteractionEvent.subscribe(moveDownButton, (byProxy) -> moveDownButton.onConfirmInteraction(true));
                 holder.postSelectionStateChangedEvent.subscribe(moveDownButton, (selected) -> {
                     if(selected) moveDownButton.proxyHover();
@@ -305,7 +305,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 else{
                     toggle = null;
                 }
-                toggle.setControllerSelectable(false);
+                toggle.disableControllerSelectionAndSayTheSpireIntegration();
                 holder.onConfirmInteractionEvent.subscribe(holder, (byProxy) -> toggle.onConfirmInteraction(true));
                 holder.postSelectionStateChangedEvent.subscribe(toggle, (selected) -> {
                     if(selected) toggle.proxyHover();
@@ -336,7 +336,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     overlay.setID(wrapOverlayID);
                     overlay.setRenderColor(new Color(0, 0, 0, 0f));
                     overlay.addComponent(new UIOverlayElementComponent());
-                    overlay.setControllerSelectable(false);
+                    overlay.disableControllerSelectionAndSayTheSpireIntegration();
                     if(itemUI instanceof ITextProvider){
                         overlay.setSayTheSpireElementName(Str.src((ITextProvider) itemUI));
                         overlay.setSayTheSpireElementType(Str.stat("List Entry"));
@@ -360,14 +360,13 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 }
             }
             holder.addChild(parent);
-
             if(canDelete()){
                 Button deleteButton = new Button(
                         contentHorizontal ? Dim.fill() : Dim.mirror(),
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 deleteButton.setTexture(UICommonResources.deleteButton);
                 deleteButton.onLeftClickEvent.subscribe(deleteButton, () -> deleteItem(item));
-                deleteButton.setControllerSelectable(false);
+                deleteButton.disableControllerSelectionAndSayTheSpireIntegration();
                 holder.onCancelInteractionEvent.subscribe(holder, (byProxy) -> deleteButton.onConfirmInteraction(true));
                 holder.postSelectionStateChangedEvent.subscribe(deleteButton, (selected) -> {
                     if(selected) deleteButton.proxyHover();
@@ -385,7 +384,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             if(itemUI instanceof ITextProvider) line += ((ITextProvider) itemUI).getText();
             else line += itemUI.toString();
 
-            line += " on position " + (filteredChildren.indexOf(holder) + 1) + " of " + children.size() + ".";
+            line += " on position " + (filteredChildren.indexOf(holder) + 1) + " of " + children.size();
 
             return line;
         };
