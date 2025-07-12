@@ -28,7 +28,7 @@ public abstract class UIAnimation {
     public abstract void update();
 
     public final void finishInstantly(){
-        boolean needsCleanup = state == EAnimationState.PLAYING;
+        boolean needsCleanup = state == EAnimationState.PLAYING || state == EAnimationState.FINISHED;
 
         state = EAnimationState.FINISHED;
 
