@@ -1,7 +1,7 @@
 package dLib.modcompat;
 
 import com.evacipated.cardcrawl.modthespire.Loader;
-import sayTheSpire.Output;
+import dLib.modcompat.saythespire.SayTheSpireUtils;
 
 public class ModManager {
     public static class TogetherInSpireMod{
@@ -77,9 +77,7 @@ public class ModManager {
         }
 
         public static void outputCond(String message){
-            if(ModManager.SayTheSpire.isActive() && message != null){
-                Output.text(message, true);
-            }
+            SayTheSpireUtils.outputCond(message);
         }
     }
 
