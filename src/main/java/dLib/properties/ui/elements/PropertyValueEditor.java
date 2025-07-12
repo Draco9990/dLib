@@ -89,7 +89,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
     }
 
     protected void buildValueContent(AbstractDimension width, AbstractDimension height){
-        UIElement builtContent = ValueEditorManager.makeEditorFor(boundProperty, width, height);
+        UIElement builtContent = ValueEditorManager.makeEditorFor(boundProperty);
         if(builtContent == null) builtContent = new Spacer(width, Dim.px(1)); //TODO remove Fallback
 
         if(contentEditor != null){

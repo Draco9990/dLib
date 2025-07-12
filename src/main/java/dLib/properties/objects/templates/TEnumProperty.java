@@ -1,5 +1,7 @@
 package dLib.properties.objects.templates;
 
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.EnumValueEditor;
 import dLib.util.helpers.EnumHelpers;
 
 import java.io.Serializable;

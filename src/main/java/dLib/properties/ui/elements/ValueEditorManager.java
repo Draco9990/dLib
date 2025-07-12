@@ -3,11 +3,15 @@ package dLib.properties.ui.elements;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import dLib.properties.objects.*;
+import dLib.properties.objects.templates.TDynamicProperty;
 import dLib.properties.objects.templates.TProperty;
-import dLib.util.ui.dimensions.AbstractDimension;
 
 public class ValueEditorManager {
-    public static AbstractValueEditor makeEditorFor(Object object, AbstractDimension width, AbstractDimension height){
+    public static AbstractValueEditor makeEditorFor(Object object){
+        if(object instanceof DynamicProperty){
+            return new DynamicValueEditor((DynamicProperty) object);
+        }
+
         Object value = object;
         if(object instanceof TProperty){
             value = ((TProperty) object).getValue();
