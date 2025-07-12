@@ -41,8 +41,8 @@ public class UIAnimation_SlideOutLeft extends UIExitAnimation {
     }
 
     @Override
-    public void finishInstantly() {
-        super.finishInstantly();
+    public void onFinish() {
+        super.onFinish();
 
         element.getLocalPositionXRaw().overrideCalculatedValue(origElementX);
     }

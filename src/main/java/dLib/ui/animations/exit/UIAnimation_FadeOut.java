@@ -42,8 +42,8 @@ public class UIAnimation_FadeOut extends UIExitAnimation {
     }
 
     @Override
-    public void finishInstantly() {
-        super.finishInstantly();
+    public void onFinish() {
+        super.onFinish();
 
         getElement().setRenderColorAlphaMultiplier(origColorAlpha);
         getElement().hideInstantly();

@@ -44,8 +44,8 @@ public class UIAnimation_FadeIn extends UIAnimation {
     }
 
     @Override
-    public void finishInstantly() {
-        super.finishInstantly();
+    public void onFinish() {
+        super.onFinish();
 
         getElement().setRenderColorAlphaMultiplier(origColorAlpha);
     }

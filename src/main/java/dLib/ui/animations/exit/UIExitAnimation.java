@@ -11,8 +11,8 @@ public abstract class UIExitAnimation extends UIAnimation {
     }
 
     @Override
-    public void finishInstantly() {
-        super.finishInstantly();
+    public void onFinish() {
+        super.onFinish();
 
         Reflection.invokeMethod("setVisibility", element, false);
     }

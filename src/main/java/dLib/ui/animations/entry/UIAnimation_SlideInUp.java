@@ -41,8 +41,8 @@ public class UIAnimation_SlideInUp extends UIAnimation {
     }
 
     @Override
-    public void finishInstantly() {
-        super.finishInstantly();
+    public void onFinish() {
+        super.onFinish();
 
         element.getLocalPositionYRaw().overrideCalculatedValue(origElementY);
     }

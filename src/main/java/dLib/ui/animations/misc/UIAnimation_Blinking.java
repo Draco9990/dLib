@@ -32,8 +32,8 @@ public class UIAnimation_Blinking extends UIAnimation {
     }
 
     @Override
-    public void finishInstantly() {
-        super.finishInstantly();
+    public void onFinish() {
+        super.onFinish();
 
         element.showInstantly();
     }

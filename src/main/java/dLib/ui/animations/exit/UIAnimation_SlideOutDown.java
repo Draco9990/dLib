@@ -43,8 +43,8 @@ public class UIAnimation_SlideOutDown extends UIExitAnimation {
     }
 
     @Override
-    public void finishInstantly() {
-        super.finishInstantly();
+    public void onFinish() {
+        super.onFinish();
 
         element.getLocalPositionYRaw().overrideCalculatedValue(origElementY);
     }
