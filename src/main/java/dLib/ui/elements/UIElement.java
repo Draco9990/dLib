@@ -418,10 +418,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         // Interactions
         {
-            onConfirmInteractionEvent.subscribe(this, (byProxy) -> {
-                onLeftClick(byProxy);
-                return onLeftClickEvent.count() > 0 || onLeftClickHeldEvent.count() > 0 || onLeftClickReleaseEvent.count() > 0;
-            });
+            onConfirmInteractionEvent.subscribe(this, this::onLeftClick);
         }
     }
 
@@ -1480,7 +1477,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void show(){
-        if(isVisible && !pendingHide) return;
+        if(isVisible && !pendingHide) {
+            if(shouldDrawFocusOnOpen()){
+                UIManager.drawControllerFocusCond(this);
+            }
+        }
 
         setVisibility(true);
         pendingHide = false;
@@ -2258,7 +2259,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Left Click
 
-    protected void onLeftClick(boolean byProxy){
+    protected boolean onLeftClick(boolean byProxy){
         preLeftClickGlobalEvent.invoke(this);
         GlobalEvents.sendMessage(new PreUILeftClickEvent(this));
 
@@ -2272,6 +2273,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         onLeftClickEvent.invoke();
+
+        return onLeftClickEvent.count() > 0;
     }
     protected void onLeftClickHeld(float totalDuration){
         onLeftClickHeldEvent.invoke(totalDuration);

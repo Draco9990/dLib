@@ -151,9 +151,11 @@ public class Toggle extends Interactable {
     //region Left Click
 
     @Override
-    public void onLeftClick(boolean byProxy) {
+    public boolean onLeftClick(boolean byProxy) {
         super.onLeftClick(byProxy);
+
         toggle(byProxy);
+        return true;
     }
 
     @Override

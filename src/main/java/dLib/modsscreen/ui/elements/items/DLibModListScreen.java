@@ -28,6 +28,7 @@ import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.Reflection;
+import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -46,6 +47,8 @@ public class DLibModListScreen extends UIElement {
 
     public DLibModListScreen() {
         super();
+
+        setOverridesBaseScreen(true);
 
         darkenLayer = new DarkenLayer();
         addChild(darkenLayer);
@@ -78,7 +81,7 @@ public class DLibModListScreen extends UIElement {
                 VerticalDataBox<ModFileExtended> modBadgeBox = new VerticalDataBox<ModFileExtended>(Dim.fill(), Dim.fill()){
                     @Override
                     public UIElement makeUIForItem(ModFileExtended item) {
-                        return new ModBadgeWrapepr(item);
+                        return new ModBadgeWrapper(item);
                     }
                 };
                 modBadgeBox.setSelectionMode(ESelectionMode.SINGLE);
@@ -95,10 +98,10 @@ public class DLibModListScreen extends UIElement {
             addChild(scrollbox);
         }
 
-        private static class ModBadgeWrapepr extends Renderable {
+        private static class ModBadgeWrapper extends Renderable implements ITextProvider {
             private ModFileExtended modFile;
 
-            public ModBadgeWrapepr(ModFileExtended modFile) {
+            public ModBadgeWrapper(ModFileExtended modFile) {
                 super(Tex.stat(UICommonResources.button03_square), Dim.fill(), Dim.px(50));
 
                 this.modFile = modFile;
@@ -114,6 +117,11 @@ public class DLibModListScreen extends UIElement {
                 modName.setFontSize(18);
                 addChild(modName);
             }
+
+            @Override
+            public String getText() {
+                return modFile.modInfo.Name;
+            }
         }
     }
 
@@ -124,6 +132,8 @@ public class DLibModListScreen extends UIElement {
 
         public DLibModListModDetails() {
             super(Tex.stat(UICommonResources.bg02_background), Pos.px(599), Pos.px(1080-1038), Dim.px(1278), Dim.px(955 + 50));
+
+            setDrawFocusOnOpen(true);
 
             setRenderColor(Color.valueOf("#2A4955"));
 

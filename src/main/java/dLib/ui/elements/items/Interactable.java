@@ -215,12 +215,12 @@ public class Interactable extends Renderable{
     }
 
     @Override
-    protected void onLeftClick(boolean byProxy) {
+    protected boolean onLeftClick(boolean byProxy) {
         if(getOnTriggerSoundKey() != null){
             CardCrawlGame.sound.playA(getOnTriggerSoundKey(), -0.1F);
         }
 
-        super.onLeftClick(byProxy);
+        return super.onLeftClick(byProxy);
     }
 
     @Override

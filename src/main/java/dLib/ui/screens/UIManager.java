@@ -15,6 +15,10 @@ import dLib.patches.KeyInputEventPatches;
 import dLib.properties.objects.Property;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.buttons.CancelButton;
+import dLib.ui.elements.items.buttons.CancelButtonSmall;
+import dLib.ui.elements.items.buttons.ConfirmButton;
+import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
 import dLib.util.Help;
 import dLib.util.Reflection;
 import dLib.util.helpers.GameplayHelpers;
@@ -166,7 +170,7 @@ public class UIManager {
         if(Help.Input.isPressed(CInputActionSet.up, InputActionSet.up)) onUpPressed();
         if(Help.Input.isPressed(CInputActionSet.left, InputActionSet.left)) onLeftPressed();
         if(Help.Input.isPressed(CInputActionSet.right, InputActionSet.right)) onRightPressed();
-        if(Help.Input.isPressed(CInputActionSet.proceed, InputActionSet.confirm)) onConfirmPressed();
+        if(Help.Input.isPressed(CInputActionSet.select, InputActionSet.confirm)) onConfirmPressed();
         if(Help.Input.isPressed(CInputActionSet.cancel, InputActionSet.cancel)) onCancelPressed();
 
         KeyInputEventPatches.linkProxyInput.revert();
@@ -324,13 +328,50 @@ public class UIManager {
     private static void onConfirmPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
-            selectedElement.onConfirmInteraction(false);
+            boolean confirmInteraction = selectedElement.onConfirmInteraction(false);
+
+            if(!confirmInteraction){
+                while(selectedElement != null){
+                    ArrayList<UIElement> buttons = new ArrayList<>();
+                    buttons.addAll(selectedElement.getChildren(ConfirmButton.class));
+                    buttons.addAll(selectedElement.getChildren(ConfirmButtonSmall.class));
+                    for (UIElement button : buttons) {
+                        if (button.isEnabled()) {
+                            button.onConfirmInteraction(false);
+                            return;
+                        }
+                    }
+
+                    selectedElement = selectedElement.getParent();
+                }
+            }
         }
     }
     private static void onCancelPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();
         if(selectedElement != null){
-            selectedElement.onCancelInteraction(false);
+            boolean cancelInteraction = selectedElement.onCancelInteraction(false);
+
+            if(!cancelInteraction){
+                while(selectedElement != null){
+                    ArrayList<UIElement> buttons = new ArrayList<>();
+                    buttons.addAll(selectedElement.getChildren(CancelButton.class));
+                    buttons.addAll(selectedElement.getChildren(CancelButtonSmall.class));
+                    for (UIElement button : buttons) {
+                        if (button.isEnabled()) {
+                            button.onConfirmInteraction(false);
+                            return;
+                        }
+                    }
+
+                    if(selectedElement.isContextual()){
+                        loseFocus();
+                        selectedElement.dispose();
+                    }
+
+                    selectedElement = selectedElement.getParent();
+                }
+            }
         }
     }
 

@@ -337,6 +337,16 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     overlay.setRenderColor(new Color(0, 0, 0, 0f));
                     overlay.addComponent(new UIOverlayElementComponent());
                     overlay.disableControllerSelectionAndSayTheSpireIntegration();
+                    overlay.setOnTriggerLine(Str.lambda(() -> {
+                        String line = "";
+                        if(!overlay.isToggled()) line = "De";
+
+                        line += "selected ";
+                        if(itemUI instanceof ITextProvider) line += ((ITextProvider) itemUI).getText();
+                        else line += itemUI.toString();
+
+                        return line;
+                    }));
                     holder.onConfirmInteractionEvent.subscribe(holder, (byProxy) -> overlay.onConfirmInteraction(true));
                     holder.postSelectionStateChangedEvent.subscribe(overlay, (selected) -> {
                         if(selected) overlay.proxyHover();
