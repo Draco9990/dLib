@@ -1,7 +1,7 @@
 package dLib.modcompat;
 
 import com.evacipated.cardcrawl.modthespire.Loader;
-import dLib.modcompat.saythespire.SayTheSpireUtils;
+import dLib.modcompat.saythespire.SayTheSpireProxy;
 
 public class ModManager {
     public static class TogetherInSpireMod{
@@ -77,7 +77,20 @@ public class ModManager {
         }
 
         public static void outputCond(String message){
-            SayTheSpireUtils.outputCond(message);
+            if(isActive()){
+                SayTheSpireProxy.outputCond(message);
+            }
+        }
+
+        public static void overrideContext(){
+            if(isActive()){
+                SayTheSpireProxy.overrideContext();
+            }
+        }
+        public static void resetContext(){
+            if(isActive()){
+                SayTheSpireProxy.resetContext();
+            }
         }
     }
 

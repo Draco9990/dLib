@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
+import dLib.modcompat.ModManager;
 import dLib.patches.InputHelpers;
 import dLib.patches.KeyInputEventPatches;
 import dLib.properties.objects.Property;
@@ -51,6 +52,9 @@ public class UIManager {
         }
 
         if(element.overridesBaseScreen() && !hasBaseScreenOverriders()){
+            //TODO be smarter about proxies to allow both at the same time
+            ModManager.SayTheSpire.overrideContext();
+
             cachedScreenMainMenu = CardCrawlGame.mainMenuScreen.screen;
             cachedScreenInGame = AbstractDungeon.screen;
             cachedRenderScene = AbstractDungeon.rs;
@@ -86,6 +90,8 @@ public class UIManager {
                 AbstractDungeon.overlayMenu.cancelButton.hide();
                 Reflection.invokeMethod("genericScreenOverlayReset", AbstractDungeon.class);
             }
+
+            ModManager.SayTheSpire.resetContext();
         }
     }
 

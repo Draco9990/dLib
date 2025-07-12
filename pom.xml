@@ -51,7 +51,7 @@
             <artifactId>Say_The_Spire</artifactId>
             <version>0.3.5</version>
             <scope>system</scope>
-            <systemPath>${Libraries.path}/sayTheSpire.jar</systemPath>
+            <systemPath>${WorkshopContent.path}/2239220106/sayTheSpire.jar</systemPath>
             <!--<systemPath>${basedir}/../lib/StSLib.jar</systemPath>-->
         </dependency>
     </dependencies>
