@@ -1,7 +1,6 @@
 package dLib.properties.ui.elements;
 
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.FloatProperty;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.input.Inputfield;
@@ -66,9 +65,7 @@ public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> 
                 inputbox.textBox.setText(String.valueOf(newVal));
             }
 
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
-            }
+            ModManager.SayTheSpire.outputCond(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
         });
     }
 

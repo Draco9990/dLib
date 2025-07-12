@@ -3,7 +3,6 @@ package dLib.ui.elements.items.buttons;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.TextureBindingProperty;
 import dLib.ui.elements.items.Interactable;
@@ -18,7 +17,6 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
-import java.util.function.Supplier;
 
 public class Toggle extends Interactable {
     //region Variables
@@ -58,7 +56,7 @@ public class Toggle extends Interactable {
         this.toggledTexture = toggledTexture;
 
         setSayTheSpireElementType("Toggle");
-        setSayTheSpireElementValue(Str.lambda(() -> isToggled() ? "true" : "false"));
+        setSayTheSpireElementValue(Str.lambda(() -> isToggled() ? "toggled" : "not toggled"));
         setOnTriggerLine(Str.lambda(() -> getSayTheSpireElementNameAndType(false) + " value changed to " + (isToggled() ? "checked" : "unchecked")));
     }
 
@@ -199,11 +197,7 @@ public class Toggle extends Interactable {
         postToggledEvent.invoke(toggled);
         postToggledEvent_Static.invoke(toggled, this);
 
-        if(ModManager.SayTheSpire.isActive()){
-            if(getOnTriggerLine() != null){
-                SayTheSpireIntegration.Output(getOnTriggerLine());
-            }
-        }
+        ModManager.SayTheSpire.outputCond(getOnTriggerLine());
     }
 
     //endregion

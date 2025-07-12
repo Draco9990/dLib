@@ -48,6 +48,8 @@ public class VerticalCollapsableBox extends UIElement {
                     mainBox.onChildDimensionsChanged(contentBox);
                     mainBox.onDimensionsChanged();
                 });
+                toggleArrow.setSayTheSpireElementName(title);
+                toggleArrow.setSayTheSpireElementType("Collapsable box");
                 toggleArrow.setToggled(true);
 
                 titleHBox.addChild(titleBox = new TextBox(title, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));

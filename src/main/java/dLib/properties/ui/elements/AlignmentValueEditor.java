@@ -2,7 +2,6 @@ package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Texture;
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.AlignmentProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.items.PredefinedGrid;
@@ -14,7 +13,6 @@ import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
-import java.util.function.Supplier;
 
 public class AlignmentValueEditor extends AbstractValueEditor<Alignment, AlignmentProperty> {
     //region Variables
@@ -101,9 +99,7 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
                 }
             }
 
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
-            }
+            ModManager.SayTheSpire.outputCond(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
         });
 
         addChild(grid);

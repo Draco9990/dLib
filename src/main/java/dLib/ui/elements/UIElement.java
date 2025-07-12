@@ -15,7 +15,6 @@ import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.patches.InputHelpers;
 import dLib.properties.objects.*;
 import dLib.properties.objects.templates.TProperty;
@@ -357,11 +356,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                     getParent().onHoveredChildEvent.invoke(this);
                 }
 
-                if(ModManager.SayTheSpire.isActive()){
-                    if(getOnHoverLine() != null){
-                        SayTheSpireIntegration.Output(getOnHoverLine());
-                    }
-                }
+                ModManager.SayTheSpire.outputCond(getOnHoverLine());
             });
             this.onHoveredChildEvent.subscribeManaged(child -> {
                 if(hasParent()){
@@ -1594,11 +1589,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             if(isEnabled()){
                 UIManager.drawControllerFocusCond(this);
 
-                if(ModManager.SayTheSpire.isActive()){
-                    if(getOnEnabledLine() != null){
-                        SayTheSpireIntegration.Output(getOnEnabledLine());
-                    }
-                }
+                ModManager.SayTheSpire.outputCond(getOnEnabledLine());
             }
             else{
                 UIManager.loseFocus(this);
@@ -1621,11 +1612,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             if(isEnabled()){
                 UIManager.drawControllerFocusCond(this);
 
-                if(ModManager.SayTheSpire.isActive()){
-                    if(getOnEnabledLine() != null){
-                        SayTheSpireIntegration.Output(getOnEnabledLine());
-                    }
-                }
+                ModManager.SayTheSpire.outputCond(getOnEnabledLine());
             }
             else{
                 UIManager.loseFocus(this);
@@ -2278,11 +2265,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         totalLeftClickDuration = 0.f;
         holdingLeft = true;
 
-        if(getOnTriggerLine() != null){
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(getOnTriggerLine());
-            }
-        }
+        ModManager.SayTheSpire.outputCond(getOnTriggerLine());
 
         if(!controllerSelected && !byProxy){
             select(false);
@@ -2313,11 +2296,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         totalRightClickDuration = 0.f;
         holdingRight = true;
 
-        if(getOnTriggerLine() != null){
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(getOnTriggerLine());
-            }
-        }
+        ModManager.SayTheSpire.outputCond(getOnTriggerLine());
 
         onRightClickEvent.invoke();
     }

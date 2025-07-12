@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Align;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.*;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
@@ -267,11 +266,7 @@ public class TextBox extends UIElement implements ITextProvider {
     public void onTextChanged(String newText){
         metadata = null;
 
-        if(ModManager.SayTheSpire.isActive()){
-            if(getOnTextChangedLine(text) != null){
-                SayTheSpireIntegration.Output(getOnTextChangedLine(text));
-            }
-        }
+        ModManager.SayTheSpire.outputCond(getOnTextChangedLine());
 
         if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
             requestWidthRecalculation();
@@ -289,7 +284,7 @@ public class TextBox extends UIElement implements ITextProvider {
     public void setOnTextChangedLine(String newLine) {
         this.onTextChangedLine = newLine;
     }
-    public String getOnTextChangedLine(String newText){ return this.onTextChangedLine; }
+    public String getOnTextChangedLine(){ return this.onTextChangedLine; }
 
     public BitmapFont getFontForRender(){
         if(containsNonASCIICharacters()){

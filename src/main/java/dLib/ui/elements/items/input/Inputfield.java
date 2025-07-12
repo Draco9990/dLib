@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
+import dLib.modcompat.ModManager;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.components.UITransientElementComponent;
@@ -34,7 +34,6 @@ import dLib.util.ui.text.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Inputfield extends Toggle implements ITextProvider {
@@ -318,10 +317,10 @@ public class Inputfield extends Toggle implements ITextProvider {
 
         onValueChangedEvent.subscribeManaged(s -> { // TODO make this a string binding property instead
             if(s.isEmpty()){
-                SayTheSpireIntegration.Output(getSayTheSpireElementNameAndType(false) + " value changed to empty.");
+                ModManager.SayTheSpire.outputCond(getSayTheSpireElementNameAndType(false) + " value changed to empty.");
             }
             else{
-                SayTheSpireIntegration.Output(getSayTheSpireElementNameAndType(false) + " value changed to " + s);
+                ModManager.SayTheSpire.outputCond(getSayTheSpireElementNameAndType(false) + " value changed to " + s);
             }
         });
     }

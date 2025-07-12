@@ -1,7 +1,6 @@
 package dLib.properties.ui.elements;
 
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.BooleanProperty;
 import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.buttons.Checkbox;
@@ -50,9 +49,7 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
                 button.setToggled(newVal);
             }
 
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
-            }
+            ModManager.SayTheSpire.outputCond(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
         });
 
         addChild(box);

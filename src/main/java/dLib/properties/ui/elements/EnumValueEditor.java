@@ -1,7 +1,6 @@
 package dLib.properties.ui.elements;
 
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.EnumProperty;
 import dLib.ui.elements.items.ComboBox;
 import dLib.ui.elements.items.buttons.Button;
@@ -13,7 +12,6 @@ import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueEditor<OfType, EnumProperty<OfType>> {
     //region Variables
@@ -71,9 +69,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
 
             enumBox.label.setText(boundProperty.getValueForDisplay());
 
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
-            }
+            ModManager.SayTheSpire.outputCond(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
         });
     }
 

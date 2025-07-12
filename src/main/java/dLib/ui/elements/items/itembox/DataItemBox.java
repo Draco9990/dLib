@@ -337,10 +337,6 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     overlay.setRenderColor(new Color(0, 0, 0, 0f));
                     overlay.addComponent(new UIOverlayElementComponent());
                     overlay.disableControllerSelectionAndSayTheSpireIntegration();
-                    if(itemUI instanceof ITextProvider){
-                        overlay.setSayTheSpireElementName(Str.src((ITextProvider) itemUI));
-                        overlay.setSayTheSpireElementType(Str.stat("List Entry"));
-                    }
                     holder.onConfirmInteractionEvent.subscribe(holder, (byProxy) -> overlay.onConfirmInteraction(true));
                     holder.postSelectionStateChangedEvent.subscribe(overlay, (selected) -> {
                         if(selected) overlay.proxyHover();
@@ -378,18 +374,20 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
         postMakeUIForItem(item, itemUI);
 
-        Supplier<String> hoverSupplier = () -> {
-            String line = "";
+        if(holder.isControllerSelectable()){
+            Supplier<String> hoverSupplier = () -> {
+                String line = "";
 
-            if(itemUI instanceof ITextProvider) line += ((ITextProvider) itemUI).getText();
-            else line += itemUI.toString();
+                if(itemUI instanceof ITextProvider) line += ((ITextProvider) itemUI).getText();
+                else line += itemUI.toString();
 
-            line += " on position " + (filteredChildren.indexOf(holder) + 1) + " of " + children.size();
+                line += " on position " + (filteredChildren.indexOf(holder) + 1) + " of " + children.size();
 
-            return line;
-        };
-        holder.setSayTheSpireElementName(Str.lambda(hoverSupplier));
-        holder.setSayTheSpireElementType("List Entry");
+                return line;
+            };
+            holder.setSayTheSpireElementName(Str.lambda(hoverSupplier));
+            holder.setSayTheSpireElementType("List Entry");
+        }
 
         return holder;
     }

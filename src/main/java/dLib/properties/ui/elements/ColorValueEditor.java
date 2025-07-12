@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.ColorProperty;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.color.ColorPickerPopup;
@@ -48,9 +47,7 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
 
             middleButton.setRenderColor(Color.valueOf(newColor));
 
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
-            }
+            ModManager.SayTheSpire.outputCond(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
         });
 
         addChild(middleButton);

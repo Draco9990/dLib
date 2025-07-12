@@ -1,7 +1,6 @@
 package dLib.properties.ui.elements;
 
 import dLib.modcompat.ModManager;
-import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.IntegerVector2Property;
 import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.input.Inputfield;
@@ -82,9 +81,7 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
                 yBox.setText(property.getYValue().toString());
             }
 
-            if(ModManager.SayTheSpire.isActive()){
-                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
-            }
+            ModManager.SayTheSpire.outputCond(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
         });
 
         addChild(mainContentBox);
