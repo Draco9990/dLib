@@ -3,10 +3,13 @@ package dLib.properties.ui.elements;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.modcompat.ModManager;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.ColorProperty;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.color.ColorPickerPopup;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
@@ -36,6 +39,7 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
                 colorPickerPopup.open();
             }
         };
+        middleButton.setSayTheSpireElementName(Str.lambda(property::getName));
         middleButton.setTexture(Tex.stat(UICommonResources.white_pixel));
         middleButton.setRenderColor(property.getColorValue());
 
@@ -43,6 +47,10 @@ public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> 
             if(!isEditorValidForPropertyChange()) return;
 
             middleButton.setRenderColor(Color.valueOf(newColor));
+
+            if(ModManager.SayTheSpire.isActive()){
+                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
+            }
         });
 
         addChild(middleButton);

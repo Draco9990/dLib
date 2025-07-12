@@ -18,6 +18,7 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 public class Toggle extends Interactable {
     //region Variables
@@ -57,7 +58,8 @@ public class Toggle extends Interactable {
         this.toggledTexture = toggledTexture;
 
         setSayTheSpireElementType("Toggle");
-        setOnTriggerLine(Str.lambda(() -> getSayTheSpireElementNameAndType() + " is now " + (isToggled() ? "checked" : "unchecked")));
+        setSayTheSpireElementValue(Str.lambda(() -> isToggled() ? "true" : "false"));
+        setOnTriggerLine(Str.lambda(() -> getSayTheSpireElementNameAndType(false) + " value changed to " + (isToggled() ? "checked" : "unchecked")));
     }
 
     public Toggle(ToggleData data){

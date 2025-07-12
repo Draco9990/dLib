@@ -168,6 +168,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     // Say the Spire mod compatibility
     protected AbstractStringBinding sayTheSpireElementName = Str.stat(null); // Say the Spire mod compatibility
     protected AbstractStringBinding sayTheSpireElementType = Str.stat(null); // Say the Spire mod compatibility
+    protected AbstractStringBinding sayTheSpireElementValue = Str.stat(null); // Say the Spire mod compatibility
 
     protected AbstractStringBinding onEnabledLine = Str.stat(null); // Say the Spire mod compatibility
     protected AbstractStringBinding onHoverLine = Str.stat(null); // Say the Spire mod compatibility
@@ -2342,14 +2343,24 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void setSayTheSpireElementType(String newLine){
         this.sayTheSpireElementType = Str.stat(newLine);
     }
-    public String getSayTheSpireElementNameAndType(){
+    public void setSayTheSpireElementValue(AbstractStringBinding binding){
+        this.sayTheSpireElementValue = binding;
+    }
+    public void setSayTheSpireElementValue(String newLine){
+        this.sayTheSpireElementValue = Str.stat(newLine);
+    }
+    public String getSayTheSpireElementNameAndType(boolean withValue){
         String elementName = sayTheSpireElementName.getBoundObject();
         String elementType = sayTheSpireElementType.getBoundObject();
+        String elementValue = sayTheSpireElementType.getBoundObject();
 
         if(elementName == null && elementType == null) return null;
-        else if(elementName == null) return elementType;
-        else if(elementType == null) return elementName;
-        else return elementName + " " + elementType;
+
+        String sentence = "";
+        if(elementName != null) sentence += elementName + " ";
+        if(elementType != null) sentence += elementType + " ";
+        if(withValue && elementValue != null) sentence += "with value of " + elementValue;
+        return sentence;
     }
 
     //endregion
@@ -2366,7 +2377,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         String binding = onHoverLine.getBoundObject();
         if(binding != null) return binding;
 
-        return getSayTheSpireElementNameAndType();
+        return getSayTheSpireElementNameAndType(true);
     }
 
     //endregion Hover Lines

@@ -1,10 +1,13 @@
 package dLib.properties.ui.elements;
 
+import dLib.modcompat.ModManager;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.BooleanProperty;
 import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.buttons.Checkbox;
 import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.itembox.HorizontalBox;
+import dLib.util.bindings.string.Str;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -35,6 +38,7 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
                     boundProperty.setValue(isToggled());
                 }
             };
+            button.setSayTheSpireElementName(Str.lambda(property::getName));
             button.setToggled(property.getValue());
             box.addChild(button);
         }
@@ -44,6 +48,10 @@ public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProp
 
             if(button.isToggled() != newVal){
                 button.setToggled(newVal);
+            }
+
+            if(ModManager.SayTheSpire.isActive()){
+                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
             }
         });
 

@@ -1,15 +1,19 @@
 package dLib.properties.ui.elements;
 
+import dLib.modcompat.ModManager;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.EnumProperty;
 import dLib.ui.elements.items.ComboBox;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueEditor<OfType, EnumProperty<OfType>> {
     //region Variables
@@ -36,6 +40,8 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
             leftArrow.setTexture(Tex.stat(UICommonResources.arrow_left));
             leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
             leftArrow.setControllerSelectable(false);
+            leftArrow.setSayTheSpireElementName((String)null);
+            leftArrow.setSayTheSpireElementType((String)null);
             box.addChild(leftArrow);
 
             enumBox = new ComboBox<OfType>(boundProperty.getValue(), EnumHelpers.getAllEntries(boundProperty.getValue()), Dim.fill(), Dim.px(50)){
@@ -48,29 +54,38 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
                 boundProperty.setValue(newVal);
             });
             enumBox.setControllerSelectable(false);
+            enumBox.setSayTheSpireElementName((String)null);
+            enumBox.setSayTheSpireElementType((String)null);
             box.addChild(enumBox);
 
             rightArrow = new Button(Dim.mirror(), Dim.px(50));
             rightArrow.setTexture(Tex.stat(UICommonResources.arrow_right));
             rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
             rightArrow.setControllerSelectable(false);
+            rightArrow.setSayTheSpireElementName((String)null);
+            rightArrow.setSayTheSpireElementType((String)null);
             box.addChild(rightArrow);
         }
         addChild(box);
 
         setControllerSelectable(true);
+        setSayTheSpireElementName(Str.lambda(property::getName));
+        setSayTheSpireElementValue(Str.lambda(property::getValueForDisplay));
 
         property.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;
 
             enumBox.label.setText(boundProperty.getValueForDisplay());
+
+            if(ModManager.SayTheSpire.isActive()){
+                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
+            }
         });
     }
 
     //endregion
 
     //region Methods
-
 
     @Override
     public void select(boolean byController) {

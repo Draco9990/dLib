@@ -3,6 +3,7 @@ package dLib.ui.elements.items.color;
 import com.badlogic.gdx.graphics.Color;
 import dLib.magiccolor.MagicColor;
 import dLib.magiccolor.MagicColorManager;
+import dLib.properties.ui.elements.IntegerValueEditor;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.SimpleHorizontalRangeSelector;
 import dLib.ui.elements.items.Spacer;
@@ -11,7 +12,6 @@ import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.GridBox;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
-import dLib.ui.elements.items.numericaleditors.IntegerInputBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
@@ -160,10 +160,10 @@ public class ColorPickerPopup extends VerticalBox {
         public SimpleHorizontalRangeSelector lightnessBar;
         public SimpleHorizontalRangeSelector alphaBar;
 
-        public IntegerInputBox rValInput;
-        public IntegerInputBox gValInput;
-        public IntegerInputBox bValInput;
-        public IntegerInputBox aValInput;
+        public IntegerValueEditor rValInput;
+        public IntegerValueEditor gValInput;
+        public IntegerValueEditor bValInput;
+        public IntegerValueEditor aValInput;
         public Inputfield hexValInput;
 
         public ColorPickerDynamicColorSelector(ColorPickerPopup parent, Color initialColor, boolean allowAlpha) {
@@ -216,19 +216,8 @@ public class ColorPickerPopup extends VerticalBox {
                         TextBox rValText = new TextBox("R:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
                         rVal.addChild(rValText);
 
-                        rValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
-                        rValInput.leftArrow.onLeftClickEvent.subscribe(rValInput, () -> {
-                            Integer r = Integer.parseInt(rValInput.inputbox.textBox.getText());
-                            r = Math.max(0, r - 1);
-                            rValInput.inputbox.textBox.setText(String.valueOf(r));
-                        });
-                        rValInput.rightArrow.onLeftClickEvent.subscribe(rValInput, () -> {
-                            Integer r = Integer.parseInt(rValInput.inputbox.textBox.getText());
-                            r = Math.min(255, r + 1);
-                            rValInput.inputbox.textBox.setText(String.valueOf(r));
-                        });
-                        rValInput.inputbox.onValueChangedEvent.subscribeManaged((value) -> {
-                            Integer r = Integer.parseInt(value);
+                        rValInput = new IntegerValueEditor(0);
+                        rValInput.boundProperty.onValueChangedEvent.subscribeManaged((o, r) -> {
                             r = Math.min(255, Math.max(0, r));
 
                             Color newColor = parent.selectedColor.cpy();
@@ -244,19 +233,8 @@ public class ColorPickerPopup extends VerticalBox {
                         TextBox gValText = new TextBox("G:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
                         gVal.addChild(gValText);
 
-                        gValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
-                        gValInput.leftArrow.onLeftClickEvent.subscribe(gValInput, () -> {
-                            Integer g = Integer.parseInt(gValInput.inputbox.textBox.getText());
-                            g = Math.max(0, g - 1);
-                            gValInput.inputbox.textBox.setText(String.valueOf(g));
-                        });
-                        gValInput.rightArrow.onLeftClickEvent.subscribe(gValInput, () -> {
-                            Integer g = Integer.parseInt(gValInput.inputbox.textBox.getText());
-                            g = Math.min(255, g + 1);
-                            gValInput.inputbox.textBox.setText(String.valueOf(g));
-                        });
-                        gValInput.inputbox.onValueChangedEvent.subscribeManaged((value) -> {
-                            Integer g = Integer.parseInt(value);
+                        gValInput = new IntegerValueEditor(0);
+                        gValInput.boundProperty.onValueChangedEvent.subscribeManaged((o, g) -> {
                             g = Math.min(255, Math.max(0, g));
 
                             Color newColor = parent.selectedColor.cpy();
@@ -272,19 +250,8 @@ public class ColorPickerPopup extends VerticalBox {
                         TextBox bValText = new TextBox("B:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
                         bVal.addChild(bValText);
 
-                        bValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
-                        bValInput.leftArrow.onLeftClickEvent.subscribe(bValInput, () -> {
-                            Integer b = Integer.parseInt(bValInput.inputbox.textBox.getText());
-                            b = Math.max(0, b - 1);
-                            bValInput.inputbox.textBox.setText(String.valueOf(b));
-                        });
-                        bValInput.rightArrow.onLeftClickEvent.subscribe(bValInput, () -> {
-                            Integer b = Integer.parseInt(bValInput.inputbox.textBox.getText());
-                            b = Math.min(255, b + 1);
-                            bValInput.inputbox.textBox.setText(String.valueOf(b));
-                        });
-                        bValInput.inputbox.onValueChangedEvent.subscribeManaged((value) -> {
-                            Integer b = Integer.parseInt(value);
+                        bValInput = new IntegerValueEditor(0);
+                        bValInput.boundProperty.onValueChangedEvent.subscribeManaged((o, b) -> {
                             b = Math.min(255, Math.max(0, b));
 
                             Color newColor = parent.selectedColor.cpy();
@@ -301,19 +268,8 @@ public class ColorPickerPopup extends VerticalBox {
                             TextBox aValText = new TextBox("A:", Pos.px(0), Pos.px(0), Dim.px(20), Dim.fill());
                             aVal.addChild(aValText);
 
-                            aValInput = new IntegerInputBox(Pos.px(23), Pos.px(0), Dim.fill(), Dim.fill());
-                            aValInput.leftArrow.onLeftClickEvent.subscribe(aValInput, () -> {
-                                Integer a = Integer.parseInt(aValInput.inputbox.textBox.getText());
-                                a = Math.max(0, a - 1);
-                                aValInput.inputbox.textBox.setText(String.valueOf(a));
-                            });
-                            aValInput.rightArrow.onLeftClickEvent.subscribe(aValInput, () -> {
-                                Integer a = Integer.parseInt(aValInput.inputbox.textBox.getText());
-                                a = Math.min(255, a + 1);
-                                aValInput.inputbox.textBox.setText(String.valueOf(a));
-                            });
-                            aValInput.inputbox.onValueChangedEvent.subscribeManaged((value) -> {
-                                Integer a = Integer.parseInt(value);
+                            aValInput = new IntegerValueEditor(0);
+                            aValInput.boundProperty.onValueChangedEvent.subscribeManaged((o, a) -> {
                                 a = Math.min(255, Math.max(0, a));
 
                                 Color newColor = parent.selectedColor.cpy();
@@ -377,10 +333,10 @@ public class ColorPickerPopup extends VerticalBox {
 
             BiConsumer<Color, Boolean> updateValuesForColor = (color, isStatic) -> {
                 if(!(color instanceof MagicColor)){
-                    if(!rValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.r * 255)))) rValInput.inputbox.textBox.setText(String.valueOf((int)(color.r * 255)));
-                    if(!gValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.g * 255)))) gValInput.inputbox.textBox.setText(String.valueOf((int)(color.g * 255)));
-                    if(!bValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.b * 255)))) bValInput.inputbox.textBox.setText(String.valueOf((int)(color.b * 255)));
-                    if(allowAlpha && !aValInput.inputbox.textBox.getText().equals(String.valueOf((int)(color.a * 255)))) aValInput.inputbox.textBox.setText(String.valueOf((int)(color.a * 255)));
+                    if(!rValInput.boundProperty.getValue().equals((int)(color.r * 255))) rValInput.boundProperty.setValue((int)(color.r * 255));
+                    if(!gValInput.boundProperty.getValue().equals((int)(color.g * 255))) gValInput.boundProperty.setValue((int)(color.g * 255));
+                    if(!bValInput.boundProperty.getValue().equals((int)(color.b * 255))) bValInput.boundProperty.setValue((int)(color.b * 255));
+                    if(allowAlpha && !aValInput.boundProperty.getValue().equals((int)(color.a * 255))) aValInput.boundProperty.setValue((int)(color.a * 255));
                     if(!hexValInput.textBox.getText().equals(color.toString().substring(0, 6))) hexValInput.textBox.setText(color.toString().substring(0, 6));
 
                     float[] hsl = ColorHelpers.toHSL(color);

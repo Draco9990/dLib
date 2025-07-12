@@ -3,6 +3,7 @@ package dLib.ui.elements.items;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -10,6 +11,7 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 public class ComboBox<OptionType> extends TextButton {
     private boolean canBeNull = false;
@@ -43,6 +45,10 @@ public class ComboBox<OptionType> extends TextButton {
             picker.open();
         });
         setTexture(Tex.stat(UICommonResources.button02_square));
+
+        setSayTheSpireElementType("Combo box");
+        setSayTheSpireElementName((String)null);
+        setSayTheSpireElementValue(Str.lambda(this::getText));
     }
 
     public void setCanBeNull(boolean canBeNull) {

@@ -1,16 +1,20 @@
 package dLib.properties.ui.elements;
 
 import com.badlogic.gdx.graphics.Texture;
+import dLib.modcompat.ModManager;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.AlignmentProperty;
 import dLib.ui.Alignment;
 import dLib.ui.elements.items.PredefinedGrid;
 import dLib.ui.elements.items.buttons.Toggle;
 import dLib.util.TextureManager;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 public class AlignmentValueEditor extends AbstractValueEditor<Alignment, AlignmentProperty> {
     //region Variables
@@ -63,6 +67,7 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
                         boundProperty.setValue(new Alignment(halign, valign));
                     }
                 };
+                alignmentButtons[i][j].setSayTheSpireElementName(allHorizontalAlignments.get(i).name() + " " + allVerticalAlignments.get(j).name() + " alignment");
 
                 int currentHAlign = property.getHorizontalAlignment().ordinal();
                 int currentVAlign = property.getVerticalAlignment().ordinal();
@@ -74,6 +79,10 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
                 grid.setGridSlotElement(2-j, i, alignmentButtons[i][j]);
             }
         }
+
+        setControllerSelectable(true);
+        setSayTheSpireElementName(Str.lambda(property::getName));
+        setSayTheSpireElementValue(Str.lambda(property::getValueForDisplay));
 
         boundProperty.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;
@@ -90,6 +99,10 @@ public class AlignmentValueEditor extends AbstractValueEditor<Alignment, Alignme
                         alignmentButtons[i][j].setToggled(false);
                     }
                 }
+            }
+
+            if(ModManager.SayTheSpire.isActive()){
+                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
             }
         });
 

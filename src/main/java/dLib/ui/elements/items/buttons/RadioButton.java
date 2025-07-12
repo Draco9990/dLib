@@ -11,6 +11,7 @@ import dLib.util.ui.position.Pos;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 public class RadioButton extends Toggle {
     //region Variables
@@ -35,7 +36,7 @@ public class RadioButton extends Toggle {
         this.groupId = groupId;
 
         setSayTheSpireElementType("Radio Button");
-        setOnTriggerLine(Str.lambda(() -> "Selected " + getSayTheSpireElementNameAndType()));
+        setOnTriggerLine(Str.lambda(() -> "Selected " + getSayTheSpireElementNameAndType(false)));
     }
 
     public RadioButton(RadioButtonData data) {

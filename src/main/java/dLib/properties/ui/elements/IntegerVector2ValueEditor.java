@@ -1,11 +1,14 @@
 package dLib.properties.ui.elements;
 
+import dLib.modcompat.ModManager;
+import dLib.modcompat.saythespire.SayTheSpireIntegration;
 import dLib.properties.objects.IntegerVector2Property;
 import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.util.IntegerVector2;
+import dLib.util.bindings.string.Str;
 import dLib.util.ui.dimensions.Dim;
 
 import java.util.Objects;
@@ -41,6 +44,7 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
                 currentVal.x = Integer.valueOf(s);
                 property.setValue(currentVal);
             });
+            xInput.setSayTheSpireElementName(Str.lambda(property::getXValueName));
             mainContentBox.addChild(xInput);
 
             mainContentBox.addChild(new Spacer(Dim.perc(0.1), Dim.fill()));
@@ -57,8 +61,13 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
                 currentVal.y = Integer.valueOf(s);
                 property.setValue(currentVal);
             });
+            yInput.setSayTheSpireElementName(Str.lambda(property::getYValueName));
             mainContentBox.addChild(yInput);
         }
+
+        setControllerSelectable(true);
+        setSayTheSpireElementName(Str.lambda(property::getName));
+        setSayTheSpireElementValue(Str.lambda(property::getValueForDisplay));
 
         property.onValueChangedEvent.subscribe(this, (integerVector2, integerVector22) -> {
             if(!isEditorValidForPropertyChange()) return;
@@ -71,6 +80,10 @@ public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector
             }
             if(!Objects.equals(yBox.getText(), property.getValueForDisplay())){
                 yBox.setText(property.getYValue().toString());
+            }
+
+            if(ModManager.SayTheSpire.isActive()){
+                SayTheSpireIntegration.Output(boundProperty.getName() + " value changed to " + boundProperty.getValueForDisplay());
             }
         });
 

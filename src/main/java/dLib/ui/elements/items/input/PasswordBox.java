@@ -25,6 +25,7 @@ public class PasswordBox extends UIElement {
             inputfield.textBox.setFont(Font.stat(FontHelper.cardTitleFont));
             inputfield.textBox.setTextRenderColor(Color.WHITE);
             inputfield.textBox.setObscureText(true);
+            inputfield.setSayTheSpireElementType("Password Box");
             box.addChild(inputfield);
 
             showPasswordButton = new Button(Pos.px(0), Pos.px(0), Dim.mirror(), Dim.fill());

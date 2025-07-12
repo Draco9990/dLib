@@ -18,6 +18,7 @@ import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.IntegerVector2;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
@@ -33,6 +34,7 @@ import dLib.util.ui.text.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Inputfield extends Toggle implements ITextProvider {
@@ -112,6 +114,7 @@ public class Inputfield extends Toggle implements ITextProvider {
         postInitialize();
 
         setSayTheSpireElementType("Inputfield");
+        setSayTheSpireElementValue(Str.lambda(this::getText));
     }
 
     public Inputfield(InputfieldData data){
@@ -314,11 +317,11 @@ public class Inputfield extends Toggle implements ITextProvider {
         });
 
         onValueChangedEvent.subscribeManaged(s -> { // TODO make this a string binding property instead
-            if(!s.isEmpty()){
-                SayTheSpireIntegration.Output(getSayTheSpireElementNameAndType() + " value changed to empty.");
+            if(s.isEmpty()){
+                SayTheSpireIntegration.Output(getSayTheSpireElementNameAndType(false) + " value changed to empty.");
             }
             else{
-                SayTheSpireIntegration.Output(getSayTheSpireElementNameAndType() + " value changed to " + s);
+                SayTheSpireIntegration.Output(getSayTheSpireElementNameAndType(false) + " value changed to " + s);
             }
         });
     }
