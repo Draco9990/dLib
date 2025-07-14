@@ -10,7 +10,7 @@ import dLib.util.bindings.font.FontResourceBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
-public class FontResourceBindingValueEditor extends AbstractValueEditor<FontResourceBinding, FontBindingProperty> {
+public class FontResourceBindingValueEditor extends AbstractValueEditor<FontBindingProperty> {
     private TextButton valueBox;
 
     public FontResourceBindingValueEditor(FontResourceBinding binding) {

@@ -10,7 +10,7 @@ import dLib.util.ui.position.PixelPosition;
 
 import java.util.ArrayList;
 
-public class PositionValueEditor<ValueType> extends AbstractValueEditor<ValueType, PositionProperty> {
+public class PositionValueEditor<ValueType> extends AbstractValueEditor<PositionProperty> {
     public PositionValueEditor(PositionProperty property) {
         super(property);
     }

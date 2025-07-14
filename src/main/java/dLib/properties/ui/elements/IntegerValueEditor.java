@@ -10,7 +10,7 @@ import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
-public class IntegerValueEditor extends AbstractValueEditor<Integer, IntegerProperty> {
+public class IntegerValueEditor extends AbstractValueEditor<IntegerProperty> {
     //region Variables
 
     public Button leftArrow;

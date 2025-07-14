@@ -26,11 +26,6 @@ public abstract class TDynamicProperty<ItemType> extends TProperty<ItemType, TDy
 
     //region Values
 
-    @Override
-    public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("Not implemented.");
-    }
-
     //endregion
 
     //region Choices

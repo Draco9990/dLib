@@ -7,7 +7,7 @@ import dLib.util.ui.dimensions.*;
 
 import java.util.ArrayList;
 
-public class DimensionValueEditor<ValueType extends AbstractDimension> extends AbstractValueEditor<ValueType, DimensionProperty> {
+public class DimensionValueEditor<ValueType extends AbstractDimension> extends AbstractValueEditor<DimensionProperty> {
     public DimensionValueEditor(DimensionProperty property) {
         super(property);
     }

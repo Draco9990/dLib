@@ -12,7 +12,7 @@ import dLib.util.ui.dimensions.Dim;
 
 import java.util.Objects;
 
-public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector2, IntegerVector2Property> {
+public class IntegerVector2ValueEditor extends AbstractValueEditor<IntegerVector2Property> {
     //region Variables
 
     Inputfield xInput;

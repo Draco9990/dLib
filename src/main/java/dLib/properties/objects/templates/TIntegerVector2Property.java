@@ -32,11 +32,6 @@ public abstract class TIntegerVector2Property<PropertyType> extends TProperty<In
     //region Value
 
     @Override
-    public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("IntegerVector2Property does not support setting value from string");
-    }
-
-    @Override
     public void onValueChanged(IntegerVector2 oldValue, IntegerVector2 newValue) {
         super.onValueChanged(oldValue, newValue);
 

@@ -6,7 +6,7 @@ import dLib.tools.uicreator.UCEditor;
 import dLib.ui.bindings.AbstractUIElementBinding;
 import dLib.ui.screens.UIManager;
 
-public abstract class UCUIElementBindingValueEditor<BindingValue extends AbstractUIElementBinding> extends AbstractValueEditor<BindingValue, Property<AbstractUIElementBinding>> {
+public abstract class UCUIElementBindingValueEditor<BindingValue extends AbstractUIElementBinding> extends AbstractValueEditor<Property<AbstractUIElementBinding>> {
     public UCUIElementBindingValueEditor(Property<AbstractUIElementBinding> property) {
         super(property);
 

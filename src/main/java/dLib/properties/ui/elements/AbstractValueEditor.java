@@ -5,7 +5,7 @@ import dLib.ui.elements.UIElement;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
 
-public abstract class AbstractValueEditor<ValueType, PropertyType extends TProperty> extends UIElement {
+public abstract class AbstractValueEditor<PropertyType extends TProperty> extends UIElement {
     //region Variables
 
     public PropertyType boundProperty;

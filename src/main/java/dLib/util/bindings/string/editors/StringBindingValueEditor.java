@@ -11,7 +11,7 @@ import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
 
-public class StringBindingValueEditor<ValueType> extends AbstractValueEditor<ValueType, StringBindingProperty> {
+public class StringBindingValueEditor<ValueType> extends AbstractValueEditor<StringBindingProperty> {
     public StringBindingValueEditor(StringBindingProperty property) {
         super(property);
     }

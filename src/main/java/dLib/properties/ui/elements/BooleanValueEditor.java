@@ -10,7 +10,7 @@ import dLib.util.bindings.string.Str;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class BooleanValueEditor extends AbstractValueEditor<Boolean, BooleanProperty> {
+public class BooleanValueEditor extends AbstractValueEditor<BooleanProperty> {
     //region Variables
 
     Toggle button;

@@ -13,7 +13,7 @@ import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
 
-public class MethodBindingValueEditor<ValueType> extends AbstractValueEditor<ValueType, MethodBindingProperty> {
+public class MethodBindingValueEditor<ValueType> extends AbstractValueEditor<MethodBindingProperty> {
     public MethodBindingValueEditor(MethodBindingProperty property) {
         super(property);
     }

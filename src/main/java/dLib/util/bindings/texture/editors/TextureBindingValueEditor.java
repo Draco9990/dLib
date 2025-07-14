@@ -13,7 +13,7 @@ import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
 
-public class TextureBindingValueEditor<ValueType> extends AbstractValueEditor<ValueType, TextureBindingProperty> {
+public class TextureBindingValueEditor<ValueType> extends AbstractValueEditor<TextureBindingProperty> {
     public TextureBindingValueEditor(TextureBindingProperty property) {
         super(property);
     }

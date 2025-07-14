@@ -6,7 +6,7 @@ import dLib.ui.elements.items.input.Inputfield;
 import dLib.util.bindings.string.Str;
 import dLib.util.ui.dimensions.Dim;
 
-public abstract class StringValueEditor extends AbstractValueEditor<String, StringProperty> {
+public abstract class StringValueEditor extends AbstractValueEditor<StringProperty> {
     //region Variables
 
     protected Inputfield inputfield;

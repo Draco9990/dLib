@@ -10,7 +10,7 @@ import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
-public class FloatValueEditor extends AbstractValueEditor<Float, FloatProperty> {
+public class FloatValueEditor extends AbstractValueEditor<FloatProperty> {
     //region Variables
 
     public Button leftArrow;

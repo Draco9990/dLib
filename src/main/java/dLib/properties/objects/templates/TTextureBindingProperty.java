@@ -16,10 +16,5 @@ public abstract class TTextureBindingProperty<PropertyType> extends TProperty<Ab
 
     //region Methods
 
-    @Override
-    public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("TextureBindingProperty does not support setting values from strings");
-    }
-
     //endregion
 }

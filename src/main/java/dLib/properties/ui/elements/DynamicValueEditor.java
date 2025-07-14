@@ -2,15 +2,11 @@ package dLib.properties.ui.elements;
 
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.DynamicProperty;
-import dLib.properties.objects.EnumProperty;
 import dLib.ui.elements.items.ComboBox;
 import dLib.util.bindings.string.Str;
-import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
 
-import java.util.function.Consumer;
-
-public class DynamicValueEditor<OfType> extends AbstractValueEditor<OfType, DynamicProperty<OfType>> {
+public class DynamicValueEditor<OfType> extends AbstractValueEditor<DynamicProperty<OfType>> {
     //region Variables
 
     ComboBox<OfType> comboBox;

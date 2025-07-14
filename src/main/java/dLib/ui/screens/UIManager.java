@@ -170,7 +170,7 @@ public class UIManager {
 
     //region Input Manager
     private static void updateInput(){
-        KeyInputEventPatches.linkProxyInput.set(true);
+        KeyInputEventPatches.forwardProxyInputToMain.set(true);
 
         if(Help.Input.isPressed(CInputActionSet.down, InputActionSet.down)) onDownPressed();
         if(Help.Input.isPressed(CInputActionSet.up, InputActionSet.up)) onUpPressed();
@@ -179,7 +179,7 @@ public class UIManager {
         if(Help.Input.isPressed(CInputActionSet.select, InputActionSet.confirm)) onConfirmPressed();
         if(Help.Input.isPressed(CInputActionSet.cancel, InputActionSet.cancel)) onCancelPressed();
 
-        KeyInputEventPatches.linkProxyInput.revert();
+        KeyInputEventPatches.forwardProxyInputToMain.revert();
     }
 
     private static UIElement getCurrentlySelectedElement(){

@@ -17,10 +17,5 @@ public class FontBindingProperty extends TProperty<AbstractFontBinding, FontBind
 
     //region Methods
 
-    @Override
-    public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("TextureBindingProperty does not support setting values from strings");
-    }
-
     //endregion
 }

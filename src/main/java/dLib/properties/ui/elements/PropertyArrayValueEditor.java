@@ -2,6 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.properties.objects.templates.TBooleanProperty;
 import dLib.properties.objects.templates.TProperty;
+import dLib.properties.objects.templates.TPropertyArray;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Spacer;
@@ -13,7 +14,7 @@ import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
 
-public class PropertyValueEditor<PropertyType extends TProperty> extends AbstractValueEditor<PropertyType> {
+public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends TPropertyArray<EditingPropertyType>> extends AbstractValueEditor<PropertyType> {
     //region Variables
 
     protected boolean multiline;
@@ -24,11 +25,11 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
     //region Constructors
 
-    public PropertyValueEditor(TProperty<?, ?> property) {
+    public PropertyArrayValueEditor(TProperty<?, ?> property) {
         this(property, false);
     }
 
-    public PropertyValueEditor(TProperty<?, ?> property, boolean multiline) {
+    public PropertyArrayValueEditor(TProperty<?, ?> property, boolean multiline) {
         super((PropertyType) property);
 
         this.multiline = multiline && !(property instanceof TBooleanProperty); //Fuck it we hard-code
@@ -46,10 +47,10 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
             }
 
             if(this.multiline){
-                buildValueContent(Dim.fill());
+                buildValueContent(Dim.fill(), Dim.auto());
             }
             else{
-                buildValueContent(Dim.fill());
+                buildValueContent(Dim.fill(), Dim.px(50));
             }
         });
     }
@@ -66,7 +67,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         vBox.addChild(boundPropertyNameBox);
 
-        buildValueContent(Dim.fill());
+        buildValueContent(Dim.fill(), Dim.auto());
         vBox.addChild(contentEditor);
         addChild(vBox);
     }
@@ -79,12 +80,12 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
         hBox.addChild(boundPropertyNameBox);
 
-        buildValueContent(Dim.perc(0.25));
+        buildValueContent(Dim.perc(0.25), Dim.px(50));
         hBox.addChild(contentEditor);
         addChild(hBox);
     }
 
-    protected void buildValueContent(AbstractDimension width){
+    protected void buildValueContent(AbstractDimension width, AbstractDimension height){
         UIElement builtContent = ValueEditorManager.makeEditorFor(boundProperty);
         if(builtContent == null) builtContent = new Spacer(width, Dim.px(1)); //TODO remove Fallback
 

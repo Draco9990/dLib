@@ -10,7 +10,7 @@ import dLib.util.bindings.property.PropertyElementPathBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 
-public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<AbstractPropertyBinding, Property<AbstractPropertyBinding>> {
+public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<Property<AbstractPropertyBinding>> {
     private TextButton valueBox;
 
     public PropertyElementPathBindingValueEditor(AbstractPropertyBinding binding) {

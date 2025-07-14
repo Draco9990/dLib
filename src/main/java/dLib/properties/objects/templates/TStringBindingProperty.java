@@ -21,10 +21,5 @@ public abstract class TStringBindingProperty<PropertyType> extends TProperty<Abs
 
     //region Methods
 
-    @Override
-    public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("StringBindingProperty does not support setting values from strings");
-    }
-
     //endregion
 }

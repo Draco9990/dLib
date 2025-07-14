@@ -19,7 +19,7 @@ public class KeyInputEventPatches {
 
     private static InputProcessor initialProcessor;
 
-    public static HistoryProperty<Boolean> linkProxyInput = new HistoryProperty<>(false);
+    public static HistoryProperty<Boolean> forwardProxyInputToMain = new HistoryProperty<>(false);
 
     @SpirePatch2(clz = CardCrawlGame.class, method = "create")
     public static class KeyInputEventPatch {
@@ -31,9 +31,11 @@ public class KeyInputEventPatches {
     @SpirePatch2(clz = ScrollInputProcessor.class, method = "keyDown")
     public static class KeyInputEventPatch2 {
         public static void Prefix(ScrollInputProcessor __instance, int keycode) {
-            if (suppressingProxyInput()) {
-                onKeyPressed.invoke(keycode);
+            if (isMainInputBlocked()) {
+                return;
             }
+
+            onKeyPressed.invoke(keycode);
         }
     }
 
@@ -41,7 +43,7 @@ public class KeyInputEventPatches {
     public static class IA_IsJustPressed{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(InputAction __instance){
-            if(suppressingProxyInput()){
+            if(isMainInputBlocked()){
                 return SpireReturn.Return(false);
             }
 
@@ -52,7 +54,7 @@ public class KeyInputEventPatches {
     public static class IA_IsPressed{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(InputAction __instance){
-            if(suppressingProxyInput()){
+            if(isMainInputBlocked()){
                 return SpireReturn.Return(false);
             }
 
@@ -64,7 +66,7 @@ public class KeyInputEventPatches {
     public static class CIA_IsJustPressed{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(CInputAction __instance){
-            if(suppressingProxyInput()){
+            if(isMainInputBlocked()){
                 return SpireReturn.Return(false);
             }
 
@@ -75,7 +77,7 @@ public class KeyInputEventPatches {
     public static class IA_IsJustReleased{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(CInputAction __instance){
-            if(suppressingProxyInput()){
+            if(isMainInputBlocked()){
                 return SpireReturn.Return(false);
             }
 
@@ -86,7 +88,7 @@ public class KeyInputEventPatches {
     public static class CIA_IsPressed{
         @SpirePrefixPatch
         public static SpireReturn<Boolean> Prefix(CInputAction __instance){
-            if(suppressingProxyInput()){
+            if(isMainInputBlocked()){
                 return SpireReturn.Return(false);
             }
 
@@ -94,7 +96,10 @@ public class KeyInputEventPatches {
         }
     }
 
-    public static boolean suppressingProxyInput() {
-        return !linkProxyInput.get() && initialProcessor != null && !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor);
+    public static boolean isMainInputBlocked() {
+        if(initialProcessor == null) return false; // We didn't initialize yet for some reason
+        if(forwardProxyInputToMain.get()) return false;
+
+        return !Objects.equals(Gdx.input.getInputProcessor(), initialProcessor);
     }
 }

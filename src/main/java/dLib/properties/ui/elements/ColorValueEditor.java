@@ -13,7 +13,7 @@ import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class ColorValueEditor extends AbstractValueEditor<Color, ColorProperty> {
+public class ColorValueEditor extends AbstractValueEditor<ColorProperty> {
     //region Variables
 
     Button middleButton;

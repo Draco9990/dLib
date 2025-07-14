@@ -13,7 +13,7 @@ import dLib.util.ui.dimensions.Dim;
 
 import java.util.function.Consumer;
 
-public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueEditor<OfType, EnumProperty<OfType>> {
+public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueEditor<EnumProperty<OfType>> {
     //region Variables
 
     Button leftArrow;

@@ -14,6 +14,10 @@ public class ValueEditorManager {
 
         Object value = object;
         if(object instanceof TProperty){
+            if(((TProperty<?, ?>) object).hasCustomEditorOverride()){
+                return new PropertyOverridenValueEditor(((TProperty<?, ?>) object));
+            }
+
             value = ((TProperty) object).getValue();
         }
 

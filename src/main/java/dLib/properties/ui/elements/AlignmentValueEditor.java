@@ -14,7 +14,7 @@ import dLib.util.ui.dimensions.Dim;
 
 import java.util.ArrayList;
 
-public class AlignmentValueEditor extends AbstractValueEditor<Alignment, AlignmentProperty> {
+public class AlignmentValueEditor extends AbstractValueEditor<AlignmentProperty> {
     //region Variables
 
     private Toggle[][] alignmentButtons;

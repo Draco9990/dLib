@@ -10,7 +10,7 @@ import dLib.ui.elements.items.text.TextBox;
 import dLib.util.bindings.string.Str;
 import dLib.util.ui.dimensions.Dim;
 
-public class FloatVector2ValueEditor extends AbstractValueEditor<Vector2, FloatVector2Property> {
+public class FloatVector2ValueEditor extends AbstractValueEditor<FloatVector2Property> {
     //region Variables
 
     Inputfield xInput;

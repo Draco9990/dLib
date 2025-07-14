@@ -46,11 +46,6 @@ public abstract class TMethodBindingProperty<PropertyType> extends TProperty<Abs
     //region Values
 
     @Override
-    public boolean setValueFromString(String value) {
-        throw new UnsupportedOperationException("MethodBindingProperty does not support setting values from strings");
-    }
-
-    @Override
     public boolean isValidValue(AbstractMethodBinding value) {
         if(!super.isValidValue(value)) return false;
 
