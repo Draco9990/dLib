@@ -10,7 +10,7 @@ import dLib.tools.uicreator.UCEditor;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.AbstractUIElementComponent;
 import dLib.ui.elements.components.ElementGroupModifierComponent;
-import dLib.ui.screens.UIManager;
+import dLib.ui.UIManager;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;

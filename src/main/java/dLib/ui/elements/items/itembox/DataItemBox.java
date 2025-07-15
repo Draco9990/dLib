@@ -235,8 +235,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         UIItemBox holder;
 
         boolean contentHorizontal = getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL;
-        if(contentHorizontal) holder = new VerticalBox(Dim.auto(), Dim.fill());
-        else holder = new HorizontalBox(Dim.fill(), Dim.auto());
+        if(contentHorizontal) holder = new VerticalBox(Dim.auto(), Dim.auto());
+        else holder = new HorizontalBox(Dim.auto(), Dim.auto());
 
         holder.setControllerSelectable(
                 canReorder() || isToggleOverlayEnabled() || isExternalToggling() || canDelete()
@@ -414,7 +414,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             return false;
         }
 
-        if(selectionMode == ESelectionMode.MULTIPLE && getCurrentlySelectedItems().size() + 1 > getSelectionCountLimit()){
+        if(selectionMode == ESelectionMode.MULTIPLE && getSelectedItems().size() + 1 > getSelectionCountLimit()){
             return false;
         }
 
@@ -438,10 +438,10 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         return true;
     }
     public void onItemSelectionChanged(){
-        onItemSelectionChangedEvent.invoke(getCurrentlySelectedItems());
+        onItemSelectionChangedEvent.invoke(getSelectedItems());
     } //TODO expose
 
-    public ArrayList<ItemType> getCurrentlySelectedItems(){
+    public ArrayList<ItemType> getSelectedItems(){
         ArrayList<ItemType> selectedItems = new ArrayList<>();
         for(UIElement child : children){
             Toggle wrapOverlay = getToggleForHolder(child);
@@ -455,6 +455,35 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         }
 
         return selectedItems;
+    }
+
+    public void setSelectedItems(ArrayList<ItemType> items){
+        boolean changed = false;
+
+        for(UIElement child : children){
+            Toggle wrapOverlay = getToggleForHolder(child);
+            if(wrapOverlay == null){
+                continue;
+            }
+
+            ItemType item = childWrapperMap.getByKey(child);
+            if(items.contains(item)){
+                if(!wrapOverlay.isToggled()){
+                    wrapOverlay.setToggled(true);
+                    changed = true;
+                }
+            }
+            else {
+                if(wrapOverlay.isToggled()){
+                    wrapOverlay.setToggled(false);
+                    changed = true;
+                }
+            }
+        }
+
+        if(changed){
+            onItemSelectionChanged();
+        }
     }
 
     private Toggle getToggleForHolder(UIElement holder){
@@ -483,6 +512,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public int getSelectionCountLimit(){
         if(selectionMode.equals(ESelectionMode.NONE)) return 0;
         else if(selectionMode.equals(ESelectionMode.SINGLE)) return 1;
+        else if(selectionCountLimit < 0) return Integer.MAX_VALUE; // -1 means no limit
         else return selectionCountLimit;
     }
 

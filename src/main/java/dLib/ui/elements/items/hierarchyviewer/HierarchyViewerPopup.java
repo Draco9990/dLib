@@ -8,7 +8,7 @@ import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
-import dLib.ui.screens.UIManager;
+import dLib.ui.UIManager;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.Dim;

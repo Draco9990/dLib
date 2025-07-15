@@ -4,7 +4,7 @@ import dLib.properties.objects.Property;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.tools.uicreator.UCEditor;
 import dLib.ui.bindings.AbstractUIElementBinding;
-import dLib.ui.screens.UIManager;
+import dLib.ui.UIManager;
 
 public abstract class UCUIElementBindingValueEditor<BindingValue extends AbstractUIElementBinding> extends AbstractValueEditor<Property<AbstractUIElementBinding>> {
     public UCUIElementBindingValueEditor(Property<AbstractUIElementBinding> property) {

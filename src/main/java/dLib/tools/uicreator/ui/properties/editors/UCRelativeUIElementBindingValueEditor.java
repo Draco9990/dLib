@@ -12,7 +12,7 @@ import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.mousestates.ReferencePickerMouseState;
-import dLib.ui.screens.UIManager;
+import dLib.ui.UIManager;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 

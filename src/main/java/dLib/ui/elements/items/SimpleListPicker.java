@@ -28,7 +28,7 @@ public class SimpleListPicker<OptionType> extends Renderable {
                 public void onItemSelectionChanged() {
                     super.onItemSelectionChanged();
 
-                    ArrayList<OptionType> selectedItems = getCurrentlySelectedItems();
+                    ArrayList<OptionType> selectedItems = getSelectedItems();
                     if(!selectedItems.isEmpty()){
                         onOptionSelectedEvent.invoke(selectedItems.get(0));
 

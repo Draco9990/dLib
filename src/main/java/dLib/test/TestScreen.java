@@ -1,9 +1,15 @@
 package dLib.test;
 
+import com.megacrit.cardcrawl.helpers.RelicLibrary;
+import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.VerticalCollapsableBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
+import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
+
+import java.util.ArrayList;
 
 public class TestScreen extends UIElement {
 
@@ -88,10 +94,7 @@ public class TestScreen extends UIElement {
         }
         addChild(scrollbox);*/
 
-        VerticalCollapsableBox collapsableBox = new VerticalCollapsableBox("Test Collapsable Box", Dim.px(300), Dim.px(300));
-        {
-
-        }
-        addChild(collapsableBox);
+        RelicSelectPopup pop = new RelicSelectPopup();
+        pop.open();
     }
 }

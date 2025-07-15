@@ -3,7 +3,7 @@ package dLib.commands.objects;
 import basemod.DevConsole;
 import basemod.devcommands.ConsoleCommand;
 import dLib.tools.uidebugger.ui.UIDebuggerScreen;
-import dLib.ui.screens.UIManager;
+import dLib.ui.UIManager;
 
 public class ToggleUIDebuggerCommand extends ConsoleCommand {
 

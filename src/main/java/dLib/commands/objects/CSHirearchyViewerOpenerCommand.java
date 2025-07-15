@@ -4,7 +4,7 @@ import basemod.DevConsole;
 import basemod.devcommands.ConsoleCommand;
 import dLib.ui.elements.items.hierarchyviewer.ControllerSelectableHierarchyViewer;
 import dLib.ui.elements.items.hierarchyviewer.HierarchyViewerPopup;
-import dLib.ui.screens.UIManager;
+import dLib.ui.UIManager;
 
 public class CSHirearchyViewerOpenerCommand extends ConsoleCommand {
 

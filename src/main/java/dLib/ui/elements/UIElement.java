@@ -34,7 +34,7 @@ import dLib.ui.elements.items.ContextMenu;
 import dLib.ui.elements.items.Tooltip;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.layout.ILayoutProvider;
-import dLib.ui.screens.UIManager;
+import dLib.ui.UIManager;
 import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 import dLib.util.bindings.string.AbstractStringBinding;

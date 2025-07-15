@@ -5,7 +5,7 @@ import dLib.tools.uicreator.ui.components.UCEditorItemComponent;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.GeneratedElementComponent;
 import dLib.ui.elements.items.hierarchyviewer.HierarchyViewer;
-import dLib.ui.screens.UIManager;
+import dLib.ui.UIManager;
 
 public class UCEHierarchyViewer extends HierarchyViewer {
     public UCEHierarchyViewer() {

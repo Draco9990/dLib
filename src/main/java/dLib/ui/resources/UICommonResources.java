@@ -55,7 +55,6 @@ public class UICommonResources implements ITextureSource {
     public static final Texture scrollbar_vertical_bottom = ImageMaster.loadImage("dLibResources/images/ui/common/scrollbar/vertical_bottom.png");
     public static final Texture scrollbar_vertical_train = ImageMaster.loadImage("dLibResources/images/ui/common/scrollbar/vertical_train.png");
 
-    public static final Texture background_big = ImageMaster.loadImage("dLibResources/images/ui/common/bgs/big.png");
     public static final Texture background_medium = ImageMaster.loadImage("dLibResources/images/ui/common/bgs/medium.png");
 
     public static final Texture xButton = ImageMaster.loadImage("dLibResources/images/ui/common/xButton.png");
@@ -73,8 +72,12 @@ public class UICommonResources implements ITextureSource {
     public static final NinePatch dropZoneOptionBg = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneOptionBg.png"), 50, 50, 50, 50);
     public static final Texture dropZoneBg = ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneBg.png");
 
-    public static final NinePatch bg02_background = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bg02/background.png"), 26, 26, 26, 26);
-    public static final NinePatch bg02_inner = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bg02/inner.png"), 26, 26, 26, 26);
+    public static final NinePatch bg01 = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg01.png"), 408, 456, 97, 153);
+
+    public static final NinePatch bg02_background = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg02_background.png"), 26, 26, 26, 26);
+    public static final NinePatch bg02_inner = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg02_inner.png"), 26, 26, 26, 26);
+
+    public static final NinePatch bg03 = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg03.png"), 40, 68, 33, 67);
 
     public static final Texture errorIcon = ImageMaster.loadImage("dLibResources/images/ui/common/errorIcon.png");
 

@@ -1,4 +1,4 @@
-package dLib.ui.screens;
+package dLib.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
@@ -14,7 +14,6 @@ import dLib.modcompat.ModManager;
 import dLib.patches.InputHelpers;
 import dLib.patches.KeyInputEventPatches;
 import dLib.properties.objects.Property;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.buttons.CancelButton;
 import dLib.ui.elements.items.buttons.CancelButtonSmall;

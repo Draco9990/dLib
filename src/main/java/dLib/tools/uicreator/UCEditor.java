@@ -219,7 +219,7 @@ public class UCEditor extends Renderable {
             public void onItemSelectionChanged() {
                 super.onItemSelectionChanged();
 
-                ArrayList<UCEITemplate> items = getCurrentlySelectedItems();
+                ArrayList<UCEITemplate> items = getSelectedItems();
                 if(!items.isEmpty()){
                     UIElementData elementData = items.get(0).makeElementData();
                     items.get(0).makeEditorItem(elementData);

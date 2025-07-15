@@ -1,3 +1,4 @@
+min and max dims and pos need to be within dimension calculation and not externally cause other calculations need to take that into account
 implement lambda bindings everywhere and replace refresh()
 
 It doesn't correctly realise that a selection ends with []

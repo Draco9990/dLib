@@ -31,7 +31,7 @@ public abstract class AbstractUIResourcePicker extends UIElement {
 
     public static class ResourcePickerWindow extends Renderable {
         public ResourcePickerWindow(AbstractUIResourcePicker resourcePicker) {
-            super(Tex.stat(UICommonResources.background_big), Dim.fill(), Dim.fill());
+            super(Tex.stat(UICommonResources.bg01), Dim.fill(), Dim.fill());
 
             TextButton cancelButton = new TextButton("Cancel", Pos.px(126), Pos.px(1080-930), Dim.px(161), Dim.px(74));
             cancelButton.onLeftClickEvent.subscribe(this, () -> {
