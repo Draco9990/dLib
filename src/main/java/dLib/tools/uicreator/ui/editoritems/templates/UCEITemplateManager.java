@@ -3,7 +3,6 @@ package dLib.tools.uicreator.ui.editoritems.templates;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.buttons.Button;
-import dLib.ui.elements.items.itembox.GridItemBox;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.scroll.HorizontalScrollbar;
@@ -24,7 +23,6 @@ public class UCEITemplateManager {
         templates.put(Image.ImageData.class, new UCEITImage());
         templates.put(Button.ButtonData.class, new UCEITButton());
         templates.put(TextButton.TextButtonData.class, new UCEITTextButton());
-        templates.put(GridItemBox.GridItemBoxData.class, new UCEITGridBox());
         templates.put(VerticalBox.VerticalBoxData.class, new UCEITVerticalBox());
         templates.put(HorizontalBox.HorizontalBoxData.class, new UCEITHorizontalBox());
 

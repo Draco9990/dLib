@@ -30,7 +30,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     // Elements
     protected ArrayList<UIElement> filteredChildren = new ArrayList<>();
 
-    private Alignment.AlignmentType alignmentType;
+    private Alignment.AlignmentType primaryAlignment;
     private Alignment.HorizontalAlignment horizontalContentAlignment = Alignment.HorizontalAlignment.LEFT;
     private Alignment.VerticalAlignment verticalContentAlignment = Alignment.VerticalAlignment.TOP;
 
@@ -38,6 +38,8 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     private AbstractPadding rightContentPadding;
     private AbstractPadding topContentPadding;
     private AbstractPadding bottomContentPadding;
+
+    protected boolean gridMode = false;
 
     protected String filterText = "";
 
@@ -91,18 +93,83 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     protected void updateSelf() {
         super.updateSelf();
 
-        if(alignmentType == Alignment.AlignmentType.HORIZONTAL) {
+        if(primaryAlignment == Alignment.AlignmentType.HORIZONTAL) {
             if (horizontalContentAlignment == Alignment.HorizontalAlignment.LEFT) updateListHorizontalLeftRight();
             else if (horizontalContentAlignment == Alignment.HorizontalAlignment.CENTER) updateListHorizontalCentered();
             else if (horizontalContentAlignment == Alignment.HorizontalAlignment.RIGHT) updateListHorizontalRightLeft();
         }
-        else if(alignmentType == Alignment.AlignmentType.VERTICAL){
+        else if(primaryAlignment == Alignment.AlignmentType.VERTICAL){
             if(verticalContentAlignment == Alignment.VerticalAlignment.BOTTOM) updateListVerticalBottomTop();
             else if(verticalContentAlignment == Alignment.VerticalAlignment.CENTER) updateListVerticalCentered();
             else if(verticalContentAlignment == Alignment.VerticalAlignment.TOP) updateListVerticalTopBottom();
         }
     }
 
+    protected void updateListVerticalTopBottom(){
+        ArrayList<Pair<ArrayList<UIElement>, Pair<Double, Double>>> layers = new ArrayList<>();
+        float containerWidth = getWidth() - getContentPaddingLeft() - getContentPaddingRight();
+
+        // Calculation
+        {
+            ArrayList<UIElement> currentLayer = new ArrayList<>();
+            double highestLayerHeight = 0;
+            double totalLayerWidth = 0;
+            for(UIElement child : filteredChildren){
+                if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
+                    continue;
+                }
+
+                float childWidth = child.getPaddingLeft() + child.getWidth() + child.getPaddingRight();
+                float childHeight = child.getPaddingTop() + child.getHeight() + child.getPaddingBottom();
+
+                if(!currentLayer.isEmpty() && (totalLayerWidth + childWidth > containerWidth || !isGridMode())){
+                    layers.add(new Pair<>(currentLayer, new Pair<>(totalLayerWidth, highestLayerHeight)));
+
+                    currentLayer = new ArrayList<>();
+                    highestLayerHeight = 0;
+                    totalLayerWidth = 0;
+
+                    containerWidth = getWidth() - getContentPaddingLeft() - getContentPaddingRight();
+                }
+
+                currentLayer.add(child);
+                totalLayerWidth += childWidth + itemSpacing;
+                if(highestLayerHeight < childHeight) highestLayerHeight = childHeight;
+            }
+
+            if(!currentLayer.isEmpty()){
+                layers.add(new Pair<>(currentLayer, new Pair<>(totalLayerWidth, highestLayerHeight)));
+            }
+        }
+
+        float currentYPos = getHeight() - getContentPaddingTop();
+        for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
+            Double layerWidth = layer.getValue().getKey() - itemSpacing;
+            Double layerHeight = layer.getValue().getValue();
+
+            float xOffset = 0;
+            if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER) xOffset = (float) ((containerWidth - layerWidth) * 0.5);
+            else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT) xOffset = (float) (containerWidth - layerWidth);
+
+            float currentXPos = getContentPaddingLeft() + xOffset;
+            currentYPos -= layerHeight;
+
+            for (UIElement child : layer.getKey()){
+                child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
+                currentXPos += child.getPaddingLeft();
+                currentXPos += child.getWidth();
+                currentXPos += child.getPaddingRight();
+                currentXPos += itemSpacing;
+
+                child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos + child.getPaddingBottom());
+            }
+
+            currentYPos -= itemSpacing;
+        }
+    }
+    protected void updateListVerticalCentered(){
+
+    }
     protected void updateListVerticalBottomTop(){
         float currentYPos = 0 + getContentPaddingBottom();
 
@@ -118,26 +185,6 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             currentYPos += child.getHeight();
             currentYPos += itemSpacing;
             currentYPos += child.getPaddingTop();
-        }
-    }
-    protected void updateListVerticalCentered(){
-
-    }
-    protected void updateListVerticalTopBottom(){
-        float currentYPos = getHeight() - getContentPaddingTop();
-
-        for(UIElement child : filteredChildren){
-            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
-                continue;
-            }
-
-            currentYPos -= child.getPaddingTop();
-            child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos - child.getHeight());
-            child.getLocalPositionXRaw().overrideCalculatedValue(getContentPaddingLeft());
-
-            currentYPos -= child.getHeight();
-            currentYPos -= itemSpacing;
-            currentYPos -= child.getPaddingBottom();
         }
     }
 
@@ -245,10 +292,10 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     //region Content Alignment
 
     protected void setContentAlignmentType(Alignment.AlignmentType alignmentType){
-        this.alignmentType = alignmentType;
+        this.primaryAlignment = alignmentType;
     }
     public Alignment.AlignmentType getContentAlignmentType(){
-        return alignmentType;
+        return primaryAlignment;
     }
 
     public void setHorizontalContentAlignment(Alignment.HorizontalAlignment horizontalAlignment){
@@ -364,11 +411,22 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     }
     //endregion
 
-    // Layout Provider Dimensions
+    //region Grid mode
+
+    public void setGridMode(boolean gridMode) {
+        this.gridMode = gridMode;
+    }
+    public boolean isGridMode() {
+        return gridMode;
+    }
+
+    //endregion Grid Mode
+
+    //region Layout Provider Dimensions
 
     @Override
     public boolean providesWidth() {
-        return alignmentType == Alignment.AlignmentType.HORIZONTAL;
+        return primaryAlignment == Alignment.AlignmentType.HORIZONTAL;
     }
     @Override
     public Pair<Float, Float> calculateContentWidth() {
@@ -390,7 +448,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     public boolean providesHeight() {
-        return alignmentType == Alignment.AlignmentType.VERTICAL;
+        return primaryAlignment == Alignment.AlignmentType.VERTICAL;
     }
     @Override
     public Pair<Float, Float> calculateContentHeight() {
@@ -411,7 +469,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     }
 
 
-    // endregion Layout Provider Dimensions
+    //endregion Layout Provider Dimensions
 
     @Override
     public PositionBounds getFullChildLocalBounds() {

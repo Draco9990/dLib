@@ -8,8 +8,8 @@ import dLib.ui.elements.items.*;
 import dLib.ui.elements.items.buttons.CancelButtonSmall;
 import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
 import dLib.ui.elements.items.buttons.Toggle;
-import dLib.ui.elements.items.itembox.GridItemBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.elements.items.text.TextBox;
@@ -110,7 +110,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
     //region Child UI
 
     private static class ItemListWindow<GameItemType> extends Renderable {
-        GridItemBox<GameItemType> itemBox;
+        VerticalDataBox<GameItemType> itemBox;
 
         public ItemListWindow() {
             super(Tex.stat(UICommonResources.bg02_background), Pos.px(69), Pos.px(1080-1000), Dim.px(1268), Dim.px(939));
@@ -121,7 +121,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                 Scrollbox scrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
                 scrollbox.setIsHorizontal(false);
                 {
-                    itemBox = new GridItemBox<GameItemType>(Pos.px(14), Pos.px(0), Dim.fill(), Dim.fill()){
+                    itemBox = new VerticalDataBox<GameItemType>(Pos.px(14), Pos.px(0), Dim.fill(), Dim.fill()){
                         @Override
                         public UIElement makeUIForItem(GameItemType item) {
                             return new GridItem<>(getParentOfType(GameItemSelectPopup.class), item);
@@ -150,6 +150,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                             return super.filterCheck(filterText, item, originalItem);
                         }
                     };
+                    itemBox.setGridMode(true);
                     itemBox.setTexture(Tex.stat(UICommonResources.transparent_pixel));
                     itemBox.setItemSpacing(10);
                     itemBox.setSelectionMode(ESelectionMode.MULTIPLE);
