@@ -1,18 +1,23 @@
 package dLib.betterscreens.ui.elements.items;
 
+import dLib.properties.objects.StringProperty;
+import dLib.properties.ui.elements.OnValueChangedStringValueEditor;
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.DarkenLayer;
-import dLib.ui.elements.items.Image;
-import dLib.ui.elements.items.Renderable;
+import dLib.ui.elements.items.*;
+import dLib.ui.elements.items.buttons.CancelButtonSmall;
+import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
+import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.itembox.GridItemBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.ImageTextBox;
+import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -30,7 +35,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
     private boolean ignoreUnlockStatus = true;
 
-    public Event<ArrayList<GameItemType>> onItemsSelected = new Event<>();
+    public ConsumerEvent<GameItemType> onItemsSelected = new ConsumerEvent<>();
 
     //endregion Variables
 
@@ -47,6 +52,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
         itemFiltersSidebar = new ItemFiltersSidebar();
         addChild(itemFiltersSidebar);
         itemDetailsSidebar = new ItemDetailsSidebar<>();
+        itemDetailsSidebar.hideAndDisableInstantly();
         addChild(itemDetailsSidebar);
     }
 
@@ -59,6 +65,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
     public abstract AbstractTextureBinding getItemTexture(GameItemType item);
     public abstract String getItemName(GameItemType item);
     public abstract String getItemRarity(GameItemType item);
+    public abstract String getItemDescription(GameItemType item);
     public abstract String getItemFlavorText(GameItemType item);
 
     //endregion Item Descriptors
@@ -108,7 +115,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
         public ItemListWindow() {
             super(Tex.stat(UICommonResources.bg02_background), Pos.px(69), Pos.px(1080-1000), Dim.px(1268), Dim.px(939));
 
-            Renderable inner = new Renderable(Tex.stat(UICommonResources.bg02_inner), Dim.fill(), Dim.fill());
+            Renderable inner = new Renderable(Tex.stat(UICommonResources.bg02_inner), Pos.px(0), Pos.px(70), Dim.fill(), Dim.fill());
             inner.setPadding(Padd.px(25));
             {
                 Scrollbox scrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -118,6 +125,29 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                         @Override
                         public UIElement makeUIForItem(GameItemType item) {
                             return new GridItem<>(getParentOfType(GameItemSelectPopup.class), item);
+                        }
+
+                        @Override
+                        protected void postMakeUIForItem(GameItemType item, UIElement itemUI) {
+                            super.postMakeUIForItem(item, itemUI);
+
+                            Toggle overlay = itemUI.getParent().findChildById("wrap_overlay");
+                            overlay.onHoveredEvent.subscribe(this, () -> {
+                                getParentOfType(GameItemSelectPopup.class).itemFiltersSidebar.hideAndDisableInstantly();
+
+                                getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.showAndEnableInstantly();
+                                getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.setDetailsItem(item);
+                            });
+                            overlay.onUnhoveredEvent.subscribe(this, () -> {
+                                getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.hideAndDisableInstantly();
+
+                                getParentOfType(GameItemSelectPopup.class).itemFiltersSidebar.showAndEnableInstantly();
+                            });
+                        }
+
+                        @Override
+                        protected boolean filterCheck(String filterText, UIElement item, GameItemType originalItem) {
+                            return super.filterCheck(filterText, item, originalItem);
                         }
                     };
                     itemBox.setTexture(Tex.stat(UICommonResources.transparent_pixel));
@@ -129,6 +159,21 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                 inner.addChild(scrollbox);
             }
             addChild(inner);
+
+            CancelButtonSmall cancelButton = new CancelButtonSmall(Pos.px(-21), Pos.px(6));
+            cancelButton.onLeftClickEvent.subscribe(cancelButton, () -> getTopParent().dispose());
+            addChild(cancelButton);
+
+            ConfirmButtonSmall confirmButton = new ConfirmButtonSmall(Pos.px(-20), Pos.px(5));
+            confirmButton.setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
+            confirmButton.onLeftClickEvent.subscribe(confirmButton, () -> {
+                ArrayList<GameItemType> selectedItems = itemBox.getSelectedItems();
+                if (!selectedItems.isEmpty()) {
+                    getParentOfType(GameItemSelectPopup.class).onItemsSelected.invoke(selectedItems);
+                }
+                getTopParent().dispose();
+            });
+            addChild(confirmButton);
         }
 
         private static class GridItem<GameItemType> extends VerticalBox {
@@ -138,6 +183,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                 setTexture(Tex.stat(UICommonResources.white_pixel));
 
                 Image gameItemImage = new Image(inParent.getItemTexture(item), Dim.fill(), Dim.px(170));
+                gameItemImage.setPreserveAspectRatio(true);
                 addChild(gameItemImage);
 
                 ImageTextBox itemNameBox = new ImageTextBox(inParent.getItemName(item), Dim.fill(), Dim.px(60));
@@ -148,18 +194,74 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
     }
 
     private static class ItemDetailsSidebar<GameItemType> extends Renderable{
+        ImageTextBox itemNameBox;
+        Image itemImage;
+        ImageTextBox itemRarityBox;
+        ImageTextBox itemDescription;
+        ImageTextBox itemFlavor;
+
         public ItemDetailsSidebar() {
             super(Tex.stat(UICommonResources.bg03), Pos.px(1345), Pos.px(1080-1045), Dim.px(534), Dim.px(995));
+
+            VerticalBox vbox = new VerticalBox(Pos.px(51), Pos.px(78), Dim.px(426), Dim.px(868));
+            {
+                itemNameBox = new ImageTextBox("Filters", Dim.fill(), Dim.px(100));
+                itemNameBox.textBox.setWrap(true);
+                itemNameBox.textBox.setFontSize(28);
+                vbox.addChild(itemNameBox);
+
+                itemRarityBox = new ImageTextBox("", Dim.fill(), Dim.px(30));
+                vbox.addChild(itemRarityBox);
+
+                itemImage = new Image(Tex.stat(UICommonResources.white_pixel), Dim.fill(), Dim.px(170));
+                itemImage.setPreserveAspectRatio(true);
+                vbox.addChild(itemImage);
+
+                itemDescription = new ImageTextBox("", Dim.fill(), Dim.fill());
+                itemDescription.textBox.setWrap(true);
+                vbox.addChild(itemDescription);
+
+                itemFlavor = new ImageTextBox("", Dim.fill(), Dim.px(150));
+                itemFlavor.textBox.setWrap(true);
+                vbox.addChild(itemFlavor);
+            }
+            addChild(vbox);
         }
 
         public void setDetailsItem(GameItemType item) {
-
+            itemNameBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemName(item));
+            itemImage.setTexture(getParentOfType(GameItemSelectPopup.class).getItemTexture(item));
+            itemRarityBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemRarity(item));
+            itemDescription.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemDescription(item));
+            itemFlavor.textBox.setText("\"" + getParentOfType(GameItemSelectPopup.class).getItemFlavorText(item) + "\"");
         }
     }
 
     private static class ItemFiltersSidebar extends Renderable{
+        StringProperty searchText = new StringProperty("");
+
         public ItemFiltersSidebar() {
             super(Tex.stat(UICommonResources.bg03), Pos.px(1345), Pos.px(1080-1045), Dim.px(534), Dim.px(995));
+
+            VerticalBox filtersBox = new VerticalBox(Pos.px(51), Pos.px(78), Dim.px(426), Dim.px(868));
+            filtersBox.setItemSpacing(5);
+            {
+                TextBox filtersTitle = new TextBox("Filters", Dim.fill(), Dim.px(70));
+                filtersTitle.setFontSize(28);
+                filtersBox.addChild(filtersTitle);
+
+                Spacer spacer = new Spacer(Dim.fill(), Dim.px(30));
+                filtersBox.addChild(spacer);
+
+                TextBox searchTextTitle = new TextBox("Search", Dim.fill(), Dim.px(30));
+                searchTextTitle.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+                filtersBox.addChild(searchTextTitle);
+                OnValueChangedStringValueEditor searchTextEditor = new OnValueChangedStringValueEditor(searchText);
+                filtersBox.addChild(searchTextEditor);
+            }
+            addChild(filtersBox);
+
+            searchText.onValueChangedEvent.subscribe(this, (s, s2) -> getParentOfType(GameItemSelectPopup.class).itemListWindow.itemBox.setFilterText(s2));
         }
     }
 

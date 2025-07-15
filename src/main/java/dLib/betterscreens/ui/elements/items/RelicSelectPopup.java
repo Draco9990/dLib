@@ -36,7 +36,12 @@ public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic> {
 
     @Override
     public String getItemRarity(AbstractRelic item) {
-        return item.toString();
+        return item.tier.name() + " Relic";
+    }
+
+    @Override
+    public String getItemDescription(AbstractRelic item) {
+        return item.description;
     }
 
     @Override

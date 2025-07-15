@@ -1,5 +1,6 @@
 min and max dims and pos need to be within dimension calculation and not externally cause other calculations need to take that into account
 implement lambda bindings everywhere and replace refresh()
+unique controls inside dataitembox
 
 It doesn't correctly realise that a selection ends with []
 It doesn't recolor inside color, we need to extract the markup and append it to the end

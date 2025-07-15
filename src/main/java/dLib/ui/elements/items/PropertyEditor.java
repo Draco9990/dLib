@@ -34,7 +34,7 @@ public class PropertyEditor extends UIElement {
 
         VerticalBox elementList = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
         {
-            Scrollbox propertyListScrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.perc(0.8));
+            Scrollbox propertyListScrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
             {
                 propertyListScrollbox.addChild(propertyList = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
                 propertyList.setItemSpacing(20);
@@ -51,6 +51,10 @@ public class PropertyEditor extends UIElement {
         addChild(elementList);
     }
 
+    public void disableDescriptionBox(){
+        descriptionBox.hideAndDisableInstantly();
+    }
+
     public void setTryMultiline(boolean tryMultiline){
         this.tryMultiline = tryMultiline;
     }
@@ -62,16 +66,16 @@ public class PropertyEditor extends UIElement {
     public void clearProperties(){
         properties.clear();
         categories.clear();
-        loadProperties();
+        reloadProperties();
     }
 
     public PropertyEditor setProperties(ArrayList<TProperty<?, ?>> properties){
         this.properties = properties;
-        loadProperties();
+        reloadProperties();
         return this;
     }
 
-    private void loadProperties(){
+    private void reloadProperties(){
         LinkedHashMap<String, ArrayList<TProperty<?, ?>>> propertiesByCategory = new LinkedHashMap<>();
         for (TProperty<?, ?> property : properties) {
             if(property.isVisible()){
@@ -154,7 +158,7 @@ public class PropertyEditor extends UIElement {
             propertyList.setSelectionMode(ESelectionMode.NONE);
             propertyList.disableToggleOverlay();
 
-            BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).loadProperties());
+            BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).reloadProperties());
 
             propertyList.onItemAddedEvent.subscribe(this, property -> valueChangedEventId = property.onValueChangedEvent.subscribeManaged(updateProperties));
             propertyList.onItemRemovedEvent.subscribe(this, property -> property.onValueChangedEvent.unsubscribeManaged(valueChangedEventId));

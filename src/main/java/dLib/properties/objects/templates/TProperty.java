@@ -144,6 +144,8 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     //region Visibility
 
     public boolean isVisible(){
+        if(isPropertyVisibleFunctions.count() == 0) return true;
+
         ArrayList<Boolean> interactionResults = isPropertyVisibleFunctions.invokeWhile((PropertyType) this, (invocationResult) -> invocationResult);
         return interactionResults.stream().anyMatch(result -> !result);
     }
