@@ -51,10 +51,6 @@ public class ValueEditorManager {
             else if(object instanceof ColorProperty) return new ColorValueEditor(((ColorProperty) object));
             else return new OnValueCommitedStringValueEditor(((String) value));
         }
-        else if(value instanceof Vector2){
-            if(object instanceof FloatVector2Property) return new FloatVector2ValueEditor(((FloatVector2Property) object));
-            else return new FloatVector2ValueEditor(((Vector2) value));
-        }
 
         return null;
     }

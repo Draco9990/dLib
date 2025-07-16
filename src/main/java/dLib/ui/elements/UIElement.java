@@ -908,6 +908,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected void onChildrenChanged(){
         onHierarchyChangedEvent.invoke();
         onChildrenChangedEvent.invoke();
+
+        if(getWidthRaw() instanceof AutoDimension){
+            getWidthRaw().requestRecalculation();
+            onDimensionsChanged();
+        }
+        if(getHeightRaw() instanceof AutoDimension){
+            getHeightRaw().requestRecalculation();
+            onDimensionsChanged();
+        }
     }
 
     public UIElement getFirstChild(){

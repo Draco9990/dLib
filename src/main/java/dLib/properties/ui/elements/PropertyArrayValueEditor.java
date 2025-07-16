@@ -1,25 +1,18 @@
 package dLib.properties.ui.elements;
 
-import dLib.properties.objects.templates.TBooleanProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.objects.templates.TPropertyArray;
-import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.Spacer;
-import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
-import dLib.ui.elements.items.text.TextBox;
+import dLib.ui.elements.items.itembox.VerticalDataBox;
+import dLib.ui.elements.items.text.TextButton;
+import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.padding.Padd;
-import dLib.util.ui.position.Pos;
 
-public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends TPropertyArray<EditingPropertyType>> extends AbstractValueEditor<PropertyType> {
+public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends TPropertyArray<EditingPropertyType, PropertyType>> extends PropertyValueEditor<PropertyType> {
     //region Variables
-
-    protected boolean multiline;
-
-    protected UIElement contentEditor;
 
     //endregion
 
@@ -30,64 +23,44 @@ public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends 
     }
 
     public PropertyArrayValueEditor(TProperty<?, ?> property, boolean multiline) {
-        super((PropertyType) property);
-
-        this.multiline = multiline && !(property instanceof TBooleanProperty); //Fuck it we hard-code
-
-        if(this.multiline){
-            buildMultiline();
-        }
-        else{
-            buildSingleLine();
-        }
-
-        property.onValueChangedEvent.subscribe(this, (oldVal, newVal) -> {
-            if(oldVal.getClass() == newVal.getClass()){
-                return;
-            }
-
-            if(this.multiline){
-                buildValueContent(Dim.fill(), Dim.auto());
-            }
-            else{
-                buildValueContent(Dim.fill(), Dim.px(50));
-            }
-        });
+        super(property, multiline);
     }
 
     //endregion
 
     //region Methods
 
-    private void buildMultiline(){
-        VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
-        vBox.setPadding(Padd.px(15), Padd.px(0));
+    @Override
+    protected void buildValueContent(AbstractDimension width){
+        VerticalBox builtContent = new VerticalBox(width, Dim.auto());
+        {
+            VerticalDataBox<TProperty<EditingPropertyType, ?>> valueBox = new VerticalDataBox<TProperty<EditingPropertyType, ?>>(Dim.fill(), Dim.auto()){
+                @Override
+                public UIElement makeUIForItem(TProperty<EditingPropertyType, ?> item) {
+                    return item.makeEditorFor();
+                }
+            };
+            valueBox.setCanDelete(boundProperty.canDelete());
+            valueBox.disableToggleOverlay();
+            valueBox.setChildren(boundProperty.getValue());
+            //TODO disable child interactions once that's in to improve perf
+            builtContent.addChild(valueBox);
 
-        TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
-        boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
-        vBox.addChild(boundPropertyNameBox);
+            TextButton addButton = new TextButton("Add", Dim.fill(), Dim.px(50)){
+                @Override
+                public boolean isActive() {
+                    return super.isActive() && !boundProperty.isFull();
+                }
+            };
+            addButton.setTexture(Tex.stat(UICommonResources.button03_square));
+            addButton.onLeftClickEvent.subscribe(addButton, () -> boundProperty.addBlank());
+            builtContent.addChild(addButton);
 
-        buildValueContent(Dim.fill(), Dim.auto());
-        vBox.addChild(contentEditor);
-        addChild(vBox);
-    }
-
-    private void buildSingleLine(){
-        HorizontalBox hBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
-        hBox.setPadding(Padd.px(15), Padd.px(0));
-
-        TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.75), Dim.px(50));
-        boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
-        hBox.addChild(boundPropertyNameBox);
-
-        buildValueContent(Dim.perc(0.25), Dim.px(50));
-        hBox.addChild(contentEditor);
-        addChild(hBox);
-    }
-
-    protected void buildValueContent(AbstractDimension width, AbstractDimension height){
-        UIElement builtContent = ValueEditorManager.makeEditorFor(boundProperty);
-        if(builtContent == null) builtContent = new Spacer(width, Dim.px(1)); //TODO remove Fallback
+            boundProperty.onSingleValueChangedEvent.subscribe(valueBox, (editingPropertyType, editingPropertyType2, integer) -> {
+                valueBox.setChildren(boundProperty.getValue());
+                valueBox.setCanDelete(boundProperty.canDelete());
+            });
+        }
 
         if(contentEditor != null){
             contentEditor.getParent().replaceChild(contentEditor, builtContent);

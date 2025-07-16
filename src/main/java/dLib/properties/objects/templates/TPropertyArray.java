@@ -1,5 +1,7 @@
 package dLib.properties.objects.templates;
 
+import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.properties.ui.elements.PropertyArrayValueEditor;
 import dLib.util.SerializationHelpers;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
@@ -7,7 +9,7 @@ import dLib.util.events.localevents.TriConsumerEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TPropertyArray<ValueType> extends TProperty<ArrayList<TProperty<ValueType, ?>>, ValueType> implements Serializable {
+public class TPropertyArray<ValueType, PropertyType> extends TProperty<ArrayList<TProperty<ValueType, ?>>, PropertyType> implements Serializable {
     static final long serialVersionUID = 1L;
 
     private TProperty<ValueType, ?> propertyTemplate;
@@ -17,7 +19,9 @@ public class TPropertyArray<ValueType> extends TProperty<ArrayList<TProperty<Val
 
     private int valueCountOverride = -1;
 
-    public transient TriConsumerEvent<ValueType, ValueType, Integer> onValueChangedEvent = new TriConsumerEvent<>();
+    protected boolean bitwiseSelection = false;
+
+    public transient TriConsumerEvent<ValueType, ValueType, Integer> onSingleValueChangedEvent = new TriConsumerEvent<>();
     public transient BiConsumerEvent<ValueType, Integer> onValueAddedEvent = new BiConsumerEvent<>();
     public transient BiConsumerEvent<ValueType, Integer> onValueRemovedEvent = new BiConsumerEvent<>();
 
@@ -27,19 +31,10 @@ public class TPropertyArray<ValueType> extends TProperty<ArrayList<TProperty<Val
         this.propertyTemplate = propertyTemplate;
     }
 
-    public TPropertyArray(int valueCountOverride, TProperty<ValueType, ?> propertyTemplate) {
-        super(new ArrayList<>());
+    public TPropertyArray(ArrayList<? extends TProperty<ValueType, ?>> defaults){
+        super((ArrayList<TProperty<ValueType, ?>>) defaults);
 
-        this.propertyTemplate = propertyTemplate;
-        this.valueCountOverride = valueCountOverride;
-    }
-
-    public TPropertyArray(int minValueCount, int maxValueCount, TProperty<ValueType, ?> propertyTemplate) {
-        super(new ArrayList<>());
-
-        this.propertyTemplate = propertyTemplate;
-        this.minValueCount = minValueCount;
-        this.maxValueCount = maxValueCount;
+        setValueCountOverride(defaults.size());
     }
 
     //region Methods
@@ -53,10 +48,27 @@ public class TPropertyArray<ValueType> extends TProperty<ArrayList<TProperty<Val
         boolean validVal = newProperty.setValue(val);
         if(!validVal) return false;
 
+        ArrayList<TProperty<ValueType, ?>> oldValArr = new ArrayList<>(value);
         value.add(newProperty);
 
         onValueAddedEvent.invoke(val, value.size() - 1);
-        onValueChangedEvent.invoke(null, val, value.size() - 1);
+        onSingleValueChangedEvent.invoke(null, val, value.size() - 1);
+        onValueChangedEvent.invoke(oldValArr, value);
+
+        return true;
+    }
+
+    public boolean addBlank(){
+        if(isFull()) return false;
+
+        ArrayList<TProperty<ValueType, ?>> oldValArr = new ArrayList<>(value);
+
+        TProperty<ValueType, ?> newProperty = SerializationHelpers.deepCopySerializable(propertyTemplate);
+        value.add(newProperty);
+
+        onValueAddedEvent.invoke(null, value.size() - 1);
+        onSingleValueChangedEvent.invoke(null, null, value.size() - 1);
+        onValueChangedEvent.invoke(oldValArr, value);
 
         return true;
     }
@@ -67,10 +79,13 @@ public class TPropertyArray<ValueType> extends TProperty<ArrayList<TProperty<Val
         TProperty<ValueType, ?> existingProperty = value.get(index);
         ValueType oldValue = existingProperty.getValue();
 
+        ArrayList<TProperty<ValueType, ?>> oldValArr = new ArrayList<>(value);
+
         boolean validVal = existingProperty.setValue(val);
         if(!validVal) return false;
 
-        onValueChangedEvent.invoke(oldValue, val, index);
+        onSingleValueChangedEvent.invoke(oldValue, val, index);
+        onValueChangedEvent.invoke(oldValArr, value);
 
         return true;
     }
@@ -78,6 +93,18 @@ public class TPropertyArray<ValueType> extends TProperty<ArrayList<TProperty<Val
     //endregion Array Manipulation methods
 
     //region Context providers
+
+    public boolean canDelete(){
+        if(valueCountOverride > -1){
+            return getValue().size() > valueCountOverride;
+        }
+
+        if(minValueCount > -1){
+            return getValue().size() > minValueCount;
+        }
+
+        return !getValue().isEmpty();
+    }
 
     public boolean isFull(){
         if(valueCountOverride > -1){
@@ -92,6 +119,66 @@ public class TPropertyArray<ValueType> extends TProperty<ArrayList<TProperty<Val
     }
 
     //endregion Context providers
+
+    //region Value Count
+
+    public PropertyType setMinValueCount(int minValueCount) {
+        this.minValueCount = minValueCount;
+        return (PropertyType) this;
+    }
+    public int getMinValueCount() {
+        return minValueCount;
+    }
+
+    public PropertyType setMaxValueCount(int maxValueCount) {
+        this.maxValueCount = maxValueCount;
+        return (PropertyType) this;
+    }
+    public int getMaxValueCount() {
+        return maxValueCount;
+    }
+
+    public PropertyType setValueCountOverride(int valueCountOverride) {
+        this.valueCountOverride = valueCountOverride;
+        return (PropertyType) this;
+    }
+    public int getValueCountOverride() {
+        return valueCountOverride;
+    }
+
+
+    //endregion Value Count
+
+    //region Bitwise Selection
+
+    public boolean isBitwiseSelection() {
+        return bitwiseSelection;
+    }
+    public void setBitwiseSelection(boolean bitwiseSelection) {
+        this.bitwiseSelection = bitwiseSelection;
+    }
+
+    //endregion Bitwise Selection
+
+    //region Value Editor
+
+    @Override
+    public AbstractValueEditor makeEditorFor() {
+        return new PropertyArrayValueEditor(this);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(TProperty property) {
+        return new PropertyArrayValueEditor<>(property);
+    }
+
+    @Override
+    public AbstractValueEditor makeEditorFor(boolean tryMultiline) {
+        return new PropertyArrayValueEditor<>(this, tryMultiline);
+    }
+
+
+    //endregion Value Editor
 
     //endregion Methods
 }

@@ -62,9 +62,11 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
         vBox.setPadding(Padd.px(15), Padd.px(0));
 
-        TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
-        boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
-        vBox.addChild(boundPropertyNameBox);
+        if(boundProperty.getName() != null && !boundProperty.getName().isEmpty()){
+            TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
+            boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+            vBox.addChild(boundPropertyNameBox);
+        }
 
         buildValueContent(Dim.fill());
         vBox.addChild(contentEditor);
@@ -75,11 +77,13 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
         HorizontalBox hBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
         hBox.setPadding(Padd.px(15), Padd.px(0));
 
-        TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.75), Dim.px(50));
-        boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
-        hBox.addChild(boundPropertyNameBox);
+        if(boundProperty.getName() != null && !boundProperty.getName().isEmpty()){
+            TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.75), Dim.px(50));
+            boundPropertyNameBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
+            hBox.addChild(boundPropertyNameBox);
+        }
 
-        buildValueContent(Dim.perc(0.25));
+        buildValueContent(Dim.fill());
         hBox.addChild(contentEditor);
         addChild(hBox);
     }

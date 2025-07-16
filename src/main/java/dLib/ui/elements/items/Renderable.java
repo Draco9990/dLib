@@ -23,6 +23,7 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Renderable extends UIElement {
     //region Variables
@@ -83,11 +84,11 @@ public class Renderable extends UIElement {
 
         this.renderOrientation = data.renderOrientation.getValue();
 
-        this.renderDimensionsPerc = data.renderDimensionsPerc.getValue();
+        this.renderDimensionsPerc = new Vector2(data.renderDimensionsPerc.getValue().get(0).getValue(), data.renderDimensionsPerc.getValue().get(1).getValue());
         this.renderDimensionsOrientation = data.renderDimensionsOrientation.getValue();
 
-        this.renderOffset = data.positionOffset.getValue();
-        this.renderScaleOffset = data.renderScaleOffset.getValue();
+        this.renderOffset = new Vector2(data.positionOffset.getValue().get(0).getValue(), data.positionOffset.getValue().get(1).getValue());
+        this.renderScaleOffset = new Vector2(data.renderScaleOffset.getValue().get(0).getValue(), data.renderScaleOffset.getValue().get(1).getValue());
     }
 
     //endregion
@@ -461,29 +462,42 @@ public class Renderable extends UIElement {
                 .setDescription("How to render the image within the element.")
                 .setCategory("Render");
 
-        public FloatVector2Property positionOffset = new FloatVector2Property(new Vector2(0, 0))
+        public PropertyArray<Float> positionOffset = new PropertyArray<>(
+                new ArrayList<FloatProperty>(){{
+                    add(new FloatProperty(0.0f).setName("X"));
+                    add(new FloatProperty(0.0f).setName("Y"));
+                }}
+        )
                 .setName("Position Offset")
                 .setDescription("Offset for the render position of the rendered image.")
                 .setCategory("Render")
-                .setValueNames("X", "Y");
+                .setValueCountOverride(2);
 
-        public FloatVector2Property renderDimensionsPerc = new FloatVector2Property(new Vector2(1, 1))
+        public PropertyArray<Float> renderDimensionsPerc = new PropertyArray<>(
+                new ArrayList<FloatProperty>(){{
+                    add(new FloatProperty(0.0f).setName("W").setMinimumValue(0.0f).setMaximumValue(0.0f));
+                    add(new FloatProperty(0.0f).setName("H").setMinimumValue(0.0f).setMaximumValue(0.0f));
+                }}
+        )
                 .setName("Render Dimensions %")
                 .setDescription("Percentage of the image to render. 1 = 100% of the image, 0.5 = 50% of the image.")
                 .setCategory("Render")
-                .setValueNames("W", "H")
-                .setMinimumX(0f).setMinimumY(0f).setMaximumX(1f).setMaximumY(1f);
+                .setValueCountOverride(2);
 
         public AlignmentProperty renderDimensionsOrientation = new AlignmentProperty(new Alignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.BOTTOM))
                 .setName("Render Dimension Orientation")
                 .setDescription("Point from which to render the image. Affected by the render dimensions %.")
                 .setCategory("Render");
 
-        public FloatVector2Property renderScaleOffset = new FloatVector2Property(new Vector2(1, 1))
+        public PropertyArray<Float> renderScaleOffset = new PropertyArray<>(
+                new ArrayList<FloatProperty>(){{
+                    add(new FloatProperty(1f).setName("W"));
+                    add(new FloatProperty(1f).setName("H"));
+                }}
+        )
                 .setName("Render Scale")
                 .setDescription("Offset for the scale of the rendered image.")
-                .setCategory("Render")
-                .setValueNames("W", "H");
+                .setCategory("Render");
 
         @Override
         public UIElement makeUIElement_internal() {
