@@ -188,7 +188,6 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT) xOffset = (float) (containerWidth - layerWidth);
 
             float currentXPos = getContentPaddingLeft() + xOffset;
-            currentYPos += layerHeight;
 
             for (UIElement child : layer.getKey()){
                 child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
@@ -200,7 +199,8 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
                 child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos + child.getPaddingBottom());
             }
 
-            currentYPos -= itemSpacing;
+            currentYPos += layerHeight;
+            currentYPos += itemSpacing;
         }
     }
 
@@ -255,7 +255,6 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP) yOffset = (float) (containerHeight - layerHeight);
 
             float currentYPos = getContentPaddingBottom() + yOffset;
-            currentXPos += layerWidth;
 
             for (UIElement child : layer.getKey()){
                 child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos + child.getPaddingLeft());
@@ -267,7 +266,8 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
                 currentYPos -= itemSpacing;
             }
 
-            currentXPos -= itemSpacing;
+            currentXPos += layerWidth;
+            currentXPos += itemSpacing;
         }
     }
     protected void updateListHorizontalCentered(){
