@@ -1,13 +1,10 @@
 package dLib.util.ui.dimensions;
 
-import basemod.Pair;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PixelDimensionValueEditor;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
-import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
@@ -34,32 +31,21 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
     //region Calculations
 
-    @Override
-    protected void setCalculatedValue(UIElement forElement, float value) {
-        if(reference == ReferenceDimension.WIDTH){
-            value -= forElement.getPaddingRight();
-        }
-        else if(reference == ReferenceDimension.HEIGHT){
-            value -= forElement.getPaddingTop();
-        }
 
-        super.setCalculatedValue(forElement, value);
+    @Override
+    protected Float tryCalculateValue_Width(UIElement forElement) {
+        if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+
+        return size - forElement.getPaddingLeft() - forElement.getPaddingRight();
     }
 
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, size),
-                () -> !forElement.getPaddingRightRaw().needsRecalculation()
-        ));
-    }
+    protected Float tryCalculateValue_Height(UIElement forElement) {
+        if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
 
-    @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, size),
-                () -> !forElement.getPaddingTopRaw().needsRecalculation()
-        ));
+        return size - forElement.getPaddingTop() - forElement.getPaddingBottom();
     }
 
     //endregion

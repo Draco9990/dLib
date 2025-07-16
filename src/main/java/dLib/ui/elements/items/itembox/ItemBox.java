@@ -375,40 +375,17 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     //region Calculation Instructions
 
     @Override
-    public ArrayList<Pair<Integer, ElementCalculationManager.ElementCalculationInstruction>> collectCalculationInstructions() {
-        ArrayList<Pair<Integer, ElementCalculationManager.ElementCalculationInstruction>> calculationInstructions = super.collectCalculationInstructions();
+    public boolean calculationPass() {
+        boolean calculatedAll = super.calculationPass();
 
-        if(getContentPaddingLeftRaw().needsRecalculation()){
-            calculationInstructions.add(getContentPaddingLeftRaw().getCalculationInstruction(this));
+        if(getContentPaddingLeftRaw().needsRecalculation()) calculatedAll &= getContentPaddingLeftRaw().calculateValue(this);
+        if(getContentPaddingBottomRaw().needsRecalculation()) calculatedAll &= getContentPaddingBottomRaw().calculateValue(this);
+        if(getContentPaddingRightRaw().needsRecalculation()) calculatedAll &= getContentPaddingRightRaw().calculateValue(this);
+        if(getContentPaddingTopRaw().needsRecalculation()) calculatedAll &= getContentPaddingTopRaw().calculateValue(this);
 
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getContentPaddingLeftRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getContentPaddingBottomRaw().needsRecalculation()){
-            calculationInstructions.add(getContentPaddingBottomRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getContentPaddingBottomRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getContentPaddingRightRaw().needsRecalculation()){
-            calculationInstructions.add(getContentPaddingRightRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getContentPaddingRightRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getContentPaddingTopRaw().needsRecalculation()){
-            calculationInstructions.add(getContentPaddingTopRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getContentPaddingTopRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-
-        return calculationInstructions;
+        return calculatedAll;
     }
+
     //endregion
 
     //region Grid mode

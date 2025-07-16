@@ -3,10 +3,12 @@ package dLib.ui.descriptors;
 import basemod.Pair;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
+import dLib.util.events.localevents.RunnableEvent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-public abstract class ElementDescriptor<TReferenceEnum> implements Serializable {
+public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType extends ElementDescriptor> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //region Variables
@@ -15,6 +17,13 @@ public abstract class ElementDescriptor<TReferenceEnum> implements Serializable 
 
     private float calculatedValue = 0;
     protected boolean needsRecalculation = true;
+
+    private ElementDescriptorType minValue = null;
+    private ElementDescriptorType maxValue = null;
+
+    private Float value = null;
+
+    public ArrayList<ElementDescriptor> dependencies = new ArrayList<>();
 
     //endregion
 
@@ -29,7 +38,17 @@ public abstract class ElementDescriptor<TReferenceEnum> implements Serializable 
 
     //region Calculation
 
-    public abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationInstruction(UIElement forElement);
+    public boolean calculateValue(UIElement forElement){
+        Float value = tryCalculateValue(forElement);
+        if(value != null){
+            calculatedValue = value;
+            needsRecalculation = false;
+            return true;
+        }
+
+        return false;
+    }
+    protected abstract Float tryCalculateValue(UIElement forElement);
 
     public boolean needsRecalculation(){
         return needsRecalculation;
@@ -43,10 +62,6 @@ public abstract class ElementDescriptor<TReferenceEnum> implements Serializable 
     }
     public void overrideCalculatedValue(float value){
         calculatedValue = value;
-    }
-    protected void setCalculatedValue(UIElement forElement, float value){
-        calculatedValue = value;
-        needsRecalculation = false;
     }
 
     public void setValueFromString(String value){
@@ -63,9 +78,9 @@ public abstract class ElementDescriptor<TReferenceEnum> implements Serializable 
 
     //endregion
 
-    public abstract ElementDescriptor<TReferenceEnum> cpy();
+    public abstract ElementDescriptor<TReferenceEnum, ElementDescriptorType> cpy();
 
-    public void copyFrom(ElementDescriptor<TReferenceEnum> other){
+    public void copyFrom(ElementDescriptor<TReferenceEnum, ElementDescriptorType> other){
         this.reference = other.reference;
 
         this.calculatedValue = other.calculatedValue;

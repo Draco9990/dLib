@@ -1,14 +1,11 @@
 package dLib.util.ui.position;
 
-import basemod.Pair;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PercentagePositionValueEditor;
 import dLib.ui.Alignment;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
-import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.FillDimension;
@@ -38,109 +35,105 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     //region Calculation
 
     @Override
-    protected void setCalculatedValue(UIElement forElement, float value) {
-        if(reference == ReferencePosition.X){
-            value += forElement.getOffsetX();
-            value += forElement.getPaddingLeft();
-        }
-        else if(reference == ReferencePosition.Y){
-            value += forElement.getOffsetY();
-            value += forElement.getPaddingBottom();
-        }
+    protected Float tryCalculateValue_X(UIElement forElement) {
+        if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
 
-        super.setCalculatedValue(forElement, value);
-    }
+        Float calculatedVal = null;
 
-    @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_X(UIElement forElement) {
         if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
-            return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                    () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
-                    () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                    () -> !forElement.getPaddingLeftRaw().needsRecalculation()
-            ));
+            Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+            if(parentWidth == null) return null;
+
+            calculatedVal = parentWidth * percentage;
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             if(forElement.getWidthRaw() instanceof FillDimension){
-                return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_DIRECT, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, 0),
-                        () -> !forElement.getPaddingLeftRaw().needsRecalculation()
-                ));
+                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+                if(parentWidth == null) return null;
+
+                calculatedVal = parentWidth * percentage;
             }
             else{
-                return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getWidth()) * 0.5f)),
-                        () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                        () -> !forElement.needsWidthCalculation(),
-                        () -> !forElement.getPaddingLeftRaw().needsRecalculation()
-                ));
+                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+                if(parentWidth == null) return null;
+                if(forElement.getWidthRaw().needsRecalculation()) return null;
+
+                calculatedVal = ((parentWidth - forElement.getWidth()) * 0.5f);
             }
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
             if(forElement.getWidthRaw() instanceof FillDimension){
-                return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
-                        () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                        () -> !forElement.getPaddingLeftRaw().needsRecalculation()
-                ));
+                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+                if(parentWidth == null) return null;
+
+                calculatedVal = parentWidth * percentage + parentWidth;
             }
             else{
-                return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) - forElement.getWidth() - (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage))),
-                        () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                        () -> !forElement.needsWidthCalculation(),
-                        () -> !forElement.getPaddingLeftRaw().needsRecalculation()
-                ));
+                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+                if(parentWidth == null) return null;
+                if(forElement.getWidthRaw().needsRecalculation()) return null;
+
+                calculatedVal = (parentWidth - forElement.getWidth() + (parentWidth * percentage));
             }
         }
 
-        return null;
+        if(calculatedVal != null){
+            calculatedVal += forElement.getOffsetX();
+            calculatedVal += forElement.getPaddingLeft();
+        }
+
+        return calculatedVal;
     }
 
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Y(UIElement forElement) {
+    protected Float tryCalculateValue_Y(UIElement forElement) {
+        if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+
+        Float calculatedVal = null;
+
         if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
-            return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                    () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
-                    () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                    () -> !forElement.getPaddingBottomRaw().needsRecalculation()
-            ));
+            Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
+            if(parentHeight == null) return null;
+
+            calculatedVal = parentHeight * percentage;
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             if(forElement.getHeightRaw() instanceof FillDimension){
-                return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_DIRECT, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, 0),
-                        () -> !forElement.getPaddingBottomRaw().needsRecalculation()
-                ));
+                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
+                if(parentHeight == null) return null;
+
+                calculatedVal = parentHeight * percentage;
             }
             else{
-                return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, ((UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getHeight()) * 0.5f)),
-                        () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                        () -> !forElement.needsHeightCalculation(),
-                        () -> !forElement.getPaddingBottomRaw().needsRecalculation()
-                ));
+                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
+                if(parentHeight == null) return null;
+                if(forElement.needsHeightCalculation()) return null;
+
+                calculatedVal = ((parentHeight - forElement.getHeight()) * 0.5f);
             }
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             if(forElement.getHeightRaw() instanceof FillDimension){
-                return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
-                        () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                        () -> !forElement.getPaddingBottomRaw().needsRecalculation()
-                ));
+                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
+                if(parentHeight == null) return null;
+
+                calculatedVal = parentHeight * percentage + parentHeight;
             }
             else{
-                return new Pair<>(ElementDescriptorCalcOrders.POSITION_PERCENTAGE_VARIED, new ElementCalculationManager.ElementCalculationInstruction(
-                        () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) - forElement.getHeight() - (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage))),
-                        () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                        () -> !forElement.needsHeightCalculation(),
-                        () -> !forElement.getPaddingBottomRaw().needsRecalculation()
-                ));
+                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
+                if(parentHeight == null) return null;
+                if(forElement.needsHeightCalculation()) return null;
+
+                calculatedVal = (parentHeight - forElement.getHeight() + (parentHeight * percentage));
             }
         }
 
-        return null;
+        if(calculatedVal != null){
+            calculatedVal += forElement.getOffsetY();
+            calculatedVal += forElement.getPaddingBottom();
+        }
+
+        return calculatedVal;
     }
 
     //endregion

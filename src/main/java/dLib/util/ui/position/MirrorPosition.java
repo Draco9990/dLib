@@ -1,15 +1,9 @@
 package dLib.util.ui.position;
 
-import basemod.Pair;
-import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
-import dLib.properties.ui.elements.MirrorDimensionValueEditor;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
-import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
-import dLib.util.ui.dimensions.AbstractDimension;
 
 import java.io.Serializable;
 
@@ -29,27 +23,35 @@ public class MirrorPosition extends AbstractPosition implements Serializable {
 
     //region Calculation Methods
 
-    //region Width
-
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_X(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.POSITION_MIRROR, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, forElement.getLocalPositionY()),
-                () -> !forElement.getLocalPositionYRaw().needsRecalculation()));
+    protected Float tryCalculateValue_X(UIElement forElement) {
+        if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+
+        if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+
+        float calculatedVal = forElement.getLocalPositionY() - forElement.getPaddingBottom();
+
+        calculatedVal += forElement.getOffsetX();
+        calculatedVal += forElement.getPaddingLeft();
+
+        return calculatedVal;
     }
 
-    //endregion
-
-    //region Height
-
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Y(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.POSITION_MIRROR, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, forElement.getLocalPositionX()),
-                () -> !forElement.getLocalPositionXRaw().needsRecalculation()));
-    }
+    protected Float tryCalculateValue_Y(UIElement forElement) {
+        if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
 
-    //endregion
+        if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+
+        float calculatedVal = forElement.getLocalPositionX() - forElement.getPaddingRight();
+
+        calculatedVal += forElement.getOffsetY();
+        calculatedVal += forElement.getPaddingTop();
+
+        return calculatedVal;
+    }
 
     //endregion
 

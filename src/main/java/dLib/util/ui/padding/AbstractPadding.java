@@ -1,13 +1,11 @@
 package dLib.util.ui.padding;
 
-import basemod.Pair;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
 
-public abstract class AbstractPadding extends ElementDescriptor<AbstractPadding.ReferenceDimension> implements Serializable {
+public abstract class AbstractPadding extends ElementDescriptor<AbstractPadding.ReferenceDimension, AbstractPadding> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //region Constructors
@@ -22,19 +20,20 @@ public abstract class AbstractPadding extends ElementDescriptor<AbstractPadding.
 
     //region Calculation
 
-    public Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationInstruction(UIElement forElement) {
+    @Override
+    protected Float tryCalculateValue(UIElement forElement) {
         if(reference == ReferenceDimension.HORIZONTAL){
-            return getCalculationFormula_Horizontal(forElement);
+            return tryCalculateValue_Horizontal(forElement);
         }
         else if(reference == ReferenceDimension.VERTICAL){
-            return getCalculationFormula_Vertical(forElement);
+            return tryCalculateValue_Vertical(forElement);
         }
 
         return null;
     }
 
-    protected abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Horizontal(UIElement forElement);
-    protected abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Vertical(UIElement forElement);
+    protected abstract Float tryCalculateValue_Horizontal(UIElement forElement);
+    protected abstract Float tryCalculateValue_Vertical(UIElement forElement);
 
     //endregion
 

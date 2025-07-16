@@ -6,9 +6,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.AutoDimensionValueEditor;
 import dLib.ui.Alignment;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
-import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
@@ -41,18 +39,24 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     //region Calculation Methods
 
-    //region Width
+    @Override
+    protected Float tryCalculateValue_Width(UIElement forElement) {
+        if(!canCalculateWidth(forElement)) return null;
+
+        calculatedValueForChildren = calculateWidth(forElement, false);
+        return calculateWidth(forElement, true);
+    }
 
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_AUTO, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> {
-                    setCalculatedValue(forElement, calculateWidth(forElement, true));
-                    calculatedValueForChildren = calculateWidth(forElement, false);
-                },
-                () -> canCalculateWidth(forElement)
-        ));
+    protected Float tryCalculateValue_Height(UIElement forElement) {
+        if(!canCalculateHeight(forElement)) return null;
+
+        calculatedValueForChildren = calculateHeight(forElement, false);
+        return calculateHeight(forElement, true);
     }
+
+
+    //region Width
 
     private Float calculateWidth(UIElement forElement, boolean includePadding){
         Pair<Float, Float> totalWidth = null;
@@ -157,17 +161,6 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     }
 
     //region Height
-
-    @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_AUTO, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> {
-                    setCalculatedValue(forElement, calculateHeight(forElement, true));
-                    calculatedValueForChildren = calculateHeight(forElement, false);
-                },
-                () -> canCalculateHeight(forElement)
-        ));
-    }
 
     private Float calculateHeight(UIElement forElement, boolean includePadding){
         Pair<Float, Float> totalHeight = null;

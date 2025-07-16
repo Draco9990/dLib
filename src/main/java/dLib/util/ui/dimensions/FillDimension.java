@@ -6,9 +6,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.FillDimensionValueEditor;
 import dLib.ui.Alignment;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
-import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.util.helpers.UIHelpers;
@@ -29,30 +27,26 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     //region Class Methods
 
+    @Override
+    protected Float tryCalculateValue_Width(UIElement forElement) {
+        if(!canCalculateWidth(forElement)) return null;
+        if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+
+        return calculateWidth(forElement);
+    }
+
+    @Override
+    protected Float tryCalculateValue_Height(UIElement forElement) {
+        if(!canCalculateHeight(forElement)) return null;
+        if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+
+        return calculateHeight(forElement);
+    }
+
+
     //region Calculation Methods
 
-    @Override
-    protected void setCalculatedValue(UIElement forElement, float value) {
-        if(reference == ReferenceDimension.WIDTH){
-            value -= forElement.getPaddingRight();
-        }
-        else if(reference == ReferenceDimension.HEIGHT){
-            value -= forElement.getPaddingTop();
-        }
-
-        super.setCalculatedValue(forElement, value);
-    }
-
     //region Width
-
-    @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, calculateWidth(forElement)),
-                () -> canCalculateWidth(forElement),
-                () -> !forElement.getPaddingRightRaw().needsRecalculation()
-        ));
-    }
 
     private Float calculateWidth(UIElement forElement){
         Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
@@ -113,15 +107,6 @@ public class FillDimension extends AbstractDimension implements Serializable {
     //endregion
 
     //region Height
-
-    @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_FILL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, calculateHeight(forElement)),
-                () -> canCalculateHeight(forElement),
-                () -> !forElement.getPaddingTopRaw().needsRecalculation()
-        ));
-    }
 
     private Float calculateHeight(UIElement forElement){
         Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);

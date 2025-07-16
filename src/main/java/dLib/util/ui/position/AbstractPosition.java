@@ -8,7 +8,7 @@ import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
 
-public abstract class AbstractPosition extends ElementDescriptor<AbstractPosition.ReferencePosition> implements IEditableValue, Serializable {
+public abstract class AbstractPosition extends ElementDescriptor<AbstractPosition.ReferencePosition, AbstractPosition> implements IEditableValue, Serializable {
     private static final long serialVersionUID = 1L;
 
     //region Constructors
@@ -24,19 +24,19 @@ public abstract class AbstractPosition extends ElementDescriptor<AbstractPositio
     //region Calculation
 
     @Override
-    public Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationInstruction(UIElement forElement) {
+    protected Float tryCalculateValue(UIElement forElement) {
         if(reference == ReferencePosition.X){
-            return getCalculationFormula_X(forElement);
+            return tryCalculateValue_X(forElement);
         }
         else if(reference == ReferencePosition.Y){
-            return getCalculationFormula_Y(forElement);
+            return tryCalculateValue_Y(forElement);
         }
 
         return null;
     }
 
-    protected abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_X(UIElement forElement);
-    protected abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Y(UIElement forElement);
+    protected abstract Float tryCalculateValue_X(UIElement forElement);
+    protected abstract Float tryCalculateValue_Y(UIElement forElement);
 
     //endregion
 

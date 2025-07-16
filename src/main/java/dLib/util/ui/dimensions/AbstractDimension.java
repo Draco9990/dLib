@@ -1,16 +1,14 @@
 package dLib.util.ui.dimensions;
 
-import basemod.Pair;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.Alignment;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
 
 import java.io.Serializable;
 
-public abstract class AbstractDimension extends ElementDescriptor<AbstractDimension.ReferenceDimension> implements IEditableValue, Serializable {
+public abstract class AbstractDimension extends ElementDescriptor<AbstractDimension.ReferenceDimension, AbstractDimension> implements IEditableValue, Serializable {
     private static final long serialVersionUID = 1L;
 
     //region Constructors
@@ -25,19 +23,20 @@ public abstract class AbstractDimension extends ElementDescriptor<AbstractDimens
 
     //region Calculations
 
-    public Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationInstruction(UIElement forElement) {
-        if(reference == ReferenceDimension.WIDTH){
-            return getCalculationFormula_Width(forElement);
+    @Override
+    protected Float tryCalculateValue(UIElement forElement) {
+        if(reference == AbstractDimension.ReferenceDimension.WIDTH){
+            return tryCalculateValue_Width(forElement);
         }
-        else if(reference == ReferenceDimension.HEIGHT){
-            return getCalculationFormula_Height(forElement);
+        else if(reference == AbstractDimension.ReferenceDimension.HEIGHT){
+            return tryCalculateValue_Height(forElement);
         }
 
         return null;
     }
 
-    protected abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement);
-    protected abstract Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement);
+    protected abstract Float tryCalculateValue_Width(UIElement forElement);
+    protected abstract Float tryCalculateValue_Height(UIElement forElement);
 
     //endregion
 

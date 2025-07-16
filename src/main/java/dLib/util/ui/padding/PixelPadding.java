@@ -1,8 +1,5 @@
 package dLib.util.ui.padding;
 
-import basemod.Pair;
-import dLib.ui.ElementCalculationManager;
-import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
@@ -28,20 +25,16 @@ public class PixelPadding extends AbstractPadding implements Serializable {
 
     //region Calculation
 
+
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Horizontal(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.PADDING_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, val)
-        ));
+    protected Float tryCalculateValue_Horizontal(UIElement forElement) {
+        return (float) val;
     }
 
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Vertical(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.PADDING_PIXEL, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, val)
-        ));
+    protected Float tryCalculateValue_Vertical(UIElement forElement) {
+        return (float) val;
     }
-
 
     //endregion
 

@@ -1,13 +1,10 @@
 package dLib.util.ui.dimensions;
 
-import basemod.Pair;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.MirrorDimensionValueEditor;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
-import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
@@ -28,27 +25,31 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
 
     //region Calculation Methods
 
-    //region Width
-
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_MIRROR, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, forElement.getHeight()),
-                () -> !forElement.needsHeightCalculation()));
+    protected Float tryCalculateValue_Width(UIElement forElement) {
+        if(forElement.getHeightRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+
+        if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+
+        float elementFullHeight = forElement.getHeight() + forElement.getPaddingTop() + forElement.getPaddingBottom();
+        return elementFullHeight - forElement.getPaddingLeft() - forElement.getPaddingRight();
     }
 
-    //endregion
-
-    //region Height
-
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_MIRROR, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, forElement.getWidth()),
-                () -> !forElement.needsWidthCalculation()));
-    }
+    protected Float tryCalculateValue_Height(UIElement forElement) {
+        if(forElement.getWidthRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
 
-    //endregion
+        if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+
+        float elementFullWidth = forElement.getWidth() + forElement.getPaddingLeft() + forElement.getPaddingRight();
+        return elementFullWidth - forElement.getPaddingTop() - forElement.getPaddingBottom();
+    }
 
     //endregion
 

@@ -2680,99 +2680,27 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Position & Dimension Calculations
 
-    public ArrayList<Pair<Integer, ElementCalculationManager.ElementCalculationInstruction>> collectCalculationInstructions(){
-        ArrayList<Pair<Integer, ElementCalculationManager.ElementCalculationInstruction>> calculationInstructions = new ArrayList<>();
+    public boolean calculationPass(){
+        boolean calculatedAll = true;
 
-        if(getLocalPositionXRaw().needsRecalculation()) {
-            calculationInstructions.add(getLocalPositionXRaw().getCalculationInstruction(this));
+        if(getPaddingLeftRaw().needsRecalculation()) calculatedAll &= getPaddingLeftRaw().calculateValue(this);
+        if(getPaddingBottomRaw().needsRecalculation()) calculatedAll &= getPaddingBottomRaw().calculateValue(this);
+        if(getPaddingRightRaw().needsRecalculation()) calculatedAll &= getPaddingRightRaw().calculateValue(this);
+        if(getPaddingTopRaw().needsRecalculation()) calculatedAll &= getPaddingTopRaw().calculateValue(this);
 
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getLocalPositionXRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getLocalPositionYRaw().needsRecalculation()){
-            calculationInstructions.add(getLocalPositionYRaw().getCalculationInstruction(this));
+        if(getLocalPositionXRaw().needsRecalculation()) calculatedAll &= getLocalPositionXRaw().calculateValue(this);
+        if(getLocalPositionYRaw().needsRecalculation()) calculatedAll &= getLocalPositionYRaw().calculateValue(this);
 
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getLocalPositionYRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
+        if(getMinimumWidthRaw().needsRecalculation()) calculatedAll &= getMinimumWidthRaw().calculateValue(this);
+        if(getMinimumHeightRaw().needsRecalculation()) calculatedAll &= getMinimumHeightRaw().calculateValue(this);
 
-        if(getMinimumWidthRaw().needsRecalculation()) {
-            calculationInstructions.add(getMinimumWidthRaw().getCalculationInstruction(this));
+        if(getMaximumWidthRaw().needsRecalculation()) calculatedAll &= getMaximumWidthRaw().calculateValue(this);
+        if(getMaximumHeightRaw().needsRecalculation()) calculatedAll &= getMaximumHeightRaw().calculateValue(this);
 
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getMinimumWidthRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getMinimumHeightRaw().needsRecalculation()) {
-            calculationInstructions.add(getMinimumHeightRaw().getCalculationInstruction(this));
+        if(needsWidthCalculation()) calculatedAll &= getWidthRaw().calculateValue(this);
+        if(needsHeightCalculation()) calculatedAll &= getHeightRaw().calculateValue(this);
 
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getMinimumHeightRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-
-        if(getMaximumWidthRaw().needsRecalculation()) {
-            calculationInstructions.add(getMaximumWidthRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getMaximumWidthRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getMaximumHeightRaw().needsRecalculation()) {
-            calculationInstructions.add(getMaximumHeightRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getMaximumHeightRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-
-        if(needsWidthCalculation()) {
-            calculationInstructions.add(getWidthRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getWidthRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(needsHeightCalculation()) {
-            calculationInstructions.add(getHeightRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getHeightRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-
-        if(getPaddingLeftRaw().needsRecalculation()){
-            calculationInstructions.add(getPaddingLeftRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getPaddingLeftRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getPaddingBottomRaw().needsRecalculation()){
-            calculationInstructions.add(getPaddingBottomRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getPaddingBottomRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getPaddingRightRaw().needsRecalculation()){
-            calculationInstructions.add(getPaddingRightRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getPaddingRightRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-        if(getPaddingTopRaw().needsRecalculation()){
-            calculationInstructions.add(getPaddingTopRaw().getCalculationInstruction(this));
-
-            if(calculationInstructions.get(calculationInstructions.size() - 1) == null){
-                getPaddingTopRaw().getCalculationInstruction(this); //* For Debug
-            }
-        }
-
-        return calculationInstructions;
+        return calculatedAll;
     }
 
     //endregion

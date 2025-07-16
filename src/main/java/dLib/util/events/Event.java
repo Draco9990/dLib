@@ -80,4 +80,8 @@ public class Event<EventType> {
     public int count(){
         return subscribers.size();
     }
+
+    public boolean hasBinding(Object owner) {
+        return boundsObjects.containsKey(owner);
+    }
 }

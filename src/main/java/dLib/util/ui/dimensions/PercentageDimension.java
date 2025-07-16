@@ -1,14 +1,11 @@
 package dLib.util.ui.dimensions;
 
-import basemod.Pair;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PercentageDimensionValueEditor;
 import dLib.ui.Alignment;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
-import dLib.ui.descriptors.ElementDescriptorCalcOrders;
 import dLib.ui.elements.UIElement;
 import dLib.util.helpers.UIHelpers;
 
@@ -32,43 +29,28 @@ public class PercentageDimension extends AbstractDimension implements Serializab
 
     //region Calculation Methods
 
-    @Override
-    protected void setCalculatedValue(UIElement forElement, float value) {
-        if(reference == ReferenceDimension.WIDTH){
-            value -= forElement.getPaddingRight();
-        }
-        else if(reference == ReferenceDimension.HEIGHT){
-            value -= forElement.getPaddingTop();
-        }
-
-        super.setCalculatedValue(forElement, value);
-    }
-
-    //region Width
 
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Width(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentWidthInHierarchy(forElement) * percentage)),
-                () -> UIHelpers.getCalculatedParentWidthInHierarchy(forElement) != null,
-                () -> !forElement.getPaddingRightRaw().needsRecalculation()
-        ));
+    protected Float tryCalculateValue_Width(UIElement forElement) {
+        if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+
+        Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
+        if(parentWidth == null) return null;
+
+        return (parentWidth * percentage) - forElement.getPaddingLeft() - forElement.getPaddingRight();
     }
-
-    //endregion
-
-    //region Height
 
     @Override
-    protected Pair<Integer, ElementCalculationManager.ElementCalculationInstruction> getCalculationFormula_Height(UIElement forElement) {
-        return new Pair<>(ElementDescriptorCalcOrders.DIMENSION_PERCENTAGE, new ElementCalculationManager.ElementCalculationInstruction(
-                () -> setCalculatedValue(forElement, (UIHelpers.getCalculatedParentHeightInHierarchy(forElement) * percentage)),
-                () -> UIHelpers.getCalculatedParentHeightInHierarchy(forElement) != null,
-                () -> !forElement.getPaddingTopRaw().needsRecalculation()
-        ));
-    }
+    protected Float tryCalculateValue_Height(UIElement forElement) {
+        if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
 
-    //endregion
+        Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
+        if(parentHeight == null) return null;
+
+        return (parentHeight * percentage) - forElement.getPaddingTop() - forElement.getPaddingBottom();
+    }
 
     //endregion
 
