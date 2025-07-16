@@ -1,9 +1,7 @@
 package dLib.betterscreens.ui.elements.items;
 
-import dLib.properties.objects.FloatProperty;
-import dLib.properties.objects.IntegerProperty;
-import dLib.properties.objects.PropertyArray;
-import dLib.properties.objects.StringProperty;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import dLib.properties.objects.*;
 import dLib.properties.ui.elements.OnValueChangedStringValueEditor;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
@@ -244,12 +242,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
     private static class ItemFiltersSidebar extends Renderable{
         StringProperty searchText = new StringProperty("");
 
-        PropertyArray<Integer> test = new PropertyArray<>(
-                new ArrayList<IntegerProperty>(){{
-                    add(new IntegerProperty(0).setName("W"));
-                    add(new IntegerProperty(0).setName("H"));
-                }}
-        );
+        PropertyArray<Enum<AbstractRelic.RelicTier>> test = new PropertyArray<>(new EnumProperty<>(AbstractRelic.RelicTier.BOSS));
 
         public ItemFiltersSidebar() {
             super(Tex.stat(UICommonResources.bg03), Pos.px(1345), Pos.px(1080-1045), Dim.px(534), Dim.px(995));

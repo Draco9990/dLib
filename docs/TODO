@@ -3,6 +3,7 @@ implement lambda bindings everywhere and replace refresh()
 unique controls inside dataitembox
 -- padding expanding outward instead of pushing content inward in listboxes?
 -- test screen not working as intented
+-- property value editor not working when adding items with deletionj enabled
 
 It doesn't correctly realise that a selection ends with []
 It doesn't recolor inside color, we need to extract the markup and append it to the end
