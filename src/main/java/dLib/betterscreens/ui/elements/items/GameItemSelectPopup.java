@@ -25,7 +25,7 @@ import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
 
-public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
+public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<RarityType>> extends UIElement {
 
     //region Variables
 
@@ -65,7 +65,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
     public abstract AbstractTextureBinding getItemTexture(GameItemType item);
     public abstract String getItemName(GameItemType item);
-    public abstract String getItemRarity(GameItemType item);
+    public abstract RarityType getItemRarity(GameItemType item);
     public abstract String getItemDescription(GameItemType item);
     public abstract String getItemFlavorText(GameItemType item);
 
@@ -148,7 +148,9 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
                         @Override
                         protected boolean filterCheck(String filterText, UIElement item, GameItemType originalItem) {
-                            return super.filterCheck(filterText, item, originalItem);
+                            GameItemSelectPopup parent = getParentOfType(GameItemSelectPopup.class);
+                            return super.filterCheck(filterText, item, originalItem) &&
+                                    (parent.itemFiltersSidebar.displayRelicTiers.getValues().isEmpty() || parent.itemFiltersSidebar.displayRelicTiers.getValues().contains(parent.getItemRarity(originalItem)));
                         }
                     };
                     itemBox.setGridMode(true);
@@ -178,8 +180,8 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
             addChild(confirmButton);
         }
 
-        private static class GridItem<GameItemType> extends VerticalBox {
-            public GridItem(GameItemSelectPopup<GameItemType> inParent, GameItemType item) {
+        private static class GridItem<GameItemType, RarityType extends Enum<RarityType>> extends VerticalBox {
+            public GridItem(GameItemSelectPopup<GameItemType, RarityType> inParent, GameItemType item) {
                 super(Dim.px(180), Dim.px(230));
 
                 setTexture(Tex.stat(UICommonResources.white_pixel));
@@ -233,7 +235,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
         public void setDetailsItem(GameItemType item) {
             itemNameBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemName(item));
             itemImage.setTexture(getParentOfType(GameItemSelectPopup.class).getItemTexture(item));
-            itemRarityBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemRarity(item));
+            itemRarityBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemRarity(item).name());
             itemDescription.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemDescription(item));
             itemFlavor.textBox.setText("\"" + getParentOfType(GameItemSelectPopup.class).getItemFlavorText(item) + "\"");
         }
@@ -242,7 +244,8 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
     private static class ItemFiltersSidebar extends Renderable{
         StringProperty searchText = new StringProperty("");
 
-        PropertyArray<Enum<AbstractRelic.RelicTier>> test = new PropertyArray<>(new EnumProperty<>(AbstractRelic.RelicTier.BOSS));
+        PropertyArray<Enum<AbstractRelic.RelicTier>> displayRelicTiers = new PropertyArray<>(new EnumProperty<>(AbstractRelic.RelicTier.COMMON))
+                .setName("Of Rarity");
 
         public ItemFiltersSidebar() {
             super(Tex.stat(UICommonResources.bg03), Pos.px(1345), Pos.px(1080-1045), Dim.px(534), Dim.px(995));
@@ -263,11 +266,12 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                 OnValueChangedStringValueEditor searchTextEditor = new OnValueChangedStringValueEditor(searchText);
                 filtersBox.addChild(searchTextEditor);
 
-                filtersBox.addChild(test.makeEditorFor());
+                filtersBox.addChild(displayRelicTiers.makeEditorFor(true));
             }
             addChild(filtersBox);
 
             searchText.onValueChangedEvent.subscribe(this, (s, s2) -> getParentOfType(GameItemSelectPopup.class).itemListWindow.itemBox.setFilterText(s2));
+            displayRelicTiers.onSingleValueChangedEvent.subscribe(this, (oldVal, newVal, indx) -> getParentOfType(GameItemSelectPopup.class).itemListWindow.itemBox.refilterItems());
         }
     }
 

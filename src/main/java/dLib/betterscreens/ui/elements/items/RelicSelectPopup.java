@@ -8,7 +8,7 @@ import dLib.util.bindings.texture.Tex;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic> {
+public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic, AbstractRelic.RelicTier> {
     public RelicSelectPopup() {
         super();
 
@@ -35,8 +35,8 @@ public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic> {
     }
 
     @Override
-    public String getItemRarity(AbstractRelic item) {
-        return item.tier.name() + " Relic";
+    public AbstractRelic.RelicTier getItemRarity(AbstractRelic item) {
+        return item.tier;
     }
 
     @Override

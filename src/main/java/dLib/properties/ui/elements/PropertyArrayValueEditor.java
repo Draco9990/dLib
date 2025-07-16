@@ -57,8 +57,8 @@ public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends 
             builtContent.addChild(addButton);
 
             boundProperty.onSingleValueChangedEvent.subscribe(valueBox, (editingPropertyType, editingPropertyType2, integer) -> {
-                valueBox.setCanDelete(boundProperty.canDelete());
                 valueBox.setChildren(boundProperty.getValue());
+                valueBox.setCanDelete(boundProperty.canDelete());
             });
         }
 

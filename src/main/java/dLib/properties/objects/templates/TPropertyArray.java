@@ -8,6 +8,7 @@ import dLib.util.events.localevents.TriConsumerEvent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 public class TPropertyArray<ValueType, PropertyType> extends TProperty<ArrayList<TProperty<ValueType, ?>>, PropertyType> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -50,6 +51,7 @@ public class TPropertyArray<ValueType, PropertyType> extends TProperty<ArrayList
 
         ArrayList<TProperty<ValueType, ?>> oldValArr = new ArrayList<>(value);
         value.add(newProperty);
+        newProperty.onValueChangedEvent.subscribe(newProperty, (valueType, valueType2) -> onSingleValueChangedEvent.invoke(valueType, valueType2, value.size() - 1));
 
         onValueAddedEvent.invoke(val, value.size() - 1);
         onSingleValueChangedEvent.invoke(null, val, value.size() - 1);
@@ -65,6 +67,7 @@ public class TPropertyArray<ValueType, PropertyType> extends TProperty<ArrayList
 
         TProperty<ValueType, ?> newProperty = SerializationHelpers.deepCopySerializable(propertyTemplate);
         value.add(newProperty);
+        newProperty.onValueChangedEvent.subscribe(newProperty, (valueType, valueType2) -> onSingleValueChangedEvent.invoke(valueType, valueType2, value.size() - 1));
 
         onValueAddedEvent.invoke(null, value.size() - 1);
         onSingleValueChangedEvent.invoke(null, null, value.size() - 1);
@@ -85,9 +88,16 @@ public class TPropertyArray<ValueType, PropertyType> extends TProperty<ArrayList
         if(!validVal) return false;
 
         onSingleValueChangedEvent.invoke(oldValue, val, index);
-        onValueChangedEvent.invoke(oldValArr, value);
 
         return true;
+    }
+
+    public ArrayList<ValueType> getValues(){
+        ArrayList<ValueType> values = new ArrayList<>();
+        for (TProperty<ValueType, ?> property : value) {
+            values.add(property.getValue());
+        }
+        return values;
     }
 
     //endregion Array Manipulation methods
