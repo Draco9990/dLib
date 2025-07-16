@@ -50,9 +50,9 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
         itemListWindow = new ItemListWindow<>();
         addChild(itemListWindow);
 
-        itemFiltersSidebar = new ItemFiltersSidebar();
+        itemFiltersSidebar = new ItemFiltersSidebar(getDefaultItemRarity());
         addChild(itemFiltersSidebar);
-        itemDetailsSidebar = new ItemDetailsSidebar<>();
+        itemDetailsSidebar = new ItemDetailsSidebar<>(this);
         itemDetailsSidebar.hideAndDisableInstantly();
         addChild(itemDetailsSidebar);
     }
@@ -65,9 +65,12 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
 
     public abstract AbstractTextureBinding getItemTexture(GameItemType item);
     public abstract String getItemName(GameItemType item);
+    public abstract RarityType getDefaultItemRarity();
     public abstract RarityType getItemRarity(GameItemType item);
     public abstract String getItemDescription(GameItemType item);
-    public abstract String getItemFlavorText(GameItemType item);
+
+    public boolean hasItemFlavorText() { return true; }
+    public String getItemFlavorText(GameItemType item) { return ""; }
 
     //endregion Item Descriptors
 
@@ -204,7 +207,7 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
         ImageTextBox itemDescription;
         ImageTextBox itemFlavor;
 
-        public ItemDetailsSidebar() {
+        public ItemDetailsSidebar(GameItemSelectPopup parent) {
             super(Tex.stat(UICommonResources.bg03), Pos.px(1345), Pos.px(1080-1045), Dim.px(534), Dim.px(995));
 
             VerticalBox vbox = new VerticalBox(Pos.px(51), Pos.px(78), Dim.px(426), Dim.px(868));
@@ -227,7 +230,7 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
 
                 itemFlavor = new ImageTextBox("", Dim.fill(), Dim.px(150));
                 itemFlavor.textBox.setWrap(true);
-                vbox.addChild(itemFlavor);
+                if(parent.hasItemFlavorText()) vbox.addChild(itemFlavor);
             }
             addChild(vbox);
         }
@@ -237,18 +240,20 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
             itemImage.setTexture(getParentOfType(GameItemSelectPopup.class).getItemTexture(item));
             itemRarityBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemRarity(item).name());
             itemDescription.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemDescription(item));
-            itemFlavor.textBox.setText("\"" + getParentOfType(GameItemSelectPopup.class).getItemFlavorText(item) + "\"");
+            if(getParentOfType(GameItemSelectPopup.class).hasItemFlavorText()) itemFlavor.textBox.setText("\"" + getParentOfType(GameItemSelectPopup.class).getItemFlavorText(item) + "\"");
         }
     }
 
-    private static class ItemFiltersSidebar extends Renderable{
+    private static class ItemFiltersSidebar<RarityType extends Enum<RarityType>> extends Renderable{
         StringProperty searchText = new StringProperty("");
 
-        PropertyArray<Enum<AbstractRelic.RelicTier>> displayRelicTiers = new PropertyArray<>(new EnumProperty<>(AbstractRelic.RelicTier.COMMON))
-                .setName("Of Rarity");
+        PropertyArray<Enum<RarityType>> displayRelicTiers;
 
-        public ItemFiltersSidebar() {
+        public ItemFiltersSidebar(RarityType defaultRarity) {
             super(Tex.stat(UICommonResources.bg03), Pos.px(1345), Pos.px(1080-1045), Dim.px(534), Dim.px(995));
+
+            displayRelicTiers = new PropertyArray<>(new EnumProperty<>(defaultRarity))
+                    .setName("Of Rarity");
 
             VerticalBox filtersBox = new VerticalBox(Pos.px(51), Pos.px(78), Dim.px(426), Dim.px(868));
             filtersBox.setItemSpacing(5);

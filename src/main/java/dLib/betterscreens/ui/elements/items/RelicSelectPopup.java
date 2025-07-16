@@ -35,6 +35,11 @@ public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic, Abstrac
     }
 
     @Override
+    public AbstractRelic.RelicTier getDefaultItemRarity() {
+        return AbstractRelic.RelicTier.DEPRECATED;
+    }
+
+    @Override
     public AbstractRelic.RelicTier getItemRarity(AbstractRelic item) {
         return item.tier;
     }

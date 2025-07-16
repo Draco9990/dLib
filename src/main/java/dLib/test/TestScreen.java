@@ -1,6 +1,7 @@
 package dLib.test;
 
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
+import dLib.betterscreens.ui.elements.items.PotionSelectPopup;
 import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.VerticalCollapsableBox;
@@ -94,7 +95,7 @@ public class TestScreen extends UIElement {
         }
         addChild(scrollbox);*/
 
-        RelicSelectPopup pop = new RelicSelectPopup();
+        PotionSelectPopup pop = new PotionSelectPopup();
         pop.open();
     }
 }
