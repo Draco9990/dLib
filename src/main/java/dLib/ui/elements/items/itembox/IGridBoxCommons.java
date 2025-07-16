@@ -20,7 +20,7 @@ public interface IGridBoxCommons extends ILayoutProvider {
     }
     @Override
     default boolean canCalculateContentHeight() {
-        return !((ItemBox)this).needsWidthCalculation();
+        return !((ItemBox) this).getWidthRaw().needsRecalculation();
     }
     @Override
     default Pair<Float, Float> calculateContentHeight(){

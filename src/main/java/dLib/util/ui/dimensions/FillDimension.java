@@ -68,7 +68,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
             float staticWidth = 0;
             float fillElementCount = 0;
             for(UIElement sibling : itemBox.getActiveChildren()){
-                if(sibling.getWidthRaw() instanceof FillDimension || sibling.needsWidthCalculation()){ // Cases where sibling is parent of child but has something like auto dim
+                if(sibling.getWidthRaw() instanceof FillDimension || sibling.getWidthRaw().needsRecalculation()){ // Cases where sibling is parent of child but has something like auto dim
                     fillElementCount++;
                 }
                 else{
@@ -94,7 +94,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
         else{
             for (UIElement sibling : ((ItemBox) parentWidth.getValue()).getActiveChildren()){
                 if(sibling.getWidthRaw() instanceof FillDimension) continue;
-                if(!sibling.needsWidthCalculation()) continue;
+                if(!sibling.getWidthRaw().needsRecalculation()) continue;
                 if(forElement.isDescendantOf(sibling)) continue;
 
                 return false;
@@ -128,7 +128,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
             float staticHeight = 0;
             int fillElementCount = 0;
             for(UIElement sibling : itemBox.getActiveChildren()){
-                if(sibling.getHeightRaw() instanceof FillDimension || sibling.needsHeightCalculation()){ // Cases where sibling is parent of child but has something like auto dim
+                if(sibling.getHeightRaw() instanceof FillDimension || sibling.getHeightRaw().needsRecalculation()){ // Cases where sibling is parent of child but has something like auto dim
                     fillElementCount++;
                 }
                 else{
@@ -154,7 +154,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
         else{
             for (UIElement sibling : ((ItemBox) parentHeight.getValue()).getActiveChildren()){
                 if(sibling.getHeightRaw() instanceof FillDimension) continue;
-                if(!sibling.needsHeightCalculation()) continue;
+                if(!sibling.getHeightRaw().needsRecalculation()) continue;
                 if(forElement.isDescendantOf(sibling)) continue;
 
                 return false;

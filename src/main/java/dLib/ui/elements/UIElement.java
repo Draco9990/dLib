@@ -22,7 +22,6 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.tools.uicreator.ui.elements.interfaces.IGeneratedUIElement;
 import dLib.ui.Alignment;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.animations.exit.UIExitAnimation;
 import dLib.ui.elements.components.AbstractUIElementComponent;
@@ -2697,8 +2696,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(getMaximumWidthRaw().needsRecalculation()) calculatedAll &= getMaximumWidthRaw().calculateValue(this);
         if(getMaximumHeightRaw().needsRecalculation()) calculatedAll &= getMaximumHeightRaw().calculateValue(this);
 
-        if(needsWidthCalculation()) calculatedAll &= getWidthRaw().calculateValue(this);
-        if(needsHeightCalculation()) calculatedAll &= getHeightRaw().calculateValue(this);
+        if(getWidthRaw().needsRecalculation()) calculatedAll &= getWidthRaw().calculateValue(this);
+        if(getHeightRaw().needsRecalculation()) calculatedAll &= getHeightRaw().calculateValue(this);
 
         return calculatedAll;
     }
@@ -2798,13 +2797,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     public AbstractDimension getMaximumHeightRaw(){
         return maximumHeight;
-    }
-
-    public boolean needsWidthCalculation(){
-        return getWidthRaw().needsRecalculation() || getMinimumWidthRaw().needsRecalculation() || getMaximumWidthRaw().needsRecalculation();
-    }
-    public boolean needsHeightCalculation(){
-        return getHeightRaw().needsRecalculation() || getMinimumHeightRaw().needsRecalculation() || getMaximumHeightRaw().needsRecalculation();
     }
 
     public enum BoundCalculationType{

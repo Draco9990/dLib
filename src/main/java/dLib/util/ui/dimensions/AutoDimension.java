@@ -120,7 +120,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
             if(child.getParent() == forElement){
-                if(child.needsWidthCalculation()){
+                if(child.getWidthRaw().needsRecalculation()){
                     return false;
                 }
 
@@ -131,7 +131,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 }
             }
             else{
-                if(child.needsWidthCalculation() || child.getLocalPositionXRaw().needsRecalculation()){
+                if(child.getWidthRaw().needsRecalculation() || child.getLocalPositionXRaw().needsRecalculation()){
                     return false;
                 }
             }
@@ -224,7 +224,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
             if(child.getParent() == forElement){
-                if(child.needsHeightCalculation()){
+                if(child.getHeightRaw().needsRecalculation()){
                     if(!(child.getHeightRaw() instanceof FillDimension) && !(child.getHeightRaw() instanceof PercentageDimension)){
                         return false;
                     }
@@ -237,7 +237,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 }
             }
             else{
-                if(child.needsHeightCalculation() || child.getLocalPositionYRaw().needsRecalculation()){
+                if(child.getHeightRaw().needsRecalculation() || child.getLocalPositionYRaw().needsRecalculation()){
                     return false;
                 }
             }

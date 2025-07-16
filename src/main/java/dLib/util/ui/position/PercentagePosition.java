@@ -107,7 +107,7 @@ public class PercentagePosition extends AbstractPosition implements Serializable
             else{
                 Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
                 if(parentHeight == null) return null;
-                if(forElement.needsHeightCalculation()) return null;
+                if(forElement.getHeightRaw().needsRecalculation()) return null;
 
                 calculatedVal = ((parentHeight - forElement.getHeight()) * 0.5f);
             }
@@ -122,7 +122,7 @@ public class PercentagePosition extends AbstractPosition implements Serializable
             else{
                 Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
                 if(parentHeight == null) return null;
-                if(forElement.needsHeightCalculation()) return null;
+                if(forElement.getHeightRaw().needsRecalculation()) return null;
 
                 calculatedVal = (parentHeight - forElement.getHeight() + (parentHeight * percentage));
             }
