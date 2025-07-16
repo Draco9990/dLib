@@ -1,5 +1,6 @@
 package dLib.util.ui.dimensions;
 
+import basemod.Pair;
 import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
@@ -33,23 +34,29 @@ public class PercentageDimension extends AbstractDimension implements Serializab
     @Override
     protected Float tryCalculateValue_Width(UIElement forElement) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
         if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingRightRaw());
 
-        Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-        if(parentWidth == null) return null;
+        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+        if(parentWidth.getKey() == null) return null;
+        if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
-        return (parentWidth * percentage) - forElement.getPaddingLeft() - forElement.getPaddingRight();
+        return (parentWidth.getKey() * percentage) - forElement.getPaddingLeft() - forElement.getPaddingRight();
     }
 
     @Override
     protected Float tryCalculateValue_Height(UIElement forElement) {
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingTopRaw());
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
 
-        Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-        if(parentHeight == null) return null;
+        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+        if(parentHeight.getKey() == null) return null;
+        if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
-        return (parentHeight * percentage) - forElement.getPaddingTop() - forElement.getPaddingBottom();
+        return (parentHeight.getKey() * percentage) - forElement.getPaddingTop() - forElement.getPaddingBottom();
     }
 
     //endregion

@@ -35,7 +35,9 @@ public class PixelDimension extends AbstractDimension implements Serializable {
     @Override
     protected Float tryCalculateValue_Width(UIElement forElement) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
         if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingRightRaw());
 
         return size - forElement.getPaddingLeft() - forElement.getPaddingRight();
     }
@@ -43,7 +45,9 @@ public class PixelDimension extends AbstractDimension implements Serializable {
     @Override
     protected Float tryCalculateValue_Height(UIElement forElement) {
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingTopRaw());
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
 
         return size - forElement.getPaddingTop() - forElement.getPaddingBottom();
     }

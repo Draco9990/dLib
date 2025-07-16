@@ -1,5 +1,6 @@
 package dLib.util.ui.position;
 
+import basemod.Pair;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
@@ -37,100 +38,85 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     @Override
     protected Float tryCalculateValue_X(UIElement forElement) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
+
+        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+        if(parentWidth.getKey() == null) return null;
+        if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
         Float calculatedVal = null;
 
         if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
-            Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-            if(parentWidth == null) return null;
-
-            calculatedVal = parentWidth * percentage;
+            calculatedVal = parentWidth.getKey() * percentage;
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER){
             if(forElement.getWidthRaw() instanceof FillDimension){
-                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-                if(parentWidth == null) return null;
-
-                calculatedVal = parentWidth * percentage;
+                calculatedVal = parentWidth.getKey() * percentage;
             }
             else{
-                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-                if(parentWidth == null) return null;
                 if(forElement.getWidthRaw().needsRecalculation()) return null;
+                registerDependency(forElement.getWidthRaw());
 
-                calculatedVal = ((parentWidth - forElement.getWidth()) * 0.5f);
+                calculatedVal = ((parentWidth.getKey() - forElement.getWidth()) * 0.5f);
             }
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
             if(forElement.getWidthRaw() instanceof FillDimension){
-                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-                if(parentWidth == null) return null;
-
-                calculatedVal = parentWidth * percentage + parentWidth;
+                calculatedVal = parentWidth.getKey() * percentage + parentWidth.getKey();
             }
             else{
-                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-                if(parentWidth == null) return null;
                 if(forElement.getWidthRaw().needsRecalculation()) return null;
+                registerDependency(forElement.getWidthRaw());
 
-                calculatedVal = (parentWidth - forElement.getWidth() + (parentWidth * percentage));
+                calculatedVal = (parentWidth.getKey() - forElement.getWidth() + (parentWidth.getKey() * percentage));
             }
         }
 
         if(calculatedVal != null){
             calculatedVal += forElement.getOffsetX();
+
             calculatedVal += forElement.getPaddingLeft();
+            registerDependency(forElement.getPaddingLeftRaw());
         }
 
         return calculatedVal;
     }
 
+    // Dont forget we are renbdering bottom to top
     @Override
     protected Float tryCalculateValue_Y(UIElement forElement) {
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
+
+        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+        if(parentHeight.getKey() == null) return null;
+        if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
         Float calculatedVal = null;
 
         if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
-            Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-            if(parentHeight == null) return null;
-
-            calculatedVal = parentHeight * percentage;
+            calculatedVal = parentHeight.getKey() * percentage + parentHeight.getKey();
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             if(forElement.getHeightRaw() instanceof FillDimension){
-                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-                if(parentHeight == null) return null;
-
-                calculatedVal = parentHeight * percentage;
+                calculatedVal = parentHeight.getKey() * percentage;
             }
             else{
-                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-                if(parentHeight == null) return null;
                 if(forElement.getHeightRaw().needsRecalculation()) return null;
+                registerDependency(forElement.getHeightRaw());
 
-                calculatedVal = ((parentHeight - forElement.getHeight()) * 0.5f);
+                calculatedVal = ((parentHeight.getKey() - forElement.getHeight()) * 0.5f);
             }
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-            if(forElement.getHeightRaw() instanceof FillDimension){
-                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-                if(parentHeight == null) return null;
-
-                calculatedVal = parentHeight * percentage + parentHeight;
-            }
-            else{
-                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-                if(parentHeight == null) return null;
-                if(forElement.getHeightRaw().needsRecalculation()) return null;
-
-                calculatedVal = (parentHeight - forElement.getHeight() + (parentHeight * percentage));
-            }
+            calculatedVal = parentHeight.getKey() * percentage;
         }
 
         if(calculatedVal != null){
             calculatedVal += forElement.getOffsetY();
+
             calculatedVal += forElement.getPaddingBottom();
+            registerDependency(forElement.getPaddingBottomRaw());
         }
 
         return calculatedVal;

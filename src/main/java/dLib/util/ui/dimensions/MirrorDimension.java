@@ -28,11 +28,16 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
     @Override
     protected Float tryCalculateValue_Width(UIElement forElement) {
         if(forElement.getHeightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getHeightRaw());
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingTopRaw());
 
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
         if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingRightRaw());
 
         float elementFullHeight = forElement.getHeight() + forElement.getPaddingTop() + forElement.getPaddingBottom();
         return elementFullHeight - forElement.getPaddingLeft() - forElement.getPaddingRight();
@@ -41,11 +46,16 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
     @Override
     protected Float tryCalculateValue_Height(UIElement forElement) {
         if(forElement.getWidthRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getWidthRaw());
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
         if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingRightRaw());
 
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingTopRaw());
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
 
         float elementFullWidth = forElement.getWidth() + forElement.getPaddingLeft() + forElement.getPaddingRight();
         return elementFullWidth - forElement.getPaddingTop() - forElement.getPaddingBottom();

@@ -26,9 +26,12 @@ public class MirrorPosition extends AbstractPosition implements Serializable {
     @Override
     protected Float tryCalculateValue_X(UIElement forElement) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
 
         if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getLocalPositionYRaw());
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
 
         float calculatedVal = forElement.getLocalPositionY() - forElement.getPaddingBottom();
 
@@ -41,9 +44,12 @@ public class MirrorPosition extends AbstractPosition implements Serializable {
     @Override
     protected Float tryCalculateValue_Y(UIElement forElement) {
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingTopRaw());
 
         if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getLocalPositionXRaw());
         if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingRightRaw());
 
         float calculatedVal = forElement.getLocalPositionX() - forElement.getPaddingRight();
 

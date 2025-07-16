@@ -1,6 +1,5 @@
 package dLib.ui.elements.items.itembox;
 
-import basemod.Pair;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.util.ui.dimensions.AbstractDimension;
@@ -8,7 +7,7 @@ import dLib.util.ui.position.AbstractPosition;
 
 import java.io.Serializable;
 
-public class GridBox extends UIItemBox implements IGridBoxCommons {
+public class GridBox extends UIItemBox {
     public GridBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(xPos, yPos, width, height);
 
@@ -57,16 +56,48 @@ public class GridBox extends UIItemBox implements IGridBoxCommons {
     //region ILayoutProvider
 
     @Override
+    public boolean providesWidth() {
+        return false;
+    }
+
+    @Override
     public boolean providesHeight(){
-        return IGridBoxCommons.super.providesHeight();
+        return true;
     }
     @Override
     public boolean canCalculateContentHeight(){
-        return IGridBoxCommons.super.canCalculateContentHeight();
+        return !getWidthRaw().needsRecalculation();
     }
     @Override
-    public Pair<Float, Float> calculateContentHeight(){
-        return IGridBoxCommons.super.calculateContentHeight();
+    public Float calculateContentHeight(){
+        int height = 0;
+        int currentXPos = 0;
+
+        for(UIElement child : filteredChildren){
+            if(filteredChildren.get(0) == child){
+                height += child.getPaddingTop();
+                height += child.getHeight();
+                height += itemSpacing;
+                height += child.getPaddingBottom();
+            }
+
+            if(!child.isActive()){
+                continue;
+            }
+
+            if(currentXPos + child.getWidth() + itemSpacing > getWidth()){
+                currentXPos = 0;
+
+                height += child.getPaddingTop();
+                height += child.getHeight();
+                height += itemSpacing;
+                height += child.getPaddingBottom();
+            }
+
+            currentXPos += child.getWidth() + itemSpacing + child.getPaddingRight();
+        }
+
+        return (float) height;
     }
 
     //endregion

@@ -5,6 +5,7 @@ import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.localevents.RunnableEvent;
 
+import javax.xml.bind.Element;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
     private Float value = null;
 
     public ArrayList<ElementDescriptor> dependencies = new ArrayList<>();
+    public ArrayList<ElementDescriptor> dependsOn = new ArrayList<>();
 
     //endregion
 
@@ -39,6 +41,8 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
     //region Calculation
 
     public boolean calculateValue(UIElement forElement){
+        while(!dependsOn.isEmpty()) unregisterDependency(dependsOn.get(0));
+
         Float value = tryCalculateValue(forElement);
         if(value != null){
             calculatedValue = value;
@@ -55,6 +59,14 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
     }
     public void requestRecalculation(){
         needsRecalculation = true;
+
+        for (ElementDescriptor dependency : dependencies) {
+            if (dependency.needsRecalculation()) {
+                continue;
+            }
+
+            dependency.requestRecalculation();
+        }
     }
 
     public float getCalculatedValue(){
@@ -67,6 +79,28 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
     public void setValueFromString(String value){
         throw new UnsupportedOperationException("setValueFromString not implemented for this class");
     }
+
+    //endregion
+
+    //region Dependencies
+
+    protected void registerDependency(ElementDescriptor descriptor){
+        if (descriptor == null || dependsOn.contains(descriptor)) {
+            return;
+        }
+
+        dependsOn.add(descriptor);
+        descriptor.dependencies.add(this);
+    }
+
+    protected void unregisterDependency(ElementDescriptor descriptor){
+        dependsOn.remove(descriptor);
+        descriptor.dependencies.remove(this);
+    }
+
+    //endregion Dependencies
+
+    //region Min Max Value
 
     //endregion
 
@@ -85,6 +119,9 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
         this.calculatedValue = other.calculatedValue;
         this.needsRecalculation = other.needsRecalculation;
+
+        this.minValue = other.minValue;
+        this.maxValue = other.maxValue;
     }
 
     //endregion

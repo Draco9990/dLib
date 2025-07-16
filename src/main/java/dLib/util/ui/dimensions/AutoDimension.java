@@ -12,7 +12,6 @@ import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.items.itembox.ItemBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.layout.ILayoutProvider;
-import dLib.util.ui.position.PixelPosition;
 
 import java.io.Serializable;
 
@@ -41,17 +40,19 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Float tryCalculateValue_Width(UIElement forElement) {
-        if(!canCalculateWidth(forElement)) return null;
+        Float childVal = calculateWidth(forElement, true);
+        if(childVal == null) return null;
+        calculatedValueForChildren = childVal;
 
-        calculatedValueForChildren = calculateWidth(forElement, false);
         return calculateWidth(forElement, true);
     }
 
     @Override
     protected Float tryCalculateValue_Height(UIElement forElement) {
-        if(!canCalculateHeight(forElement)) return null;
+        Float childVal = calculateHeight(forElement, true);
+        if(childVal == null) return null;
+        calculatedValueForChildren = childVal;
 
-        calculatedValueForChildren = calculateHeight(forElement, false);
         return calculateHeight(forElement, true);
     }
 
@@ -61,14 +62,29 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     private Float calculateWidth(UIElement forElement, boolean includePadding){
         Pair<Float, Float> totalWidth = null;
 
-        if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesWidth()){
-            totalWidth = ((ILayoutProvider) forElement).calculateContentWidth();
+        if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesWidth() && ((ILayoutProvider) forElement).canCalculateContentWidth()){ // TODO remove cancalculateContentWidth check
+            Float contentWidth = ((ILayoutProvider) forElement).calculateContentWidth(); // TODO register dependencies
+            if(contentWidth == null) return null;
+
+            if(includePadding){
+                if(!((ILayoutProvider) forElement).getContentPaddingLeftRaw().needsRecalculation()) return null;
+                registerDependency(((ILayoutProvider) forElement).getContentPaddingLeftRaw());
+
+                if(!((ILayoutProvider) forElement).getContentPaddingRightRaw().needsRecalculation()) return null;
+                registerDependency(((ILayoutProvider) forElement).getContentPaddingRightRaw());
+
+                contentWidth += ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
+            }
+
+            totalWidth = new Pair<>(0f, contentWidth);
         }
         else{
             for (UIElement child : forElement.getChildren()){
                 if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
-                Pair<Float, Float> childWidth = calculateWidthRecursive(child, includePadding);
+                Pair<Float, Float> childWidth = calculateChildWidth(child, includePadding);
+                if(childWidth == null) return null;
+
                 if(totalWidth == null){
                     totalWidth = childWidth;
                 }
@@ -83,17 +99,11 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        if(forElement instanceof ILayoutProvider && includePadding){
-            float width = ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
-
-            totalWidth = new Pair<>(
-                    totalWidth == null ? 0 : totalWidth.getKey() - ((ILayoutProvider) forElement).getContentPaddingLeft(),
-                    totalWidth == null ? width : totalWidth.getValue() + ((ILayoutProvider) forElement).getContentPaddingRight()
-            );
-        }
-
         if(forElement instanceof TextBox){
+            if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
+            registerDependency(forElement.getLocalPositionXRaw());
             float localPosX = forElement.getLocalPositionX();
+
             float width = ((TextBox) forElement).getTextWidth();
 
             totalWidth = new Pair<>(
@@ -107,51 +117,33 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
         return totalWidth.getValue() - totalWidth.getKey();
     }
-    private Pair<Float, Float> calculateWidthRecursive(UIElement forElement, boolean includePadding){
+    private Pair<Float, Float> calculateChildWidth(UIElement forElement, boolean includePadding){
+        if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getLocalPositionXRaw());
         float calculatedLocalX = forElement.getLocalPositionX();
+
+        if(forElement.getWidthRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getWidthRaw());
         float widthRaw = forElement.getWidth();
-        float bonusWidth = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
 
-        return new Pair<>(calculatedLocalX, calculatedLocalX + widthRaw + (includePadding ? forElement.getPaddingLeft() + forElement.getPaddingRight() : 0) + bonusWidth);
-    }
+        float bonusWidth = 0;
+        if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
+            bonusWidth = ((ItemBox) forElement).getItemSpacing();
+        }
+        if(includePadding){
+            if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+            registerDependency(forElement.getPaddingLeftRaw());
+            bonusWidth += forElement.getPaddingLeft();
 
-    private boolean canCalculateWidth(UIElement forElement){
-        for (UIElement child : forElement.getAllChildren()) {
-            if(child.hasComponent(UIOverlayElementComponent.class)) continue;
-
-            if(child.getParent() == forElement){
-                if(child.getWidthRaw().needsRecalculation()){
-                    return false;
-                }
-
-                if(child.getLocalPositionXRaw().needsRecalculation()){
-                    if(child.getLocalPositionXRaw() instanceof PixelPosition && child.getHorizontalAlignment() == Alignment.HorizontalAlignment.LEFT){
-                        return false;
-                    }
-                }
-            }
-            else{
-                if(child.getWidthRaw().needsRecalculation() || child.getLocalPositionXRaw().needsRecalculation()){
-                    return false;
-                }
-            }
-
-            if(child.getPaddingLeftRaw().needsRecalculation() || child.getPaddingRightRaw().needsRecalculation()){
-                return false;
-            }
+            if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+            registerDependency(forElement.getPaddingRightRaw());
+            bonusWidth += forElement.getPaddingLeft() + forElement.getPaddingRight();
         }
 
-        if(forElement instanceof ILayoutProvider){
-            if(((ILayoutProvider) forElement).getContentPaddingLeftRaw().needsRecalculation() || ((ILayoutProvider) forElement).getContentPaddingRightRaw().needsRecalculation()){
-                return false;
-            }
-
-            if(((ILayoutProvider) forElement).providesWidth() && !((ILayoutProvider) forElement).canCalculateContentWidth()){
-                return false;
-            }
-        }
-
-        return true;
+        return new Pair<>(
+                calculatedLocalX,
+                calculatedLocalX + widthRaw + bonusWidth
+        );
     }
 
     //endregion
@@ -165,14 +157,29 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     private Float calculateHeight(UIElement forElement, boolean includePadding){
         Pair<Float, Float> totalHeight = null;
 
-        if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesHeight()){
-            totalHeight = ((ILayoutProvider) forElement).calculateContentHeight();
+        if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesHeight() && ((ILayoutProvider) forElement).canCalculateContentHeight()){ // TODO remove cancalculateContentHeight check
+            Float contentHeight = ((ILayoutProvider) forElement).calculateContentHeight(); // TODO register dependencies
+            if(contentHeight == null) return null;
+
+            if(includePadding){
+                if(!((ILayoutProvider) forElement).getContentPaddingBottomRaw().needsRecalculation()) return null;
+                registerDependency(((ILayoutProvider) forElement).getContentPaddingBottomRaw());
+
+                if(!((ILayoutProvider) forElement).getContentPaddingTopRaw().needsRecalculation()) return null;
+                registerDependency(((ILayoutProvider) forElement).getContentPaddingTopRaw());
+
+                contentHeight += ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
+            }
+
+            totalHeight = new Pair<>(0f, contentHeight);
         }
         else{
             for (UIElement child : forElement.getChildren()){
                 if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
-                Pair<Float, Float> childHeight = calculateHeightRecursive(child, includePadding);
+                Pair<Float, Float> childHeight = calculateChildHeight(child, includePadding);
+                if(childHeight == null) return null;
+
                 if(totalHeight == null){
                     totalHeight = childHeight;
                 }
@@ -187,17 +194,11 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             }
         }
 
-        if(forElement instanceof ILayoutProvider && includePadding){
-            float height = ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
-
-            totalHeight = new Pair<>(
-                    totalHeight == null ? 0 : totalHeight.getKey() - ((ILayoutProvider) forElement).getContentPaddingBottom(),
-                    totalHeight == null ? height : totalHeight.getValue() + ((ILayoutProvider) forElement).getContentPaddingTop()
-            );
-        }
-
         if(forElement instanceof TextBox){
+            if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
+            registerDependency(forElement.getLocalPositionYRaw());
             float localPosY = forElement.getLocalPositionY();
+
             float height = ((TextBox) forElement).getTextHeight();
 
             totalHeight = new Pair<>(
@@ -211,59 +212,33 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
         return totalHeight.getValue() - totalHeight.getKey();
     }
-    private Pair<Float, Float> calculateHeightRecursive(UIElement forElement, boolean includePadding){
+    private Pair<Float, Float> calculateChildHeight(UIElement forElement, boolean includePadding){
+        if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getLocalPositionYRaw());
         float calculatedLocalY = forElement.getLocalPositionY();
+
+        if(forElement.getHeightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getHeightRaw());
         float heightRaw = forElement.getHeight();
-        float bonusHeight = (forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL) ? ((ItemBox) forElement).getItemSpacing() : 0;
 
-        return new Pair<>(calculatedLocalY, calculatedLocalY + heightRaw + (includePadding ? forElement.getPaddingTop() + forElement.getPaddingBottom() : 0) + bonusHeight);
-    }
+        float bonusHeight = 0;
+        if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
+            bonusHeight = ((ItemBox) forElement).getItemSpacing();
+        }
+        if(includePadding){
+            if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+            registerDependency(forElement.getPaddingTopRaw());
+            bonusHeight += forElement.getPaddingTop();
 
-    private boolean canCalculateHeight(UIElement forElement){
-        for (UIElement child : forElement.getAllChildren()) {
-            if(child.hasComponent(UIOverlayElementComponent.class)) continue;
-
-            if(child.getParent() == forElement){
-                if(child.getHeightRaw().needsRecalculation()){
-                    if(!(child.getHeightRaw() instanceof FillDimension) && !(child.getHeightRaw() instanceof PercentageDimension)){
-                        return false;
-                    }
-                }
-
-                if(child.getLocalPositionYRaw().needsRecalculation()){
-                    if(child.getLocalPositionYRaw() instanceof PixelPosition && child.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
-                        return false;
-                    }
-                }
-            }
-            else{
-                if(child.getHeightRaw().needsRecalculation() || child.getLocalPositionYRaw().needsRecalculation()){
-                    return false;
-                }
-            }
-
-            if(child.getPaddingTopRaw().needsRecalculation() || child.getPaddingBottomRaw().needsRecalculation()){
-                return false;
-            }
+            if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+            registerDependency(forElement.getPaddingBottomRaw());
+            bonusHeight += forElement.getPaddingTop() + forElement.getPaddingBottom();
         }
 
-        if(forElement instanceof ILayoutProvider){
-            if(((ILayoutProvider) forElement).getContentPaddingTopRaw().needsRecalculation() || ((ILayoutProvider) forElement).getContentPaddingBottomRaw().needsRecalculation()){
-                return false;
-            }
-
-            if(((ILayoutProvider) forElement).providesHeight() && !((ILayoutProvider) forElement).canCalculateContentHeight()){
-                return false;
-            }
-        }
-
-        if(forElement instanceof TextBox){
-            if(forElement.getWidthRaw().needsRecalculation()){
-                return false;
-            }
-        }
-
-        return true;
+        return new Pair<>(
+                calculatedLocalY,
+                calculatedLocalY + heightRaw + bonusHeight
+        );
     }
 
     //endregion

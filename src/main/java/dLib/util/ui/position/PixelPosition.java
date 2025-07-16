@@ -1,5 +1,6 @@
 package dLib.util.ui.position;
 
+import basemod.Pair;
 import dLib.properties.objects.PositionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
@@ -37,6 +38,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     @Override
     protected Float tryCalculateValue_X(UIElement forElement) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
 
         Float calculatedVal = null;
 
@@ -48,32 +50,41 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 calculatedVal = 0f;
             }
             else{
-                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-                if(parentWidth == null) return null;
-                if(forElement.getWidthRaw().needsRecalculation()) return null;
+                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+                if(parentWidth.getKey() == null) return null;
+                if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
-                calculatedVal = ((parentWidth - forElement.getWidth()) * 0.5f);
+                if(forElement.getWidthRaw().needsRecalculation()) return null;
+                registerDependency(forElement.getWidthRaw());
+
+                calculatedVal = ((parentWidth.getKey() - forElement.getWidth()) * 0.5f);
             }
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
             if(forElement.getWidthRaw() instanceof FillDimension){
-                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-                if(parentWidth == null) return null;
+                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+                if(parentWidth.getKey() == null) return null;
+                if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
-                calculatedVal = (parentWidth + position);
+                calculatedVal = (parentWidth.getKey() + position);
             }
             else{
-                Float parentWidth = UIHelpers.getCalculatedParentWidthInHierarchy(forElement);
-                if(parentWidth == null) return null;
-                if(forElement.getWidthRaw().needsRecalculation()) return null;
+                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+                if(parentWidth.getKey() == null) return null;
+                if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
-                calculatedVal = (parentWidth - forElement.getWidth() + position);
+                if(forElement.getWidthRaw().needsRecalculation()) return null;
+                registerDependency(forElement.getWidthRaw());
+
+                calculatedVal = (parentWidth.getKey() - forElement.getWidth() + position);
             }
         }
 
         if(calculatedVal != null){
             calculatedVal += forElement.getOffsetX();
+
             calculatedVal += forElement.getPaddingLeft();
+            registerDependency(forElement.getPaddingLeftRaw());
         }
 
         return calculatedVal;
@@ -82,6 +93,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     @Override
     protected Float tryCalculateValue_Y(UIElement forElement) {
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
 
         Float calculatedVal = null;
 
@@ -93,32 +105,41 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 calculatedVal = 0f;
             }
             else{
-                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-                if(parentHeight == null) return null;
-                if(forElement.getHeightRaw().needsRecalculation()) return null;
+                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+                if(parentHeight.getKey() == null) return null;
+                if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
-                calculatedVal = ((parentHeight - forElement.getHeight()) * 0.5f);
+                if(forElement.getHeightRaw().needsRecalculation()) return null;
+                registerDependency(forElement.getHeightRaw());
+
+                calculatedVal = ((parentHeight.getKey() - forElement.getHeight()) * 0.5f);
             }
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             if(forElement.getHeightRaw() instanceof FillDimension){
-                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-                if(parentHeight == null) return null;
+                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+                if(parentHeight.getKey() == null) return null;
+                if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
-                calculatedVal = (parentHeight + position);
+                calculatedVal = (parentHeight.getKey() + position);
             }
             else{
-                Float parentHeight = UIHelpers.getCalculatedParentHeightInHierarchy(forElement);
-                if(parentHeight == null) return null;
-                if(forElement.getHeightRaw().needsRecalculation()) return null;
+                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+                if(parentHeight.getKey() == null) return null;
+                if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
-                calculatedVal = (parentHeight - forElement.getHeight() + position);
+                if(forElement.getHeightRaw().needsRecalculation()) return null;
+                registerDependency(forElement.getHeightRaw());
+
+                calculatedVal = (parentHeight.getKey() - forElement.getHeight() + position);
             }
         }
 
         if(calculatedVal != null){
             calculatedVal += forElement.getOffsetY();
+
             calculatedVal += forElement.getPaddingBottom();
+            registerDependency(forElement.getPaddingBottomRaw());
         }
 
         return calculatedVal;
