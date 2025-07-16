@@ -159,8 +159,8 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             currentYPos -= layerHeight;
 
             for (UIElement child : layer.getKey()){
-                child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
                 currentXPos += child.getPaddingLeft();
+                child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
                 currentXPos += child.getWidth();
                 currentXPos += child.getPaddingRight();
                 currentXPos += itemSpacing;
@@ -190,8 +190,8 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             float currentXPos = getContentPaddingLeft() + xOffset;
 
             for (UIElement child : layer.getKey()){
-                child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
                 currentXPos += child.getPaddingLeft();
+                child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
                 currentXPos += child.getWidth();
                 currentXPos += child.getPaddingRight();
                 currentXPos += itemSpacing;
@@ -259,10 +259,10 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             for (UIElement child : layer.getKey()){
                 child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos + child.getPaddingLeft());
 
-                child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
                 currentYPos -= child.getPaddingTop();
+                child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
                 currentYPos -= child.getWidth();
-                currentYPos -= child.getPaddingRight();
+                currentYPos -= child.getPaddingBottom();
                 currentYPos -= itemSpacing;
             }
 
@@ -292,10 +292,10 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             for (UIElement child : layer.getKey()){
                 child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos + child.getPaddingLeft());
 
-                child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
                 currentYPos -= child.getPaddingTop();
+                child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
                 currentYPos -= child.getWidth();
-                currentYPos -= child.getPaddingRight();
+                currentYPos -= child.getPaddingBottom();
                 currentYPos -= itemSpacing;
             }
 
