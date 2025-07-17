@@ -33,7 +33,7 @@ public class SimpleHorizontalRangeSelector extends Renderable{
             draggable.setCanDragY(false);
             draggable.onDraggedEvent.subscribeManaged(() -> {
                 float totalWidth = getWidth();
-                float sliderPos = slider.getOffsetX();
+                float sliderPos = slider.getLocalPositionX();
                 float percent = sliderPos / totalWidth;
                 onPercentageChangedEvent.invoke(percent);
             });
@@ -53,10 +53,10 @@ public class SimpleHorizontalRangeSelector extends Renderable{
     }
 
     public void setSliderFromPercentage(float percentage){
-        slider.setOffsetX((getWidth() * percentage));
+        slider.getLocalPositionXRaw().overrideCalculatedValue((getWidth() * percentage));
     }
 
     public float getSliderPercentage(){
-        return slider.getOffsetX() / getWidth();
+        return slider.getLocalPositionX() / getWidth();
     }
 }

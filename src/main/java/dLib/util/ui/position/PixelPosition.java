@@ -9,9 +9,7 @@ import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
-import dLib.util.helpers.EnumHelpers;
 import dLib.util.helpers.UIHelpers;
-import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
 import java.io.Serializable;
@@ -80,8 +78,6 @@ public class PixelPosition extends AbstractPosition implements Serializable {
         }
 
         if(calculatedVal != null){
-            calculatedVal += forElement.getOffsetX();
-
             calculatedVal += forElement.getPaddingLeft();
             registerDependency(forElement.getPaddingLeftRaw());
         }
@@ -131,8 +127,6 @@ public class PixelPosition extends AbstractPosition implements Serializable {
         }
 
         if(calculatedVal != null){
-            calculatedVal += forElement.getOffsetY();
-
             calculatedVal += forElement.getPaddingBottom();
             registerDependency(forElement.getPaddingBottomRaw());
         }
@@ -156,6 +150,13 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     //endregion
 
     //region Utility Methods
+
+
+    @Override
+    public void offset(UIElement forElement, float amount) {
+        position += amount;
+        requestRecalculation();
+    }
 
     @Override
     public String toString() {

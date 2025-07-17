@@ -92,6 +92,26 @@ public class TPropertyArray<ValueType, PropertyType> extends TProperty<ArrayList
         return true;
     }
 
+    public boolean remove(int index){
+        if(index < 0 || index >= value.size()) return false;
+
+        ArrayList<TProperty<ValueType, ?>> oldValArr = new ArrayList<>(value);
+        TProperty<ValueType, ?> removedProperty = value.remove(index);
+
+        onValueRemovedEvent.invoke(removedProperty.getValue(), index);
+        onSingleValueChangedEvent.invoke(removedProperty.getValue(), null, index);
+        onValueChangedEvent.invoke(oldValArr, value);
+
+        return true;
+    }
+
+    public boolean remove(TProperty<ValueType, ?> property){
+        int index = value.indexOf(property);
+        if(index < 0) return false;
+
+        return remove(index);
+    }
+
     public ArrayList<ValueType> getValues(){
         ArrayList<ValueType> values = new ArrayList<>();
         for (TProperty<ValueType, ?> property : value) {

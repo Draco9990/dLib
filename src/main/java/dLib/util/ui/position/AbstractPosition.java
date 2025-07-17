@@ -44,6 +44,8 @@ public abstract class AbstractPosition extends ElementDescriptor<AbstractPositio
     @Override
     public abstract AbstractPosition cpy();
 
+    public void offset(UIElement forElement, float amount) {}
+
     //endregion
 
     //endregion

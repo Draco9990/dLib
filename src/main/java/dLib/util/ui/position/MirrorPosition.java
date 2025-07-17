@@ -36,7 +36,6 @@ public class MirrorPosition extends AbstractPosition implements Serializable {
 
         float calculatedVal = forElement.getLocalPositionY() - forElement.getPaddingBottom();
 
-        calculatedVal += forElement.getOffsetX();
         calculatedVal += forElement.getPaddingLeft();
 
         return calculatedVal;
@@ -54,7 +53,6 @@ public class MirrorPosition extends AbstractPosition implements Serializable {
 
         float calculatedVal = forElement.getLocalPositionX() - forElement.getPaddingRight();
 
-        calculatedVal += forElement.getOffsetY();
         calculatedVal += forElement.getPaddingTop();
 
         return calculatedVal;

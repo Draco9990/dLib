@@ -171,7 +171,7 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
             cancelButton.onLeftClickEvent.subscribe(cancelButton, () -> getTopParent().dispose());
             addChild(cancelButton);
 
-            ConfirmButtonSmall confirmButton = new ConfirmButtonSmall(Pos.px(-20), Pos.px(5));
+            ConfirmButtonSmall confirmButton = new ConfirmButtonSmall(Pos.px(20), Pos.px(5));
             confirmButton.setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
             confirmButton.onLeftClickEvent.subscribe(confirmButton, () -> {
                 ArrayList<GameItemType> selectedItems = itemBox.getSelectedItems();

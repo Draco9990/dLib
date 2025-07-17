@@ -74,8 +74,6 @@ public class PercentagePosition extends AbstractPosition implements Serializable
         }
 
         if(calculatedVal != null){
-            calculatedVal += forElement.getOffsetX();
-
             calculatedVal += forElement.getPaddingLeft();
             registerDependency(forElement.getPaddingLeftRaw());
         }
@@ -114,8 +112,6 @@ public class PercentagePosition extends AbstractPosition implements Serializable
         }
 
         if(calculatedVal != null){
-            calculatedVal += forElement.getOffsetY();
-
             calculatedVal += forElement.getPaddingBottom();
             registerDependency(forElement.getPaddingBottomRaw());
         }
@@ -153,6 +149,15 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     //endregion
 
     //region Utility Methods
+
+    @Override
+    public void offset(UIElement forElement, float amount) {
+        if(reference == ReferencePosition.X) {
+            percentage += amount / forElement.getWidth();
+        } else if(reference == ReferencePosition.Y) {
+            percentage += amount / forElement.getHeight();
+        }
+    }
 
     @Override
     public AbstractPosition cpy() {

@@ -43,6 +43,7 @@ public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends 
             valueBox.setCanDelete(boundProperty.canDelete());
             valueBox.disableToggleOverlay();
             valueBox.setChildren(boundProperty.getValue());
+            valueBox.onItemDeletedEvent.subscribe(valueBox, (item) -> boundProperty.remove(item));
             //TODO disable child interactions once that's in to improve perf
             builtContent.addChild(valueBox);
 
@@ -57,8 +58,8 @@ public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends 
             builtContent.addChild(addButton);
 
             boundProperty.onSingleValueChangedEvent.subscribe(valueBox, (editingPropertyType, editingPropertyType2, integer) -> {
-                valueBox.setChildren(boundProperty.getValue());
                 valueBox.setCanDelete(boundProperty.canDelete());
+                valueBox.setChildren(boundProperty.getValue());
             });
         }
 

@@ -92,8 +92,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
-    private float offsetX = 0;
-    private float offsetY = 0;
     private float childOffsetX = 0;
     private float childOffsetY = 0;
 
@@ -1073,11 +1071,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void setWorldPosition(float newPosX, float newPosY){
         float localPosX = newPosX - (getParent() != null ? getParent().getWorldPositionX() : 0);
         localPosX -= getPaddingLeft();
-        localPosX -= getOffsetX();
 
         float localPosY = newPosY - (getParent() != null ? getParent().getWorldPositionY() : 0);
         localPosY -= getPaddingBottom();
-        localPosY -= getOffsetY();
 
         if(localPosX != getLocalPositionX() && localPosY != getLocalPositionY()){
             setLocalPosition(localPosX, localPosY);
@@ -1136,14 +1132,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void offset(float xOffset, float yOffset){
         if(xOffset == 0 && yOffset == 0) return;
 
-        offsetX += xOffset;
-        offsetY += yOffset;
-
-        if(!isWithinBounds()){
-            offsetX -= xOffset;
-            offsetY -= yOffset;
-            return;
-        }
+        getLocalPositionXRaw().offset(this, xOffset);
+        getLocalPositionYRaw().offset(this, yOffset);
 
         onPositionChanged();
     }
@@ -2714,22 +2704,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //endregion
-
-    public float getOffsetX(){
-        return offsetX;
-    }
-    public float getOffsetY(){
-        return offsetY;
-    }
-
-    public void setOffsetX(float offsetX){
-        this.offsetX = offsetX;
-        this.getLocalPositionXRaw().requestRecalculation();
-    }
-    public void setOffsetY(float offsetY){
-        this.offsetY = offsetY;
-        this.getLocalPositionYRaw().requestRecalculation();
-    }
 
     public ArrayList<UIElement> getHierarchyForUpdateOrder(){
         ArrayList<UIElement> hierarchy = new ArrayList<>();
