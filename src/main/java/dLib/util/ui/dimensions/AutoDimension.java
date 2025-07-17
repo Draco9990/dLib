@@ -104,7 +104,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 }
             }
 
-            if(totalWidth == null){
+            if(totalWidth == null && !forElement.getChildren().isEmpty()){
                 return null;
             }
         }
@@ -213,7 +213,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 }
             }
 
-            if(totalHeight == null){
+            if(totalHeight == null && !forElement.getChildren().isEmpty()){
                 return null;
             }
         }

@@ -42,9 +42,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
         Float minValueCalcd = Float.MIN_VALUE;
         if(minValue != null && minValue.needsRecalculation()){
-
-            minValue.calculateValue(forElement, calculationPass);
-            if(minValue.needsRecalculation()){
+            if(!minValue.calculateValue(forElement, calculationPass)){
                 return false;
             }
             minValueCalcd = minValue.getCalculatedValue();
@@ -52,9 +50,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
         Float maxValueCalcd = Float.MAX_VALUE;
         if(maxValue != null && maxValue.needsRecalculation()){
-            maxValue.calculateValue(forElement, calculationPass);
-
-            if(maxValue.needsRecalculation()){
+            if(!maxValue.calculateValue(forElement, calculationPass)){
                 return false;
             }
             maxValueCalcd = maxValue.getCalculatedValue();
@@ -127,6 +123,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
     public void setMinValue(ElementDescriptorType minValue) {
         this.minValue = minValue;
+        this.minValue.setReference(reference);
         requestRecalculation();
     }
     public Float getMinValue() {
@@ -135,6 +132,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
     public void setMaxValue(ElementDescriptorType maxValue) {
         this.maxValue = maxValue;
+        this.maxValue.setReference(reference);
         requestRecalculation();
     }
     public Float getMaxValue() {
