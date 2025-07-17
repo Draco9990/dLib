@@ -51,7 +51,17 @@ public class FillDimension extends AbstractDimension implements Serializable {
         if(parentWidth.getKey() == null) return null;
         if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
-        if(!isHorizontalBox(parentWidth.getValue())){
+        UIElement analyzingParent = forElement.getParent();
+        if(parentWidth.getValue() != analyzingParent){
+            for(UIElement child : parentWidth.getValue().getChildren()){
+                if(forElement == child || forElement.isDescendantOf(child)) {
+                    analyzingParent = child;
+                    break;
+                }
+            }
+        }
+
+        if(!isHorizontalBox(analyzingParent)){
             if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
             registerDependency(forElement.getLocalPositionXRaw());
 
@@ -61,7 +71,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
             return parentWidth.getKey() - forElement.getLocalPositionX() - forElement.getPaddingRight();
         }
         else{
-            ItemBox itemBox = (ItemBox) parentWidth.getValue();
+            ItemBox itemBox = (ItemBox) analyzingParent;
 
             float staticWidth = 0;
             float fillElementCount = 0;
@@ -92,7 +102,17 @@ public class FillDimension extends AbstractDimension implements Serializable {
         if(parentHeight.getKey() == null) return null;
         if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
-        if(!isVerticalBox(parentHeight.getValue())){
+        UIElement analyzingParent = forElement.getParent();
+        if(parentHeight.getValue() != analyzingParent){
+            for(UIElement child : parentHeight.getValue().getChildren()){
+                if(forElement == child || forElement.isDescendantOf(child)) {
+                    analyzingParent = child;
+                    break;
+                }
+            }
+        }
+
+        if(!isVerticalBox(analyzingParent)){
             if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
             registerDependency(forElement.getLocalPositionYRaw());
 
@@ -102,7 +122,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
             return parentHeight.getKey() - forElement.getLocalPositionY() - forElement.getPaddingTop();
         }
         else{
-            ItemBox itemBox = (ItemBox) parentHeight.getValue();
+            ItemBox itemBox = (ItemBox) analyzingParent;
 
             float staticHeight = 0;
             float fillElementCount = 0;

@@ -74,14 +74,14 @@ public class TestScreen extends UIElement {
         in3.textBox.setContentAlignment(Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.BOTTOM);
         addChild(in3);*/
 
-        /*Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
-        {*/
+        Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
+        {
             VerticalDataBox<String> vdb = new VerticalDataBox<String>(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
             vdb.setCanReorder(true);
             vdb.setCanDelete(true);
             vdb.setExternalToggling(true);
             vdb.addChild("Test1");
-            vdb.addChild("Test12");
+            /*vdb.addChild("Test12");
             vdb.addChild("Test13");
             vdb.addChild("Test14");
             vdb.addChild("Test15");
@@ -92,12 +92,12 @@ public class TestScreen extends UIElement {
             vdb.addChild("Test10");
             vdb.addChild("Test111");
             vdb.addChild("Test122");
-            vdb.addChild("Test133");
-            addChild(vdb);
-        //}
+            vdb.addChild("Test133");*/
+            //addChild(vdb);
+        }
         //addChild(scrollbox);
 
-        /*RelicSelectPopup pop = new RelicSelectPopup();
-        pop.open();*/
+        RelicSelectPopup pop = new RelicSelectPopup();
+        pop.open();
     }
 }
