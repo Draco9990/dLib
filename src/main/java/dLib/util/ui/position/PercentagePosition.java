@@ -94,7 +94,7 @@ public class PercentagePosition extends AbstractPosition implements Serializable
         Float calculatedVal = null;
 
         if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.BOTTOM){
-            calculatedVal = parentHeight.getKey() * percentage + parentHeight.getKey();
+            calculatedVal = parentHeight.getKey() * percentage ;
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.CENTER){
             if(forElement.getHeightRaw() instanceof FillDimension){
