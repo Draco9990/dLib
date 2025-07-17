@@ -38,11 +38,31 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
     //region Calculation
 
     public boolean calculateValue(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass){
-        while(!dependsOn.isEmpty()) unregisterDependency(dependsOn.get(0));
+        flushDependencies();
+
+        Float minValueCalcd = Float.MIN_VALUE;
+        if(minValue != null && minValue.needsRecalculation()){
+
+            minValue.calculateValue(forElement, calculationPass);
+            if(minValue.needsRecalculation()){
+                return false;
+            }
+            minValueCalcd = minValue.getCalculatedValue();
+        }
+
+        Float maxValueCalcd = Float.MAX_VALUE;
+        if(maxValue != null && maxValue.needsRecalculation()){
+            maxValue.calculateValue(forElement, calculationPass);
+
+            if(maxValue.needsRecalculation()){
+                return false;
+            }
+            maxValueCalcd = maxValue.getCalculatedValue();
+        }
 
         Float value = tryCalculateValue(forElement, calculationPass);
         if(value != null){
-            calculatedValue = value;
+            calculatedValue = Math.max(minValueCalcd, Math.min(maxValueCalcd, value));
             needsRecalculation = false;
             return true;
         }
@@ -90,6 +110,12 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
         descriptor.dependencies.add(this);
     }
 
+    public void flushDependencies() {
+        for (ElementDescriptor dependency : new ArrayList<>(dependsOn)) {
+            unregisterDependency(dependency);
+        }
+    }
+
     protected void unregisterDependency(ElementDescriptor descriptor){
         dependsOn.remove(descriptor);
         descriptor.dependencies.remove(this);
@@ -98,6 +124,22 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
     //endregion Dependencies
 
     //region Min Max Value
+
+    public void setMinValue(ElementDescriptorType minValue) {
+        this.minValue = minValue;
+        requestRecalculation();
+    }
+    public Float getMinValue() {
+        return minValue.getCalculatedValue();
+    }
+
+    public void setMaxValue(ElementDescriptorType maxValue) {
+        this.maxValue = maxValue;
+        requestRecalculation();
+    }
+    public Float getMaxValue() {
+        return maxValue.getCalculatedValue();
+    }
 
     //endregion
 
@@ -119,6 +161,9 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
         this.minValue = other.minValue;
         this.maxValue = other.maxValue;
+
+        this.dependencies = new ArrayList<>(other.dependencies);
+        this.dependsOn = new ArrayList<>(other.dependsOn);
     }
 
     //endregion
