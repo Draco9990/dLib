@@ -1184,8 +1184,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public void onPositionChanged(){
         onPositionChangedEvent.invoke(this);
 
-        requestLocalPositionXRecalculation();
-        requestLocalPositionYRecalculation();
+        getLocalPositionXRaw().requestRecalculation();
+        getLocalPositionYRaw().requestRecalculation();
 
         for(UIElement child : children){
             child.onParentPositionChanged();
@@ -1199,11 +1199,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
     protected void onChildPositionChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension){
-            requestWidthRecalculation();
+            getWidthRaw().requestRecalculation();
         }
 
         if(getHeightRaw() instanceof AutoDimension){
-            requestHeightRecalculation();
+            getHeightRaw().requestRecalculation();
         }
     }
 
@@ -1746,10 +1746,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public void onDimensionsChanged(){
         if(getHorizontalAlignment() == Alignment.HorizontalAlignment.CENTER || getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
-            requestLocalPositionXRecalculation();
+            getLocalPositionXRaw().requestRecalculation();
         }
         if(getVerticalAlignment() == Alignment.VerticalAlignment.CENTER || getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
-            requestLocalPositionYRecalculation();
+            getLocalPositionYRaw().requestRecalculation();
         }
 
         for(UIElement child : children){
@@ -1764,20 +1764,20 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     protected void onParentDimensionsChanged(){
         if(alignment.horizontalAlignment == Alignment.HorizontalAlignment.RIGHT || alignment.horizontalAlignment == Alignment.HorizontalAlignment.CENTER){
-            requestLocalPositionXRecalculation();
+            getLocalPositionXRaw().requestRecalculation();
         }
         if(alignment.verticalAlignment == Alignment.VerticalAlignment.TOP || alignment.verticalAlignment == Alignment.VerticalAlignment.CENTER){
-            requestLocalPositionYRecalculation();
+            getLocalPositionYRaw().requestRecalculation();
         }
     }
     public void onChildDimensionsChanged(UIElement child){
         if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
-            requestWidthRecalculation();
+            getWidthRaw().requestRecalculation();
             onDimensionsChanged();
         }
 
         if(getHeightRaw() instanceof AutoDimension || getHeightRaw() instanceof MirrorDimension){
-            requestHeightRecalculation();
+            getHeightRaw().requestRecalculation();
             onDimensionsChanged();
         }
     }
@@ -2743,19 +2743,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //endregion
 
     //endregion
-
-    public void requestLocalPositionXRecalculation(){
-        getLocalPositionXRaw().requestRecalculation();
-    }
-    public void requestLocalPositionYRecalculation(){
-        getLocalPositionYRaw().requestRecalculation();
-    }
-    public void requestWidthRecalculation(){
-        getWidthRaw().requestRecalculation();
-    }
-    public void requestHeightRecalculation(){
-        getHeightRaw().requestRecalculation();
-    }
 
     public float getOffsetX(){
         return offsetX;

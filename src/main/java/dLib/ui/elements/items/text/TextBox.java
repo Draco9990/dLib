@@ -269,12 +269,12 @@ public class TextBox extends UIElement implements ITextProvider {
         ModManager.SayTheSpire.outputCond(getOnTextChangedLine());
 
         if(getWidthRaw() instanceof AutoDimension || getWidthRaw() instanceof MirrorDimension){
-            requestWidthRecalculation();
+            getWidthRaw().requestRecalculation();
             onDimensionsChanged();
         }
 
         if(getHeightRaw() instanceof AutoDimension || getHeightRaw() instanceof MirrorDimension){
-            requestHeightRecalculation();
+            getHeightRaw().requestRecalculation();
             onDimensionsChanged();
         }
 
