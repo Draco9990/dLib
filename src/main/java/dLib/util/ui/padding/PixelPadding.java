@@ -1,5 +1,6 @@
 package dLib.util.ui.padding;
 
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 
 import java.io.Serializable;
@@ -27,12 +28,12 @@ public class PixelPadding extends AbstractPadding implements Serializable {
 
 
     @Override
-    protected Float tryCalculateValue_Horizontal(UIElement forElement) {
+    protected Float tryCalculateValue_Horizontal(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         return (float) val;
     }
 
     @Override
-    protected Float tryCalculateValue_Vertical(UIElement forElement) {
+    protected Float tryCalculateValue_Vertical(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         return (float) val;
     }
 

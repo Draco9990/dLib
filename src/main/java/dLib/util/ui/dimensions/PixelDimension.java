@@ -4,6 +4,7 @@ import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PixelDimensionValueEditor;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
 
@@ -33,7 +34,7 @@ public class PixelDimension extends AbstractDimension implements Serializable {
 
 
     @Override
-    protected Float tryCalculateValue_Width(UIElement forElement) {
+    protected Float tryCalculateValue_Width(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingLeftRaw());
         if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
@@ -43,7 +44,7 @@ public class PixelDimension extends AbstractDimension implements Serializable {
     }
 
     @Override
-    protected Float tryCalculateValue_Height(UIElement forElement) {
+    protected Float tryCalculateValue_Height(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingTopRaw());
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;

@@ -2,6 +2,7 @@ package dLib.util.ui.dimensions;
 
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
@@ -24,19 +25,19 @@ public abstract class AbstractDimension extends ElementDescriptor<AbstractDimens
     //region Calculations
 
     @Override
-    protected Float tryCalculateValue(UIElement forElement) {
+    protected Float tryCalculateValue(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(reference == AbstractDimension.ReferenceDimension.WIDTH){
-            return tryCalculateValue_Width(forElement);
+            return tryCalculateValue_Width(forElement, calculationPass);
         }
         else if(reference == AbstractDimension.ReferenceDimension.HEIGHT){
-            return tryCalculateValue_Height(forElement);
+            return tryCalculateValue_Height(forElement, calculationPass);
         }
 
         return null;
     }
 
-    protected abstract Float tryCalculateValue_Width(UIElement forElement);
-    protected abstract Float tryCalculateValue_Height(UIElement forElement);
+    protected abstract Float tryCalculateValue_Width(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass);
+    protected abstract Float tryCalculateValue_Height(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass);
 
     //endregion
 

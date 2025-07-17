@@ -4,6 +4,7 @@ import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.MirrorDimensionValueEditor;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
 
@@ -26,7 +27,7 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
     //region Calculation Methods
 
     @Override
-    protected Float tryCalculateValue_Width(UIElement forElement) {
+    protected Float tryCalculateValue_Width(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getHeightRaw().needsRecalculation()) return null;
         registerDependency(forElement.getHeightRaw());
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
@@ -44,7 +45,7 @@ public class MirrorDimension extends AbstractDimension implements Serializable {
     }
 
     @Override
-    protected Float tryCalculateValue_Height(UIElement forElement) {
+    protected Float tryCalculateValue_Height(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getWidthRaw().needsRecalculation()) return null;
         registerDependency(forElement.getWidthRaw());
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;

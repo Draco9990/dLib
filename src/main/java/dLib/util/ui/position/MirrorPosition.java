@@ -2,6 +2,7 @@ package dLib.util.ui.position;
 
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
 
@@ -24,7 +25,7 @@ public class MirrorPosition extends AbstractPosition implements Serializable {
     //region Calculation Methods
 
     @Override
-    protected Float tryCalculateValue_X(UIElement forElement) {
+    protected Float tryCalculateValue_X(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingLeftRaw());
 
@@ -42,7 +43,7 @@ public class MirrorPosition extends AbstractPosition implements Serializable {
     }
 
     @Override
-    protected Float tryCalculateValue_Y(UIElement forElement) {
+    protected Float tryCalculateValue_Y(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingTopRaw());
 

@@ -1,6 +1,5 @@
 package dLib.util.ui.position;
 
-import basemod.Pair;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.descriptors.ElementDescriptor;
@@ -24,19 +23,19 @@ public abstract class AbstractPosition extends ElementDescriptor<AbstractPositio
     //region Calculation
 
     @Override
-    protected Float tryCalculateValue(UIElement forElement) {
+    protected Float tryCalculateValue(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(reference == ReferencePosition.X){
-            return tryCalculateValue_X(forElement);
+            return tryCalculateValue_X(forElement, calculationPass);
         }
         else if(reference == ReferencePosition.Y){
-            return tryCalculateValue_Y(forElement);
+            return tryCalculateValue_Y(forElement, calculationPass);
         }
 
         return null;
     }
 
-    protected abstract Float tryCalculateValue_X(UIElement forElement);
-    protected abstract Float tryCalculateValue_Y(UIElement forElement);
+    protected abstract Float tryCalculateValue_X(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass);
+    protected abstract Float tryCalculateValue_Y(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass);
 
     //endregion
 

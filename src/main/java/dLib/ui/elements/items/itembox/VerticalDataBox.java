@@ -29,7 +29,6 @@ public class VerticalDataBox<ItemType> extends DataItemBox<ItemType> {
         super(xPos, yPos, width, height);
 
         setContentAlignmentType(Alignment.AlignmentType.VERTICAL);
-        defaultItemHeight = 30;
     }
 
     public VerticalDataBox(VerticalDataBoxData data){

@@ -4,6 +4,7 @@ import basemod.Pair;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.layout.ILayoutProvider;
 import dLib.util.ui.dimensions.AutoDimension;
@@ -30,9 +31,9 @@ public class UIHelpers {
     }
 
     public static Float getCalculatedParentWidthInHierarchy(UIElement forElement){
-        return getCalculatedParentWidthInHierarchyWithParent(forElement).getKey();
+        return getCalculatedParentWidthInHierarchyWithParent(forElement, true).getKey(); // TODO
     }
-    public static Pair<Float, UIElement> getCalculatedParentWidthInHierarchyWithParent(UIElement forElement){
+    public static Pair<Float, UIElement> getCalculatedParentWidthInHierarchyWithParent(UIElement forElement, boolean canBypassAutoParents){
         float parentWidth = 1920;
 
         UIElement parent = forElement.getParent();
@@ -50,7 +51,7 @@ public class UIHelpers {
 
                 break;
             }
-            else if(!(parent.getWidthRaw() instanceof AutoDimension)){
+            else if(!canBypassAutoParents || !(parent.getWidthRaw() instanceof AutoDimension)){
                 return new Pair<>(null, null);
             }
 
@@ -61,9 +62,9 @@ public class UIHelpers {
     }
 
     public static Float getCalculatedParentHeightInHierarchy(UIElement forElement){
-        return getCalculatedParentHeightInHierarchyWithParent(forElement).getKey();
+        return getCalculatedParentHeightInHierarchyWithParent(forElement, true).getKey();
     }
-    public static Pair<Float, UIElement> getCalculatedParentHeightInHierarchyWithParent(UIElement forElement){
+    public static Pair<Float, UIElement> getCalculatedParentHeightInHierarchyWithParent(UIElement forElement, boolean canBypassAutoParents){
         float parentHeight = 1080;
 
         UIElement parent = forElement.getParent();
@@ -81,7 +82,7 @@ public class UIHelpers {
 
                 break;
             }
-            else if(!(parent.getHeightRaw() instanceof AutoDimension)){
+            else if(!canBypassAutoParents || !(parent.getHeightRaw() instanceof AutoDimension)){
                 return new Pair<>(null, null);
             }
 

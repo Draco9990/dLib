@@ -29,7 +29,6 @@ public class HorizontalDataBox<ItemType> extends DataItemBox<ItemType> {
         super(xPos, yPos, width, height);
 
         setContentAlignmentType(Alignment.AlignmentType.HORIZONTAL);
-        defaultItemWidth = 15;
     }
 
     public HorizontalDataBox(HorizontalDataBoxData data){

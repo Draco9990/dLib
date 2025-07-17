@@ -6,9 +6,12 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PixelPositionValueEditor;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
+import dLib.util.helpers.EnumHelpers;
 import dLib.util.helpers.UIHelpers;
+import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.FillDimension;
 
 import java.io.Serializable;
@@ -36,7 +39,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     //region Calculation
 
     @Override
-    protected Float tryCalculateValue_X(UIElement forElement) {
+    protected Float tryCalculateValue_X(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingLeftRaw());
 
@@ -50,7 +53,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 calculatedVal = 0f;
             }
             else{
-                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, true);
                 if(parentWidth.getKey() == null) return null;
                 if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
@@ -62,14 +65,10 @@ public class PixelPosition extends AbstractPosition implements Serializable {
         }
         else if(forElement.getHorizontalAlignment() == Alignment.HorizontalAlignment.RIGHT){
             if(forElement.getWidthRaw() instanceof FillDimension){
-                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
-                if(parentWidth.getKey() == null) return null;
-                if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
-
-                calculatedVal = (parentWidth.getKey() + position);
+                return 0f;
             }
             else{
-                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, true);
                 if(parentWidth.getKey() == null) return null;
                 if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
@@ -91,7 +90,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
     }
 
     @Override
-    protected Float tryCalculateValue_Y(UIElement forElement) {
+    protected Float tryCalculateValue_Y(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingBottomRaw());
 
@@ -105,7 +104,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 calculatedVal = 0f;
             }
             else{
-                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, true);
                 if(parentHeight.getKey() == null) return null;
                 if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
@@ -117,14 +116,10 @@ public class PixelPosition extends AbstractPosition implements Serializable {
         }
         else if(forElement.getVerticalAlignment() == Alignment.VerticalAlignment.TOP){
             if(forElement.getHeightRaw() instanceof FillDimension){
-                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
-                if(parentHeight.getKey() == null) return null;
-                if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
-
-                calculatedVal = (parentHeight.getKey() + position);
+                return 0f;
             }
             else{
-                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, true);
                 if(parentHeight.getKey() == null) return null;
                 if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 

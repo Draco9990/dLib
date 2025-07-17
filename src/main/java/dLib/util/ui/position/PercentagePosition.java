@@ -6,6 +6,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.PercentagePositionValueEditor;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
 import dLib.util.helpers.UIHelpers;
@@ -36,11 +37,11 @@ public class PercentagePosition extends AbstractPosition implements Serializable
     //region Calculation
 
     @Override
-    protected Float tryCalculateValue_X(UIElement forElement) {
+    protected Float tryCalculateValue_X(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingLeftRaw());
 
-        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
         if(parentWidth.getKey() == null) return null;
         if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
@@ -84,11 +85,11 @@ public class PercentagePosition extends AbstractPosition implements Serializable
 
     // Dont forget we are renbdering bottom to top
     @Override
-    protected Float tryCalculateValue_Y(UIElement forElement) {
+    protected Float tryCalculateValue_Y(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingBottomRaw());
 
-        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
         if(parentHeight.getKey() == null) return null;
         if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 

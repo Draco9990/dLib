@@ -5,7 +5,7 @@ import dLib.properties.objects.DimensionProperty;
 import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.FillDimensionValueEditor;
-import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.ItemBox;
@@ -28,17 +28,17 @@ public class FillDimension extends AbstractDimension implements Serializable {
     //region Class Methods
 
     @Override
-    protected Float tryCalculateValue_Width(UIElement forElement) {
+    protected Float tryCalculateValue_Width(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
 
-        return calculateWidth(forElement);
+        return calculateWidth(forElement, calculationPass);
     }
 
     @Override
-    protected Float tryCalculateValue_Height(UIElement forElement) {
+    protected Float tryCalculateValue_Height(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
 
-        return calculateHeight(forElement);
+        return calculateHeight(forElement, calculationPass);
     }
 
 
@@ -46,8 +46,8 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     //region Width
 
-    private Float calculateWidth(UIElement forElement){
-        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+    private Float calculateWidth(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass){
+        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
         if(parentWidth.getKey() == null) return null;
         if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
@@ -66,7 +66,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
             float staticWidth = 0;
             float fillElementCount = 0;
             for(UIElement sibling : itemBox.getActiveChildren()){
-                if(sibling.getWidthRaw() instanceof FillDimension || sibling.getWidthRaw().needsRecalculation()){ // Cases where sibling is parent of child but has something like auto dim
+                if(sibling.getWidthRaw() instanceof FillDimension || (sibling.getWidthRaw() instanceof AutoDimension && calculationPass == ElementCalculationManager.CalculationPass.SECOND)){
                     fillElementCount++;
                 }
                 else{
@@ -87,8 +87,8 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
     //region Height
 
-    private Float calculateHeight(UIElement forElement){
-        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+    private Float calculateHeight(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass){
+        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
         if(parentHeight.getKey() == null) return null;
         if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
@@ -107,7 +107,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
             float staticHeight = 0;
             float fillElementCount = 0;
             for(UIElement sibling : itemBox.getActiveChildren()){
-                if(sibling.getHeightRaw() instanceof FillDimension || sibling.getHeightRaw().needsRecalculation()){ // Cases where sibling is parent of child but has something like auto dim
+                if(sibling.getHeightRaw() instanceof FillDimension || (sibling.getHeightRaw() instanceof AutoDimension && calculationPass == ElementCalculationManager.CalculationPass.SECOND)){
                     fillElementCount++;
                 }
                 else{

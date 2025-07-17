@@ -1,11 +1,8 @@
 package dLib.ui.descriptors;
 
-import basemod.Pair;
 import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
-import dLib.util.events.localevents.RunnableEvent;
 
-import javax.xml.bind.Element;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -40,10 +37,10 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
     //region Calculation
 
-    public boolean calculateValue(UIElement forElement){
+    public boolean calculateValue(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass){
         while(!dependsOn.isEmpty()) unregisterDependency(dependsOn.get(0));
 
-        Float value = tryCalculateValue(forElement);
+        Float value = tryCalculateValue(forElement, calculationPass);
         if(value != null){
             calculatedValue = value;
             needsRecalculation = false;
@@ -52,7 +49,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
         return false;
     }
-    protected abstract Float tryCalculateValue(UIElement forElement);
+    protected abstract Float tryCalculateValue(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass);
 
     public boolean needsRecalculation(){
         return needsRecalculation;

@@ -22,6 +22,7 @@ import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.tools.uicreator.ui.elements.interfaces.IGeneratedUIElement;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.animations.UIAnimation;
 import dLib.ui.animations.exit.UIExitAnimation;
 import dLib.ui.elements.components.AbstractUIElementComponent;
@@ -2679,27 +2680,64 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Position & Dimension Calculations
 
-    public boolean calculationPass(){
-        boolean calculatedAll = true;
+    public Pair<Boolean, Boolean> calculationPass(ElementCalculationManager.CalculationPass calculationPass){
+        boolean calculatedSomething = false;
+        boolean isDone = true;
 
-        if(getPaddingLeftRaw().needsRecalculation()) calculatedAll &= getPaddingLeftRaw().calculateValue(this);
-        if(getPaddingBottomRaw().needsRecalculation()) calculatedAll &= getPaddingBottomRaw().calculateValue(this);
-        if(getPaddingRightRaw().needsRecalculation()) calculatedAll &= getPaddingRightRaw().calculateValue(this);
-        if(getPaddingTopRaw().needsRecalculation()) calculatedAll &= getPaddingTopRaw().calculateValue(this);
+        if(getPaddingLeftRaw().needsRecalculation()){
+            calculatedSomething |= getPaddingLeftRaw().calculateValue(this, calculationPass);
+            isDone &= !getPaddingLeftRaw().needsRecalculation();
+        } 
+        if(getPaddingBottomRaw().needsRecalculation()){
+            calculatedSomething |= getPaddingBottomRaw().calculateValue(this, calculationPass);
+            isDone &= !getPaddingBottomRaw().needsRecalculation();
+        }
+        if(getPaddingRightRaw().needsRecalculation()) {
+            calculatedSomething |= getPaddingRightRaw().calculateValue(this, calculationPass);
+            isDone &= !getPaddingRightRaw().needsRecalculation();
+        }
+        if(getPaddingTopRaw().needsRecalculation()) {
+            calculatedSomething |= getPaddingTopRaw().calculateValue(this, calculationPass);
+            isDone &= !getPaddingTopRaw().needsRecalculation();
+        }
 
-        if(getLocalPositionXRaw().needsRecalculation()) calculatedAll &= getLocalPositionXRaw().calculateValue(this);
-        if(getLocalPositionYRaw().needsRecalculation()) calculatedAll &= getLocalPositionYRaw().calculateValue(this);
+        if(getLocalPositionXRaw().needsRecalculation()) {
+            calculatedSomething |= getLocalPositionXRaw().calculateValue(this, calculationPass);
+            isDone &= !getLocalPositionXRaw().needsRecalculation();
+        }
+        if(getLocalPositionYRaw().needsRecalculation()){
+            calculatedSomething |= getLocalPositionYRaw().calculateValue(this, calculationPass);
+            isDone &= !getLocalPositionYRaw().needsRecalculation();
+        }
 
-        if(getMinimumWidthRaw().needsRecalculation()) calculatedAll &= getMinimumWidthRaw().calculateValue(this);
-        if(getMinimumHeightRaw().needsRecalculation()) calculatedAll &= getMinimumHeightRaw().calculateValue(this);
+        if(getMinimumWidthRaw().needsRecalculation()) {
+            calculatedSomething |= getMinimumWidthRaw().calculateValue(this, calculationPass);
+            isDone &= !getMinimumWidthRaw().needsRecalculation();
+        }
+        if(getMinimumHeightRaw().needsRecalculation()) {
+            calculatedSomething |= getMinimumHeightRaw().calculateValue(this, calculationPass);
+            isDone &= !getMinimumHeightRaw().needsRecalculation();
+        }
 
-        if(getMaximumWidthRaw().needsRecalculation()) calculatedAll &= getMaximumWidthRaw().calculateValue(this);
-        if(getMaximumHeightRaw().needsRecalculation()) calculatedAll &= getMaximumHeightRaw().calculateValue(this);
+        if(getMaximumWidthRaw().needsRecalculation()) {
+            calculatedSomething |= getMaximumWidthRaw().calculateValue(this, calculationPass);
+            isDone &= !getMaximumWidthRaw().needsRecalculation();
+        }
+        if(getMaximumHeightRaw().needsRecalculation()){
+            calculatedSomething |= getMaximumHeightRaw().calculateValue(this, calculationPass);
+            isDone &= !getMaximumHeightRaw().needsRecalculation();
+        }
 
-        if(getWidthRaw().needsRecalculation()) calculatedAll &= getWidthRaw().calculateValue(this);
-        if(getHeightRaw().needsRecalculation()) calculatedAll &= getHeightRaw().calculateValue(this);
+        if(getWidthRaw().needsRecalculation()) {
+            calculatedSomething |= getWidthRaw().calculateValue(this, calculationPass);
+            isDone &= !getWidthRaw().needsRecalculation();
+        }
+        if(getHeightRaw().needsRecalculation()) {
+            calculatedSomething |= getHeightRaw().calculateValue(this, calculationPass);
+            isDone &= !getHeightRaw().needsRecalculation();
+        }
 
-        return calculatedAll;
+        return new Pair<>(isDone, calculatedSomething);
     }
 
     //endregion

@@ -1,6 +1,7 @@
 package dLib.util.ui.padding;
 
 import basemod.Pair;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.util.helpers.UIHelpers;
 
@@ -32,8 +33,8 @@ public class PercentagePadding extends AbstractPadding implements Serializable {
 
 
     @Override
-    protected Float tryCalculateValue_Horizontal(UIElement forElement) {
-        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement);
+    protected Float tryCalculateValue_Horizontal(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
+        Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
         if(parentWidth.getKey() == null) return null;
         if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
@@ -41,8 +42,8 @@ public class PercentagePadding extends AbstractPadding implements Serializable {
     }
 
     @Override
-    protected Float tryCalculateValue_Vertical(UIElement forElement) {
-        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement);
+    protected Float tryCalculateValue_Vertical(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
+        Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
         if(parentHeight.getKey() == null) return null;
         if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 

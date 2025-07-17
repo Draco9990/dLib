@@ -55,8 +55,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     public ConsumerEvent<ArrayList<ItemType>> onItemSelectionChangedEvent = new ConsumerEvent<>();
 
-    protected Integer defaultItemWidth = null;
-    protected Integer defaultItemHeight = null;
+    protected int defaultItemWidth = 15;
+    protected int defaultItemHeight = 30;
 
     public ConsumerEvent<ItemType> onItemAddedEvent = new ConsumerEvent<>();
     public ConsumerEvent<ItemType> onItemRemovedEvent = new ConsumerEvent<>();
@@ -214,7 +214,17 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     //region Item UI
 
     public UIElement makeUIForItem(ItemType item){
-        ImageTextBox box = new ImageTextBox(itemToString(item), defaultItemWidth == null ? Dim.fill() : Dim.px(defaultItemWidth), defaultItemHeight == null ? Dim.fill() : Dim.px(defaultItemHeight));
+        ImageTextBox box = null;
+        if(isGridMode()){
+            box = new ImageTextBox(itemToString(item), Dim.mirror(), Dim.px(defaultItemHeight));
+        }
+        else{
+            box = new ImageTextBox(
+                    itemToString(item),
+                    getContentAlignmentType() == Alignment.AlignmentType.VERTICAL ? Dim.fill() : Dim.px(defaultItemWidth),
+                    getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL ? Dim.fill() : Dim.px(defaultItemHeight)
+            );
+        }
         box.textBox.setFont(Font.stat(FontHelper.buttonLabelFont));
         box.setTexture(Tex.stat(UICommonResources.button03_square));
         box.setAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.CENTER);

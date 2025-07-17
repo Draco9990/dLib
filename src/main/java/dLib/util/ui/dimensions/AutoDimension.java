@@ -6,6 +6,7 @@ import dLib.properties.objects.templates.TProperty;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.AutoDimensionValueEditor;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.annotations.DisplayClass;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
@@ -39,38 +40,40 @@ public class AutoDimension extends AbstractDimension implements Serializable {
     //region Calculation Methods
 
     @Override
-    protected Float tryCalculateValue_Width(UIElement forElement) {
-        Float childVal = calculateWidth(forElement, true);
+    protected Float tryCalculateValue_Width(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
+        Float childVal = calculateWidth(forElement, calculationPass, true);
         if(childVal == null) return null;
         calculatedValueForChildren = childVal;
 
-        return calculateWidth(forElement, true);
+        return calculateWidth(forElement, calculationPass, true);
     }
 
     @Override
-    protected Float tryCalculateValue_Height(UIElement forElement) {
-        Float childVal = calculateHeight(forElement, true);
+    protected Float tryCalculateValue_Height(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
+        Float childVal = calculateHeight(forElement, calculationPass, true);
         if(childVal == null) return null;
         calculatedValueForChildren = childVal;
 
-        return calculateHeight(forElement, true);
+        return calculateHeight(forElement, calculationPass, true);
     }
 
 
     //region Width
 
-    private Float calculateWidth(UIElement forElement, boolean includePadding){
+    private Float calculateWidth(UIElement forElement, ElementCalculationManager.CalculationPass pass, boolean includePadding){
         Pair<Float, Float> totalWidth = null;
 
-        if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesWidth() && ((ILayoutProvider) forElement).canCalculateContentWidth()){ // TODO remove cancalculateContentWidth check
+        if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesWidth()){ // TODO remove cancalculateContentWidth check
+            if(!((ILayoutProvider) forElement).canCalculateContentWidth()) return null;
+
             Float contentWidth = ((ILayoutProvider) forElement).calculateContentWidth(); // TODO register dependencies
             if(contentWidth == null) return null;
 
             if(includePadding){
-                if(!((ILayoutProvider) forElement).getContentPaddingLeftRaw().needsRecalculation()) return null;
+                if(((ILayoutProvider) forElement).getContentPaddingLeftRaw().needsRecalculation()) return null;
                 registerDependency(((ILayoutProvider) forElement).getContentPaddingLeftRaw());
 
-                if(!((ILayoutProvider) forElement).getContentPaddingRightRaw().needsRecalculation()) return null;
+                if(((ILayoutProvider) forElement).getContentPaddingRightRaw().needsRecalculation()) return null;
                 registerDependency(((ILayoutProvider) forElement).getContentPaddingRightRaw());
 
                 contentWidth += ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
@@ -83,7 +86,10 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
                 Pair<Float, Float> childWidth = calculateChildWidth(child, includePadding);
-                if(childWidth == null) return null;
+                if(childWidth == null) {
+                    if(pass == ElementCalculationManager.CalculationPass.FIRST) return null;
+                    else continue;
+                }
 
                 if(totalWidth == null){
                     totalWidth = childWidth;
@@ -154,18 +160,20 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     //region Height
 
-    private Float calculateHeight(UIElement forElement, boolean includePadding){
+    private Float calculateHeight(UIElement forElement, ElementCalculationManager.CalculationPass pass, boolean includePadding){
         Pair<Float, Float> totalHeight = null;
 
-        if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesHeight() && ((ILayoutProvider) forElement).canCalculateContentHeight()){ // TODO remove cancalculateContentHeight check
+        if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesHeight()){ // TODO remove cancalculateContentHeight check
+            if(!((ILayoutProvider) forElement).canCalculateContentHeight()) return null;
+
             Float contentHeight = ((ILayoutProvider) forElement).calculateContentHeight(); // TODO register dependencies
             if(contentHeight == null) return null;
 
             if(includePadding){
-                if(!((ILayoutProvider) forElement).getContentPaddingBottomRaw().needsRecalculation()) return null;
+                if(((ILayoutProvider) forElement).getContentPaddingBottomRaw().needsRecalculation()) return null;
                 registerDependency(((ILayoutProvider) forElement).getContentPaddingBottomRaw());
 
-                if(!((ILayoutProvider) forElement).getContentPaddingTopRaw().needsRecalculation()) return null;
+                if(((ILayoutProvider) forElement).getContentPaddingTopRaw().needsRecalculation()) return null;
                 registerDependency(((ILayoutProvider) forElement).getContentPaddingTopRaw());
 
                 contentHeight += ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
@@ -178,7 +186,10 @@ public class AutoDimension extends AbstractDimension implements Serializable {
                 if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
                 Pair<Float, Float> childHeight = calculateChildHeight(child, includePadding);
-                if(childHeight == null) return null;
+                if(childHeight == null) {
+                    if(pass == ElementCalculationManager.CalculationPass.FIRST) return null;
+                    else continue;
+                }
 
                 if(totalHeight == null){
                     totalHeight = childHeight;

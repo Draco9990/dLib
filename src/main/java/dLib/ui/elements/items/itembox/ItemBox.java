@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
+import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.items.Renderable;
@@ -19,7 +20,6 @@ import dLib.util.ui.dimensions.FillDimension;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -452,15 +452,30 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     //region Calculation Instructions
 
     @Override
-    public boolean calculationPass() {
-        boolean calculatedAll = super.calculationPass();
+    public Pair<Boolean, Boolean> calculationPass(ElementCalculationManager.CalculationPass calculationPass) {
+        Pair<Boolean, Boolean> passResult = super.calculationPass(calculationPass);
 
-        if(getContentPaddingLeftRaw().needsRecalculation()) calculatedAll &= getContentPaddingLeftRaw().calculateValue(this);
-        if(getContentPaddingBottomRaw().needsRecalculation()) calculatedAll &= getContentPaddingBottomRaw().calculateValue(this);
-        if(getContentPaddingRightRaw().needsRecalculation()) calculatedAll &= getContentPaddingRightRaw().calculateValue(this);
-        if(getContentPaddingTopRaw().needsRecalculation()) calculatedAll &= getContentPaddingTopRaw().calculateValue(this);
+        boolean calculatedSomething = false;
+        boolean isDone = true;
 
-        return calculatedAll;
+        if(getContentPaddingLeftRaw().needsRecalculation()){
+            calculatedSomething |= getContentPaddingLeftRaw().calculateValue(this, calculationPass);
+            isDone &= !getContentPaddingLeftRaw().needsRecalculation();
+        }
+        if(getContentPaddingBottomRaw().needsRecalculation()) {
+            calculatedSomething |= getContentPaddingBottomRaw().calculateValue(this, calculationPass);
+            isDone &= !getContentPaddingBottomRaw().needsRecalculation();
+        }
+        if(getContentPaddingRightRaw().needsRecalculation()){
+            calculatedSomething |= getContentPaddingRightRaw().calculateValue(this, calculationPass);
+            isDone &= !getContentPaddingRightRaw().needsRecalculation();
+        }
+        if(getContentPaddingTopRaw().needsRecalculation()){
+            calculatedSomething |= getContentPaddingTopRaw().calculateValue(this, calculationPass);
+            isDone &= !getContentPaddingTopRaw().needsRecalculation();
+        }
+
+        return new Pair<>(isDone && passResult.getKey(), calculatedSomething || passResult.getValue());
     }
 
     //endregion

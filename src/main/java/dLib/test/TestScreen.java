@@ -3,13 +3,18 @@ package dLib.test;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import dLib.betterscreens.ui.elements.items.PotionSelectPopup;
 import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.VerticalCollapsableBox;
+import dLib.ui.elements.items.buttons.Checkbox;
+import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
+import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
@@ -70,41 +75,29 @@ public class TestScreen extends UIElement {
         addChild(in3);*/
 
         /*Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
-        {
-            VerticalDataBox<String> vdb = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
-            vdb.setCanReorder(true);
-            vdb.setCanDelete(true);
-            vdb.setExternalToggling(true);
+        {*/
+            VerticalDataBox<String> vdb = new VerticalDataBox<String>(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
+            //vdb.setCanReorder(true);
+            //vdb.setCanDelete(true);
+            //vdb.setExternalToggling(true);
             vdb.addChild("Test1");
-            vdb.addChild("Test2");
-            vdb.addChild("Test3");
-            vdb.addChild("Test4");
-            vdb.addChild("Test5");
-            vdb.addChild("Test6");
-            vdb.addChild("Test7");
-            vdb.addChild("Test21");
-            vdb.addChild("Test22");
-            vdb.addChild("Test23");
-            vdb.addChild("Test24");
-            vdb.addChild("Test25");
-            vdb.addChild("Test26");
-            vdb.addChild("Test27");
-            vdb.addChild("Test31");
-            vdb.addChild("Test32");
-            vdb.addChild("Test33");
-            vdb.addChild("Test34");
-            vdb.addChild("Test35");
-            vdb.addChild("Test36");
-            vdb.addChild("Test37");
-            scrollbox.addChild(vdb);
-        }
-        addChild(scrollbox);*/
+            vdb.addChild("Test12");
+            vdb.addChild("Test13");
+            vdb.addChild("Test14");
+            vdb.addChild("Test15");
+            vdb.addChild("Test16");
+            vdb.addChild("Test17");
+            vdb.addChild("Test18");
+            vdb.addChild("Test19");
+            vdb.addChild("Test10");
+            vdb.addChild("Test111");
+            vdb.addChild("Test122");
+            vdb.addChild("Test133");
+            addChild(vdb);
+        //}
+        //addChild(scrollbox);
 
-        RelicSelectPopup pop = new RelicSelectPopup();
-        pop.open();
-
-        /*Image child = new Image(Tex.stat(UICommonResources.white_pixel), Dim.px(100), Dim.px(100));
-        child.setPadding(Padd.px(10));
-        addChild(child);*/
+        /*RelicSelectPopup pop = new RelicSelectPopup();
+        pop.open();*/
     }
 }
