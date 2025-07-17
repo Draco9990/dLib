@@ -76,7 +76,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
             float staticWidth = 0;
             float fillElementCount = 0;
             for(UIElement sibling : itemBox.getActiveChildren()){
-                if(sibling.getWidthRaw() instanceof FillDimension || (sibling.getWidthRaw() instanceof AutoDimension && calculationPass == ElementCalculationManager.CalculationPass.THIRD)){
+                if(sibling.getWidthRaw() instanceof FillDimension || (sibling.getWidthRaw() instanceof AutoDimension && sibling.getWidthRaw().needsRecalculation() && calculationPass == ElementCalculationManager.CalculationPass.THIRD)){
                     fillElementCount++;
                 }
                 else{
@@ -127,7 +127,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
             float staticHeight = 0;
             float fillElementCount = 0;
             for(UIElement sibling : itemBox.getActiveChildren()){
-                if(sibling.getHeightRaw() instanceof FillDimension || (sibling.getHeightRaw() instanceof AutoDimension && calculationPass == ElementCalculationManager.CalculationPass.THIRD)){
+                if(sibling.getHeightRaw() instanceof FillDimension || (sibling.getHeightRaw() instanceof AutoDimension && sibling.getHeightRaw().needsRecalculation() && calculationPass == ElementCalculationManager.CalculationPass.THIRD)){
                     fillElementCount++;
                 }
                 else{

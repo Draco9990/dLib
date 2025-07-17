@@ -16,6 +16,7 @@ import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -96,6 +97,11 @@ public class TestScreen extends UIElement {
             //addChild(vdb);
         }
         //addChild(scrollbox);
+
+        Image img = new Image(Tex.stat(UICommonResources.white_pixel), Pos.perc(0.1), Pos.perc(0.1), Dim.px(200), Dim.px(200));
+        img.onLeftClickEvent.subscribe(img, () -> img.setHorizontalAlignment((Alignment.HorizontalAlignment) EnumHelpers.nextEnum(img.getHorizontalAlignment())));
+        img.onRightClickEvent.subscribe(img, () -> img.setVerticalAlignment((Alignment.VerticalAlignment) EnumHelpers.nextEnum(img.getVerticalAlignment())));
+        addChild(img);
 
         RelicSelectPopup pop = new RelicSelectPopup();
         pop.open();
