@@ -1,5 +1,6 @@
 package dLib.ui.layout;
 
+import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 import dLib.util.ui.padding.AbstractPadding;
 
@@ -8,11 +9,11 @@ public interface ILayoutProvider {
     // Content Width and Height
 
     boolean providesWidth();
-    default boolean canCalculateContentWidth() { return true; }
+    default boolean canCalculateContentWidth(ElementDescriptor refCollector) { return true; }
     Float calculateContentWidth();
 
     boolean providesHeight();
-    default boolean canCalculateContentHeight() { return true; }
+    default boolean canCalculateContentHeight(ElementDescriptor refCollector) { return true; }
     Float calculateContentHeight();
 
     //endregion Content Width and Height

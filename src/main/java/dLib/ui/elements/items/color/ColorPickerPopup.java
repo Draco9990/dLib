@@ -9,7 +9,6 @@ import dLib.ui.elements.items.SimpleHorizontalRangeSelector;
 import dLib.ui.elements.items.Spacer;
 import dLib.ui.elements.items.buttons.Toggle;
 import dLib.ui.elements.items.input.Inputfield;
-import dLib.ui.elements.items.itembox.GridBox;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextBox;
@@ -103,7 +102,8 @@ public class ColorPickerPopup extends VerticalBox {
             VerticalBox colorPresetsBox = new VerticalBox(Dim.fill(), Dim.auto());
 
             if(allowMagicColors){
-                GridBox magicColorPresets = new GridBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+                VerticalBox magicColorPresets = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+                magicColorPresets.setGridMode(true);
                 magicColorPresets.setItemSpacing(5);
                 {
                     for (MagicColor magicColor : MagicColorManager.magicColors.values()){
@@ -124,7 +124,8 @@ public class ColorPickerPopup extends VerticalBox {
                 colorPresetsBox.addChild(magicColorPresets);
             }
 
-            GridBox staticColorPresets = new GridBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+            VerticalBox staticColorPresets = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+            staticColorPresets.setGridMode(true);
             staticColorPresets.setItemSpacing(5);
             {
                 for (Color staticColor : Reflection.getFieldValuesByClass(Color.class, Color.class)) {

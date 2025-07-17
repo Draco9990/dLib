@@ -7,6 +7,7 @@ import dLib.properties.objects.BooleanProperty;
 import dLib.properties.objects.IntegerProperty;
 import dLib.ui.Alignment;
 import dLib.ui.ElementCalculationManager;
+import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.items.Renderable;
@@ -495,8 +496,53 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     public boolean providesWidth() {
-        return primaryAlignment == Alignment.AlignmentType.HORIZONTAL;
+        return primaryAlignment == Alignment.AlignmentType.HORIZONTAL || isGridMode();
     }
+
+    @Override
+    public boolean canCalculateContentWidth(ElementDescriptor refCollector) {
+        if(getHeightRaw().needsRecalculation()) return false;
+        refCollector.registerDependency(getHeightRaw());
+
+        if(getContentPaddingLeftRaw().needsRecalculation()) return false;
+        refCollector.registerDependency(getContentPaddingLeftRaw());
+
+        if(getContentPaddingRightRaw().needsRecalculation()) return false;
+        refCollector.registerDependency(getContentPaddingRightRaw());
+
+        for (UIElement child : filteredChildren){
+            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
+                continue;
+            }
+
+            if(child.getWidthRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getWidthRaw());
+
+            if(child.getHeightRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getHeightRaw());
+
+            if(child.getLocalPositionXRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getLocalPositionXRaw());
+
+            if(child.getLocalPositionYRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getLocalPositionYRaw());
+
+            if(child.getPaddingLeftRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getPaddingLeftRaw());
+
+            if(child.getPaddingRightRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getPaddingRightRaw());
+
+            if(child.getPaddingTopRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getPaddingTopRaw());
+
+            if(child.getPaddingBottomRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getPaddingBottomRaw());
+        }
+
+        return true;
+    }
+
     @Override
     public Float calculateContentWidth() {
         ArrayList<Pair<ArrayList<UIElement>, Pair<Double, Double>>> layers = generateHorizontalLayers();
@@ -512,8 +558,53 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     public boolean providesHeight() {
-        return primaryAlignment == Alignment.AlignmentType.VERTICAL;
+        return primaryAlignment == Alignment.AlignmentType.VERTICAL || isGridMode();
     }
+
+    @Override
+    public boolean canCalculateContentHeight(ElementDescriptor refCollector) {
+        if(getWidthRaw().needsRecalculation()) return false;
+        refCollector.registerDependency(getWidthRaw());
+
+        if(getContentPaddingBottomRaw().needsRecalculation()) return false;
+        refCollector.registerDependency(getContentPaddingBottomRaw());
+
+        if(getContentPaddingTopRaw().needsRecalculation()) return false;
+        refCollector.registerDependency(getContentPaddingTopRaw());
+
+        for (UIElement child : filteredChildren){
+            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
+                continue;
+            }
+
+            if(child.getWidthRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getWidthRaw());
+
+            if(child.getHeightRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getHeightRaw());
+
+            if(child.getLocalPositionXRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getLocalPositionXRaw());
+
+            if(child.getLocalPositionYRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getLocalPositionYRaw());
+
+            if(child.getPaddingLeftRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getPaddingLeftRaw());
+
+            if(child.getPaddingRightRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getPaddingRightRaw());
+
+            if(child.getPaddingTopRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getPaddingTopRaw());
+
+            if(child.getPaddingBottomRaw().needsRecalculation()) return false;
+            refCollector.registerDependency(child.getPaddingBottomRaw());
+        }
+
+        return true;
+    }
+
     @Override
     public Float calculateContentHeight() {
         ArrayList<Pair<ArrayList<UIElement>, Pair<Double, Double>>> layers = generateVerticalLayers();

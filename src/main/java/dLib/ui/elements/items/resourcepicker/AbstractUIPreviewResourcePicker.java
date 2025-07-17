@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.VerticalCollapsableBox;
 import dLib.ui.elements.items.buttons.Button;
-import dLib.ui.elements.items.itembox.GridBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.resources.UICommonResources;
@@ -45,7 +44,8 @@ public abstract class AbstractUIPreviewResourcePicker extends AbstractUIResource
                 VerticalCollapsableBox classBox = new VerticalCollapsableBox(entry.getKey().getSimpleName());
                 classBox.setPaddingLeft(Padd.px(50));
 
-                GridBox fieldBox = new GridBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+                VerticalBox fieldBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+                fieldBox.setGridMode(true);
                 fieldBox.setItemSpacing(10);
                 {
                     for(Field field : entry.getValue()){

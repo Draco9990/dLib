@@ -81,7 +81,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
 
     //region Dependencies
 
-    protected void registerDependency(ElementDescriptor descriptor){
+    public void registerDependency(ElementDescriptor descriptor){
         if (descriptor == null || dependsOn.contains(descriptor)) {
             return;
         }

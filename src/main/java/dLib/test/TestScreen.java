@@ -77,9 +77,9 @@ public class TestScreen extends UIElement {
         /*Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
         {*/
             VerticalDataBox<String> vdb = new VerticalDataBox<String>(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
-            //vdb.setCanReorder(true);
-            //vdb.setCanDelete(true);
-            //vdb.setExternalToggling(true);
+            vdb.setCanReorder(true);
+            vdb.setCanDelete(true);
+            vdb.setExternalToggling(true);
             vdb.addChild("Test1");
             vdb.addChild("Test12");
             vdb.addChild("Test13");

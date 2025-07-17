@@ -53,7 +53,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 calculatedVal = 0f;
             }
             else{
-                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, true);
+                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
                 if(parentWidth.getKey() == null) return null;
                 if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
@@ -68,7 +68,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 return 0f;
             }
             else{
-                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, true);
+                Pair<Float, UIElement> parentWidth = UIHelpers.getCalculatedParentWidthInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
                 if(parentWidth.getKey() == null) return null;
                 if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
@@ -104,7 +104,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 calculatedVal = 0f;
             }
             else{
-                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, true);
+                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
                 if(parentHeight.getKey() == null) return null;
                 if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
@@ -119,7 +119,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 return 0f;
             }
             else{
-                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, true);
+                Pair<Float, UIElement> parentHeight = UIHelpers.getCalculatedParentHeightInHierarchyWithParent(forElement, calculationPass == ElementCalculationManager.CalculationPass.THIRD);
                 if(parentHeight.getKey() == null) return null;
                 if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
