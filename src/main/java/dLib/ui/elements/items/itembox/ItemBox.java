@@ -599,7 +599,24 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     public PositionBounds getFullChildLocalBounds() {
-        PositionBounds bounds = super.getFullChildLocalBounds();
+        PositionBounds bounds = null;
+        for(UIElement child : filteredChildren){
+            if(!(child.isActive()) || child.hasComponent(UIOverlayElementComponent.class)){
+                continue;
+            }
+
+            PositionBounds childBounds = child.getFullLocalBounds();
+            if(bounds == null){
+                bounds = childBounds;
+                continue;
+            }
+
+            if(childBounds.left < bounds.left) bounds.left = childBounds.left;
+            if(childBounds.right > bounds.right) bounds.right = childBounds.right;
+            if(childBounds.bottom < bounds.bottom) bounds.bottom = childBounds.bottom;
+            if(childBounds.top > bounds.top) bounds.top = childBounds.top;
+        }
+
         if(bounds == null) return null;
 
         bounds.left -= getContentPaddingLeft();
