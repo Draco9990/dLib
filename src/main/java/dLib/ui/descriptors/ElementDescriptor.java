@@ -40,7 +40,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
     public boolean calculateValue(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass){
         flushDependencies();
 
-        Float minValueCalcd = Float.MIN_VALUE;
+        Float minValueCalcd = Float.NEGATIVE_INFINITY;
         if(minValue != null && minValue.needsRecalculation()){
             if(!minValue.calculateValue(forElement, calculationPass)){
                 return false;
@@ -48,7 +48,7 @@ public abstract class ElementDescriptor<TReferenceEnum, ElementDescriptorType ex
             minValueCalcd = minValue.getCalculatedValue();
         }
 
-        Float maxValueCalcd = Float.MAX_VALUE;
+        Float maxValueCalcd = Float.POSITIVE_INFINITY;
         if(maxValue != null && maxValue.needsRecalculation()){
             if(!maxValue.calculateValue(forElement, calculationPass)){
                 return false;
