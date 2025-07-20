@@ -219,6 +219,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public FunctionEvent<Boolean, Boolean> onConfirmInteractionEvent = new FunctionEvent<>();
     public FunctionEvent<Boolean, Boolean> onCancelInteractionEvent = new FunctionEvent<>();
 
+    private transient boolean ensuringWithinBounds = false;
+
     //endregion
 
     //region Statics
@@ -1165,6 +1167,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         getLocalPositionXRaw().requestRecalculation();
         getLocalPositionYRaw().requestRecalculation();
 
+        if(!ensuringWithinBounds){
+            ensureElementWithinBounds();
+        }
+
         for(UIElement child : children){
             child.onParentPositionChanged();
         }
@@ -1246,12 +1252,22 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         float desiredWidth = desiredBounds.z;
         float desiredHeight = desiredBounds.w;
 
-        if(desiredWidth != getWidth() || desiredHeight != getHeight() || desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
-            getLocalPositionXRaw().overrideCalculatedValue(desiredPositionX);
-            getLocalPositionYRaw().overrideCalculatedValue(desiredPositionY);
+        float currentPositionX = getLocalPositionX();
+        float currentPositionY = getLocalPositionY();
+        float currentWidth = getWidth();
+        float currentHeight = getHeight(); // TODO use resizeby
+
+        ensuringWithinBounds = true;
+
+        if(currentPositionX != desiredPositionX) offset(desiredPositionX - currentPositionX, 0);
+        if(currentPositionY != desiredPositionY) offset(0, desiredPositionY - currentPositionY);
+
+        if(desiredPositionX != getLocalPositionX() || desiredPositionY != getLocalPositionY()){
             getWidthRaw().overrideCalculatedValue(desiredWidth);
             getHeightRaw().overrideCalculatedValue(desiredHeight);
         }
+
+        ensuringWithinBounds = false;
     }
 
     public Vector4f calculateDesiredBounds(){
