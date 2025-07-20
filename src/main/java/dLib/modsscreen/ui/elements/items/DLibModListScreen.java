@@ -69,7 +69,7 @@ public class DLibModListScreen extends UIElement {
         public DLibModListList() {
             super(Tex.stat(UICommonResources.bg02_background), Pos.px(35), Pos.px(1080-819), Dim.px(531), Dim.px(735 + 50));
 
-            setRenderColor(Color.valueOf("#2A4955"));
+            setHueShiftAmount(140);
 
             setEntryAnimation(new UIAnimation_SlideInUp(this));
             setExitAnimation(new UIAnimation_SlideOutDown(this));
@@ -87,7 +87,7 @@ public class DLibModListScreen extends UIElement {
                 modBadgeBox.setSelectionMode(ESelectionMode.SINGLE);
                 modBadgeBox.setChildren(getRegisteredMods());
                 modBadgeBox.setTexture(UICommonResources.bg02_inner);
-                modBadgeBox.setRenderColor(Color.valueOf("#1F272B"));
+                modBadgeBox.setHueShiftAmount(140);
                 modBadgeBox.onItemSelectionChangedEvent.subscribeManaged((items) -> {
                     if(items != null && !items.isEmpty()){
                         getParentOfType(DLibModListScreen.class).modDetails.buildModContentBox(items.get(0));
@@ -135,13 +135,13 @@ public class DLibModListScreen extends UIElement {
 
             setDrawFocusOnOpen(true);
 
-            setRenderColor(Color.valueOf("#2A4955"));
+            setHueShiftAmount(140);
 
             setEntryAnimation(new UIAnimation_SlideInUp(this));
             setExitAnimation(new UIAnimation_SlideOutDown(this));
 
             modContentBox = new Image(Tex.stat(UICommonResources.bg02_inner), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
-            modContentBox.setRenderColor(Color.valueOf("#1F272B"));
+            modContentBox.setHueShiftAmount(140);
             modContentBox.setPadding(Padd.px(25));
             addChild(modContentBox);
         }

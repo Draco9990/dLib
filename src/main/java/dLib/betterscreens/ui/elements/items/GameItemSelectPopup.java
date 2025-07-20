@@ -1,6 +1,5 @@
 package dLib.betterscreens.ui.elements.items;
 
-import com.megacrit.cardcrawl.relics.AbstractRelic;
 import dLib.properties.objects.*;
 import dLib.properties.ui.elements.OnValueChangedStringValueEditor;
 import dLib.ui.Alignment;
@@ -25,7 +24,7 @@ import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
 
-public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<RarityType>> extends UIElement {
+public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
     //region Variables
 
@@ -50,7 +49,7 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
         itemListWindow = new ItemListWindow<>();
         addChild(itemListWindow);
 
-        itemFiltersSidebar = new ItemFiltersSidebar(getDefaultItemRarity());
+        itemFiltersSidebar = new ItemFiltersSidebar(getItemRaritiesForFilter());
         addChild(itemFiltersSidebar);
         itemDetailsSidebar = new ItemDetailsSidebar<>(this);
         itemDetailsSidebar.hideAndDisableInstantly();
@@ -65,9 +64,10 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
 
     public abstract AbstractTextureBinding getItemTexture(GameItemType item);
     public abstract String getItemName(GameItemType item);
-    public abstract RarityType getDefaultItemRarity();
-    public abstract RarityType getItemRarity(GameItemType item);
+    public Enum<?> getItemRarity(GameItemType item) { return null; }
     public abstract String getItemDescription(GameItemType item);
+
+    public ArrayList<? extends Enum<?>> getItemRaritiesForFilter() { return new ArrayList<>(); }
 
     public boolean hasItemFlavorText() { return true; }
     public String getItemFlavorText(GameItemType item) { return ""; }
@@ -119,7 +119,10 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
         public ItemListWindow() {
             super(Tex.stat(UICommonResources.bg02_background), Pos.px(69), Pos.px(1080-1000), Dim.px(1268), Dim.px(939));
 
+            setHueShiftAmount(30);
+
             Renderable inner = new Renderable(Tex.stat(UICommonResources.bg02_inner), Pos.px(0), Pos.px(70), Dim.fill(), Dim.fill());
+            inner.setHueShiftAmount(30);
             inner.setPadding(Padd.px(25));
             {
                 Scrollbox scrollbox = new Scrollbox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
@@ -153,7 +156,7 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
                         protected boolean filterCheck(String filterText, UIElement item, GameItemType originalItem) {
                             GameItemSelectPopup parent = getParentOfType(GameItemSelectPopup.class);
                             return super.filterCheck(filterText, item, originalItem) &&
-                                    (parent.itemFiltersSidebar.displayRelicTiers.getValues().isEmpty() || parent.itemFiltersSidebar.displayRelicTiers.getValues().contains(parent.getItemRarity(originalItem)));
+                                    (parent.itemFiltersSidebar.displayRelicTiers == null || parent.itemFiltersSidebar.displayRelicTiers.getValues().isEmpty() || parent.itemFiltersSidebar.displayRelicTiers.getValues().contains(parent.getItemRarity(originalItem)));
                         }
                     };
                     itemBox.setGridMode(true);
@@ -183,8 +186,8 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
             addChild(confirmButton);
         }
 
-        private static class GridItem<GameItemType, RarityType extends Enum<RarityType>> extends VerticalBox {
-            public GridItem(GameItemSelectPopup<GameItemType, RarityType> inParent, GameItemType item) {
+        private static class GridItem<GameItemType> extends VerticalBox {
+            public GridItem(GameItemSelectPopup<GameItemType> inParent, GameItemType item) {
                 super(Dim.px(180), Dim.px(230));
 
                 setTexture(Tex.stat(UICommonResources.white_pixel));
@@ -238,22 +241,26 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
         public void setDetailsItem(GameItemType item) {
             itemNameBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemName(item));
             itemImage.setTexture(getParentOfType(GameItemSelectPopup.class).getItemTexture(item));
-            itemRarityBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemRarity(item).name());
+            if(getParentOfType(GameItemSelectPopup.class).getItemRarity(item) != null) itemRarityBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemRarity(item).name());
             itemDescription.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemDescription(item));
             if(getParentOfType(GameItemSelectPopup.class).hasItemFlavorText()) itemFlavor.textBox.setText("\"" + getParentOfType(GameItemSelectPopup.class).getItemFlavorText(item) + "\"");
         }
     }
 
-    private static class ItemFiltersSidebar<RarityType extends Enum<RarityType>> extends Renderable{
+    private static class ItemFiltersSidebar extends Renderable{
         StringProperty searchText = new StringProperty("");
 
-        PropertyArray<Enum<RarityType>> displayRelicTiers;
+        PropertyArray<? extends Enum<?>> displayRelicTiers;
 
-        public ItemFiltersSidebar(RarityType defaultRarity) {
+        public ItemFiltersSidebar(ArrayList<? extends Enum<?>> selectableRarities) {
             super(Tex.stat(UICommonResources.bg03), Pos.px(1345), Pos.px(1080-1045), Dim.px(534), Dim.px(995));
 
-            displayRelicTiers = new PropertyArray<>(new EnumProperty<>(defaultRarity))
-                    .setName("Of Rarity");
+            setHueShiftAmount(140);
+
+            if(!selectableRarities.isEmpty()){
+                displayRelicTiers = new PropertyArray<>(new EnumProperty<>(selectableRarities.get(0)))
+                        .setName("Of Rarity");
+            }
 
             VerticalBox filtersBox = new VerticalBox(Pos.px(51), Pos.px(78), Dim.px(426), Dim.px(868));
             filtersBox.setItemSpacing(5);
@@ -271,12 +278,14 @@ public abstract class GameItemSelectPopup<GameItemType, RarityType extends Enum<
                 OnValueChangedStringValueEditor searchTextEditor = new OnValueChangedStringValueEditor(searchText);
                 filtersBox.addChild(searchTextEditor);
 
-                filtersBox.addChild(displayRelicTiers.makeEditorFor(true));
+                if(!selectableRarities.isEmpty()){
+                    filtersBox.addChild(displayRelicTiers.makeEditorFor(true));
+                }
             }
             addChild(filtersBox);
 
             searchText.onValueChangedEvent.subscribe(this, (s, s2) -> getParentOfType(GameItemSelectPopup.class).itemListWindow.itemBox.setFilterText(s2));
-            displayRelicTiers.onSingleValueChangedEvent.subscribe(this, (oldVal, newVal, indx) -> getParentOfType(GameItemSelectPopup.class).itemListWindow.itemBox.refilterItems());
+            if(displayRelicTiers != null) displayRelicTiers.onSingleValueChangedEvent.subscribe(this, (oldVal, newVal, indx) -> getParentOfType(GameItemSelectPopup.class).itemListWindow.itemBox.refilterItems());
         }
     }
 

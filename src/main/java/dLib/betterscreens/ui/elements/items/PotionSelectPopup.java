@@ -2,17 +2,16 @@ package dLib.betterscreens.ui.elements.items;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.helpers.PotionHelper;
-import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
 import dLib.util.Reflection;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
-public class PotionSelectPopup extends GameItemSelectPopup<AbstractPotion, AbstractPotion.PotionRarity> {
+public class PotionSelectPopup extends GameItemSelectPopup<AbstractPotion> {
     public PotionSelectPopup() {
         super();
 
@@ -35,12 +34,7 @@ public class PotionSelectPopup extends GameItemSelectPopup<AbstractPotion, Abstr
     }
 
     @Override
-    public AbstractPotion.PotionRarity getDefaultItemRarity() {
-        return AbstractPotion.PotionRarity.PLACEHOLDER;
-    }
-
-    @Override
-    public AbstractPotion.PotionRarity getItemRarity(AbstractPotion item) {
+    public Enum<?> getItemRarity(AbstractPotion item) {
         return item.rarity;
     }
 
@@ -52,5 +46,14 @@ public class PotionSelectPopup extends GameItemSelectPopup<AbstractPotion, Abstr
     @Override
     public boolean hasItemFlavorText() {
         return false;
+    }
+
+    @Override
+    public ArrayList<AbstractPotion.PotionRarity> getItemRaritiesForFilter() {
+        return new ArrayList<>(Arrays.asList(
+                AbstractPotion.PotionRarity.COMMON,
+                AbstractPotion.PotionRarity.UNCOMMON,
+                AbstractPotion.PotionRarity.RARE
+        ));
     }
 }

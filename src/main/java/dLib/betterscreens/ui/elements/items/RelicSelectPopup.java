@@ -6,9 +6,10 @@ import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
-public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic, AbstractRelic.RelicTier> {
+public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic> {
     public RelicSelectPopup() {
         super();
 
@@ -35,12 +36,20 @@ public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic, Abstrac
     }
 
     @Override
-    public AbstractRelic.RelicTier getDefaultItemRarity() {
-        return AbstractRelic.RelicTier.DEPRECATED;
+    public ArrayList<AbstractRelic.RelicTier> getItemRaritiesForFilter() {
+        return new ArrayList<>(Arrays.asList(
+                AbstractRelic.RelicTier.STARTER,
+                AbstractRelic.RelicTier.COMMON,
+                AbstractRelic.RelicTier.UNCOMMON,
+                AbstractRelic.RelicTier.RARE,
+                AbstractRelic.RelicTier.BOSS,
+                AbstractRelic.RelicTier.SPECIAL,
+                AbstractRelic.RelicTier.SHOP
+        ));
     }
 
     @Override
-    public AbstractRelic.RelicTier getItemRarity(AbstractRelic item) {
+    public Enum<?> getItemRarity(AbstractRelic item) {
         return item.tier;
     }
 

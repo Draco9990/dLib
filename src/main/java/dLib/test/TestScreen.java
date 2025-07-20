@@ -1,6 +1,7 @@
 package dLib.test;
 
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
+import dLib.betterscreens.ui.elements.items.BlightSelectPopup;
 import dLib.betterscreens.ui.elements.items.PotionSelectPopup;
 import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
 import dLib.ui.Alignment;
@@ -98,12 +99,12 @@ public class TestScreen extends UIElement {
         }
         //addChild(scrollbox);
 
-        Image img = new Image(Tex.stat(UICommonResources.white_pixel), Pos.perc(0.1), Pos.perc(0.1), Dim.px(200), Dim.px(200));
+        /*Image img = new Image(Tex.stat(UICommonResources.white_pixel), Pos.perc(0.1), Pos.perc(0.1), Dim.px(200), Dim.px(200));
         img.onLeftClickEvent.subscribe(img, () -> img.setHorizontalAlignment((Alignment.HorizontalAlignment) EnumHelpers.nextEnum(img.getHorizontalAlignment())));
         img.onRightClickEvent.subscribe(img, () -> img.setVerticalAlignment((Alignment.VerticalAlignment) EnumHelpers.nextEnum(img.getVerticalAlignment())));
-        addChild(img);
+        addChild(img);*/
 
-        /*RelicSelectPopup pop = new RelicSelectPopup();
-        pop.open();*/
+        BlightSelectPopup pop = new BlightSelectPopup();
+        pop.open();
     }
 }
