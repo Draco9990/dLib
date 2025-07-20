@@ -11,6 +11,7 @@ import dLib.ui.descriptors.ElementDescriptor;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.components.UIOverlayElementComponent;
 import dLib.ui.elements.items.Renderable;
+import dLib.ui.elements.items.text.TokenizedDescriptionBox;
 import dLib.ui.layout.ILayoutProvider;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
@@ -21,6 +22,7 @@ import dLib.util.ui.dimensions.FillDimension;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
+import dLib.util.ui.position.Pos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,7 +47,9 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     protected String filterText = "";
 
     // Properties
-    protected int itemSpacing = 1;
+    protected int verticalItemSpacing = 1;
+    protected int horizontalItemSpacing = 1;
+
     protected boolean invertedItemOrder = false;
 
     //endregion
@@ -70,7 +74,9 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     public ItemBox(ItemBoxData data){
         super(data);
 
-        this.itemSpacing = data.itemSpacing.getValue();
+        this.horizontalItemSpacing = data.horizontalItemSpacing.getValue();
+        this.verticalItemSpacing = data.verticalItemSpacing.getValue();
+
         this.invertedItemOrder = data.invertedItemOrder.getValue();
 
         setContentPadding(Padd.px(0));
@@ -95,14 +101,14 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         super.updateSelf();
 
         if(primaryAlignment == Alignment.AlignmentType.HORIZONTAL) {
-            if (horizontalContentAlignment == Alignment.HorizontalAlignment.LEFT) updateListHorizontalLeftRight();
-            else if (horizontalContentAlignment == Alignment.HorizontalAlignment.CENTER) updateListHorizontalCentered();
-            else if (horizontalContentAlignment == Alignment.HorizontalAlignment.RIGHT) updateListHorizontalRightLeft();
+            if (horizontalContentAlignment == Alignment.HorizontalAlignment.LEFT) updateListHorizontal(0f);
+            else if (horizontalContentAlignment == Alignment.HorizontalAlignment.CENTER) updateListHorizontal(0.5f);
+            else if (horizontalContentAlignment == Alignment.HorizontalAlignment.RIGHT) updateListHorizontal(1f);
         }
         else if(primaryAlignment == Alignment.AlignmentType.VERTICAL){
-            if(verticalContentAlignment == Alignment.VerticalAlignment.BOTTOM) updateListVerticalBottomTop();
-            else if(verticalContentAlignment == Alignment.VerticalAlignment.CENTER) updateListVerticalCentered();
-            else if(verticalContentAlignment == Alignment.VerticalAlignment.TOP) updateListVerticalTopBottom();
+            if(verticalContentAlignment == Alignment.VerticalAlignment.BOTTOM) updateListVertical(1f);
+            else if(verticalContentAlignment == Alignment.VerticalAlignment.CENTER) updateListVertical(0.5f);
+            else if(verticalContentAlignment == Alignment.VerticalAlignment.TOP) updateListVertical(0);
         }
     }
 
@@ -121,7 +127,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             float childWidth = child.getPaddingLeft() + child.getWidth() + child.getPaddingRight();
             float childHeight = child.getPaddingTop() + child.getHeight() + child.getPaddingBottom();
 
-            if(!currentLayer.isEmpty() && (totalLayerWidth + childWidth > containerWidth || !isGridMode())){
+            if(!currentLayer.isEmpty() && (totalLayerWidth + childWidth > containerWidth || !isGridMode()) || child instanceof TokenizedDescriptionBox.NLBreak){
                 layers.add(new Pair<>(currentLayer, new Pair<>(totalLayerWidth, highestLayerHeight)));
 
                 currentLayer = new ArrayList<>();
@@ -132,7 +138,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             }
 
             currentLayer.add(child);
-            totalLayerWidth += childWidth + itemSpacing;
+            totalLayerWidth += childWidth + getHorizontalItemSpacing();
             if(highestLayerHeight < childHeight) highestLayerHeight = childHeight;
         }
 
@@ -143,13 +149,26 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         return layers;
     }
 
-    protected void updateListVerticalTopBottom(){
+    protected void updateListVertical(float lerp){
         ArrayList<Pair<ArrayList<UIElement>, Pair<Double, Double>>> layers = generateVerticalLayers();
-        float containerWidth = getWidth() - getContentPaddingLeft() - getContentPaddingRight();
-
         float currentYPos = getHeight() - getContentPaddingTop();
+
+        float containerHeight = getHeight() - getContentPaddingBottom() - getContentPaddingTop();
+
+        float totalContentHeight = 0;
         for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
-            Double layerWidth = layer.getValue().getKey() - itemSpacing;
+            totalContentHeight += layer.getValue().getValue() + getVerticalItemSpacing();
+        }
+        if(!layers.isEmpty()) totalContentHeight -= getVerticalItemSpacing(); // Remove last spacing
+
+        float difference = containerHeight - totalContentHeight;
+        difference *= lerp; // Center the content
+
+        currentYPos -= difference;
+
+        float containerWidth = getWidth() - getContentPaddingLeft() - getContentPaddingRight();
+        for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
+            Double layerWidth = layer.getValue().getKey() - getHorizontalItemSpacing();
             Double layerHeight = layer.getValue().getValue();
 
             float xOffset = 0;
@@ -164,44 +183,12 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
                 child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
                 currentXPos += child.getWidth();
                 currentXPos += child.getPaddingRight();
-                currentXPos += itemSpacing;
+                currentXPos += getHorizontalItemSpacing();
 
                 child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos + child.getPaddingBottom());
             }
 
-            currentYPos -= itemSpacing;
-        }
-    }
-    protected void updateListVerticalCentered(){
-
-    }
-    protected void updateListVerticalBottomTop(){
-        ArrayList<Pair<ArrayList<UIElement>, Pair<Double, Double>>> layers = generateVerticalLayers();
-        float containerWidth = getWidth() - getContentPaddingLeft() - getContentPaddingRight();
-
-        float currentYPos = 0;
-        for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
-            Double layerWidth = layer.getValue().getKey() - itemSpacing;
-            Double layerHeight = layer.getValue().getValue();
-
-            float xOffset = 0;
-            if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.CENTER) xOffset = (float) ((containerWidth - layerWidth) * 0.5);
-            else if(getHorizontalContentAlignment() == Alignment.HorizontalAlignment.RIGHT) xOffset = (float) (containerWidth - layerWidth);
-
-            float currentXPos = getContentPaddingLeft() + xOffset;
-
-            for (UIElement child : layer.getKey()){
-                currentXPos += child.getPaddingLeft();
-                child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos);
-                currentXPos += child.getWidth();
-                currentXPos += child.getPaddingRight();
-                currentXPos += itemSpacing;
-
-                child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos + child.getPaddingBottom());
-            }
-
-            currentYPos += layerHeight;
-            currentYPos += itemSpacing;
+            currentYPos -= getVerticalItemSpacing();
         }
     }
 
@@ -220,7 +207,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             float childWidth = child.getPaddingLeft() + child.getWidth() + child.getPaddingRight();
             float childHeight = child.getPaddingTop() + child.getHeight() + child.getPaddingBottom();
 
-            if(!currentLayer.isEmpty() && (totalLayerHeight + childWidth > containerHeight || !isGridMode())){
+            if(!currentLayer.isEmpty() && (totalLayerHeight + childWidth > containerHeight || !isGridMode()) || child instanceof TokenizedDescriptionBox.NLBreak){
                 layers.add(new Pair<>(currentLayer, new Pair<>(totalLayerHeight, widestLayerWidth)));
 
                 currentLayer = new ArrayList<>();
@@ -231,7 +218,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             }
 
             currentLayer.add(child);
-            totalLayerHeight += childHeight + itemSpacing;
+            totalLayerHeight += childHeight + getVerticalItemSpacing();
             if(widestLayerWidth < childWidth) widestLayerWidth = childWidth;
         }
 
@@ -242,13 +229,24 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         return layers;
     }
 
-    protected void updateListHorizontalLeftRight(){
+    protected void updateListHorizontal(float lerp){
         ArrayList<Pair<ArrayList<UIElement>, Pair<Double, Double>>> layers = generateHorizontalLayers();
         float containerHeight = getHeight() - getContentPaddingBottom() - getContentPaddingTop();
-
         float currentXPos = 0;
+
+        float totalContainerWidth = 0;
         for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
-            Double layerHeight = layer.getValue().getKey() - itemSpacing;
+            totalContainerWidth += layer.getValue().getValue() + getHorizontalItemSpacing();
+        }
+        if(!layers.isEmpty()) totalContainerWidth -= getVerticalItemSpacing(); // Remove last spacing
+
+        float difference = containerHeight - totalContainerWidth;
+        difference *= lerp; // Center the content
+
+        currentXPos += difference;
+
+        for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
+            Double layerHeight = layer.getValue().getKey() - getVerticalItemSpacing();
             Double layerWidth = layer.getValue().getValue();
 
             float yOffset = 0;
@@ -264,43 +262,11 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
                 child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
                 currentYPos -= child.getWidth();
                 currentYPos -= child.getPaddingBottom();
-                currentYPos -= itemSpacing;
+                currentYPos -= getVerticalItemSpacing();
             }
 
             currentXPos += layerWidth;
-            currentXPos += itemSpacing;
-        }
-    }
-    protected void updateListHorizontalCentered(){
-
-    }
-    protected void updateListHorizontalRightLeft(){
-        ArrayList<Pair<ArrayList<UIElement>, Pair<Double, Double>>> layers = generateHorizontalLayers();
-        float containerHeight = getHeight() - getContentPaddingBottom() - getContentPaddingTop();
-
-        float currentXPos = getWidth() - getContentPaddingRight();
-        for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
-            Double layerHeight = layer.getValue().getKey() - itemSpacing;
-            Double layerWidth = layer.getValue().getValue();
-
-            float yOffset = 0;
-            if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) yOffset = (float) ((containerHeight - layerHeight) * 0.5);
-            else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP) yOffset = (float) (containerHeight - layerHeight);
-
-            float currentYPos = getContentPaddingBottom() + yOffset;
-            currentXPos -= layerWidth;
-
-            for (UIElement child : layer.getKey()){
-                child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos + child.getPaddingLeft());
-
-                currentYPos -= child.getPaddingTop();
-                child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
-                currentYPos -= child.getWidth();
-                currentYPos -= child.getPaddingBottom();
-                currentYPos -= itemSpacing;
-            }
-
-            currentXPos -= itemSpacing;
+            currentXPos += getHorizontalItemSpacing();
         }
     }
 
@@ -323,10 +289,20 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     //region Item Properties
 
     public void setItemSpacing(int spacing){
-        this.itemSpacing = spacing;
+        this.horizontalItemSpacing = spacing;
+        this.verticalItemSpacing = spacing;
     }
-    public int getItemSpacing(){
-        return itemSpacing;
+    public void setHorizontalItemSpacing(int spacing){
+        this.horizontalItemSpacing = spacing;
+    }
+    public void setVerticalItemSpacing(int spacing){
+        this.verticalItemSpacing = spacing;
+    }
+    public int getHorizontalItemSpacing(){
+        return horizontalItemSpacing;
+    }
+    public int getVerticalItemSpacing(){
+        return verticalItemSpacing;
     }
 
     public void setInvertedItemOrder(boolean invertedItemOrder){
@@ -549,9 +525,9 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float totalWidth = 0;
 
         for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
-            totalWidth += layer.getValue().getValue() + itemSpacing;
+            totalWidth += layer.getValue().getValue() + getHorizontalItemSpacing();
         }
-        if(!layers.isEmpty()) totalWidth -= itemSpacing; // Remove last spacing
+        if(!layers.isEmpty()) totalWidth -= getHorizontalItemSpacing(); // Remove last spacing
 
         return totalWidth;
     }
@@ -611,9 +587,9 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         float totalHeight = 0;
 
         for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
-            totalHeight += layer.getValue().getValue() + itemSpacing;
+            totalHeight += layer.getValue().getValue() + getVerticalItemSpacing();
         }
-        if(!layers.isEmpty()) totalHeight -= itemSpacing; // Remove last spacing
+        if(!layers.isEmpty()) totalHeight -= getVerticalItemSpacing(); // Remove last spacing
 
         return totalHeight;
     }
@@ -662,14 +638,24 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     //endregion
 
+    public static class NLBreak extends UIElement{
+        public NLBreak() {
+            super(Pos.px(0), Pos.px(0), Dim.px(1), Dim.px(1));
+        }
+    }
+
     public static class ItemBoxData extends RenderableData implements Serializable {
         private static final long serialVersionUID = 1L;
 
         //TODO add a class picker property that determines item types
 
-        public IntegerProperty itemSpacing = new IntegerProperty(1).setMinimumValue(1)
-                .setName("Item Spacing")
-                .setDescription("The spacing between items in the item box.")
+        public IntegerProperty horizontalItemSpacing = new IntegerProperty(1).setMinimumValue(1)
+                .setName("Horizontal Item Spacing")
+                .setDescription("The horizontal spacing between items in the item box.")
+                .setCategory("Item Box");
+        public IntegerProperty verticalItemSpacing = new IntegerProperty(1).setMinimumValue(1)
+                .setName("Vertical Item Spacing")
+                .setDescription("The vertical spacing between items in the item box.")
                 .setCategory("Item Box");
 
         public BooleanProperty invertedItemOrder = new BooleanProperty(false)

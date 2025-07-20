@@ -87,7 +87,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
                 }
             }
 
-            staticWidth += (itemBox.getActiveChildren().size() - 1) * itemBox.getItemSpacing();
+            staticWidth += (itemBox.getActiveChildren().size() - 1) * itemBox.getHorizontalItemSpacing();
 
             return Math.max((parentWidth.getKey() - staticWidth) / fillElementCount, 1f);
         }
@@ -138,7 +138,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
                 }
             }
 
-            staticHeight += (itemBox.getActiveChildren().size() - 1) * itemBox.getItemSpacing();
+            staticHeight += (itemBox.getActiveChildren().size() - 1) * itemBox.getVerticalItemSpacing();
 
             return Math.max((parentHeight.getKey() - staticHeight) / fillElementCount, 1f);
         }

@@ -1,3 +1,5 @@
+GameItemSelectPopup add ability to select quantities by left and right lcicking
+
 min and max dims and pos need to be within dimension calculation and not externally cause other calculations need to take that into account
 implement lambda bindings everywhere and replace refresh()
 unique controls inside dataitembox

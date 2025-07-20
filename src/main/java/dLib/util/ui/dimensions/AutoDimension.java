@@ -143,7 +143,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
         float bonusWidth = 0;
         if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
-            bonusWidth = ((ItemBox) forElement).getItemSpacing();
+            bonusWidth = ((ItemBox) forElement).getHorizontalItemSpacing();
         }
         if(includePadding){
             if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
@@ -252,7 +252,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
         float bonusHeight = 0;
         if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
-            bonusHeight = ((ItemBox) forElement).getItemSpacing();
+            bonusHeight = ((ItemBox) forElement).getVerticalItemSpacing();
         }
         if(includePadding){
             if(forElement.getPaddingTopRaw().needsRecalculation()) return null;

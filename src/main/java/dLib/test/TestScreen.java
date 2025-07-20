@@ -104,7 +104,7 @@ public class TestScreen extends UIElement {
         img.onRightClickEvent.subscribe(img, () -> img.setVerticalAlignment((Alignment.VerticalAlignment) EnumHelpers.nextEnum(img.getVerticalAlignment())));
         addChild(img);*/
 
-        BlightSelectPopup pop = new BlightSelectPopup();
+        RelicSelectPopup pop = new RelicSelectPopup();
         pop.open();
     }
 }

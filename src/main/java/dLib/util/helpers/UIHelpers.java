@@ -4,11 +4,18 @@ import basemod.Pair;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import dLib.ui.ElementCalculationManager;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.Image;
+import dLib.ui.elements.items.text.TextBox;
+import dLib.ui.elements.items.text.TokenizedDescriptionBox;
 import dLib.ui.layout.ILayoutProvider;
+import dLib.ui.resources.UICommonResources;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AutoDimension;
+import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class UIHelpers {
@@ -90,5 +97,40 @@ public class UIHelpers {
         }
 
         return new Pair<>(parentHeight, parent);
+    }
+
+    public static ArrayList<UIElement> tokenizeStr(String text){
+        return tokenizeStr(text, 16f); // Default font size
+    }
+    public static ArrayList<UIElement> tokenizeStr(String text, float fontSize){
+        ArrayList<UIElement> elements = new ArrayList<>();
+
+        String[] words = text.split(" ");
+        for (String word : words) {
+            if (word.isEmpty()) continue; // Skip empty strings
+
+            if(word.startsWith("#r")) word = "[#" + "ff" + "66" + "66" + "ff]" + word.substring(2) + "[]";
+            if(word.startsWith("#g")) word = "[#" + "66" + "ff" + "66" + "ff]" + word.substring(2) + "[]";
+            if(word.startsWith("#b")) word = "[#" + "66" + "66" + "ff" + "ff]" + word.substring(2) + "[]";
+            if(word.startsWith("#y")) word = "[#" + "ff" + "ff" + "66" + "ff]" + word.substring(2) + "[]";
+            if(word.startsWith("#p")) word = "[#" + "ff" + "66" + "ff" + "ff]" + word.substring(2) + "[]";
+
+            if (word.equals("[E]")) {
+                Image energyImage = new Image(Tex.stat(UICommonResources.energyIconUniversal), Pos.px(0), Pos.px(0), Dim.px(fontSize), Dim.px(fontSize));
+                elements.add(energyImage);
+            }
+            else if(word.equals("NL")){
+                TokenizedDescriptionBox.NLBreak nlBreak = new TokenizedDescriptionBox.NLBreak();
+                elements.add(nlBreak);
+            }
+            else {
+                TextBox textBox = new TextBox(word, Pos.px(0), Pos.px(0), Dim.auto(), Dim.auto());
+                textBox.setFontSize(fontSize);
+                textBox.setUseSelfAsMask(false);
+                elements.add(textBox);
+            }
+        }
+
+        return elements;
     }
 }

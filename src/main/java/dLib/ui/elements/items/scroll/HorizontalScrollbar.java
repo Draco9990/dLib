@@ -143,7 +143,7 @@ public class HorizontalScrollbar extends Scrollbar {
             hBox.id.setValue("background");
             hBox.width.setValue(Dim.fill());
             hBox.height.setValue(Dim.fill());
-            hBox.itemSpacing.setValue(0);
+            hBox.horizontalItemSpacing.setValue(0);
             {
                 Image.ImageData left = new Image.ImageData();
                 left.id.setValue("bg_left");

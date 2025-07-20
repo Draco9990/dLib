@@ -13,11 +13,13 @@ import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.elements.items.text.TextBox;
+import dLib.ui.elements.items.text.TokenizedDescriptionBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -207,11 +209,13 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
         ImageTextBox itemNameBox;
         Image itemImage;
         ImageTextBox itemRarityBox;
-        ImageTextBox itemDescription;
+        TokenizedDescriptionBox itemDescription;
         ImageTextBox itemFlavor;
 
         public ItemDetailsSidebar(GameItemSelectPopup parent) {
             super(Tex.stat(UICommonResources.bg03), Pos.px(1345), Pos.px(1080-1045), Dim.px(534), Dim.px(995));
+
+            setHueShiftAmount(140);
 
             VerticalBox vbox = new VerticalBox(Pos.px(51), Pos.px(78), Dim.px(426), Dim.px(868));
             {
@@ -227,8 +231,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                 itemImage.setPreserveAspectRatio(true);
                 vbox.addChild(itemImage);
 
-                itemDescription = new ImageTextBox("", Dim.fill(), Dim.fill());
-                itemDescription.textBox.setWrap(true);
+                itemDescription = new TokenizedDescriptionBox(Dim.fill(), Dim.fill());
                 vbox.addChild(itemDescription);
 
                 itemFlavor = new ImageTextBox("", Dim.fill(), Dim.px(150));
@@ -242,7 +245,10 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
             itemNameBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemName(item));
             itemImage.setTexture(getParentOfType(GameItemSelectPopup.class).getItemTexture(item));
             if(getParentOfType(GameItemSelectPopup.class).getItemRarity(item) != null) itemRarityBox.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemRarity(item).name());
-            itemDescription.textBox.setText(getParentOfType(GameItemSelectPopup.class).getItemDescription(item));
+
+            String itemDesc = getParentOfType(GameItemSelectPopup.class).getItemDescription(item);
+            itemDescription.setFromText(itemDesc);
+
             if(getParentOfType(GameItemSelectPopup.class).hasItemFlavorText()) itemFlavor.textBox.setText("\"" + getParentOfType(GameItemSelectPopup.class).getItemFlavorText(item) + "\"");
         }
     }
