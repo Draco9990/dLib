@@ -1,5 +1,7 @@
 package dLib.betterscreens.ui.elements.items;
 
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.*;
 import dLib.properties.ui.elements.OnValueChangedStringValueEditor;
 import dLib.ui.Alignment;

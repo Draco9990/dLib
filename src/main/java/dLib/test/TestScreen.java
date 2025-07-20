@@ -9,6 +9,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.VerticalCollapsableBox;
 import dLib.ui.elements.items.buttons.Checkbox;
+import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
@@ -29,14 +30,14 @@ public class TestScreen extends UIElement {
     public TestScreen(){
         super(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
 
-        /*String text = "THIS is a [ REE ] test [RED]text[GREEN] that im doing[] why not [] woahhhh";
+        String text = "THIS is a [ REE ] test [RED]text[GREEN] that im doing[] why not [] woahhhh";
 
         Inputfield in1 = new Inputfield(text, Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
         in1.textBox.setWrap(true);
         in1.textBox.setContentAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
         addChild(in1);
 
-        Inputfield in2= new Inputfield(text, Pos.px(400), Pos.px(100), Dim.px(200), Dim.px(200));
+        /*Inputfield in2= new Inputfield(text, Pos.px(400), Pos.px(100), Dim.px(200), Dim.px(200));
         in2.textBox.setWrap(true);
         in2.textBox.setContentAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.TOP);
         addChild(in2);
@@ -104,7 +105,7 @@ public class TestScreen extends UIElement {
         img.onRightClickEvent.subscribe(img, () -> img.setVerticalAlignment((Alignment.VerticalAlignment) EnumHelpers.nextEnum(img.getVerticalAlignment())));
         addChild(img);*/
 
-        RelicSelectPopup pop = new RelicSelectPopup();
-        pop.open();
+        /*PotionSelectPopup pop = new PotionSelectPopup();
+        pop.open();*/
     }
 }

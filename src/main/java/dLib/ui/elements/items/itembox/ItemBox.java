@@ -200,7 +200,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         double widestLayerWidth = 0;
         double totalLayerHeight = 0;
         for(UIElement child : filteredChildren){
-            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
+            if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 
@@ -231,8 +231,8 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     protected void updateListHorizontal(float lerp){
         ArrayList<Pair<ArrayList<UIElement>, Pair<Double, Double>>> layers = generateHorizontalLayers();
-        float containerHeight = getHeight() - getContentPaddingBottom() - getContentPaddingTop();
-        float currentXPos = 0;
+        float containerHeight = getWidth() - getContentPaddingLeft() - getContentPaddingRight();
+        float currentXPos = 0 + getContentPaddingLeft();
 
         float totalContainerWidth = 0;
         for (Pair<ArrayList<UIElement>, Pair<Double, Double>> layer : layers) {
@@ -487,7 +487,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         refCollector.registerDependency(getContentPaddingRightRaw());
 
         for (UIElement child : filteredChildren){
-            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
+            if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 
@@ -549,7 +549,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         refCollector.registerDependency(getContentPaddingTopRaw());
 
         for (UIElement child : filteredChildren){
-            if(!child.isActive() || child.hasComponent(UIOverlayElementComponent.class)){
+            if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 
@@ -601,7 +601,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     public PositionBounds getFullChildLocalBounds() {
         PositionBounds bounds = null;
         for(UIElement child : filteredChildren){
-            if(!(child.isActive()) || child.hasComponent(UIOverlayElementComponent.class)){
+            if(!(child.isActiveRaw()) || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
             }
 

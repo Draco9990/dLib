@@ -1,6 +1,9 @@
 package dLib.util.helpers;
 
 import basemod.Pair;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -132,5 +135,33 @@ public class UIHelpers {
         }
 
         return elements;
+    }
+
+    public static Texture mergeTextures(Texture... textures) {
+        if (textures == null || textures.length == 0) return null;
+
+        int width = 0;
+        int height = 0;
+
+        // Assumes all textures are the same size (or at least uses the first one's size)
+        width = textures[0].getWidth();
+        height = textures[0].getHeight();
+
+        Pixmap resultPixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+
+        for (Texture texture : textures) {
+            // Get the texture's Pixmap
+            TextureRegion region = new TextureRegion(texture);
+            region.getTexture().getTextureData().prepare();
+            Pixmap pixmap = region.getTexture().getTextureData().consumePixmap();
+
+            resultPixmap.drawPixmap(pixmap, 0, 0);
+            pixmap.dispose(); // Dispose the temporary Pixmap if you don't need it
+        }
+
+        Texture resultTexture = new Texture(resultPixmap);
+        resultPixmap.dispose(); // Dispose if you no longer need the CPU-side data
+
+        return resultTexture;
     }
 }
