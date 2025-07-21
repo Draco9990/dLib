@@ -4,7 +4,7 @@ import dLib.external.ExternalMessageSender;
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.items.DarkenLayer;
-import dLib.ui.elements.items.GenericInputWindow;
+import dLib.ui.elements.items.templateinput.GenericInputWindow;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.buttons.CancelButtonSmall;
 import dLib.ui.elements.items.buttons.ConfirmButtonSmall;

@@ -1,10 +1,12 @@
-package dLib.ui.elements.items;
+package dLib.ui.elements.items.templateinput;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.DarkenLayer;
+import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.buttons.CancelButtonSmall;
 import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
 import dLib.ui.elements.items.input.Inputfield;
@@ -46,7 +48,7 @@ public class GenericInputWindow extends UIElement {
         if(popup.passwordBox != null) popup.passwordBox.inputfield.textBox.setText("");
     }
 
-    public static class InternalInputWindow extends Renderable{
+    public static class InternalInputWindow extends Renderable {
         public TextButton cancelButton;
         public TextButton confirmButton;
 

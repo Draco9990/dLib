@@ -32,10 +32,10 @@ public class TestScreen extends UIElement {
 
         String text = "THIS is a [ REE ] test [RED]text[GREEN] that im doing[] why not [] woahhhh";
 
-        Inputfield in1 = new Inputfield(text, Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
+        /*Inputfield in1 = new Inputfield(text, Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
         in1.textBox.setWrap(true);
         in1.textBox.setContentAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
-        addChild(in1);
+        addChild(in1);*/
 
         /*Inputfield in2= new Inputfield(text, Pos.px(400), Pos.px(100), Dim.px(200), Dim.px(200));
         in2.textBox.setWrap(true);
@@ -79,7 +79,7 @@ public class TestScreen extends UIElement {
 
         Scrollbox scrollbox = new Scrollbox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
         {
-            VerticalDataBox<String> vdb = new VerticalDataBox<String>(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(500));
+            VerticalDataBox<String> vdb = new VerticalDataBox<String>(Dim.fill(), Dim.fill());
             vdb.setCanReorder(true);
             vdb.setCanDelete(true);
             vdb.setExternalToggling(true);
@@ -99,6 +99,14 @@ public class TestScreen extends UIElement {
             //addChild(vdb);
         }
         //addChild(scrollbox);
+
+        HorizontalBox test = new HorizontalBox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(300));
+        test.setTexture(UICommonResources.white_pixel);
+        {
+            Image test2 = new Image(Tex.stat(UICommonResources.white_pixel), Dim.px(100), Dim.px(100));
+            test.addChild(test2);
+        }
+        addChild(test);
 
         /*Image img = new Image(Tex.stat(UICommonResources.white_pixel), Pos.perc(0.1), Pos.perc(0.1), Dim.px(200), Dim.px(200));
         img.onLeftClickEvent.subscribe(img, () -> img.setHorizontalAlignment((Alignment.HorizontalAlignment) EnumHelpers.nextEnum(img.getHorizontalAlignment())));
