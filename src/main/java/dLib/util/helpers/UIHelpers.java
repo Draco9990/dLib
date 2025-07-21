@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.text.TextBox;
@@ -130,6 +131,7 @@ public class UIHelpers {
                 TextBox textBox = new TextBox(word, Pos.px(0), Pos.px(0), Dim.auto(), Dim.auto());
                 textBox.setFontSize(fontSize);
                 textBox.setUseSelfAsMask(false);
+                textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
                 elements.add(textBox);
             }
         }

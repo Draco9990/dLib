@@ -7,6 +7,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
+import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.RunnableEvent;
@@ -22,6 +23,9 @@ public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption>
 
         setTexture(Tex.stat(UICommonResources.button02_square));
         setRenderColor(Color.WHITE);
+
+        setSelectionMode(ESelectionMode.NONE);
+        disableToggleOverlay();
 
         setContentPadding(Padd.px(10));
 
@@ -55,7 +59,6 @@ public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption>
             button.setTexture(Tex.stat(UICommonResources.button03_square));
             button.label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
 
-            onOptionSelectedEvent.subscribe(this, () -> button.getParentOfType(ContextMenu.class).close());
             button.onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke());
 
             return button;

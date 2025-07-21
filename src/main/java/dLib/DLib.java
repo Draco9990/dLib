@@ -5,18 +5,25 @@ import basemod.interfaces.PostInitializeSubscriber;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
+import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
+import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
+import dLib.campfireoptions.CampfireOptionManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomKeybindManager;
+import dLib.developermode.DeveloperModeManager;
 import dLib.external.ExternalEditorCommunicationManager;
+import dLib.mainmenubuttons.MainMenuButtonManager;
 import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.GeneratedUIManager;
+import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.helpers.FontHelpers;
 import dLib.util.helpers.SteamHelpers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @SpireInitializer
 public class DLib implements PostInitializeSubscriber{
@@ -62,6 +69,8 @@ public class DLib implements PostInitializeSubscriber{
         ShaderManager.init();
 
         CustomKeybindManager.registerCommonEvents();
+
+        DeveloperModeManager.init();
     }
 
     public static void logError(String message){
@@ -87,4 +96,24 @@ public class DLib implements PostInitializeSubscriber{
     public static CInputAction getCustomCKeybind(String actionId){
         return CustomKeybindManager.getCAction(actionId);
     }
+
+    //region Campfire Options
+
+    public static void registerCustomCampfireOption(Supplier<AbstractCampfireOption> option) {
+        CampfireOptionManager.registerCampfireOption(option);
+    }
+
+    //endregion Campfire Options
+
+    //region Main Menu Button Manager
+
+    public static void registerCustomMainMenuButton(MenuButton.ClickResult clickResult,
+                                                    MenuButton.ClickResult insertAfter,
+                                                    AbstractStringBinding buttonLabel,
+                                                    Runnable action,
+                                                    Supplier<Boolean> isVisible) {
+        MainMenuButtonManager.registerButtonAction(clickResult, insertAfter, buttonLabel, action, isVisible);
+    }
+
+    //endregion Main Menu Button Manager
 }

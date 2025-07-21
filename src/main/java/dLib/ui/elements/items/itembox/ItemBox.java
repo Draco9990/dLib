@@ -273,8 +273,19 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     protected void updateChildren() {
-        for(int i = filteredChildren.size() - 1; i >= 0; i--){
-            filteredChildren.get(i).update();
+        ArrayList<UIElement> childrenCopy = new ArrayList<>(filteredChildren);
+
+        for (int i = childrenCopy.size() - 1; i >= 0; i--) {
+            UIElement child = childrenCopy.get(i);
+            if (child.isDisposedRaw() || !filteredChildren.contains(child)) {
+                continue;
+            }
+
+            child.update();
+
+            if (disposed) { //!If any of the children disposes us and themselves, we should stop updating the children
+                return;
+            }
         }
     }
 

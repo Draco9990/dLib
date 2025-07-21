@@ -204,7 +204,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private boolean overridesBaseScreen = false;
 
     private transient boolean initialized = false;
-    private transient boolean disposed = false;
+    protected transient boolean disposed = false;
     private transient boolean updating = false;
     private transient boolean rendering = false;
 
@@ -442,6 +442,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
     }
 
+    public boolean isDisposedRaw(){
+        return disposed;
+    }
+
     //endregion
 
     //region Methods
@@ -643,10 +647,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
     }
     protected void updateChildren(){
-        for(int i = children.size() - 1; i >= 0; i--){
-            children.get(i).update();
+        ArrayList<UIElement> childrenCopy = new ArrayList<>(children);
 
-            if(disposed){ //!If any of the children disposes us and themselves, we should stop updating the children
+        for (int i = childrenCopy.size() - 1; i >= 0; i--) {
+            UIElement child = childrenCopy.get(i);
+            if (child.disposed || !children.contains(child)) {
+                continue;
+            }
+
+            child.update();
+
+            if (disposed) { //!If any of the children disposes us and themselves, we should stop updating the children
                 return;
             }
         }

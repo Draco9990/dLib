@@ -51,6 +51,12 @@ public class FillDimension extends AbstractDimension implements Serializable {
         if(parentWidth.getKey() == null) return null;
         if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
+        if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getLocalPositionXRaw());
+
+        if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingRightRaw());
+
         UIElement analyzingParent = forElement.getParent();
         if(parentWidth.getValue() != analyzingParent){
             for(UIElement child : parentWidth.getValue().getChildren()){
@@ -62,12 +68,6 @@ public class FillDimension extends AbstractDimension implements Serializable {
         }
 
         if(!isHorizontalBox(analyzingParent)){
-            if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getLocalPositionXRaw());
-
-            if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getPaddingRightRaw());
-
             return parentWidth.getKey() - forElement.getLocalPositionX() - forElement.getPaddingRight();
         }
         else{
@@ -89,7 +89,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
             staticWidth += (itemBox.getActiveChildren().size() - 1) * itemBox.getHorizontalItemSpacing();
 
-            return Math.max((parentWidth.getKey() - staticWidth) / fillElementCount, 1f);
+            return Math.max((parentWidth.getKey() - staticWidth) / fillElementCount, 1f) - forElement.getLocalPositionX() - forElement.getPaddingRight();
         }
     }
 
@@ -102,6 +102,13 @@ public class FillDimension extends AbstractDimension implements Serializable {
         if(parentHeight.getKey() == null) return null;
         if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
+        if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getLocalPositionYRaw());
+
+        if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingTopRaw());
+
+
         UIElement analyzingParent = forElement.getParent();
         if(parentHeight.getValue() != analyzingParent){
             for(UIElement child : parentHeight.getValue().getChildren()){
@@ -113,12 +120,6 @@ public class FillDimension extends AbstractDimension implements Serializable {
         }
 
         if(!isVerticalBox(analyzingParent)){
-            if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getLocalPositionYRaw());
-
-            if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getPaddingTopRaw());
-
             return parentHeight.getKey() - forElement.getLocalPositionY() - forElement.getPaddingTop();
         }
         else{
@@ -140,7 +141,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
             staticHeight += (itemBox.getActiveChildren().size() - 1) * itemBox.getVerticalItemSpacing();
 
-            return Math.max((parentHeight.getKey() - staticHeight) / fillElementCount, 1f);
+            return Math.max((parentHeight.getKey() - staticHeight) / fillElementCount, 1f) - forElement.getLocalPositionY() - forElement.getPaddingTop();
         }
     }
 

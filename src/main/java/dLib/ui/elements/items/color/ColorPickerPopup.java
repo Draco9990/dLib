@@ -91,7 +91,7 @@ public class ColorPickerPopup extends VerticalBox {
         public ColorPickerStaticColorSelector(ColorPickerPopup parent, boolean allowMagicColors) {
             super(Dim.fill(), Dim.auto());
 
-            setTexture(UICommonResources.tooltipBg);
+            setTexture(UICommonResources.bg04);
             setRenderColor(Color.WHITE);
             setHueShiftAmount(180);
 
@@ -170,7 +170,7 @@ public class ColorPickerPopup extends VerticalBox {
         public ColorPickerDynamicColorSelector(ColorPickerPopup parent, Color initialColor, boolean allowAlpha) {
             super(Dim.fill(), Dim.auto());
 
-            setTexture(UICommonResources.tooltipBg);
+            setTexture(UICommonResources.bg04);
             setRenderColor(Color.WHITE);
 
             float[] rawHSL = ColorHelpers.toHSL(initialColor);

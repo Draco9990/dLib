@@ -20,7 +20,7 @@ public class UCStartupPopup extends DarkenLayer {
     public UCStartupPopup(){
         super();
 
-        popup = new Renderable(Tex.stat(UICommonResources.background_medium));
+        popup = new Renderable(Tex.stat(UICommonResources.bg01));
         {
             cancelButton = new CancelButtonSmall(Pos.px(360), Pos.px(1080-820));
             cancelButton.onLeftClickEvent.subscribe(cancelButton, () -> getTopParent().close());

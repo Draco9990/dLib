@@ -12,7 +12,7 @@ public class Tooltip extends ImageTextBox {
     public Tooltip(String text) {
         super(text, Pos.px(0), Pos.px(0), Dim.auto(), Dim.auto());
 
-        setTexture(Tex.stat(UICommonResources.tooltipBg));
+        setTexture(Tex.stat(UICommonResources.bg04));
 
         setPassthrough(true);
 
