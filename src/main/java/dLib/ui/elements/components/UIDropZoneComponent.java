@@ -6,11 +6,8 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.mousestates.DragAndDropMouseState;
-import dLib.ui.mousestates.events.PostEnterMouseStateEvent;
-import dLib.ui.mousestates.events.PreExitMouseStateEvent;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.GlobalEvents;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.ui.dimensions.Dim;
 
@@ -37,7 +34,7 @@ public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementCompon
         super.onRegisterComponent(owner);
 
         owner.postHoveredEvent.subscribe(this, () -> {
-            AbstractMouseState currentState = MouseStateManager.get().getCurrentState();
+            AbstractMouseState currentState = MouseStateManager.getCurrentState();
             if(!(currentState instanceof DragAndDropMouseState)){
                 return;
             }
@@ -62,12 +59,12 @@ public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementCompon
             }
         });
 
-        GlobalEvents.subscribe(this, PostEnterMouseStateEvent.class, postEnterMouseStateEvent -> {
-            if(!(postEnterMouseStateEvent.mouseState instanceof DragAndDropMouseState)){
+        AbstractMouseState.postStateEnterGlobalEvent.subscribe(this, mouseState -> {
+            if(!(mouseState instanceof DragAndDropMouseState)){
                 return;
             }
 
-            DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) postEnterMouseStateEvent.mouseState;
+            DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) mouseState;
             if(dragAndDropState.getPayloadZoneId().equals(dropZoneId) && !Objects.equals(dragAndDropState.getSource(), owner)){
                 dropZoneOverlay = new Image(Tex.stat(UICommonResources.dropZoneOptionBg), Dim.fill(), Dim.fill());
                 dropZoneOverlay.setPassthrough(true);
@@ -75,12 +72,12 @@ public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementCompon
             }
         });
 
-        GlobalEvents.subscribe(this, PreExitMouseStateEvent.class, preExitMouseStateEvent -> {
-            if(!(preExitMouseStateEvent.mouseState instanceof DragAndDropMouseState)){
+        AbstractMouseState.preStateExitGlobalEvent.subscribe(this, mouseState -> {
+            if(!(mouseState instanceof DragAndDropMouseState)){
                 return;
             }
 
-            DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) preExitMouseStateEvent.mouseState;
+            DragAndDropMouseState dragAndDropState = (DragAndDropMouseState) mouseState;
             if(dragAndDropState.getPayloadZoneId().equals(dropZoneId) && !Objects.equals(dragAndDropState.getSource(), owner)){
                 if(dropZoneOverlay != null){
                     dropZoneOverlay.dispose();
@@ -100,8 +97,5 @@ public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementCompon
 
         owner.postHoveredEvent.unsubscribe(this);
         owner.postUnhoveredEvent.unsubscribe(this);
-
-        GlobalEvents.unsubscribe(PostEnterMouseStateEvent.class, this);
-        GlobalEvents.unsubscribe(PreExitMouseStateEvent.class, this);
     }
 }

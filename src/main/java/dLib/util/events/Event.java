@@ -1,6 +1,6 @@
 package dLib.util.events;
 
-import dLib.util.events.globalevents.PostDisposeEvent;
+import com.badlogic.gdx.utils.Disposable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,12 +10,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Event<EventType> {
+    public static ArrayList<Event<?>> allRegisteredEvents = new ArrayList<>();
+
     protected ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
 
     protected HashMap<Object, ArrayList<UUID>> boundsObjects = new HashMap<>();
 
     public Event(){
-        GlobalEvents.registeredEvents.add(this);
+        allRegisteredEvents.add(this);
     }
 
     public UUID subscribeManaged(EventType event){
@@ -65,16 +67,16 @@ public class Event<EventType> {
         }
     }
 
-    void postObjectDisposed(PostDisposeEvent event){
-        if(!boundsObjects.containsKey(event.source)){
+    public void postObjectDisposed(Disposable source){
+        if(!boundsObjects.containsKey(source)){
             return;
         }
 
-        for(UUID element : boundsObjects.get(event.source)){
+        for(UUID element : boundsObjects.get(source)){
             subscribers.remove(element);
         }
 
-        boundsObjects.remove(event.source);
+        boundsObjects.remove(source);
     }
 
     public int count(){

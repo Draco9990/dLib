@@ -2,6 +2,7 @@ package dLib.ui.mousestates;
 
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.mousestates.AbstractMouseState;
+import dLib.mousestates.MouseStateManager;
 
 public class DragAndDropMouseState<PayloadType> extends AbstractMouseState {
     private Object source;
@@ -22,7 +23,7 @@ public class DragAndDropMouseState<PayloadType> extends AbstractMouseState {
 
         if(!InputHelper.isMouseDown){
             //* Actual drop logic is in UIDropZoneComponent
-            exitMouseState();
+            MouseStateManager.exitMouseState();
         }
     }
 

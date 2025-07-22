@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.mousestates.AbstractMouseState;
+import dLib.mousestates.MouseStateManager;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.localevents.ConsumerEvent;
 
@@ -54,7 +55,7 @@ public class ReferencePickerMouseState extends AbstractMouseState {
             }
 
             onReferencePickedEvent.invoke(source);
-            exitMouseState();
+            MouseStateManager.exitMouseState();
 
             for(UUID renderEventId : renderEvents.values()){
                 source.postRenderEvent.unsubscribeManaged(renderEventId);
@@ -67,7 +68,7 @@ public class ReferencePickerMouseState extends AbstractMouseState {
         super.update();
 
         if(InputHelper.justClickedRight){
-            exitMouseState();
+            MouseStateManager.exitMouseState();
         }
     }
 }

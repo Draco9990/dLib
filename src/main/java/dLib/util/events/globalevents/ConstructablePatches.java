@@ -5,18 +5,11 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import dLib.util.DLibLogger;
 import dLib.util.MatcherUtils;
 import dLib.util.Reflection;
-import dLib.util.events.GlobalEvents;
 import javassist.CtBehavior;
 import javassist.CtConstructor;
 import javassist.Modifier;
 
-public class PostConstructEvent extends GlobalEvent {
-    public Constructable source;
-
-    public PostConstructEvent(Constructable source){
-        this.source = source;
-    }
-
+public class ConstructablePatches {
     //region Patches
 
     @SpirePatch(
@@ -53,7 +46,7 @@ public class PostConstructEvent extends GlobalEvent {
         String sourceClassName = source.getClass().getName();
         if(sourceClassName.equals(constructorDeclaringClassName)) {
             source.postConstruct();
-            GlobalEvents.sendMessage(new PostConstructEvent(source));
+            Constructable.postConstructGlobalEvent.invoke(source);
         }
     }
 

@@ -5,6 +5,8 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import dLib.util.DLibLogger;
 import dLib.util.Reflection;
+import dLib.util.events.Event;
+import dLib.util.events.localevents.ConsumerEvent;
 import javassist.CtBehavior;
 import javassist.CtMethod;
 import javassist.Modifier;
@@ -12,12 +14,8 @@ import org.clapper.util.classutil.ClassInfo;
 
 import java.util.ArrayList;
 
-public class PostDisposeEvent extends GlobalEvent {
-    public Disposable source;
-
-    public PostDisposeEvent(Disposable source){
-        this.source = source;
-    }
+public class DisposablePatches {
+    public static ConsumerEvent<Disposable> postDisposedGlobalEvent = new ConsumerEvent<>();
 
     //region Patches
 
@@ -34,13 +32,20 @@ public class PostDisposeEvent extends GlobalEvent {
                 }
 
                 try{
-                    method.insertAfter("dLib.util.events.GlobalEvents.sendMessage(new dLib.util.events.globalevents.PostDisposeEvent($0));");
+                    method.insertAfter("dLib.util.events.globalevents.DisposablePatches.postDispose($0);");
                 }
                 catch (Exception e){
                     DLibLogger.logError("Failed to insert PostDisposeEvent into method: " + method.getLongName() + " due to exception: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static void postDispose(Disposable source) {
+        postDisposedGlobalEvent.invoke(source);
+        for(Event<?> event : Event.allRegisteredEvents) {
+            event.postObjectDisposed(source);
         }
     }
 
