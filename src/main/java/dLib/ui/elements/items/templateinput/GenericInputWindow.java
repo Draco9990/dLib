@@ -13,6 +13,7 @@ import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.input.PasswordBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.elements.items.text.TextButton;
+import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
@@ -56,7 +57,7 @@ public class GenericInputWindow extends UIElement {
         public PasswordBox passwordBox;
 
         public InternalInputWindow(String title, String confirmButtonText, ElementProperties properties){
-            super(Tex.stat("dLibResources/images/ui/common/GenericInputWindowBackground.png"), Pos.px(603), Pos.px(323), Dim.px(699), Dim.px(369));
+            super(Tex.stat(UICommonResources.bg05), Pos.px(603), Pos.px(323), Dim.px(699), Dim.px(369));
 
             setEntryAnimation(new UIAnimation_SlideInUp(this));
             setExitAnimation(new UIAnimation_SlideOutDown(this));

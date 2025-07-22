@@ -1,10 +1,7 @@
 package dLib.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
@@ -425,7 +422,8 @@ public class UIManager {
 
         @SpirePatch(clz = AbstractDungeon.class, method = "update")
         public static class CustomScreenUpdatePatch_InGame{
-            public static void Postfix(){
+            @SpirePrefixPatch
+            public static void Prefix(){
                 if(CardCrawlGame.isInARun()){
                     InputHelpers.alreadyHovered = false;
 

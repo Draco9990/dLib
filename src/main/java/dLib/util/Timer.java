@@ -50,11 +50,14 @@ public class Timer {
         }
     }
 
-    /** Methods */
     public void onTrigger(){
         onTriggerEvent.invoke();
     }
     private void reset(){
         currentDuration = MathUtils.random(minDuration, maxDuration);
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 }

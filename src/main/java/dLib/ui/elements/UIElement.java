@@ -37,6 +37,7 @@ import dLib.ui.layout.ILayoutProvider;
 import dLib.ui.UIManager;
 import dLib.util.DLibLogger;
 import dLib.util.Reflection;
+import dLib.util.Timer;
 import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.string.Str;
 import dLib.util.events.globalevents.Constructable;
@@ -84,8 +85,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private AbstractPosition localPosY = Pos.px(0);
     private AbstractDimension width = Dim.fill();
     private AbstractDimension height = Dim.fill();
-
-    private float angle = 0;
 
     public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
@@ -224,6 +223,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public FunctionEvent<Boolean, Boolean> onCancelInteractionEvent = new FunctionEvent<>();
 
     private transient boolean ensuringWithinBounds = false;
+
+    private ArrayList<Timer> timers = new ArrayList<>();
 
     //endregion
 
@@ -619,6 +620,18 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         {
             while(!delayedActions.isEmpty()){
                 delayedActions.remove(0).run();
+            }
+        }
+
+        //Update Timers
+        {
+            for (int i = timers.size() - 1; i >= 0; i--) {
+                Timer timer = timers.get(i);
+                if (timer.isFinished()) {
+                    timers.remove(i);
+                    continue;
+                }
+                timer.update();
             }
         }
 
@@ -1443,8 +1456,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             return;
         }
 
-        preSelectionStateChangedEvent.invoke(isSelected());
-        preSelectionStateChangedGlobalEvent.invoke(this, isSelected());
+        preSelectionStateChangedEvent.invoke(selected);
+        preSelectionStateChangedGlobalEvent.invoke(this, selected);
 
         this.selected = selected;
         onSelectionStateChanged();
@@ -2762,16 +2775,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion
 
-    //region Angle
+    //region Timer
 
-    public void setAngle(float angle){
-        this.angle = angle;
-    }
-    public float getAngle(){
-        return angle;
+    public void addTimer(Timer t){
+        timers.add(t);
     }
 
-    //endregion Angle
+    //endregion Timer
 
     //endregion
 

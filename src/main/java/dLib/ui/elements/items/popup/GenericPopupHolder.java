@@ -10,7 +10,6 @@ public class GenericPopupHolder extends UIElement {
         super();
 
         setModal(true);
-        setContextual(true);
 
         darkenLayer = new DarkenLayer();
         addChild(darkenLayer);

@@ -71,13 +71,11 @@ public class UICommonResources implements ITextureSource {
     public static final Texture dropZoneBg = ImageMaster.loadImage("dLibResources/images/ui/common/DropZoneBg.png");
 
     public static final NinePatch bg01 = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg01.png"), 408, 456, 97, 153);
-
     public static final NinePatch bg02_background = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg02_background.png"), 26, 26, 26, 26);
     public static final NinePatch bg02_inner = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg02_inner.png"), 26, 26, 26, 26);
-
     public static final NinePatch bg03 = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg03.png"), 40, 68, 33, 67);
-
-    public static final NinePatch bg04 = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/tooltipBg.png"), 18, 17, 17, 18);
+    public static final NinePatch bg04 = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg04.png"), 18, 17, 17, 18);
+    public static final NinePatch bg05 = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/bgs/bg05.png"), 32, 33, 13, 46);
 
     public static final Texture errorIcon = ImageMaster.loadImage("dLibResources/images/ui/common/errorIcon.png");
 

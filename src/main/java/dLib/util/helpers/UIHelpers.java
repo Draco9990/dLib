@@ -131,7 +131,6 @@ public class UIHelpers {
                 TextBox textBox = new TextBox(word, Pos.px(0), Pos.px(0), Dim.auto(), Dim.auto());
                 textBox.setFontSize(fontSize);
                 textBox.setUseSelfAsMask(false);
-                textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
                 elements.add(textBox);
             }
         }

@@ -68,7 +68,10 @@ public class FillDimension extends AbstractDimension implements Serializable {
         }
 
         if(!isHorizontalBox(analyzingParent)){
-            return parentWidth.getKey() - forElement.getPaddingLeft() - forElement.getPaddingRight();
+            if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
+            registerDependency(forElement.getLocalPositionXRaw());
+
+            return parentWidth.getKey() - forElement.getPaddingLeft() - forElement.getPaddingRight() - forElement.getLocalPositionX();
         }
         else{
             ItemBox itemBox = (ItemBox) analyzingParent;
@@ -120,7 +123,10 @@ public class FillDimension extends AbstractDimension implements Serializable {
         }
 
         if(!isVerticalBox(analyzingParent)){
-            return parentHeight.getKey() - forElement.getPaddingBottom() - forElement.getPaddingTop();
+            if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
+            registerDependency(forElement.getLocalPositionYRaw());
+
+            return parentHeight.getKey() - forElement.getPaddingBottom() - forElement.getPaddingTop() - forElement.getLocalPositionY();
         }
         else{
             ItemBox itemBox = (ItemBox) analyzingParent;

@@ -32,7 +32,7 @@ public class ConstructablePatches {
                         continue;
                     }
 
-                    constructor.insertAfter("dLib.util.events.globalevents.PostConstructEvent.postConstruct($0, \"" + constructor.getDeclaringClass().getName() + "\");");
+                    constructor.insertAfter("dLib.util.events.globalevents.ConstructablePatches.postConstruct($0, \"" + constructor.getDeclaringClass().getName() + "\");");
                 }
                 catch (Exception e){
                     DLibLogger.logError("Failed to insert PostConstructEvent into constructor: " + constructor.getLongName() + " due to exception: " + e.getMessage());

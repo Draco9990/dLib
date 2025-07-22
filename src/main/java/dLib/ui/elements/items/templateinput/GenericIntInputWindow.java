@@ -12,6 +12,7 @@ import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
 import dLib.ui.elements.items.popup.GenericPopupHolder;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.elements.items.text.TextButton;
+import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
@@ -46,7 +47,7 @@ public class GenericIntInputWindow extends GenericPopupHolder {
 
 
         public InternalInputWindow(String title, String confirmButtonText, boolean canCancel, IntegerProperty editingProperty){
-            super(Tex.stat("dLibResources/images/ui/common/GenericInputWindowBackground.png"), Pos.px(603), Pos.px(323), Dim.px(699), Dim.px(369));
+            super(Tex.stat(UICommonResources.bg05), Pos.px(603), Pos.px(323), Dim.px(699), Dim.px(369));
 
             setEntryAnimation(new UIAnimation_SlideInUp(this));
             setExitAnimation(new UIAnimation_SlideOutDown(this));

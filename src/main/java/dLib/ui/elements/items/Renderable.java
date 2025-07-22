@@ -237,7 +237,7 @@ public class Renderable extends UIElement {
     }
 
     protected void renderCall(SpriteBatch sb, NinePatch ninePatchToRender, float renderPosX, float renderPosY, float renderWidth, float renderHeight){
-        ninePatchToRender.draw(sb, renderPosX, renderPosY, 0, 0, renderWidth, renderHeight, 1, 1, getAngle());
+        ninePatchToRender.draw(sb, renderPosX, renderPosY, renderWidth, renderHeight);
         sb.flush();
     }
 
