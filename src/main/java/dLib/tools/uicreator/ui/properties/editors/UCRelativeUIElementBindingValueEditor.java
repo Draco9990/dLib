@@ -41,7 +41,7 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
                     UIElement liveOwner = ((UIElementData) property.getOwningContainer()).getComponent(UCEditorDataComponent.class).liveElement;
                     property.setValue(new UIElementRelativePathBinding(liveOwner, element));
                 });
-                MouseStateManager.get().enterMouseState(state);
+                MouseStateManager.enterMouseState(state);
             });
             mainContentBox.addChild(referenceButton);
 

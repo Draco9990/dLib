@@ -23,7 +23,7 @@ public class UIPayloadComponent<PayloadType> extends AbstractUIElementComponent<
 
         owner.postLeftClickHeldEvent.subscribe(this, (heldTimeSeconds) -> {
             if(heldTimeSeconds > 0.33){
-                if(MouseStateManager.get().isInExternalState()){
+                if(MouseStateManager.isInExternalState()){
                     return;
                 }
 
@@ -32,7 +32,7 @@ public class UIPayloadComponent<PayloadType> extends AbstractUIElementComponent<
                 }
 
                 DragAndDropMouseState<PayloadType> dragAndDropState = new DragAndDropMouseState<>(payload, owner, dropZoneId);
-                MouseStateManager.get().enterMouseState(dragAndDropState);
+                MouseStateManager.enterMouseState(dragAndDropState);
                 payloading = true;
             }
         });
