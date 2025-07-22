@@ -51,8 +51,8 @@ public class FillDimension extends AbstractDimension implements Serializable {
         if(parentWidth.getKey() == null) return null;
         if(parentWidth.getValue() != null) registerDependency(parentWidth.getValue().getWidthRaw());
 
-        if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
-        registerDependency(forElement.getLocalPositionXRaw());
+        if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
 
         if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingRightRaw());
@@ -68,7 +68,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
         }
 
         if(!isHorizontalBox(analyzingParent)){
-            return parentWidth.getKey() - forElement.getLocalPositionX() - forElement.getPaddingRight();
+            return parentWidth.getKey() - forElement.getPaddingLeft() - forElement.getPaddingRight();
         }
         else{
             ItemBox itemBox = (ItemBox) analyzingParent;
@@ -89,7 +89,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
             staticWidth += (itemBox.getActiveChildren().size() - 1) * itemBox.getHorizontalItemSpacing();
 
-            return Math.max((parentWidth.getKey() - staticWidth) / fillElementCount, 1f) - forElement.getLocalPositionX() - forElement.getPaddingRight();
+            return Math.max((parentWidth.getKey() - staticWidth) / fillElementCount, 1f) - forElement.getPaddingLeft() - forElement.getPaddingRight();
         }
     }
 
@@ -102,8 +102,8 @@ public class FillDimension extends AbstractDimension implements Serializable {
         if(parentHeight.getKey() == null) return null;
         if(parentHeight.getValue() != null) registerDependency(parentHeight.getValue().getHeightRaw());
 
-        if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
-        registerDependency(forElement.getLocalPositionYRaw());
+        if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
 
         if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
         registerDependency(forElement.getPaddingTopRaw());
@@ -120,7 +120,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
         }
 
         if(!isVerticalBox(analyzingParent)){
-            return parentHeight.getKey() - forElement.getLocalPositionY() - forElement.getPaddingTop();
+            return parentHeight.getKey() - forElement.getPaddingBottom() - forElement.getPaddingTop();
         }
         else{
             ItemBox itemBox = (ItemBox) analyzingParent;
@@ -141,7 +141,7 @@ public class FillDimension extends AbstractDimension implements Serializable {
 
             staticHeight += (itemBox.getActiveChildren().size() - 1) * itemBox.getVerticalItemSpacing();
 
-            return Math.max((parentHeight.getKey() - staticHeight) / fillElementCount, 1f) - forElement.getLocalPositionY() - forElement.getPaddingTop();
+            return Math.max((parentHeight.getKey() - staticHeight) / fillElementCount, 1f) - forElement.getPaddingBottom() - forElement.getPaddingTop();
         }
     }
 

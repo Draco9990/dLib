@@ -14,7 +14,7 @@ public class ControllerSelectableHierarchyViewer extends HierarchyViewer{
     public ControllerSelectableHierarchyViewer(){
         super();
 
-        UIElement.postSelectionStateChangedEvent_Global.subscribe(this, (element, selected) -> {
+        UIElement.postSelectionStateChangedGlobalEvent.subscribe(this, (element, selected) -> {
             if(element.getTopParent() instanceof HierarchyViewerPopup){
                 return;
             }
@@ -36,7 +36,7 @@ public class ControllerSelectableHierarchyViewer extends HierarchyViewer{
         if(element.isSelected()) payloadOverlay.setHueShiftAmount(220);
         if(element.isControllerModal()) payloadOverlay.setHueShiftAmount(150);
         payloadOverlay.setPassthrough(true);
-        payloadOverlay.onHoveredEvent.subscribe(payloadOverlay, () -> {
+        payloadOverlay.postHoveredEvent.subscribe(payloadOverlay, () -> {
             Image hoverOverlay = new Image(Tex.stat(UICommonResources.advancedDebugOverlay), Dim.fill(), Dim.fill());
             hoverOverlay.setPassthrough(true);
             hoverOverlay.addComponent(new UITransientElementComponent());
@@ -44,7 +44,7 @@ public class ControllerSelectableHierarchyViewer extends HierarchyViewer{
             hoverOverlay.setID("ControllerSelectableHierarchyViewerHoverOverlay");
             element.addChild(hoverOverlay);
         });
-        payloadOverlay.onUnhoveredEvent.subscribe(payloadOverlay, () -> {
+        payloadOverlay.postUnhoveredEvent.subscribe(payloadOverlay, () -> {
             element.removeChildById("ControllerSelectableHierarchyViewerHoverOverlay");
         });
         button.addChild(payloadOverlay);

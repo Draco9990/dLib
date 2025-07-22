@@ -99,7 +99,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
     public void onRegisterComponent(UIElement owner) {
         super.onRegisterComponent(owner);
 
-        onHoveredEventId = owner.onHoveredEvent.subscribeManaged(() -> {
+        onHoveredEventId = owner.postHoveredEvent.subscribeManaged(() -> {
             for (ResizeNode node : cornerResizeNodes) {
                 if(node.pendingRemoval){
                     node.pendingRemoval = false;
@@ -111,7 +111,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
             }
         });
 
-        onUnHoveredEventId = owner.onUnhoveredEvent.subscribeManaged(() -> {
+        onUnHoveredEventId = owner.postUnhoveredEvent.subscribeManaged(() -> {
             for (ResizeNode node : cornerResizeNodes) {
                 node.pendingRemoval = true;
             }
@@ -122,8 +122,8 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
     public void onUnregisterComponent(UIElement owner) {
         super.onUnregisterComponent(owner);
 
-        owner.onHoveredEvent.unsubscribeManaged(onHoveredEventId);
-        owner.onUnhoveredEvent.unsubscribeManaged(onUnHoveredEventId);
+        owner.postHoveredEvent.unsubscribeManaged(onHoveredEventId);
+        owner.postUnhoveredEvent.unsubscribeManaged(onUnHoveredEventId);
     }
 
     private static class ResizeNode extends Interactable {

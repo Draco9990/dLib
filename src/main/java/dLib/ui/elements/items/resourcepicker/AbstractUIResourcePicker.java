@@ -34,7 +34,7 @@ public abstract class AbstractUIResourcePicker extends UIElement {
             super(Tex.stat(UICommonResources.bg01), Dim.fill(), Dim.fill());
 
             TextButton cancelButton = new TextButton("Cancel", Pos.px(126), Pos.px(1080-930), Dim.px(161), Dim.px(74));
-            cancelButton.onLeftClickEvent.subscribe(this, () -> {
+            cancelButton.postLeftClickEvent.subscribe(this, () -> {
                 AbstractUIResourcePicker parent = getParentOfType(AbstractUIResourcePicker.class);
                 parent.close();
             });

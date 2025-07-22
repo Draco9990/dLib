@@ -83,7 +83,7 @@ public abstract class UCEITemplate {
     }
 
     protected void bindLeftClickEvent(UIElement editorItem, UIElement.UIElementData elementData){
-        editorItem.onLeftClickEvent.subscribeManaged(() -> {
+        editorItem.postLeftClickEvent.subscribeManaged(() -> {
             ((UCEditor)editorItem.getTopParent()).properties.hideAll();
             ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.showAndEnableInstantly();
             ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.setProperties(elementData);
@@ -91,7 +91,7 @@ public abstract class UCEITemplate {
     }
 
     protected void bindRightClickEvent(UIElement editorItem){
-        editorItem.onRightClickEvent.subscribeManaged(() -> {
+        editorItem.postRightClickEvent.subscribeManaged(() -> {
             Vector2 mousePos = UIHelpers.getMouseWorldPosition();
 
             ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));

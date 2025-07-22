@@ -48,7 +48,7 @@ public class InputCharacterHB extends Interactable {
     public void postConstruct() {
         super.postConstruct();
 
-        onLeftClickEvent.subscribe(this, () -> {
+        postLeftClickEvent.subscribe(this, () -> {
             int totalCharsUpTo = 0;
             Inputfield parent = getParentOfType(Inputfield.class);
             Pair<Vector2, GlyphLayout> layout1 = parent.textBox.prepareForRender();

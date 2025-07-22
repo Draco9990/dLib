@@ -6,11 +6,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import dLib.mousestates.AbstractMouseState;
 import dLib.ui.elements.UIElement;
-import dLib.util.events.GlobalEvents;
 import dLib.util.events.localevents.ConsumerEvent;
-import dLib.util.ui.events.PreUIHoverEvent;
-import dLib.util.ui.events.PreUILeftClickEvent;
-import dLib.util.ui.events.PreUIUnhoverEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -32,36 +28,36 @@ public class ReferencePickerMouseState extends AbstractMouseState {
     public void onStateEnter() {
         super.onStateEnter();
 
-        GlobalEvents.subscribe(this, PreUIHoverEvent.class, preUIHoverEvent -> {
-            if(!preUIHoverEvent.source.isDescendantOf(optionalRequiredParent)){
+        UIElement.preHoveredGlobalEvent.subscribe(this, source -> {
+            if(!source.isDescendantOf(optionalRequiredParent)){
                 return;
             }
 
-            UUID renderEventId = preUIHoverEvent.source.postRenderEvent.subscribe(ReferencePickerMouseState.this, sb -> {
+            UUID renderEventId = source.postRenderEvent.subscribe(ReferencePickerMouseState.this, sb -> {
                 sb.setColor(Color.YELLOW);
-                sb.draw(ImageMaster.DEBUG_HITBOX_IMG, preUIHoverEvent.source.getWorldPositionX() * Settings.xScale, preUIHoverEvent.source.getWorldPositionY() * Settings.yScale, preUIHoverEvent.source.getWidth() * Settings.xScale, preUIHoverEvent.source.getHeight() * Settings.yScale);
+                sb.draw(ImageMaster.DEBUG_HITBOX_IMG, source.getWorldPositionX() * Settings.xScale, source.getWorldPositionY() * Settings.yScale, source.getWidth() * Settings.xScale, source.getHeight() * Settings.yScale);
                 sb.flush();
             });
 
-            renderEvents.put(preUIHoverEvent.source, renderEventId);
+            renderEvents.put(source, renderEventId);
         });
 
-        GlobalEvents.subscribe(this, PreUIUnhoverEvent.class, preUIUnhoverEvent -> {
-            if(renderEvents.containsKey(preUIUnhoverEvent.source)) {
-                preUIUnhoverEvent.source.postRenderEvent.unsubscribeManaged(renderEvents.get(preUIUnhoverEvent.source));
+        UIElement.preUnhoveredGlobalEvent.subscribe(this, source -> {
+            if(renderEvents.containsKey(source)) {
+                source.postRenderEvent.unsubscribeManaged(renderEvents.get(source));
             }
         });
 
-        GlobalEvents.subscribe(this, PreUILeftClickEvent.class, preUILeftClickEvent -> {
-            if(!preUILeftClickEvent.source.isDescendantOf(optionalRequiredParent)){
+        UIElement.preLeftClickGlobalEvent.subscribe(this, source -> {
+            if(!source.isDescendantOf(optionalRequiredParent)){
                 return;
             }
 
-            onReferencePickedEvent.invoke(preUILeftClickEvent.source);
+            onReferencePickedEvent.invoke(source);
             exitMouseState();
 
             for(UUID renderEventId : renderEvents.values()){
-                preUILeftClickEvent.source.postRenderEvent.unsubscribeManaged(renderEventId);
+                source.postRenderEvent.unsubscribeManaged(renderEventId);
             }
         });
     }

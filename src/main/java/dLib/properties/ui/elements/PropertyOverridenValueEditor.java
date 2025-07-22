@@ -24,7 +24,7 @@ public class PropertyOverridenValueEditor extends AbstractValueEditor<TProperty>
             enumBox = new TextButton("Edit", Dim.fill(), Dim.px(50));
             enumBox.setSayTheSpireElementName(Str.lambda(property::getName));
             enumBox.setSayTheSpireElementValue(Str.lambda(property::getValueForDisplay));
-            enumBox.onLeftClickEvent.subscribe(PropertyOverridenValueEditor.this, () -> boundProperty.getCustomEditorOverride().accept(boundProperty));
+            enumBox.postLeftClickEvent.subscribe(PropertyOverridenValueEditor.this, () -> boundProperty.getCustomEditorOverride().accept(boundProperty));
             box.addChild(enumBox);
         }
         addChild(box);

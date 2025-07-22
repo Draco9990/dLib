@@ -39,7 +39,7 @@ public class RootElement extends Renderable {
         super.postConstruct();
 
         if(inEditor){
-            onLeftClickEvent.subscribeManaged(() -> ElementGroupModifierComponent.deselectGroupComponents("editorItem"));
+            postLeftClickEvent.subscribeManaged(() -> ElementGroupModifierComponent.deselectGroupComponents("editorItem"));
         }
         else{
             setRenderColor(new Color(0, 0, 0, 0));

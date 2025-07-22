@@ -30,7 +30,7 @@ public class UCRelativeUIElementBindingValueEditor extends UCUIElementBindingVal
         {
             Button referenceButton = new Button(Dim.mirror(), Dim.fill());
             referenceButton.setTexture(Tex.stat(new Texture("dLibResources/images/ui/uieditor/reference.png")));
-            referenceButton.onLeftClickEvent.subscribe(this, () -> {
+            referenceButton.postLeftClickEvent.subscribe(this, () -> {
                 UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
                 if(editor == null){
                     return;

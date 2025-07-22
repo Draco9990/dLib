@@ -31,14 +31,14 @@ public class UIDraggableComponent extends AbstractUIElementComponent<UIElement> 
     public void onRegisterComponent(UIElement owner) {
         this.owner = owner;
 
-        leftClickEventId = owner.onLeftClickEvent.subscribeManaged(this::onLeftClick);
-        leftClickHeldEventId = owner.onLeftClickHeldEvent.subscribeManaged(this::onLeftClickHeld);
+        leftClickEventId = owner.postLeftClickEvent.subscribeManaged(this::onLeftClick);
+        leftClickHeldEventId = owner.postLeftClickHeldEvent.subscribeManaged(this::onLeftClickHeld);
     }
 
     @Override
     public void onUnregisterComponent(UIElement owner) {
-        owner.onLeftClickEvent.unsubscribeManaged(leftClickEventId);
-        owner.onLeftClickHeldEvent.unsubscribeManaged(leftClickHeldEventId);
+        owner.postLeftClickEvent.unsubscribeManaged(leftClickEventId);
+        owner.postLeftClickHeldEvent.unsubscribeManaged(leftClickHeldEventId);
     }
 
     //endregion

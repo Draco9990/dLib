@@ -69,7 +69,7 @@ public class GenericInputWindow extends UIElement {
 
             if(properties.canCancel){
                 cancelButton = new CancelButtonSmall(Pos.px(-6), Pos.px(18));
-                cancelButton.onLeftClickEvent.subscribe(this, () -> {
+                cancelButton.postLeftClickEvent.subscribe(this, () -> {
                     getParentOfType(GenericInputWindow.class).onCancelEvent.invoke("");
                     getParentOfType(GenericInputWindow.class).dispose();
                 });
@@ -78,7 +78,7 @@ public class GenericInputWindow extends UIElement {
 
             confirmButton = new ConfirmButtonSmall(Pos.px(536), Pos.px(18));
             confirmButton.label.setText(confirmButtonText);
-            confirmButton.onLeftClickEvent.subscribe(this, () -> {
+            confirmButton.postLeftClickEvent.subscribe(this, () -> {
                 if(properties.isPassword){
                     getParentOfType(GenericInputWindow.class).onConfirmEvent.invoke(passwordBox.inputfield.textBox.getText());
                 }

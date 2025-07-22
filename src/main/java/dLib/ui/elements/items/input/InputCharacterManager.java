@@ -43,12 +43,12 @@ public class InputCharacterManager extends UIElement {
 
         if (child instanceof InputCharacterHB) {
             InputCharacterHB hb = (InputCharacterHB) child;
-            hb.onLeftClickEvent.subscribe(this, () -> {
+            hb.postLeftClickEvent.subscribe(this, () -> {
                 selectionEnd = null;
                 selectionStart = new IntegerVector2(hb.glyphRowIndex, hb.glyphIndex);
                 onSelectionUpdated();
             });
-            hb.onHoveredEvent.subscribe(this, () -> {
+            hb.postHoveredEvent.subscribe(this, () -> {
                 if (selectionStart != null && InputHelper.isMouseDown) {
                     selectionEnd = new IntegerVector2(hb.glyphRowIndex, hb.glyphIndex);
                     onSelectionUpdated();

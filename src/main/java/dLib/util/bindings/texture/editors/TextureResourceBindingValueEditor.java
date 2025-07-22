@@ -24,7 +24,7 @@ public class TextureResourceBindingValueEditor extends TextureBindingValueEditor
         {
             valueBox = new TextButton(property.getValue().toString(), Dim.fill(), Dim.fill());
             valueBox.setTexture(Tex.stat(UICommonResources.button02_square));
-            valueBox.onLeftClickEvent.subscribe(this, () -> {
+            valueBox.postLeftClickEvent.subscribe(this, () -> {
                 AbstractUIResourcePicker picker = new UIGlobalTextureResourcePicker();
                 picker.onResourceSelectedEvent.subscribeManaged((aClass, s) -> property.setValue(new TextureResourceBinding(aClass, s)));
                 picker.open();

@@ -1,7 +1,5 @@
 package dLib.betterscreens.ui.elements.items;
 
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dLib.properties.objects.*;
 import dLib.properties.ui.elements.OnValueChangedStringValueEditor;
 import dLib.ui.Alignment;
@@ -21,7 +19,6 @@ import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
-import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -143,13 +140,13 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                             super.postMakeUIForItem(item, itemUI);
 
                             Toggle overlay = itemUI.getParent().findChildById("wrap_overlay");
-                            overlay.onHoveredEvent.subscribe(this, () -> {
+                            overlay.postHoveredEvent.subscribe(this, () -> {
                                 getParentOfType(GameItemSelectPopup.class).itemFiltersSidebar.hideAndDisableInstantly();
 
                                 getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.showAndEnableInstantly();
                                 getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.setDetailsItem(item);
                             });
-                            overlay.onUnhoveredEvent.subscribe(this, () -> {
+                            overlay.postUnhoveredEvent.subscribe(this, () -> {
                                 getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.hideAndDisableInstantly();
 
                                 getParentOfType(GameItemSelectPopup.class).itemFiltersSidebar.showAndEnableInstantly();
@@ -175,12 +172,12 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
             addChild(inner);
 
             CancelButtonSmall cancelButton = new CancelButtonSmall(Pos.px(-21), Pos.px(6));
-            cancelButton.onLeftClickEvent.subscribe(cancelButton, () -> getTopParent().dispose());
+            cancelButton.postLeftClickEvent.subscribe(cancelButton, () -> getTopParent().dispose());
             addChild(cancelButton);
 
             ConfirmButtonSmall confirmButton = new ConfirmButtonSmall(Pos.px(20), Pos.px(5));
             confirmButton.setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
-            confirmButton.onLeftClickEvent.subscribe(confirmButton, () -> {
+            confirmButton.postLeftClickEvent.subscribe(confirmButton, () -> {
                 ArrayList<GameItemType> selectedItems = itemBox.getSelectedItems();
                 if (!selectedItems.isEmpty()) {
                     getParentOfType(GameItemSelectPopup.class).onItemsSelected.invoke(selectedItems);

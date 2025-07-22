@@ -54,7 +54,7 @@ public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends 
                 }
             };
             addButton.setTexture(Tex.stat(UICommonResources.button03_square));
-            addButton.onLeftClickEvent.subscribe(addButton, () -> boundProperty.addBlank());
+            addButton.postLeftClickEvent.subscribe(addButton, () -> boundProperty.addBlank());
             builtContent.addChild(addButton);
 
             boundProperty.onSingleValueChangedEvent.subscribe(valueBox, (editingPropertyType, editingPropertyType2, integer) -> {

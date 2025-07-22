@@ -11,7 +11,7 @@ public class UIDebuggerScreen extends ImageTextBox {
 
         addComponent(new UIDraggableComponent());
 
-        UIElement.postHoverGlobalEvent.subscribeManaged((element) -> {
+        UIElement.postHoveredGlobalEvent.subscribeManaged((element) -> {
             if(element.getTopParent() instanceof UIDebuggerScreen) return;
 
             String debugText = generateDebugTextForUIElement(element);

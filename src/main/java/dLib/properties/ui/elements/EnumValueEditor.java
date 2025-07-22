@@ -36,7 +36,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
         {
             leftArrow = new Button(Dim.mirror(), Dim.px(50));
             leftArrow.setTexture(Tex.stat(UICommonResources.arrow_left));
-            leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.previous());
+            leftArrow.postLeftClickEvent.subscribe(this, () -> boundProperty.previous());
             leftArrow.disableControllerSelectionAndSayTheSpireIntegration();
             box.addChild(leftArrow);
 
@@ -54,7 +54,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
 
             rightArrow = new Button(Dim.mirror(), Dim.px(50));
             rightArrow.setTexture(Tex.stat(UICommonResources.arrow_right));
-            rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.next());
+            rightArrow.postLeftClickEvent.subscribe(this, () -> boundProperty.next());
             rightArrow.disableControllerSelectionAndSayTheSpireIntegration();
             box.addChild(rightArrow);
         }

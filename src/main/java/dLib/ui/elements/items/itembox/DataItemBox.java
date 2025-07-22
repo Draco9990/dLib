@@ -258,7 +258,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                         contentHorizontal ? Dim.fill() : Dim.mirror(),
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 moveUpButton.setTexture(contentHorizontal ? UICommonResources.arrow_left : UICommonResources.arrow_up);
-                moveUpButton.onLeftClickEvent.subscribe(moveUpButton, () -> moveItemUp(item));
+                moveUpButton.postLeftClickEvent.subscribe(moveUpButton, () -> moveItemUp(item));
                 moveUpButton.disableControllerSelectionAndSayTheSpireIntegration();
                 holder.onLeftInteractionEvent.subscribe(moveUpButton, (byProxy) -> moveUpButton.onConfirmInteraction(true));
                 holder.postSelectionStateChangedEvent.subscribe(moveUpButton, (selected) -> {
@@ -271,7 +271,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                         contentHorizontal ? Dim.fill() : Dim.mirror(),
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 moveDownButton.setTexture(contentHorizontal ? UICommonResources.arrow_right : UICommonResources.arrow_down);
-                moveDownButton.onLeftClickEvent.subscribe(moveDownButton, () -> moveItemDown(item));
+                moveDownButton.postLeftClickEvent.subscribe(moveDownButton, () -> moveItemDown(item));
                 moveDownButton.disableControllerSelectionAndSayTheSpireIntegration();
                 holder.onRightInteractionEvent.subscribe(moveDownButton, (byProxy) -> moveDownButton.onConfirmInteraction(true));
                 holder.postSelectionStateChangedEvent.subscribe(moveDownButton, (selected) -> {
@@ -381,7 +381,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                         contentHorizontal ? Dim.fill() : Dim.mirror(),
                         contentHorizontal ? Dim.mirror() : Dim.fill());
                 deleteButton.setTexture(UICommonResources.deleteButton);
-                deleteButton.onLeftClickEvent.subscribe(deleteButton, () -> deleteItem(item));
+                deleteButton.postLeftClickEvent.subscribe(deleteButton, () -> deleteItem(item));
                 deleteButton.disableControllerSelectionAndSayTheSpireIntegration();
                 holder.onCancelInteractionEvent.subscribe(holder, (byProxy) -> deleteButton.onConfirmInteraction(true));
                 holder.postSelectionStateChangedEvent.subscribe(deleteButton, (selected) -> {

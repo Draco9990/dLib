@@ -22,7 +22,7 @@ public class PropertyElementPathBindingValueEditor extends AbstractValueEditor<P
 
         valueBox = new TextButton(property.getValue().toString(), Dim.fill(), Dim.px(50));
         valueBox.setTexture(Tex.stat(UICommonResources.button02_square));
-        valueBox.onLeftClickEvent.subscribe(this, () -> {
+        valueBox.postLeftClickEvent.subscribe(this, () -> {
             UIObjectPropertyResourcePicker resourcePicker = new UIObjectPropertyResourcePicker(((PropertyElementPathBinding)boundProperty.getValue()).elementBinding.getBoundObject());
             resourcePicker.onResourceSelectedEvent.subscribe(this, (aClass, s) -> {
                 AbstractPropertyBinding propertyBinding = boundProperty.getValue();

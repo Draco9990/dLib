@@ -188,7 +188,7 @@ public class ColorPickerPopup extends VerticalBox {
                     lightnessBar.setRenderColor(color);
                     alphaBar.setRenderColor(color);
                 });
-                colorWheel.onUnhoveredEvent.subscribeManaged(() -> {
+                colorWheel.postUnhoveredEvent.subscribeManaged(() -> {
                     lightnessBar.setRenderColor(preLightnessColorCache);
                     alphaBar.setRenderColor(preLightnessColorCache);
                 });

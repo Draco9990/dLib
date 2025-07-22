@@ -21,7 +21,7 @@ public class UIPayloadComponent<PayloadType> extends AbstractUIElementComponent<
     public void onRegisterComponent(UIElement owner) {
         super.onRegisterComponent(owner);
 
-        owner.onLeftClickHeldEvent.subscribe(this, (heldTimeSeconds) -> {
+        owner.postLeftClickHeldEvent.subscribe(this, (heldTimeSeconds) -> {
             if(heldTimeSeconds > 0.33){
                 if(MouseStateManager.get().isInExternalState()){
                     return;
@@ -37,7 +37,7 @@ public class UIPayloadComponent<PayloadType> extends AbstractUIElementComponent<
             }
         });
 
-        owner.onLeftClickReleaseEvent.subscribe(this, () -> {
+        owner.postLeftClickReleaseEvent.subscribe(this, () -> {
             if(payloading){
                 payloading = false;
             }
@@ -48,7 +48,7 @@ public class UIPayloadComponent<PayloadType> extends AbstractUIElementComponent<
     public void onUnregisterComponent(UIElement owner) {
         super.onUnregisterComponent(owner);
 
-        owner.onLeftClickHeldEvent.unsubscribe(this);
-        owner.onLeftClickReleaseEvent.unsubscribe(this);
+        owner.postLeftClickHeldEvent.unsubscribe(this);
+        owner.postLeftClickReleaseEvent.unsubscribe(this);
     }
 }

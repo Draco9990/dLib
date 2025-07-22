@@ -1,9 +1,11 @@
 package dLib.test;
 
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import dLib.betterscreens.ui.elements.items.BlightSelectPopup;
 import dLib.betterscreens.ui.elements.items.PotionSelectPopup;
 import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
+import dLib.betterscreens.ui.elements.items.gameplayitems.CardSlot;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
@@ -100,13 +102,13 @@ public class TestScreen extends UIElement {
         }
         //addChild(scrollbox);
 
-        HorizontalBox test = new HorizontalBox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(300));
+        /*HorizontalBox test = new HorizontalBox(Pos.px(100), Pos.px(100), Dim.px(500), Dim.px(300));
         test.setTexture(UICommonResources.white_pixel);
         {
             Image test2 = new Image(Tex.stat(UICommonResources.white_pixel), Dim.px(100), Dim.px(100));
             test.addChild(test2);
         }
-        addChild(test);
+        addChild(test);*/
 
         /*Image img = new Image(Tex.stat(UICommonResources.white_pixel), Pos.perc(0.1), Pos.perc(0.1), Dim.px(200), Dim.px(200));
         img.onLeftClickEvent.subscribe(img, () -> img.setHorizontalAlignment((Alignment.HorizontalAlignment) EnumHelpers.nextEnum(img.getHorizontalAlignment())));
@@ -115,5 +117,8 @@ public class TestScreen extends UIElement {
 
         /*PotionSelectPopup pop = new PotionSelectPopup();
         pop.open();*/
+
+        CardSlot cardSlot = new CardSlot(Pos.px(100), Pos.px(100), 0.5f);
+        addChild(cardSlot);
     }
 }

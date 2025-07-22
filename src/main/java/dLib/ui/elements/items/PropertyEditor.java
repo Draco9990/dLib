@@ -129,7 +129,7 @@ public class PropertyEditor extends UIElement {
                         return new Spacer(Dim.fill(), Dim.px(1)); //TODO breakpoint to verify none fire before removing
                     }
 
-                    editor.onHoveredEvent.subscribe(PropertyGroup.this, () -> {
+                    editor.postHoveredEvent.subscribe(PropertyGroup.this, () -> {
                         if(getDescriptionBox() != null){
                             getDescriptionBox().setText(item.getDescription());
                         }
@@ -140,7 +140,7 @@ public class PropertyEditor extends UIElement {
                         }
                     });
 
-                    editor.onUnhoveredEvent.subscribe(PropertyGroup.this, () -> {
+                    editor.postUnhoveredEvent.subscribe(PropertyGroup.this, () -> {
                         if(getDescriptionBox() != null){
                             getDescriptionBox().setText("");
                         }

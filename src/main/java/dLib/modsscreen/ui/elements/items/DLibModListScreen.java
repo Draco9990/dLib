@@ -61,7 +61,7 @@ public class DLibModListScreen extends UIElement {
 
         CancelButton closeButton = new CancelButton();
         closeButton.label.setText("Return");
-        closeButton.onLeftClickEvent.subscribeManaged(() -> getTopParent().close());
+        closeButton.postLeftClickEvent.subscribeManaged(() -> getTopParent().close());
         addChild(closeButton);
     }
 
@@ -177,7 +177,7 @@ public class DLibModListScreen extends UIElement {
                     if(modPanel != null){
                         Button configButton = new Button(Dim.px(80), Dim.px(79));
                         configButton.setTexture(Tex.stat(UICommonResources.settingsButton));
-                        configButton.onLeftClickEvent.subscribe(configButton, () -> {
+                        configButton.postLeftClickEvent.subscribe(configButton, () -> {
                             ModPanel modPanel1 = Reflection.getFieldValue("modPanel", currentModFile.modBadge);
                             ModPanelUIWrapper panelWrapper = new ModPanelUIWrapper(modPanel1);
                             panelWrapper.open();
@@ -191,7 +191,7 @@ public class DLibModListScreen extends UIElement {
                     if(modId != null && modId.equals(modFile.modInfo.ID)){
                         Button configButton = new Button(Dim.px(80), Dim.px(79));
                         configButton.setTexture(Tex.stat(UICommonResources.settingsButton));
-                        configButton.onLeftClickEvent.subscribe(configButton, () -> {
+                        configButton.postLeftClickEvent.subscribe(configButton, () -> {
                             UIElement masterContainer = new UIElement();
                             masterContainer.setModal(true);
                             {
@@ -199,7 +199,7 @@ public class DLibModListScreen extends UIElement {
 
                                 CancelButton cancelButton = new CancelButton();
                                 cancelButton.label.setText("Close");
-                                cancelButton.onLeftClickEvent.subscribeManaged(masterContainer::close);
+                                cancelButton.postLeftClickEvent.subscribeManaged(masterContainer::close);
                                 masterContainer.addChild(cancelButton);
 
                                 masterContainer.addChild(container.getSettingsUI());
@@ -220,7 +220,7 @@ public class DLibModListScreen extends UIElement {
                         if(modPublicId != null){
                             Button steamButton = new Button(Dim.px(80), Dim.px(79));
                             steamButton.setTexture(Tex.stat(UICommonResources.steamButton));
-                            steamButton.onLeftClickEvent.subscribe(steamButton, () -> {
+                            steamButton.postLeftClickEvent.subscribe(steamButton, () -> {
                                 Desktop desktop = Desktop.getDesktop();
                                 try {
                                     URI uri = new URI("https://steamcommunity.com/sharedfiles/filedetails/?id=" + modPublicId);
@@ -238,7 +238,7 @@ public class DLibModListScreen extends UIElement {
                     if(patreonUrl != null && !patreonUrl.isEmpty()){
                         Button patreonButton = new Button(Dim.px(80), Dim.px(79));
                         patreonButton.setTexture(Tex.stat(UICommonResources.patreonButton));
-                        patreonButton.onLeftClickEvent.subscribe(patreonButton, () -> {
+                        patreonButton.postLeftClickEvent.subscribe(patreonButton, () -> {
                             Desktop desktop = Desktop.getDesktop();
                             try {
                                 URI uri = new URI(patreonUrl);
@@ -252,7 +252,7 @@ public class DLibModListScreen extends UIElement {
                     if(discordUrl != null && !discordUrl.isEmpty()){
                         Button discordButton = new Button(Dim.px(80), Dim.px(79));
                         discordButton.setTexture(Tex.stat(UICommonResources.discordButton));
-                        discordButton.onLeftClickEvent.subscribe(discordButton, () -> {
+                        discordButton.postLeftClickEvent.subscribe(discordButton, () -> {
                             Desktop desktop = Desktop.getDesktop();
                             try {
                                 URI uri = new URI(discordUrl);

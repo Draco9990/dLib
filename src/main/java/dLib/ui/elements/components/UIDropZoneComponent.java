@@ -36,7 +36,7 @@ public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementCompon
     public void onRegisterComponent(UIElement owner) {
         super.onRegisterComponent(owner);
 
-        owner.onHoveredEvent.subscribe(this, () -> {
+        owner.postHoveredEvent.subscribe(this, () -> {
             AbstractMouseState currentState = MouseStateManager.get().getCurrentState();
             if(!(currentState instanceof DragAndDropMouseState)){
                 return;
@@ -53,7 +53,7 @@ public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementCompon
             }
         });
 
-        owner.onUnhoveredEvent.subscribe(this, () -> {
+        owner.postUnhoveredEvent.subscribe(this, () -> {
             hoveringWithPayload = false;
 
             if(payloadOverlay != null){
@@ -98,8 +98,8 @@ public class UIDropZoneComponent<DropObjectType> extends AbstractUIElementCompon
     public void onUnregisterComponent(UIElement owner) {
         super.onUnregisterComponent(owner);
 
-        owner.onHoveredEvent.unsubscribe(this);
-        owner.onUnhoveredEvent.unsubscribe(this);
+        owner.postHoveredEvent.unsubscribe(this);
+        owner.postUnhoveredEvent.unsubscribe(this);
 
         GlobalEvents.unsubscribe(PostEnterMouseStateEvent.class, this);
         GlobalEvents.unsubscribe(PreExitMouseStateEvent.class, this);

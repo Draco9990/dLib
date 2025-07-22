@@ -31,10 +31,10 @@ public class PasswordBox extends UIElement {
             showPasswordButton = new Button(Pos.px(0), Pos.px(0), Dim.mirror(), Dim.fill());
             showPasswordButton.setTexture(Tex.stat("dLibResources/images/ui/common/peekButton.png"));
             showPasswordButton.setControllerSelectable(false);
-            showPasswordButton.onLeftClickEvent.subscribeManaged(() -> {
+            showPasswordButton.postLeftClickEvent.subscribeManaged(() -> {
                 inputfield.textBox.setObscureText(false);
             });
-            showPasswordButton.onLeftClickReleaseEvent.subscribeManaged(() -> {
+            showPasswordButton.postLeftClickReleaseEvent.subscribeManaged(() -> {
                 inputfield.textBox.setObscureText(true);
             });
             box.addChild(showPasswordButton);

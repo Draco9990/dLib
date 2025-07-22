@@ -24,7 +24,7 @@ public class HierarchyViewerPopup extends VerticalBox {
         setTexture(Tex.stat(UICommonResources.button02_square));
 
         TextButton elementSelectionButton = new TextButton("Select Element", Dim.fill(), Dim.px(40));
-        elementSelectionButton.onLeftClickEvent.subscribe(elementSelectionButton, () -> {
+        elementSelectionButton.postLeftClickEvent.subscribe(elementSelectionButton, () -> {
             Vector2 mousePos = UIHelpers.getMouseWorldPosition();
 
             ArrayList<UIElement> openElements = UIManager.getOpenElements();

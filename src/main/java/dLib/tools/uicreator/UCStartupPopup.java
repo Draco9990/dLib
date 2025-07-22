@@ -23,12 +23,12 @@ public class UCStartupPopup extends DarkenLayer {
         popup = new Renderable(Tex.stat(UICommonResources.bg01));
         {
             cancelButton = new CancelButtonSmall(Pos.px(360), Pos.px(1080-820));
-            cancelButton.onLeftClickEvent.subscribe(cancelButton, () -> getTopParent().close());
+            cancelButton.postLeftClickEvent.subscribe(cancelButton, () -> getTopParent().close());
             popup.addChild(cancelButton);
 
             confirmButton = new ConfirmButtonSmall(Pos.px(1402), Pos.px(1080-820));
             confirmButton.label.setText("New");
-            confirmButton.onLeftClickEvent.subscribe(confirmButton, () -> {
+            confirmButton.postLeftClickEvent.subscribe(confirmButton, () -> {
                 GenericInputWindow inputWindow = new GenericInputWindow("Enter Name:", "Create");
                 inputWindow.onConfirmEvent.subscribe(inputWindow, s -> {
                     ExternalMessageSender.send_createNewUIElement(s);

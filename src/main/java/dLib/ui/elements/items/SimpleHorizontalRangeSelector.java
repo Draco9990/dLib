@@ -40,7 +40,7 @@ public class SimpleHorizontalRangeSelector extends Renderable{
         }
         addChild(slider);
 
-        onLeftClickEvent.subscribe(this, () -> {
+        postLeftClickEvent.subscribe(this, () -> {
             float mouseWorldX = (InputHelper.mX / Settings.xScale);
             float mouseLocalX = worldToLocal(new Vector2(mouseWorldX, 0)).x;
 

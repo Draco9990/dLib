@@ -11,7 +11,6 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
-import java.util.function.Supplier;
 
 public class ComboBox<OptionType> extends TextButton {
     private boolean canBeNull = false;
@@ -31,7 +30,7 @@ public class ComboBox<OptionType> extends TextButton {
 
         label.setText(itemToStringShort(initialOption));
 
-        onLeftClickEvent.subscribeManaged(() -> {
+        postLeftClickEvent.subscribeManaged(() -> {
             float buttonX = getWorldPositionX();
             float buttonY = getWorldPositionY();
 

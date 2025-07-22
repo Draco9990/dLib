@@ -5,14 +5,9 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
-import dLib.developermode.DeveloperModeManager;
-import dLib.external.ExternalEditorCommunicationManager;
-import dLib.test.TestScreen;
-import dLib.tools.uicreator.UCEditor;
-import dLib.tools.uicreator.UCStartupPopup;
-import dLib.util.DLibConfigManager;
 import dLib.util.Reflection;
 import dLib.util.bindings.string.AbstractStringBinding;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,22 +16,38 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class MainMenuButtonManager {
-    private static Map<MenuButton.ClickResult, CustomButtonAction> buttonActions = new HashMap<>();
+    private static Map<MenuButton.ClickResult, CustomButtonAction> customButtons = new HashMap<>();
+    private static Map<MenuButton.ClickResult, Pair<AbstractStringBinding, Supplier<Boolean>>> buttonNameOverrides = new HashMap<>();
+    private static Map<MenuButton.ClickResult, Pair<Runnable, Supplier<Boolean>>> buttonActionOverrides = new HashMap<>();
 
-    public static void registerButtonAction(MenuButton.ClickResult clickResult, MenuButton.ClickResult insertAfter, AbstractStringBinding buttonLabel, Runnable action, Supplier<Boolean> isVisible) {
-        if (buttonActions.containsKey(clickResult)) {
+    public static void registerCustomMainMenuButton(MenuButton.ClickResult clickResult, ArrayList<MenuButton.ClickResult> insertAfter, AbstractStringBinding buttonLabel, Runnable action, Supplier<Boolean> isVisible) {
+        if (customButtons.containsKey(clickResult)) {
             throw new IllegalArgumentException("Button action for " + clickResult + " is already registered.");
         }
-        buttonActions.put(clickResult, new CustomButtonAction(insertAfter, buttonLabel, action, isVisible));
+        customButtons.put(clickResult, new CustomButtonAction(insertAfter, buttonLabel, action, isVisible));
+    }
+
+    public static void registerMainMenuButtonNameOverride(MenuButton.ClickResult result, AbstractStringBinding newName, Supplier<Boolean> isVisible) {
+        if (buttonNameOverrides.containsKey(result)) {
+            throw new IllegalArgumentException("Button name override for " + result + " is already registered.");
+        }
+        buttonNameOverrides.put(result, new Pair<>(newName, isVisible));
+    }
+
+    public static void registerMainMenuButtonActionOverride(MenuButton.ClickResult result, Runnable action, Supplier<Boolean> isVisible) {
+        if (buttonActionOverrides.containsKey(result)) {
+            throw new IllegalArgumentException("Button action override for " + result + " is already registered.");
+        }
+        buttonActionOverrides.put(result, new Pair<>(action, isVisible));
     }
 
     private static class CustomButtonAction{
-        private MenuButton.ClickResult insertAfter;
+        private ArrayList<MenuButton.ClickResult> insertAfter;
         private AbstractStringBinding buttonLabel;
         private Runnable action;
         private Supplier<Boolean> isVisible;
 
-        public CustomButtonAction(MenuButton.ClickResult insertAfter, AbstractStringBinding buttonLabel, Runnable action, Supplier<Boolean> isVisible) {
+        public CustomButtonAction(ArrayList<MenuButton.ClickResult> insertAfter, AbstractStringBinding buttonLabel, Runnable action, Supplier<Boolean> isVisible) {
             this.insertAfter = insertAfter;
             this.buttonLabel = buttonLabel;
             this.action = action;
@@ -54,8 +65,8 @@ public class MainMenuButtonManager {
             for (int i = 0; i < buttons.size(); i++) {
                 MenuButton b = buttons.get(i);
 
-                buttonActions.forEach((clickResult, customAction) -> {
-                    if (b.result == customAction.insertAfter && customAction.isVisible.get()) {
+                customButtons.forEach((clickResult, customAction) -> {
+                    if (customAction.insertAfter.contains(b.result) && customAction.isVisible.get()) {
                         __instance.buttons.add(new MenuButton(clickResult, indx.getAndIncrement()));
                     }
                 });
@@ -68,8 +79,11 @@ public class MainMenuButtonManager {
     @SpirePatch(clz = MenuButton.class, method = "setLabel")
     public static class LabelPatcher{
         public static void Postfix(MenuButton __instance, String ___label){
-            if(buttonActions.containsKey(__instance.result)) {
-                Reflection.setFieldValue("label", __instance, buttonActions.get(__instance.result).buttonLabel.getBoundObject());
+            if(customButtons.containsKey(__instance.result)) {
+                Reflection.setFieldValue("label", __instance, customButtons.get(__instance.result).buttonLabel.getBoundObject());
+            }
+            else if(buttonNameOverrides.containsKey(__instance.result) && buttonNameOverrides.get(__instance.result).getValue().get()) {
+                Reflection.setFieldValue("label", __instance, buttonNameOverrides.get(__instance.result).getKey().getBoundObject());
             }
         }
     }
@@ -77,11 +91,16 @@ public class MainMenuButtonManager {
     @SpirePatch(clz = MenuButton.class, method = "buttonEffect")
     public static class EffectPatcher{
         public static SpireReturn Prefix(MenuButton __instance){
-            if(buttonActions.containsKey(__instance.result)){
-                buttonActions.get(__instance.result).action.run();
+            if(customButtons.containsKey(__instance.result)){
+                customButtons.get(__instance.result).action.run();
 
                 return SpireReturn.Return();
             }
+            if(buttonActionOverrides.containsKey(__instance.result) && buttonActionOverrides.get(__instance.result).getValue().get()) {
+                buttonActionOverrides.get(__instance.result).getKey().run();
+                return SpireReturn.Return();
+            }
+
             return SpireReturn.Continue();
         }
     }

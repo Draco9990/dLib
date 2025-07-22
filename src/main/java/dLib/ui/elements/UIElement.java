@@ -39,7 +39,6 @@ import dLib.util.DLibLogger;
 import dLib.util.Reflection;
 import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.string.Str;
-import dLib.util.events.GlobalEvents;
 import dLib.util.events.globalevents.Constructable;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.ConsumerEvent;
@@ -50,10 +49,6 @@ import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
 import dLib.util.ui.bounds.PositionBounds;
 import dLib.util.ui.dimensions.*;
-import dLib.util.ui.events.PreUIHoverEvent;
-import dLib.util.ui.events.PreUILeftClickEvent;
-import dLib.util.ui.events.PreUISelectEvent;
-import dLib.util.ui.events.PreUIUnhoverEvent;
 import dLib.util.ui.padding.AbstractPadding;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
@@ -90,6 +85,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private AbstractDimension width = Dim.fill();
     private AbstractDimension height = Dim.fill();
 
+    private float angle = 0;
+
     public ConsumerEvent<UIElement> onPositionChangedEvent = new ConsumerEvent<>();
 
     private float childOffsetX = 0;
@@ -125,7 +122,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     private boolean controllerSelectable = false;
     private boolean selected;
-    public ConsumerEvent<Boolean> postSelectionStateChangedEvent = new ConsumerEvent<>();                               public static BiConsumerEvent<UIElement, Boolean> postSelectionStateChangedEvent_Global = new BiConsumerEvent<>();
+    public ConsumerEvent<Boolean> preSelectionStateChangedEvent = new ConsumerEvent<>();                                public static BiConsumerEvent<UIElement, Boolean> preSelectionStateChangedGlobalEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<Boolean> postSelectionStateChangedEvent = new ConsumerEvent<>();                               public static BiConsumerEvent<UIElement, Boolean> postSelectionStateChangedGlobalEvent = new BiConsumerEvent<>();
 
     private boolean isPassthrough = true;
 
@@ -136,24 +134,30 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public ConsumerEvent<SpriteBatch> preRenderEvent = new ConsumerEvent<>();                                           public static BiConsumerEvent<UIElement, SpriteBatch> preRenderGlobalEvent = new BiConsumerEvent<>();
     public ConsumerEvent<SpriteBatch> postRenderEvent = new ConsumerEvent<>();                                          public static BiConsumerEvent<UIElement, SpriteBatch> postRenderGlobalEvent = new BiConsumerEvent<>();
 
-    public RunnableEvent onHoveredEvent = new RunnableEvent();
-                                                                                                                        public static ConsumerEvent<UIElement> postHoverGlobalEvent = new ConsumerEvent<>();
-    public ConsumerEvent<Float> onHoverTickEvent = new ConsumerEvent<>();
-    public RunnableEvent onUnhoveredEvent = new RunnableEvent();
+    public RunnableEvent preHoveredEvent = new RunnableEvent();                                                         public static ConsumerEvent<UIElement> preHoveredGlobalEvent = new ConsumerEvent<>();
+    public RunnableEvent postHoveredEvent = new RunnableEvent();                                                        public static ConsumerEvent<UIElement> postHoveredGlobalEvent = new ConsumerEvent<>();
+    public ConsumerEvent<Float> preHoveredTickEvent = new ConsumerEvent<>();                                            public static BiConsumerEvent<UIElement, Float> preHoveredTickGlobalEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<Float> postHoveredTickEvent = new ConsumerEvent<>();                                           public static BiConsumerEvent<UIElement, Float> postHoveredTickGlobalEvent = new BiConsumerEvent<>();
+    public RunnableEvent preUnhoveredEvent = new RunnableEvent();                                                       public static ConsumerEvent<UIElement> preUnhoveredGlobalEvent = new ConsumerEvent<>();
+    public RunnableEvent postUnhoveredEvent = new RunnableEvent();                                                      public static ConsumerEvent<UIElement> postUnhoveredGlobalEvent = new ConsumerEvent<>();
 
     public ConsumerEvent<UIElement> onHoveredChildEvent = new ConsumerEvent<>();
     public BiConsumerEvent<UIElement, Float> onHoverTickChildEvent = new BiConsumerEvent<>();
     public ConsumerEvent<UIElement> onUnhoveredChildEvent = new ConsumerEvent<>();
 
-                                                                                                                        public static ConsumerEvent<UIElement> preLeftClickGlobalEvent = new ConsumerEvent<>();
-    public RunnableEvent onLeftClickEvent = new RunnableEvent();
-    public ConsumerEvent<Float> onLeftClickHeldEvent = new ConsumerEvent<>();
-    public RunnableEvent onLeftClickReleaseEvent = new RunnableEvent();
+    public RunnableEvent preLeftClickEvent = new RunnableEvent();                                                       public static ConsumerEvent<UIElement> preLeftClickGlobalEvent = new ConsumerEvent<>();
+    public RunnableEvent postLeftClickEvent = new RunnableEvent();                                                      public static ConsumerEvent<UIElement> postLeftClickGlobalEvent = new ConsumerEvent<>();
+    public ConsumerEvent<Float> preLeftClickHeldEvent = new ConsumerEvent<>();                                          public static BiConsumerEvent<UIElement, Float> preLeftClickHeldGlobalEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<Float> postLeftClickHeldEvent = new ConsumerEvent<>();                                         public static BiConsumerEvent<UIElement, Float> postLeftClickHeldGlobalEvent = new BiConsumerEvent<>();
+    public RunnableEvent preLeftClickReleaseEvent = new RunnableEvent();                                                public static ConsumerEvent<UIElement> preLeftClickReleaseGlobalEvent = new ConsumerEvent<>();
+    public RunnableEvent postLeftClickReleaseEvent = new RunnableEvent();                                               public static ConsumerEvent<UIElement> postLeftClickReleaseGlobalEvent = new ConsumerEvent<>();
 
-                                                                                                                        public static ConsumerEvent<UIElement> preRightClickGlobalEvent = new ConsumerEvent<>();
-    public RunnableEvent onRightClickEvent = new RunnableEvent();
-    public ConsumerEvent<Float> onRightClickHeldEvent = new ConsumerEvent<>();
-    public RunnableEvent onRightClickReleaseEvent = new RunnableEvent();
+    public RunnableEvent preRightClickEvent = new RunnableEvent();                                                      public static ConsumerEvent<UIElement> preRightClickGlobalEvent = new ConsumerEvent<>();
+    public RunnableEvent postRightClickEvent = new RunnableEvent();                                                     public static ConsumerEvent<UIElement> postRightClickGlobalEvent = new ConsumerEvent<>();
+    public ConsumerEvent<Float> preRightClickHeldEvent = new ConsumerEvent<>();                                         public static BiConsumerEvent<UIElement, Float> preRightClickHeldGlobalEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<Float> postRightClickHeldEvent = new ConsumerEvent<>();                                        public static BiConsumerEvent<UIElement, Float> postRightClickHeldGlobalEvent = new BiConsumerEvent<>();
+    public RunnableEvent preRightClickReleaseEvent = new RunnableEvent();                                               public static ConsumerEvent<UIElement> preRightClickReleaseGlobalEvent = new ConsumerEvent<>();
+    public RunnableEvent postRightClickReleaseEvent = new RunnableEvent();                                              public static ConsumerEvent<UIElement> postRightClickReleaseGlobalEvent = new ConsumerEvent<>();
 
     //endregion Events
 
@@ -277,17 +281,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         this.controllerSelectable = data.isControllerSelectable.getValue();
 
-        onHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(this));
-        onHoverTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(this, time));
-        onUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(this));
+        postHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(this));
+        postHoveredTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(this, time));
+        postUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(this));
 
-        onLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(this));
-        onLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().executeBinding(this, time));
-        onLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(this));
+        postLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(this));
+        postLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().executeBinding(this, time));
+        postLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(this));
 
-        onRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this));
-        onRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(this, time));
-        onRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this));
+        postRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this));
+        postRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(this, time));
+        postRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this));
 
         this.onHoverLine = data.onHoverLine.getValue();
         this.onTriggeredLine = data.onTriggeredLine.getValue();
@@ -311,8 +315,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         registerCommonEvents();
 
-        GlobalEvents.subscribe(this, PreUIHoverEvent.class, (event) -> {
-            if(event.source.isPassthrough() || event.source == this){
+        preHoveredGlobalEvent.subscribe(this, (source) -> {
+            if(source.isPassthrough() || source == this){
                 return;
             }
 
@@ -322,8 +326,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
         });
 
-        GlobalEvents.subscribe(this, PreUISelectEvent.class, (event) -> {
-            if(event.source.isPassthrough() || event.source == this){
+        preSelectionStateChangedGlobalEvent.subscribe(this, (source, isSelected) -> {
+            if(!isSelected) return;
+
+            if(source.isPassthrough() || source == this){
                 return;
             }
 
@@ -336,7 +342,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private void registerCommonEvents(){
         //Region Hover
         {
-            this.onHoveredEvent.subscribeManaged(() -> {
+            this.postHoveredEvent.subscribeManaged(() -> {
                 if(hasParent()){
                     getParent().onHoveredChildEvent.invoke(this);
                 }
@@ -349,7 +355,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 }
             });
 
-            this.onHoverTickEvent.subscribeManaged((time) -> {
+            this.postHoveredTickEvent.subscribeManaged((time) -> {
                 if(hasParent()){
                     getParent().onHoverTickChildEvent.invoke(UIElement.this, time);
                 }
@@ -360,7 +366,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 }
             });
 
-            this.onUnhoveredEvent.subscribeManaged(() -> {
+            this.postUnhoveredEvent.subscribeManaged(() -> {
                 if(hasParent()){
                     getParent().onUnhoveredChildEvent.invoke(this);
                 }
@@ -374,7 +380,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         //Context Menu
         {
-            this.onRightClickEvent.subscribeManaged(() -> {
+            this.postRightClickEvent.subscribeManaged(() -> {
                 if(contextMenuOptions.isEmpty()){
                     return;
                 }
@@ -1437,9 +1443,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             return;
         }
 
-        if(selected){
-            GlobalEvents.sendMessage(new PreUISelectEvent(this));
-        }
+        preSelectionStateChangedEvent.invoke(isSelected());
+        preSelectionStateChangedGlobalEvent.invoke(this, isSelected());
 
         this.selected = selected;
         onSelectionStateChanged();
@@ -1455,7 +1460,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     public void onSelectionStateChanged(){
         postSelectionStateChangedEvent.invoke(isSelected());
-        postSelectionStateChangedEvent_Global.invoke(this, isSelected());
+        postSelectionStateChangedGlobalEvent.invoke(this, isSelected());
     }
 
     //endregion
@@ -2225,24 +2230,32 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void onHovered(){
+        preHoveredEvent.invoke();
+        preHoveredGlobalEvent.invoke(this);
+
         totalHoverDuration = 0.f;
         if(!isPassthrough()) InputHelpers.alreadyHovered = true;
 
-        GlobalEvents.sendMessage(new PreUIHoverEvent(this));
-        onHoveredEvent.invoke();
-
-        postHoverGlobalEvent.invoke(this);
+        postHoveredEvent.invoke();
+        postHoveredGlobalEvent.invoke(this);
     }
     protected void onHoverTick(float totalTickDuration){
+        preHoveredTickEvent.invoke(totalTickDuration);
+        preHoveredTickGlobalEvent.invoke(this, totalTickDuration);
+
         if(!isPassthrough()) InputHelpers.alreadyHovered = true;
 
-        onHoverTickEvent.invoke(totalTickDuration);
+        postHoveredTickEvent.invoke(totalTickDuration);
+        postHoveredTickGlobalEvent.invoke(this, totalTickDuration);
     }
     protected void onUnhovered(){
+        preUnhoveredEvent.invoke();
+        preUnhoveredGlobalEvent.invoke(this);
+
         totalHoverDuration = 0.f;
 
-        GlobalEvents.sendMessage(new PreUIUnhoverEvent(this));
-        onUnhoveredEvent.invoke();
+        postUnhoveredEvent.invoke();
+        postUnhoveredGlobalEvent.invoke(this);
     }
 
     public boolean isHovered(){ return (hb.hovered || hb.justHovered || controllerSelected || proxyHovered); }
@@ -2275,8 +2288,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Left Click
 
     protected boolean onLeftClick(boolean byProxy){
+        preLeftClickEvent.invoke();
         preLeftClickGlobalEvent.invoke(this);
-        GlobalEvents.sendMessage(new PreUILeftClickEvent(this));
 
         totalLeftClickDuration = 0.f;
         holdingLeft = true;
@@ -2287,17 +2300,26 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             select(false);
         }
 
-        onLeftClickEvent.invoke();
+        postLeftClickEvent.invoke();
+        postLeftClickGlobalEvent.invoke(this);
 
-        return onLeftClickEvent.count() > 0;
+        return postLeftClickEvent.count() > 0 || postLeftClickGlobalEvent.count() > 0;
     }
     protected void onLeftClickHeld(float totalDuration){
-        onLeftClickHeldEvent.invoke(totalDuration);
+        preLeftClickHeldEvent.invoke(totalDuration);
+        preLeftClickHeldGlobalEvent.invoke(this, totalDuration);
+
+        postLeftClickHeldEvent.invoke(totalDuration);
+        postLeftClickHeldGlobalEvent.invoke(this, totalDuration);
     }
     protected void onLeftClickRelease(){
+        preLeftClickReleaseEvent.invoke();
+        preLeftClickReleaseGlobalEvent.invoke(this);
+
         holdingLeft = false;
 
-        onLeftClickReleaseEvent.invoke();
+        postLeftClickReleaseEvent.invoke();
+        postLeftClickReleaseGlobalEvent.invoke(this);
     }
 
     public boolean isHeld(){
@@ -2309,6 +2331,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Right Click
 
     protected void onRightClick(){
+        preRightClickEvent.invoke();
         preRightClickGlobalEvent.invoke(this);
 
         totalRightClickDuration = 0.f;
@@ -2316,15 +2339,24 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         ModManager.SayTheSpire.outputCond(getOnTriggerLine());
 
-        onRightClickEvent.invoke();
+        postRightClickEvent.invoke();
+        postRightClickGlobalEvent.invoke(this);
     }
     protected void onRightClickHeld(float totalDuration){
-        onRightClickHeldEvent.invoke(totalDuration);
+        preRightClickHeldEvent.invoke(totalDuration);
+        preRightClickHeldGlobalEvent.invoke(this, totalDuration);
+
+        postRightClickHeldEvent.invoke(totalDuration);
+        postRightClickHeldGlobalEvent.invoke(this, totalDuration);
     }
     protected void onRightButtonRelease(){
+        preRightClickReleaseEvent.invoke();
+        preRightClickReleaseGlobalEvent.invoke(this);
+
         holdingRight = false;
 
-        onRightClickReleaseEvent.invoke();
+        postRightClickReleaseEvent.invoke();
+        postRightClickReleaseGlobalEvent.invoke(this);
     }
 
     //endregion
@@ -2729,6 +2761,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     //endregion
+
+    //region Angle
+
+    public void setAngle(float angle){
+        this.angle = angle;
+    }
+    public float getAngle(){
+        return angle;
+    }
+
+    //endregion Angle
 
     //endregion
 

@@ -59,7 +59,7 @@ public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption>
             button.setTexture(Tex.stat(UICommonResources.button03_square));
             button.label.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
 
-            button.onLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke());
+            button.postLeftClickEvent.subscribe(this, () -> onOptionSelectedEvent.invoke());
 
             return button;
         }

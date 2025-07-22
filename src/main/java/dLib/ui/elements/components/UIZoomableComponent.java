@@ -23,7 +23,7 @@ public class UIZoomableComponent extends AbstractUIElementComponent<UIElement> {
     public void onRegisterComponent(UIElement owner) {
         super.onRegisterComponent(owner);
 
-        owner.onHoveredEvent.subscribe(this, () -> {
+        owner.postHoveredEvent.subscribe(this, () -> {
             canZoom = true;
         });
         owner.onHoveredChildEvent.subscribe(this, (child) -> {
@@ -39,7 +39,7 @@ public class UIZoomableComponent extends AbstractUIElementComponent<UIElement> {
             canZoom = true;
         });
 
-        owner.onUnhoveredEvent.subscribe(this, () -> {
+        owner.postUnhoveredEvent.subscribe(this, () -> {
             canZoom = false;
         });
         owner.onUnhoveredChildEvent.subscribe(this, (child) -> {
@@ -62,9 +62,9 @@ public class UIZoomableComponent extends AbstractUIElementComponent<UIElement> {
     public void onUnregisterComponent(UIElement owner) {
         super.onUnregisterComponent(owner);
 
-        owner.onHoveredEvent.unsubscribe(this);
+        owner.postHoveredEvent.unsubscribe(this);
         owner.onHoveredChildEvent.unsubscribe(this);
-        owner.onUnhoveredEvent.unsubscribe(this);
+        owner.postUnhoveredEvent.unsubscribe(this);
         owner.onUnhoveredChildEvent.unsubscribe(this);
     }
 

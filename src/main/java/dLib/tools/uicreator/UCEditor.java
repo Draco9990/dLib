@@ -112,7 +112,7 @@ public class UCEditor extends Renderable {
                 mainOptions.setItemSpacing(10);
                 {
                     TextButton toolboxButton = new TextButton("Close", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    toolboxButton.onLeftClickEvent.subscribeManaged(() -> {
+                    toolboxButton.postLeftClickEvent.subscribeManaged(() -> {
                         getTopParent().close();
                     });
                     toolboxButton.setTexture(Tex.stat(UICommonResources.button03_square));
@@ -126,7 +126,7 @@ public class UCEditor extends Renderable {
                 propertiesOptions.setItemSpacing(10);
                 {
                     TextButton toolboxButton = new TextButton("Toolbox", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    toolboxButton.onLeftClickEvent.subscribeManaged(() -> {
+                    toolboxButton.postLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().toolbox.showAndEnableInstantly();
@@ -135,7 +135,7 @@ public class UCEditor extends Renderable {
                     propertiesOptions.addChild(toolboxButton);
 
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    elementListButton.onLeftClickEvent.subscribeManaged(() -> {
+                    elementListButton.postLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
                         getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
                         getProperties().hierarchyViewer.showAndEnableInstantly();
@@ -145,7 +145,7 @@ public class UCEditor extends Renderable {
                     propertiesOptions.addChild(elementListButton);
 
                     TextButton rootPropertiesButton = new TextButton("Root Properties", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
-                    rootPropertiesButton.onLeftClickEvent.subscribeManaged(() -> {
+                    rootPropertiesButton.postLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
                         getProperties().propertyEditor.showAndEnableInstantly();
                         getProperties().propertyEditor.setProperties(((UCEditor)getTopParent()).itemTree.rootElementData);

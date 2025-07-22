@@ -10,14 +10,15 @@ import dLib.tools.uicreator.UCStartupPopup;
 import dLib.util.DLibConfigManager;
 import dLib.util.bindings.string.Str;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class DeveloperModeManager {
     public static void init(){
         DLib.registerCustomMainMenuButton(
                 Enums.DEVELOPER,
-                MenuButton.ClickResult.SETTINGS,
-                Str.stat("DEVELOPER"),
+                new ArrayList<MenuButton.ClickResult>() {{add(MenuButton.ClickResult.SETTINGS);}},
+                Str.stat("Developer"),
                 () -> {
                     if (!ExternalEditorCommunicationManager.isEnabled()) ExternalEditorCommunicationManager.enable();
                     if (!ExternalEditorCommunicationManager.isRunning()) ExternalEditorCommunicationManager.start();
@@ -25,7 +26,7 @@ public class DeveloperModeManager {
                     if (false && ExternalEditorCommunicationManager.isRunning()) {
                         UCStartupPopup popup = new UCStartupPopup();
                         popup.open();
-                    } else if (true) {
+                    } else if (false) {
                         UCEditor editor = new UCEditor();
                         editor.open();
                     } else {

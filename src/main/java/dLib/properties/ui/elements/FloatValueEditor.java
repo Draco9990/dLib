@@ -32,8 +32,8 @@ public class FloatValueEditor extends AbstractValueEditor<FloatProperty> {
         HorizontalBox hBox = new HorizontalBox(Dim.fill(), Dim.px(50));
         {
             leftArrow = new Button(Dim.mirror(), Dim.fill());
-            leftArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
-            leftArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
+            leftArrow.postLeftClickEvent.subscribe(this, () -> boundProperty.decrement());
+            leftArrow.postLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.decrement());
             leftArrow.setTexture(Tex.stat(UICommonResources.arrow_left));
             leftArrow.disableControllerSelectionAndSayTheSpireIntegration();
             hBox.addChild(leftArrow);
@@ -46,8 +46,8 @@ public class FloatValueEditor extends AbstractValueEditor<FloatProperty> {
             hBox.addChild(inputbox);
 
             rightArrow = new Button(Dim.mirror(), Dim.fill());
-            rightArrow.onLeftClickEvent.subscribe(this, () -> boundProperty.increment());
-            rightArrow.onLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
+            rightArrow.postLeftClickEvent.subscribe(this, () -> boundProperty.increment());
+            rightArrow.postLeftClickHeldEvent.subscribe(this, (heldTime) -> boundProperty.increment());
             rightArrow.setTexture(Tex.stat(UICommonResources.arrow_right));
             rightArrow.disableControllerSelectionAndSayTheSpireIntegration();
             hBox.addChild(rightArrow);

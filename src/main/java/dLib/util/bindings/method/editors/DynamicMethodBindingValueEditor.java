@@ -35,7 +35,7 @@ public class DynamicMethodBindingValueEditor extends MethodBindingValueEditor<Dy
                 bindDynamicBindingButton = new Button(Dim.fill(), Dim.px(15));
                 bindDynamicBindingButton.setTexture(Tex.stat("dLibResources/images/ui/uieditor/BindButton.png"));
                 bindDynamicBindingButton.hideAndDisableInstantly();
-                bindDynamicBindingButton.onLeftClickEvent.subscribe(this, () -> {
+                bindDynamicBindingButton.postLeftClickEvent.subscribe(this, () -> {
                     if(boundProperty.getValue() instanceof DynamicMethodBinding){
                         ((DynamicMethodBinding) boundProperty.getValue()).setBoundMethod(((UIElementData) boundProperty.getOwningContainer()).rootOwnerId, boundProperty.getDynamicCreationDefaultMethodName());
                         boundProperty.createDynamicMethod();

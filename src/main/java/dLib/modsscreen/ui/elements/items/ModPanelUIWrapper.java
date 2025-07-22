@@ -40,7 +40,7 @@ public class ModPanelUIWrapper extends UIElement {
 
         CancelButton closeButton = new CancelButton();
         closeButton.label.setText("Close");
-        closeButton.onLeftClickEvent.subscribeManaged(() -> getTopParent().close());
+        closeButton.postLeftClickEvent.subscribeManaged(() -> getTopParent().close());
         addChild(closeButton);
 
         element = panel;

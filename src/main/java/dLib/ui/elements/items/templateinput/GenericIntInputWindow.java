@@ -6,17 +6,13 @@ import dLib.properties.objects.IntegerProperty;
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.DarkenLayer;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.buttons.CancelButtonSmall;
 import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
-import dLib.ui.elements.items.input.Inputfield;
-import dLib.ui.elements.items.input.PasswordBox;
 import dLib.ui.elements.items.popup.GenericPopupHolder;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.util.bindings.font.Font;
-import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.localevents.RunnableEvent;
@@ -63,7 +59,7 @@ public class GenericIntInputWindow extends GenericPopupHolder {
 
             if(canCancel){
                 cancelButton = new CancelButtonSmall(Pos.px(-6), Pos.px(18));
-                cancelButton.onLeftClickEvent.subscribe(this, () -> {
+                cancelButton.postLeftClickEvent.subscribe(this, () -> {
                     getParentOfType(GenericIntInputWindow.class).onCancelEvent.invoke();
                     getParentOfType(GenericIntInputWindow.class).dispose();
                 });
@@ -72,7 +68,7 @@ public class GenericIntInputWindow extends GenericPopupHolder {
 
             confirmButton = new ConfirmButtonSmall(Pos.px(536), Pos.px(18));
             confirmButton.label.setText(confirmButtonText);
-            confirmButton.onLeftClickEvent.subscribe(this, () -> getParentOfType(GenericIntInputWindow.class).onConfirmEvent.invoke(getParentOfType(GenericIntInputWindow.class).property.getValue()));
+            confirmButton.postLeftClickEvent.subscribe(this, () -> getParentOfType(GenericIntInputWindow.class).onConfirmEvent.invoke(getParentOfType(GenericIntInputWindow.class).property.getValue()));
             addChild(confirmButton);
 
             UIElement editor = editingProperty.makeEditorFor();

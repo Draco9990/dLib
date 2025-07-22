@@ -22,6 +22,7 @@ import dLib.util.helpers.SteamHelpers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -108,11 +109,17 @@ public class DLib implements PostInitializeSubscriber{
     //region Main Menu Button Manager
 
     public static void registerCustomMainMenuButton(MenuButton.ClickResult clickResult,
-                                                    MenuButton.ClickResult insertAfter,
+                                                    ArrayList<MenuButton.ClickResult> insertAfter,
                                                     AbstractStringBinding buttonLabel,
                                                     Runnable action,
                                                     Supplier<Boolean> isVisible) {
-        MainMenuButtonManager.registerButtonAction(clickResult, insertAfter, buttonLabel, action, isVisible);
+        MainMenuButtonManager.registerCustomMainMenuButton(clickResult, insertAfter, buttonLabel, action, isVisible);
+    }
+    public static void registerMainMenuButtonNameOverride(MenuButton.ClickResult result, AbstractStringBinding newName, Supplier<Boolean> isVisible) {
+        MainMenuButtonManager.registerMainMenuButtonNameOverride(result, newName, isVisible);
+    }
+    public static void registerMainMenuButtonActionOverride(MenuButton.ClickResult result, Runnable action, Supplier<Boolean> isVisible) {
+        MainMenuButtonManager.registerMainMenuButtonActionOverride(result, action, isVisible);
     }
 
     //endregion Main Menu Button Manager

@@ -90,4 +90,6 @@ public class UICommonResources implements ITextureSource {
     public static final NinePatch advancedDebugOverlay = new NinePatch(ImageMaster.loadImage("dLibResources/images/ui/common/AdvancedElementHitbox.png"), 50, 50, 50, 50);
 
     public static final Texture energyIconUniversal = ImageMaster.loadImage("dLibResources/images/ui/common/EnergyIconUniversal.png");
+
+    public static final Texture cardSlot = ImageMaster.loadImage("dLibResources/images/ui/common/gameitems/CardSlot.png");
 }

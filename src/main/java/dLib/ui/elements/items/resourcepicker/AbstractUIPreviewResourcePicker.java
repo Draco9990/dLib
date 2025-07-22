@@ -71,7 +71,7 @@ public abstract class AbstractUIPreviewResourcePicker extends AbstractUIResource
             button.setTexture(Tex.stat(UICommonResources.white_pixel));
             Color darkTransparent = new Color(0, 0, 0, 0.4f);
             button.setRenderColor(darkTransparent);
-            button.onLeftClickEvent.subscribe(this, () -> {
+            button.postLeftClickEvent.subscribe(this, () -> {
                 AbstractUIResourcePicker parent = getParentOfType(AbstractUIResourcePicker.class);
                 parent.onResourceSelectedEvent.invoke(clazz, field.getName());
                 parent.close();
