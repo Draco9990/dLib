@@ -69,7 +69,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public DataItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
 
-        setSayTheSpireElementType("Item List Box");
+        setSayTheSpireElementType(Str.lambda(() -> "Item List Box with " + filteredChildren.size() + " items. Select up to " + getSelectionCountLimit() + " items."));
     }
 
     public DataItemBox(DataItemBoxData data){

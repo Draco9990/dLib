@@ -8,6 +8,7 @@ import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.events.serializableevents.SerializableConsumer;
 import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
 
@@ -46,7 +47,7 @@ public class EnumValueEditor<OfType extends Enum<OfType>> extends AbstractValueE
                     return EnumHelpers.betterToString(item);
                 }
             };
-            enumBox.onSelectionChangedEvent.subscribe(this, (Consumer<OfType>) (newVal) -> {
+            enumBox.onSelectionChangedEvent.subscribe(this, (SerializableConsumer<OfType>) (newVal) -> {
                 boundProperty.setValue(newVal);
             });
             enumBox.disableControllerSelectionAndSayTheSpireIntegration();

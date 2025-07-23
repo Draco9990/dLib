@@ -38,6 +38,7 @@ public class CardSelectPopup extends GenericPopupHolder {
                     return s;
                 }
             };
+            cardBox.setSayTheSpireElementName("Cards");
             cardBox.setTexture(UICommonResources.transparent_pixel);
             cardBox.setGridMode(true);
             cardBox.setPadding(Padd.px(25));
