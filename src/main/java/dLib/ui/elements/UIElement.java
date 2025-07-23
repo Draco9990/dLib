@@ -125,7 +125,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected boolean isDarkened = false;
 
     private boolean controllerSelectable = false;
-    
+
     private boolean selected;
     public ConsumerEvent<Boolean> preSelectionStateChangedEvent = new ConsumerEvent<>();                                public static BiConsumerEvent<UIElement, Boolean> preSelectionStateChangedGlobalEvent = new BiConsumerEvent<>();
     public ConsumerEvent<Boolean> postSelectionStateChangedEvent = new ConsumerEvent<>();                               public static BiConsumerEvent<UIElement, Boolean> postSelectionStateChangedGlobalEvent = new BiConsumerEvent<>();
@@ -1442,10 +1442,31 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public boolean onConfirmInteraction(boolean byProxy){
+        if(isModal()){
+            UIElement selectedChild = UIManager.getCurrentlySelectedElement();
+            if(selectedChild != null){
+                selectedChild.deselect();
+            }
+
+            UIManager.selectNextElement(this, new Property<>(null));
+
+            return true;
+        }
+
         ArrayList<Boolean> interactionResults = onConfirmInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
         return interactionResults.stream().anyMatch(result -> result);
     }
     public boolean onCancelInteraction(boolean byProxy){
+        if(isModal()){
+            UIElement selectedChild = UIManager.getCurrentlySelectedElement();
+            if(selectedChild != null && selectedChild.isDescendantOf(this)){
+                selectedChild.deselect();
+                UIManager.drawControllerFocusCond(this);
+            }
+
+            return true;
+        }
+
         ArrayList<Boolean> interactionResults = onCancelInteractionEvent.invokeWhile(byProxy, (invocationResult) -> !invocationResult);
         return interactionResults.stream().anyMatch(result -> result);
     }
@@ -1461,7 +1482,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.controllerSelectable = controllerSelectable;
     }
     public boolean isControllerSelectable(){
-        return controllerSelectable;
+        return controllerSelectable || isModal();
     }
 
     public ArrayList<UIElement> getAllSelectableChildren(){
@@ -1470,7 +1491,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             if((child.isControllerSelectable() && child.isEnabled()) || child.isSelected()){
                 allChildren.add(child);
             }
-            allChildren.addAll(child.getAllSelectableChildren());
+
+            if(!child.isModal()){
+                allChildren.addAll(child.getAllSelectableChildren());
+            }
         }
         return allChildren;
     }
@@ -2589,13 +2613,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return isModal() || isContextual();
     }
     public UIElement getControllerModalParent(){
-        if(isControllerModal()) return this;
+        if(!hasParent()) return null;
 
-        if(hasParent()){
-            return parent.getControllerModalParent();
-        }
+        if(getParent().isModal()) return getParent();
 
-        return null;
+        return getParent().getControllerModalParent();
     }
 
     //endregion

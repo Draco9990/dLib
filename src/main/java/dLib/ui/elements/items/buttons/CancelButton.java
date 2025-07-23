@@ -5,6 +5,7 @@ import dLib.ui.animations.entry.UIAnimation_SlideInRight;
 import dLib.ui.animations.exit.UIAnimation_SlideOutLeft;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.util.bindings.texture.Tex;
+import dLib.util.events.serializableevents.SerializableFunction;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
@@ -23,5 +24,7 @@ public class CancelButton extends TextButton {
         this.show();
 
         label.setTextRenderColor(Color.valueOf("FFEDA7"));
+
+        onCancelInteractionEvent.subscribe(this, (SerializableFunction<Boolean, Boolean>) aBoolean -> onLeftClick(false));
     }
 }

@@ -7,6 +7,7 @@ import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
+import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
@@ -41,7 +42,7 @@ public class PropertyArrayValueEditor<EditingPropertyType, PropertyType extends 
                 }
             };
             valueBox.setCanDelete(boundProperty.canDelete());
-            valueBox.disableToggleOverlay();
+            valueBox.setSelectionMode(ESelectionMode.NONE);
             valueBox.setChildren(boundProperty.getValue());
             valueBox.onItemDeletedEvent.subscribe(valueBox, (item) -> boundProperty.remove(item));
             //TODO disable child interactions once that's in to improve perf

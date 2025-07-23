@@ -691,6 +691,16 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     //endregion
 
+    //region Modality
+
+    @Override
+    public boolean isModal() {
+        return super.isModal() || getSelectionMode() != ESelectionMode.NONE;
+    }
+
+
+    //endregion Modality
+
     //endregion
 
     public static class DataItemBoxData extends ItemBox.ItemBoxData implements Serializable {

@@ -107,6 +107,11 @@ public class UIManager {
             selectedElement.deselect();
         }
 
+        if(target.isControllerSelectable()){
+            target.select(true);
+            return;
+        }
+
         selectNextElement(target, new Property<>(null));
     }
 
@@ -178,7 +183,7 @@ public class UIManager {
         KeyInputEventPatches.forwardProxyInputToMain.revert();
     }
 
-    private static UIElement getCurrentlySelectedElement(){
+    public static UIElement getCurrentlySelectedElement(){
         for(UIElement uiElement : uiElements){
             if(!uiElement.isActive()){
                 continue;
@@ -195,10 +200,10 @@ public class UIManager {
         return null;
     }
 
-    private static boolean selectNextElement(UIElement topParent, Property<UIElement> foundSelectedElement){
+    public static boolean selectNextElement(UIElement topParent, Property<UIElement> foundSelectedElement){
         return selectNextElement(new ArrayList<UIElement>(){{ add(topParent); }}, foundSelectedElement);
     }
-    private static boolean selectNextElement(ArrayList<UIElement> topParents, Property<UIElement> foundSelectedElement){
+    public static boolean selectNextElement(ArrayList<UIElement> topParents, Property<UIElement> foundSelectedElement){
         boolean firstPass = true;
         while(true){
             for (UIElement topParent : topParents) {
@@ -222,10 +227,6 @@ public class UIManager {
                         child.select(true);
                         return true;
                     }
-
-                    if (!foundSelectedElement.isNull() && child.isControllerModal()) {
-                        i--;
-                    }
                 }
             }
 
@@ -237,10 +238,10 @@ public class UIManager {
         }
     }
 
-    private static boolean selectPreviousElement(UIElement topParent, Property<UIElement> foundSelectedElement){
+    public static boolean selectPreviousElement(UIElement topParent, Property<UIElement> foundSelectedElement){
         return selectPreviousElement(new ArrayList<UIElement>(){{ add(topParent); }}, foundSelectedElement);
     }
-    private static boolean selectPreviousElement(ArrayList<UIElement> topParents, Property<UIElement> foundSelectedElement){
+    public static boolean selectPreviousElement(ArrayList<UIElement> topParents, Property<UIElement> foundSelectedElement){
         boolean firstPass = true;
         while(true){
             for (UIElement topParent : topParents) {
@@ -264,10 +265,6 @@ public class UIManager {
                         if(!foundSelectedElement.isNull()) foundSelectedElement.getValue().deselect();
                         child.select(true);
                         return true;
-                    }
-
-                    if(!foundSelectedElement.isNull() && child.isControllerModal()){
-                        i++;
                     }
                 }
             }
@@ -329,51 +326,49 @@ public class UIManager {
 
     private static void onConfirmPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();
-        if(selectedElement != null){
+        while(selectedElement != null){
             boolean confirmInteraction = selectedElement.onConfirmInteraction(false);
+            if(confirmInteraction){
+                return;
+            }
 
-            if(!confirmInteraction){
-                while(selectedElement != null){
-                    ArrayList<UIElement> buttons = new ArrayList<>();
-                    buttons.addAll(selectedElement.getChildren(ConfirmButton.class));
-                    buttons.addAll(selectedElement.getChildren(ConfirmButtonSmall.class));
-                    for (UIElement button : buttons) {
-                        if (button.isEnabled()) {
-                            button.onConfirmInteraction(false);
-                            return;
-                        }
-                    }
-
-                    selectedElement = selectedElement.getParent();
+            ArrayList<UIElement> buttons = new ArrayList<>();
+            buttons.addAll(selectedElement.getChildren(ConfirmButton.class));
+            buttons.addAll(selectedElement.getChildren(ConfirmButtonSmall.class));
+            for (UIElement button : buttons) {
+                if (button.isEnabled()) {
+                    button.onConfirmInteraction(false);
+                    return;
                 }
             }
+
+            selectedElement = selectedElement.getParent();
         }
     }
     private static void onCancelPressed(){
         UIElement selectedElement = getCurrentlySelectedElement();
-        if(selectedElement != null){
+        while(selectedElement != null){
             boolean cancelInteraction = selectedElement.onCancelInteraction(false);
+            if(cancelInteraction){
+                return;
+            }
 
-            if(!cancelInteraction){
-                while(selectedElement != null){
-                    ArrayList<UIElement> buttons = new ArrayList<>();
-                    buttons.addAll(selectedElement.getChildren(CancelButton.class));
-                    buttons.addAll(selectedElement.getChildren(CancelButtonSmall.class));
-                    for (UIElement button : buttons) {
-                        if (button.isEnabled()) {
-                            button.onConfirmInteraction(false);
-                            return;
-                        }
-                    }
-
-                    if(selectedElement.isContextual()){
-                        loseFocus();
-                        selectedElement.dispose();
-                    }
-
-                    selectedElement = selectedElement.getParent();
+            ArrayList<UIElement> buttons = new ArrayList<>();
+            buttons.addAll(selectedElement.getChildren(CancelButton.class));
+            buttons.addAll(selectedElement.getChildren(CancelButtonSmall.class));
+            for (UIElement button : buttons) {
+                if (button.isEnabled()) {
+                    button.onConfirmInteraction(false);
+                    return;
                 }
             }
+
+            if(selectedElement.isContextual()){
+                loseFocus();
+                selectedElement.dispose();
+            }
+
+            selectedElement = selectedElement.getParent();
         }
     }
 
