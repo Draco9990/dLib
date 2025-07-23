@@ -21,8 +21,8 @@ import dLib.util.bindings.font.Font;
 import dLib.util.bindings.string.Str;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
-import dLib.util.events.localevents.BiConsumerEvent;
-import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.events.localevents.*;
+import dLib.util.events.serializableevents.SerializableComparator;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -37,10 +37,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     static String wrapperId = "wrapper";
     static String wrapOverlayID = "wrap_overlay";
 
-    // Elements
     protected BiMap<UIElement, ItemType> childWrapperMap = new BiMap<>();
 
-    // Properties
     private boolean shouldOverlayToggle = true;
     private boolean externalToggling = false; //TODO expose
 
@@ -60,6 +58,9 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     public ConsumerEvent<ItemType> onItemAddedEvent = new ConsumerEvent<>();
     public ConsumerEvent<ItemType> onItemRemovedEvent = new ConsumerEvent<>();
+
+    public FunctionEvent<ItemType, Boolean> filterToModifyEvent = new FunctionEvent<>();
+    public SerializableComparatorEvent<ItemType> sortToModifyEvent = new SerializableComparatorEvent<>();
 
     //endregion
 
@@ -665,13 +666,27 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
             filteredChildren.add(child);
         }
 
+        ArrayList<ItemType> filteredItems = new ArrayList<>();
+        for(UIElement child : filteredChildren){
+            filteredItems.add(childWrapperMap.getByKey(child));
+        }
+        sortToModifyEvent.invoke(filteredItems);
+
+        filteredChildren.clear();
+        for(ItemType item : filteredItems){
+            UIElement child = childWrapperMap.getByValue(item);
+            if(child != null){
+                filteredChildren.add(child);
+            }
+        }
+
         if(invertedItemOrder){
             Collections.reverse(filteredChildren);
         }
     }
 
     protected boolean filterCheck(String filterText, UIElement item, ItemType originalItem){
-        return originalItem.toString().toLowerCase(Locale.ROOT).contains(filterText.toLowerCase(Locale.ROOT)) && !item.hasComponent(UITransientElementComponent.class);
+        return originalItem.toString().toLowerCase(Locale.ROOT).contains(filterText.toLowerCase(Locale.ROOT)) && !item.hasComponent(UITransientElementComponent.class) && !filterToModifyEvent.invokeWhile(originalItem, (condition) -> condition).contains(false);
     }
 
     //endregion

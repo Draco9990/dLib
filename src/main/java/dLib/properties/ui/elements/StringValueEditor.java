@@ -9,7 +9,7 @@ import dLib.util.ui.dimensions.Dim;
 public abstract class StringValueEditor extends AbstractValueEditor<StringProperty> {
     //region Variables
 
-    protected Inputfield inputfield;
+    public Inputfield inputfield;
 
     //endregion
 

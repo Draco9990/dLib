@@ -16,6 +16,7 @@ import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.elements.items.text.TokenizedDescriptionBox;
 import dLib.ui.resources.UICommonResources;
 import dLib.ui.util.ESelectionMode;
+import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
@@ -187,9 +188,13 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
             addChild(confirmButton);
         }
 
-        private static class GridItem<GameItemType> extends VerticalBox {
+        private static class GridItem<GameItemType> extends VerticalBox implements ITextProvider {
+            GameItemType item;
+
             public GridItem(GameItemSelectPopup<GameItemType> inParent, GameItemType item) {
                 super(Dim.px(180), Dim.px(230));
+
+                this.item = item;
 
                 setTexture(Tex.stat(UICommonResources.white_pixel));
 
@@ -200,6 +205,11 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                 ImageTextBox itemNameBox = new ImageTextBox(inParent.getItemName(item), Dim.fill(), Dim.px(60));
                 itemNameBox.textBox.setWrap(true);
                 addChild(itemNameBox);
+            }
+
+            @Override
+            public String getText() {
+                return getParentOfType(GameItemSelectPopup.class).getItemName(item);
             }
         }
     }
@@ -281,6 +291,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                 searchTextTitle.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
                 filtersBox.addChild(searchTextTitle);
                 OnValueChangedStringValueEditor searchTextEditor = new OnValueChangedStringValueEditor(searchText);
+                searchTextEditor.inputfield.setSayTheSpireElementName("Search");
                 filtersBox.addChild(searchTextEditor);
 
                 if(!selectableRarities.isEmpty()){

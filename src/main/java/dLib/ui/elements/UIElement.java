@@ -125,6 +125,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected boolean isDarkened = false;
 
     private boolean controllerSelectable = false;
+    
     private boolean selected;
     public ConsumerEvent<Boolean> preSelectionStateChangedEvent = new ConsumerEvent<>();                                public static BiConsumerEvent<UIElement, Boolean> preSelectionStateChangedGlobalEvent = new BiConsumerEvent<>();
     public ConsumerEvent<Boolean> postSelectionStateChangedEvent = new ConsumerEvent<>();                               public static BiConsumerEvent<UIElement, Boolean> postSelectionStateChangedGlobalEvent = new BiConsumerEvent<>();
@@ -341,7 +342,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         });
     }
 
-    protected void registerCommonEvents(){
+    private void registerCommonEvents(){
         //Region Hover
         {
             this.postHoveredEvent.subscribeManaged(() -> {
@@ -1886,13 +1887,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     public void resizeBy(float widthDiff, float heightDiff){
-        AbstractDimension widthCopy = width.cpy();
-        AbstractDimension heightCopy = height.cpy();
+        if(widthDiff != 0) getWidthRaw().resizeBy(this, widthDiff);
+        if(heightDiff != 0) getHeightRaw().resizeBy(this, heightDiff);
 
-        if(widthDiff != 0) widthCopy.resizeBy(this, widthDiff);
-        if(heightDiff != 0) heightCopy.resizeBy(this, heightDiff);
-
-        setDimensions(widthCopy, heightCopy);
+        onDimensionsChanged();
     }
 
     public void setPositionAndDimensionsFromWorldBounds(PositionBounds bounds){

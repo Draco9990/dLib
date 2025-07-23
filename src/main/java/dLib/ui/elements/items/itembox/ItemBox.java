@@ -67,6 +67,8 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         setPassthrough(true);
 
         setContentPadding(Padd.px(0));
+
+        registerCommonEvents();
     }
 
     public ItemBox(ItemBoxData data){
@@ -80,10 +82,11 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         setContentPadding(Padd.px(0));
 
         refilterItems();
+
+        registerCommonEvents();
     }
 
-    @Override
-    public void registerCommonEvents(){
+    protected void registerCommonEvents(){
         onChildrenChangedEvent.subscribe(this, ItemBox.this::refilterItems);
 
         postActiveStateChangedGlobalEvent.subscribe(this, (element, newVisibility) -> {

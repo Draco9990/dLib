@@ -24,7 +24,7 @@ public class TextMetadata extends HashMap<Integer, CharMetadata> {
                 int markupEnd = text.indexOf(']', index);
                 int otherMarkupStart = text.indexOf('[', index + 1);
 
-                if(otherMarkupStart == -1 || markupEnd < otherMarkupStart){
+                if(markupEnd != -1 && (otherMarkupStart == -1 || markupEnd < otherMarkupStart)){
                     String markupText = text.substring(index + 1, markupEnd);
                     if(TextHelpers.isValidMarkup(markupText)){
                         Markup markup = TextHelpers.getMarkupType(markupText);

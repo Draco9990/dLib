@@ -34,10 +34,10 @@ public class TestScreen extends UIElement {
 
         String text = "THIS is a [ REE ] test [RED]text[GREEN] that im doing[] why not [] woahhhh";
 
-        /*Inputfield in1 = new Inputfield(text, Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
+        Inputfield in1 = new Inputfield(text, Pos.px(100), Pos.px(100), Dim.px(200), Dim.px(200));
         in1.textBox.setWrap(true);
         in1.textBox.setContentAlignment(Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
-        addChild(in1);*/
+        //addChild(in1);
 
         /*Inputfield in2= new Inputfield(text, Pos.px(400), Pos.px(100), Dim.px(200), Dim.px(200));
         in2.textBox.setWrap(true);
@@ -115,10 +115,10 @@ public class TestScreen extends UIElement {
         img.onRightClickEvent.subscribe(img, () -> img.setVerticalAlignment((Alignment.VerticalAlignment) EnumHelpers.nextEnum(img.getVerticalAlignment())));
         addChild(img);*/
 
-        /*PotionSelectPopup pop = new PotionSelectPopup();
-        pop.open();*/
+        PotionSelectPopup pop = new PotionSelectPopup();
+        pop.open();
 
-        CardSlot cardSlot = new CardSlot(Pos.px(100), Pos.px(100), 0.5f);
-        addChild(cardSlot);
+        /*CardSlot cardSlot = new CardSlot(Pos.px(100), Pos.px(100), 0.5f);
+        addChild(cardSlot);*/
     }
 }
