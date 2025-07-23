@@ -6,7 +6,9 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
+import com.megacrit.cardcrawl.screens.stats.AchievementItem;
 import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
+import dLib.achievements.AchievementManager;
 import dLib.campfireoptions.CampfireOptionManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomKeybindManager;
@@ -123,4 +125,12 @@ public class DLib implements PostInitializeSubscriber{
     }
 
     //endregion Main Menu Button Manager
+
+    //region Achievements
+
+    public static void registerCustomAchievement(AchievementItem achievement) {
+        AchievementManager.registerCustomAchievement(achievement);
+    }
+
+    //endregion Achievements
 }
