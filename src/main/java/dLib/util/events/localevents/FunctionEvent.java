@@ -1,11 +1,12 @@
 package dLib.util.events.localevents;
 
 import dLib.util.events.Event;
+import dLib.util.events.serializableevents.SerializableFunction;
 
 import java.util.ArrayList;
 import java.util.function.Function;
 
-public class FunctionEvent<Type1, Type2> extends Event<Function<Type1, Type2>> {
+public class FunctionEvent<Type1, Type2> extends Event<SerializableFunction<Type1, Type2>> {
     public FunctionEvent() {
         super();
     }
@@ -20,7 +21,7 @@ public class FunctionEvent<Type1, Type2> extends Event<Function<Type1, Type2>> {
         return results;
     }
 
-    public ArrayList<Type2> invokeWhile(Type1 arg1, Function<Type2, Boolean> condition){
+    public ArrayList<Type2> invokeWhile(Type1 arg1, SerializableFunction<Type2, Boolean> condition){
         ArrayList<Type2> results = new ArrayList<>();
 
         super.invokeWhile(consumer -> {

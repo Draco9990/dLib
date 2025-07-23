@@ -2,8 +2,9 @@ package dLib.util.events.localevents;
 
 import dLib.util.consumers.QuadConsumer;
 import dLib.util.events.Event;
+import dLib.util.events.serializableevents.SerializableQuadConsumer;
 
-public class QuadConsumerEvent<Type1, Type2, Type3, Type4> extends Event<QuadConsumer<Type1, Type2, Type3, Type4>> {
+public class QuadConsumerEvent<Type1, Type2, Type3, Type4> extends Event<SerializableQuadConsumer<Type1, Type2, Type3, Type4>> {
     public QuadConsumerEvent() {
         super();
     }

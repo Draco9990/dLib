@@ -11,6 +11,7 @@ import dLib.ui.util.ESelectionMode;
 import dLib.util.bindings.font.Font;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.RunnableEvent;
+import dLib.util.events.serializableevents.SerializableRunnable;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
@@ -46,7 +47,7 @@ public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption>
         public String optionText;
         public RunnableEvent onOptionSelectedEvent = new RunnableEvent();
 
-        public ContextMenuButtonOption(String text, Runnable onOptionSelectedEvent) {
+        public ContextMenuButtonOption(String text, SerializableRunnable onOptionSelectedEvent) {
             this.optionText = text;
             this.onOptionSelectedEvent.subscribeManaged(onOptionSelectedEvent);
         }

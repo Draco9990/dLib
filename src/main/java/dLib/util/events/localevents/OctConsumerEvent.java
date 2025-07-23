@@ -2,8 +2,9 @@ package dLib.util.events.localevents;
 
 import dLib.util.consumers.OctConsumer;
 import dLib.util.events.Event;
+import dLib.util.events.serializableevents.SerializableOctConsumer;
 
-public class OctConsumerEvent<Type1, Type2, Type3, Type4, Type5, Type6, Type7, Type8> extends Event<OctConsumer<Type1, Type2, Type3, Type4, Type5, Type6, Type7, Type8>> {
+public class OctConsumerEvent<Type1, Type2, Type3, Type4, Type5, Type6, Type7, Type8> extends Event<SerializableOctConsumer<Type1, Type2, Type3, Type4, Type5, Type6, Type7, Type8>> {
     public OctConsumerEvent() {
         super();
     }

@@ -38,11 +38,12 @@ public class MouseStateManager {
         AbstractMouseState.preStateExitGlobalEvent.invoke(currentState);
 
         currentState.onStateExit();
-        currentState.dispose();
-        currentState = null;
 
         currentState.postStateExitEvent.invoke();
         AbstractMouseState.postStateExitGlobalEvent.invoke(currentState);
+
+        currentState.dispose();
+        currentState = null;
 
         return true;
     }

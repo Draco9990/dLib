@@ -41,10 +41,7 @@ import dLib.util.Timer;
 import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.string.Str;
 import dLib.util.events.globalevents.Constructable;
-import dLib.util.events.localevents.BiConsumerEvent;
-import dLib.util.events.localevents.ConsumerEvent;
-import dLib.util.events.localevents.FunctionEvent;
-import dLib.util.events.localevents.RunnableEvent;
+import dLib.util.events.localevents.*;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.bounds.AbstractBounds;
 import dLib.util.ui.bounds.Bound;
@@ -111,7 +108,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private boolean inheritMaskFromParent = true; //TODO: Expose
 
     protected boolean isVisible = true;
+    public ConsumerEvent<Boolean> preVisibilityStateChangedEvent = new ConsumerEvent<>();                               public static BiConsumerEvent<UIElement, Boolean> preVisibilityStateChangedGlobalEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<Boolean> postVisibilityStateChangedEvent = new ConsumerEvent<>();                              public static BiConsumerEvent<UIElement, Boolean> postVisibilityStateChangedGlobalEvent = new BiConsumerEvent<>();
+
     protected boolean isEnabled = true;
+    public ConsumerEvent<Boolean> preEnabledStateChangedEvent = new ConsumerEvent<>();                                  public static BiConsumerEvent<UIElement, Boolean> preEnabledStateChangedGlobalEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<Boolean> postEnabledStateChangedEvent = new ConsumerEvent<>();                                 public static BiConsumerEvent<UIElement, Boolean> postEnabledStateChangedGlobalEvent = new BiConsumerEvent<>();
+
+    public ConsumerEvent<Boolean> preActiveStateChangedEvent = new ConsumerEvent<>();                                   public static BiConsumerEvent<UIElement, Boolean> preActiveStateChangedGlobalEvent = new BiConsumerEvent<>();
+    public ConsumerEvent<Boolean> postActiveStateChangedEvent = new ConsumerEvent<>();                                  public static BiConsumerEvent<UIElement, Boolean> postActiveStateChangedGlobalEvent = new BiConsumerEvent<>();
 
     private boolean pendingHide = false;
 
@@ -125,8 +130,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public ConsumerEvent<Boolean> postSelectionStateChangedEvent = new ConsumerEvent<>();                               public static BiConsumerEvent<UIElement, Boolean> postSelectionStateChangedGlobalEvent = new BiConsumerEvent<>();
 
     private boolean isPassthrough = true;
-
-    //region Events
 
     public RunnableEvent preUpdateEvent = new RunnableEvent();
     public RunnableEvent postUpdateEvent = new RunnableEvent();
@@ -157,8 +160,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     public ConsumerEvent<Float> postRightClickHeldEvent = new ConsumerEvent<>();                                        public static BiConsumerEvent<UIElement, Float> postRightClickHeldGlobalEvent = new BiConsumerEvent<>();
     public RunnableEvent preRightClickReleaseEvent = new RunnableEvent();                                               public static ConsumerEvent<UIElement> preRightClickReleaseGlobalEvent = new ConsumerEvent<>();
     public RunnableEvent postRightClickReleaseEvent = new RunnableEvent();                                              public static ConsumerEvent<UIElement> postRightClickReleaseGlobalEvent = new ConsumerEvent<>();
-
-    //endregion Events
 
     // Say the Spire mod compatibility
     protected AbstractStringBinding sayTheSpireElementName = Str.stat(null); // Say the Spire mod compatibility
@@ -340,7 +341,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         });
     }
 
-    private void registerCommonEvents(){
+    protected void registerCommonEvents(){
         //Region Hover
         {
             this.postHoveredEvent.subscribeManaged(() -> {
@@ -408,9 +409,39 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             });
         }
 
-        // Interactions
+        //Interactions
         {
             onConfirmInteractionEvent.subscribe(this, this::onLeftClick);
+        }
+
+        //Visibility & Enabled
+        {
+            postVisibilityStateChangedGlobalEvent.subscribe(this, (element, aBoolean) -> {
+                if(isDirectChild(element)){
+                    if(getWidthRaw() instanceof AutoDimension){
+                        getWidthRaw().requestRecalculation();
+                    }
+
+                    if(getHeightRaw() instanceof AutoDimension){
+                        getHeightRaw().requestRecalculation();
+                    }
+                }
+            });
+
+            postEnabledStateChangedGlobalEvent.subscribe(this, (element, aBoolean) -> {
+                if(isDirectParent(element)){
+                    if(isControllerModal()){
+                        if(isEnabled()){
+                            UIManager.drawControllerFocusCond(this);
+
+                            ModManager.SayTheSpire.outputCond(getOnEnabledLine());
+                        }
+                        else{
+                            UIManager.loseFocus(this);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -825,9 +856,14 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return parent != null ? parent.getHeight() : 1080;
     }
 
+    public boolean isDirectParent(UIElement element){
+        return Objects.equals(parent, element);
+    }
+
     //endregion
 
     //region Children
+
     public void addChild(UIElement child){
         if(children.contains(child)){
             return;
@@ -1010,6 +1046,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(this.parent == null) return false;
         if(this.parent == parent) return true;
         return this.parent.isDescendantOf(parent);
+    }
+    public boolean isDirectChild(UIElement child){
+        return children.contains(child);
     }
 
     //endregion
@@ -1553,15 +1592,32 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     protected void setVisibility(boolean visible){
-        boolean isActive = isActive();
-
         if(isVisible == visible) return;
+
+        boolean isVisibleT = isVisible();
+        boolean isActiveT = isActive();
+
         isVisible = visible;
 
-        onVisiblityChanged();
+        boolean isVisibleP = isVisible();
+        boolean isActiveP = isActive();
 
-        if(isActive != isActive()){
-            onActiveStateChanged();
+        if(isVisibleT != isVisibleP){ // Executing this method will lead to visibility state changes
+            isVisible = !isVisible;
+
+            preVisibilityStateChanged(isVisibleP);
+        }
+        if(isActiveT != isActiveP){
+            preActiveStateChanged(isActiveP);
+        }
+
+        isVisible = visible;
+
+        if(isVisibleT != isVisibleP){
+            postVisibilityStateChanged(isVisibleP);
+        }
+        if(isActiveT != isActiveP){
+            postActiveStateChanged(isActiveP);
         }
     }
 
@@ -1573,23 +1629,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return isVisible;
     }
 
-    protected void onVisiblityChanged(){
-        if(getParent() != null) getParent().onChildVisibilityChanged(this);
-        for(UIElement child : children){
-            child.onParentVisibilityChanged();
-        }
+    protected void preVisibilityStateChanged(boolean newVisibility){
+        preVisibilityStateChangedEvent.invoke(newVisibility);
+        preVisibilityStateChangedGlobalEvent.invoke(this, newVisibility);
     }
-    protected void onParentVisibilityChanged(){
-
-    }
-    protected void onChildVisibilityChanged(UIElement changedChild){
-        if(getWidthRaw() instanceof AutoDimension){
-            getWidthRaw().requestRecalculation();
-        }
-
-        if(getHeightRaw() instanceof AutoDimension){
-            getHeightRaw().requestRecalculation();
-        }
+    protected void postVisibilityStateChanged(boolean newVisibility){
+        postVisibilityStateChangedEvent.invoke(newVisibility);
+        postVisibilityStateChangedGlobalEvent.invoke(this, newVisibility);
     }
 
     //endregion
@@ -1605,8 +1651,31 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     protected void setEnabled(boolean enabled){
         if(isEnabled == enabled) return;
 
+        boolean isEnabledT = isEnabled();
+        boolean isActiveT = isActive();
+
         isEnabled = enabled;
-        onEnabledStatusChanged();
+
+        boolean isEnabledP = isEnabled();
+        boolean isActiveP = isActive();
+
+        if(isEnabledT != isEnabledP){ // Executing this method will lead to enabled state changes
+            isEnabled = !isVisible;
+
+            preEnabledStateChanged(isEnabledP);
+        }
+        if(isActiveT != isActiveP){
+            preActiveStateChanged(isActiveP);
+        }
+
+        isEnabled = enabled;
+
+        if(isEnabledT != isEnabledP){
+            postEnabledStateChanged(isEnabledP);
+        }
+        if(isActiveT != isActiveP){
+            postActiveStateChanged(isActiveP);
+        }
     }
 
     public boolean isEnabled(){
@@ -1617,7 +1686,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return isEnabled;
     }
 
-    protected void onEnabledStatusChanged(){
+    protected void preEnabledStateChanged(boolean newEnabledState){
+        preEnabledStateChangedEvent.invoke(newEnabledState);
+        preEnabledStateChangedGlobalEvent.invoke(this, newEnabledState);
+    }
+    protected void postEnabledStateChanged(boolean newEnabledState){
         if(isControllerModal()){
             if(isEnabled()){
                 UIManager.drawControllerFocusCond(this);
@@ -1629,31 +1702,8 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
         }
 
-        boolean isActive = isActive();
-
-        if(getParent() != null) getParent().onChildEnabledStatusChanged(this);
-        for(UIElement child : children){
-            child.onParentEnabledStatusChanged();
-        }
-
-        if(isActive != isActive()){
-            onActiveStateChanged();
-        }
-    }
-    protected void onParentEnabledStatusChanged(){
-        if(isControllerModal()){
-            if(isEnabled()){
-                UIManager.drawControllerFocusCond(this);
-
-                ModManager.SayTheSpire.outputCond(getOnEnabledLine());
-            }
-            else{
-                UIManager.loseFocus(this);
-            }
-        }
-    }
-    protected void onChildEnabledStatusChanged(UIElement changedChild){
-
+        postEnabledStateChangedEvent.invoke(newEnabledState);
+        postEnabledStateChangedGlobalEvent.invoke(this, newEnabledState);
     }
 
     //endregion
@@ -1671,11 +1721,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         hideInstantly();
         disable();
     }
-
     public void showAndEnableInstantly(){
         showInstantly();
         enable();
     }
+
+    //region Active State
 
     public boolean isActive(){
         if(hasParent() && !parent.isActive()) return false;
@@ -1687,8 +1738,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return isVisibleRaw() || isEnabledRaw();
     }
 
-    public void onActiveStateChanged(){
+    protected void preActiveStateChanged(boolean newActiveState){
+        preActiveStateChangedEvent.invoke(newActiveState);
+        preActiveStateChangedGlobalEvent.invoke(this, newActiveState);
     }
+    protected void postActiveStateChanged(boolean newActiveState){
+        postActiveStateChangedEvent.invoke(newActiveState);
+        postActiveStateChangedGlobalEvent.invoke(this, newActiveState);
+    }
+
+    //endregion Active State
 
     //endregion
 

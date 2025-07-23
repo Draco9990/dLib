@@ -5,6 +5,8 @@ import dLib.properties.ui.elements.IEditableValue;
 import dLib.properties.ui.elements.PropertyValueEditor;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.FunctionEvent;
+import dLib.util.events.serializableevents.SerializableConsumer;
+import dLib.util.events.serializableevents.SerializableFunction;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,7 +31,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     protected ValueType previousValue;
 
-    protected Consumer<PropertyType> customEditorOverride;
+    protected SerializableConsumer<PropertyType> customEditorOverride;
 
     public transient BiConsumerEvent<ValueType, ValueType> onValueChangedEvent = new BiConsumerEvent<>();
     public transient FunctionEvent<PropertyType, Boolean> isPropertyVisibleFunctions = new FunctionEvent<>();
@@ -150,7 +152,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
         return interactionResults.stream().anyMatch(result -> !result);
     }
 
-    public PropertyType addIsPropertyVisibleFunction(Function<PropertyType, Boolean> f){
+    public PropertyType addIsPropertyVisibleFunction(SerializableFunction<PropertyType, Boolean> f){
         isPropertyVisibleFunctions.subscribeManaged(f);
         return (PropertyType) this;
     }
@@ -198,7 +200,7 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     //region Custom Editor Override
 
-    public PropertyType setCustomEditorOverride(Consumer<PropertyType> customEditorOverride) {
+    public PropertyType setCustomEditorOverride(SerializableConsumer<PropertyType> customEditorOverride) {
         this.customEditorOverride = customEditorOverride;
         return (PropertyType) this;
     }

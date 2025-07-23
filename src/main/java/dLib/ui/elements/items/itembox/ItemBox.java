@@ -67,8 +67,6 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
         setPassthrough(true);
 
         setContentPadding(Padd.px(0));
-
-        registerCommonEvents();
     }
 
     public ItemBox(ItemBoxData data){
@@ -81,13 +79,18 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
         setContentPadding(Padd.px(0));
 
-        registerCommonEvents();
-
         refilterItems();
     }
 
+    @Override
     public void registerCommonEvents(){
         onChildrenChangedEvent.subscribe(this, ItemBox.this::refilterItems);
+
+        postActiveStateChangedGlobalEvent.subscribe(this, (element, newVisibility) -> {
+            if(isDirectChild(element)){
+                refilterItems();
+            }
+        });
     }
 
     //endregion
@@ -338,20 +341,6 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
     }
 
     public abstract void refilterItems();
-
-    @Override
-    protected void onChildVisibilityChanged(UIElement changedChild) {
-        super.onChildVisibilityChanged(changedChild);
-
-        refilterItems();
-    }
-
-    @Override
-    protected void onChildEnabledStatusChanged(UIElement changedChild) {
-        super.onEnabledStatusChanged();
-
-        refilterItems();
-    }
 
     //endregion Filter
 

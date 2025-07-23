@@ -1,10 +1,11 @@
 package dLib.util.events.localevents;
 
 import dLib.util.events.Event;
+import dLib.util.events.serializableevents.SerializableBiConsumer;
 
 import java.util.function.BiConsumer;
 
-public class BiConsumerEvent<Type1, Type2> extends Event<BiConsumer<Type1, Type2>> {
+public class BiConsumerEvent<Type1, Type2> extends Event<SerializableBiConsumer<Type1, Type2>> {
     public BiConsumerEvent() {
         super();
     }

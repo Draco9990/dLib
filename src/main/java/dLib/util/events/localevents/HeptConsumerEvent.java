@@ -2,8 +2,9 @@ package dLib.util.events.localevents;
 
 import dLib.util.consumers.HeptConsumer;
 import dLib.util.events.Event;
+import dLib.util.events.serializableevents.SerializableHeptConsumer;
 
-public class HeptConsumerEvent<Type1, Type2, Type3, Type4, Type5, Type6, Type7> extends Event<HeptConsumer<Type1, Type2, Type3, Type4, Type5, Type6, Type7>> {
+public class HeptConsumerEvent<Type1, Type2, Type3, Type4, Type5, Type6, Type7> extends Event<SerializableHeptConsumer<Type1, Type2, Type3, Type4, Type5, Type6, Type7>> {
     public HeptConsumerEvent() {
         super();
     }

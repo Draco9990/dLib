@@ -9,6 +9,7 @@ import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.ImageTextBox;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.util.ESelectionMode;
+import dLib.util.events.serializableevents.SerializableBiConsumer;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -158,7 +159,7 @@ public class PropertyEditor extends UIElement {
             propertyList.setSelectionMode(ESelectionMode.NONE);
             propertyList.disableToggleOverlay();
 
-            BiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).reloadProperties());
+            SerializableBiConsumer updateProperties = (__, ___) -> delayedActions.add(() -> (getParentOfType(PropertyEditor.class)).reloadProperties());
 
             propertyList.onItemAddedEvent.subscribe(this, property -> valueChangedEventId = property.onValueChangedEvent.subscribeManaged(updateProperties));
             propertyList.onItemRemovedEvent.subscribe(this, property -> property.onValueChangedEvent.unsubscribeManaged(valueChangedEventId));

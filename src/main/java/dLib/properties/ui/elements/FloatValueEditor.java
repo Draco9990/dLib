@@ -2,6 +2,7 @@ package dLib.properties.ui.elements;
 
 import dLib.modcompat.ModManager;
 import dLib.properties.objects.FloatProperty;
+import dLib.ui.Alignment;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.HorizontalBox;
@@ -43,6 +44,7 @@ public class FloatValueEditor extends AbstractValueEditor<FloatProperty> {
             inputbox.onValueChangedEvent.subscribeManaged(s -> boundProperty.setValueFromString(s));
             inputbox.setPreset(Inputfield.EInputfieldPreset.NUMERICAL_DECIMAL_POSITIVE);
             inputbox.disableControllerSelectionAndSayTheSpireIntegration();
+            inputbox.textBox.setHorizontalContentAlignment(Alignment.HorizontalAlignment.CENTER);
             hBox.addChild(inputbox);
 
             rightArrow = new Button(Dim.mirror(), Dim.fill());

@@ -2,6 +2,7 @@ package dLib.tools.uicreator.ui.elements;
 
 import dLib.tools.uicreator.UCEditor;
 import dLib.ui.elements.items.PropertyEditor;
+import dLib.util.events.serializableevents.SerializableBiConsumer;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.position.AbstractPosition;
 
@@ -34,7 +35,7 @@ public class UCEPropertyEditor extends PropertyEditor {
         public UCEPEPropertyGroup(String name, boolean shouldMultiline) {
             super(name, shouldMultiline);
 
-            BiConsumer refreshElement = (__, ___) -> {
+            SerializableBiConsumer refreshElement = (__, ___) -> {
                 if(getParentOfType(UCEPropertyEditor.class).itemBeingModifiedExternally){
                     return;
                 }

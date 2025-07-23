@@ -17,6 +17,7 @@ import dLib.util.Reflection;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
+import dLib.util.events.serializableevents.SerializableBiConsumer;
 import dLib.util.helpers.ColorHelpers;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.Dim;
@@ -332,7 +333,7 @@ public class ColorPickerPopup extends VerticalBox {
             });
             if(allowAlpha) addChild(alphaBar);
 
-            BiConsumer<Color, Boolean> updateValuesForColor = (color, isStatic) -> {
+            SerializableBiConsumer<Color, Boolean> updateValuesForColor = (color, isStatic) -> {
                 if(!(color instanceof MagicColor)){
                     if(!rValInput.boundProperty.getValue().equals((int)(color.r * 255))) rValInput.boundProperty.setValue((int)(color.r * 255));
                     if(!gValInput.boundProperty.getValue().equals((int)(color.g * 255))) gValInput.boundProperty.setValue((int)(color.g * 255));

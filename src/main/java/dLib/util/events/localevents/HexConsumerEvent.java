@@ -2,8 +2,9 @@ package dLib.util.events.localevents;
 
 import dLib.util.consumers.HexConsumer;
 import dLib.util.events.Event;
+import dLib.util.events.serializableevents.SerializableHexConsumer;
 
-public class HexConsumerEvent<Type1, Type2, Type3, Type4, Type5, Type6> extends Event<HexConsumer<Type1, Type2, Type3, Type4, Type5, Type6>> {
+public class HexConsumerEvent<Type1, Type2, Type3, Type4, Type5, Type6> extends Event<SerializableHexConsumer<Type1, Type2, Type3, Type4, Type5, Type6>> {
     public HexConsumerEvent() {
         super();
     }

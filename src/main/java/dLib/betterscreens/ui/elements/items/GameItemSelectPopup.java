@@ -36,7 +36,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
     private boolean ignoreUnlockStatus = true;
 
-    public ConsumerEvent<GameItemType> onItemsSelected = new ConsumerEvent<>();
+    public ConsumerEvent<ArrayList<GameItemType>> onItemsSelected = new ConsumerEvent<>();
 
     //endregion Variables
 
