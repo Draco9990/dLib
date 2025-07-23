@@ -19,9 +19,10 @@ public class AchievementManager {
         customAchievements.add(achievement);
     }
 
-    @SpirePatch2(clz = AchievementGrid.class, method = SpirePatch.CONSTRUCTOR)
+    @SpirePatch2(clz = StatsScreen.class, method = "open")
     public static class MainPatch{
         public static void Postfix(AchievementGrid __instance){
+            __instance.items.removeAll(customAchievements);
             __instance.items.addAll(customAchievements);
         }
     }
