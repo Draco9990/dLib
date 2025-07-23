@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic> {
     public RelicSelectPopup() {
-        super();
+        super("Relics");
 
         ArrayList<AbstractRelic> allRelics = new ArrayList<>();
         allRelics.addAll(RelicLibrary.starterList);

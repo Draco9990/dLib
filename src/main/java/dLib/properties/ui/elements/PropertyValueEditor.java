@@ -60,6 +60,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
     private void buildMultiline(){
         VerticalBox vBox = new VerticalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+        vBox.setPadding(Padd.px(5));
 
         if(boundProperty.getName() != null && !boundProperty.getName().isEmpty()){
             TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(50));
@@ -74,6 +75,7 @@ public class PropertyValueEditor<PropertyType extends TProperty> extends Abstrac
 
     private void buildSingleLine(){
         HorizontalBox hBox = new HorizontalBox(Pos.px(0), Pos.px(0), Dim.fill(), Dim.auto());
+        hBox.setPadding(Padd.px(5));
 
         if(boundProperty.getName() != null && !boundProperty.getName().isEmpty()){
             TextBox boundPropertyNameBox = new TextBox(boundProperty.getName() + ":", Pos.perc(0.5), Pos.px(0), Dim.perc(0.75), Dim.px(50));

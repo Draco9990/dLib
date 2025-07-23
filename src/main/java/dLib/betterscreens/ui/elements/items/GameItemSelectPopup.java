@@ -43,12 +43,13 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
     //region Constructors
 
-    public GameItemSelectPopup() {
+    public GameItemSelectPopup(String itemTypeName) {
         super();
 
         addChild(new DarkenLayer());
 
         itemListWindow = new ItemListWindow<>();
+        itemListWindow.itemBox.setSayTheSpireElementName(itemTypeName);
         addChild(itemListWindow);
 
         itemFiltersSidebar = new ItemFiltersSidebar(getItemRaritiesForFilter());

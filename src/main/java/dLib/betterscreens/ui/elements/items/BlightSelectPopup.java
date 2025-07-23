@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 public class BlightSelectPopup extends GameItemSelectPopup<AbstractBlight> {
     public BlightSelectPopup() {
-        super();
+        super("Blights");
 
         BlightHelper.initialize();
 

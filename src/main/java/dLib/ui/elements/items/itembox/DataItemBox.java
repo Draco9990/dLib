@@ -68,6 +68,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
 
     public DataItemBox(AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height){
         super(xPos, yPos, width, height);
+
+        setSayTheSpireElementType("Item List Box");
     }
 
     public DataItemBox(DataItemBoxData data){
@@ -77,6 +79,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         this.onItemSelectionChangedEvent.subscribeManaged(itemType -> data.onItemSelectionChanged.getValue().executeBinding(this, itemType));
 
         this.canReorder = data.canReorder;
+
+        setSayTheSpireElementType("Item List Box");
     }
 
     @Override
@@ -402,12 +406,11 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                 if(itemUI instanceof ITextProvider) line += ((ITextProvider) itemUI).getText();
                 else line += itemUI.toString();
 
-                line += " on position " + (filteredChildren.indexOf(holder) + 1) + " of " + children.size();
+                line += " entry " + (filteredChildren.indexOf(holder) + 1) + " of " + children.size();
 
                 return line;
             };
-            holder.setSayTheSpireElementName(Str.lambda(hoverSupplier));
-            holder.setSayTheSpireElementType("List Entry");
+            holder.setOnHoverLine(Str.lambda(hoverSupplier));
         }
 
         return holder;
