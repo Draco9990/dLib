@@ -3,7 +3,6 @@ package dLib.util;
 import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.Patcher;
-import dLib.DLib;
 import dLib.util.helpers.DebugHelpers;
 import javassist.*;
 import org.apache.commons.lang3.ClassUtils;
@@ -27,11 +26,11 @@ public class Reflection {
     //Returns value of a field from the object or its parent classes
     public static <T> T getFieldValue(String fieldName, Object source){
         if(fieldName == null){
-            DLib.logError("getFieldValue called with null fieldName. Stacktrace:");
+            DLibLogger.logError("getFieldValue called with null fieldName. Stacktrace:");
             DebugHelpers.printStacktrace(5);
         }
         if(source == null){
-            DLib.logError("getFieldValue called with null object source. Stacktrace:");
+            DLibLogger.logError("getFieldValue called with null object source. Stacktrace:");
             DebugHelpers.printStacktrace(5);
         }
 
@@ -39,14 +38,15 @@ public class Reflection {
             Field field = getFieldByName(fieldName, (source instanceof Class<?> ? (Class<?>) source : source.getClass()));
             return getFieldValue(field, source);
         } catch (Exception e) {
-            DLib.logError("Could not get field " + fieldName + " due to " + e.getLocalizedMessage());
+            String message = "Could not get field " + fieldName + " due to " + e.getLocalizedMessage();
+            DLibLogger.logError(message);
             e.printStackTrace();
             return null;
         }
     }
     public static <T> T getFieldValue(Field field, Object source){
         if(field == null){
-            DLib.logError("getFieldValue called with null field. Stacktrace:");
+            DLibLogger.logError("getFieldValue called with null field. Stacktrace:");
             DebugHelpers.printStacktrace(5);
         }
 
@@ -54,7 +54,8 @@ public class Reflection {
             field.setAccessible(true);
             return (T) field.get(source);
         } catch (Exception e) {
-            DLib.logError("Could not get field " + field.getName() + " due to " + e.getLocalizedMessage());
+            String message = "Could not get field " + field.getName() + " due to " + e.getLocalizedMessage();
+            DLibLogger.logError(message);
             e.printStackTrace();
             return null;
         }
@@ -95,11 +96,11 @@ public class Reflection {
     //Sets the value of a field in the object or its parent class
     public static void setFieldValue(String fieldName, Object source, Object value){
         if(fieldName == null){
-            DLib.logError("setFieldValue called with null fieldName. Stacktrace:");
+            DLibLogger.logError("setFieldValue called with null fieldName. Stacktrace:");
             DebugHelpers.printStacktrace(5);
         }
         if(source == null){
-            DLib.logError("setFieldValue called with null object source. Stacktrace:");
+            DLibLogger.logError("setFieldValue called with null object source. Stacktrace:");
             DebugHelpers.printStacktrace(5);
         }
 
@@ -108,13 +109,14 @@ public class Reflection {
             setFieldValue(field, source, value);
 
         } catch (Exception e) {
-            DLib.logError("Could not set field " + fieldName + " due to " + e.getLocalizedMessage());
+            String message = "Could not set field " + fieldName + " due to " + e.getLocalizedMessage();
+            DLibLogger.logError(message);
             e.printStackTrace();
         }
     }
     public static void setFieldValue(Field field, Object source, Object value){
         if(field == null){
-            DLib.logError("setFieldValue called with null field. Stacktrace:");
+            DLibLogger.logError("setFieldValue called with null field. Stacktrace:");
             DebugHelpers.printStacktrace(5);
             return;
         }
@@ -133,7 +135,8 @@ public class Reflection {
             field.set((source instanceof Class<?> ? null : source), value);
 
         } catch (Exception e) {
-            DLib.logError("Could not set field " + field.getName() + " due to " + e.getLocalizedMessage());
+            String message = "Could not set field " + field.getName() + " due to " + e.getLocalizedMessage();
+            DLibLogger.logError(message);
             e.printStackTrace();
         }
     }
@@ -223,11 +226,11 @@ public class Reflection {
 
     public static <T> T invokeMethod(String methodName, Object object, Object... params) {
         if(methodName == null){
-            DLib.logError("invokeMethod called with null methodName. Stacktrace:");
+            DLibLogger.logError("invokeMethod called with null methodName. Stacktrace:");
             DebugHelpers.printStacktrace(5);
         }
         if(methodName == null){
-            DLib.logError("invokeMethod called with null object. Stacktrace:");
+            DLibLogger.logError("invokeMethod called with null object. Stacktrace:");
             DebugHelpers.printStacktrace(5);
         }
 
@@ -248,7 +251,8 @@ public class Reflection {
             method.setAccessible(true);
             result = method.invoke(object, params);
         } catch (Exception e) {
-            DLib.logError("Could not invoke method of name " + methodName + " due to " + e.getMessage());
+            String message = "Could not invoke method of name " + methodName + " due to " + e.getMessage();
+            DLibLogger.logError(message);
             e.printStackTrace();
         }
 

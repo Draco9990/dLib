@@ -4,14 +4,13 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import dLib.DLib;
 import dLib.external.ExternalEditorCommunicationManager;
-import dLib.test.TestScreen;
+import dLib.debug.TestScreen;
 import dLib.tools.uicreator.UCEditor;
 import dLib.tools.uicreator.UCStartupPopup;
 import dLib.util.DLibConfigManager;
 import dLib.util.bindings.string.Str;
 
 import java.util.ArrayList;
-import java.util.function.Supplier;
 
 public class DeveloperModeManager {
     public static void init(){

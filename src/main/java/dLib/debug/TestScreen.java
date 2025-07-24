@@ -1,31 +1,13 @@
-package dLib.test;
+package dLib.debug;
 
-import com.megacrit.cardcrawl.helpers.CardLibrary;
-import com.megacrit.cardcrawl.helpers.RelicLibrary;
-import dLib.betterscreens.ui.elements.items.BlightSelectPopup;
 import dLib.betterscreens.ui.elements.items.PotionSelectPopup;
-import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
-import dLib.betterscreens.ui.elements.items.gameplayitems.CardSlot;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
-import dLib.ui.elements.items.Image;
-import dLib.ui.elements.items.VerticalCollapsableBox;
-import dLib.ui.elements.items.buttons.Checkbox;
 import dLib.ui.elements.items.input.Inputfield;
-import dLib.ui.elements.items.itembox.HorizontalBox;
-import dLib.ui.elements.items.itembox.VerticalBox;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
-import dLib.ui.elements.items.text.TextBox;
-import dLib.ui.resources.UICommonResources;
-import dLib.util.bindings.string.Str;
-import dLib.util.bindings.texture.Tex;
-import dLib.util.helpers.EnumHelpers;
 import dLib.util.ui.dimensions.Dim;
-import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
-
-import java.util.ArrayList;
 
 public class TestScreen extends UIElement {
 

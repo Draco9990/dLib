@@ -14,6 +14,7 @@ import dLib.commands.CommandManager;
 import dLib.custominput.CustomKeybindManager;
 import dLib.developermode.DeveloperModeManager;
 import dLib.external.ExternalEditorCommunicationManager;
+import dLib.gameplay.GameplayInformationTracker;
 import dLib.mainmenubuttons.MainMenuButtonManager;
 import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
@@ -57,6 +58,8 @@ public class DLib implements PostInitializeSubscriber{
 
     @Override
     public void receivePostInitialize() {
+        GameplayInformationTracker.init();
+
         GeneratedUIManager.initialize();
 
         SteamHelpers.init();
@@ -74,14 +77,6 @@ public class DLib implements PostInitializeSubscriber{
         CustomKeybindManager.registerCommonEvents();
 
         DeveloperModeManager.init();
-    }
-
-    public static void logError(String message){
-        logger.error(message);
-    }
-
-    public static void log(String message){
-        logger.info(message);
     }
 
     public static void registerCustomKeybind(String actionId, Function<String, String> getLocalizedDisplayName, InputAction inputAction, CInputAction cInputAction){
