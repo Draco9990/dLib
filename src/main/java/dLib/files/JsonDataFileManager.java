@@ -78,7 +78,11 @@ public class JsonDataFileManager {
 
         JsonStorageFileRules<T> rules = fileRules.get(file.getClass());
 
-        String fileName = rules.fileName + ".json";
+        String fileName = rules.fileName;
+        if(rules.perSave){
+            fileName += "_" + CardCrawlGame.saveSlot;
+        }
+        fileName += rules.extension;
 
         return loadForFile(file, rules, fileName);
     }
@@ -93,7 +97,7 @@ public class JsonDataFileManager {
         if(rules.perSave){
             fileName += "_" + saveSlot;
         }
-        fileName += ".json";
+        fileName += rules.extension;
 
         return loadForFile(file, rules, fileName);
     }
