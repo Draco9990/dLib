@@ -21,9 +21,9 @@ public class AchievementManager {
 
     @SpirePatch2(clz = StatsScreen.class, method = "open")
     public static class MainPatch{
-        public static void Postfix(AchievementGrid __instance){
-            __instance.items.removeAll(customAchievements);
-            __instance.items.addAll(customAchievements);
+        public static void Postfix(StatsScreen __instance){
+            StatsScreen.achievements.items.removeAll(customAchievements);
+            StatsScreen.achievements.items.addAll(customAchievements);
         }
     }
 

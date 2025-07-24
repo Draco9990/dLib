@@ -1,7 +1,9 @@
 package dLib.achievements;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.megacrit.cardcrawl.screens.stats.AchievementItem;
+import dLib.util.AssetLoader;
 import dLib.util.Reflection;
 
 public class CustomAchievement extends AchievementItem {
@@ -13,9 +15,9 @@ public class CustomAchievement extends AchievementItem {
         super(name, description, null, key, hidden);
 
         if(isUnlocked){
-            Reflection.setFieldValue("img", this, unlockedImg);
+            Reflection.setFieldValue("img", this, AssetLoader.makeAtlasRegion(unlockedImg));
         } else {
-            Reflection.setFieldValue("img", this, lockedImg);
+            Reflection.setFieldValue("img", this, AssetLoader.makeAtlasRegion(lockedImg));
         }
     }
 }

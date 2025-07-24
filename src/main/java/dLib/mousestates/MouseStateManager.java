@@ -2,58 +2,91 @@ package dLib.mousestates;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import dLib.properties.objects.templates.TProperty;
+import dLib.util.HistoryProperty;
 
 public class MouseStateManager {
     //region Variables
 
-    private static AbstractMouseState currentState;
+    private static HistoryProperty<AbstractMouseState> currentState = new HistoryProperty<>(null);
 
     //endregion
 
     //region Methods
 
     public static boolean enterMouseState(AbstractMouseState requestedState) {
-        if(currentState != null) {
-            return false;
+        if(getCurrentState() != null) {
+            exitMouseState_Internal(false);
         }
 
-        requestedState.preStateEnterEvent.invoke();
-        AbstractMouseState.preStateEnterGlobalEvent.invoke(requestedState);
-
-        currentState = requestedState;
-        currentState.onStateEnter();
-
-        currentState.postStateEnterEvent.invoke();
-        AbstractMouseState.postStateEnterGlobalEvent.invoke(currentState);
+        enterMouseState_Internal(requestedState);
 
         return true;
     }
 
     public static boolean exitMouseState() {
-        if(currentState == null) {
+        if(currentState.get() == null) {
             return false;
         }
 
-        currentState.preStateExitEvent.invoke();
-        AbstractMouseState.preStateExitGlobalEvent.invoke(currentState);
-
-        currentState.onStateExit();
-
-        currentState.postStateExitEvent.invoke();
-        AbstractMouseState.postStateExitGlobalEvent.invoke(currentState);
-
-        currentState.dispose();
-        currentState = null;
+        AbstractMouseState reverted = exitMouseState_Internal(true);
+        reverted.dispose();
 
         return true;
     }
 
+    public static void insertQueuedMouseState(AbstractMouseState requestedState) {
+        if(currentState.get() == null){
+            return;
+        }
+
+        currentState.insertBeforeTop(requestedState);
+    }
+
+    public static void removeFromQueuedMouseStates(Class<? extends AbstractMouseState> state) {
+        if(currentState.get() == null){
+            return;
+        }
+
+        currentState.removeAnyClassInstance(state);
+    }
+
+    private static AbstractMouseState exitMouseState_Internal(boolean revert){
+        currentState.get().preStateExitEvent.invoke();
+        AbstractMouseState.preStateExitGlobalEvent.invoke(currentState.get());
+
+        currentState.get().onStateExit();
+        AbstractMouseState exited;
+        if(revert) {
+            exited = currentState.revert();
+        }
+        else{
+            exited = currentState.get();
+        }
+
+        exited.postStateExitEvent.invoke();
+        AbstractMouseState.postStateExitGlobalEvent.invoke(exited);
+
+        return exited;
+    }
+
+    private static void enterMouseState_Internal(AbstractMouseState state){
+        state.preStateEnterEvent.invoke();
+        AbstractMouseState.preStateEnterGlobalEvent.invoke(state);
+
+        currentState.set(state);
+        state.onStateEnter();
+
+        state.postStateEnterEvent.invoke();
+        AbstractMouseState.postStateEnterGlobalEvent.invoke(state);
+    }
+
     public static boolean isInExternalState() {
-        return currentState != null;
+        return getCurrentState() != null;
     }
 
     public static AbstractMouseState getCurrentState() {
-        return currentState;
+        return currentState.get();
     }
 
     //endregion
@@ -63,8 +96,8 @@ public class MouseStateManager {
     @SpirePatch2(clz = InputHelper.class, method = "updateFirst")
     public static class MouseStateUpdater {
         public static void Postfix() {
-            if(currentState != null) {
-                currentState.update();
+            if(getCurrentState() != null) {
+                getCurrentState().update();
             }
         }
     }
