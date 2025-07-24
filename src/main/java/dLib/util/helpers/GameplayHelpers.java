@@ -44,7 +44,7 @@ public class GameplayHelpers {
 
     //region Reset
 
-    @SpirePatch2(clz = CardCrawlGame.class, method = "reset")
+    @SpirePatch2(clz = AbstractDungeon.class, method = "reset")
     private static class ResetPatch {
         @SpirePostfixPatch
         public static void Postfix(){
@@ -57,7 +57,7 @@ public class GameplayHelpers {
 
     //region Dungeon Tracking
 
-    @SpirePatch2(clz = AbstractDungeon.class, method = "getDungeon", paramtypez = { String.class, AbstractPlayer.class })
+    @SpirePatch2(clz = CardCrawlGame.class, method = "getDungeon", paramtypez = { String.class, AbstractPlayer.class })
     private static class NewDungeonEntry1Patch {
         private static AbstractDungeon prevDungeon;
 
@@ -74,7 +74,7 @@ public class GameplayHelpers {
         }
     }
 
-    @SpirePatch2(clz = AbstractDungeon.class, method = "getDungeon", paramtypez = { String.class, AbstractPlayer.class, SaveFile.class })
+    @SpirePatch2(clz = CardCrawlGame.class, method = "getDungeon", paramtypez = { String.class, AbstractPlayer.class, SaveFile.class })
     private static class NewDungeonEntry2Patch {
         private static AbstractDungeon prevDungeon;
 
