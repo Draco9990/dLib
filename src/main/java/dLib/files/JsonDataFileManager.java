@@ -41,7 +41,7 @@ public class JsonDataFileManager {
         if(rules.perSave){
             fileName += "_" + CardCrawlGame.saveSlot;
         }
-        fileName += ".json";
+        fileName += rules.extension;
 
         if(rules.saveLocal){
             String stsDir = Gdx.files.local("").file().getAbsolutePath() + rules.localRelativeDirPath + "/";
@@ -76,7 +76,7 @@ public class JsonDataFileManager {
             throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
         }
 
-        JsonStorageFileRules rules = fileRules.get(file.getClass());
+        JsonStorageFileRules<T> rules = fileRules.get(file.getClass());
 
         String fileName = rules.fileName + ".json";
 
@@ -87,7 +87,7 @@ public class JsonDataFileManager {
             throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
         }
 
-        JsonStorageFileRules rules = fileRules.get(file.getClass());
+        JsonStorageFileRules<T> rules = fileRules.get(file.getClass());
 
         String fileName = rules.fileName;
         if(rules.perSave){
@@ -97,7 +97,7 @@ public class JsonDataFileManager {
 
         return loadForFile(file, rules, fileName);
     }
-    private static <T extends JsonDataFile> T loadForFile(Class<T> file, JsonStorageFileRules rules, String fileName){
+    private static <T extends JsonDataFile> T loadForFile(Class<T> file, JsonStorageFileRules<T> rules, String fileName){
         String jsonData = null;
         if(rules.saveSteamCloud && SteamHelpers.isSteamAvailable()){
             SteamRemoteStorage remoteStorage = SteamHelpers.remoteStorage;
@@ -125,8 +125,9 @@ public class JsonDataFileManager {
                 e.printStackTrace();
             }
         }
+
         if(jsonData == null){
-            return null;
+            return rules.makeNew.get();
         }
 
         if(rules.encryptionKey != null){
@@ -143,7 +144,7 @@ public class JsonDataFileManager {
 
         JsonStorageFileRules rules = fileRules.get(file.getClass());
 
-        String fileName = rules.fileName + ".json";
+        String fileName = rules.fileName + rules.extension;
 
         deleteForFile(file, rules, fileName);
     }
@@ -158,7 +159,7 @@ public class JsonDataFileManager {
         if(rules.perSave){
             fileName += "_" + saveSlot;
         }
-        fileName += ".json";
+        fileName += rules.extension;
 
         deleteForFile(file, rules, fileName);
     }
