@@ -39,7 +39,7 @@ public class JsonDataFileManager {
 
         String fileName = rules.fileName;
         if(rules.perSave){
-            fileName += "_" + CardCrawlGame.saveSlot;
+            fileName += CardCrawlGame.saveSlot;
         }
         fileName += rules.extension;
 
@@ -72,7 +72,7 @@ public class JsonDataFileManager {
     }
 
     public static <T extends JsonDataFile> T load(Class<T> file){
-        if(!fileRules.containsKey(file.getClass())) {
+        if(!fileRules.containsKey(file)) {
             throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
         }
 
@@ -80,14 +80,14 @@ public class JsonDataFileManager {
 
         String fileName = rules.fileName;
         if(rules.perSave){
-            fileName += "_" + CardCrawlGame.saveSlot;
+            fileName += CardCrawlGame.saveSlot;
         }
         fileName += rules.extension;
 
         return loadForFile(file, rules, fileName);
     }
     public static <T extends JsonDataFile> T load(Class<T> file, int saveSlot){
-        if(!fileRules.containsKey(file.getClass())) {
+        if(!fileRules.containsKey(file)) {
             throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
         }
 
@@ -95,7 +95,7 @@ public class JsonDataFileManager {
 
         String fileName = rules.fileName;
         if(rules.perSave){
-            fileName += "_" + saveSlot;
+            fileName += saveSlot;
         }
         fileName += rules.extension;
 
@@ -142,7 +142,7 @@ public class JsonDataFileManager {
     }
 
     public static void delete(Class<? extends JsonDataFile> file){
-        if(!fileRules.containsKey(file.getClass())) {
+        if(!fileRules.containsKey(file)) {
             throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
         }
 
@@ -153,7 +153,7 @@ public class JsonDataFileManager {
         deleteForFile(file, rules, fileName);
     }
     public static void delete(Class<? extends JsonDataFile> file, int saveSlot){
-        if(!fileRules.containsKey(file.getClass())) {
+        if(!fileRules.containsKey(file)) {
             throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
         }
 
@@ -161,7 +161,7 @@ public class JsonDataFileManager {
 
         String fileName = rules.fileName;
         if(rules.perSave){
-            fileName += "_" + saveSlot;
+            fileName += saveSlot;
         }
         fileName += rules.extension;
 
