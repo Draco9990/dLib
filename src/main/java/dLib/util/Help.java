@@ -1,6 +1,5 @@
 package dLib.util;
 
-import com.google.gson.Gson;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 
@@ -10,16 +9,6 @@ import java.awt.datatransfer.StringSelection;
 import java.util.Locale;
 
 public class Help {
-    public static class Json{
-        public static String toJson(Object object){
-            return new Gson().toJson(object);
-        }
-
-        public static Object fromJson(String object, Class<?> objectClass){
-            return new Gson().fromJson(object, objectClass);
-        }
-    }
-
     public static class Input{
         public static boolean isPressed(CInputAction c, InputAction i){
             return isPressed(c) || isPressed(i);
