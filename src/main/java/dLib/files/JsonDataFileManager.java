@@ -44,7 +44,7 @@ public class JsonDataFileManager {
         fileName += rules.extension;
 
         if(rules.saveLocal){
-            String stsDir = Gdx.files.local("").file().getAbsolutePath() + rules.localRelativeDirPath + "/";
+            String stsDir = Gdx.files.local("").file().getAbsolutePath() + "/" + rules.localRelativeDirPath + "/";
             try{
                 Path pathToFile = Paths.get(stsDir + fileName);
                 Files.createDirectories(pathToFile.getParent());
@@ -117,7 +117,7 @@ public class JsonDataFileManager {
             }
         }
         if(jsonData == null && rules.saveLocal){
-            String stsDir = Gdx.files.local("").file().getAbsolutePath() + rules.localRelativeDirPath + "/";
+            String stsDir = Gdx.files.local("").file().getAbsolutePath() + "/" + rules.localRelativeDirPath + "/";
             try{
                 Path pathToFile = Paths.get(stsDir + fileName);
                 Files.createDirectories(pathToFile.getParent());
@@ -180,7 +180,7 @@ public class JsonDataFileManager {
             }
         }
         if(rules.saveLocal){
-            String stsDir = Gdx.files.local("").file().getAbsolutePath() + rules.localRelativeDirPath + "/";
+            String stsDir = Gdx.files.local("").file().getAbsolutePath() + "/" + rules.localRelativeDirPath + "/";
             try{
                 if(Files.exists(Paths.get(stsDir + fileName))){
                     Files.delete(Paths.get(stsDir + fileName));
