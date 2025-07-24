@@ -73,10 +73,10 @@ public class JsonDataFileManager {
 
     public static <T extends JsonDataFile> T load(Class<T> file){
         if(!fileRules.containsKey(file)) {
-            throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
+            throw new IllegalArgumentException("No rules registered for " + file.getName());
         }
 
-        JsonStorageFileRules<T> rules = fileRules.get(file.getClass());
+        JsonStorageFileRules<T> rules = fileRules.get(file);
 
         String fileName = rules.fileName;
         if(rules.perSave){
@@ -88,10 +88,10 @@ public class JsonDataFileManager {
     }
     public static <T extends JsonDataFile> T load(Class<T> file, int saveSlot){
         if(!fileRules.containsKey(file)) {
-            throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
+            throw new IllegalArgumentException("No rules registered for " + file.getName());
         }
 
-        JsonStorageFileRules<T> rules = fileRules.get(file.getClass());
+        JsonStorageFileRules<T> rules = fileRules.get(file);
 
         String fileName = rules.fileName;
         if(rules.perSave){
@@ -143,10 +143,10 @@ public class JsonDataFileManager {
 
     public static void delete(Class<? extends JsonDataFile> file){
         if(!fileRules.containsKey(file)) {
-            throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
+            throw new IllegalArgumentException("No rules registered for " + file.getName());
         }
 
-        JsonStorageFileRules rules = fileRules.get(file.getClass());
+        JsonStorageFileRules rules = fileRules.get(file);
 
         String fileName = rules.fileName + rules.extension;
 
@@ -154,10 +154,10 @@ public class JsonDataFileManager {
     }
     public static void delete(Class<? extends JsonDataFile> file, int saveSlot){
         if(!fileRules.containsKey(file)) {
-            throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
+            throw new IllegalArgumentException("No rules registered for " + file.getName());
         }
 
-        JsonStorageFileRules rules = fileRules.get(file.getClass());
+        JsonStorageFileRules rules = fileRules.get(file);
 
         String fileName = rules.fileName;
         if(rules.perSave){
