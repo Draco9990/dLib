@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.neow.NeowRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
 import dLib.gameplay.GameplayInformationTracker;
@@ -16,6 +17,8 @@ import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.localevents.RunnableEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
 
+import java.util.Objects;
+
 public class GameplayHelpers {
     public static RunnableEvent postGameResetGlobalEvent = new RunnableEvent();
 
@@ -23,6 +26,7 @@ public class GameplayHelpers {
     public static TriConsumerEvent<AbstractDungeon, AbstractDungeon, SaveFile> postDungeonEntryGlobalEvent = new TriConsumerEvent<>();
 
     public static ConsumerEvent<MapRoomNode> postRoomChangeGlobalEvent = new ConsumerEvent<>();
+    public static BiConsumerEvent<MapRoomNode, SaveFile> postRoomInitializeGlobalEvent = new BiConsumerEvent<>();
 
     public static boolean isInARun(){
         return CardCrawlGame.dungeon != null && AbstractDungeon.player != null;
@@ -97,6 +101,14 @@ public class GameplayHelpers {
                 GameplayInformationTracker.increaseRoomPhase();
             }
             postRoomChangeGlobalEvent.invoke(currMapNode);
+        }
+    }
+
+    @SpirePatch2(clz = AbstractDungeon.class, method = "nextRoomTransition", paramtypez = {com.megacrit.cardcrawl.saveAndContinue.SaveFile.class})
+    public static class PostRoomGenerationPatch{
+        @SpirePostfixPatch
+        public static void Postfix(SaveFile saveFile){
+            postRoomInitializeGlobalEvent.invoke(AbstractDungeon.currMapNode, saveFile);
         }
     }
 
