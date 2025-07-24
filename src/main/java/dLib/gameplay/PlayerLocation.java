@@ -23,7 +23,7 @@ public class PlayerLocation implements Serializable {
     public int x;
     public int y;
 
-    public int action;
+    public int phase;
 
     public String roomType;
 
@@ -35,12 +35,12 @@ public class PlayerLocation implements Serializable {
         this(infinityCounter, act, roomNode.x, roomNode.y, 0, roomNode.room.getClass().getSimpleName());
     }
 
-    private PlayerLocation(int infinityCounter, String act, int x, int y, int action, String roomType){
+    private PlayerLocation(int infinityCounter, String act, int x, int y, int phase, String roomType){
         this.infinityCounter = infinityCounter;
         this.act = act;
         this.x = x;
         this.y = y;
-        this.action = action;
+        this.phase = phase;
         this.roomType = roomType;
     }
 
@@ -63,7 +63,14 @@ public class PlayerLocation implements Serializable {
             return null;
         }
 
-        return getForRoomOnCurrentFloor(currMapNode);
+        return new PlayerLocation(
+                GameplayInformationTracker.getInfinityCycle(),
+                GameplayHelpers.getCurrentActName(),
+                currMapNode.x,
+                currMapNode.y,
+                GameplayInformationTracker.getRoomPhase(),
+                currMapNode.room.getClass().getSimpleName()
+        );
     }
 
     public static PlayerLocation getForRoomOnCurrentFloor(MapRoomNode roomNode){
@@ -110,7 +117,7 @@ public class PlayerLocation implements Serializable {
     }
     public boolean inSameRoomAndActionAs(PlayerLocation location){
         return inSameRoomAs(location) &&
-                action == location.action;
+                phase == location.phase;
     }
 
     public boolean inSameAct(){
@@ -124,7 +131,7 @@ public class PlayerLocation implements Serializable {
 
     @Override
     public String toString() {
-        return infinityCounter + "[" + act + ":" + action + "[" + x + ", " + y + "], " + roomType + "]";
+        return infinityCounter + "[" + act + ":" + phase + "[" + x + ", " + y + "], " + roomType + "]";
     }
 
     @Override

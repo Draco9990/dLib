@@ -54,6 +54,14 @@
             <systemPath>${WorkshopContent.path}/2239220106/sayTheSpire.jar</systemPath>
             <!--<systemPath>${basedir}/../lib/StSLib.jar</systemPath>-->
         </dependency>
+
+        <dependency>
+            <groupId>downfall</groupId>
+            <artifactId>Downfall</artifactId>
+            <version>0.0.1</version>
+            <scope>system</scope>
+            <systemPath>${WorkshopContent.path}/1610056683/downfall.jar</systemPath>
+        </dependency>
     </dependencies>
 
 
