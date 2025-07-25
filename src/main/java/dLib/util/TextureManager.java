@@ -12,6 +12,26 @@ import java.util.Map;
 public class TextureManager {
     private static Map<String, Texture> textures;
 
+    public static Texture getTextureNoLoad(String textureLocation) {
+        if(textureLocation == null) return null;
+        if(textures == null) textures = new HashMap<>();
+
+        Texture t = textures.get(textureLocation);
+        if(t != null) {
+            if((int)(Reflection.getFieldValue("glHandle", t)) != 0) {
+                return t;
+            }
+        }
+
+        return null;
+    }
+    public static void saveTexture(String textureLocation, Texture texture) {
+        if(textureLocation == null || texture == null) return;
+        if(textures == null) textures = new HashMap<>();
+
+        textures.put(textureLocation, texture);
+    }
+
     public static Texture getTexture(String textureLocation) {
         if(textureLocation == null) return null;
         if(textures == null) textures = new HashMap<>();

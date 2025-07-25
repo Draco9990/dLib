@@ -29,12 +29,4 @@ public class Help {
             return res;
         }
     }
-
-    public static class Util{
-        public static void copyToClipboard(String s) {
-            StringSelection selection = new StringSelection(s);
-            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(selection, selection);
-        }
-    }
 }
