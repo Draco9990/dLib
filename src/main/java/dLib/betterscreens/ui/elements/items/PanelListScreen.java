@@ -1,5 +1,7 @@
 package dLib.betterscreens.ui.elements.items;
 
+import com.badlogic.gdx.graphics.Color;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
@@ -13,6 +15,7 @@ import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
+import dLib.util.ui.position.Pos;
 
 public class PanelListScreen extends UIElement {
     public HorizontalBox panelBox;
@@ -24,7 +27,7 @@ public class PanelListScreen extends UIElement {
         cancelButton.postLeftClickEvent.subscribe(cancelButton, this::dispose);
         addChild(cancelButton);
 
-        Scrollbox pScrollbar = new Scrollbox(Dim.fill(), Dim.fill());
+        Scrollbox pScrollbar = new Scrollbox(Pos.px(250), Pos.px(140), Dim.px(1414), Dim.px(852));
         pScrollbar.setIsVertical(false);
         {
             panelBox = new HorizontalBox(Dim.fill(), Dim.fill());
@@ -40,18 +43,22 @@ public class PanelListScreen extends UIElement {
         }
 
         public Panel(AbstractStringBinding titleBinding, AbstractTextureBinding textureBinding, AbstractStringBinding description, Runnable onClick){
-            super(Dim.fill(), Dim.fill());
+            super(Dim.px(512), Dim.px(800));
 
-            TextBox header = new TextBox(titleBinding.getBoundObject(), Dim.fill(), Dim.auto());
+            setTexture(Tex.stat(ImageMaster.MENU_PANEL_BG_GRAY));
+
+            TextBox header = new TextBox(titleBinding.getBoundObject(), Pos.px(95), Pos.px(654), Dim.px(321), Dim.px(83));
+            header.setTextRenderColor(Color.GOLD);
             header.setFontSize(24f);
             header.setWrap(true);
             addChild(header);
 
-            Image image = new Image(textureBinding, Dim.fill(), Dim.fill());
+            Image image = new Image(textureBinding, Pos.px(96), Pos.px(438), Dim.px(320), Dim.px(208));
             addChild(image);
 
-            TextBox descriptionBox = new TextBox(description.getBoundObject(), Dim.fill(), Dim.auto());
+            TextBox descriptionBox = new TextBox(description.getBoundObject(), Pos.px(96), Pos.px(100), Dim.px(320), Dim.px(330));
             descriptionBox.setWrap(true);
+            descriptionBox.setFontSize(18f);
             addChild(descriptionBox);
 
             if(onClick != null){

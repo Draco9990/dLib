@@ -94,7 +94,7 @@ public class DLib implements PostInitializeSubscriber{
         Patchnotes.PatchnotesEntry testEntry2 = new Patchnotes.PatchnotesEntry(Str.stat("Test entry 2"), Str.stat("AAAAAAA\nBBBBBB"));
         test.entries.add(testEntry2);
 
-        PatchnotesManager.registerCustomPatchnotes("dLib", () -> new PanelListScreen.Panel(Str.stat("DLib Test"), Tex.stat(UICommonResources.transparent_pixel), Str.stat("")), test);
+        PatchnotesManager.registerCustomPatchnotes("dLib", () -> new PanelListScreen.Panel(Str.stat("DLib Test"), Tex.stat(UICommonResources.transparent_pixel), Str.stat("This is a description!!!")), test);
     }
 
     public static void registerCustomKeybind(String actionId, Function<String, String> getLocalizedDisplayName, InputAction inputAction, CInputAction cInputAction){
