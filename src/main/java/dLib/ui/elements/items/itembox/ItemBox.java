@@ -213,7 +213,7 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
             float childWidth = child.getPaddingLeft() + child.getWidth() + child.getPaddingRight();
             float childHeight = child.getPaddingTop() + child.getHeight() + child.getPaddingBottom();
 
-            if(!currentLayer.isEmpty() && (totalLayerHeight + childWidth > containerHeight || !isGridMode()) || child instanceof TokenizedDescriptionBox.NLBreak){
+            if(!currentLayer.isEmpty() && (totalLayerHeight + childHeight > containerHeight || !isGridMode()) || child instanceof TokenizedDescriptionBox.NLBreak){
                 layers.add(new Pair<>(currentLayer, new Pair<>(totalLayerHeight, widestLayerWidth)));
 
                 currentLayer = new ArrayList<>();
@@ -258,16 +258,16 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
             float yOffset = 0;
             if(getVerticalContentAlignment() == Alignment.VerticalAlignment.CENTER) yOffset = (float) ((containerHeight - layerHeight) * 0.5);
-            else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.TOP) yOffset = (float) (containerHeight - layerHeight);
+            else if(getVerticalContentAlignment() == Alignment.VerticalAlignment.BOTTOM) yOffset = (float) (containerHeight - layerHeight);
 
-            float currentYPos = yOffset - getContentPaddingTop();
+            float currentYPos = containerHeight - yOffset - getContentPaddingTop();
 
             for (UIElement child : layer.getKey()){
                 child.getLocalPositionXRaw().overrideCalculatedValue(currentXPos + child.getPaddingLeft());
 
                 currentYPos -= child.getPaddingTop();
+                currentYPos -= child.getHeight();
                 child.getLocalPositionYRaw().overrideCalculatedValue(currentYPos);
-                currentYPos -= child.getWidth();
                 currentYPos -= child.getPaddingBottom();
                 currentYPos -= getVerticalItemSpacing();
             }

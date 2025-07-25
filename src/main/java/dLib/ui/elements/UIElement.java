@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
@@ -58,6 +59,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 //TODO add byproxy to all calls
@@ -213,7 +215,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private transient boolean updating = false;
     private transient boolean rendering = false;
 
-    private LinkedHashMap<UUID, ContextMenu.IContextMenuOption> contextMenuOptions = new LinkedHashMap<>();
+    private LinkedHashMap<UUID, Pair<Supplier<Boolean>, ContextMenu.IContextMenuOption>> contextMenuOptions = new LinkedHashMap<>();
 
     private UIElement tooltipObject = null;
 
@@ -391,9 +393,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 Vector2 mousePos = UIHelpers.getMouseWorldPosition();
 
                 ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
-                for(Map.Entry<UUID, ContextMenu.IContextMenuOption> entry : contextMenuOptions.entrySet()){
-                    contextMenu.addChild(entry.getValue());
-                }
+                contextMenuOptions.forEach((id, pair) -> {
+                    if(pair.getKey().get()){
+                        contextMenu.addChild(pair.getValue());
+                    }
+                });
                 contextMenu.open();
             });
 
@@ -878,7 +882,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             onChildrenChanged();
         }
     }
-    public void setChildren(ArrayList<UIElement> children){
+    public void setChildren(ArrayList<? extends UIElement> children){
         clearChildren();
         for(UIElement child : children){
             addChild(child);
@@ -2772,9 +2776,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Context Menu Options
 
-    public UUID addContextMenuOption(ContextMenu.IContextMenuOption action){
+    public UUID addContextMenuOption(ContextMenu.IContextMenuOption action, Supplier<Boolean> isVisibleSupplier){
         UUID id = UUID.randomUUID();
-        contextMenuOptions.put(id, action);
+        contextMenuOptions.put(id, new Pair<>(isVisibleSupplier, action));
         return id;
     }
 

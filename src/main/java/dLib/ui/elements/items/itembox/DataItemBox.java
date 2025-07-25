@@ -131,7 +131,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         }
     }
     @Override
-    public void setChildren(ArrayList<UIElement> children) {
+    public void setChildren(ArrayList<? extends UIElement> children) {
         throw new UnsupportedOperationException("Use setChildren(List<ItemType> items) instead.");
     }
 

@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import com.megacrit.cardcrawl.screens.stats.AchievementItem;
 import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
 import dLib.achievements.AchievementManager;
+import dLib.betterscreens.ui.elements.items.PanelListScreen;
 import dLib.campfireoptions.CampfireOptionManager;
 import dLib.commands.CommandManager;
 import dLib.custominput.CustomKeybindManager;
@@ -16,10 +17,16 @@ import dLib.developermode.DeveloperModeManager;
 import dLib.external.ExternalEditorCommunicationManager;
 import dLib.gameplay.GameplayInformationTracker;
 import dLib.mainmenubuttons.MainMenuButtonManager;
+import dLib.patchnotes.Patchnotes;
+import dLib.patchnotes.PatchnotesManager;
+import dLib.patchnotes.PatchnotesPatches;
 import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.GeneratedUIManager;
+import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.string.AbstractStringBinding;
+import dLib.util.bindings.string.Str;
+import dLib.util.bindings.texture.Tex;
 import dLib.util.helpers.FontHelpers;
 import dLib.util.helpers.SteamHelpers;
 import org.apache.logging.log4j.LogManager;
@@ -77,6 +84,17 @@ public class DLib implements PostInitializeSubscriber{
         CustomKeybindManager.registerCommonEvents();
 
         DeveloperModeManager.init();
+
+        PatchnotesPatches.init();
+
+        Patchnotes test = new Patchnotes();
+
+        Patchnotes.PatchnotesEntry testEntry = new Patchnotes.PatchnotesEntry(Str.stat("Test entry 1"), Str.stat("AAAAAAA\nBBBBBB"));
+        test.entries.add(testEntry);
+        Patchnotes.PatchnotesEntry testEntry2 = new Patchnotes.PatchnotesEntry(Str.stat("Test entry 2"), Str.stat("AAAAAAA\nBBBBBB"));
+        test.entries.add(testEntry2);
+
+        PatchnotesManager.registerCustomPatchnotes("dLib", () -> new PanelListScreen.Panel(Str.stat("DLib Test"), Tex.stat(UICommonResources.transparent_pixel), Str.stat("")), test);
     }
 
     public static void registerCustomKeybind(String actionId, Function<String, String> getLocalizedDisplayName, InputAction inputAction, CInputAction cInputAction){
@@ -128,4 +146,12 @@ public class DLib implements PostInitializeSubscriber{
     }
 
     //endregion Achievements
+
+    //region Patchnotes
+
+    public static void registerCustomPatchnotes(String modDisplayName, Supplier<PanelListScreen.Panel> panel, Patchnotes patchnotes) {
+        PatchnotesManager.registerCustomPatchnotes(modDisplayName, panel, patchnotes);
+    }
+
+    //endregion Patchnotes
 }
