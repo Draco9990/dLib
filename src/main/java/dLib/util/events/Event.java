@@ -2,6 +2,9 @@ package dLib.util.events;
 
 import com.badlogic.gdx.utils.Disposable;
 
+import java.io.InvalidObjectException;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -9,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Event<EventType> {
+public class Event<EventType> implements Serializable {
     public static ArrayList<Event<?>> allRegisteredEvents = new ArrayList<>();
 
     protected ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
@@ -85,5 +88,11 @@ public class Event<EventType> {
 
     public boolean hasBinding(Object owner) {
         return boundsObjects.containsKey(owner);
+    }
+
+    private Object readResolve() throws ObjectStreamException {
+        allRegisteredEvents.add(this);
+
+        return this;
     }
 }
