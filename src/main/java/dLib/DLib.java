@@ -149,8 +149,8 @@ public class DLib implements PostInitializeSubscriber{
 
     //region Patchnotes
 
-    public static void registerCustomPatchnotes(String modDisplayName, Supplier<PanelListScreen.Panel> panel, Patchnotes patchnotes) {
-        PatchnotesManager.registerCustomPatchnotes(modDisplayName, panel, patchnotes);
+    public static void registerCustomPatchnotes(String modId, Supplier<PanelListScreen.Panel> panel, Patchnotes patchnotes) {
+        PatchnotesManager.registerCustomPatchnotes(modId, panel, patchnotes);
     }
 
     //endregion Patchnotes

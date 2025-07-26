@@ -66,9 +66,10 @@ public class PanelListScreen extends GenericPopupHolder {
             descriptionBox.setFontSize(18f);
             addChild(descriptionBox);
 
-            if(onClick != null){
-                postLeftClickEvent.subscribe(this, onClick::run);
-            }
+            postLeftClickEvent.subscribe(this, () -> {
+                getTopParent().dispose();
+                if(onClick != null) onClick.run();
+            });
         }
     }
 }
