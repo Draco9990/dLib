@@ -11,7 +11,7 @@ import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class SimpleTextPopup extends GenericPopupHolder {
+public class SimpleTextPopup extends GenericScreenHolder {
     public SimpleTextPopup(String text) {
         super();
 

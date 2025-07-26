@@ -9,7 +9,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Renderable;
 import dLib.ui.elements.items.buttons.CancelButtonSmall;
 import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
-import dLib.ui.elements.items.popup.GenericPopupHolder;
+import dLib.ui.elements.items.popup.GenericScreenHolder;
 import dLib.ui.elements.items.text.TextBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
@@ -20,7 +20,7 @@ import dLib.util.events.localevents.RunnableEvent;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class GenericIntInputWindow extends GenericPopupHolder {
+public class GenericIntInputWindow extends GenericScreenHolder {
     public InternalInputWindow popup;
 
     public IntegerProperty property = new IntegerProperty(0);

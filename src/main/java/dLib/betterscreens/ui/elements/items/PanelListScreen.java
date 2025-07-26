@@ -5,22 +5,20 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import dLib.ui.Alignment;
 import dLib.ui.animations.entry.UIAnimation_SlideInUp;
 import dLib.ui.animations.exit.UIAnimation_SlideOutDown;
-import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.buttons.Button;
 import dLib.ui.elements.items.buttons.CancelButton;
 import dLib.ui.elements.items.itembox.HorizontalBox;
-import dLib.ui.elements.items.popup.GenericPopupHolder;
+import dLib.ui.elements.items.popup.GenericScreenHolder;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.elements.items.text.TextBox;
-import dLib.ui.resources.UICommonResources;
 import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
 
-public class PanelListScreen extends GenericPopupHolder {
+public class PanelListScreen extends GenericScreenHolder {
     public HorizontalBox panelBox;
 
     public PanelListScreen(){

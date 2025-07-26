@@ -9,7 +9,7 @@ import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.buttons.CancelButton;
 import dLib.ui.elements.items.buttons.ConfirmButton;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
-import dLib.ui.elements.items.popup.GenericPopupHolder;
+import dLib.ui.elements.items.popup.GenericScreenHolder;
 import dLib.ui.elements.items.scroll.Scrollbox;
 import dLib.ui.resources.UICommonResources;
 import dLib.util.events.localevents.ConsumerEvent;
@@ -19,8 +19,8 @@ import dLib.util.ui.position.Pos;
 
 import java.util.ArrayList;
 
-public class CardSelectPopup extends GenericPopupHolder {
-    public VerticalDataBox<AbstractCard> cardBox; // Im lazy
+public class CardSelectPopup extends GenericScreenHolder {
+    public VerticalDataBox<AbstractCard> cardBox;
 
     public ConsumerEvent<ArrayList<AbstractCard>> onCardsSelectedEvent = new ConsumerEvent<>();
 
