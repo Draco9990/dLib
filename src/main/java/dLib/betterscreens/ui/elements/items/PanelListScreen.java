@@ -28,7 +28,7 @@ public class PanelListScreen extends GenericScreenHolder {
         cancelButton.postLeftClickEvent.subscribe(cancelButton, this::dispose);
         addChild(cancelButton);
 
-        Scrollbox pScrollbar = new Scrollbox(Pos.px(250), Pos.px(90), Dim.px(1414), Dim.px(852));
+        Scrollbox pScrollbar = new Scrollbox(Pos.px(250), Pos.px(60), Dim.px(1414), Dim.px(882));
         pScrollbar.setIsVertical(false);
         {
             panelBox = new HorizontalBox(Dim.fill(), Dim.fill());
