@@ -48,7 +48,7 @@ public class PanelListScreen extends GenericScreenHolder {
         public Panel(AbstractStringBinding titleBinding, AbstractTextureBinding textureBinding, AbstractStringBinding description, Runnable onClick){
             super(Dim.px(512), Dim.px(800));
 
-            setTexture(Tex.stat(ImageMaster.MENU_PANEL_BG_GRAY));
+            setTexture(Tex.stat(ImageMaster.MENU_PANEL_BG_BLUE));
 
             TextBox header = new TextBox(titleBinding.getBoundObject(), Pos.px(95), Pos.px(654), Dim.px(321), Dim.px(83));
             header.setTextRenderColor(Color.GOLD);
@@ -56,7 +56,7 @@ public class PanelListScreen extends GenericScreenHolder {
             header.setWrap(true);
             addChild(header);
 
-            Image image = new Image(textureBinding, Pos.px(96), Pos.px(438), Dim.px(320), Dim.px(208));
+            Image image = new Image(textureBinding, Pos.px(98), Pos.px(440), Dim.px(316), Dim.px(204));
             addChild(image);
 
             TextBox descriptionBox = new TextBox(description.getBoundObject(), Pos.px(96), Pos.px(100), Dim.px(320), Dim.px(330));
