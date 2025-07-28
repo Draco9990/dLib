@@ -113,6 +113,7 @@ public class ContextMenu extends HorizontalBox {
                 {
                     TextBox text = new TextBox(optionText.getBoundObject(), Dim.auto(), Dim.fill());
                     text.setFontSize(14);
+                    text.setPadding(Padd.px(10));
                     text.setFont(Font.stat(FontHelper.buttonLabelFont));
                     text.setHorizontalContentAlignment(Alignment.HorizontalAlignment.LEFT);
                     hBox.addChild(text);
