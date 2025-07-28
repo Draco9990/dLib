@@ -84,6 +84,10 @@ public class Scrollbox extends UIElement {
     }
 
     private void reinitChildLayout(){
+        if(mainBox != null && mainBox.hasParent()) mainBox.getParent().removeChild(mainBox);
+        if(horizontalScroll != null && horizontalScroll.hasParent()) horizontalScroll.getParent().removeChild(horizontalScroll);
+        if(verticalScroll != null && verticalScroll.hasParent()) verticalScroll.getParent().removeChild(verticalScroll);
+
         disposeChildren();
 
         redirectChildren = false;

@@ -3,9 +3,7 @@ package dLib.util.events;
 import dLib.ui.elements.UIElement;
 import dLib.util.events.serializableevents.SerializableRunnable;
 import dLib.util.weak.SerializableWeakHashMap;
-import dLib.util.weak.SerializableWeakSet;
 
-import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -14,17 +12,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Event<EventType> implements Serializable {
-    public static SerializableWeakSet<Event<?>> allRegisteredEvents = new SerializableWeakSet<>();
-
     protected ConcurrentHashMap<UUID, EventType> eventMap = new ConcurrentHashMap<>();
 
     protected SerializableWeakHashMap<Object, ArrayList<UUID>> boundObjects = new SerializableWeakHashMap<>();
 
     protected SerializableWeakHashMap<UIElement, ArrayList<UUID>> boundUIElements = new SerializableWeakHashMap<>();
-
-    public Event(){
-        allRegisteredEvents.add(this);
-    }
 
     public UUID subscribeManaged(EventType event){
         UUID id = UUID.randomUUID();
@@ -102,11 +94,5 @@ public class Event<EventType> implements Serializable {
 
     public boolean hasBinding(Object owner) {
         return boundObjects.containsKey(owner);
-    }
-
-    private Object readResolve() throws ObjectStreamException {
-        allRegisteredEvents.add(this);
-
-        return this;
     }
 }
