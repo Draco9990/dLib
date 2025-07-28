@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.OrderedMap;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
@@ -211,9 +210,12 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private boolean overridesBaseScreen = false;
 
     private transient boolean initialized = false;
-    protected transient boolean disposed = false;
     private transient boolean updating = false;
     private transient boolean rendering = false;
+
+    protected transient boolean disposed = false;
+    public RunnableEvent preDisposedEvent = new RunnableEvent();                                                        public static ConsumerEvent<UIElement> preDisposedGlobalEvent = new ConsumerEvent<>();
+    public RunnableEvent postDisposedEvent = new RunnableEvent();                                                       public static ConsumerEvent<UIElement> postDisposedGlobalEvent = new ConsumerEvent<>();
 
     private LinkedHashMap<UUID, Pair<Supplier<Boolean>, ContextMenu.IContextMenuOption>> contextMenuOptions = new LinkedHashMap<>();
 
@@ -234,7 +236,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Statics
 
-    public static OrthographicCamera camera = Reflection.getFieldValue("camera", Gdx.app.getApplicationListener());
+    private static OrthographicCamera camera;
 
     //endregion
 
@@ -456,6 +458,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     @Override
     public void dispose(){
+        preDisposedEvent.invoke();
+        preDisposedGlobalEvent.invoke(this);
+
         while(!children.isEmpty()){
             UIElement child = children.get(0);
 
@@ -483,6 +488,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             tooltipObject.close();
             tooltipObject.dispose();
         }
+
+        postDisposedEvent.invoke();
+        postDisposedGlobalEvent.invoke(this);
     }
 
     public boolean isDisposedRaw(){
@@ -735,7 +743,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             Rectangle scissors = new Rectangle();
             Rectangle mask = new Rectangle(maskBounds.left * Settings.xScale, maskBounds.bottom * Settings.yScale, (maskBounds.right - maskBounds.left) * Settings.xScale, (maskBounds.top - maskBounds.bottom) * Settings.yScale);
 
-            ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), mask, scissors);
+            ScissorStack.calculateScissors(getCamera(), sb.getTransformMatrix(), mask, scissors);
             pushedScissors = ScissorStack.pushScissors(scissors);
         }
 
@@ -2865,6 +2873,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     //endregion Timer
+
+    //region Camera
+
+    public static OrthographicCamera getCamera() {
+        if(camera == null){
+            camera = Reflection.getFieldValue("camera", Gdx.app.getApplicationListener());
+        }
+        return camera;
+    }
+
+    //endregion Camera
 
     //endregion
 

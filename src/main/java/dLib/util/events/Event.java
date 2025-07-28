@@ -1,23 +1,26 @@
 package dLib.util.events;
 
-import com.badlogic.gdx.utils.Disposable;
+import dLib.ui.elements.UIElement;
+import dLib.util.events.serializableevents.SerializableRunnable;
+import dLib.util.weak.SerializableWeakHashMap;
+import dLib.util.weak.SerializableWeakSet;
 
-import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Event<EventType> implements Serializable {
-    public static ArrayList<Event<?>> allRegisteredEvents = new ArrayList<>();
+    public static SerializableWeakSet<Event<?>> allRegisteredEvents = new SerializableWeakSet<>();
 
-    protected ConcurrentHashMap<UUID, EventType> subscribers = new ConcurrentHashMap<>();
+    protected ConcurrentHashMap<UUID, EventType> eventMap = new ConcurrentHashMap<>();
 
-    protected HashMap<Object, ArrayList<UUID>> boundsObjects = new HashMap<>();
+    protected SerializableWeakHashMap<Object, ArrayList<UUID>> boundObjects = new SerializableWeakHashMap<>();
+
+    protected SerializableWeakHashMap<UIElement, ArrayList<UUID>> boundUIElements = new SerializableWeakHashMap<>();
 
     public Event(){
         allRegisteredEvents.add(this);
@@ -25,69 +28,80 @@ public class Event<EventType> implements Serializable {
 
     public UUID subscribeManaged(EventType event){
         UUID id = UUID.randomUUID();
-        subscribers.put(id, event);
+        eventMap.put(id, event);
         return id;
     }
-
     public void unsubscribeManaged(UUID id){
-        subscribers.remove(id);
+        eventMap.remove(id);
     }
 
     public UUID subscribe(Object owner, EventType event){
         UUID id = UUID.randomUUID();
-        subscribers.put(id, event);
+        eventMap.put(id, event);
 
-        if(!boundsObjects.containsKey(owner)){
-            boundsObjects.put(owner, new ArrayList<>());
+        if(!boundObjects.containsKey(owner)){
+            boundObjects.put(owner, new ArrayList<>());
         }
-        boundsObjects.get(owner).add(id);
+        boundObjects.get(owner).add(id);
 
         return id;
     }
-
     public void unsubscribe(Object owner){
-        if(boundsObjects.containsKey(owner)){
-            for(UUID element : boundsObjects.get(owner)){
-                subscribers.remove(element);
+        if(boundObjects.containsKey(owner)){
+            for(UUID element : boundObjects.get(owner)){
+                eventMap.remove(element);
             }
 
-            boundsObjects.remove(owner);
+            boundObjects.remove(owner);
+        }
+    }
+
+    public UUID subscribe(UIElement element, EventType event){
+        UUID id = UUID.randomUUID();
+        eventMap.put(id, event);
+
+        if(!boundUIElements.containsKey(element)){
+            boundUIElements.put(element, new ArrayList<>());
+
+            element.postDisposedEvent.subscribe(this, (SerializableRunnable) () -> unsubscribe(element));
+        }
+        boundUIElements.get(element).add(id);
+
+        return id;
+    }
+    public void unsubscribe(UIElement owner){
+        if(boundUIElements.containsKey(owner)){
+            for(UUID element : boundUIElements.get(owner)){
+                eventMap.remove(element);
+            }
+
+            boundUIElements.remove(owner);
+
+            owner.postDisposedEvent.unsubscribe(this);
         }
     }
 
     public void invoke(Consumer<EventType> consumer){
         //Events can modify subscribers
-        for(EventType event : subscribers.values()){
+        for(EventType event : eventMap.values()){
             consumer.accept(event);
         }
     }
     public void invokeWhile(Function<EventType, Boolean> consumer){
         //Events can modify subscribers
-        for(EventType event : subscribers.values()){
+        for(EventType event : eventMap.values()){
             if(!consumer.apply(event)){
                 return; // Stop processing if the condition is not met
             }
         }
     }
 
-    public void postObjectDisposed(Disposable source){
-        if(!boundsObjects.containsKey(source)){
-            return;
-        }
-
-        for(UUID element : boundsObjects.get(source)){
-            subscribers.remove(element);
-        }
-
-        boundsObjects.remove(source);
-    }
-
     public int count(){
-        return subscribers.size();
+        return eventMap.size();
     }
 
     public boolean hasBinding(Object owner) {
-        return boundsObjects.containsKey(owner);
+        return boundObjects.containsKey(owner);
     }
 
     private Object readResolve() throws ObjectStreamException {

@@ -77,7 +77,7 @@ public class CreatureWrapper extends UIElement {
             Rectangle scissors = new Rectangle();
             Rectangle mask = new Rectangle(maskBounds.left * Settings.xScale, maskBounds.bottom * Settings.yScale, (maskBounds.right - maskBounds.left) * Settings.xScale, (maskBounds.top - maskBounds.bottom) * Settings.yScale);
 
-            ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), mask, scissors);
+            ScissorStack.calculateScissors(getCamera(), sb.getTransformMatrix(), mask, scissors);
             pushedScissors = ScissorStack.pushScissors(scissors);
         }
 

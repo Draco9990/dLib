@@ -12,6 +12,7 @@ import javassist.CtMethod;
 import javassist.Modifier;
 import org.clapper.util.classutil.ClassInfo;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class DisposablePatches {
@@ -44,9 +45,6 @@ public class DisposablePatches {
 
     public static void postDispose(Disposable source) {
         postDisposedGlobalEvent.invoke(source);
-        for(Event<?> event : Event.allRegisteredEvents) {
-            event.postObjectDisposed(source);
-        }
     }
 
     //endregion

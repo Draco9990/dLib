@@ -216,7 +216,7 @@ public class Renderable extends UIElement {
                 // Adjust scissor stack for partial rendering
                 Rectangle scissors = new Rectangle();
                 Rectangle clipBounds = new Rectangle(renderPosX + clipPosAddX, renderPosY + clipPosAddY, clipWidth, clipHeight);
-                ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), clipBounds, scissors);
+                ScissorStack.calculateScissors(getCamera(), sb.getTransformMatrix(), clipBounds, scissors);
                 if (ScissorStack.pushScissors(scissors)) {
                     renderCall(sb, ninePatchToRender, renderPosX, renderPosY, renderWidth, renderHeight);
                     ScissorStack.popScissors();
