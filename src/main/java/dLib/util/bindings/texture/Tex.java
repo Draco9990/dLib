@@ -33,4 +33,8 @@ public class Tex {
     public static TextureLambdaBinding lambda(Supplier<NinePatch> provider) {
         return new TextureLambdaBinding(provider);
     }
+
+    public static TextureUriBinding uri(String uri) {
+        return new TextureUriBinding(uri);
+    }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.itembox.HorizontalBox;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.text.TextButton;
 import dLib.ui.resources.UICommonResources;
@@ -18,25 +19,29 @@ import dLib.util.ui.position.AbstractPosition;
 
 import java.util.function.Supplier;
 
-public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption> {
+public class ContextMenu extends HorizontalBox {
+    public VerticalDataBox<ContextMenu.IContextMenuOption> optionsBox;
+
     public ContextMenu(AbstractPosition xPos, AbstractPosition yPos) {
-        super(xPos, yPos, Dim.px(300), Dim.auto());
+        super(xPos, yPos, Dim.auto(), Dim.auto());
 
         setTexture(Tex.stat(UICommonResources.button02_square));
         setRenderColor(Color.WHITE);
-
-        setSelectionMode(ESelectionMode.NONE);
-        disableToggleOverlay();
 
         setContentPadding(Padd.px(10));
 
         setContextual(true);
         setDrawFocusOnOpen(true);
-    }
 
-    @Override
-    public UIElement makeUIForItem(IContextMenuOption item) {
-        return item.get();
+        optionsBox = new VerticalDataBox<ContextMenu.IContextMenuOption>(Dim.auto(), Dim.auto()){
+            @Override
+            public UIElement makeUIForItem(IContextMenuOption item) {
+                return item.get();
+            }
+        };
+        optionsBox.setSelectionMode(ESelectionMode.NONE);
+        optionsBox.disableToggleOverlay();
+        addChild(optionsBox);
     }
 
     public static interface IContextMenuOption extends Supplier<UIElement> {
@@ -54,7 +59,7 @@ public class ContextMenu extends VerticalDataBox<ContextMenu.IContextMenuOption>
 
         @Override
         public UIElement get() {
-            TextButton button = new TextButton(optionText, Dim.fill(), Dim.px(30));
+            TextButton button = new TextButton(optionText, Dim.auto(), Dim.px(30));
 
             button.label.setFont(Font.stat(FontHelper.buttonLabelFont));
             button.setTexture(Tex.stat(UICommonResources.button03_square));

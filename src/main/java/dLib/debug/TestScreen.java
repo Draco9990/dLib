@@ -3,6 +3,7 @@ package dLib.debug;
 import dLib.betterscreens.ui.elements.items.PotionSelectPopup;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
+import dLib.ui.elements.items.ContextMenu;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
@@ -97,10 +98,16 @@ public class TestScreen extends UIElement {
         img.onRightClickEvent.subscribe(img, () -> img.setVerticalAlignment((Alignment.VerticalAlignment) EnumHelpers.nextEnum(img.getVerticalAlignment())));
         addChild(img);*/
 
-        PotionSelectPopup pop = new PotionSelectPopup();
-        pop.open();
+        /*PotionSelectPopup pop = new PotionSelectPopup();
+        pop.open();*/
 
         /*CardSlot cardSlot = new CardSlot(Pos.px(100), Pos.px(100), 0.5f);
         addChild(cardSlot);*/
+
+        ContextMenu test = new ContextMenu(Pos.px(100), Pos.px(100));
+        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption("test 1", () -> {}));
+        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption("test 2", () -> {}));
+        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption("test 3", () -> {}));
+        addChild(test);
     }
 }

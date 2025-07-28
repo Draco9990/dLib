@@ -45,7 +45,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         if(childVal == null) return null;
         calculatedValueForChildren = childVal;
 
-        return calculateWidth(forElement, calculationPass, true);
+        return calculateWidth(forElement, calculationPass, false);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         if(childVal == null) return null;
         calculatedValueForChildren = childVal;
 
-        return calculateHeight(forElement, calculationPass, true);
+        return calculateHeight(forElement, calculationPass, false);
     }
 
 
@@ -69,15 +69,13 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             Float contentWidth = ((ILayoutProvider) forElement).calculateContentWidth(); // TODO register dependencies
             if(contentWidth == null) return null;
 
-            if(includePadding){
-                if(((ILayoutProvider) forElement).getContentPaddingLeftRaw().needsRecalculation()) return null;
-                registerDependency(((ILayoutProvider) forElement).getContentPaddingLeftRaw());
+            if(((ILayoutProvider) forElement).getContentPaddingLeftRaw().needsRecalculation()) return null;
+            registerDependency(((ILayoutProvider) forElement).getContentPaddingLeftRaw());
 
-                if(((ILayoutProvider) forElement).getContentPaddingRightRaw().needsRecalculation()) return null;
-                registerDependency(((ILayoutProvider) forElement).getContentPaddingRightRaw());
+            if(((ILayoutProvider) forElement).getContentPaddingRightRaw().needsRecalculation()) return null;
+            registerDependency(((ILayoutProvider) forElement).getContentPaddingRightRaw());
 
-                contentWidth += ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
-            }
+            contentWidth += ((ILayoutProvider) forElement).getContentPaddingLeft() + ((ILayoutProvider) forElement).getContentPaddingRight();
 
             totalWidth = new Pair<>(0f, contentWidth);
         }
@@ -85,7 +83,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             for (UIElement child : forElement.getChildren()){
                 if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
-                Pair<Float, Float> childWidth = calculateChildWidth(child, pass != ElementCalculationManager.CalculationPass.FIRST, includePadding);
+                Pair<Float, Float> childWidth = calculateChildWidth(child, pass != ElementCalculationManager.CalculationPass.FIRST);
                 if(childWidth == null) {
                     if(pass == ElementCalculationManager.CalculationPass.FIRST) return null;
                     else continue;
@@ -127,7 +125,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
         return totalWidth.getValue() - totalWidth.getKey();
     }
-    private Pair<Float, Float> calculateChildWidth(UIElement forElement, boolean canIgnoreMissingPos, boolean includePadding){
+    private Pair<Float, Float> calculateChildWidth(UIElement forElement, boolean canIgnoreMissingPos){
         float calculatedLocalX = 0;
         if(forElement.getLocalPositionXRaw().needsRecalculation()) {
             if(!canIgnoreMissingPos) return null;
@@ -145,15 +143,14 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL){
             bonusWidth = ((ItemBox) forElement).getHorizontalItemSpacing();
         }
-        if(includePadding){
-            if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getPaddingLeftRaw());
-            bonusWidth += forElement.getPaddingLeft();
 
-            if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getPaddingRightRaw());
-            bonusWidth += forElement.getPaddingLeft() + forElement.getPaddingRight();
-        }
+        if(forElement.getPaddingLeftRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingLeftRaw());
+        bonusWidth += forElement.getPaddingLeft();
+
+        if(forElement.getPaddingRightRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingRightRaw());
+        bonusWidth += forElement.getPaddingLeft() + forElement.getPaddingRight();
 
         return new Pair<>(
                 calculatedLocalX,
@@ -178,15 +175,13 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             Float contentHeight = ((ILayoutProvider) forElement).calculateContentHeight(); // TODO register dependencies
             if(contentHeight == null) return null;
 
-            if(includePadding){
-                if(((ILayoutProvider) forElement).getContentPaddingBottomRaw().needsRecalculation()) return null;
-                registerDependency(((ILayoutProvider) forElement).getContentPaddingBottomRaw());
+            if(((ILayoutProvider) forElement).getContentPaddingBottomRaw().needsRecalculation()) return null;
+            registerDependency(((ILayoutProvider) forElement).getContentPaddingBottomRaw());
 
-                if(((ILayoutProvider) forElement).getContentPaddingTopRaw().needsRecalculation()) return null;
-                registerDependency(((ILayoutProvider) forElement).getContentPaddingTopRaw());
+            if(((ILayoutProvider) forElement).getContentPaddingTopRaw().needsRecalculation()) return null;
+            registerDependency(((ILayoutProvider) forElement).getContentPaddingTopRaw());
 
-                contentHeight += ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
-            }
+            contentHeight += ((ILayoutProvider) forElement).getContentPaddingBottom() + ((ILayoutProvider) forElement).getContentPaddingTop();
 
             totalHeight = new Pair<>(0f, contentHeight);
         }
@@ -194,7 +189,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
             for (UIElement child : forElement.getChildren()){
                 if(child.hasComponent(UIOverlayElementComponent.class)) continue;
 
-                Pair<Float, Float> childHeight = calculateChildHeight(child, pass != ElementCalculationManager.CalculationPass.FIRST, includePadding);
+                Pair<Float, Float> childHeight = calculateChildHeight(child, pass != ElementCalculationManager.CalculationPass.FIRST);
                 if(childHeight == null) {
                     if(pass == ElementCalculationManager.CalculationPass.FIRST) return null;
                     else continue;
@@ -236,7 +231,7 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
         return totalHeight.getValue() - totalHeight.getKey();
     }
-    private Pair<Float, Float> calculateChildHeight(UIElement forElement, boolean canIgnoreMissingPos, boolean includePadding){
+    private Pair<Float, Float> calculateChildHeight(UIElement forElement, boolean canIgnoreMissingPos){
         float calculatedLocalY = 0;
         if(forElement.getLocalPositionYRaw().needsRecalculation()) {
             if(!canIgnoreMissingPos) return null;
@@ -254,15 +249,14 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         if(forElement instanceof ItemBox && ((ItemBox) forElement).getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
             bonusHeight = ((ItemBox) forElement).getVerticalItemSpacing();
         }
-        if(includePadding){
-            if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getPaddingTopRaw());
-            bonusHeight += forElement.getPaddingTop();
 
-            if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getPaddingBottomRaw());
-            bonusHeight += forElement.getPaddingTop() + forElement.getPaddingBottom();
-        }
+        if(forElement.getPaddingTopRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingTopRaw());
+        bonusHeight += forElement.getPaddingTop();
+
+        if(forElement.getPaddingBottomRaw().needsRecalculation()) return null;
+        registerDependency(forElement.getPaddingBottomRaw());
+        bonusHeight += forElement.getPaddingTop() + forElement.getPaddingBottom();
 
         return new Pair<>(
                 calculatedLocalY,

@@ -395,7 +395,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
                 contextMenuOptions.forEach((id, pair) -> {
                     if(pair.getKey().get()){
-                        contextMenu.addChild(pair.getValue());
+                        contextMenu.optionsBox.addChild(pair.getValue());
                     }
                 });
                 contextMenu.open();

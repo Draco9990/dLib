@@ -100,13 +100,13 @@ public abstract class UCEITemplate {
                 UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
                 editor.itemTree.duplicateItem(editorItem);
             });
-            contextMenu.addChild(duplicateOption);
+            contextMenu.optionsBox.addChild(duplicateOption);
 
             ContextMenu.ContextMenuButtonOption deleteOption = new ContextMenu.ContextMenuButtonOption("Delete", () -> {
                 UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
                 editor.itemTree.deleteItem(editorItem);
             });
-            contextMenu.addChild(deleteOption);
+            contextMenu.optionsBox.addChild(deleteOption);
 
             contextMenu.open();
         });

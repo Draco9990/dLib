@@ -8,6 +8,7 @@ import dLib.util.bindings.string.Str;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.ui.dimensions.AbstractDimension;
+import dLib.util.ui.dimensions.AutoDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
@@ -32,7 +33,7 @@ public class TextButton extends Button implements ITextProvider {
 
         setTexture(Tex.stat(UICommonResources.button01_horizontal));
 
-        label = new TextBox(text, Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
+        label = new TextBox(text, Pos.px(0), Pos.px(0), width instanceof AutoDimension ? Dim.auto() : Dim.fill(), height instanceof AutoDimension ? Dim.auto() : Dim.fill());
         label.setFont(Font.stat(FontHelper.buttonLabelFont));
         label.setFontSize(14);
         label.setPadding(Padd.px(10));
