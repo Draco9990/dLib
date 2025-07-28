@@ -5,14 +5,13 @@ import dLib.util.events.serializableevents.SerializableRunnable;
 import dLib.util.weak.SerializableWeakHashMap;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Event<EventType> implements Serializable {
-    protected ConcurrentHashMap<UUID, EventType> eventMap = new ConcurrentHashMap<>();
+    protected Map<UUID, EventType> eventMap = Collections.synchronizedMap(new LinkedHashMap<>());
 
     protected SerializableWeakHashMap<Object, ArrayList<UUID>> boundObjects = new SerializableWeakHashMap<>();
 
@@ -75,8 +74,11 @@ public class Event<EventType> implements Serializable {
 
     public void invoke(Consumer<EventType> consumer){
         //Events can modify subscribers
-        for(EventType event : eventMap.values()){
-            consumer.accept(event);
+        ArrayList<UUID> keySet = new ArrayList<>(eventMap.keySet());
+        for(UUID key : keySet){
+            if(eventMap.containsKey(key)){
+                consumer.accept(eventMap.get(key));
+            }
         }
     }
     public void invokeWhile(Function<EventType, Boolean> consumer){

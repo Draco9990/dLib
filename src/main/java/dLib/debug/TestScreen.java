@@ -1,14 +1,16 @@
 package dLib.debug;
 
-import dLib.betterscreens.ui.elements.items.PotionSelectPopup;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ContextMenu;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
+import dLib.util.bindings.string.Str;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
+
+import java.util.ArrayList;
 
 public class TestScreen extends UIElement {
 
@@ -105,9 +107,16 @@ public class TestScreen extends UIElement {
         addChild(cardSlot);*/
 
         ContextMenu test = new ContextMenu(Pos.px(100), Pos.px(100));
-        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption("test 1", () -> {}));
-        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption("test 2", () -> {}));
-        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption("test 3", () -> {}));
+        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 1"), () -> {}));
+        {
+            ArrayList<ContextMenu.IContextMenuOption> subOptions = new ArrayList<>();
+            subOptions.add(new ContextMenu.ContextMenuButtonOption(Str.stat("sub test 1"), () -> {}));
+            subOptions.add(new ContextMenu.ContextMenuButtonOption(Str.stat("sub test 2"), () -> {}));
+            ContextMenu.ContextMenuDropdownOption dropdown = new ContextMenu.ContextMenuDropdownOption(Str.stat("dropdown test"), subOptions);
+            test.optionsBox.addChild(dropdown);
+        }
+        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 2"), () -> {}));
+        test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 3"), () -> {}));
         addChild(test);
     }
 }

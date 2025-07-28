@@ -14,6 +14,7 @@ import dLib.ui.elements.components.UIDraggableComponent;
 import dLib.ui.elements.components.UIResizeableComponent;
 import dLib.ui.elements.items.ContextMenu;
 import dLib.ui.UIManager;
+import dLib.util.bindings.string.Str;
 import dLib.util.helpers.UIHelpers;
 import dLib.util.ui.dimensions.PixelDimension;
 import dLib.util.ui.position.PixelPosition;
@@ -96,16 +97,16 @@ public abstract class UCEITemplate {
 
             ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
 
-            ContextMenu.ContextMenuButtonOption duplicateOption = new ContextMenu.ContextMenuButtonOption("Duplicate", () -> {
-                UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
-                editor.itemTree.duplicateItem(editorItem);
-            });
+            ContextMenu.ContextMenuButtonOption duplicateOption = new ContextMenu.ContextMenuButtonOption(Str.stat("Duplicate"), () -> {
+                            UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
+                            editor.itemTree.duplicateItem(editorItem);
+                        });
             contextMenu.optionsBox.addChild(duplicateOption);
 
-            ContextMenu.ContextMenuButtonOption deleteOption = new ContextMenu.ContextMenuButtonOption("Delete", () -> {
-                UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
-                editor.itemTree.deleteItem(editorItem);
-            });
+            ContextMenu.ContextMenuButtonOption deleteOption = new ContextMenu.ContextMenuButtonOption(Str.stat("Delete"), () -> {
+                            UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
+                            editor.itemTree.deleteItem(editorItem);
+                        });
             contextMenu.optionsBox.addChild(deleteOption);
 
             contextMenu.open();

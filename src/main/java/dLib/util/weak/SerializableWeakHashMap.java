@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class SerializableWeakHashMap<K, V> implements Serializable {
-    private transient Map<SerializableWeakReference<K>, V> map = new HashMap<>();
+    private transient Map<SerializableWeakReference<K>, V> map = new LinkedHashMap<>();
 
     public V put(K key, V value) {
         cleanup();
@@ -42,7 +39,7 @@ public class SerializableWeakHashMap<K, V> implements Serializable {
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-        Map<K, V> snapshot = new HashMap<>();
+        Map<K, V> snapshot = new LinkedHashMap<>();
         for (Map.Entry<SerializableWeakReference<K>, V> entry : map.entrySet()) {
             K key = entry.getKey().get();
             if (key != null) {
@@ -55,7 +52,7 @@ public class SerializableWeakHashMap<K, V> implements Serializable {
     @SuppressWarnings("unchecked")
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         Map<K, V> snapshot = (Map<K, V>) in.readObject();
-        map = new HashMap<>();
+        map = new LinkedHashMap<>();
         for (Map.Entry<K, V> entry : snapshot.entrySet()) {
             map.put(new SerializableWeakReference<>(entry.getKey()), entry.getValue());
         }
@@ -71,7 +68,7 @@ public class SerializableWeakHashMap<K, V> implements Serializable {
                 while (it.hasNext()) {
                     K val = it.next().get();
                     if (val != null) return val;
-                    it.remove(); // clean up collected
+                    it.remove();
                 }
                 return null;
             }
