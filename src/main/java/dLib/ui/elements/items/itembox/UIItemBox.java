@@ -55,7 +55,7 @@ public abstract class UIItemBox extends ItemBox {
                 itemsToAdd.remove(existingChild);
             }
             else {
-                removeChildByInstance(existingChild);
+                existingChild.dispose();
             }
         }
 

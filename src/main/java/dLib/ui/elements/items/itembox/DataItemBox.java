@@ -22,7 +22,6 @@ import dLib.util.bindings.string.Str;
 import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.*;
-import dLib.util.events.serializableevents.SerializableComparator;
 import dLib.util.ui.dimensions.AbstractDimension;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.AbstractPosition;
@@ -125,7 +124,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     }
 
     public void setChildren(List<ItemType> items){
-        clearChildren();
+        disposeChildren();
         for(ItemType item : items){
             addChild(item);
         }
@@ -155,8 +154,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
                     selectionChanged = true;
                 }
 
-                removeChildByInstance(existingChild);
-                childWrapperMap.removeByKey(existingChild);
+                existingChild.dispose();
             }
         }
 
@@ -178,8 +176,8 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     }
 
     @Override
-    public void removeChildByInstance(UIElement child) {
-        super.removeChildByInstance(child);
+    public void removeChild(UIElement child) {
+        super.removeChild(child);
 
         childWrapperMap.removeByKey(child);
     }
@@ -187,7 +185,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
     public void removeChild(ItemType item){
         UIElement child = childWrapperMap.getByValue(item);
         if(child != null){
-            removeChildByInstance(child);
+            child.dispose();
         }
     }
 

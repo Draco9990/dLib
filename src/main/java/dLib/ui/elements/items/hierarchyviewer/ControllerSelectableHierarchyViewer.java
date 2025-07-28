@@ -45,7 +45,7 @@ public class ControllerSelectableHierarchyViewer extends HierarchyViewer{
             element.addChild(hoverOverlay);
         });
         payloadOverlay.postUnhoveredEvent.subscribe(payloadOverlay, () -> {
-            element.removeChildById("ControllerSelectableHierarchyViewerHoverOverlay");
+            element.disposeChild("ControllerSelectableHierarchyViewerHoverOverlay");
         });
         button.addChild(payloadOverlay);
 

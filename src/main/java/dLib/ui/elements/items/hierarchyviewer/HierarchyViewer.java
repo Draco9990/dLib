@@ -32,7 +32,7 @@ public class HierarchyViewer extends VerticalBox {
     }
 
     public void loadForElement(UIElement element){
-        clearChildren();
+        disposeChildren();
         if(element == null) return;
 
         this.forElement = element;

@@ -147,7 +147,7 @@ public class DLibModListScreen extends UIElement {
         }
 
         public void buildModContentBox(ModFileExtended modFile){
-            modContentBox.clearChildren();
+            modContentBox.disposeChildren();
 
             currentModFile = modFile;
 

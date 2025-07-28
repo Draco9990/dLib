@@ -474,7 +474,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
 
         if(hasParent()){
-            parent.removeChildByInstance(this);
+            parent.removeChild(this);
         }
         else{
             close();
@@ -824,16 +824,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
             while(!children.isEmpty()){
                 UIElement child = children.get(0);
-                removeChildByInstance(child);
+                removeChild(child);
                 parent.addChild(child);
             }
 
-            parent.removeChildByInstance(this);
+            parent.removeChild(this);
             newParent.addChild(this);
         }
         else {
             if(parent != null){
-                parent.removeChildByInstance(this);
+                parent.removeChild(this);
             }
 
             newParent.addChild(this);
@@ -891,7 +891,16 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         }
     }
     public void setChildren(ArrayList<? extends UIElement> children){
-        clearChildren();
+        setChildren(children, true);
+    }
+    public void setChildren(ArrayList<? extends UIElement> children, boolean dispose){
+        if(dispose){
+            disposeChildren();
+        }
+        else{
+            clearChildren();
+        }
+
         for(UIElement child : children){
             addChild(child);
         }
@@ -918,7 +927,24 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return children.contains(child);
     }
 
-    public void removeChildByInstance(UIElement child){
+    public void removeChild(String childId){
+        UIElement child = findChildById(childId);
+        if(child == null){
+            return;
+        }
+
+        removeChild(child);
+    }
+    public void disposeChild(String childId){
+        UIElement child = findChildById(childId);
+        if(child == null){
+            return;
+        }
+
+        child.dispose();
+    }
+
+    public void removeChild(UIElement child){
         if(children.remove(child)){
             child.setParent(null);
 
@@ -928,16 +954,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             }
         }
     }
-    public void removeChildById(String childId){
-        UIElement child = findChildById(childId);
-        if(child == null){
-            return;
-        }
-
-        removeChildByInstance(child);
-    }
 
     public void replaceChild(UIElement original, UIElement replacement){
+        replaceChild(original, replacement, true);
+    }
+    public void replaceChild(UIElement original, UIElement replacement, boolean disposeOriginal){
         int childIndex = children.indexOf(original);
         if(childIndex == -1){
             return;
@@ -945,7 +966,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         children.set(childIndex, replacement);
         original.setParent(null);
-        original.dispose();
+        if(disposeOriginal){
+            original.dispose();
+        }
 
         replacement.setParent(this);
 
@@ -958,14 +981,30 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             onChildrenChanged();
         }
     }
+
     public void clearChildren(){
-        //TODO this is currently called from both dispose (where the parent is already cleared) and from when it isnt, fix
+        if(children.isEmpty()){
+            return;
+        }
+
         for(UIElement child : children) {
             child.setParent(null);
             onChildRemovedEvent.invoke(child);
         }
 
         children.clear();
+
+        onChildrenChanged();
+    }
+    public void disposeChildren(){
+        if(children.isEmpty()){
+            return;
+        }
+
+        while(!children.isEmpty()){
+            children.get(0).dispose();
+        }
+
         onChildrenChanged();
     }
 

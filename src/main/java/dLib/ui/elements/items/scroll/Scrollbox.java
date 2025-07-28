@@ -84,7 +84,7 @@ public class Scrollbox extends UIElement {
     }
 
     private void reinitChildLayout(){
-        clearChildren();
+        disposeChildren();
 
         redirectChildren = false;
 
