@@ -2,7 +2,7 @@ package dLib.gameplay;
 
 import java.io.Serializable;
 
-public class RoomPhaseData implements Serializable {
+public class RoomPhaseData extends TRoomPhaseData implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -25,10 +25,6 @@ public class RoomPhaseData implements Serializable {
     }
 
     //endregion Static Getters
-
-    public void cleanForSave(){
-
-    }
 
     //endregion Methods
 }

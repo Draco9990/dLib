@@ -3,12 +3,10 @@ package dLib.gameplay;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class DungeonCycleData implements Serializable {
+public class DungeonCycleData extends TDungeonCycleData<DungeonData> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
-
-    public HashMap<String, DungeonData> dungeons = new HashMap<>();
 
     //endregion Variables
 
@@ -29,12 +27,9 @@ public class DungeonCycleData implements Serializable {
 
     //endregion Static Getters
 
-    public DungeonData getDungeon(String actName){
-        return dungeons.computeIfAbsent(actName, k -> new DungeonData());
-    }
-
-    public void cleanForSave(){
-        dungeons.values().forEach(DungeonData::cleanForSave);
+    @Override
+    public DungeonData makeDungeonData() {
+        return new DungeonData();
     }
 
     //endregion Methods

@@ -3,12 +3,10 @@ package dLib.gameplay;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class RoomData implements Serializable {
+public class RoomData extends TRoomData<RoomPhaseData> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
-
-    public HashMap<Integer, RoomPhaseData> phases = new HashMap<>();
 
     //endregion Variables
 
@@ -29,12 +27,9 @@ public class RoomData implements Serializable {
 
     //endregion Static Getters
 
-    public RoomPhaseData getRoomPhase(int phase) {
-        return phases.computeIfAbsent(phase, k -> new RoomPhaseData());
-    }
-
-    public void cleanForSave(){
-        phases.values().forEach(RoomPhaseData::cleanForSave);
+    @Override
+    public RoomPhaseData makeRoomPhaseData() {
+        return new RoomPhaseData();
     }
 
     //endregion Methods
