@@ -1,7 +1,8 @@
 package dLib.gameplay;
 
+import dLib.gameplay.templates.TRoomData;
+
 import java.io.Serializable;
-import java.util.HashMap;
 
 public class RoomData extends TRoomData<RoomPhaseData> implements Serializable {
     static final long serialVersionUID = 1L;

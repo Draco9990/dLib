@@ -1,5 +1,7 @@
 package dLib.gameplay;
 
+import dLib.gameplay.templates.TRoomPhaseData;
+
 import java.io.Serializable;
 
 public class RoomPhaseData extends TRoomPhaseData implements Serializable {

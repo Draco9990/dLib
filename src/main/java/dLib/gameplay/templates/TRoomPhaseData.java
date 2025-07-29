@@ -1,4 +1,4 @@
-package dLib.gameplay;
+package dLib.gameplay.templates;
 
 import java.io.Serializable;
 

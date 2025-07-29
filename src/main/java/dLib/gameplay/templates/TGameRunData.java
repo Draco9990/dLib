@@ -1,14 +1,10 @@
-package dLib.gameplay;
+package dLib.gameplay.templates;
 
-import com.evacipated.cardcrawl.modthespire.lib.SpireField;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.vfx.ObtainKeyEffect;
+import dLib.gameplay.DungeonCycleData;
 
 import java.io.Serializable;
-import java.rmi.AccessException;
 import java.util.ArrayList;
 import java.util.HashMap;
 

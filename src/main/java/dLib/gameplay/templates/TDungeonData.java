@@ -1,6 +1,7 @@
-package dLib.gameplay;
+package dLib.gameplay.templates;
 
 import com.badlogic.gdx.math.Vector2;
+import dLib.gameplay.RoomData;
 
 import java.io.Serializable;
 import java.util.HashMap;

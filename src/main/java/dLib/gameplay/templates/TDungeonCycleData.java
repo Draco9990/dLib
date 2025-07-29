@@ -1,4 +1,6 @@
-package dLib.gameplay;
+package dLib.gameplay.templates;
+
+import dLib.gameplay.DungeonData;
 
 import java.io.Serializable;
 import java.util.HashMap;

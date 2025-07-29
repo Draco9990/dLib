@@ -1,9 +1,8 @@
 package dLib.gameplay;
 
-import com.badlogic.gdx.math.Vector2;
+import dLib.gameplay.templates.TDungeonData;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 public class DungeonData extends TDungeonData<RoomData> implements Serializable {
     static final long serialVersionUID = 1L;

@@ -2,11 +2,14 @@ package dLib.gameplay;
 
 import basemod.BaseMod;
 import basemod.abstracts.CustomSavable;
+import basemod.interfaces.PreStartGameSubscriber;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
+import dLib.util.Reflection;
+import dLib.util.SerializationHelpers;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.serializableevents.SerializableConsumer;
 import dLib.util.helpers.GameplayHelpers;
@@ -29,6 +32,25 @@ public class GameplayInformationTracker {
             @Override
             public void onLoad(Integer integer) {
                 infinityCounter = integer;
+            }
+        });
+
+        BaseMod.subscribe(new PreStartGameSubscriber() {
+            @Override
+            public void receivePreStartGame() {
+                Reflection.setFieldValue("current", GameRunData.class, new GameRunData());
+            }
+        });
+
+        BaseMod.addSaveField("runData", new CustomSavable<String>() {
+            @Override
+            public String onSave() {
+                return SerializationHelpers.toString(GameRunData.getCurrent());
+            }
+
+            @Override
+            public void onLoad(String s) {
+                Reflection.setFieldValue("current", GameRunData.class, SerializationHelpers.fromString(s));
             }
         });
 
