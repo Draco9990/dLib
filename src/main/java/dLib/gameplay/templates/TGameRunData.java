@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class TGameRunData<TDungeonCycleDef extends DungeonCycleData> implements Serializable {
+public abstract class TGameRunData<TDungeonCycleDef extends TDungeonCycleData> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -36,7 +36,7 @@ public abstract class TGameRunData<TDungeonCycleDef extends DungeonCycleData> im
     }
 
     public void cleanForSave(){
-        dungeonCycles.values().forEach(DungeonCycleData::cleanForSave);
+        dungeonCycles.values().forEach(TDungeonCycleData::cleanForSave);
     }
 
     //endregion Methods

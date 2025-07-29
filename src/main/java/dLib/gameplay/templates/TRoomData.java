@@ -5,7 +5,7 @@ import dLib.gameplay.RoomPhaseData;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public abstract class TRoomData<TRoomPhaseDataDef extends RoomPhaseData> implements Serializable {
+public abstract class TRoomData<TRoomPhaseDataDef extends TRoomPhaseData> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -18,12 +18,12 @@ public abstract class TRoomData<TRoomPhaseDataDef extends RoomPhaseData> impleme
 
     public abstract TRoomPhaseDataDef makeRoomPhaseData();
 
-    public RoomPhaseData getRoomPhase(int phase) {
+    public TRoomPhaseDataDef getRoomPhase(int phase) {
         return phases.computeIfAbsent(phase, k -> makeRoomPhaseData());
     }
 
     public void cleanForSave(){
-        phases.values().forEach(RoomPhaseData::cleanForSave);
+        phases.values().forEach(TRoomPhaseData::cleanForSave);
     }
 
     //endregion Methods

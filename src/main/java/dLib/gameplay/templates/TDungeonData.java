@@ -6,7 +6,7 @@ import dLib.gameplay.RoomData;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public abstract class TDungeonData<TRoomDataDef extends RoomData> implements Serializable {
+public abstract class TDungeonData<TRoomDataDef extends TRoomData> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -19,12 +19,12 @@ public abstract class TDungeonData<TRoomDataDef extends RoomData> implements Ser
 
     public abstract TRoomDataDef makeRoomData();
 
-    public RoomData getRoom(int x, int y) {
+    public TRoomDataDef getRoom(int x, int y) {
         return rooms.computeIfAbsent(new Vector2(x, y), k -> makeRoomData());
     }
 
     public void cleanForSave(){
-        rooms.values().forEach(RoomData::cleanForSave);
+        rooms.values().forEach(TRoomData::cleanForSave);
     }
 
     //endregion Methods
