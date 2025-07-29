@@ -11,6 +11,14 @@ public class DungeonCycleData extends TDungeonCycleData<DungeonData> implements 
 
     //endregion Variables
 
+    //region Constructors
+
+    public DungeonCycleData(int infinityDepth) {
+        super(infinityDepth);
+    }
+
+    //endregion Constructors
+
     //region Methods
 
     //region Static Getters
@@ -29,8 +37,8 @@ public class DungeonCycleData extends TDungeonCycleData<DungeonData> implements 
     //endregion Static Getters
 
     @Override
-    public DungeonData makeDungeonData() {
-        return new DungeonData();
+    public DungeonData makeDungeonData(String forAct) {
+        return new DungeonData(infinityDepth, forAct);
     }
 
     //endregion Methods

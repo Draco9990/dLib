@@ -5,10 +5,15 @@ import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.neow.NeowRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import com.megacrit.cardcrawl.rooms.TreasureRoomBoss;
+import dLib.gameplay.templates.TDungeonCycleData;
+import dLib.gameplay.templates.TDungeonData;
+import dLib.gameplay.templates.TRoomData;
+import dLib.gameplay.templates.TRoomPhaseData;
 import dLib.util.DLibLogger;
 import dLib.util.helpers.GameplayHelpers;
 
 import java.io.Serializable;
+import java.rmi.AccessException;
 import java.util.Objects;
 
 public class SpireLocation implements Serializable {
@@ -73,8 +78,28 @@ public class SpireLocation implements Serializable {
         );
     }
 
-    public static SpireLocation getForRoomOnCurrentFloor(MapRoomNode roomNode){
+    public static SpireLocation getFor(MapRoomNode roomNode){
         return new SpireLocation(GameplayInformationTracker.getInfinityCycle(), GameplayHelpers.getCurrentActName(), roomNode);
+    }
+
+    public static <T extends Throwable> SpireLocation getFor(TRoomPhaseData roomPhase) throws T{
+        if(roomPhase.roomType.getValue() == null){
+            throw (T) new AccessException("Tried to generate SpireLocation for TRoomPhaseData that was incomplete");
+        }
+        return new SpireLocation(roomPhase.infinityDepth, roomPhase.act, roomPhase.x, roomPhase.y, roomPhase.phase, roomPhase.roomType.getValue());
+    }
+
+    public static <T extends Throwable> SpireLocation getPartial(TDungeonCycleData dungeonCycle) {
+        return new SpireLocation(dungeonCycle.infinityDepth, null, -1, -1, -1, null);
+    }
+    public static <T extends Throwable> SpireLocation getPartial(TDungeonData dungeon) {
+        return new SpireLocation(dungeon.infinityDepth, dungeon.act, -1, -1, -1, null);
+    }
+    public static <T extends Throwable> SpireLocation getPartial(TRoomData room) {
+        return new SpireLocation(room.infinityDepth, room.act, room.x, room.y, -1, null);
+    }
+    public static <T extends Throwable> SpireLocation getPartial(TRoomPhaseData roomPhase) {
+        return new SpireLocation(roomPhase.infinityDepth, roomPhase.act, roomPhase.x, roomPhase.y, roomPhase.phase, roomPhase.roomType.getValue());
     }
 
     //endregion Static Getters
@@ -125,6 +150,27 @@ public class SpireLocation implements Serializable {
     }
     public boolean inSameActAs(SpireLocation location){
         return act.equals(location.act) && infinityCounter == location.infinityCounter;
+    }
+
+    public boolean sameAs(TDungeonCycleData dungeonCycle){
+        return infinityCounter == dungeonCycle.infinityDepth;
+    }
+    public boolean sameAs(TDungeonData dungeon){
+        return infinityCounter == dungeon.infinityDepth &&
+                act.equals(dungeon.act);
+    }
+    public boolean sameAs(TRoomData room){
+        return infinityCounter == room.infinityDepth &&
+                act.equals(room.act) &&
+                x == room.x &&
+                y == room.y;
+    }
+    public boolean sameAs(TRoomPhaseData roomPhase){
+        return infinityCounter == roomPhase.infinityDepth &&
+                act.equals(roomPhase.act) &&
+                x == roomPhase.x &&
+                y == roomPhase.y &&
+                phase == roomPhase.phase;
     }
 
     //endregion Comparisons

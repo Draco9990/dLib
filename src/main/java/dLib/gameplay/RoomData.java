@@ -11,6 +11,14 @@ public class RoomData extends TRoomData<RoomPhaseData> implements Serializable {
 
     //endregion Variables
 
+    //region Constructors
+
+    public RoomData(int infinityDepth, String act, int x, int y) {
+        super(infinityDepth, act, x, y);
+    }
+
+    //endregion Constructors
+
     //region Methods
 
     //region Static Getters
@@ -29,8 +37,8 @@ public class RoomData extends TRoomData<RoomPhaseData> implements Serializable {
     //endregion Static Getters
 
     @Override
-    public RoomPhaseData makeRoomPhaseData() {
-        return new RoomPhaseData();
+    public RoomPhaseData makeRoomPhaseData(int forPhase) {
+        return new RoomPhaseData(infinityDepth, act, x, y, forPhase);
     }
 
     //endregion Methods

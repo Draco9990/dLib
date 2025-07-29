@@ -2,7 +2,6 @@ package dLib.gameplay.templates;
 
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.vfx.ObtainKeyEffect;
-import dLib.gameplay.DungeonCycleData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,10 +20,10 @@ public abstract class TGameRunData<TDungeonCycleDef extends TDungeonCycleData> i
 
     //region Methods
 
-    public abstract TDungeonCycleDef makeDungeonCycleData();
+    public abstract TDungeonCycleDef makeDungeonCycleData(int forInfinityDepth);
 
     public TDungeonCycleDef getDungeonCycle(int infinityDepth) {
-        return dungeonCycles.computeIfAbsent(infinityDepth, k -> makeDungeonCycleData());
+        return dungeonCycles.computeIfAbsent(infinityDepth, k -> makeDungeonCycleData(infinityDepth));
     }
 
     public void load(){

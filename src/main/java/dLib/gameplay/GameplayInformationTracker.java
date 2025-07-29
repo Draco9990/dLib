@@ -64,6 +64,8 @@ public class GameplayInformationTracker {
         });
 
         GameplayHelpers.postRoomChangeGlobalEvent.subscribeManaged(mapRoomNode -> roomPhaseCounter = 0);
+
+        RoomPhaseData.registerStaticEvents();
     }
 
     public static int getInfinityCycle() {

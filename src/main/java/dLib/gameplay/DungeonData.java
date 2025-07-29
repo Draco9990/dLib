@@ -11,6 +11,14 @@ public class DungeonData extends TDungeonData<RoomData> implements Serializable 
 
     //endregion Variables
 
+    //region Constructors
+
+    public DungeonData(int infinityDepth, String act) {
+        super(infinityDepth, act);
+    }
+
+    //endregion Constructors
+
     //region Methods
 
     //region Static Getters
@@ -29,8 +37,8 @@ public class DungeonData extends TDungeonData<RoomData> implements Serializable 
     //endregion Static Getters
 
     @Override
-    public RoomData makeRoomData() {
-        return new RoomData();
+    public RoomData makeRoomData(int forX, int forY) {
+        return new RoomData(infinityDepth, act, forX, forY);
     }
 
     //endregion Methods

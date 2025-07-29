@@ -28,8 +28,8 @@ public class GameRunData extends TGameRunData<DungeonCycleData> implements Seria
     }
 
     @Override
-    public DungeonCycleData makeDungeonCycleData() {
-        return new DungeonCycleData();
+    public DungeonCycleData makeDungeonCycleData(int forInfinityDepth) {
+        return new DungeonCycleData(forInfinityDepth);
     }
 
     //endregion Static Getters
