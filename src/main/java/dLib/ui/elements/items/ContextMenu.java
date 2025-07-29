@@ -32,7 +32,9 @@ public class ContextMenu extends HorizontalBox {
         setTexture(Tex.stat(UICommonResources.button02_square));
         setRenderColor(Color.WHITE);
 
-        setContentPadding(Padd.px(10));
+        setVerticalAlignment(Alignment.VerticalAlignment.TOP);
+
+        setContentPadding(Padd.px(12));
         setHorizontalItemSpacing(3);
 
         setContextual(true);
