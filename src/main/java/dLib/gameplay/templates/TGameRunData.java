@@ -6,13 +6,14 @@ import com.megacrit.cardcrawl.vfx.ObtainKeyEffect;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class TGameRunData<TDungeonCycleDef extends TDungeonCycleData> implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
 
-    public HashMap<Integer, TDungeonCycleDef> dungeonCycles = new HashMap<>();
+    public LinkedHashMap<Integer, TDungeonCycleDef> dungeonCycles = new LinkedHashMap<>();
 
     public ArrayList<ObtainKeyEffect.KeyColor> collectedKeys = new ArrayList<>();
 

@@ -4,6 +4,7 @@ import dLib.gameplay.SpireLocation;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class TRoomData<TRoomPhaseDataDef extends TRoomPhaseData> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -15,7 +16,7 @@ public abstract class TRoomData<TRoomPhaseDataDef extends TRoomPhaseData> implem
     public final int x;
     public final int y;
 
-    public HashMap<Integer, TRoomPhaseDataDef> phases = new HashMap<>();
+    public LinkedHashMap<Integer, TRoomPhaseDataDef> phases = new LinkedHashMap<>();
 
     //endregion Variables
 

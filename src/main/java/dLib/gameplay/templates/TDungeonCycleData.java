@@ -4,6 +4,7 @@ import dLib.gameplay.SpireLocation;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class TDungeonCycleData<TDungeonDataDef extends TDungeonData> implements Serializable {
     static final long serialVersionUID = 1L;
@@ -12,7 +13,7 @@ public abstract class TDungeonCycleData<TDungeonDataDef extends TDungeonData> im
 
     public final int infinityDepth;
 
-    public HashMap<String, TDungeonDataDef> dungeons = new HashMap<>();
+    public LinkedHashMap<String, TDungeonDataDef> dungeons = new LinkedHashMap<>();
 
     //endregion Variables
 

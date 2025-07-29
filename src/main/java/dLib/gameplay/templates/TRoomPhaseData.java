@@ -22,6 +22,7 @@ public class TRoomPhaseData implements Serializable {
     public final int y;
     public final int phase;
 
+    // todo migrate to instance data
     public Property<String> roomType = new Property<>(null);
 
     public Property<RoomOutcome> outcome = new Property<>(RoomOutcome.NONE);
