@@ -11,7 +11,7 @@ import dLib.util.helpers.GameplayHelpers;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class PlayerLocation implements Serializable {
+public class SpireLocation implements Serializable {
     static final long serialVersionUID = 1L;
 
     //region Variables
@@ -31,11 +31,11 @@ public class PlayerLocation implements Serializable {
 
     //region Constructors
 
-    private PlayerLocation(int infinityCounter, String act, MapRoomNode roomNode){
+    private SpireLocation(int infinityCounter, String act, MapRoomNode roomNode){
         this(infinityCounter, act, roomNode.x, roomNode.y, 0, roomNode.room.getClass().getSimpleName());
     }
 
-    private PlayerLocation(int infinityCounter, String act, int x, int y, int phase, String roomType){
+    private SpireLocation(int infinityCounter, String act, int x, int y, int phase, String roomType){
         this.infinityCounter = infinityCounter;
         this.act = act;
         this.x = x;
@@ -50,11 +50,11 @@ public class PlayerLocation implements Serializable {
 
     //region Static Getters
 
-    public static PlayerLocation getCurrent(){
+    public static SpireLocation getCurrent(){
         return getCurrent(true);
     }
 
-    public static PlayerLocation getCurrent(boolean logFailure){
+    public static SpireLocation getCurrent(boolean logFailure){
         MapRoomNode currMapNode = AbstractDungeon.getCurrMapNode();
         if(currMapNode == null){
             if(logFailure){
@@ -63,7 +63,7 @@ public class PlayerLocation implements Serializable {
             return null;
         }
 
-        return new PlayerLocation(
+        return new SpireLocation(
                 GameplayInformationTracker.getInfinityCycle(),
                 GameplayHelpers.getCurrentActName(),
                 currMapNode.x,
@@ -73,8 +73,8 @@ public class PlayerLocation implements Serializable {
         );
     }
 
-    public static PlayerLocation getForRoomOnCurrentFloor(MapRoomNode roomNode){
-        return new PlayerLocation(GameplayInformationTracker.getInfinityCycle(), GameplayHelpers.getCurrentActName(), roomNode);
+    public static SpireLocation getForRoomOnCurrentFloor(MapRoomNode roomNode){
+        return new SpireLocation(GameplayInformationTracker.getInfinityCycle(), GameplayHelpers.getCurrentActName(), roomNode);
     }
 
     //endregion Static Getters
@@ -100,7 +100,7 @@ public class PlayerLocation implements Serializable {
     public boolean inSameRoom(){
         return inSameRoomAs(getCurrent());
     }
-    public boolean inSameRoomAs(PlayerLocation location){
+    public boolean inSameRoomAs(SpireLocation location){
         if(!GameplayHelpers.isInARun()) {
             return false;
         }
@@ -112,10 +112,10 @@ public class PlayerLocation implements Serializable {
                 Objects.equals(roomType, location.roomType);
     }
 
-    public boolean inSameRoomAndAction(){
-        return inSameRoomAndActionAs(getCurrent());
+    public boolean inSameRoomAndPhase(){
+        return inSameRoomAndPhaseAs(getCurrent());
     }
-    public boolean inSameRoomAndActionAs(PlayerLocation location){
+    public boolean inSameRoomAndPhaseAs(SpireLocation location){
         return inSameRoomAs(location) &&
                 phase == location.phase;
     }
@@ -123,7 +123,7 @@ public class PlayerLocation implements Serializable {
     public boolean inSameAct(){
         return inSameActAs(getCurrent());
     }
-    public boolean inSameActAs(PlayerLocation location){
+    public boolean inSameActAs(SpireLocation location){
         return act.equals(location.act) && infinityCounter == location.infinityCounter;
     }
 
@@ -136,11 +136,11 @@ public class PlayerLocation implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof PlayerLocation)){
+        if(!(obj instanceof SpireLocation)){
             return false;
         }
 
-        return inSameRoomAndActionAs((PlayerLocation) obj);
+        return inSameRoomAndPhaseAs((SpireLocation) obj);
     }
 
     //endregion Methods
