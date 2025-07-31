@@ -22,11 +22,13 @@ public abstract class MagicColor extends Color {
     }
 
     public abstract Color getFinalColor();
-    public abstract Color getFinalDeterminedColor_RenderPosition(int xPos, int yPos);
+    public abstract Color getFinalColorForPosition(int xPos, int yPos);
 
     public abstract Texture getSquareImage();
 
-    public abstract MagicColor cpy();
+    public MagicColor cpy(){
+        return (MagicColor) Color.valueOf(toString());
+    }
 
     @Override
     public String toString() {
