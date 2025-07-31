@@ -4,7 +4,7 @@ import com.vdurmont.semver4j.Semver;
 
 import java.io.Serializable;
 
-public class Version implements Serializable {
+public class Version implements Serializable, Comparable<Version> {
     private final int major;
     private final int minor;
     private final int patch;
@@ -88,41 +88,38 @@ public class Version implements Serializable {
         return major + "." + minor + "." + patch;
     }
 
-    public VersionDifference compareTo(Version other) {
+    @Override
+    public int compareTo(Version other) {
         if(this.alpha && !other.alpha){
-            return VersionDifference.LOWER;
+            return -1;
         } else if(!this.alpha && other.alpha){
-            return VersionDifference.HIGHER;
+            return 1;
         }
 
         if(this.beta && !other.beta){
-            return VersionDifference.LOWER;
+            return -1;
         } else if(!this.beta && other.beta){
-            return VersionDifference.HIGHER;
+            return 1;
         }
 
         if (this.major != other.major) {
-            int comparison = Integer.compare(this.major, other.major);
-            return comparison < 0 ? VersionDifference.LOWER : VersionDifference.HIGHER;
+            return Integer.compare(this.major, other.major);
         }
         if (this.minor != other.minor) {
-            int comparison = Integer.compare(this.minor, other.minor);
-            return comparison < 0 ? VersionDifference.LOWER : VersionDifference.HIGHER;
+            return Integer.compare(this.minor, other.minor);
         }
 
-        int comparison = Integer.compare(this.patch, other.patch);
-        return comparison < 0 ? VersionDifference.LOWER : comparison > 0 ? VersionDifference.HIGHER : VersionDifference.EQUAL;
+        return Integer.compare(this.patch, other.patch);
     }
 
-    public VersionDifference comparedTo(Version other){
-        VersionDifference comparison = compareTo(other);
-        if(comparison == VersionDifference.LOWER){
-            return VersionDifference.HIGHER;
-        } else if(comparison == VersionDifference.HIGHER){
-            return VersionDifference.LOWER;
-        } else {
-            return VersionDifference.EQUAL;
-        }
+    public boolean isOlderThan(Version other) {
+        return this.compareTo(other) < 0;
+    }
+    public boolean isNewerThan(Version other) {
+        return this.compareTo(other) > 0;
+    }
+    public boolean isSameAs(Version other) {
+        return this.compareTo(other) == 0;
     }
 
     @Override
@@ -136,11 +133,5 @@ public class Version implements Serializable {
     @Override
     public int hashCode() {
         return 31 * major + 17 * minor + patch;
-    }
-
-    public enum VersionDifference {
-        LOWER,
-        EQUAL,
-        HIGHER
     }
 }

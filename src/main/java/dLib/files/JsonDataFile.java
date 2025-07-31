@@ -16,7 +16,7 @@ public abstract class JsonDataFile {
     //region Methods
 
     public void save() {
-        JsonDataFileManager.saveFile(this);
+        JsonDataFileManager.save(this);
     }
 
     public static <T extends JsonDataFile> T load(Class<T> c){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.codedisaster.steamworks.SteamRemoteStorage;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import dLib.modversions.ModVersionTracker;
 import dLib.util.AESEncryption;
 import dLib.util.DLibLogger;
 import dLib.util.SerializationHelpers;
@@ -29,36 +30,43 @@ public class JsonDataFileManager {
         fileRules.put(fileClass, rules);
     }
 
-    public static void saveFile(JsonDataFile file){
+    public static void save(JsonDataFile file){
         if(!fileRules.containsKey(file.getClass())) {
             throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
         }
-
-        JsonStorageFileRules rules = fileRules.get(file.getClass());
-
+        JsonStorageFileRules<? extends JsonDataFile> rules = fileRules.get(file.getClass());
+    }
+    public static void save(JsonDataFile file, int saveSlot){
+        if(!fileRules.containsKey(file.getClass())) {
+            throw new IllegalArgumentException("No rules registered for " + file.getClass().getName());
+        }
+        JsonStorageFileRules<? extends JsonDataFile> rules = fileRules.get(file.getClass());
+    }
+    private static void saveForFile(JsonDataFile file, JsonStorageFileRules<? extends JsonDataFile> rules, Integer forSaveSlot){
         String jsonOutput = new Gson().toJson(file);
         if(rules.encryptionKey != null){
             jsonOutput = AESEncryption.encrypt(jsonOutput, rules.encryptionKey);
         }
 
-        String fileName = rules.fileName;
-        if(rules.perSave){
-            fileName += CardCrawlGame.saveSlot;
-        }
-        fileName += rules.extension;
+        String localRelativePath = rules.localRelativeDirPath + (rules.localRelativeDirPath.endsWith("/") ? "" : "/");
+        String fileName = getFileName(rules, forSaveSlot);
+        String gameFilePath = localRelativePath + fileName;
 
         if(rules.saveLocal){
-            String stsDir = Gdx.files.local("").file().getAbsolutePath() + "/" + rules.localRelativeDirPath + "/";
+            String stsPath = Gdx.files.local("").file().getAbsolutePath() + "/";
+
             try{
-                Path pathToFile = Paths.get(stsDir + fileName);
+                Path pathToFile = Paths.get(stsPath + gameFilePath);
                 Files.createDirectories(pathToFile.getParent());
 
-                FileWriter writer = new FileWriter(stsDir + fileName, false);
+                FileWriter writer = new FileWriter(stsPath + gameFilePath, false);
                 writer.write(jsonOutput);
                 writer.close();
+
+                DLibLogger.log("Saved file " + (stsPath + gameFilePath) + " for " + file.getClass().getName() + " with save slot " + forSaveSlot + " to local storage.");
             }
             catch (Exception e) {
-                DLibLogger.log("Could not create directories for file " + stsDir + " due to " + e);
+                DLibLogger.log("Could not create directories for file " + (stsPath + gameFilePath) + " due to " + e);
                 e.printStackTrace();
             }
         }
@@ -66,7 +74,8 @@ public class JsonDataFileManager {
             SteamRemoteStorage remoteStorage = SteamHelpers.remoteStorage;
             if(remoteStorage != null){
                 try{
-                    remoteStorage.fileWrite(fileName, SerializationHelpers.toByteBuffer(jsonOutput));
+                    remoteStorage.fileWrite(gameFilePath, SerializationHelpers.toByteBuffer(jsonOutput));
+                    DLibLogger.log("Saved file " + gameFilePath + " for " + file.getClass().getName() + " with save slot " + forSaveSlot + " to Steam Cloud.");
                 }catch (Exception e){
                     DLibLogger.logError("Failed to save file to Steam Cloud due to " + e.getLocalizedMessage(), DLibLogger.ErrorType.NON_FATAL);
                     e.printStackTrace();
@@ -76,12 +85,7 @@ public class JsonDataFileManager {
     }
 
     public static <T extends JsonDataFile> T load(Class<T> file){
-        if(!fileRules.containsKey(file)) {
-            throw new IllegalArgumentException("No rules registered for " + file.getName());
-        }
-        JsonStorageFileRules<T> rules = fileRules.get(file);
-
-        return loadForFile(file, rules, null);
+        return load(file, CardCrawlGame.saveSlot);
     }
     public static <T extends JsonDataFile> T load(Class<T> file, int saveSlot){
         if(!fileRules.containsKey(file)) {
@@ -91,11 +95,10 @@ public class JsonDataFileManager {
 
         return loadForFile(file, rules, saveSlot);
     }
-    private static <T extends JsonDataFile> T loadForFile(Class<T> file, JsonStorageFileRules<T> rules, Integer forSaveSlot){
+    private static <T extends JsonDataFile> T loadForFile(Class<T> file, JsonStorageFileRules<T> rules, int forSaveSlot){
         {
             if(rules.perSave){
-                int save = forSaveSlot != null ? forSaveSlot : CardCrawlGame.saveSlot;
-                Pair<Class<? extends JsonDataFile>, Integer> key = new Pair<>(file, save);
+                Pair<Class<? extends JsonDataFile>, Integer> key = new Pair<>(file, forSaveSlot);
                 if(loadedFilesPerSave.containsKey(key)){
                     return (T) loadedFilesPerSave.get(key);
                 }
@@ -108,13 +111,17 @@ public class JsonDataFileManager {
             }
         }
 
+        String localRelativePath = rules.localRelativeDirPath + (rules.localRelativeDirPath.endsWith("/") ? "" : "/");
+        String fileName = getFileName(rules, forSaveSlot);
+        String gameFilePath = localRelativePath + fileName;
+
         String jsonData = null;
         if(rules.saveSteamCloud && SteamHelpers.isSteamAvailable()){
             SteamRemoteStorage remoteStorage = SteamHelpers.remoteStorage;
             if(remoteStorage != null){
                 try{
                     ByteBuffer dataBuffer = ByteBuffer.allocateDirect(10 * 1024 * 1024);
-                    remoteStorage.fileRead(getFileName(rules, forSaveSlot), dataBuffer);
+                    remoteStorage.fileRead(gameFilePath, dataBuffer);
                     jsonData = SerializationHelpers.fromByteBuffer(dataBuffer);
                 }catch (Exception e){
                     DLibLogger.logError("Failed to load file from Steam Cloud due to " + e.getLocalizedMessage(), DLibLogger.ErrorType.NON_FATAL);
@@ -123,16 +130,17 @@ public class JsonDataFileManager {
             }
         }
         if(jsonData == null && rules.saveLocal){
-            String stsDir = Gdx.files.local("").file().getAbsolutePath() + "/" + rules.localRelativeDirPath + "/";
+            String stsPath = Gdx.files.local("").file().getAbsolutePath() + "/";
+
             try{
-                Path pathToFile = Paths.get(stsDir + getFileName(rules, forSaveSlot));
+                Path pathToFile = Paths.get(stsPath + gameFilePath);
                 Files.createDirectories(pathToFile.getParent());
                 if(Files.exists(pathToFile)){
                     jsonData = new String(Files.readAllBytes(pathToFile), StandardCharsets.UTF_8);
                 }
             }
             catch (Exception e) {
-                DLibLogger.log("Could not create directories for file " + stsDir + " due to " + e);
+                DLibLogger.log("Could not create directories for file " + (stsPath + gameFilePath) + " due to " + e);
                 e.printStackTrace();
             }
         }
@@ -154,8 +162,7 @@ public class JsonDataFileManager {
 
         {
             if(rules.perSave){
-                int save = forSaveSlot != null ? forSaveSlot : CardCrawlGame.saveSlot;
-                Pair<Class<? extends JsonDataFile>, Integer> key = new Pair<>(file, save);
+                Pair<Class<? extends JsonDataFile>, Integer> key = new Pair<>(file, forSaveSlot);
                 loadedFilesPerSave.put(key, toReturn);
             }
             else {
@@ -218,10 +225,10 @@ public class JsonDataFileManager {
         }
     }
 
-    private static String getFileName(JsonStorageFileRules<?> rules, Integer saveSlotOverride) {
+    private static String getFileName(JsonStorageFileRules<?> rules, int saveSlot) {
         String fileName = rules.fileName;
         if(rules.perSave){
-            fileName += saveSlotOverride != null ? saveSlotOverride : CardCrawlGame.saveSlot;
+            fileName += saveSlot;
         }
         return fileName + rules.extension;
     }

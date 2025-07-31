@@ -1,8 +1,12 @@
 package dLib;
 
 import basemod.BaseMod;
+import basemod.abstracts.CustomSavable;
 import basemod.interfaces.PostInitializeSubscriber;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
@@ -15,8 +19,10 @@ import dLib.commands.CommandManager;
 import dLib.custominput.CustomKeybindManager;
 import dLib.developermode.DeveloperModeManager;
 import dLib.external.ExternalEditorCommunicationManager;
+import dLib.files.JsonDataFileManager;
 import dLib.gameplay.GameplayInformationTracker;
 import dLib.mainmenubuttons.MainMenuButtonManager;
+import dLib.modversions.ModVersionManager;
 import dLib.patchnotes.Patchnotes;
 import dLib.patchnotes.PatchnotesManager;
 import dLib.patchnotes.PatchnotesPatches;
@@ -65,6 +71,8 @@ public class DLib implements PostInitializeSubscriber{
 
     @Override
     public void receivePostInitialize() {
+        ModVersionManager.init();
+
         GameplayInformationTracker.init();
 
         GeneratedUIManager.initialize();
@@ -86,15 +94,14 @@ public class DLib implements PostInitializeSubscriber{
         DeveloperModeManager.init();
 
         PatchnotesPatches.init();
+    }
 
-        Patchnotes test = new Patchnotes();
-
-        Patchnotes.PatchnotesEntry testEntry = new Patchnotes.PatchnotesEntry(Str.stat("Test entry 1"), Str.stat("AAAAAAA\nBBBBBB"));
-        test.entries.add(testEntry);
-        Patchnotes.PatchnotesEntry testEntry2 = new Patchnotes.PatchnotesEntry(Str.stat("Test entry 2"), Str.stat("AAAAAAA\nBBBBBB"));
-        test.entries.add(testEntry2);
-
-        PatchnotesManager.registerCustomPatchnotes("dLib", () -> new PanelListScreen.Panel(Str.stat("DLib Test"), Tex.stat(UICommonResources.transparent_pixel), Str.stat("This is a description!!!")), test);
+    @SpirePatch2(clz = BaseMod.class, method = "publishPostInitialize")
+    public static class PostPostInitialize{
+        @SpirePostfixPatch
+        public static void Postfix(){
+            ModVersionManager.postInit();
+        }
     }
 
     public static void registerCustomKeybind(String actionId, Function<String, String> getLocalizedDisplayName, InputAction inputAction, CInputAction cInputAction){
