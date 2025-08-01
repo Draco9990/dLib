@@ -4,6 +4,7 @@ import basemod.BaseMod;
 import basemod.abstracts.CustomSavable;
 import basemod.interfaces.PreStartGameSubscriber;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.map.MapRoomNode;
@@ -55,8 +56,10 @@ public class GameplayInformationTracker {
         });
 
         GameplayHelpers.postDungeonChangeGlobalEvent.subscribeManaged((abstractDungeon, abstractDungeon2) -> {
-            infinityCounter++;
-            postInfinityCycleIncreaseGlobalEvent.invoke(infinityCounter);
+            if(abstractDungeon2 instanceof Exordium) {
+                infinityCounter++;
+                postInfinityCycleIncreaseGlobalEvent.invoke(infinityCounter);
+            }
         });
         GameplayHelpers.postGameResetGlobalEvent.subscribeManaged(() -> {
             infinityCounter = 0;

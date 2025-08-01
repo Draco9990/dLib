@@ -26,9 +26,7 @@ public abstract class MagicColor extends Color {
 
     public abstract Texture getSquareImage();
 
-    public MagicColor cpy(){
-        return (MagicColor) Color.valueOf(toString());
-    }
+    public abstract MagicColor cpy();
 
     @Override
     public String toString() {
