@@ -15,7 +15,9 @@ import java.util.Comparator;
 public class PotionSelectPopup extends GameItemSelectPopup<AbstractPotion> {
     public PotionSelectPopup() {
         super("Potions");
+    }
 
+    public void putAllPotions(){
         ArrayList<AbstractPotion> allRelics = new ArrayList<>();
         allRelics.addAll(PotionHelper.getPotionsByRarity(AbstractPotion.PotionRarity.COMMON));
         allRelics.addAll(PotionHelper.getPotionsByRarity(AbstractPotion.PotionRarity.UNCOMMON));

@@ -12,6 +12,10 @@ public class FunctionEvent<Type1, Type2> extends Event<SerializableFunction<Type
     }
 
     public ArrayList<Type2> invoke(Type1 arg1){
+        if(!initialized){
+            return new ArrayList<>();
+        }
+
         ArrayList<Type2> results = new ArrayList<>();
 
         super.invoke(consumer -> {
@@ -22,6 +26,10 @@ public class FunctionEvent<Type1, Type2> extends Event<SerializableFunction<Type
     }
 
     public ArrayList<Type2> invokeWhile(Type1 arg1, SerializableFunction<Type2, Boolean> condition){
+        if(!initialized){
+            return new ArrayList<>();
+        }
+
         ArrayList<Type2> results = new ArrayList<>();
 
         super.invokeWhile(consumer -> {

@@ -12,7 +12,9 @@ import java.util.Comparator;
 public class RelicSelectPopup extends GameItemSelectPopup<AbstractRelic> {
     public RelicSelectPopup() {
         super("Relics");
+    }
 
+    public void putAllPotions(){
         ArrayList<AbstractRelic> allRelics = new ArrayList<>();
         allRelics.addAll(RelicLibrary.starterList);
         allRelics.addAll(RelicLibrary.commonList);

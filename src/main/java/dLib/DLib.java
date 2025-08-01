@@ -9,6 +9,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
+import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import com.megacrit.cardcrawl.screens.stats.AchievementItem;
 import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
@@ -30,6 +31,7 @@ import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.GeneratedUIManager;
 import dLib.ui.resources.UICommonResources;
+import dLib.util.Reflection;
 import dLib.util.bindings.string.AbstractStringBinding;
 import dLib.util.bindings.string.Str;
 import dLib.util.bindings.texture.Tex;
@@ -94,6 +96,8 @@ public class DLib implements PostInitializeSubscriber{
         DeveloperModeManager.init();
 
         PatchnotesPatches.init();
+
+        Reflection.removeFinalModifier("SPACING_X", MapRoomNode.class);
     }
 
     @SpirePatch2(clz = BaseMod.class, method = "publishPostInitialize")

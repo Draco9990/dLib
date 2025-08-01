@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.neow.NeowRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
 import dLib.gameplay.GameplayInformationTracker;
+import dLib.util.events.Event;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.localevents.RunnableEvent;

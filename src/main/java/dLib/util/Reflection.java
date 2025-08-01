@@ -141,6 +141,49 @@ public class Reflection {
         }
     }
 
+    public static void removeFinalModifier(String fieldName, Object source){
+        if(fieldName == null){
+            DLibLogger.logError("setFieldValue called with null fieldName. Stacktrace:");
+            DebugHelpers.printStacktrace(5);
+        }
+        if(source == null){
+            DLibLogger.logError("setFieldValue called with null object source. Stacktrace:");
+            DebugHelpers.printStacktrace(5);
+        }
+
+        try{
+            Field field = getFieldByName(fieldName, (source instanceof Class<?> ? ((Class<?>)source) : source.getClass()));
+            removeFinalModifier(field, source);
+        } catch (Exception e) {
+            String message = "Could not remove final modified from field " + fieldName + " due to " + e.getLocalizedMessage();
+            DLibLogger.logError(message);
+            e.printStackTrace();
+        }
+    }
+    public static void removeFinalModifier(Field field, Object source){
+        if(field == null){
+            DLibLogger.logError("setFieldValue called with null field. Stacktrace:");
+            DebugHelpers.printStacktrace(5);
+            return;
+        }
+
+        try{
+            //If our field type is not a spire field or if it is and the value we're setting is also spirefield
+            field.setAccessible(true);
+
+            if (Modifier.isFinal(field.getModifiers())) {
+                // If it's final, we need to remove the final modifier
+                Field modifiersField = Field.class.getDeclaredField("modifiers");
+                modifiersField.setAccessible(true);
+                modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+            }
+        } catch (Exception e) {
+            String message = "Could not remove final modifier from field " + field.getName() + " due to " + e.getLocalizedMessage();
+            DLibLogger.logError(message);
+            e.printStackTrace();
+        }
+    }
+
     public static Field getFieldByName(String fieldName, Class<?> objectClass){
         for(Map<String, Field> objectFields : getAllFields(objectClass)){
             if(objectFields != null){

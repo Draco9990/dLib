@@ -20,6 +20,7 @@ import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
+import dLib.util.events.serializableevents.SerializableConsumer;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -30,14 +31,16 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
     //region Variables
 
-    ItemListWindow<GameItemType> itemListWindow;
+    public ItemListWindow<GameItemType> itemListWindow;
 
-    ItemFiltersSidebar itemFiltersSidebar;
-    ItemDetailsSidebar<GameItemType> itemDetailsSidebar;
+    public ItemFiltersSidebar itemFiltersSidebar;
+    public ItemDetailsSidebar<GameItemType> itemDetailsSidebar;
 
     private boolean ignoreUnlockStatus = true;
 
     public ConsumerEvent<ArrayList<GameItemType>> onItemsSelected = new ConsumerEvent<>();
+
+    private int seletionMinimum = -1;
 
     //endregion Variables
 
@@ -112,12 +115,24 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
     //endregion Items
 
+    //region Selection Minimum
+
+    public void setSelectionMinimum(int selectionMinimum) {
+        this.seletionMinimum = selectionMinimum;
+        itemListWindow.refreshButtonAvailability();
+    }
+
+    //endregion Selection Minimum
+
     //endregion Methods
 
     //region Child UI
 
-    private static class ItemListWindow<GameItemType> extends Renderable {
-        VerticalDataBox<GameItemType> itemBox;
+    public static class ItemListWindow<GameItemType> extends Renderable {
+        public VerticalDataBox<GameItemType> itemBox;
+
+        public CancelButtonSmall cancelButton;
+        public ConfirmButtonSmall confirmButton;
 
         public ItemListWindow() {
             super(Tex.stat(UICommonResources.bg02_background), Pos.px(69), Pos.px(1080-1000), Dim.px(1268), Dim.px(939));
@@ -167,17 +182,18 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                     itemBox.setItemSpacing(10);
                     itemBox.setSelectionMode(ESelectionMode.MULTIPLE);
                     itemBox.setSelectionCountLimit(Integer.MAX_VALUE);
+                    itemBox.onItemSelectionChangedEvent.subscribe(itemBox, gameItemTypes -> ItemListWindow.this.refreshButtonAvailability());
                     scrollbox.addChild(itemBox);
                 }
                 inner.addChild(scrollbox);
             }
             addChild(inner);
 
-            CancelButtonSmall cancelButton = new CancelButtonSmall(Pos.px(-21), Pos.px(6));
+            cancelButton = new CancelButtonSmall(Pos.px(-21), Pos.px(6));
             cancelButton.postLeftClickEvent.subscribe(cancelButton, () -> getTopParent().dispose());
             addChild(cancelButton);
 
-            ConfirmButtonSmall confirmButton = new ConfirmButtonSmall(Pos.px(20), Pos.px(5));
+            confirmButton = new ConfirmButtonSmall(Pos.px(20), Pos.px(5));
             confirmButton.setHorizontalAlignment(Alignment.HorizontalAlignment.RIGHT);
             confirmButton.postLeftClickEvent.subscribe(confirmButton, () -> {
                 ArrayList<GameItemType> selectedItems = itemBox.getSelectedItems();
@@ -187,6 +203,25 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
                 getTopParent().dispose();
             });
             addChild(confirmButton);
+        }
+
+        public void refreshButtonAvailability(){
+            GameItemSelectPopup parent = getParentOfType(GameItemSelectPopup.class);
+            boolean hasEnoughSelected = false;
+
+            if(parent.seletionMinimum == -1){
+                hasEnoughSelected = true;
+            }
+            else{
+                hasEnoughSelected = itemBox.getSelectedItems().size() >= parent.seletionMinimum;
+            }
+
+            if(hasEnoughSelected){
+                confirmButton.showAndEnable();
+            }
+            else{
+                confirmButton.hideAndDisable();
+            }
         }
 
         private static class GridItem<GameItemType> extends VerticalBox implements ITextProvider {
@@ -215,7 +250,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
         }
     }
 
-    private static class ItemDetailsSidebar<GameItemType> extends Renderable{
+    public static class ItemDetailsSidebar<GameItemType> extends Renderable{
         ImageTextBox itemNameBox;
         Image itemImage;
         ImageTextBox itemRarityBox;
@@ -263,7 +298,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
         }
     }
 
-    private static class ItemFiltersSidebar extends Renderable{
+    public static class ItemFiltersSidebar extends Renderable{
         StringProperty searchText = new StringProperty("");
 
         PropertyArray<? extends Enum<?>> displayRelicTiers;
