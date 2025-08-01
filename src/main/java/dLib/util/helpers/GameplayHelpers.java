@@ -69,7 +69,9 @@ public class GameplayHelpers {
 
         @SpirePostfixPatch
         public static void Postfix(String key, AbstractPlayer p) {
-            postDungeonChangeGlobalEvent.invoke(prevDungeon, CardCrawlGame.dungeon);
+            if(prevDungeon != null){
+                postDungeonChangeGlobalEvent.invoke(prevDungeon, CardCrawlGame.dungeon);
+            }
             postDungeonEntryGlobalEvent.invoke(prevDungeon, CardCrawlGame.dungeon, null);
             postRoomChangeGlobalEvent.invoke(AbstractDungeon.currMapNode);
         }

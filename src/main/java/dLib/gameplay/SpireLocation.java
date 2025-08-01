@@ -177,7 +177,7 @@ public class SpireLocation implements Serializable {
 
     @Override
     public String toString() {
-        return infinityCounter + "[" + act + ":" + phase + "[" + x + ", " + y + "], " + roomType + "]";
+        return infinityCounter + "[" + act + "[" + x + ", " + y + "]:[" + phase + "] (" + roomType + ")]";
     }
 
     @Override

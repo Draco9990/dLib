@@ -16,7 +16,7 @@ public class ComboBox<OptionType> extends TextButton {
     private boolean canBeNull = false;
 
     private OptionType currentOption;
-    private ArrayList<OptionType> options;
+    public ArrayList<OptionType> options;
 
     public ConsumerEvent<OptionType> onSelectionChangedEvent = new ConsumerEvent<>();
 
@@ -27,6 +27,8 @@ public class ComboBox<OptionType> extends TextButton {
         super(initialOption.toString(), xPos, yPos, width, height);
 
         this.options = options;
+
+        currentOption = initialOption;
 
         label.setText(itemToStringShort(initialOption));
 
