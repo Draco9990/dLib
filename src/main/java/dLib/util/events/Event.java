@@ -6,6 +6,8 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractEvent;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import dLib.ui.elements.UIElement;
@@ -24,7 +26,9 @@ public class Event<EventType> implements Serializable {
     public static AbstractDungeon dungeonContext = null;
     public static AbstractRoom roomContext = null;
     public static AbstractEvent eventContext = null;
+    public static AbstractMonster monsterContext = null;
     public static AbstractRelic relicContext = null;
+    public static AbstractPower powerContext = null;
 
     protected Map<UUID, EventType> eventMap = Collections.synchronizedMap(new LinkedHashMap<>());
 
@@ -35,7 +39,9 @@ public class Event<EventType> implements Serializable {
     protected HashMap<Class<? extends AbstractDungeon>, HashMap<UUID, EventType>> boundDungeons = new HashMap<>();
     protected HashMap<Class<? extends AbstractRoom>, HashMap<UUID, EventType>> boundRooms = new HashMap<>();
     protected HashMap<Class<? extends AbstractEvent>, HashMap<UUID, EventType>> boundEvents = new HashMap<>();
+    protected HashMap<Class<? extends AbstractMonster>, HashMap<UUID, EventType>> boundMonsters = new HashMap<>();
     protected HashMap<Class<? extends AbstractRelic>, HashMap<UUID, EventType>> boundRelics = new HashMap<>();
+    protected HashMap<Class<? extends AbstractPower>, HashMap<UUID, EventType>> boundPowers = new HashMap<>();
 
     public UUID subscribeManaged(EventType event){
         UUID id = UUID.randomUUID();
@@ -152,6 +158,34 @@ public class Event<EventType> implements Serializable {
         boundRooms.remove(owner);
     }
 
+    public UUID subscribeMonster(Class<? extends AbstractMonster> monsterClass, EventType event){
+        UUID id = UUID.randomUUID();
+
+        if(!boundMonsters.containsKey(monsterClass)){
+            boundMonsters.put(monsterClass, new HashMap<>());
+        }
+        boundMonsters.get(monsterClass).put(id, event);
+
+        return id;
+    }
+    public void unsubscribeMonster(Class<? extends AbstractMonster> owner){
+        boundMonsters.remove(owner);
+    }
+
+    public UUID subscribePower(Class<? extends AbstractPower> powerClass, EventType event){
+        UUID id = UUID.randomUUID();
+
+        if(!boundPowers.containsKey(powerClass)){
+            boundPowers.put(powerClass, new HashMap<>());
+        }
+        boundPowers.get(powerClass).put(id, event);
+
+        return id;
+    }
+    public void unsubscribePower(Class<? extends AbstractPower> owner){
+        boundPowers.remove(owner);
+    }
+
     public void invoke(Consumer<EventType> consumer){
         if(!initialized){
             return;
@@ -194,6 +228,45 @@ public class Event<EventType> implements Serializable {
                         consumer.accept(event);
                     }
                     eventContext = null;
+                }
+            }
+
+            if(AbstractDungeon.getCurrRoom().monsters != null && AbstractDungeon.getCurrRoom().monsters.monsters != null){
+                for (AbstractPower p : AbstractDungeon.player.powers){
+                    Class<? extends AbstractPower> powerClass = p.getClass();
+                    if(boundPowers.containsKey(powerClass)){
+                        powerContext = p;
+                        for(EventType event : boundPowers.get(powerClass).values()){
+                            consumer.accept(event);
+                        }
+                        powerContext = null;
+                    }
+                }
+
+                for(AbstractMonster monster : AbstractDungeon.getCurrRoom().monsters.monsters){
+                    if(monster.isDeadOrEscaped()){
+                        continue;
+                    }
+
+                    Class<? extends AbstractMonster> monsterClass = monster.getClass();
+                    if(boundMonsters.containsKey(monsterClass)){
+                        monsterContext = monster;
+                        for(EventType event : boundMonsters.get(monsterClass).values()){
+                            consumer.accept(event);
+                        }
+                        monsterContext = null;
+                    }
+
+                    for(AbstractPower p : monster.powers){
+                        Class<? extends AbstractPower> powerClass = p.getClass();
+                        if(boundPowers.containsKey(powerClass)){
+                            powerContext = p;
+                            for(EventType event : boundPowers.get(powerClass).values()){
+                                consumer.accept(event);
+                            }
+                            powerContext = null;
+                        }
+                    }
                 }
             }
         }
@@ -258,6 +331,51 @@ public class Event<EventType> implements Serializable {
                         }
                     }
                     eventContext = null;
+                }
+            }
+
+            if(AbstractDungeon.getCurrRoom().monsters != null && AbstractDungeon.getCurrRoom().monsters.monsters != null){
+                for (AbstractPower p : AbstractDungeon.player.powers){
+                    Class<? extends AbstractPower> powerClass = p.getClass();
+                    if(boundPowers.containsKey(powerClass)){
+                        powerContext = p;
+                        for(EventType event : boundPowers.get(powerClass).values()){
+                            if(!consumer.apply(event)){
+                                return; // Stop processing if the condition is not met
+                            }
+                        }
+                        powerContext = null;
+                    }
+                }
+
+                for(AbstractMonster monster : AbstractDungeon.getCurrRoom().monsters.monsters){
+                    if(monster.isDeadOrEscaped()){
+                        continue;
+                    }
+
+                    Class<? extends AbstractMonster> monsterClass = monster.getClass();
+                    if(boundMonsters.containsKey(monsterClass)){
+                        monsterContext = monster;
+                        for(EventType event : boundMonsters.get(monsterClass).values()){
+                            if(!consumer.apply(event)){
+                                return; // Stop processing if the condition is not met
+                            }
+                        }
+                        monsterContext = null;
+
+                        for(AbstractPower p : monster.powers){
+                            Class<? extends AbstractPower> powerClass = p.getClass();
+                            if(boundPowers.containsKey(powerClass)){
+                                powerContext = p;
+                                for(EventType event : boundPowers.get(powerClass).values()){
+                                    if(!consumer.apply(event)){
+                                        return; // Stop processing if the condition is not met
+                                    }
+                                }
+                                powerContext = null;
+                            }
+                        }
+                    }
                 }
             }
         }
