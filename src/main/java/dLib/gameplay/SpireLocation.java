@@ -36,11 +36,11 @@ public class SpireLocation implements Serializable {
 
     //region Constructors
 
-    private SpireLocation(int infinityCounter, String act, MapRoomNode roomNode){
+    protected SpireLocation(int infinityCounter, String act, MapRoomNode roomNode){
         this(infinityCounter, act, roomNode.x, roomNode.y, 0, roomNode.room.getClass().getSimpleName());
     }
 
-    private SpireLocation(int infinityCounter, String act, int x, int y, int phase, String roomType){
+    protected SpireLocation(int infinityCounter, String act, int x, int y, int phase, String roomType){
         this.infinityCounter = infinityCounter;
         this.act = act;
         this.x = x;

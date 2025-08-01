@@ -21,6 +21,11 @@ import java.util.function.Function;
 public class Event<EventType> implements Serializable {
     protected static boolean initialized = false;
 
+    public static AbstractDungeon dungeonContext = null;
+    public static AbstractRoom roomContext = null;
+    public static AbstractEvent eventContext = null;
+    public static AbstractRelic relicContext = null;
+
     protected Map<UUID, EventType> eventMap = Collections.synchronizedMap(new LinkedHashMap<>());
 
     protected SerializableWeakHashMap<Object, ArrayList<UUID>> boundObjects = new SerializableWeakHashMap<>();
@@ -160,29 +165,35 @@ public class Event<EventType> implements Serializable {
             }
         }
 
+        if(CardCrawlGame.dungeon != null){
+            Class<? extends AbstractDungeon> dungeonClass = CardCrawlGame.dungeon.getClass();
+            if(boundDungeons.containsKey(dungeonClass)){
+                dungeonContext = CardCrawlGame.dungeon;
+                for(EventType event : boundDungeons.get(dungeonClass).values()){
+                    consumer.accept(event);
+                }
+                dungeonContext = null;
+            }
+        }
+
         if(AbstractDungeon.getCurrMapNode() != null && AbstractDungeon.getCurrRoom() != null){
             Class<? extends AbstractRoom> roomClass = AbstractDungeon.getCurrRoom().getClass();
             if(boundRooms.containsKey(roomClass)){
+                roomContext = AbstractDungeon.getCurrRoom();
                 for(EventType event : boundRooms.get(roomClass).values()){
                     consumer.accept(event);
                 }
+                roomContext = null;
             }
 
             if(AbstractDungeon.getCurrRoom().event != null){
                 Class<? extends AbstractEvent> eventClass = AbstractDungeon.getCurrRoom().event.getClass();
                 if(boundEvents.containsKey(eventClass)){
+                    eventContext = AbstractDungeon.getCurrRoom().event;
                     for(EventType event : boundEvents.get(eventClass).values()){
                         consumer.accept(event);
                     }
-                }
-            }
-        }
-
-        if(CardCrawlGame.dungeon != null){
-            Class<? extends AbstractDungeon> dungeonClass = CardCrawlGame.dungeon.getClass();
-            if(boundDungeons.containsKey(dungeonClass)){
-                for(EventType event : boundDungeons.get(dungeonClass).values()){
-                    consumer.accept(event);
+                    eventContext = null;
                 }
             }
         }
@@ -191,9 +202,11 @@ public class Event<EventType> implements Serializable {
             for (AbstractRelic relic : AbstractDungeon.player.relics){
                 Class<? extends AbstractRelic> relicClass = relic.getClass();
                 if(boundRelics.containsKey(relicClass)){
+                    relicContext = relic;
                     for(EventType event : boundRelics.get(relicClass).values()){
                         consumer.accept(event);
                     }
+                    relicContext = null;
                 }
             }
         }
@@ -213,32 +226,38 @@ public class Event<EventType> implements Serializable {
         if(CardCrawlGame.dungeon != null){
             Class<? extends AbstractDungeon> dungeonClass = CardCrawlGame.dungeon.getClass();
             if(boundDungeons.containsKey(dungeonClass)){
+                dungeonContext = CardCrawlGame.dungeon;
                 for(EventType event : boundDungeons.get(dungeonClass).values()){
                     if(!consumer.apply(event)){
                         return; // Stop processing if the condition is not met
                     }
                 }
+                dungeonContext = null;
             }
         }
 
         if(AbstractDungeon.getCurrMapNode() != null && AbstractDungeon.getCurrRoom() != null){
             Class<? extends AbstractRoom> roomClass = AbstractDungeon.getCurrRoom().getClass();
             if(boundRooms.containsKey(roomClass)){
+                roomContext = AbstractDungeon.getCurrRoom();
                 for(EventType event : boundRooms.get(roomClass).values()){
                     if(!consumer.apply(event)){
                         return; // Stop processing if the condition is not met
                     }
                 }
+                roomContext = null;
             }
 
             if(AbstractDungeon.getCurrRoom().event != null){
                 Class<? extends AbstractEvent> eventClass = AbstractDungeon.getCurrRoom().event.getClass();
                 if(boundEvents.containsKey(eventClass)){
+                    eventContext = AbstractDungeon.getCurrRoom().event;
                     for(EventType event : boundEvents.get(eventClass).values()){
                         if(!consumer.apply(event)){
                             return; // Stop processing if the condition is not met
                         }
                     }
+                    eventContext = null;
                 }
             }
         }
@@ -247,11 +266,13 @@ public class Event<EventType> implements Serializable {
             for (AbstractRelic relic : AbstractDungeon.player.relics){
                 Class<? extends AbstractRelic> relicClass = relic.getClass();
                 if(boundRelics.containsKey(relicClass)){
+                    relicContext = relic;
                     for(EventType event : boundRelics.get(relicClass).values()){
                         if(!consumer.apply(event)){
                             return; // Stop processing if the condition is not met
                         }
                     }
+                    relicContext = null;
                 }
             }
         }
