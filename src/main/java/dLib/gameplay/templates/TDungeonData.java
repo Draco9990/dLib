@@ -21,7 +21,7 @@ public abstract class TDungeonData<TRoomDataDef extends TRoomData> implements Se
     public LinkedHashMap<Vector2, TRoomDataDef> rooms = new LinkedHashMap<>();
 
     protected HashMap<String, Serializable> metadata = new HashMap<>();
-    public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public TriConsumerEvent<TDungeonData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
+    public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public static TriConsumerEvent<TDungeonData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
 
     //endregion Variables
 

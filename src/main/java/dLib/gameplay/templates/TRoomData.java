@@ -22,7 +22,7 @@ public abstract class TRoomData<TRoomPhaseDataDef extends TRoomPhaseData> implem
     public LinkedHashMap<Integer, TRoomPhaseDataDef> phases = new LinkedHashMap<>();
 
     protected HashMap<String, Serializable> metadata = new HashMap<>();
-    public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public TriConsumerEvent<TRoomData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
+    public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public static TriConsumerEvent<TRoomData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
 
     //endregion Variables
 

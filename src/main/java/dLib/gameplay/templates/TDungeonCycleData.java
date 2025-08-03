@@ -19,7 +19,7 @@ public abstract class TDungeonCycleData<TDungeonDataDef extends TDungeonData> im
     public LinkedHashMap<String, TDungeonDataDef> dungeons = new LinkedHashMap<>();
 
     protected HashMap<String, Serializable> metadata = new HashMap<>();
-    public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public TriConsumerEvent<TDungeonCycleData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
+    public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public static TriConsumerEvent<TDungeonCycleData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
 
     //endregion Variables
 
