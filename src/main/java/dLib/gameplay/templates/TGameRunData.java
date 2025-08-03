@@ -20,7 +20,7 @@ public abstract class TGameRunData<TDungeonCycleDef extends TDungeonCycleData> i
 
     public ArrayList<ObtainKeyEffect.KeyColor> collectedKeys = new ArrayList<>();
 
-    private HashMap<String, Serializable> metadata = new HashMap<>();
+    protected HashMap<String, Serializable> metadata = new HashMap<>();
     public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public TriConsumerEvent<TGameRunData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
 
     //endregion Variables

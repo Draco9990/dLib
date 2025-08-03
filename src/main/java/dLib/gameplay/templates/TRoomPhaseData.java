@@ -30,7 +30,7 @@ public class TRoomPhaseData implements Serializable {
 
     public Property<RoomOutcome> outcome = new Property<>(RoomOutcome.NONE);
 
-    private HashMap<String, Serializable> metadata = new HashMap<>();
+    protected HashMap<String, Serializable> metadata = new HashMap<>();
     public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public TriConsumerEvent<TRoomPhaseData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
 
     //endregion Variables
