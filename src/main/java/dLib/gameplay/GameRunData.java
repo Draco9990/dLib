@@ -1,9 +1,12 @@
 package dLib.gameplay;
 
 import dLib.gameplay.templates.TGameRunData;
+import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.TriConsumerEvent;
 
 import java.io.Serializable;
 import java.rmi.AccessException;
+import java.util.HashMap;
 
 public class GameRunData extends TGameRunData<DungeonCycleData> implements Serializable {
     static final long serialVersionUID = 1L;

@@ -23,12 +23,18 @@ import java.util.function.Function;
 public class Event<EventType> implements Serializable {
     protected static boolean initialized = false;
 
-    public static AbstractDungeon dungeonContext = null;
-    public static AbstractRoom roomContext = null;
-    public static AbstractEvent eventContext = null;
-    public static AbstractMonster monsterContext = null;
-    public static AbstractRelic relicContext = null;
-    public static AbstractPower powerContext = null;
+    private static AbstractDungeon dungeonContext = null;
+    public static <T extends AbstractDungeon> T getDungeonContext() { return (T) dungeonContext; }
+    private static AbstractRoom roomContext = null;
+    public static <T extends AbstractRoom> T getRoomContext() { return (T) roomContext; }
+    private static AbstractEvent eventContext = null;
+    public static <T extends AbstractEvent> T getEventContext() { return (T) eventContext; }
+    private static AbstractMonster monsterContext = null;
+    public static <T extends AbstractMonster> T getMonsterContext() { return (T) monsterContext; }
+    private static AbstractRelic relicContext = null;
+    public static <T extends AbstractRelic> T getRelicContext() { return (T) relicContext; }
+    private static AbstractPower powerContext = null;
+    public static <T extends AbstractPower> T getPowerContext() { return (T) powerContext; }
 
     protected Map<UUID, EventType> eventMap = Collections.synchronizedMap(new LinkedHashMap<>());
 

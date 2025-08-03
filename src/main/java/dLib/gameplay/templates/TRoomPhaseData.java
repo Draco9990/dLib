@@ -3,13 +3,16 @@ package dLib.gameplay.templates;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
+import dLib.gameplay.RoomPhaseData;
 import dLib.gameplay.SpireLocation;
 import dLib.properties.objects.Property;
 import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.events.serializableevents.SerializableBiConsumer;
 import dLib.util.helpers.GameplayHelpers;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class TRoomPhaseData implements Serializable {
     static final long serialVersionUID = 1L;
@@ -26,6 +29,9 @@ public class TRoomPhaseData implements Serializable {
     public Property<String> roomType = new Property<>(null);
 
     public Property<RoomOutcome> outcome = new Property<>(RoomOutcome.NONE);
+
+    private HashMap<String, Serializable> metadata = new HashMap<>();
+    public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public TriConsumerEvent<TRoomPhaseData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
 
     //endregion Variables
 
@@ -50,6 +56,24 @@ public class TRoomPhaseData implements Serializable {
     public void cleanForSave(){
 
     }
+
+    //region Metadata
+
+    public void updateMetadata(String key, Serializable value){
+        metadata.put(key, value);
+        postMetadataChangedEvent.invoke(key, value);
+        postMetadataChangedGlobalEvent.invoke(this, key, value);
+    }
+
+    public void removeMetadata(String key){
+        if(metadata.containsKey(key)){
+            metadata.remove(key);
+            postMetadataChangedEvent.invoke(key, null);
+            postMetadataChangedGlobalEvent.invoke(this, key, null);
+        }
+    }
+
+    //endregion Metadata
 
     //endregion Methods
 

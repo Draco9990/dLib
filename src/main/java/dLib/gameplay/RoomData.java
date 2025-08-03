@@ -1,8 +1,11 @@
 package dLib.gameplay;
 
 import dLib.gameplay.templates.TRoomData;
+import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.TriConsumerEvent;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class RoomData extends TRoomData<RoomPhaseData> implements Serializable {
     static final long serialVersionUID = 1L;

@@ -8,10 +8,12 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import dLib.gameplay.templates.TRoomPhaseData;
 import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.TriConsumerEvent;
 import dLib.util.events.serializableevents.SerializableBiConsumer;
 import dLib.util.helpers.GameplayHelpers;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class RoomPhaseData extends TRoomPhaseData implements Serializable {
     static final long serialVersionUID = 1L;

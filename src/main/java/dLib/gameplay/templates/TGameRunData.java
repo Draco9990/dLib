@@ -2,6 +2,9 @@ package dLib.gameplay.templates;
 
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.vfx.ObtainKeyEffect;
+import dLib.gameplay.GameRunData;
+import dLib.util.events.localevents.BiConsumerEvent;
+import dLib.util.events.localevents.TriConsumerEvent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,6 +19,9 @@ public abstract class TGameRunData<TDungeonCycleDef extends TDungeonCycleData> i
     public LinkedHashMap<Integer, TDungeonCycleDef> dungeonCycles = new LinkedHashMap<>();
 
     public ArrayList<ObtainKeyEffect.KeyColor> collectedKeys = new ArrayList<>();
+
+    private HashMap<String, Serializable> metadata = new HashMap<>();
+    public BiConsumerEvent<String, Serializable> postMetadataChangedEvent = new BiConsumerEvent<>();                    public TriConsumerEvent<TGameRunData, String, Serializable> postMetadataChangedGlobalEvent = new TriConsumerEvent<>();
 
     //endregion Variables
 
@@ -38,6 +44,24 @@ public abstract class TGameRunData<TDungeonCycleDef extends TDungeonCycleData> i
     public void cleanForSave(){
         dungeonCycles.values().forEach(TDungeonCycleData::cleanForSave);
     }
+
+    //region Metadata
+
+    public void updateMetadata(String key, Serializable value){
+        metadata.put(key, value);
+        postMetadataChangedEvent.invoke(key, value);
+        postMetadataChangedGlobalEvent.invoke(this, key, value);
+    }
+
+    public void removeMetadata(String key){
+        if(metadata.containsKey(key)){
+            metadata.remove(key);
+            postMetadataChangedEvent.invoke(key, null);
+            postMetadataChangedGlobalEvent.invoke(this, key, null);
+        }
+    }
+
+    //endregion Metadata
 
     //endregion Methods
 }
