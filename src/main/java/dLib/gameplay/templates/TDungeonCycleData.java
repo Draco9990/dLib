@@ -55,14 +55,6 @@ public abstract class TDungeonCycleData<TDungeonDataDef extends TDungeonData> im
         postMetadataChangedGlobalEvent.invoke(this, key, value);
     }
 
-    public void removeMetadata(String key){
-        if(metadata.containsKey(key)){
-            metadata.remove(key);
-            postMetadataChangedEvent.invoke(key, null);
-            postMetadataChangedGlobalEvent.invoke(this, key, null);
-        }
-    }
-
     //endregion Metadata
 
     //endregion Methods

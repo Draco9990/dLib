@@ -58,14 +58,6 @@ public abstract class TDungeonData<TRoomDataDef extends TRoomData> implements Se
         postMetadataChangedGlobalEvent.invoke(this, key, value);
     }
 
-    public void removeMetadata(String key){
-        if(metadata.containsKey(key)){
-            metadata.remove(key);
-            postMetadataChangedEvent.invoke(key, null);
-            postMetadataChangedGlobalEvent.invoke(this, key, null);
-        }
-    }
-
     //endregion Metadata
 
     //endregion Methods
