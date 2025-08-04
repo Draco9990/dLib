@@ -171,11 +171,16 @@ public class GameplayUtils {
         refreshRoomUI();
 
         teleporting.set(false);
+
+        postPlayerTeleportedGlobalEvent.invoke(curr, SpireLocation.getCurrent());
     }
 
     public static void teleportToActBossRoom(){
+        SpireLocation curr = SpireLocation.getCurrent();
+        boolean logTeleportEvent = false;
         if (!teleporting.get()) {
             prepareForRoomChange();
+            logTeleportEvent = true;
         }
         teleporting.set(true);
 
@@ -193,11 +198,18 @@ public class GameplayUtils {
         AbstractDungeon.nextRoomTransitionStart();
 
         teleporting.revert();
+
+        if(logTeleportEvent){
+            postPlayerTeleportedGlobalEvent.invoke(curr, SpireLocation.getCurrent());
+        }
     }
 
     public static void teleportToRoom(MapRoomNode n){
+        SpireLocation curr = SpireLocation.getCurrent();
+        boolean logTeleportEvent = false;
         if (!teleporting.get()) {
             prepareForRoomChange();
+            logTeleportEvent = true;
         }
         teleporting.set(true);
 
@@ -208,6 +220,9 @@ public class GameplayUtils {
         SaveHelper.saveIfAppropriate(SaveFile.SaveType.ENTER_ROOM);
 
         teleporting.revert();
+        if(logTeleportEvent){
+            postPlayerTeleportedGlobalEvent.invoke(curr, SpireLocation.getCurrent());
+        }
     }
 
     public static void prepareForRoomChange(){
