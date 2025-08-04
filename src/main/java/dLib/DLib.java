@@ -1,12 +1,10 @@
 package dLib;
 
 import basemod.BaseMod;
-import basemod.abstracts.CustomSavable;
 import basemod.interfaces.PostInitializeSubscriber;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.map.MapRoomNode;
@@ -20,8 +18,7 @@ import dLib.commands.CommandManager;
 import dLib.custominput.CustomKeybindManager;
 import dLib.developermode.DeveloperModeManager;
 import dLib.external.ExternalEditorCommunicationManager;
-import dLib.files.JsonDataFileManager;
-import dLib.gameplay.GameplayInformationTracker;
+import dLib.util.utils.GameplayUtils;
 import dLib.mainmenubuttons.MainMenuButtonManager;
 import dLib.modversions.ModVersionManager;
 import dLib.patchnotes.Patchnotes;
@@ -30,11 +27,8 @@ import dLib.patchnotes.PatchnotesPatches;
 import dLib.shaders.ShaderManager;
 import dLib.tools.uicreator.ui.editoritems.templates.UCEITemplateManager;
 import dLib.ui.GeneratedUIManager;
-import dLib.ui.resources.UICommonResources;
 import dLib.util.Reflection;
 import dLib.util.bindings.string.AbstractStringBinding;
-import dLib.util.bindings.string.Str;
-import dLib.util.bindings.texture.Tex;
 import dLib.util.helpers.FontHelpers;
 import dLib.util.helpers.SteamHelpers;
 import org.apache.logging.log4j.LogManager;
@@ -75,7 +69,7 @@ public class DLib implements PostInitializeSubscriber{
     public void receivePostInitialize() {
         ModVersionManager.init();
 
-        GameplayInformationTracker.init();
+        GameplayUtils.init();
 
         GeneratedUIManager.initialize();
 

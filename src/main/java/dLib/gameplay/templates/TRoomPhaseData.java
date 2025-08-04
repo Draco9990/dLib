@@ -1,15 +1,9 @@
 package dLib.gameplay.templates;
 
-import com.megacrit.cardcrawl.map.MapRoomNode;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
-import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
-import dLib.gameplay.RoomPhaseData;
 import dLib.gameplay.SpireLocation;
 import dLib.properties.objects.Property;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
-import dLib.util.events.serializableevents.SerializableBiConsumer;
-import dLib.util.helpers.GameplayHelpers;
 
 import java.io.Serializable;
 import java.util.HashMap;

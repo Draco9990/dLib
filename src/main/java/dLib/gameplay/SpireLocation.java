@@ -10,7 +10,7 @@ import dLib.gameplay.templates.TDungeonData;
 import dLib.gameplay.templates.TRoomData;
 import dLib.gameplay.templates.TRoomPhaseData;
 import dLib.util.DLibLogger;
-import dLib.util.helpers.GameplayHelpers;
+import dLib.util.utils.GameplayUtils;
 
 import java.io.Serializable;
 import java.rmi.AccessException;
@@ -69,17 +69,17 @@ public class SpireLocation implements Serializable {
         }
 
         return new SpireLocation(
-                GameplayInformationTracker.getInfinityCycle(),
-                GameplayHelpers.getCurrentActName(),
+                GameplayUtils.getInfinityCycle(),
+                GameplayUtils.getCurrentActName(),
                 currMapNode.x,
                 currMapNode.y,
-                GameplayInformationTracker.getRoomPhase(),
+                GameplayUtils.getRoomPhase(),
                 currMapNode.room.getClass().getSimpleName()
         );
     }
 
     public static SpireLocation getFor(MapRoomNode roomNode){
-        return new SpireLocation(GameplayInformationTracker.getInfinityCycle(), GameplayHelpers.getCurrentActName(), roomNode);
+        return new SpireLocation(GameplayUtils.getInfinityCycle(), GameplayUtils.getCurrentActName(), roomNode);
     }
 
     public static <T extends Throwable> SpireLocation getFor(TRoomPhaseData roomPhase) throws T{
@@ -126,7 +126,7 @@ public class SpireLocation implements Serializable {
         return inSameRoomAs(getCurrent());
     }
     public boolean inSameRoomAs(SpireLocation location){
-        if(!GameplayHelpers.isInARun()) {
+        if(!GameplayUtils.isInARun()) {
             return false;
         }
 

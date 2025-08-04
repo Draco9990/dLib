@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
+import dLib.util.utils.GameplayUtils;
 import dLib.modcompat.ModManager;
 import dLib.patches.InputHelpers;
 import dLib.patches.KeyInputEventPatches;
@@ -18,7 +19,6 @@ import dLib.ui.elements.items.buttons.ConfirmButton;
 import dLib.ui.elements.items.buttons.ConfirmButtonSmall;
 import dLib.util.Help;
 import dLib.util.Reflection;
-import dLib.util.helpers.GameplayHelpers;
 
 import java.util.ArrayList;
 
@@ -82,7 +82,7 @@ public class UIManager {
             AbstractDungeon.screen = cachedScreenInGame;
             AbstractDungeon.rs = cachedRenderScene;
 
-            if(GameplayHelpers.isInARun()){
+            if(GameplayUtils.isInARun()){
                 AbstractDungeon.overlayMenu.cancelButton.hide();
                 Reflection.invokeMethod("genericScreenOverlayReset", AbstractDungeon.class);
             }
