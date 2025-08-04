@@ -14,6 +14,7 @@ import dLib.util.utils.GameplayUtils;
 
 import java.io.Serializable;
 import java.rmi.AccessException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class SpireLocation implements Serializable {
@@ -174,6 +175,27 @@ public class SpireLocation implements Serializable {
     }
 
     //endregion Comparisons
+
+    //region Utils
+
+    public void teleportTo(){
+        GameplayUtils.teleportTo(this);
+    }
+
+    public MapRoomNode getMapRoomNode(){
+        if(y >= AbstractDungeon.map.size()) {
+            return null;
+        }
+
+        ArrayList<MapRoomNode> rooms = AbstractDungeon.map.get(y);
+        if(x >= rooms.size()) {
+            return null;
+        }
+
+        return rooms.get(x);
+    }
+
+    //endregion Utils
 
     @Override
     public String toString() {

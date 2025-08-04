@@ -69,7 +69,7 @@ public class DLib implements PostInitializeSubscriber{
     public void receivePostInitialize() {
         ModVersionManager.init();
 
-        GameplayUtils.init();
+        Reflection.invokeMethod("init", GameplayUtils.class);
 
         GeneratedUIManager.initialize();
 

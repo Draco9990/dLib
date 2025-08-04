@@ -7,18 +7,25 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
+import com.megacrit.cardcrawl.blights.Shield;
+import com.megacrit.cardcrawl.blights.Spear;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
+import com.megacrit.cardcrawl.helpers.SaveHelper;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.monsters.ending.CorruptHeart;
+import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
+import com.megacrit.cardcrawl.vfx.combat.BattleStartEffect;
 import dLib.gameplay.GameRunData;
 import dLib.gameplay.RoomPhaseData;
+import dLib.gameplay.SpireLocation;
+import dLib.util.HistoryProperty;
 import dLib.util.Reflection;
 import dLib.util.SerializationHelpers;
 import dLib.util.events.localevents.BiConsumerEvent;
@@ -46,9 +53,15 @@ public class GameplayUtils {
     public static RunnableEvent postHeartSlainGlobalEvent = new RunnableEvent();
     private static boolean heartSlain = false;
 
+    public static BiConsumerEvent<SpireLocation, SpireLocation> postPlayerTeleportedGlobalEvent = new BiConsumerEvent<>();
+
     //endregion Variables
 
-    public static void init(){
+    //region Init
+
+    static void init(){
+        //Invoked through reflection to avoid making it available to users
+
         BaseMod.addSaveField("infinityCounter", new CustomSavable<Integer>() {
             @Override
             public Integer onSave() {
@@ -61,12 +74,7 @@ public class GameplayUtils {
             }
         });
 
-        BaseMod.subscribe(new PreStartGameSubscriber() {
-            @Override
-            public void receivePreStartGame() {
-                Reflection.setFieldValue("current", GameRunData.class, new GameRunData());
-            }
-        });
+        BaseMod.subscribe((PreStartGameSubscriber) () -> Reflection.setFieldValue("current", GameRunData.class, new GameRunData()));
 
         BaseMod.addSaveField("runData", new CustomSavable<String>() {
             @Override
@@ -81,7 +89,7 @@ public class GameplayUtils {
         });
 
         postDungeonChangeGlobalEvent.subscribeManaged((abstractDungeon, abstractDungeon2) -> {
-            if(abstractDungeon2 instanceof Exordium) {
+            if(abstractDungeon2 instanceof Exordium && !teleporting.get()) {
                 infinityCounter++;
                 postInfinityCycleIncreaseGlobalEvent.invoke(infinityCounter);
             }
@@ -96,8 +104,22 @@ public class GameplayUtils {
         RoomPhaseData.registerStaticEvents();
     }
 
+    //endregion Init
+
+    public static boolean isInARun(){
+        return CardCrawlGame.dungeon != null && AbstractDungeon.player != null;
+    }
+
     public static int getInfinityCycle() {
         return infinityCounter;
+    }
+
+    public static String getCurrentActName(){
+        if (CardCrawlGame.dungeon == null) {
+            return null;
+        }
+
+        return CardCrawlGame.dungeon.getClass().getSimpleName();
     }
 
     public static void increaseRoomPhase() {
@@ -112,16 +134,110 @@ public class GameplayUtils {
         return heartSlain;
     }
 
-    public static boolean isInARun(){
-        return CardCrawlGame.dungeon != null && AbstractDungeon.player != null;
-    }
-
-    public static String getCurrentActName(){
-        if (CardCrawlGame.dungeon == null) {
-            return null;
+    private static HistoryProperty<Boolean> teleporting = new HistoryProperty<>(false);
+    public static void teleportTo(SpireLocation target){
+        if(target.inSameRoomAndPhase()){
+            return;
         }
 
-        return CardCrawlGame.dungeon.getClass().getSimpleName();
+        teleporting.set(true);
+
+        prepareForRoomChange();
+
+        SpireLocation curr = SpireLocation.getCurrent();
+        if(target.infinityCounter != getInfinityCycle()){
+            //We need to move infinity cycles
+            infinityCounter = target.infinityCounter;
+            if(AbstractDungeon.player.hasBlight(Shield.ID)) AbstractDungeon.player.getBlight(Shield.ID).increment = target.infinityCounter;
+            if(AbstractDungeon.player.hasBlight(Spear.ID)) AbstractDungeon.player.getBlight(Spear.ID).increment = target.infinityCounter;
+        }
+
+        if(!target.inSameActAs(curr)){
+            //Not in the same act, move acts
+            AbstractDungeon d = new CardCrawlGame(CardCrawlGame.preferenceDir).getDungeon(target.act, AbstractDungeon.player);
+            AbstractDungeon.firstRoomChosen = true;
+        }
+
+        if(target.isBossRoom()){
+            teleportToActBossRoom();
+        }
+        else{
+            MapRoomNode n = target.getMapRoomNode();
+            if(n != null){
+                teleportToRoom(n);
+            }
+        }
+
+        refreshRoomUI();
+
+        teleporting.set(false);
+    }
+
+    public static void teleportToActBossRoom(){
+        if (!teleporting.get()) {
+            prepareForRoomChange();
+        }
+        teleporting.set(true);
+
+        MapRoomNode node = new MapRoomNode(-1, 15);
+        node.room = new MonsterRoomBoss();
+        AbstractDungeon.nextRoom = node;
+        if (AbstractDungeon.pathY.size() > 1) {
+            AbstractDungeon.pathX.add(AbstractDungeon.pathX.get(AbstractDungeon.pathX.size() - 1));
+            AbstractDungeon.pathY.add(AbstractDungeon.pathY.get(AbstractDungeon.pathY.size() - 1) + 1);
+        } else {
+            AbstractDungeon.pathX.add(1);
+            AbstractDungeon.pathY.add(15);
+        }
+
+        AbstractDungeon.nextRoomTransitionStart();
+
+        teleporting.revert();
+    }
+
+    public static void teleportToRoom(MapRoomNode n){
+        if (!teleporting.get()) {
+            prepareForRoomChange();
+        }
+        teleporting.set(true);
+
+        AbstractDungeon.nextRoom = n;
+        AbstractDungeon.overlayMenu.endTurnButton.hide();
+        Reflection.invokeMethod("nextRoomTransition", CardCrawlGame.dungeon);
+        AbstractDungeon.overlayMenu.proceedButton.hideInstantly();
+        SaveHelper.saveIfAppropriate(SaveFile.SaveType.ENTER_ROOM);
+
+        teleporting.revert();
+    }
+
+    public static void prepareForRoomChange(){
+        AbstractDungeon.player.hand.group.clear();
+        AbstractDungeon.actionManager.clear();
+        AbstractDungeon.effectsQueue.clear();
+        AbstractDungeon.effectList.clear();
+
+        for(int i = AbstractDungeon.topLevelEffects.size() - 1; i > 0; --i) {
+            if (AbstractDungeon.topLevelEffects.get(i) instanceof BattleStartEffect) {
+                AbstractDungeon.topLevelEffects.remove(i);
+            }
+        }
+
+        AbstractDungeon.combatRewardScreen.clear();
+        AbstractDungeon.previousScreen = null;
+        AbstractDungeon.closeCurrentScreen();
+        CardCrawlGame.music.silenceTempBgmInstantly();
+        CardCrawlGame.music.silenceBGMInstantly();
+        AbstractDungeon.overlayMenu.endTurnButton.hide();
+    }
+
+    public static void refreshRoomUI(){
+        AbstractDungeon.overlayMenu.hideBlackScreen();
+        AbstractDungeon.settingsScreen.open(false);
+        AbstractDungeon.overlayMenu.cancelButton.hide();
+        dLib.util.Reflection.invokeMethod("genericScreenOverlayReset", CardCrawlGame.dungeon);
+        AbstractDungeon.settingsScreen.abandonPopup.hide();
+        AbstractDungeon.settingsScreen.exitPopup.hide();
+        AbstractDungeon.screen = AbstractDungeon.CurrentScreen.NONE;
     }
 
     //region Patches
