@@ -22,9 +22,6 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     //region Variables
 
-    //! Child dynamic calculations shouldn't account for padding
-    private float calculatedValueForChildren = 0;
-
     //endregion
 
     //region Constructors
@@ -41,26 +38,22 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     @Override
     protected Float tryCalculateValue_Width(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
-        Float childVal = calculateWidth(forElement, calculationPass, true);
-        if(childVal == null) return null;
-        calculatedValueForChildren = childVal;
+        Float calculatedWidth = calculateWidth(forElement, calculationPass);
 
-        return calculateWidth(forElement, calculationPass, false);
+        return calculateWidth(forElement, calculationPass);
     }
 
     @Override
     protected Float tryCalculateValue_Height(UIElement forElement, ElementCalculationManager.CalculationPass calculationPass) {
-        Float childVal = calculateHeight(forElement, calculationPass, true);
-        if(childVal == null) return null;
-        calculatedValueForChildren = childVal;
+        Float calculatedHeight = calculateHeight(forElement, calculationPass);
 
-        return calculateHeight(forElement, calculationPass, false);
+        return calculateHeight(forElement, calculationPass);
     }
 
 
     //region Width
 
-    private Float calculateWidth(UIElement forElement, ElementCalculationManager.CalculationPass pass, boolean includePadding){
+    private Float calculateWidth(UIElement forElement, ElementCalculationManager.CalculationPass pass){
         Pair<Float, Float> totalWidth = null;
 
         if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesWidth()){
@@ -160,13 +153,9 @@ public class AutoDimension extends AbstractDimension implements Serializable {
 
     //endregion
 
-    public float getCalculatedValueForChildren() {
-        return calculatedValueForChildren;
-    }
-
     //region Height
 
-    private Float calculateHeight(UIElement forElement, ElementCalculationManager.CalculationPass pass, boolean includePadding){
+    private Float calculateHeight(UIElement forElement, ElementCalculationManager.CalculationPass pass){
         Pair<Float, Float> totalHeight = null;
 
         if(forElement instanceof ILayoutProvider && ((ILayoutProvider) forElement).providesHeight()){

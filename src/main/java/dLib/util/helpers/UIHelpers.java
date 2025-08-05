@@ -51,9 +51,6 @@ public class UIHelpers {
         while(parent != null){
             if(!parent.getWidthRaw().needsRecalculation()){
                 parentWidth = parent.getWidth();
-                if(parent.getWidthRaw() instanceof AutoDimension){
-                    parentWidth = ((AutoDimension) parent.getWidthRaw()).getCalculatedValueForChildren();
-                }
 
                 if(parent instanceof ILayoutProvider){
                     parentWidth -= ((ILayoutProvider) parent).getContentPaddingLeft();
@@ -82,9 +79,6 @@ public class UIHelpers {
         while(parent != null){
             if(!parent.getHeightRaw().needsRecalculation()){
                 parentHeight = parent.getHeight();
-                if(parent.getHeightRaw() instanceof AutoDimension){
-                    parentHeight = ((AutoDimension) parent.getHeightRaw()).getCalculatedValueForChildren();
-                }
 
                 if(parent instanceof ILayoutProvider){
                     parentHeight -= ((ILayoutProvider) parent).getContentPaddingTop();

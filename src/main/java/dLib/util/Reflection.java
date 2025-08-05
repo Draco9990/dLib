@@ -576,6 +576,19 @@ public class Reflection {
         return classes;
     }
 
+    public static ArrayList<Class<?>> getClassHierarchy(Class<?> clazz){
+        ArrayList<Class<?>> hierarchy = new ArrayList<>();
+        hierarchy.add(clazz);
+
+        Class<?> superClass = clazz.getSuperclass();
+        while(superClass != null && superClass != Object.class){
+            hierarchy.add(superClass);
+            superClass = superClass.getSuperclass();
+        }
+
+        return hierarchy;
+    }
+
     //endregion Classes
 
     //region Misc
@@ -597,8 +610,6 @@ public class Reflection {
     }
 
     //endregion Misc
-
-    /** Classes */
 
 
     /** Misc */

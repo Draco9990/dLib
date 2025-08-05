@@ -1,5 +1,6 @@
 package dLib.debug;
 
+import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ContextMenu;
@@ -83,7 +84,7 @@ public class TestScreen extends UIElement {
             vdb.addChild("Test111");
             vdb.addChild("Test122");
             vdb.addChild("Test133");*/
-            //addChild(vdb);
+            //scrollbox.addChild(vdb);
         }
         //addChild(scrollbox);
 
@@ -100,13 +101,14 @@ public class TestScreen extends UIElement {
         img.onRightClickEvent.subscribe(img, () -> img.setVerticalAlignment((Alignment.VerticalAlignment) EnumHelpers.nextEnum(img.getVerticalAlignment())));
         addChild(img);*/
 
-        /*PotionSelectPopup pop = new PotionSelectPopup();
-        pop.open();*/
+        RelicSelectPopup pop = new RelicSelectPopup();
+        pop.putAllPotions();
+        pop.open();
 
         /*CardSlot cardSlot = new CardSlot(Pos.px(100), Pos.px(100), 0.5f);
         addChild(cardSlot);*/
 
-        ContextMenu test = new ContextMenu(Pos.px(100), Pos.px(100));
+        /*ContextMenu test = new ContextMenu(Pos.px(0), Pos.px(0));
         test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 1"), () -> {}));
         {
             ArrayList<ContextMenu.IContextMenuOption> subOptions = new ArrayList<>();
@@ -117,6 +119,6 @@ public class TestScreen extends UIElement {
         }
         test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 2"), () -> {}));
         test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 3"), () -> {}));
-        addChild(test);
+        addChild(test);*/
     }
 }

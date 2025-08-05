@@ -5,6 +5,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.helpers.EventHelper;
 
 public class PredefinedEventRoom extends CustomEventRoom {
@@ -14,10 +15,18 @@ public class PredefinedEventRoom extends CustomEventRoom {
         this.eventId = eventId;
     }
 
+    public PredefinedEventRoom(AbstractEvent event) {
+        this.event = event;
+        eventId = null;
+    }
+
     @Override
     public void onPlayerEntry() {
-        AbstractDungeon.overlayMenu.proceedButton.hide();
-        this.event = EventHelper.getEvent(eventId);
+        if(eventId != null){
+            AbstractDungeon.overlayMenu.proceedButton.hide();
+            this.event = EventHelper.getEvent(eventId);
+        }
+
         this.event.onEnterRoom();
     }
 
