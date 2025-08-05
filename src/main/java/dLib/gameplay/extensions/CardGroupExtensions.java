@@ -23,7 +23,7 @@ public class CardGroupExtensions {
         }
     }
 
-    public static <T extends Object> ObservableArrayList<T> getGroup(CardGroup group) {
+    public static <T extends Object> ObservableArrayList<T> getObservableCardGroup(CardGroup group) {
         if(!(group.group instanceof ObservableArrayList)){
             // For some reason our group wasn't an observable group, patch it
             group.group = new ObservableArrayList<>(group.group);

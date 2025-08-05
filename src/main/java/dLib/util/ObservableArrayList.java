@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ObservableArrayList<E> extends ArrayList<E> {
-    public RunnableEvent onChange = new RunnableEvent();
+    public RunnableEvent postChangeEvent = new RunnableEvent();                                                         public static ConsumerEvent<ObservableArrayList<?>> postChangeGlobalEvent = new ConsumerEvent<>();
 
     private void onChanged() {
-        onChange.invoke();
+        postChangeEvent.invoke();
+        postChangeGlobalEvent.invoke(this);
     }
 
     // --- Mutating methods overridden below ---
