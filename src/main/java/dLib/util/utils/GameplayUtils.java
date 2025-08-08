@@ -2,6 +2,7 @@ package dLib.util.utils;
 
 import basemod.BaseMod;
 import basemod.abstracts.CustomSavable;
+import basemod.abstracts.events.PhasedEvent;
 import basemod.interfaces.PreStartGameSubscriber;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
@@ -87,19 +88,6 @@ public class GameplayUtils {
                 Reflection.setFieldValue("current", GameRunData.class, SerializationHelpers.fromString(s));
             }
         });
-
-        postDungeonChangeGlobalEvent.subscribeManaged((abstractDungeon, abstractDungeon2) -> {
-            if(abstractDungeon2 instanceof Exordium && !teleporting.get()) {
-                infinityCounter++;
-                postInfinityCycleIncreaseGlobalEvent.invoke(infinityCounter);
-            }
-        });
-        postGameResetGlobalEvent.subscribeManaged(() -> {
-            infinityCounter = 0;
-            roomPhaseCounter = 0;
-        });
-
-        postRoomChangeGlobalEvent.subscribeManaged(mapRoomNode -> roomPhaseCounter = 0);
 
         RoomPhaseData.registerStaticEvents();
     }
@@ -278,6 +266,14 @@ public class GameplayUtils {
         }
     }
 
+    @SpirePatch2(clz = PhasedEvent.class, method = "transitionPhase")
+    public static class PhasedEventPatch{
+        @SpirePostfixPatch
+        public static void Postfix(){
+            increaseRoomPhase();
+        }
+    }
+
     @SpirePatch(clz = CorruptHeart.class, method = "die")
     public static class HeartDeathPatch{
         @SpirePostfixPatch
@@ -296,6 +292,8 @@ public class GameplayUtils {
         @SpirePostfixPatch
         public static void Postfix(){
             enteringDoubleBoss = false;
+            infinityCounter = 0;
+            roomPhaseCounter = 0;
             GameplayUtils.postGameResetGlobalEvent.invoke();
         }
     }
@@ -316,9 +314,17 @@ public class GameplayUtils {
         @SpirePostfixPatch
         public static void Postfix(String key, AbstractPlayer p) {
             if(prevDungeon != null){
+                if(CardCrawlGame.dungeon instanceof Exordium && !teleporting.get()) {
+                    infinityCounter++;
+                }
                 GameplayUtils.postDungeonChangeGlobalEvent.invoke(prevDungeon, CardCrawlGame.dungeon);
+                if(CardCrawlGame.dungeon instanceof Exordium && !teleporting.get()) {
+                    postInfinityCycleIncreaseGlobalEvent.invoke(infinityCounter);
+                }
             }
             GameplayUtils.postDungeonEntryGlobalEvent.invoke(prevDungeon, CardCrawlGame.dungeon, null);
+
+            roomPhaseCounter = 0;
             GameplayUtils.postRoomChangeGlobalEvent.invoke(AbstractDungeon.currMapNode);
         }
     }
@@ -349,6 +355,8 @@ public class GameplayUtils {
                 enteringDoubleBoss = false;
                 GameplayUtils.increaseRoomPhase();
             }
+
+            roomPhaseCounter = 0;
             GameplayUtils.postRoomChangeGlobalEvent.invoke(currMapNode);
         }
     }

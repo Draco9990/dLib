@@ -3,6 +3,7 @@ package dLib.gameplay.extensions;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import dLib.util.ObservableArrayList;
 
@@ -23,12 +24,12 @@ public class CardGroupExtensions {
         }
     }
 
-    public static <T extends Object> ObservableArrayList<T> getObservableCardGroup(CardGroup group) {
+    public static ObservableArrayList<AbstractCard> getObservableCardGroup(CardGroup group) {
         if(!(group.group instanceof ObservableArrayList)){
             // For some reason our group wasn't an observable group, patch it
             group.group = new ObservableArrayList<>(group.group);
         }
 
-        return (ObservableArrayList<T>) group.group;
+        return (ObservableArrayList<AbstractCard>) group.group;
     }
 }

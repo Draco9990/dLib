@@ -37,6 +37,11 @@ public abstract class TEnumProperty<T extends Enum<T>, PropertyType> extends TPr
         }
     }
 
+    @Override
+    public String valueToString() {
+        return value.toString();
+    }
+
     public final void previous(){
         setValue(EnumHelpers.previousEnum(value));
     }

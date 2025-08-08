@@ -67,5 +67,9 @@ public abstract class TIntegerProperty<PropertyType> extends TNumericProperty<In
         return setValue(Integer.parseInt(value));
     }
 
+    @Override
+    public String valueToString() {
+        return value.toString();
+    }
     //endregion
 }

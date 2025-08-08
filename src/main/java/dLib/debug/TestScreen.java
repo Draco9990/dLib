@@ -4,9 +4,11 @@ import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ContextMenu;
+import dLib.ui.elements.items.VerticalCollapsableBox;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
+import dLib.ui.elements.items.text.TextButton;
 import dLib.util.bindings.string.Str;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.position.Pos;
@@ -101,9 +103,9 @@ public class TestScreen extends UIElement {
         img.onRightClickEvent.subscribe(img, () -> img.setVerticalAlignment((Alignment.VerticalAlignment) EnumHelpers.nextEnum(img.getVerticalAlignment())));
         addChild(img);*/
 
-        RelicSelectPopup pop = new RelicSelectPopup();
+        /*RelicSelectPopup pop = new RelicSelectPopup();
         pop.putAllPotions();
-        pop.open();
+        pop.open();*/
 
         /*CardSlot cardSlot = new CardSlot(Pos.px(100), Pos.px(100), 0.5f);
         addChild(cardSlot);*/

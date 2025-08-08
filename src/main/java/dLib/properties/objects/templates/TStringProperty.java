@@ -28,6 +28,10 @@ public abstract class TStringProperty<PropertyType extends TStringProperty<Prope
         return setValue(value);
     }
 
+    @Override
+    public String valueToString() {
+        return value;
+    }
     //region Max Length
 
     public PropertyType setCharacterLimit(int characterLimit){

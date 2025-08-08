@@ -3,6 +3,8 @@ package dLib.properties.objects.templates;
 import dLib.properties.ui.elements.AbstractValueEditor;
 import dLib.properties.ui.elements.IEditableValue;
 import dLib.properties.ui.elements.PropertyValueEditor;
+import dLib.util.DLibLogger;
+import dLib.util.SerializationHelpers;
 import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.FunctionEvent;
 import dLib.util.events.serializableevents.SerializableConsumer;
@@ -14,7 +16,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public abstract class TProperty<ValueType, PropertyType> implements Serializable, IEditableValue {
     static final long serialVersionUID = 1L;
@@ -84,7 +85,26 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
     }
 
     public boolean setValueFromString(String value){
-        throw new UnsupportedOperationException("Setting value from string is not supported for this property type.");
+        try{
+            return setValue(SerializationHelpers.fromString(value));
+        }
+        catch (Exception e){
+            DLibLogger.logError("Failed to set value from string: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public String valueToString() {
+        try{
+            Serializable value = (Serializable) this.value;
+            return SerializationHelpers.toString(value);
+        }
+        catch (ClassCastException e){
+            DLibLogger.logError("Property value is not serializable: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public ValueType getValue(){
@@ -113,6 +133,14 @@ public abstract class TProperty<ValueType, PropertyType> implements Serializable
 
     public ValueType getPreviousValue(){
         return previousValue;
+    }
+
+    public ValueType getDefaultValue(){
+        return defaultValue;
+    }
+
+    public boolean wasValueChanged(){
+        return !Objects.equals(value, defaultValue);
     }
 
     //endregion

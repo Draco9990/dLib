@@ -25,6 +25,11 @@ public abstract class TColorProperty<PropertyType> extends TProperty<String, Pro
         return setValue(value);
     }
 
+    @Override
+    public String valueToString() {
+        return value;
+    }
+
     public void setColorValue(Color value){
         setValue(value.toString());
     }

@@ -25,6 +25,11 @@ public abstract class TBooleanProperty<PropertyType> extends TProperty<Boolean, 
         return setValue(Boolean.parseBoolean(value));
     }
 
+    @Override
+    public String valueToString() {
+        return getValue().toString();
+    }
+
     public void toggle(){
         setValue(!getValue());
     }

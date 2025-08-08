@@ -74,6 +74,11 @@ public abstract class TFloatProperty<PropertyType> extends TNumericProperty<Floa
     }
 
     @Override
+    public String valueToString() {
+        return value.toString();
+    }
+
+    @Override
     public void increment() {
         setValue(add(getValue(), incrementAmount));
     }
