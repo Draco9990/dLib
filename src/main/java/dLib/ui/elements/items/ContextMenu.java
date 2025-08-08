@@ -21,7 +21,6 @@ import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 
 import java.util.ArrayList;
-import java.util.function.Supplier;
 
 public class ContextMenu extends HorizontalBox {
     public VerticalDataBox<ContextMenu.IContextMenuOption> optionsBox;
@@ -82,7 +81,7 @@ public class ContextMenu extends HorizontalBox {
 
         @Override
         public UIElement get(ContextMenu cMenu) {
-            TextButton button = new TextButton(optionText.getBoundObject(), Dim.auto(), Dim.px(30));
+            TextButton button = new TextButton(optionText.resolve(), Dim.auto(), Dim.px(30));
 
             button.label.setFont(Font.stat(FontHelper.buttonLabelFont));
             button.setTexture(Tex.stat(UICommonResources.button03_square));
@@ -113,7 +112,7 @@ public class ContextMenu extends HorizontalBox {
                 HorizontalBox hBox = new HorizontalBox(Dim.auto(), Dim.fill());
                 hBox.setHorizontalItemSpacing(10);
                 {
-                    TextBox text = new TextBox(optionText.getBoundObject(), Dim.auto(), Dim.fill());
+                    TextBox text = new TextBox(optionText.resolve(), Dim.auto(), Dim.fill());
                     text.setFontSize(14);
                     text.setPadding(Padd.px(10));
                     text.setFont(Font.stat(FontHelper.buttonLabelFont));

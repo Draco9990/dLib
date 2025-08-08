@@ -36,7 +36,7 @@ public class UIElementRelativePathBinding extends AbstractUIElementBinding imple
     }
 
     @Override
-    public UIElement getBoundObject(Object... params) {
+    public UIElement resolve(Object... params) {
         if(objectCache != null){
             return objectCache;
         }

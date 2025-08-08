@@ -40,7 +40,7 @@ public class FontResourceBinding extends AbstractFontBinding implements Serializ
     //endregion Methods
 
     @Override
-    public BitmapFont getBoundObject(Object... params) {
+    public BitmapFont resolve(Object... params) {
         Object fontResult = Reflection.getFieldValue(fieldName, resourceClass);
         if(fontResult instanceof BitmapFont){
             return (BitmapFont) fontResult;

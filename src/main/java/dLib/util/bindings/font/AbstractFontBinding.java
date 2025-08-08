@@ -9,5 +9,5 @@ public abstract class AbstractFontBinding extends ResourceBinding<BitmapFont> im
     private static final long serialVersionUID = 1L;
 
     @Override
-    public abstract BitmapFont getBoundObject(Object... params);
+    public abstract BitmapFont resolve(Object... params);
 }

@@ -23,7 +23,7 @@ public class TextureStaticBinding extends AbstractTextureBinding {
     }
 
     @Override
-    public NinePatch getBoundObject(Object... params) {
+    public NinePatch resolve(Object... params) {
         return texture;
     }
 

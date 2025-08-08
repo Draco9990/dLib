@@ -89,9 +89,9 @@ public class Toggle extends Interactable {
     @Override
     protected NinePatch getTextureForRender() {
         if(toggled){
-            if(!isEnabled() && toggledDisabledTexture != null) return toggledDisabledTexture.getBoundObject();
-            if(isHovered() && toggledHoveredTexture != null) return toggledHoveredTexture.getBoundObject();
-            if(toggledTexture != null) return toggledTexture.getBoundObject();
+            if(!isEnabled() && toggledDisabledTexture != null) return toggledDisabledTexture.resolve();
+            if(isHovered() && toggledHoveredTexture != null) return toggledHoveredTexture.resolve();
+            if(toggledTexture != null) return toggledTexture.resolve();
         }
         return super.getTextureForRender();
     }

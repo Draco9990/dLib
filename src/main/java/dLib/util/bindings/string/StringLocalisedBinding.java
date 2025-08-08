@@ -15,7 +15,7 @@ public class StringLocalisedBinding extends AbstractStringBinding {
     }
 
     @Override
-    public String getBoundObject(Object... params) {
+    public String resolve(Object... params) {
         return value.getValue();
     }
 

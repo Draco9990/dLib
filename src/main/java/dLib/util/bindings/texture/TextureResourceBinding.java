@@ -42,7 +42,7 @@ public class TextureResourceBinding extends AbstractTextureBinding implements Se
     //endregion Methods
 
     @Override
-    public NinePatch getBoundObject(Object... params) {
+    public NinePatch resolve(Object... params) {
         Object textureResult = Reflection.getFieldValue(fieldName, resourceClass);
         if(textureResult instanceof TextureRegion){
             return new NinePatch((TextureRegion) textureResult);

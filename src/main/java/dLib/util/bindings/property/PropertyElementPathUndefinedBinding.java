@@ -13,7 +13,7 @@ public class PropertyElementPathUndefinedBinding extends PropertyElementPathBind
     }
 
     @Override
-    public TProperty getBoundObject(Object... params) {
+    public TProperty resolve(Object... params) {
         return null;
     }
 

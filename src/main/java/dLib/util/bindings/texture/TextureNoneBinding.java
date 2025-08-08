@@ -32,7 +32,7 @@ public class TextureNoneBinding extends AbstractTextureBinding implements Serial
     }
 
     @Override
-    public NinePatch getBoundObject(Object... params) {
+    public NinePatch resolve(Object... params) {
         return null;
     }
 }

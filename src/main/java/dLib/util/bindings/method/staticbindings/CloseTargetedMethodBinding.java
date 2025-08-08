@@ -25,7 +25,7 @@ public class CloseTargetedMethodBinding extends StaticMethodBinding implements S
     @Override
     public Object executeBinding(Object invoker, Object... args) {
         if(invoker instanceof UIElement){
-            UIElement bound = target.getValue().getBoundObject(invoker);
+            UIElement bound = target.getValue().resolve(invoker);
             if(bound != null){
                 bound.close();
             }

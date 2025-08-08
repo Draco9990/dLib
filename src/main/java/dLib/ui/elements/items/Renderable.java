@@ -55,7 +55,7 @@ public class Renderable extends UIElement {
         this(imageBinding, Pos.px(0), Pos.px(0));
     }
     public Renderable(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos){
-        this(imageBinding, xPos, yPos, Dim.px(imageBinding.getBoundObject().getTotalWidth()), Dim.px(imageBinding.getBoundObject().getTotalHeight()));
+        this(imageBinding, xPos, yPos, Dim.px(imageBinding.resolve().getTotalWidth()), Dim.px(imageBinding.resolve().getTotalHeight()));
     }
     public Renderable(AbstractTextureBinding imageBinding, AbstractDimension width, AbstractDimension height){
         this(imageBinding, Pos.px(0), Pos.px(0), width, height);
@@ -263,7 +263,7 @@ public class Renderable extends UIElement {
     }
 
     protected NinePatch getTextureForRender(){
-        return image.getBoundObject();
+        return image.resolve();
     }
 
     //endregion

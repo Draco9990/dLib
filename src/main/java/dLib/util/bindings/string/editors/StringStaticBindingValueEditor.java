@@ -22,8 +22,8 @@ public class StringStaticBindingValueEditor extends StringBindingValueEditor<Str
         property.onValueChangedEvent.subscribe(this, (oldVal, newValue) -> {
             if(!isEditorValidForPropertyChange()) return;
 
-            if(!inputfield.textBox.getText().equals(newValue.getBoundObject())){
-                inputfield.textBox.setText(newValue.getBoundObject());
+            if(!inputfield.textBox.getText().equals(newValue.resolve())){
+                inputfield.textBox.setText(newValue.resolve());
             }
         });
 

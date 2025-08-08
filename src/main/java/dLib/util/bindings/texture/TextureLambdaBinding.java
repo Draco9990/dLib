@@ -18,7 +18,7 @@ public class TextureLambdaBinding extends AbstractTextureBinding {
     }
 
     @Override
-    public NinePatch getBoundObject(Object... params) {
+    public NinePatch resolve(Object... params) {
         return ninePatchSupplier.get();
     }
 

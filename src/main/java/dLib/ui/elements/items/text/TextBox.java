@@ -291,7 +291,7 @@ public class TextBox extends UIElement implements ITextProvider {
             return FontHelpers.nonASCIIFont;
         }
         else{
-            return font.getBoundObject();
+            return font.resolve();
         }
     }
 

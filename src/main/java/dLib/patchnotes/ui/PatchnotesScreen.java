@@ -30,9 +30,9 @@ public class PatchnotesScreen extends UIElement {
                     VerticalBox vBox = new VerticalBox(Dim.fill(), Dim.fill());
                     {
                         for(Patchnotes.PatchnotesEntry entry : patchnotes.entries){
-                            VerticalCollapsableBox entryBox = new VerticalCollapsableBox(entry.header.getBoundObject());
+                            VerticalCollapsableBox entryBox = new VerticalCollapsableBox(entry.header.resolve());
                             {
-                                TextBox descriptionBox = new TextBox(entry.description.getBoundObject(), Dim.fill(), Dim.auto());
+                                TextBox descriptionBox = new TextBox(entry.description.resolve(), Dim.fill(), Dim.auto());
                                 entryBox.addItem(descriptionBox);
                             }
                             vBox.addChild(entryBox);

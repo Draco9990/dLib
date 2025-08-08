@@ -9,5 +9,5 @@ public abstract class AbstractPropertyBinding extends ResourceBinding<TProperty>
     private static final long serialVersionUID = 1L;
 
     @Override
-    public abstract TProperty getBoundObject(Object... params);
+    public abstract TProperty resolve(Object... params);
 }

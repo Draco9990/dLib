@@ -80,10 +80,10 @@ public class MainMenuButtonManager {
     public static class LabelPatcher{
         public static void Postfix(MenuButton __instance, String ___label){
             if(customButtons.containsKey(__instance.result)) {
-                Reflection.setFieldValue("label", __instance, customButtons.get(__instance.result).buttonLabel.getBoundObject());
+                Reflection.setFieldValue("label", __instance, customButtons.get(__instance.result).buttonLabel.resolve());
             }
             else if(buttonNameOverrides.containsKey(__instance.result) && buttonNameOverrides.get(__instance.result).getValue().get()) {
-                Reflection.setFieldValue("label", __instance, buttonNameOverrides.get(__instance.result).getKey().getBoundObject());
+                Reflection.setFieldValue("label", __instance, buttonNameOverrides.get(__instance.result).getKey().resolve());
             }
         }
     }

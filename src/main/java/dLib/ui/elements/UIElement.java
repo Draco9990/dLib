@@ -2529,9 +2529,9 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.sayTheSpireElementValue = Str.stat(newLine);
     }
     public String getSayTheSpireElementNameAndType(boolean withValue){
-        String elementName = sayTheSpireElementName.getBoundObject();
-        String elementType = sayTheSpireElementType.getBoundObject();
-        String elementValue = sayTheSpireElementValue.getBoundObject();
+        String elementName = sayTheSpireElementName.resolve();
+        String elementType = sayTheSpireElementType.resolve();
+        String elementValue = sayTheSpireElementValue.resolve();
 
         if(elementName == null && elementType == null) return null;
 
@@ -2553,7 +2553,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.onHoverLine = Str.stat(newLine);
     }
     public String getOnHoverLine(){
-        String binding = onHoverLine.getBoundObject();
+        String binding = onHoverLine.resolve();
         if(binding != null) return binding;
 
         return getSayTheSpireElementNameAndType(true);
@@ -2570,7 +2570,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.onTriggeredLine = Str.stat(newLine);
     }
     public String getOnTriggerLine(){
-        return onTriggeredLine.getBoundObject();
+        return onTriggeredLine.resolve();
     }
 
     //endregion
@@ -2584,7 +2584,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         this.onEnabledLine = Str.stat(newLine);
     }
     public String getOnEnabledLine(){
-        return onEnabledLine.getBoundObject();
+        return onEnabledLine.resolve();
     }
 
     //endregion

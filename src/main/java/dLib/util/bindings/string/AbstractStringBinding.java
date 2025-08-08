@@ -8,5 +8,5 @@ public abstract class AbstractStringBinding extends ResourceBinding<String> impl
     private static final long serialVersionUID = 1L;
 
     @Override
-    public abstract String getBoundObject(Object... params);
+    public abstract String resolve(Object... params);
 }

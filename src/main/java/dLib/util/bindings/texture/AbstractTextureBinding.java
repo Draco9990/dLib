@@ -9,5 +9,5 @@ public abstract class AbstractTextureBinding extends ResourceBinding<NinePatch> 
     private static final long serialVersionUID = 1L;
 
     @Override
-    public abstract NinePatch getBoundObject(Object... params);
+    public abstract NinePatch resolve(Object... params);
 }

@@ -83,15 +83,15 @@ public class Interactable extends Renderable{
 
     @Override
     protected NinePatch getTextureForRender() {
-        if(!isEnabled() && disabledTexture.getBoundObject() != null) return disabledTexture.getBoundObject();
-        if(isHovered() && hoveredTexture.getBoundObject() != null) return hoveredTexture.getBoundObject();
+        if(!isEnabled() && disabledTexture.resolve() != null) return disabledTexture.resolve();
+        if(isHovered() && hoveredTexture.resolve() != null) return hoveredTexture.resolve();
         return super.getTextureForRender();
     }
 
     @Override
     protected Color getColorForRender() {
         if(!isEnabled()){
-            if(disabledTexture.getBoundObject() == null){
+            if(disabledTexture.resolve() == null){
                 Color colorToRender = getDisabledColor().cpy();
                 if(disabledColorMultiplier != 1.0f){
                     colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - disabledColorMultiplier);
@@ -103,7 +103,7 @@ public class Interactable extends Renderable{
             }
         }
         else if(isHovered()){
-            if(hoveredTexture.getBoundObject() == null){
+            if(hoveredTexture.resolve() == null){
                 Color colorToRender = getHoveredColor().cpy();
                 if(hoveredColorMultiplier != 1.0f){
                     colorToRender = colorToRender.lerp(super.getColorForRender(), 1 - hoveredColorMultiplier);

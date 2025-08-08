@@ -12,7 +12,7 @@ public class UIElementUndefinedRelativePathBinding extends UIElementRelativePath
     }
 
     @Override
-    public UIElement getBoundObject(Object... params) {
+    public UIElement resolve(Object... params) {
         return null;
     }
 

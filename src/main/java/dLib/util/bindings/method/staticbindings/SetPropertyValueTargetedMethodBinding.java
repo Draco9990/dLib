@@ -29,7 +29,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
         addDeclaredParam(boundProperty);
 
         target.onValueChangedEvent.subscribe(this, (oldValue, newValue) -> {
-            if(newValue.getBoundObject() == null){
+            if(newValue.resolve() == null){
                 boundProperty.setValue(new PropertyElementPathUndefinedBinding());
             }
             else{
@@ -40,7 +40,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
 
     @Override
     public Object executeBinding(Object invoker, Object... args) {
-        boundProperty.getValue().getBoundObject(target.getValue().getBoundObject()).setValue(args[0]);
+        boundProperty.getValue().resolve(target.getValue().resolve()).setValue(args[0]);
         return null;
     }
 

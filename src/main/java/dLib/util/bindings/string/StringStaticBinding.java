@@ -14,7 +14,7 @@ public class StringStaticBinding extends AbstractStringBinding {
     }
 
     @Override
-    public String getBoundObject(Object... params) {
+    public String resolve(Object... params) {
         return value;
     }
 

@@ -14,7 +14,7 @@ public class FontStaticBinding extends AbstractFontBinding {
     }
 
     @Override
-    public BitmapFont getBoundObject(Object... params) {
+    public BitmapFont resolve(Object... params) {
         return font;
     }
 

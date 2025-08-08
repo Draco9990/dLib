@@ -29,8 +29,8 @@ public class PropertyElementPathBinding extends AbstractPropertyBinding implemen
     }
 
     @Override
-    public TProperty getBoundObject(Object... params) {
-        return Reflection.getFieldValue(propertyName, elementBinding.getBoundObject(params[0]));
+    public TProperty resolve(Object... params) {
+        return Reflection.getFieldValue(propertyName, elementBinding.resolve(params[0]));
     }
 
     @Override
