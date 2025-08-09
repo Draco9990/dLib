@@ -360,11 +360,16 @@ public class Reflection {
         return methodName.toString();
     }
 
-    /** Returns an implementation of the given method in all classes*/
-    public static ArrayList<CtMethod> findMethodsFromClasses(CtBehavior ctBehavior, Class<?> parentClass, boolean includeParent, String methodName, Class<?>... methodParams){
+    public static ArrayList<CtMethod> findMethodsFromClasses(CtBehavior ctBehavior, Class<?> parentClass, boolean includeParent, String methodName){
+        return findMethodsFromClasses(ctBehavior, findClassInfosOfType(parentClass, includeParent), methodName, null);
+    }
+    public static ArrayList<CtMethod> findMethodsFromClasses(CtBehavior ctBehavior, Class<?> parentClass, boolean includeParent, String methodName, Class<?>[] methodParams){
         return findMethodsFromClasses(ctBehavior, findClassInfosOfType(parentClass, includeParent), methodName, methodParams);
     }
-    public static ArrayList<CtMethod> findMethodsFromClasses(CtBehavior ctBehavior, ArrayList<ClassInfo> classesToSearch, String methodName, Class<?>... methodParams){
+    public static ArrayList<CtMethod> findMethodsFromClasses(CtBehavior ctBehavior, ArrayList<ClassInfo> classesToSearch, String methodName){
+        return findMethodsFromClasses(ctBehavior, classesToSearch, methodName, null);
+    }
+    public static ArrayList<CtMethod> findMethodsFromClasses(CtBehavior ctBehavior, ArrayList<ClassInfo> classesToSearch, String methodName, Class<?>[] methodParams){
         ClassPool classPool = ctBehavior.getDeclaringClass().getClassPool();
 
         ArrayList<CtMethod> foundMethods = new ArrayList<>();
@@ -391,11 +396,11 @@ public class Reflection {
 
                         foundMethod = m;
 
-                        if(methodParams == null && params.length == 0){
+                        if(methodParams == null){
                             break;
                         }
 
-                        if(methodParams == null || (params.length != methodParams.length)){
+                        if((params.length != methodParams.length)){
                             foundMethod = null;
                             continue;
                         }
@@ -434,7 +439,13 @@ public class Reflection {
     public static ArrayList<CtConstructor> findConstructorsFromClasses(CtBehavior ctBehavior, Class<?> parentClass, boolean includeParent){
         return findConstructorsFromClasses(ctBehavior, findClassInfosOfType(parentClass, includeParent));
     }
+    public static ArrayList<CtConstructor> findConstructorsFromClasses(CtBehavior ctBehavior, Class<?> parentClass, boolean includeParent, Class<?>[] methodParams){
+        return findConstructorsFromClasses(ctBehavior, findClassInfosOfType(parentClass, includeParent), null);
+    }
     public static ArrayList<CtConstructor> findConstructorsFromClasses(CtBehavior ctBehavior, ArrayList<ClassInfo> classesToSearch){
+        return findConstructorsFromClasses(ctBehavior, classesToSearch, null);
+    }
+    public static ArrayList<CtConstructor> findConstructorsFromClasses(CtBehavior ctBehavior, ArrayList<ClassInfo> classesToSearch, Class<?>[] methodParams){
         ClassPool classPool = ctBehavior.getDeclaringClass().getClassPool();
 
         ArrayList<CtConstructor> foundMethods = new ArrayList<>();
@@ -454,10 +465,32 @@ public class Reflection {
                     }
 
                     CtConstructor[] constructors = ctClass.getDeclaredConstructors();
+                    ArrayList<CtConstructor> constructorsList = new ArrayList<>(Arrays.asList(constructors));
+
+                    if(methodParams != null){
+                        constructorsList.removeIf(constructor -> {
+                            try{
+                                CtClass[] params = constructor.getParameterTypes();
+                                if(params.length != methodParams.length){
+                                    return true;
+                                }
+
+                                for (int i = 0; i < methodParams.length; i++) {
+                                    if(!params[i].getName().equals(methodParams[i].getName())){
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            }catch (Exception ignored){
+                                return true;
+                            }
+                        });
+                    }
+
                     if(constructors.length > 0){
                         foundMethods.addAll(Arrays.asList(constructors));
                     }
-                    else {
+                    else if (methodParams == null) {
                         CtConstructor constructor = CtNewConstructor.defaultConstructor(ctClass);
                         foundMethods.add(constructor);
                     }
