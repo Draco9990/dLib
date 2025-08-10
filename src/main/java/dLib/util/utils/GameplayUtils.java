@@ -104,7 +104,7 @@ public class GameplayUtils {
 
     public static String getCurrentActName(){
         if (CardCrawlGame.dungeon == null) {
-            return null;
+            return "undefined";
         }
 
         return CardCrawlGame.dungeon.getClass().getSimpleName();

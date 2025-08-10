@@ -1,10 +1,12 @@
 package dLib.debug;
 
+import com.badlogic.gdx.graphics.Color;
 import dLib.betterscreens.ui.elements.items.RelicSelectPopup;
 import dLib.ui.Alignment;
 import dLib.ui.elements.UIElement;
 import dLib.ui.elements.items.ContextMenu;
 import dLib.ui.elements.items.VerticalCollapsableBox;
+import dLib.ui.elements.items.color.ColorPickerPopup;
 import dLib.ui.elements.items.input.Inputfield;
 import dLib.ui.elements.items.itembox.VerticalDataBox;
 import dLib.ui.elements.items.scroll.Scrollbox;
@@ -122,5 +124,8 @@ public class TestScreen extends UIElement {
         test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 2"), () -> {}));
         test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 3"), () -> {}));
         addChild(test);*/
+
+        ColorPickerPopup picker = new ColorPickerPopup(Color.WHITE, true, true, true, true);
+        addChild(picker);
     }
 }

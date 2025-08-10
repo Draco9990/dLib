@@ -30,9 +30,9 @@ public class AbstractMonsterExtensions {
         )
         public static class DynamicPatch {
             public static void Raw(CtBehavior ctBehavior) throws NotFoundException {
-                for(CtMethod method : Reflection.findMethodsFromClasses(ctBehavior, AbstractMonster.class, true, "changeState", String.class)){
+                for(CtMethod method : Reflection.findMethodsFromClasses(ctBehavior, AbstractMonster.class, true, "changeState", new Class[]{String.class})){
                     try{
-                        method.insertBefore("{" + StateTracker.class.getName() + ".prefix(($w)$0, $1);}");
+                        method.insertBefore("{" + StateTracker.class.getName() + ".onStateChange(($w)$0, $1);}");
                     }catch (CannotCompileException cannotCompileException){
                         DLibLogger.logError("DLib => Cannot dynamically patch changeState method due to " + cannotCompileException.getReason());
                         cannotCompileException.printStackTrace();

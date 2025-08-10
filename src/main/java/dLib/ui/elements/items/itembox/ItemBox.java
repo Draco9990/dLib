@@ -25,7 +25,6 @@ import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -483,6 +482,43 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     public boolean canCalculateContentWidth(ElementDescriptor refCollector) {
+        if (getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
+            if (isGridMode()){
+                if(getHeightRaw() instanceof AutoDimension){
+
+                }
+                else{
+
+                }
+            }
+            else{
+                if(getHeightRaw() instanceof AutoDimension){
+
+                }
+                else{
+
+                }
+            }
+        }
+        else{
+            if (isGridMode()){
+                if(getHeightRaw() instanceof AutoDimension){
+
+                }
+                else{
+
+                }
+            }
+            else{
+                if(getHeightRaw() instanceof AutoDimension){
+
+                }
+                else{
+
+                }
+            }
+        }
+
         for (UIElement child : filteredChildren){
             if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
@@ -507,40 +543,75 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     public Float calculateContentWidth() {
-        if(getContentAlignmentType() == Alignment.AlignmentType.HORIZONTAL || isGridMode()){
-            float totalWidth = 0;
-
-            for (UIElement child : filteredChildren){
-                if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
-                    continue;
-                }
-                if(child.getWidthRaw().needsRecalculation() && child.getWidthRaw() instanceof FillDimension){
-                    continue;
-                }
-
-                totalWidth += child.getPaddingLeft() + child.getWidth() + child.getPaddingRight() + getHorizontalItemSpacing();
+        if (getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
+            if (isGridMode()){
+                return totalItemWidth();
             }
-            if(!filteredChildren.isEmpty()) totalWidth -= getHorizontalItemSpacing(); // Remove last spacing
-
-            return totalWidth;
+            else{
+                return getWidestChildWidth();
+            }
         }
         else{
-            float highestWidth = 0;
-            for (UIElement child : filteredChildren){
-                if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
-                    continue;
+            if (isGridMode()){
+                if(getHeightRaw() instanceof AutoDimension){
+                    return getWidestChildWidth();
                 }
-                if(child.getWidthRaw().needsRecalculation() && child.getWidthRaw() instanceof FillDimension){
-                    continue;
-                }
-
-                float childWidth = child.getPaddingLeft() + child.getWidth() + child.getPaddingRight();
-                if(childWidth > highestWidth){
-                    highestWidth = childWidth;
+                else{
+                    return calcWidthLayered();
                 }
             }
-            return highestWidth;
+            else{
+                return totalItemWidth();
+            }
         }
+    }
+
+    private Float getWidestChildWidth(){
+        float highestWidth = 0;
+        for (UIElement child : filteredChildren){
+            if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
+                continue;
+            }
+            if(child.getWidthRaw().needsRecalculation() && child.getWidthRaw() instanceof FillDimension){
+                continue;
+            }
+
+            float childWidth = child.getPaddingLeft() + child.getWidth() + child.getPaddingRight();
+            if(childWidth > highestWidth){
+                highestWidth = childWidth;
+            }
+        }
+        return highestWidth;
+    }
+
+    private Float totalItemWidth(){
+        float totalWidth = 0;
+
+        for (UIElement child : filteredChildren){
+            if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
+                continue;
+            }
+            if(child.getWidthRaw().needsRecalculation() && child.getWidthRaw() instanceof FillDimension){
+                continue;
+            }
+
+            totalWidth += child.getPaddingLeft() + child.getWidth() + child.getPaddingRight() + getHorizontalItemSpacing();
+        }
+        if(!filteredChildren.isEmpty()) totalWidth -= getHorizontalItemSpacing(); // Remove last spacing
+
+        return totalWidth;
+    }
+
+    private Float calcWidthLayered(){
+        ArrayList<Pair<ArrayList<UIElement>, Pair<Float, Float>>> layers = generateHorizontalLayers();
+        float totalWidth = 0;
+
+        for (Pair<ArrayList<UIElement>, Pair<Float, Float>> layer : layers) {
+            totalWidth += layer.getValue().getValue() + getHorizontalItemSpacing();
+        }
+        if(!layers.isEmpty()) totalWidth -= getHorizontalItemSpacing(); // Remove last spacing
+
+        return totalWidth;
     }
 
     @Override
@@ -550,6 +621,43 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     public boolean canCalculateContentHeight(ElementDescriptor refCollector) {
+        if (getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
+            if (isGridMode()){
+                if(getWidthRaw() instanceof AutoDimension){
+
+                }
+                else{
+
+                }
+            }
+            else{
+                if(getWidthRaw() instanceof AutoDimension){
+
+                }
+                else{
+
+                }
+            }
+        }
+        else{
+            if (isGridMode()){
+                if(getWidthRaw() instanceof AutoDimension){
+
+                }
+                else{
+
+                }
+            }
+            else{
+                if(getWidthRaw() instanceof AutoDimension){
+
+                }
+                else{
+
+                }
+            }
+        }
+
         for (UIElement child : filteredChildren){
             if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
                 continue;
@@ -573,40 +681,74 @@ public abstract class ItemBox extends Renderable implements ILayoutProvider {
 
     @Override
     public Float calculateContentHeight() {
-        if(getContentAlignmentType() == Alignment.AlignmentType.VERTICAL || isGridMode()){
-            float totalHeight = 0;
-
-            for (UIElement child : filteredChildren){
-                if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
-                    continue;
+        if (getContentAlignmentType() == Alignment.AlignmentType.VERTICAL){
+            if (isGridMode()){
+                if(getWidthRaw() instanceof AutoDimension){
+                    return getHighestChildHeight();
                 }
-                if(child.getHeightRaw().needsRecalculation() && child.getHeightRaw() instanceof FillDimension){
-                    continue;
+                else{
+                    return calcHeightLayered();
                 }
-
-                totalHeight += child.getPaddingTop() + child.getHeight() + child.getPaddingBottom() + getVerticalItemSpacing();
             }
-            if(!filteredChildren.isEmpty()) totalHeight -= getVerticalItemSpacing(); // Remove last spacing
-
-            return totalHeight;
+            else{
+                return totalItemHeight();
+            }
         }
         else{
-            float highestHeight = 0;
-            for (UIElement child : filteredChildren){
-                if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
-                    continue;
-                }
-                if(child.getHeightRaw().needsRecalculation() && child.getHeightRaw() instanceof FillDimension){
-                    continue;
-                }
-
-                float childHeight = child.getPaddingTop() + child.getHeight() + child.getPaddingBottom();
-                if(childHeight > highestHeight){
-                    highestHeight = childHeight;
-                }
+            if (isGridMode()){
+                return totalItemHeight();
             }
-            return highestHeight;
+            else{
+                return getHighestChildHeight();
+            }
         }
+    }
+
+    private Float totalItemHeight(){
+        float totalHeight = 0;
+
+        for (UIElement child : filteredChildren){
+            if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
+                continue;
+            }
+            if(child.getHeightRaw().needsRecalculation() && child.getHeightRaw() instanceof FillDimension){
+                continue;
+            }
+
+            totalHeight += child.getPaddingTop() + child.getHeight() + child.getPaddingBottom() + getVerticalItemSpacing();
+        }
+        if(!filteredChildren.isEmpty()) totalHeight -= getVerticalItemSpacing(); // Remove last spacing
+
+        return totalHeight;
+    }
+    private Float getHighestChildHeight(){
+        float highestHeight = 0;
+        for (UIElement child : filteredChildren){
+            if(!child.isActiveRaw() || child.hasComponent(UIOverlayElementComponent.class)){
+                continue;
+            }
+            if(child.getHeightRaw().needsRecalculation() && child.getHeightRaw() instanceof FillDimension){
+                continue;
+            }
+
+            float childHeight = child.getPaddingTop() + child.getHeight() + child.getPaddingBottom();
+            if(childHeight > highestHeight){
+                highestHeight = childHeight;
+            }
+        }
+        return highestHeight;
+    }
+
+    private Float calcHeightLayered(){
+        ArrayList<Pair<ArrayList<UIElement>, Pair<Float, Float>>> layers = generateVerticalLayers();
+        float totalHeight = 0;
+
+        for (Pair<ArrayList<UIElement>, Pair<Float, Float>> layer : layers) {
+            totalHeight += layer.getValue().getValue() + getVerticalItemSpacing();
+        }
+        if(!layers.isEmpty()) totalHeight -= getVerticalItemSpacing(); // Remove last spacing
+
+        return totalHeight;
     }
 
 
