@@ -1,4 +1,4 @@
-package dLib.mapedit;
+package dLib.gameplay.extensions;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
@@ -25,6 +25,16 @@ import java.util.Iterator;
 import java.util.function.Supplier;
 
 public class MapNodeManipulator {
+
+    @SpirePatch2(clz = MapRoomNode.class, method = SpirePatch.CLASS)
+    private static class Fields {
+        public static SpireField<ArrayList<MapRoomNode>> parents = new SpireField<>(ArrayList::new);
+        public static SpireField<ArrayList<NodeEdgePair>> children = new SpireField<>(ArrayList::new);
+
+        public static SpireField<Boolean> isEntryNode = new SpireField<>(() -> false);
+        public static SpireField<Boolean> isPreBossNode = new SpireField<>(() -> false);
+    }
+
     //region Variables
 
     private static final float ORIG_SPACING_X = 128.0F * Settings.xScale;
@@ -56,23 +66,23 @@ public class MapNodeManipulator {
     //region Node Navigation
 
     public static void markAsEntryNode(MapRoomNode node){
-        Patches.NodeFields.isEntryNode.set(node, true);
+        Fields.isEntryNode.set(node, true);
     }
     public static void unmarkAsEntryNode(MapRoomNode node){
-        Patches.NodeFields.isEntryNode.set(node, false);
+        Fields.isEntryNode.set(node, false);
     }
     public static boolean isEntryNode(MapRoomNode node){
-        return Patches.NodeFields.isEntryNode.get(node);
+        return Fields.isEntryNode.get(node);
     }
 
     public static void markAsPreBossNode(MapRoomNode node){
-        Patches.NodeFields.isPreBossNode.set(node, true);
+        Fields.isPreBossNode.set(node, true);
     }
     public static void unmarkAsPreBossNode(MapRoomNode node){
-        Patches.NodeFields.isPreBossNode.set(node, false);
+        Fields.isPreBossNode.set(node, false);
     }
     public static boolean isPreBossNode(MapRoomNode node){
-        return Patches.NodeFields.isPreBossNode.get(node);
+        return Fields.isPreBossNode.get(node);
     }
 
     public static void connectNodes(MapRoomNode from, MapRoomNode to){
@@ -83,11 +93,11 @@ public class MapNodeManipulator {
     }
 
     private static void addParent(MapRoomNode node, MapRoomNode parent){
-        Patches.NodeFields.parents.get(node).add(parent);
+        Fields.parents.get(node).add(parent);
     }
 
     private static void addChild(MapRoomNode node, MapRoomNode child, MapEdge connectingEdge){
-        Patches.NodeFields.children.get(node).add(new NodeEdgePair(child, connectingEdge));
+        Fields.children.get(node).add(new NodeEdgePair(child, connectingEdge));
     }
 
     //endregion Node Navigation
@@ -118,14 +128,7 @@ public class MapNodeManipulator {
     //region Patches
 
     public static class Patches{
-        @SpirePatch2(clz = MapRoomNode.class, method = SpirePatch.CLASS)
-        public static class NodeFields{
-            public static SpireField<ArrayList<MapRoomNode>> parents = new SpireField<>(ArrayList::new);
-            public static SpireField<ArrayList<NodeEdgePair>> children = new SpireField<>(ArrayList::new);
 
-            public static SpireField<Boolean> isEntryNode = new SpireField<>(() -> false);
-            public static SpireField<Boolean> isPreBossNode = new SpireField<>(() -> false);
-        }
 
         @SpirePatch2(clz = AbstractDungeon.class, method = SpirePatch.CLASS)
         public static class DungeonFields{
@@ -148,7 +151,7 @@ public class MapNodeManipulator {
         @SpirePatch2(clz = MapRoomNode.class, method = "isConnectedTo")
         public static class IsConnectedToPatch{
             public static SpireReturn<Boolean> Prefix(MapRoomNode __instance, MapRoomNode node){
-                for(NodeEdgePair nodeEdgePair : NodeFields.children.get(__instance)){
+                for(NodeEdgePair nodeEdgePair : Fields.children.get(__instance)){
                     if(nodeEdgePair.node.equals(node)){
                         return SpireReturn.Return(true);
                     }
@@ -160,7 +163,7 @@ public class MapNodeManipulator {
         @SpirePatch2(clz = MapRoomNode.class, method = "wingedIsConnectedTo")
         public static class WingedIsConnectedToPatch{
             public static SpireReturn<Boolean> Prefix(MapRoomNode __instance, MapRoomNode node){
-                for(NodeEdgePair nodeEdgePair : NodeFields.children.get(__instance)){
+                for(NodeEdgePair nodeEdgePair : Fields.children.get(__instance)){
                     if(nodeEdgePair.node.equals(node)){
                         return SpireReturn.Return(true);
                     }
@@ -173,7 +176,7 @@ public class MapNodeManipulator {
         @SpirePatch2(clz = MapRoomNode.class, method = "getEdgeConnectedTo")
         public static class GetEdgeConnectedToPatch{
             public static SpireReturn<MapEdge> Prefix(MapRoomNode __instance, MapRoomNode node){
-                for(NodeEdgePair nodeEdgePair : NodeFields.children.get(__instance)){
+                for(NodeEdgePair nodeEdgePair : Fields.children.get(__instance)){
                     if(nodeEdgePair.node.equals(node)){
                         return SpireReturn.Return(nodeEdgePair.edge);
                     }
@@ -186,7 +189,7 @@ public class MapNodeManipulator {
         @SpirePatch2(clz = MapRoomNode.class, method = "leftNodeAvailable")
         public static class leftNodeAvailablePatch{
             public static SpireReturn<Boolean> Prefix(MapRoomNode __instance){
-                for(NodeEdgePair nodeEdgePair : NodeFields.children.get(__instance)){
+                for(NodeEdgePair nodeEdgePair : Fields.children.get(__instance)){
                     if(nodeEdgePair.node.x < __instance.x){
                         return SpireReturn.Return(true);
                     }
@@ -198,7 +201,7 @@ public class MapNodeManipulator {
         @SpirePatch2(clz = MapRoomNode.class, method = "rightNodeAvailable")
         public static class rightNodeAvailablePatch{
             public static SpireReturn<Boolean> Prefix(MapRoomNode __instance){
-                for(NodeEdgePair nodeEdgePair : NodeFields.children.get(__instance)){
+                for(NodeEdgePair nodeEdgePair : Fields.children.get(__instance)){
                     if(nodeEdgePair.node.x > __instance.x){
                         return SpireReturn.Return(true);
                     }
@@ -210,7 +213,7 @@ public class MapNodeManipulator {
         @SpirePatch2(clz = MapRoomNode.class, method = "centerNodeAvailable")
         public static class centerNodeAvailablePatch{
             public static SpireReturn<Boolean> Prefix(MapRoomNode __instance){
-                for(NodeEdgePair nodeEdgePair : NodeFields.children.get(__instance)){
+                for(NodeEdgePair nodeEdgePair : Fields.children.get(__instance)){
                     if(nodeEdgePair.node.x == __instance.x){
                         return SpireReturn.Return(true);
                     }

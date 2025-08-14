@@ -25,7 +25,7 @@ public class DeveloperModeManager {
                     if (false && ExternalEditorCommunicationManager.isRunning()) {
                         UCStartupPopup popup = new UCStartupPopup();
                         popup.open();
-                    } else if (false) {
+                    } else if (true) {
                         UCEditor editor = new UCEditor();
                         editor.open();
                     } else {

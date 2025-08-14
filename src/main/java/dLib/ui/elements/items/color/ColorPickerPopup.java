@@ -219,6 +219,7 @@ public class ColorPickerPopup extends VerticalBox {
                         rVal.addChild(rValText);
 
                         rValInput = new IntegerValueEditor(0);
+                        rValInput.getChildByIndex(0).setHeight(30);
                         rValInput.boundProperty.onValueChangedEvent.subscribeManaged((o, r) -> {
                             r = Math.min(255, Math.max(0, r));
 
@@ -236,6 +237,7 @@ public class ColorPickerPopup extends VerticalBox {
                         gVal.addChild(gValText);
 
                         gValInput = new IntegerValueEditor(0);
+                        gValInput.getChildByIndex(0).setHeight(30);
                         gValInput.boundProperty.onValueChangedEvent.subscribeManaged((o, g) -> {
                             g = Math.min(255, Math.max(0, g));
 
@@ -253,6 +255,7 @@ public class ColorPickerPopup extends VerticalBox {
                         bVal.addChild(bValText);
 
                         bValInput = new IntegerValueEditor(0);
+                        bValInput.getChildByIndex(0).setHeight(30);
                         bValInput.boundProperty.onValueChangedEvent.subscribeManaged((o, b) -> {
                             b = Math.min(255, Math.max(0, b));
 
@@ -271,6 +274,7 @@ public class ColorPickerPopup extends VerticalBox {
                             aVal.addChild(aValText);
 
                             aValInput = new IntegerValueEditor(0);
+                            aValInput.getChildByIndex(0).setHeight(30);
                             aValInput.boundProperty.onValueChangedEvent.subscribeManaged((o, a) -> {
                                 a = Math.min(255, Math.max(0, a));
 

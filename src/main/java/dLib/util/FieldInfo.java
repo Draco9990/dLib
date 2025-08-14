@@ -9,30 +9,46 @@ public class FieldInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //region Variables
+
     private String clazz = "";
     private String name = "";
+
+    private transient Class<?> resolvedClass = null;
+    private transient Field resolvedField = null;
+
     //endregion Variables
 
     //region Constructors
+
     public FieldInfo(Class<?> fieldClass, Field field){
         clazz = fieldClass.getName();
         name = field.getName();
+
+        resolvedClass = fieldClass;
+        resolvedField = field;
     }
 
     //endregion Constructors
 
     //region Methods
+
     public Class<?> getFieldClass(){
-        try{
-            return Class.forName(clazz);
-        }catch (Throwable ignored){
+        if(resolvedClass == null){
+            try{
+                resolvedClass = Class.forName(clazz);
+            }catch (Throwable ignored){
+            }
         }
 
-        return null;
+        return resolvedClass;
     }
 
     public Field getField(){
-        return Reflection.getFieldByName(name, getFieldClass());
+        if(resolvedField == null){
+            resolvedField = Reflection.getFieldByName(name, getFieldClass());
+        }
+
+        return resolvedField;
     }
 
     public boolean isSpireField(){

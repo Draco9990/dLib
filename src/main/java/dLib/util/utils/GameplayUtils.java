@@ -18,7 +18,9 @@ import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.helpers.SaveHelper;
 import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.ending.CorruptHeart;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
@@ -33,6 +35,9 @@ import dLib.util.events.localevents.BiConsumerEvent;
 import dLib.util.events.localevents.ConsumerEvent;
 import dLib.util.events.localevents.RunnableEvent;
 import dLib.util.events.localevents.TriConsumerEvent;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameplayUtils {
     //region Variables
@@ -241,6 +246,32 @@ public class GameplayUtils {
         AbstractDungeon.settingsScreen.abandonPopup.hide();
         AbstractDungeon.settingsScreen.exitPopup.hide();
         AbstractDungeon.screen = AbstractDungeon.CurrentScreen.NONE;
+    }
+
+    public static AbstractRoom getRoomSafe(){
+        if(AbstractDungeon.getCurrMapNode() == null){
+            return null;
+        }
+
+        return AbstractDungeon.getCurrRoom();
+    }
+
+    public static ArrayList<AbstractMonster> getMonstersSafe(){
+        if(getRoomSafe() == null){
+            return new ArrayList<>();
+        }
+        if(getRoomSafe().monsters == null){
+            return new ArrayList<>();
+        }
+        if(getRoomSafe().monsters.monsters == null){
+            return new ArrayList<>();
+        }
+
+        return getRoomSafe().monsters.monsters;
+    }
+
+    public static boolean wasRoomGeneratedFromEvent(){
+        return getRoomSafe() != null && Objects.equals(getRoomSafe().getMapSymbol(), "?");
     }
 
     //region Patches

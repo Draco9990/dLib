@@ -1,7 +1,6 @@
 package dLib.debug;
 
 import com.badlogic.gdx.graphics.Color;
-import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
@@ -16,7 +15,7 @@ import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import com.megacrit.cardcrawl.scenes.TheEndingScene;
-import dLib.mapedit.MapNodeManipulator;
+import dLib.gameplay.extensions.MapNodeManipulator;
 import dLib.util.Reflection;
 
 import java.util.ArrayList;

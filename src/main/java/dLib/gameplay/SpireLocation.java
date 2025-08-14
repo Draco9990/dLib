@@ -134,8 +134,7 @@ public class SpireLocation implements Serializable {
         return x == location.x &&
                 y == location.y &&
                 Objects.equals(act, location.act) &&
-                infinityCounter == location.infinityCounter &&
-                Objects.equals(roomType, location.roomType);
+                infinityCounter == location.infinityCounter;
     }
 
     public boolean inSameRoomAndPhase(){

@@ -63,9 +63,9 @@ public class Version implements Serializable, Comparable<Version> {
     }
 
     public Version(Semver semver){
-        this.major = semver.getMajor();
-        this.minor = semver.getMinor();
-        this.patch = semver.getPatch();
+        this.major = semver.getMajor() == null ? 0 : semver.getMajor();
+        this.minor = semver.getMinor() == null ? 0 : semver.getMinor();
+        this.patch = semver.getPatch() == null ? 0 : semver.getPatch();
 
         this.alpha = false;
         this.beta = false;
