@@ -23,7 +23,7 @@ public class SimpleHorizontalRangeSelector extends Renderable{
     public SimpleHorizontalRangeSelector(AbstractTextureBinding imageBinding, AbstractPosition xPos, AbstractPosition yPos, AbstractDimension width, AbstractDimension height) {
         super(imageBinding, xPos, yPos, width, height);
 
-        slider = new Image(Tex.stat(UICommonResources.arrow_down), Pos.px(-31), Pos.px(-27), Dim.px(64), Dim.px(63));
+        slider = new Image(Tex.stat(UICommonResources.arrow_down), Pos.px(-31), Pos.px(27), Dim.px(64), Dim.px(63));
         slider.setVerticalAlignment(Alignment.VerticalAlignment.TOP);
         slider.setPassthrough(false);
         slider.setContainerBounds(Bound.parent(slider));

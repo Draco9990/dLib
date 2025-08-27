@@ -21,7 +21,7 @@ public class CancelButton extends TextButton {
 
         this.setEntryAnimation(new UIAnimation_SlideInRight(this));
         this.setExitAnimation(new UIAnimation_SlideOutLeft(this));
-        this.show();
+        setVisibility(true);
 
         label.setTextRenderColor(Color.valueOf("FFEDA7"));
 

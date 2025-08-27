@@ -37,7 +37,7 @@ public class ContextMenu extends HorizontalBox {
         setHorizontalItemSpacing(3);
 
         setContextual(true);
-        setDrawFocusOnOpen(true);
+        setDrawFocusOnVisible(true);
 
         optionsBox = new VerticalDataBox<ContextMenu.IContextMenuOption>(Dim.auto(), Dim.auto()){
             @Override

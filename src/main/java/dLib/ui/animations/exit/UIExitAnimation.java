@@ -14,6 +14,6 @@ public abstract class UIExitAnimation extends UIAnimation {
     public void onFinish() {
         super.onFinish();
 
-        Reflection.invokeMethod("setVisibility", element, false);
+        element.setVisibilityInstantly(false);
     }
 }

@@ -39,7 +39,7 @@ public class SetPropertyValueTargetedMethodBinding extends StaticMethodBinding i
     }
 
     @Override
-    public Object executeBinding(Object invoker, Object... args) {
+    public Object resolve(Object invoker, Object... args) {
         boundProperty.getValue().resolve(target.getValue().resolve()).setValue(args[0]);
         return null;
     }

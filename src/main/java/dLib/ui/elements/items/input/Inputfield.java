@@ -139,7 +139,7 @@ public class Inputfield extends Toggle implements ITextProvider {
         textBox.addChild(characterHbManager);
         reinitializeCharacterHBs();
 
-        toolbar = new InputfieldToolbar(Pos.px(0), Pos.perc(1));
+        toolbar = new InputfieldToolbar(Pos.px(0), Pos.px(-10));
         toolbar.setAlignment(Alignment.HorizontalAlignment.CENTER, Alignment.VerticalAlignment.TOP);
         addChild(toolbar);
 
@@ -269,17 +269,17 @@ public class Inputfield extends Toggle implements ITextProvider {
     }
 
     private void postInitialize(){
-        caret.hideAndDisableInstantly();
+        caret.setVisibilityAndEnabledInstantly(false, false);
 
         postToggledEvent.subscribeManaged(aBoolean -> {
             if(aBoolean){
                 Gdx.input.setInputProcessor(inputProcessor);
-                caret.showAndEnableInstantly();
+                caret.setVisibilityAndEnabledInstantly(true, true);
             }
             else{
                 resetInputProcessor();
                 onValueCommittedEvent.invoke(textBox.getText());
-                caret.hideAndDisableInstantly();
+                caret.setVisibilityAndEnabledInstantly(false, false);
             }
         });
 
@@ -287,7 +287,7 @@ public class Inputfield extends Toggle implements ITextProvider {
             if(!aBoolean && Gdx.input.getInputProcessor() == inputProcessor){
                 resetInputProcessor();
                 onValueCommittedEvent.invoke(textBox.getText());
-                caret.hideAndDisableInstantly();
+                caret.setVisibilityAndEnabledInstantly(false, false);
             }
         });
 
@@ -308,10 +308,10 @@ public class Inputfield extends Toggle implements ITextProvider {
 
         characterHbManager.onSelectionChangedEvent.subscribe(this, () -> {
             if(characterHbManager.hasValidUserSelection()){
-                toolbar.showAndEnable();
+                toolbar.setVisibilityAndEnabled(true, true);
             }
             else{
-                toolbar.hideAndDisable();
+                toolbar.setVisibilityAndEnabled(false, false);
             }
         });
 

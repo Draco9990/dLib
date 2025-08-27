@@ -112,7 +112,7 @@ public class TestScreen extends UIElement {
         /*CardSlot cardSlot = new CardSlot(Pos.px(100), Pos.px(100), 0.5f);
         addChild(cardSlot);*/
 
-        /*ContextMenu test = new ContextMenu(Pos.px(0), Pos.px(0));
+        ContextMenu test = new ContextMenu(Pos.px(0), Pos.px(0));
         test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 1"), () -> {}));
         {
             ArrayList<ContextMenu.IContextMenuOption> subOptions = new ArrayList<>();
@@ -123,9 +123,6 @@ public class TestScreen extends UIElement {
         }
         test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 2"), () -> {}));
         test.optionsBox.addChild(new ContextMenu.ContextMenuButtonOption(Str.stat("test 3"), () -> {}));
-        addChild(test);*/
-
-        ColorPickerPopup picker = new ColorPickerPopup(Color.WHITE, true, true, true, true);
-        addChild(picker);
+        addChild(test);
     }
 }

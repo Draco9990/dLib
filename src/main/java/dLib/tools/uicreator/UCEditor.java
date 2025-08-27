@@ -128,8 +128,10 @@ public class UCEditor extends Renderable {
                     TextButton toolboxButton = new TextButton("Toolbox", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     toolboxButton.postLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
-                        getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
-                        getProperties().toolbox.showAndEnableInstantly();
+                        getProperties();
+                        getProperties().toolbarPropertiesScrollbox.setVisibilityAndEnabledInstantly(true, true);
+                        getProperties();
+                        getProperties().toolbox.setVisibilityAndEnabledInstantly(true, true);
                     });
                     toolboxButton.setTexture(Tex.stat(UICommonResources.button03_square));
                     propertiesOptions.addChild(toolboxButton);
@@ -137,8 +139,10 @@ public class UCEditor extends Renderable {
                     TextButton elementListButton = new TextButton("Element List", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     elementListButton.postLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
-                        getProperties().toolbarPropertiesScrollbox.showAndEnableInstantly();
-                        getProperties().hierarchyViewer.showAndEnableInstantly();
+                        getProperties();
+                        getProperties().toolbarPropertiesScrollbox.setVisibilityAndEnabledInstantly(true, true);
+                        getProperties();
+                        getProperties().hierarchyViewer.setVisibilityAndEnabledInstantly(true, true);
                         getProperties().hierarchyViewer.loadForElement(((UCEditor)getTopParent()).itemTree.rootElementData.getComponent(UCEditorDataComponent.class).liveElement);
                     });
                     elementListButton.setTexture(Tex.stat(UICommonResources.button03_square));
@@ -147,7 +151,8 @@ public class UCEditor extends Renderable {
                     TextButton rootPropertiesButton = new TextButton("Root Properties", Pos.px(0), Pos.px(0), Dim.fill(), Dim.px(30));
                     rootPropertiesButton.postLeftClickEvent.subscribeManaged(() -> {
                         getProperties().hideAll();
-                        getProperties().propertyEditor.showAndEnableInstantly();
+                        getProperties();
+                        getProperties().propertyEditor.setVisibilityAndEnabledInstantly(true, true);
                         getProperties().propertyEditor.setProperties(((UCEditor)getTopParent()).itemTree.rootElementData);
                     });
                     rootPropertiesButton.setTexture(Tex.stat(UICommonResources.button03_square));
@@ -181,20 +186,20 @@ public class UCEditor extends Renderable {
 
                 toolbarPropertiesScrollbox.addChild(hierarchyViewer = new UCEHierarchyViewer());
                 hierarchyViewer.setAllowReordering(true);
-                hierarchyViewer.hideAndDisableInstantly();
+                hierarchyViewer.setVisibilityAndEnabledInstantly(false, false);
             }
             toolbarPropertiesScrollbox.setIsHorizontal(false);
             addChild(toolbarPropertiesScrollbox);
 
             addChild(propertyEditor = new UCEPropertyEditor(Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill()));
-            propertyEditor.hideAndDisableInstantly();
+            propertyEditor.setVisibilityAndEnabledInstantly(false, false);
         }
 
         public void hideAll(){
-            toolbarPropertiesScrollbox.hideAndDisableInstantly();
-            toolbox.hideAndDisableInstantly();
-            hierarchyViewer.hideAndDisableInstantly();
-            propertyEditor.hideAndDisableInstantly();
+            toolbarPropertiesScrollbox.setVisibilityAndEnabledInstantly(false, false);
+            toolbox.setVisibilityAndEnabledInstantly(false, false);
+            hierarchyViewer.setVisibilityAndEnabledInstantly(false, false);
+            propertyEditor.setVisibilityAndEnabledInstantly(false, false);
         }
 
         //region Subclasses
@@ -209,9 +214,8 @@ public class UCEditor extends Renderable {
                 setChildren(UCEITemplateManager.getTemplates());
             }
 
-            @Override
             public void show() { //replace with onShowed
-                super.show();
+                setVisibility(true);
                 setChildren(UCEITemplateManager.getTemplates());
             }
 
@@ -226,7 +230,8 @@ public class UCEditor extends Renderable {
                     ((UCEditor)getTopParent()).itemTree.addItem(elementData);
 
                     ((UCEditor)getTopParent()).properties.hideAll();
-                    ((UCEditor)getTopParent()).properties.propertyEditor.showAndEnableInstantly();
+                    getTopParent();
+                    ((UCEditor)getTopParent()).properties.propertyEditor.setVisibilityAndEnabledInstantly(true, true);
                     ((UCEditor)getTopParent()).properties.propertyEditor.setProperties(elementData);
                 }
             }

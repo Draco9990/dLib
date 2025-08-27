@@ -41,7 +41,7 @@ public class GenericInputWindow extends UIElement {
         addChild(popup);
 
         setModal(true);
-        setDrawFocusOnOpen(true);
+        setDrawFocusOnVisible(true);
     }
 
     public void reset(){

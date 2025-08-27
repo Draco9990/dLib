@@ -90,8 +90,8 @@ public class UCEditorItemTree {
 
         UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);
         editor.properties.hideAll();
-        editor.properties.toolbarPropertiesScrollbox.showAndEnableInstantly();
-        editor.properties.toolbox.showAndEnableInstantly();
+        editor.properties.toolbarPropertiesScrollbox.setVisibilityAndEnabledInstantly(true, true);
+        editor.properties.toolbox.setVisibilityAndEnabledInstantly(true, true);
 
         ExternalMessageSender.send_removeVariableFromClass(ExternalStatics.workingClass, element.getId());
     }

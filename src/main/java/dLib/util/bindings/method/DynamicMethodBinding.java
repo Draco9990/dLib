@@ -73,7 +73,7 @@ public class DynamicMethodBinding extends AbstractMethodBinding implements Seria
     }
 
     @Override
-    public Object executeBinding(Object target, Object... args) {
+    public Object resolve(Object target, Object... args) {
         if(target instanceof UIElement){
             //* Dynamic methods are located in the top parent of the UIElement
             target = ((UIElement) target).findParentById(methodOwnerId);

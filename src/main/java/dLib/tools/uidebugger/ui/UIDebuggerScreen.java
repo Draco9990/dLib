@@ -16,7 +16,7 @@ public class UIDebuggerScreen extends ImageTextBox {
 
             String debugText = generateDebugTextForUIElement(element);
             textBox.setText(debugText);
-            showAndEnable();
+            setVisibilityAndEnabled(true, true);
         });
     }
 

@@ -205,7 +205,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     private boolean isContextual = false;
     private boolean isModal = false;
 
-    private boolean drawFocusOnOpen = true;
+    private boolean drawFocusOnVisible = true;
 
     private boolean overridesBaseScreen = false;
 
@@ -275,30 +275,30 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         setAlignment(data.alignment.getHorizontalAlignment(), data.alignment.getVerticalAlignment());
 
         if(!data.isVisible.getValue() && !data.isEnabled.getValue()){
-            hideAndDisableInstantly();
+            setVisibilityAndEnabledInstantly(false, false);
         }
         else if(!data.isVisible.getValue()){
-            hideInstantly();
+            setVisibilityInstantly(false);
         }
         else if(!data.isEnabled.getValue()){
-            disable();
+            setEnabled(false);
         }
 
         this.isPassthrough = data.isPassthrough.getValue();
 
         this.controllerSelectable = data.isControllerSelectable.getValue();
 
-        postHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().executeBinding(this));
-        postHoveredTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().executeBinding(this, time));
-        postUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().executeBinding(this));
+        postHoveredEvent.subscribeManaged(() -> data.onHovered.getValue().resolve(this));
+        postHoveredTickEvent.subscribeManaged((time) -> data.onHoverTick.getValue().resolve(this, time));
+        postUnhoveredEvent.subscribeManaged(() -> data.onUnhovered.getValue().resolve(this));
 
-        postLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(this));
-        postLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().executeBinding(this, time));
-        postLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(this));
+        postLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().resolve(this));
+        postLeftClickHeldEvent.subscribeManaged((time) -> data.onLeftClickHeld.getValue().resolve(this, time));
+        postLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().resolve(this));
 
-        postRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this));
-        postRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().executeBinding(this, time));
-        postRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this));
+        postRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().resolve(this));
+        postRightClickHeldEvent.subscribeManaged((time) -> data.onRightClickHeld.getValue().resolve(this, time));
+        postRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().resolve(this));
 
         this.onHoverLine = data.onHoverLine.getValue();
         this.onTriggeredLine = data.onTriggeredLine.getValue();
@@ -485,7 +485,6 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         disposed = true;
 
         if(tooltipObject != null){
-            tooltipObject.close();
             tooltipObject.dispose();
         }
 
@@ -533,8 +532,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                     canHide = false;
                 }
                 if(canHide){
-                    pendingHide = false;
-                    setVisibility(false);
+                    setVisibilityInstantly(false);
                 }
             }
         }
@@ -684,7 +682,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
             if(totalLifespan != -1){
                 remainingLifespan -= Gdx.graphics.getDeltaTime();
                 if(remainingLifespan <= 0){
-                    hideAndDisable();
+                    setVisibilityAndEnabled(false, false);
                     //TODO wait for animations to finish
                     dispose();
                     //TODO fire on death event
@@ -696,15 +694,19 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         {
             if(tooltipObject != null){
                 if(isHovered() && totalHoverDuration > 0.5f){
-                    tooltipObject.open();
+                    if(!tooltipObject.isOpen()){
+                        tooltipObject.open();
+                    }
 
                     Vector2 tooltipPos = UIHelpers.getMouseWorldPosition();
                     tooltipObject.setLocalPosition(tooltipPos.x, tooltipPos.y);
 
-                    tooltipObject.show();
+                    tooltipObject.setVisibility(true);
                 }
                 else{
-                    tooltipObject.hide();
+                    if(tooltipObject.isOpen()){
+                        tooltipObject.close();
+                    }
                 }
             }
         }
@@ -1511,8 +1513,11 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         if(isModal()){
             UIElement selectedChild = UIManager.getCurrentlySelectedElement();
             if(selectedChild != null && selectedChild.isDescendantOf(this)){
-                selectedChild.deselect();
                 UIManager.drawControllerFocusCond(this);
+
+                if(selectedChild.isSelected()){
+                    selectedChild.deselect();
+                }
             }
 
             return true;
@@ -1597,91 +1602,47 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Visibility
 
-    public void hide(){
-        if(!isVisible || pendingHide) return;
-
-        if(exitAnimation == null){
-            for(UIElement child : getChildren()){
-                if(child.isVisible() && child.exitAnimation != null){
-                    pendingHide = true;
-                    child.playAnimation(child.exitAnimation);
-                }
-            }
-        }
-        else{
-            pendingHide = true;
-            playAnimation(exitAnimation);
-        }
-
-        if(!pendingHide){
-            setVisibility(false);
-        }
+    public void toggleVisibility(boolean instantly){
+        setVisibility(!isVisibleRaw(), instantly);
     }
-    public void hideInstantly(){
-        if(!isVisible) return;
-
-        setVisibility(false);
-    }
-
-    public void show(){
-        if(isVisible && !pendingHide) {
-            if(shouldDrawFocusOnOpen()){
-                UIManager.drawControllerFocusCond(this);
-            }
-        }
-
-        setVisibility(true);
-        pendingHide = false;
-
-        if(entryAnimation == null){
-            for(UIElement child : getChildren()){
-                if(child.isVisible() && child.entryAnimation != null){
-                    child.playAnimation(child.entryAnimation);
-                }
-            }
-        }
-        else{
-            playAnimation(entryAnimation);
-        }
-    }
-    public void showInstantly(){
-        if(isVisible) return;
-
-        setVisibility(true);
-    }
-
     public void toggleVisibility(){
-        if(isVisible()){
-            hide();
-        }
-        else{
-            show();
-        }
+        setVisibility(!isVisibleRaw(), false);
     }
     public void toggleVisibilityInstantly(){
-        if(isVisible()){
-            hideInstantly();
-        }
-        else{
-            showInstantly();
-        }
+        setVisibility(!isVisibleRaw(), true);
     }
 
-    protected void setVisibility(boolean visible){
-        if(isVisible == visible) return;
+    public void setVisibility(boolean visible){
+        setVisibility(visible, false);
+    }
+    public void setVisibilityInstantly(boolean visible){
+        setVisibility(visible, true);
+    }
+    public void setVisibility(boolean visible, boolean instantly){
+        if(isVisible == visible) {
+            return;
+        }
 
         boolean isVisibleT = isVisible();
+        boolean pendingHideT = pendingHide;
         boolean isActiveT = isActive();
 
-        isVisible = visible;
+        if(!visible && !instantly && !pendingHide){
+            pendingHide = true;
+        }
+        else{
+            isVisible = visible;
+            pendingHide = false;
+        }
 
         boolean isVisibleP = isVisible();
+        boolean pendingHideP = pendingHide;
         boolean isActiveP = isActive();
 
         if(isVisibleT != isVisibleP){ // Executing this method will lead to visibility state changes
             isVisible = !isVisible;
 
-            preVisibilityStateChanged(isVisibleP);
+            preVisibilityStateChanged(isVisibleP, instantly);
         }
         if(isActiveT != isActiveP){
             preActiveStateChanged(isActiveP);
@@ -1689,8 +1650,21 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
         isVisible = visible;
 
+        if(pendingHideT != pendingHideP && pendingHideP && !instantly){
+            if(exitAnimation == null){
+                for(UIElement child : getChildren()){
+                    if(child.isVisible() && child.exitAnimation != null){
+                        child.playAnimation(child.exitAnimation);
+                    }
+                }
+            }
+            else{
+                playAnimation(exitAnimation);
+            }
+        }
+
         if(isVisibleT != isVisibleP){
-            postVisibilityStateChanged(isVisibleP);
+            postVisibilityStateChanged(isVisibleP, instantly);
         }
         if(isActiveT != isActiveP){
             postActiveStateChanged(isActiveP);
@@ -1705,11 +1679,30 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
         return isVisible;
     }
 
-    protected void preVisibilityStateChanged(boolean newVisibility){
+    protected void preVisibilityStateChanged(boolean newVisibility, boolean instant){
         preVisibilityStateChangedEvent.invoke(newVisibility);
         preVisibilityStateChangedGlobalEvent.invoke(this, newVisibility);
     }
-    protected void postVisibilityStateChanged(boolean newVisibility){
+    protected void postVisibilityStateChanged(boolean newVisibility, boolean instant){
+        if(newVisibility) {
+            if(shouldDrawFocusOnVisible()){
+                UIManager.drawControllerFocusCond(this);
+            }
+
+            if(!instant){
+                if(entryAnimation == null){
+                    for(UIElement child : getChildren()){
+                        if(child.isVisible() && child.entryAnimation != null){
+                            child.playAnimation(child.entryAnimation);
+                        }
+                    }
+                }
+                else{
+                    playAnimation(entryAnimation);
+                }
+            }
+        }
+
         postVisibilityStateChangedEvent.invoke(newVisibility);
         postVisibilityStateChangedGlobalEvent.invoke(this, newVisibility);
     }
@@ -1718,13 +1711,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Enabled State
 
-    public void disable(){
-        setEnabled(false);
-    }
-    public void enable(){
-        setEnabled(true);
-    }
-    protected void setEnabled(boolean enabled){
+    public void setEnabled(boolean enabled){
         if(isEnabled == enabled) return;
 
         boolean isEnabledT = isEnabled();
@@ -1784,22 +1771,17 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //endregion
 
-    public void hideAndDisable(){
-        hide();
-        disable();
+    public void setVisibilityAndEnabled(boolean visible, boolean enabled){
+        setVisibility(visible);
+        setEnabled(enabled);
     }
-    public void showAndEnable(){
-        show();
-        enable();
+    public void setVisibilityAndEnabledInstantly(boolean visible, boolean enabled){
+        setVisibilityInstantly(visible);
+        setEnabled(enabled);
     }
-
-    public void hideAndDisableInstantly(){
-        hideInstantly();
-        disable();
-    }
-    public void showAndEnableInstantly(){
-        showInstantly();
-        enable();
+    public void setVisibilityAndEnabled(boolean visible, boolean enabled, boolean instantly){
+        setVisibility(visible, instantly);
+        setEnabled(enabled);
     }
 
     //region Active State
@@ -2675,15 +2657,15 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Focus Drawing
 
-    public void setDrawFocusOnOpen(boolean drawControllerFocusOnOpen){
-        this.drawFocusOnOpen = drawControllerFocusOnOpen;
+    public void setDrawFocusOnVisible(boolean drawControllerFocusOnOpen){
+        this.drawFocusOnVisible = drawControllerFocusOnOpen;
     }
-    public boolean shouldDrawFocusOnOpen(){
-        return drawFocusOnOpen || isControllerModal();
+    public boolean shouldDrawFocusOnVisible(){
+        return drawFocusOnVisible || isControllerModal();
     }
 
     public void focus(){
-        //TODO
+        UIManager.drawControllerFocusCond(this);
     }
 
     //endregion

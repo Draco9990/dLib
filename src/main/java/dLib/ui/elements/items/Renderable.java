@@ -178,7 +178,8 @@ public class Renderable extends UIElement {
             }
 
             renderPosX += renderOffset.x;
-            renderPosY += renderOffset.y;
+            if(renderOrientation.verticalAlignment != Alignment.VerticalAlignment.TOP) renderPosY += renderOffset.y;
+            else renderPosY -= renderOffset.y;
 
             // Apply render dimension percentages
             float noRenderAmountX = (renderWidth * (1 - renderDimensionsPerc.x));

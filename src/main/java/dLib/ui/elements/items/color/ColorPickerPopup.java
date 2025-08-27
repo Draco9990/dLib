@@ -26,7 +26,6 @@ import dLib.util.ui.position.AbstractPosition;
 import dLib.util.ui.position.Pos;
 
 import java.util.HashMap;
-import java.util.function.BiConsumer;
 
 //TODO fix hex code input not upodating lightness and alpha correctly
 //TODO add a 'ping' to the color wheel when the color is changed
@@ -68,10 +67,10 @@ public class ColorPickerPopup extends VerticalBox {
         ColorPickerDynamicColorSelector colorSelector = new ColorPickerDynamicColorSelector(this, initialColor, allowAlpha);
         onSelectedColorChangedEvent.subscribe(colorSelector, (color, isStatic) -> {
             if(isStatic){
-                colorSelector.disable();
+                colorSelector.setEnabled(false);
             }
             else {
-                colorSelector.enable();
+                colorSelector.setEnabled(true);
             }
         });
         addChild(colorSelector);

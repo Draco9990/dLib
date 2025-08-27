@@ -11,7 +11,7 @@ public class CloseTopmostMethodBinding extends StaticMethodBinding implements Se
     private static final String PROPERTY_EDITOR_LONG_NAME = "Close Topmost";
 
     @Override
-    public Object executeBinding(Object invoker, Object... args) {
+    public Object resolve(Object invoker, Object... args) {
         if(invoker instanceof UIElement){
             ((UIElement) invoker).getTopParent().close();
         }

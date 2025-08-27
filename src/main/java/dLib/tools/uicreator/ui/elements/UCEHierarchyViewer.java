@@ -42,7 +42,8 @@ public class UCEHierarchyViewer extends HierarchyViewer {
 
             postLeftClickReleaseEvent.subscribe(this, () -> {
                 ((UCEditor)element.getTopParent()).properties.hideAll();
-                ((UCEditor)element.getTopParent()).properties.propertyEditor.showAndEnableInstantly();
+                element.getTopParent();
+                ((UCEditor)element.getTopParent()).properties.propertyEditor.setVisibilityAndEnabledInstantly(true, true);
                 ((UCEditor)element.getTopParent()).properties.propertyEditor.setProperties(element.getComponent(GeneratedElementComponent.class).sourceData);
             });
         }

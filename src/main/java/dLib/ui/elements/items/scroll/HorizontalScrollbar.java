@@ -61,7 +61,7 @@ public class HorizontalScrollbar extends Scrollbar {
 
         if(boundElement != null){
             if(boundElement.hasHorizontalChildrenOOB()){
-                slider.showAndEnableInstantly();
+                slider.setVisibilityAndEnabledInstantly(true, true);
 
                 if(scrollbarTargetX != null){
                     if(Math.abs(scrollbarTargetX - slider.getLocalPositionX()) > 0.5f){
@@ -75,7 +75,7 @@ public class HorizontalScrollbar extends Scrollbar {
             }
             else{
                 onScrollbarScrolled(0);
-                slider.hideAndDisableInstantly();
+                slider.setVisibilityAndEnabledInstantly(false, false);
                 scrollbarTargetX = null;
             }
         }

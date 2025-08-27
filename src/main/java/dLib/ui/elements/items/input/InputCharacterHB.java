@@ -31,7 +31,7 @@ public class InputCharacterHB extends Interactable {
 
         removeOnHoverSoundKey();
         removeOnTriggerSoundKey();
-        hideInstantly();
+        setVisibilityInstantly(false);
     }
 
     public void setForCharacter(float worldPosX, float worldPosY, AbstractDimension width, AbstractDimension height, int glyphRowIndex, int glyphIndex, ECharHbSide side){

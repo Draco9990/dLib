@@ -25,7 +25,7 @@ public class InputfieldToolbar extends HorizontalBox {
         setEntryAnimation(new UIAnimation_FadeIn(this));
         setExitAnimation(new UIAnimation_FadeOut(this));
 
-        hideAndDisableInstantly();
+        setVisibilityAndEnabledInstantly(false, false);
 
         Button b1 = new Button(Dim.px(30), Dim.px(30));
         b1.postLeftClickEvent.subscribe(this, () -> {

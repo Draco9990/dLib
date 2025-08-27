@@ -133,7 +133,7 @@ public class DLibModListScreen extends UIElement {
         public DLibModListModDetails() {
             super(Tex.stat(UICommonResources.bg02_background), Pos.px(599), Pos.px(1080-1038), Dim.px(1278), Dim.px(955 + 50));
 
-            setDrawFocusOnOpen(true);
+            setDrawFocusOnVisible(true);
 
             setHueShiftAmount(140);
 

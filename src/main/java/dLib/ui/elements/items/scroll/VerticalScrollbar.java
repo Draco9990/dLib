@@ -63,7 +63,7 @@ public class VerticalScrollbar extends Scrollbar {
 
         if(boundElement != null){
             if(boundElement.hasVerticalChildrenOOB()){
-                slider.showAndEnableInstantly();
+                slider.setVisibilityAndEnabledInstantly(true, true);
 
                 if(scrollbarTargetY != null){
                     if(Math.abs(scrollbarTargetY - slider.getLocalPositionY()) > 0.5f){
@@ -77,7 +77,7 @@ public class VerticalScrollbar extends Scrollbar {
             }
             else{
                 onScrollbarScrolled(0);
-                slider.hideAndDisableInstantly();
+                slider.setVisibilityAndEnabledInstantly(false, false);
                 scrollbarTargetY = null;
             }
         }

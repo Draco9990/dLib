@@ -62,13 +62,13 @@ public class Interactable extends Renderable{
         this.disabledColor = data.disabledColor.getColorValue();
         this.disabledColorMultiplier = data.disabledColorMultiplier.getValue();
 
-        if(data.onLeftClick != null) postLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().executeBinding(this));
-        if(data.onLeftClickHeld != null) postLeftClickHeldEvent.subscribeManaged(deltaTime -> data.onLeftClickHeld.getValue().executeBinding(this, deltaTime));
-        if(data.onLeftClickRelease != null) postLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().executeBinding(this));
+        if(data.onLeftClick != null) postLeftClickEvent.subscribeManaged(() -> data.onLeftClick.getValue().resolve(this));
+        if(data.onLeftClickHeld != null) postLeftClickHeldEvent.subscribeManaged(deltaTime -> data.onLeftClickHeld.getValue().resolve(this, deltaTime));
+        if(data.onLeftClickRelease != null) postLeftClickReleaseEvent.subscribeManaged(() -> data.onLeftClickRelease.getValue().resolve(this));
 
-        if(data.onRightClick != null) postRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().executeBinding(this));
-        if(data.onRightClickHeld != null) postRightClickHeldEvent.subscribeManaged(deltaTime -> data.onRightClickHeld.getValue().executeBinding(this, deltaTime));
-        if(data.onRightClickRelease != null) postRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().executeBinding(this));
+        if(data.onRightClick != null) postRightClickEvent.subscribeManaged(() -> data.onRightClick.getValue().resolve(this));
+        if(data.onRightClickHeld != null) postRightClickHeldEvent.subscribeManaged(deltaTime -> data.onRightClickHeld.getValue().resolve(this, deltaTime));
+        if(data.onRightClickRelease != null) postRightClickReleaseEvent.subscribeManaged(() -> data.onRightClickRelease.getValue().resolve(this));
     }
 
     //endregion

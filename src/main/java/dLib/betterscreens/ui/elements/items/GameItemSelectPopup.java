@@ -20,7 +20,6 @@ import dLib.util.bindings.string.interfaces.ITextProvider;
 import dLib.util.bindings.texture.AbstractTextureBinding;
 import dLib.util.bindings.texture.Tex;
 import dLib.util.events.localevents.ConsumerEvent;
-import dLib.util.events.serializableevents.SerializableConsumer;
 import dLib.util.ui.dimensions.Dim;
 import dLib.util.ui.padding.Padd;
 import dLib.util.ui.position.Pos;
@@ -58,7 +57,7 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
         itemFiltersSidebar = new ItemFiltersSidebar(getItemRaritiesForFilter());
         addChild(itemFiltersSidebar);
         itemDetailsSidebar = new ItemDetailsSidebar<>(this);
-        itemDetailsSidebar.hideAndDisableInstantly();
+        itemDetailsSidebar.setVisibilityAndEnabledInstantly(false, false);
         addChild(itemDetailsSidebar);
     }
 
@@ -158,15 +157,19 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
 
                             Toggle overlay = itemUI.getParent().findChildById("wrap_overlay");
                             overlay.postHoveredEvent.subscribe(this, () -> {
-                                getParentOfType(GameItemSelectPopup.class).itemFiltersSidebar.hideAndDisableInstantly();
+                                getParentOfType(GameItemSelectPopup.class);
+                                getParentOfType(GameItemSelectPopup.class).itemFiltersSidebar.setVisibilityAndEnabledInstantly(false, false);
 
-                                getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.showAndEnableInstantly();
+                                getParentOfType(GameItemSelectPopup.class);
+                                getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.setVisibilityAndEnabledInstantly(true, true);
                                 getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.setDetailsItem(item);
                             });
                             overlay.postUnhoveredEvent.subscribe(this, () -> {
-                                getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.hideAndDisableInstantly();
+                                getParentOfType(GameItemSelectPopup.class);
+                                getParentOfType(GameItemSelectPopup.class).itemDetailsSidebar.setVisibilityAndEnabledInstantly(false, false);
 
-                                getParentOfType(GameItemSelectPopup.class).itemFiltersSidebar.showAndEnableInstantly();
+                                getParentOfType(GameItemSelectPopup.class);
+                                getParentOfType(GameItemSelectPopup.class).itemFiltersSidebar.setVisibilityAndEnabledInstantly(true, true);
                             });
                         }
 
@@ -217,10 +220,10 @@ public abstract class GameItemSelectPopup<GameItemType> extends UIElement {
             }
 
             if(hasEnoughSelected){
-                confirmButton.showAndEnable();
+                confirmButton.setVisibilityAndEnabled(true, true);
             }
             else{
-                confirmButton.hideAndDisable();
+                confirmButton.setVisibilityAndEnabled(false, false);
             }
         }
 

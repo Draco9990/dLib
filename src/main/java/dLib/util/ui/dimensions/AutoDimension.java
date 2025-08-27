@@ -101,9 +101,16 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            if(forElement.getLocalPositionXRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getLocalPositionXRaw());
-            float localPosX = forElement.getLocalPositionX();
+            float localPosX = 0;
+            if(forElement.getLocalPositionXRaw().needsRecalculation()) {
+                if(pass != ElementCalculationManager.CalculationPass.THIRD){
+                    return null;
+                }
+            }
+            else{
+                registerDependency(forElement.getLocalPositionXRaw());
+                localPosX = forElement.getLocalPositionX();
+            }
 
             float width = ((TextBox) forElement).getTextWidth();
 
@@ -203,9 +210,16 @@ public class AutoDimension extends AbstractDimension implements Serializable {
         }
 
         if(forElement instanceof TextBox){
-            if(forElement.getLocalPositionYRaw().needsRecalculation()) return null;
-            registerDependency(forElement.getLocalPositionYRaw());
-            float localPosY = forElement.getLocalPositionY();
+            float localPosY = 0;
+            if(forElement.getLocalPositionYRaw().needsRecalculation()) {
+                if(pass != ElementCalculationManager.CalculationPass.THIRD){
+                    return null;
+                }
+            }
+            else{
+                registerDependency(forElement.getLocalPositionYRaw());
+                localPosY = forElement.getLocalPositionY();
+            }
 
             float height = ((TextBox) forElement).getTextHeight();
 

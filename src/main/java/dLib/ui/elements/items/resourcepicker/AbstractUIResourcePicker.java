@@ -19,7 +19,7 @@ public abstract class AbstractUIResourcePicker extends UIElement {
         super(Dim.fill(), Dim.fill());
 
         setModal(true);
-        setDrawFocusOnOpen(true);
+        setDrawFocusOnVisible(true);
 
         addChild(new ResourcePickerWindow(this));
     }

@@ -21,13 +21,13 @@ public class ShowAndEnableTopmostMethodBinding extends StaticMethodBinding imple
     }
 
     @Override
-    public Object executeBinding(Object invoker, Object... args) {
+    public Object resolve(Object invoker, Object... args) {
         if(invoker instanceof UIElement){
             if(instant.getValue()){
-                ((UIElement) invoker).getTopParent().showAndEnableInstantly();
+                ((UIElement) invoker).getTopParent().setVisibilityAndEnabledInstantly(true, true);
             }
             else{
-                ((UIElement) invoker).getTopParent().showAndEnable();
+                ((UIElement) invoker).getTopParent().setVisibilityAndEnabled(true, true);
             }
         }
         return null;

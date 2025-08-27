@@ -38,7 +38,7 @@ public class GenericIntInputWindow extends GenericScreenHolder {
         addChild(popup);
 
         setModal(true);
-        setDrawFocusOnOpen(true);
+        setDrawFocusOnVisible(true);
     }
 
     public static class InternalInputWindow extends Renderable {

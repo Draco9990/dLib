@@ -21,13 +21,13 @@ public class HideAndDisableTopmostMethodBinding extends StaticMethodBinding impl
     }
 
     @Override
-    public Object executeBinding(Object invoker, Object... args) {
+    public Object resolve(Object invoker, Object... args) {
         if(invoker instanceof UIElement){
             if(instant.getValue()){
-                ((UIElement) invoker).getTopParent().hideAndDisableInstantly();
+                ((UIElement) invoker).getTopParent().setVisibilityAndEnabledInstantly(false, false);
             }
             else{
-                ((UIElement) invoker).getTopParent().hideAndDisable();
+                ((UIElement) invoker).getTopParent().setVisibilityAndEnabled(false, false);
             }
         }
         return null;

@@ -28,15 +28,15 @@ public class HideAndDisableTargetedMethodBinding extends StaticMethodBinding imp
     }
 
     @Override
-    public Object executeBinding(Object invoker, Object... args) {
+    public Object resolve(Object invoker, Object... args) {
         if(invoker instanceof UIElement){
             UIElement bound = target.getValue().resolve(invoker);
             if(bound != null){
                 if(instant.getValue()){
-                    bound.hideAndDisableInstantly();
+                    bound.setVisibilityAndEnabledInstantly(false, false);
                 }
                 else{
-                    bound.hideAndDisable();
+                    bound.setVisibilityAndEnabled(false, false);
                 }
             }
         }

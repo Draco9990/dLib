@@ -60,13 +60,13 @@ public class InputCharacterManager extends UIElement {
     public void onSelectionUpdated(){
         if(selectionMode == ESelectionMode.Standard){
             for (InputCharacterHB child : getChildren(InputCharacterHB.class)){
-                child.hideInstantly();
+                child.setVisibilityInstantly(false);
                 if(selectionStart != null && selectionEnd != null && !Objects.equals(selectionStart, selectionEnd)){
                     boolean forwardSelection = selectionStart.x < selectionEnd.x || (selectionStart.x.equals(selectionEnd.x) && selectionStart.y < selectionEnd.y);
 
                     if(forwardSelection){
                         if(child.glyphRowIndex > selectionStart.x && child.glyphRowIndex < selectionEnd.x){
-                            child.showInstantly();
+                            child.setVisibilityInstantly(true);
                         }
                         else if(child.glyphRowIndex == selectionStart.x && child.glyphIndex >= selectionStart.y){
                             if(child.glyphIndex == selectionStart.y && child.side == InputCharacterHB.ECharHbSide.Right){
@@ -82,18 +82,18 @@ public class InputCharacterManager extends UIElement {
                                 }
                             }
 
-                            child.showInstantly();
+                            child.setVisibilityInstantly(true);
                         }
                         else if(child.glyphRowIndex == selectionEnd.x && child.glyphIndex <= selectionEnd.y && !Objects.equals(selectionStart.x, selectionEnd.x)){
                             if(child.glyphIndex == selectionEnd.y && child.side == InputCharacterHB.ECharHbSide.Left){
                                 continue;
                             }
-                            child.showInstantly();
+                            child.setVisibilityInstantly(true);
                         }
                     }
                     else{
                         if(child.glyphRowIndex < selectionStart.x && child.glyphRowIndex > selectionEnd.x){
-                            child.showInstantly();
+                            child.setVisibilityInstantly(true);
                         }
                         else if(child.glyphRowIndex == selectionStart.x && child.glyphIndex <= selectionStart.y){
                             if(child.glyphIndex == selectionStart.y && child.side == InputCharacterHB.ECharHbSide.Left){
@@ -109,14 +109,14 @@ public class InputCharacterManager extends UIElement {
                                 }
                             }
 
-                            child.showInstantly();
+                            child.setVisibilityInstantly(true);
                         }
                         else if(child.glyphRowIndex == selectionEnd.x && child.glyphIndex >= selectionEnd.y && !Objects.equals(selectionStart.x, selectionEnd.x)){
                             if(child.glyphIndex == selectionEnd.y && child.side == InputCharacterHB.ECharHbSide.Right){
                                 continue;
                             }
 
-                            child.showInstantly();
+                            child.setVisibilityInstantly(true);
                         }
                     }
                 }

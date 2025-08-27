@@ -44,7 +44,7 @@ public class UIManager {
 
         boolean shouldAnimate = element.isVisible();
         if(shouldAnimate){
-            element.hideAndDisableInstantly();
+            element.setVisibilityAndEnabledInstantly(false, false);
         }
 
         if(element.overridesBaseScreen() && !hasBaseScreenOverriders()){
@@ -64,14 +64,10 @@ public class UIManager {
         pendingClose.remove(element);
 
         if(shouldAnimate){
-            element.showAndEnable();
+            element.setVisibilityAndEnabled(true, true);
         }
 
-        UIElement currentlySelectedElement = getCurrentlySelectedElement();
-        if(currentlySelectedElement != null && currentlySelectedElement.isControllerSelected()){
-            drawControllerFocusCond(element);
-        }
-
+        drawControllerFocusCond(element);
     }
     public static void closeUIElement(UIElement element){
         pendingClose.add(element);
@@ -97,15 +93,14 @@ public class UIManager {
         }
 
         UIElement selectedElement = getCurrentlySelectedElement();
-        boolean controllerFocus;
-        if(selectedElement != null){
-            controllerFocus = selectedElement.isControllerSelected();
-            if(!controllerFocus){
-                return;
-            }
-
-            selectedElement.deselect();
+        if(selectedElement == null){
+            return;
         }
+
+        if(!selectedElement.isControllerSelected()){
+            return;
+        }
+        selectedElement.deselect();
 
         if(target.isControllerSelectable()){
             target.select(true);

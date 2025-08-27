@@ -10,7 +10,7 @@ public class NoneMethodBinding extends StaticMethodBinding implements Serializab
 
     /** Binding */
     @Override
-    public Object executeBinding(Object invoker, Object... args) {
+    public Object resolve(Object invoker, Object... args) {
         return null;
     }
 

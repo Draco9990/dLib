@@ -60,7 +60,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
         cornerResizeNodes[0].addComponent(new UIOverlayElementComponent());
 
         //Top left
-        cornerResizeNodes[2] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
+        cornerResizeNodes[2] = new ResizeNode(Pos.px(-15), Pos.px(15), Alignment.HorizontalAlignment.LEFT, Alignment.VerticalAlignment.TOP);
         UIDraggableComponent tlDraggable = cornerResizeNodes[2].getComponent(UIDraggableComponent.class);
         tlDraggable.onDraggedEvent.subscribeManaged(() -> {
             float worldCx = cornerResizeNodes[2].getWorldPositionCenteredX();
@@ -78,7 +78,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
         cornerResizeNodes[0].addComponent(new UIOverlayElementComponent());
 
         //Top right
-        cornerResizeNodes[3] = new ResizeNode(Pos.px(-15), Pos.px(-15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.TOP);
+        cornerResizeNodes[3] = new ResizeNode(Pos.px(-15), Pos.px(15), Alignment.HorizontalAlignment.RIGHT, Alignment.VerticalAlignment.TOP);
         UIDraggableComponent trDraggable = cornerResizeNodes[3].getComponent(UIDraggableComponent.class);
         trDraggable.onDraggedEvent.subscribeManaged(() -> {
             float worldCx = cornerResizeNodes[3].getWorldPositionCenteredX();
@@ -107,7 +107,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
                 }
 
                 owner.addChild(node);
-                node.showAndEnableInstantly();
+                node.setVisibilityAndEnabledInstantly(true, true);
             }
         });
 
@@ -150,7 +150,7 @@ public class UIResizeableComponent extends AbstractUIElementComponent<UIElement>
 
             if(pendingRemoval && !isHovered() && !isHeld()){
                 getParent().removeChild(this);
-                hideAndDisableInstantly();
+                setVisibilityAndEnabledInstantly(false, false);
                 pendingRemoval = false;
             }
         }

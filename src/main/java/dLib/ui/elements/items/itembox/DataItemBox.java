@@ -75,7 +75,7 @@ public abstract class DataItemBox<ItemType> extends ItemBox {
         super(data);
 
         this.setSelectionMode(data.selectionMode.getValue());
-        this.onItemSelectionChangedEvent.subscribeManaged(itemType -> data.onItemSelectionChanged.getValue().executeBinding(this, itemType));
+        this.onItemSelectionChangedEvent.subscribeManaged(itemType -> data.onItemSelectionChanged.getValue().resolve(this, itemType));
 
         this.canReorder = data.canReorder;
 

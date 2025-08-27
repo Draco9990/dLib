@@ -122,7 +122,7 @@ public class PixelPosition extends AbstractPosition implements Serializable {
                 if(forElement.getHeightRaw().needsRecalculation()) return null;
                 registerDependency(forElement.getHeightRaw());
 
-                calculatedVal = (parentHeight.getKey() - forElement.getHeight() + position);
+                calculatedVal = (parentHeight.getKey() - forElement.getHeight() - position);
             }
         }
 

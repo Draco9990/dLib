@@ -86,7 +86,8 @@ public abstract class UCEITemplate {
     protected void bindLeftClickEvent(UIElement editorItem, UIElement.UIElementData elementData){
         editorItem.postLeftClickEvent.subscribeManaged(() -> {
             ((UCEditor)editorItem.getTopParent()).properties.hideAll();
-            ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.showAndEnableInstantly();
+            editorItem.getTopParent();
+            ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.setVisibilityAndEnabledInstantly(true, true);
             ((UCEditor)editorItem.getTopParent()).properties.propertyEditor.setProperties(elementData);
         });
     }

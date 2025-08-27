@@ -104,7 +104,7 @@ public class TextBox extends UIElement implements ITextProvider {
 
         this.wrap = data.wrap.getValue();
 
-        onTextChangedEvent.subscribeManaged(s -> data.onTextChanged.getValue().executeBinding(this));
+        onTextChangedEvent.subscribeManaged(s -> data.onTextChanged.getValue().resolve(this));
     }
 
     //endregion

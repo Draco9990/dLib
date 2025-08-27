@@ -41,9 +41,9 @@ public class VerticalCollapsableBox extends UIElement {
                 titleHBox.addChild(toggleArrow = new Toggle(Tex.stat(UICommonResources.arrow_right), Tex.stat(UICommonResources.arrow_down), Pos.px(0), Pos.px(0), Dim.px(50), Dim.px(50)));
                 toggleArrow.postLeftClickEvent.subscribeManaged(() -> {
                     if(!toggleArrow.isToggled()) {
-                        contentBox.showAndEnableInstantly();
+                        contentBox.setVisibilityAndEnabledInstantly(true, true);
                     } else {
-                        contentBox.hideAndDisableInstantly();
+                        contentBox.setVisibilityAndEnabledInstantly(false, false);
                     }
                     mainBox.onChildDimensionsChanged(contentBox);
                     mainBox.onDimensionsChanged();

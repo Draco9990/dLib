@@ -35,7 +35,7 @@ public class UIAnimation_Blinking extends UIAnimation {
     public void onFinish() {
         super.onFinish();
 
-        element.showInstantly();
+        element.setVisibilityInstantly(true);
     }
 
     public static class AnimationProperties{

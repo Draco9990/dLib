@@ -23,7 +23,7 @@ public class ConfirmButton extends TextButton {
 
         this.setEntryAnimation(new UIAnimation_SlideInLeft(this));
         this.setExitAnimation(new UIAnimation_SlideOutRight(this));
-        this.show();
+        setVisibility(true);
 
         label.setTextRenderColor(Color.valueOf("FFEDA7"));
 

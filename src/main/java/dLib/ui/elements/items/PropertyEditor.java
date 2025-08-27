@@ -18,7 +18,6 @@ import dLib.util.ui.position.Pos;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.UUID;
-import java.util.function.BiConsumer;
 
 public class PropertyEditor extends UIElement {
     public ImageTextBox descriptionBox;
@@ -53,7 +52,7 @@ public class PropertyEditor extends UIElement {
     }
 
     public void disableDescriptionBox(){
-        descriptionBox.hideAndDisableInstantly();
+        descriptionBox.setVisibilityAndEnabledInstantly(false, false);
     }
 
     public void setTryMultiline(boolean tryMultiline){
