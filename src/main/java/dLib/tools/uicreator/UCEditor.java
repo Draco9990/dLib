@@ -214,9 +214,13 @@ public class UCEditor extends Renderable {
                 setChildren(UCEITemplateManager.getTemplates());
             }
 
-            public void show() { //replace with onShowed
-                setVisibility(true);
-                setChildren(UCEITemplateManager.getTemplates());
+            @Override
+            protected void postVisibilityStateChanged(boolean newVisibility, boolean instant) {
+                super.postVisibilityStateChanged(newVisibility, instant);
+
+                if(newVisibility){
+                    setChildren(UCEITemplateManager.getTemplates());
+                }
             }
 
             @Override

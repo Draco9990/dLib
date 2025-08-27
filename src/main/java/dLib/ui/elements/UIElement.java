@@ -1602,6 +1602,20 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Visibility
 
+    public final void show(){
+        setVisibility(true);
+    }
+    public final void showInstantly(){
+        setVisibility(true, true);
+    }
+
+    public final void hide(){
+        setVisibility(false);
+    }
+    public final void hideInstantly(){
+        setVisibility(false, true);
+    }
+
     public void toggleVisibility(boolean instantly){
         setVisibility(!isVisibleRaw(), instantly);
     }
@@ -1711,6 +1725,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
     //region Enabled State
 
+    public final void enable(){
+        setEnabled(true);
+    }
+    public final void disable(){
+        setEnabled(false);
+    }
+
     public void setEnabled(boolean enabled){
         if(isEnabled == enabled) return;
 
@@ -1770,6 +1791,20 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     }
 
     //endregion
+
+    public final void showAndEnable(){
+        setVisibilityAndEnabled(true, true);
+    }
+    public final void showAndEnableInstantly(){
+        setVisibilityAndEnabledInstantly(true, true);
+    }
+
+    public final void hideAndDisable(){
+        setVisibilityAndEnabled(false, false);
+    }
+    public final void hideAndDisableInstantly(){
+        setVisibilityAndEnabledInstantly(false, false);
+    }
 
     public void setVisibilityAndEnabled(boolean visible, boolean enabled){
         setVisibility(visible);
