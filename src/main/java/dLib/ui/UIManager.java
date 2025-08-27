@@ -367,7 +367,20 @@ public class UIManager {
         }
     }
 
+    public static void update(){
+        InputHelpers.alreadyHovered = false;
 
+        for(int i = uiElements.size() - 1; i >= 0; i--){
+            uiElements.get(i).updateDetached();
+        }
+        updateInput();
+
+        for(UIElement pendingCloseElement : pendingClose){
+            uiElements.remove(pendingCloseElement);
+            onElementClosed(pendingCloseElement);
+        }
+        pendingClose.clear();
+    }
 
     //endregion
 
@@ -380,20 +393,7 @@ public class UIManager {
             @SpireInsertPatch(rloc=6)
             public static void Insert(){
                 if(!CardCrawlGame.isInARun()){
-                    InputHelpers.alreadyHovered = false;
-
-                    for(int i = uiElements.size() - 1; i >= 0; i--){
-                        ElementCalculationManager.calculate(uiElements.get(i));
-                        uiElements.get(i).update();
-                        ElementCalculationManager.calculate(uiElements.get(i));
-                    }
-                    updateInput();
-
-                    for(UIElement pendingCloseElement : pendingClose){
-                        uiElements.remove(pendingCloseElement);
-                        onElementClosed(pendingCloseElement);
-                    }
-                    pendingClose.clear();
+                    update();
                 }
             }
         }
@@ -415,20 +415,7 @@ public class UIManager {
             @SpirePrefixPatch
             public static void Prefix(){
                 if(CardCrawlGame.isInARun()){
-                    InputHelpers.alreadyHovered = false;
-
-                    for (int i = uiElements.size() - 1; i >= 0; i--) {
-                        ElementCalculationManager.calculate(uiElements.get(i));
-                        uiElements.get(i).update();
-                        ElementCalculationManager.calculate(uiElements.get(i));
-                    }
-                    updateInput();
-
-                    for(UIElement pendingCloseElement : pendingClose){
-                        uiElements.remove(pendingCloseElement);
-                        onElementClosed(pendingCloseElement);
-                    }
-                    pendingClose.clear();
+                    update();
                 }
             }
         }

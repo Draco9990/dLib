@@ -96,7 +96,7 @@ public abstract class UCEITemplate {
         editorItem.postRightClickEvent.subscribeManaged(() -> {
             Vector2 mousePos = UIHelpers.getMouseWorldPosition();
 
-            ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
+            ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(1080-mousePos.y));
 
             ContextMenu.ContextMenuButtonOption duplicateOption = new ContextMenu.ContextMenuButtonOption(Str.stat("Duplicate"), () -> {
                             UCEditor editor = UIManager.getOpenElementOfType(UCEditor.class);

@@ -1,20 +1,19 @@
-📜 Custom License (CL) v1.0
+Custom License (CL) v1.1
 
-Copyright© Draco9990 2025
+Copyright © Draco9990 2025
 
 This software is licensed under the following terms:
-✅ You ARE permitted to:
--> Use, copy, modify, and distribute this code for the purposes of creating or enhancing MODs for Slay the Spire.
--> Submit contributions (e.g., code, bug fixes, features) under this same license to the official project repository on github.
--> Share modified versions of this MOD with proper credit to the original author(s), provided the modifications remain within the scope of this MOD and the original game.
 
 ❌ You are NOT permitted to:
--> Upload or distribute modified versions of this MOD as separate or standalone MODs under a different name or as a new project.
--> Use this code to create a general-purpose library or framework not directly tied to modding Slay the Spire.
--> Remove or alter attribution notices in the source code or any accompanying documentation.
+-> Upload modified copies of this software, in whole or in part, to any platform or medium.
+-> Modify the base code of this software for redistribution.
+-> Reuse any part of this software (including code, assets, or structure) in other projects, tools, or software unrelated to expansion content for this mod.
 
-💬 Attribution:
-You must give appropriate credit, including a link to the original project and acknowledgment of the original author(s). This is done as specifying the original mod as mandatory on the page of the Steam Workshop mod that uses this library, or in the form of credits somewhere in the mod description if you're using a modified version of the code.
+✅ You ARE permitted to:
+-> Access and view the source code of this software via the official GitHub repository.
+-> Use the source code solely to create expansion mods for this mod, provided such expansions require the unmodified base mod to function.
+-> Use this software as-is for its intended purpose.
+-> Contact the author for discussion and potential permission regarding other uses.
 
-📘 Disclaimer:
-This software is provided "as is", without warranty of any kind. Use at your own risk.
+📩 Permissions:
+Any use outside of direct, unmodified usage or approved expansion modding requires explicit, written permission from the author. Contact the author via the Steam Workshop page or Discord.

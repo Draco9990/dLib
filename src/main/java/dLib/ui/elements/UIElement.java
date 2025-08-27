@@ -394,7 +394,7 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
 
                 Vector2 mousePos = UIHelpers.getMouseWorldPosition();
 
-                ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(mousePos.y));
+                ContextMenu contextMenu = new ContextMenu(Pos.px(mousePos.x), Pos.px(1080-mousePos.y));
                 contextMenuOptions.forEach((id, pair) -> {
                     if(pair.getKey().get()){
                         contextMenu.optionsBox.addChild(pair.getValue());
@@ -501,6 +501,13 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
     //region Methods
 
     //region Update & Render
+
+    public final void updateDetached(){
+        ElementCalculationManager.calculate(this);
+        update();
+        ElementCalculationManager.calculate(this);
+    }
+
     public final void update(){
         if(!shouldUpdate()) return;
 
@@ -696,12 +703,10 @@ public class UIElement implements Disposable, IEditableValue, Constructable {
                 if(isHovered() && totalHoverDuration > 0.5f){
                     if(!tooltipObject.isOpen()){
                         tooltipObject.open();
+
+                        Vector2 tooltipPos = UIHelpers.getMouseWorldPosition();
+                        tooltipObject.setLocalPosition(tooltipPos.x, tooltipPos.y);
                     }
-
-                    Vector2 tooltipPos = UIHelpers.getMouseWorldPosition();
-                    tooltipObject.setLocalPosition(tooltipPos.x, tooltipPos.y);
-
-                    tooltipObject.setVisibility(true);
                 }
                 else{
                     if(tooltipObject.isOpen()){
