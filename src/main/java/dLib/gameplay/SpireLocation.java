@@ -127,9 +127,7 @@ public class SpireLocation implements Serializable {
         return inSameRoomAs(getCurrent());
     }
     public boolean inSameRoomAs(SpireLocation location){
-        if(!GameplayUtils.isInARun()) {
-            return false;
-        }
+        if(location == null) return false;
 
         return x == location.x &&
                 y == location.y &&
@@ -141,6 +139,7 @@ public class SpireLocation implements Serializable {
         return inSameRoomAndPhaseAs(getCurrent());
     }
     public boolean inSameRoomAndPhaseAs(SpireLocation location){
+        if(location == null) return false;
         return inSameRoomAs(location) &&
                 phase == location.phase;
     }
@@ -149,6 +148,7 @@ public class SpireLocation implements Serializable {
         return inSameActAs(getCurrent());
     }
     public boolean inSameActAs(SpireLocation location){
+        if(location == null) return false;
         return act.equals(location.act) && infinityCounter == location.infinityCounter;
     }
 

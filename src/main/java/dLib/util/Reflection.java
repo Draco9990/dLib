@@ -528,7 +528,7 @@ public class Reflection {
     public static ArrayList<ClassInfo> findClassInfosOfType(Class<?> parentClass, boolean returnParent){
         if(classHierarchyMap.containsKey(parentClass)){
             ArrayList<ClassInfo> toReturn = new ArrayList<>(classHierarchyMap.get(parentClass));
-            if(returnParent){
+            if(!returnParent){
                 toReturn.removeIf(classInfo -> classInfo.getClassName().equals(parentClass.getName()));
             }
             return toReturn;
@@ -546,7 +546,7 @@ public class Reflection {
 
         classHierarchyMap.put(parentClass, foundClasses);
         ArrayList<ClassInfo> toReturn = new ArrayList<>(foundClasses);
-        if(returnParent){
+        if(!returnParent){
             toReturn.removeIf(classInfo -> classInfo.getClassName().equals(parentClass.getName()));
         }
         return toReturn;
