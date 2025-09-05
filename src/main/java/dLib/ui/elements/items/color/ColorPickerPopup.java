@@ -1,8 +1,9 @@
 package dLib.ui.elements.items.color;
 
 import com.badlogic.gdx.graphics.Color;
+import dLib.magiccolor.ColorItem;
 import dLib.magiccolor.MagicColor;
-import dLib.magiccolor.MagicColorManager;
+import dLib.magiccolor.ColorItemManager;
 import dLib.properties.ui.elements.IntegerValueEditor;
 import dLib.ui.elements.items.Image;
 import dLib.ui.elements.items.SimpleHorizontalRangeSelector;
@@ -106,17 +107,17 @@ public class ColorPickerPopup extends VerticalBox {
                 magicColorPresets.setGridMode(true);
                 magicColorPresets.setItemSpacing(5);
                 {
-                    for (MagicColor magicColor : MagicColorManager.magicColors.values()){
-                        Image colorBox = new Image(Tex.stat(magicColor.getSquareImage()), Pos.px(0), Pos.px(0), Dim.px(25), Dim.px(25));
+                    for (ColorItem colorItem : ColorItemManager.colorItems.values()){
+                        Image colorBox = new Image(Tex.stat(colorItem.squareImage), Pos.px(0), Pos.px(0), Dim.px(25), Dim.px(25));
                         {
                             Toggle colorBoxOutline = new Toggle(Tex.stat(UICommonResources.color_outline), Tex.stat(UICommonResources.color_outline_selected), Pos.px(0), Pos.px(0), Dim.fill(), Dim.fill());
                             colorBoxOutline.postToggledEvent.subscribe(colorBox, (toggleState) -> {
                                 if(toggleState){
-                                    parent.setSelectedColor(magicColor, true);
+                                    parent.setSelectedColor(colorItem.color, true);
                                 }
                             });
                             colorBox.addChild(colorBoxOutline);
-                            colorBoxOutlines.put(colorBoxOutline, magicColor);
+                            colorBoxOutlines.put(colorBoxOutline, colorItem.color);
                         }
                         magicColorPresets.addChild(colorBox);
                     }

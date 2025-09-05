@@ -1,6 +1,7 @@
 package dLib.magiccolor;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
@@ -24,30 +25,14 @@ public abstract class MagicColor extends Color {
     public abstract Color getFinalColor();
     public abstract Color getFinalColorForPosition(int xPos, int yPos);
 
-    public abstract Texture getSquareImage();
-
     public abstract MagicColor cpy();
+
+    public void registerColor(){
+        Colors.put(toString(), this);
+    }
 
     @Override
     public String toString() {
         return "mc_" + getClass().getSimpleName();
-    }
-
-    @SpirePatch2(clz = Color.class, method = "valueOf")
-    public static class MagicColorLoaderPatch{
-        @SpirePrefixPatch
-        public static SpireReturn<Color> Prefix(String hex) {
-            if(MagicColorManager.magicColors.containsKey(hex)) {
-                return SpireReturn.Return(MagicColorManager.magicColors.get(hex).cpy());
-            }
-            else if(hex.startsWith("#")){ //* Needed so magic colors render correctly if used in a GlyphLayout
-                String colorName = hex.substring(1);
-                if(MagicColorManager.magicColors.containsKey(colorName)) {
-                    return SpireReturn.Return(MagicColorManager.magicColors.get(colorName).cpy());
-                }
-            }
-
-            return SpireReturn.Continue();
-        }
     }
 }

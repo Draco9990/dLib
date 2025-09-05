@@ -36,14 +36,11 @@ public class TextureManager {
         if(textureLocation == null) return null;
         if(textures == null) textures = new HashMap<>();
 
-        Texture t = textures.get(textureLocation);
-        if(t != null) {
-            if((int)(Reflection.getFieldValue("glHandle", t)) != 0) {
-                return t;
-            }
+        if(!textures.containsKey(textureLocation) ||
+                (textures.get(textureLocation) != null && (int)(Reflection.getFieldValue("glHandle", textures.get(textureLocation))) == 0)){
+            textures.put(textureLocation, ImageMaster.loadImage(textureLocation));
         }
 
-        textures.put(textureLocation, ImageMaster.loadImage(textureLocation));
         return textures.get(textureLocation);
     }
 
